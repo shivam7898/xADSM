@@ -1,0 +1,34 @@
+--- 
+title: "Data Analytics"
+author: "shivam"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+subtitle: "ADSM: Statistics and R"
+---
+
+# About
+
+~~"Copy/Paste is the mother of learning."~~  
+"Repetition! Repetition is the mother of learning."
+
+### R Version {.unlisted .unnumbered}
+```{r 'AA01B-RVersion-x'}
+# #AA01Environment 'AA01B-RVersion'
+# #R Version
+print(R.version.string)
+```  
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

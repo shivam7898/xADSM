@@ -1,0 +1,14 @@
+bookdown::html_document2:
+  theme: darkly
+  highlight: zenburn
+#  code_folding: show
+  keep_md: yes
+#  css: [style.css, styleX.css]
+  css: style.css
+  toc: yes
+  toc_float: yes
+  includes:
+    in_header: header.html
+  pandoc_args: ['--lua-filter=parse-latex.lua']
+#  edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
+# This is a Comment.
