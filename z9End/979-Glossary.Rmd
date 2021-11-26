@@ -1,0 +1,38 @@
+# Glossary {#Glossary .unnumbered .tabset .tabset-fade}
+
+## THEOREMS {.unlisted .unnumbered}
+```{r '979-Theorems', comment="", echo=FALSE, results='asis'}
+for(x in knitr::all_labels(engine == 'theorem')){
+   cat(paste0("\n\n", "\\@ref(thm:", x, "): ", x, "\n\n>", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+## DEFINITIONS {.unlisted .unnumbered}
+
+```{r '979-Definitions', comment="", echo=FALSE, results='asis'}
+for(x in knitr::all_labels(engine == 'definition')){
+# # Use (x,"\n\n>") in place of (x,"\n\n") to show definitions as Quotes
+   cat(paste0("\n\n", "\\@ref(def:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+## ERRORS {.unlisted .unnumbered}
+
+```{r '979-Errors', comment="", echo=FALSE, results='asis'}
+for(x in knitr::all_labels(engine == 'conjecture')){
+# # Use (x,"\n\n>") in place of (x,"\n\n") to show definitions as Quotes
+   cat(paste0("\n\n", "\\@ref(cnj:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+<!--
+## Validation {.unlisted .unnumbered}
+
+```{r 'l979-Validation', cache=FALSE}
+# #Summarised Packages and Objects
+rm(x)
+f_()
+```
+-->
+
+****

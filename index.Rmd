@@ -14,7 +14,8 @@ github-repo: rstudio/bookdown-demo
 subtitle: "ADSM: Statistics and R"
 ---
 
-# About
+# About {#FIRST} 
+[Goto LAST](#LAST "End of the Document")
 
 ~~"Copy/Paste is the mother of learning."~~  
 "Repetition! Repetition is the mother of learning."
@@ -60,5 +61,11 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+
+```{r '000G'}
+ls()
+(.packages())
+``` 
 
 ****

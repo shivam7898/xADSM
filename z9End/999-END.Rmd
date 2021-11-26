@@ -1,0 +1,36 @@
+# END {#LAST .unnumbered}
+[Goto FIRST](#FIRST "Top of the Document")
+```{r '999-ShowRunTime', cache=FALSE, include=TRUE}
+(.packages())
+f_()
+#
+difftime(Sys.time(), k_start)
+#
+# #Run Times of all chunks (Indicates slow and/or unnamed chunks)
+if(!identical(0L, length(k_all_chunk_times_lt))) {
+  print(k_all_chunk_times_lt[order(unlist(k_all_chunk_times_lt), decreasing=TRUE)], digits = 2) 
+  }
+```
+
+```{js '999-DetailsDisclosureElement', include=FALSE, eval=FALSE}
+(function() {
+// JavaScript code to find output blocks, and wrap them into the <details> tags.
+// It needs 'collapse = FALSE'
+  var codes = document.querySelectorAll('pre:not([class])');
+  var code, i, d, s, p;
+  for (i = 0; i < codes.length; i++) {
+    code = codes[i];
+    p = code.parentNode;
+    d = document.createElement('details');
+    s = document.createElement('summary');
+    s.innerText = 'Details';
+    // <details><summary>Details</summary></details>
+    d.appendChild(s);
+    // move the code into <details>
+    p.replaceChild(d, code);
+    d.appendChild(code);
+  }
+})();
+```
+
+****
