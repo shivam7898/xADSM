@@ -19,6 +19,8 @@ subtitle: "ADSM: Statistics and R"
 ~~"Copy/Paste is the mother of learning."~~  
 "Repetition! Repetition is the mother of learning."
 
+-shivam
+
 ### R Version {.unlisted .unnumbered}
 ```{r 'AA01B-RVersion-x'}
 # #AA01Environment 'AA01B-RVersion'
@@ -26,9 +28,37 @@ subtitle: "ADSM: Statistics and R"
 print(R.version.string)
 ```  
 
-```{r include=FALSE}
+## Environment {.unnumbered .tabset .tabset-fade}
+
+### R Version {.unlisted .unnumbered}
+```{r '000A-RVersion'}
+# #R Version
+R.version.string
+```  
+
+### Working Directory {.unlisted .unnumbered}
+```{r '000B-Directory'}
+# #Working Directory
+getwd()
+```
+
+### Session Info {.unlisted .unnumbered}
+```{r '000C-Session'}
+# #Version information about R, the OS and attached or loaded packages
+sessionInfo()
+``` 
+ 
+### Pandoc {.unlisted .unnumbered}
+```{r '000D-Pandoc'}
+# #Pandoc Version being used by RStudio
+rmarkdown::pandoc_version()
+```  
+
+```{r '000E-Bib', include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+****
