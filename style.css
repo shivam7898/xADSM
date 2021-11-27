@@ -12,3 +12,10 @@ pre {
 pre code {
   white-space: inherit;
 }
+
+/* Table Caption Colour but NOT the Figure Caption Colour */
+caption {
+  color: teal;
+  font-weight: bold;
+  font-size: 1.0em;
+}
