@@ -13,12 +13,90 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - This chapter covers ...
 
+## Summarizing Data for a Categorical Variable
+
+```{definition 'Frequency-Distribution'}
+A \textcolor{pink}{frequency distribution} is a tabular summary of data showing the number (frequency) of observations in each of several non-overlapping categories or classes.
+```
+
+The \textcolor{pink}{relative frequency} of a class equals the fraction or proportion of observations belonging to a class i.e. it is out of 1 whereas 'percent frequency' is out of 100%.
+
+```{r '302CI-Drinks'}
+# #Frequency Distribution
+aa <- tibble(softdrink = c("Coca-Cola", "Diet Coke", "Dr. Pepper", "Pepsi", "Sprite"), 
+             Frequency = c(19, 8, 5, 13, 5))
+#
+# #Sort, Cummulative Sum, Percentage, and Cummulative Percentage
+bb <- aa %>% 
+  arrange(desc(Frequency)) %>% 
+  mutate(cSUM = cumsum(Frequency)) %>%
+  mutate(PCT = paste0(100 * Frequency / sum(Frequency), "%")) %>% 
+  mutate(cPCT = paste0(100 * cumsum(Frequency) / sum(Frequency), "%"))
+```
+
+```{r '302DI-xxCordless', echo=FALSE}
+kbl(bb,
+  caption = 'Frequency Distribution',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+Charts - 
+
+- Bar Chart
+  - Pareto Chart - 
+  - Stacked Bar Chart - Never use it if there are more than 2 categories
+- Pie Chart
+  - Only use it if total is 100% and Categories are fewer than 5 or 6.
+    - Data should be clockwise sorted
+
+```{r '302IA-Bar'}
+# #Sorted Bar Plot of Frequencies (Needs sorted data & x-axis as Factor)
+g302_01 <- bb %>% 
+  mutate(across(softdrink, factor, levels = unique(softdrink))) %>% {
+  ggplot(data = ., aes(x = softdrink, y = Frequency)) +
+  geom_bar(stat = 'identity', aes(fill = softdrink)) + 
+  scale_y_continuous(sec.axis = sec_axis(~ (. / sum(bb$Frequency))*100, name = "Percentages", 
+                       labels = function(b) { paste0(round(b, 0), "%")})) +
+  k_gglayer_bar +	
+  labs(x = "Soft Drinks", y = "Frequency", title = "Bar Chart of Categorical Data")
+}
+```
+
+```{r '302KH-Save', include=FALSE}
+# #Save
+png(filename = paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
+plot(g302_01)
+dev.off()
+```
+
+```{r '302G-Drinks01-Bar', echo=FALSE, fig.cap="geom_bar(): Frequency Bar Chart"}
+# #Import
+knitr::include_graphics(paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
+```
+
+```{conjecture 'gg-stat-count-geom-bar'}
+\textcolor{brown}{Error: stat_count() can only have an x or y aesthetic.}
+```
+
+Solution: Use `geom_bar(stat = "identity")`
+
 ## Validation {.unnumbered}
 
 ```{r '302-Cleanup', include=FALSE, cache=FALSE}
-#f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr)
+f_rmExist(aa, bb, g302_01)
 #f_rmExist(xxComputers, xxCordless)
 ```
+
 ```{r '302-Validation', include=TRUE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()

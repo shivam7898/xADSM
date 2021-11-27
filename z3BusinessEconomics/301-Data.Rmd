@@ -299,11 +299,13 @@ bb <- tibble(Company = c("Hertz", "Dollar", "Avis"),
               `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
               `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
 ```
+
 ```{r '301LA-Long'}
 # #Transpose Tibble: Note that the First Column Header is lost after Transpose
 # #Longer
 bb %>% pivot_longer(!Company, names_to = "Year", values_to = "Values")
 ```
+
 ```{r '301LB-Transpose'}
 # #Transpose
 (ii <- bb %>% 
@@ -514,10 +516,12 @@ g301_01 <- ggplot(data = hh,
                      aes(x = Year, y = Values, colour = Company, group = Company)) + 
   geom_line()
 ```
+
 ```{r '301KE-Save', include=TRUE}
 # #Save
 ggsave(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"), plot = g301_01)
 ```
+
 ```{r '301G-Cars01-TimeSeries', echo=TRUE, fig.cap="Multiple Time Series Graph"}
 # #Import
 knitr::include_graphics(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"))
@@ -571,15 +575,18 @@ g301_02 <- pareto.chart(pareto_chr,
              main = "Pareto Chart"
 )
 ```
+
 ```{r '301KG-Pareto-A', ref.label=c('301KG-Pareto'), eval=FALSE}
 # #Display Code without showing the associated Graph
 ```
+
 ```{r '301KH-Save', include=FALSE}
 # #Save
 png(filename = paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
 plot(g301_02)
 dev.off()
 ```
+
 ```{r '301G-Cars02-Pareto', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
 # #Import
 knitr::include_graphics(paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
@@ -591,6 +598,7 @@ knitr::include_graphics(paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
 f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr)
 f_rmExist(xxComputers, xxCordless)
 ```
+
 ```{r '301-Validation', include=TRUE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
