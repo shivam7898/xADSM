@@ -8,4 +8,4 @@ language:
     cnj: 'ERROR '
 #rmd_subdir: ["xA_NA", "xB_BusinessEconomics", "xL_Lectures", "xZ_End"]
 #book_filename: "S13_Debug.Rmd"
-rmd_subdir: ["z9End"]
+rmd_subdir: ["z3BusinessEconomics", "z9End"]

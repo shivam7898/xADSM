@@ -1,0 +1,601 @@
+# Data and Statistics (BE01) {#BE01}
+> Definitions and Exercises are from the Book [@Anderson]
+
+```{r '301A', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
+```
+
+<!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
+
+## Overview
+
+- This chapter covers introductory information and basic definitions.
+- Exercises: Mean, Percentage, Transpose, Rowwise Calculations
+- Graphs: Multiple Time Series, Pareto Chart
+
+## Introduction
+```{definition 'Data'}
+\textcolor{pink}{Data} are the facts and figures collected, analyzed, and summarized for presentation and interpretation.
+```
+
+```{definition 'Elements'}
+\textcolor{pink}{Elements} are the entities on which data are collected. (Generally ROWS)
+```
+
+```{definition 'Variable'}
+A \textcolor{pink}{variable} is a characteristic of interest for the elements. (Generally COLUMNS)
+```
+
+```{definition 'Observation'}
+The set of measurements obtained for a particular element is called an \textcolor{pink}{observation}.
+```
+
+Hence, the total number of data items can be determined by multiplying the number of observations by the number of variables.
+
+```{definition 'Statistics'}
+\textcolor{pink}{Statistics} is the art and science of collecting, analyzing, presenting, and interpreting data. 
+```
+
+## Scales of Measurement
+
+Data collection requires one of the following scales of measurement: nominal, ordinal, interval, or ratio. 
+```{definition 'Scale-of-Measurement'}
+The \textcolor{pink}{scale of measurement} determines the amount of information contained in the data and indicates the most appropriate data summarization and statistical analyses.  
+```
+
+```{definition 'Nominal-Scale'}
+When the data for a variable consist of labels or names used to identify an attribute of the element, the scale of measurement is considered a \textcolor{pink}{nominal scale}.
+```
+
+For Example, Gender as Male and Female. In cases where the scale of measurement is nominal, a numerical code as well as a nonnumerical label may be used. For example, 1 denotes Male, 2 denotes Female. The scale of measurement is nominal even though the data appear as numerical values. Only \textcolor{pink}{Mode} can be calculated.
+
+```{definition 'Ordinal-Scale'}
+The scale of measurement for a variable is considered an \textcolor{pink}{ordinal scale} if the data exhibit the properties of nominal data and in addition, the order or rank of the data is meaningful.
+```
+
+For example, Size as small, medium, large. Along with the labels, similar to nominal data, the data can also be ranked or ordered, which makes the measurement scale ordinal. Ordinal data can also be recorded by a numerical code. \textcolor{pink}{Median} can be calculated but not the Mean.
+
+```{definition 'Interval-Scale'}
+The scale of measurement for a variable is an \textcolor{pink}{interval scale} if the data have all the properties of ordinal data and the interval between values is expressed in terms of a fixed unit of measure.
+```
+
+Interval data are always numerical. These can be ranked or ordered like ordinal. In addition, the differences between them are meaningful.   
+
+```{definition 'Ratio-Scale'}
+The scale of measurement for a variable is a \textcolor{pink}{ratio scale} if the data have all the properties of interval data and the ratio of two values is meaningful.
+```
+
+Variables such as distance, height, weight, and time use the ratio scale of measurement. This scale requires that a zero value be included to indicate that nothing exists for the variable at the zero point. \textcolor{pink}{Mean} can be calculated.
+
+For example, consider the cost of an automobile. A zero value for the cost would indicate that the automobile has no cost and is free. In addition, if we compare the cost of \$30,000 for one automobile to the cost of \$15,000 for a second automobile, the ratio property shows that the first automobile is \$30,000/\$15,000 = 2 times, or twice, the cost of the second automobile. 
+
+See Table \@ref(tab:vs-interval-ratio) for more details.
+
+### Interval scale vs. Ratio scale
+
+Interval scale is a measure of continuous quantitative data that has an arbitrary 0 reference point. This is contrasted with ratio scaled data which have a non-arbitrary 0 reference point. Ex: When we look at "profit" we see that negative profit does make sense to us. So while, the 0 for "profit" is meaningful (just like temperature measurements of Celsius) it is arbitrary. Therefore, it is Interval scale of measurement.
+
+In an interval scale, you can take difference of two values. You may not be able to take ratios of two values. Ex: Temperature in Celsius. You can say that if temperatures of two places are 40 °C and 20 °C, then one is hotter than the other (taking difference). But you cannot say that first is twice as hot as the second (not allowed to take ratio).
+
+In a ratio scale, you can take a ratio of two values. Ex: 40 kg is twice as heavy as 20 kg (taking ratios).
+
+Also, "0" on ratio scale means the absence of that physical quantity. "0" on interval scale doesn't mean the same. 0 kg means the absence of weight. 0 °C doesn't mean absence of heat.
+
+| Features | Interval scale | Ratio scale |
+| :--- | :--- | :---  | 
+| Variable property | Addition and subtraction | Multiplication and Division i.e. calculate ratios. Thus, you can leverage numbers on the scale against 0. |
+| Absolute Point Zero | Zero-point in an interval scale is arbitrary. For example, the temperature can be below 0 °C and into negative temperatures. | The ratio scale has an absolute zero or character of origin. Height and weight cannot be zero or below zero. |
+| Calculation | Statistically, in an interval scale, the Arithmetic Mean is calculated. Statistical dispersion permits range and standard deviation. The coefficient of variation is not permitted. | Statistically, in a ratio scale, the Geometric or Harmonic mean is calculated. Also, range and coefficient of variation are permitted for measuring statistical dispersion. |
+| Measurement | Interval scale can measure size and magnitude as multiple factors of a defined unit. | Ratio scale can measure size and magnitude as a factor of one defined unit in terms of another. |
+| Example | Temperature in Celsius, Calendar years and time, Profit | These possesses an absolute zero characteristic, like age, weight, height, or Sales |
+
+Table: (\#tab:vs-interval-ratio) Interval scale Vs Ratio scale
+
+## Categorical and Quantitative Data
+```{definition 'Categorical-Data'}
+Data that can be grouped by specific categories are referred to as \textcolor{pink}{categorical data}. Categorical data use either the nominal or ordinal scale of measurement.  
+```
+
+```{definition 'Quantitative-Data'}
+Data that use numeric values to indicate 'how much' or 'how many' are referred to as \textcolor{pink}{quantitative data}. Quantitative data are obtained using either the interval or ratio scale of measurement.
+```
+
+If the variable is categorical, the statistical analysis is limited. We can summarize categorical data by counting the number of observations in each category or by computing the proportion of the observations in each category. However, even when the categorical data are identified by a numerical code, arithmetic operations do not provide meaningful results.  
+
+Arithmetic operations provide meaningful results for quantitative variables. For example, quantitative data may be added and then divided by the number of observations to compute the average value.  
+
+Quantitative data may be discrete or continuous. 
+
+```{definition 'Discrete'}
+Quantitative data that measure 'how many' are \textcolor{pink}{discrete}. 
+```
+
+```{definition 'Continuous'}
+Quantitative data that measure 'how much' are \textcolor{pink}{continuous} because no separation occurs between the possible data values.
+```
+
+## Cross-Sectional and Time Series Data
+```{definition 'Cross-Sectional-Data'}
+\textcolor{pink}{Cross-sectional data} are data collected at the same or approximately the same point in time.  
+```
+
+```{definition 'Time-Series-Data'}
+\textcolor{pink}{Time-series data} data are data collected over several time periods. 
+```
+
+## Observational Study and Experiment
+
+```{definition 'Observational-Study'}
+In an \textcolor{pink}{observational study} we simply observe what is happening in a particular situation, record data on one or more variables of interest, and conduct a statistical analysis of the resulting data.  
+```
+
+```{definition 'Experiment'}
+The key difference between an observational study and an \textcolor{pink}{experiment} is that an experiment is conducted under controlled conditions.
+```
+
+As a result, the data obtained from a well-designed experiment can often provide more information as compared to the data obtained from existing sources or by conducting an observational study.  
+
+## Caution
+
+1. Time and Cost - The cost of data acquisition and the subsequent statistical analysis should not exceed the savings generated by using the information to make a better decision.  
+1. Data Acquisition Errors - An error in data acquisition occurs whenever the data value obtained is not equal to the true or actual value that would be obtained with a correct procedure. Ex: recording error, misinterpretation etc. Blindly using any data that happen to be available or using data that were acquired with little care can result in misleading information and bad decisions. 
+
+## Descriptive Statistics
+```{definition 'Descriptive-Statistics'}
+Most of the statistical information is summarized and presented in a form that is easy to understand. Such summaries of data, which may be tabular, graphical, or numerical, are referred to as \textcolor{pink}{descriptive statistics}.  
+```
+
+## Population and Sample 
+
+```{definition 'Population'}
+A \textcolor{pink}{population} is the set of all elements of interest in a particular study.  
+```
+
+```{definition 'Sample'}
+A \textcolor{pink}{sample} is a subset of the population. 
+```
+
+> The measurable quality /characteristic is called a "Parameter" for Population and "Statistic" for Sample.
+
+## Difference between a population and a sample {#PopulationSample}
+
+The population is the set of entities under study. 
+
+- For example, the mean height of men. (Population "men", parameter of interest "height")
+  - We choose the population that we wish to study. 
+  - Typically it is impossible to survey/measure the entire population because not all members are observable. 
+  - If it is possible to enumerate the entire population it is often costly to do so and would take a great deal of time. 
+
+Instead, we could take a subset of this population called a sample and use this sample to draw inferences about the population under study, given some conditions. 
+
+- It is an inference because there will be some uncertainty and inaccuracy involved in drawing conclusions about the population based upon a sample.
+  - In Simple Random Sampling (SRS) each member of the population has an equal probability of being included in the sample, hence the term "random". There are many other sampling methods e.g. stratified sampling, cluster sampling, etc.
+
+## Statistical Inference
+
+```{definition 'Census'}
+The process of conducting a survey to collect data for the entire population is called a \textcolor{pink}{census}. 
+```
+
+```{definition 'Sample-Survey'}
+The process of conducting a survey to collect data for a sample is called a \textcolor{pink}{sample survey}. 
+```
+
+```{definition 'Random-Sample'}
+A \textcolor{pink}{random sample} is a sample that is chosen randomly. It could be more accurately called a 'randomly chosen sample'. Random samples are used to avoid bias and other unwanted effects.
+```
+
+```{definition 'SRS'}
+A \textcolor{pink}{simple random sample (SRS)} is a set of $n$ objects in a population of $N$ objects where all possible samples are equally likely to happen.
+```
+
+Random sample vs. SRS
+
+- Random sample: every element of the population has a (nonzero) probability of being drawn.
+  - each element does not necessarily have an equal chance of being chosen.
+- SRS: every element of the population has the same (nonzero) probability of being drawn. 
+  - SRS is thus a special case of a random sample.
+  - SRS is a subset of a statistical population in which each member of the subset has an equal probability of being chosen.
+
+```{definition 'Statistical-Inference'}
+Statistics uses data from a sample to make estimates and test hypotheses about the characteristics of a population through a process referred to as \textcolor{pink}{statistical inference}.  
+```
+
+Whenever statisticians use a sample to estimate a population characteristic of interest, they usually provide a statement of the quality, or precision, associated with the estimate.  
+
+## Analytics
+
+```{definition 'Analytics'}
+\textcolor{pink}{Analytics} is the scientific process of transforming data into insight for making better decisions.
+```
+
+Analytics is used for data-driven or fact-based decision making, which is often seen as more objective than alternative approaches to decision making. The tools of analytics can aid decision making by creating insights from data, improving our ability to more accurately forecast for planning, helping us quantify risk, and yielding better alternatives through analysis.  
+Analytics is now generally thought to comprise three broad categories of techniques. These categories are descriptive analytics, predictive analytics, and prescriptive analytics.  
+
+```{definition 'Descriptive-Analytics'}
+\textcolor{pink}{Descriptive analytics} encompasses the set of analytical techniques that describe what has happened in the past. 
+```
+
+Examples of these types of techniques are data queries, reports, descriptive statistics, data visualization, data dash boards, and basic what-if spreadsheet models.  
+
+```{definition 'Predictive-Analytics'}
+\textcolor{pink}{Predictive analytics} consists of analytical techniques that use models constructed from past data to predict the future or to assess the impact of one variable on another.
+```
+
+Linear regression, time series analysis, and forecasting models fall into the category of predictive analytics. \textcolor{pink}{Simulation}, which is the use of probability and statistical computer models to better understand risk, also falls under the category of predictive analytics.
+
+Prescriptive analytics differs greatly from descriptive or predictive analytics. What distinguishes prescriptive analytics is that prescriptive models yield a best course of action to take. That is, the output of a prescriptive model is a best decision. 
+
+```{definition 'Prescriptive-Analytics'}
+\textcolor{pink}{prescriptive analytics} is the set of analytical techniques that yield a best course of action. 
+```
+
+Optimization models, which generate solutions that maximize or minimize some objective subject to a set of constraints, fall into the category of prescriptive models. 
+
+## Big Data and Data Mining
+
+```{definition 'Big-Data'}
+Larger and more complex data sets are now often referred to as \textcolor{pink}{big data}. 
+```
+
+\textcolor{pink}{Volume} refers to the amount of available data; \textcolor{pink}{velocity} refers to the speed at which data is collected and processed; and \textcolor{pink}{variety} refers to the different data types.
+The term \textcolor{pink}{data warehousing} is used to refer to the process of capturing, storing, and maintaining the data.
+
+```{definition 'Data-Mining'}
+\textcolor{pink}{Data Mining} deals with methods for developing useful decision-making information from large databases. It can be defined as the automated extraction of predictive information from (large) databases.
+```
+
+Data mining relies heavily on statistical methodology such as multiple regression, logistic regression, and correlation. 
+
+## Exercises
+
+- Table: \@ref(tab:301DI-xxComputers) 
+- Table: \@ref(tab:301DJ-xxCordless)  
+- Table: \@ref(tab:301DK-CarsMultiple)  
+  - Who appears to be the market share leader and how the market shares are changing over time?
+    - \textcolor{orange}{Caution:} Trend Analysis should be done by linear regression with `cor(), lm()` etc.
+
+### R {.unlisted .unnumbered .tabset .tabset-fade}
+
+#### Load Data {.unlisted .unnumbered}
+
+```{r '301B-Load'}
+xxComputers <- f_getObject("xxComputers", "BE01-Computers.csv", "971fb6096e4f71e8185d3327a9033a10")
+xxCordless <- f_getObject("xxCordless", "BE01-Cordless.csv", "9991f612fe44f1c890440bd238084679")
+```
+
+#### f_getObject() {.unlisted .unnumbered}
+```{r '301F-f_getObject', ref.label=c('A07-getObject'), eval=FALSE}
+# #
+```
+
+#### Print Table {.unlisted .unnumbered}
+
+```{r '301D-KBL', eval=FALSE}
+bb <- xxComputers
+# #Kable Table
+kbl(bb,
+  caption = 'Caption',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+#### Transpose Tibble {.unlisted .unnumbered}
+
+```{r '301CL-Assignment'}
+bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
+              `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
+              `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
+```
+```{r '301LA-Long'}
+# #Transpose Tibble: Note that the First Column Header is lost after Transpose
+# #Longer
+bb %>% pivot_longer(!Company, names_to = "Year", values_to = "Values")
+```
+```{r '301LB-Transpose'}
+# #Transpose
+(ii <- bb %>% 
+  pivot_longer(!Company, names_to = "Year", values_to = "Values") %>% 
+  pivot_wider(names_from = Company, values_from = Values))
+# #Equivalent
+stopifnot(identical(ii, 
+                    bb %>% pivot_longer(-1) %>% 
+                      pivot_wider(names_from = 1, values_from = value) %>% 
+                      rename(., Year = name)))
+```
+
+### Computers {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r '301CI-Assignment', include=FALSE}
+bb <- xxComputers
+```
+
+```{r '301DI-xxComputers', echo=FALSE}
+bb <- xxComputers
+# #Kable Table
+kbl(bb,
+  caption = 'xxComputers',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+#### Mean {.unlisted .unnumbered}
+```{r '301IA-Mean'}
+# #What is the average cost for the tablets? #$582.90
+cat(paste0("Avg. Cost for the tablets is = $", round(mean(bb$cost), digits = 1), "\n"))
+#
+# #Compare the average cost of tablets with different OS (Windows /Android) #$723.20 $428.5
+(ii <- bb %>%
+  group_by(os) %>%
+  summarise(Mean = round(mean(cost), digits =1)) %>%
+  arrange(desc(Mean)) %>% 
+	mutate(Mean = paste0("$", Mean)))
+#
+cat(paste0("Avg. Cost of Tablets with Windows OS is = ", 
+  ii %>% filter(os == "Windows") %>% select(Mean), "\n"))
+```
+
+#### Percentage {.unlisted .unnumbered}
+```{r '301IB-Percentage'}
+# #What percentage of tablets use an Android operating system? #40%
+(ii <- bb %>%
+  group_by(os) %>%
+  summarise(PCT = n()) %>%
+  mutate(PCT = 100 * PCT / sum(PCT)) %>% 
+  arrange(desc(PCT)) %>% 
+  mutate(PCT = paste0(PCT, "%")))
+#
+cat(paste0("Android OS is used in ", 
+  ii %>% filter(os == "Android") %>% select(PCT), " Tablets\n"))
+```
+
+### Cordless {.unlisted .unnumbered .tabset .tabset-fade} 
+
+```{r '301CJ-Assignment', include=FALSE}
+bb <- xxCordless
+```
+
+```{r '301DJ-xxCordless', echo=FALSE}
+bb <- xxCordless
+# #Kable Table
+kbl(bb,
+  caption = 'xxCordless',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+#### Mean {.unlisted .unnumbered}
+```{r '301JA-Mean'}
+# #What is the average price for the cordless telephones? 
+cat(paste0("Avg. Price is = $", round(mean(bb$price), digits = 1), "\n"))
+#
+# #What is the average talk time for the cordless telephones?
+cat(paste0("Avg. Talk Time is = ", round(mean(bb$talk_time_hh), digits = 1), " Hours \n"))
+```
+
+#### Percentage {.unlisted .unnumbered}
+```{r '301JB-Percentage'}
+# #What percentage of the cordless telephones have a voice quality of excellent? 
+(hh <- bb %>%
+  group_by(voice_quality) %>%
+  summarise(PCT = n()) %>%
+  mutate(PCT = 100 * PCT / sum(PCT)) %>% 
+	mutate(voice_quality = factor(voice_quality, 
+	                              levels = c("Very Good", "Excellent"), ordered = TRUE)) %>% 
+	arrange(desc(voice_quality)) %>% 
+	mutate(PCT = paste0(PCT, "%")))
+#
+cat(paste0("Percentage of 'Excellent' Voice Quality is = ", 
+  hh %>% filter(voice_quality == "Excellent") %>% select(PCT), "\n"))
+#
+# #Equivalent
+print(bb %>%
+ group_by(voice_quality) %>%
+ summarise(PCT = n()) %>%
+ mutate(PCT = prop.table(PCT) * 100))
+```
+
+#### PCT 2 {.unlisted .unnumbered}
+```{r '301JC-Percentage'}
+# #What percentage of the cordless telephones have a handset on the base? 
+bb %>%
+  group_by(handset_on_base) %>%
+  summarise(PCT = n()) %>%
+  mutate(PCT = 100 * PCT / sum(PCT)) %>% 
+  arrange(desc(PCT)) %>% 
+  mutate(PCT = paste0(PCT, "%")) %>%
+  filter(handset_on_base == "Yes") 
+```
+
+### Cars {.unlisted .unnumbered .tabset .tabset-fade} 
+
+```{r '301CK-Assignment', include=FALSE}
+bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
+              `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
+              `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
+# #Transpose Tibble: Note that the First Column Header is lost after Transpose
+# #Longer
+hh <- bb %>% pivot_longer(!Company, names_to = "Year", values_to = "Values")
+# #Transpose
+ii <- bb %>% 
+  pivot_longer(!Company, names_to = "Year", values_to = "Values") %>% 
+  pivot_wider(names_from = Company, values_from = Values)
+```
+
+#### Transform {.unlisted .unnumbered}
+
+```{r '301DK-CarsMultiple', echo=FALSE}
+kk_bb <- kbl(bb,
+  caption = 'Cars in Service (1000s)',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+#
+kk_hh <- kbl(hh,
+  caption = 'Cars (Longer)',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+#
+kk_ii <- kbl(ii,
+  caption = 'Cars (Transposed)',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+# #Multiple Kable Tables
+knitr::kables(list(kk_bb, kk_ii))
+```
+
+```{r '301KA-Transform', ref.label=c('301CK-Assignment'), eval=FALSE}
+# #
+```
+
+#### TimeSeries {.unlisted .unnumbered}
+```{r '301KD-TimeSeries', include=FALSE}
+# #Time series graph for all companies on the same graph
+g301_01 <- ggplot(data = hh, 
+                     aes(x = Year, y = Values, colour = Company, group = Company)) + 
+  geom_line()
+```
+```{r '301KE-Save', include=TRUE}
+# #Save
+ggsave(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"), plot = g301_01)
+```
+```{r '301G-Cars01-TimeSeries', echo=TRUE, fig.cap="Multiple Time Series Graph"}
+# #Import
+knitr::include_graphics(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"))
+```
+
+#### Rowwise {.unlisted .unnumbered}
+```{r '301KF-Rowwise'}
+# #who appears to be the market share leader?
+# #how the market shares are changing over time?
+print(ii)
+# #Row Total
+jj <- ii %>% rowwise() %>% mutate(SUM = sum(c_across(where(is.numeric)))) %>% ungroup()
+kk <- ii %>% mutate(SUM = rowSums(across(where(is.numeric))))
+stopifnot(identical(jj, kk))
+#
+# #Rowwise Percentage Share 
+ii %>% 
+  rowwise() %>% 
+  mutate(SUM = sum(c_across(where(is.numeric)))) %>% 
+  ungroup() %>%
+  mutate(across(2:4, ~ round(. * 100 / SUM, digits = 1), .names = "{.col}.{.fn}")) %>%
+  mutate(across(ends_with(".1"), ~ paste0(., "%")))
+```
+
+#### Pareto {.unlisted .unnumbered}
+```{r '301KG-Pareto', include=FALSE}
+# #Bar Plot
+aa <- bb %>% 
+  select(Company, `2010`) %>% 
+  rename("Y2010" = `2010`) %>% 
+  arrange(desc(.[2])) %>% 
+  mutate(cSUM = cumsum(Y2010)) %>%
+  mutate(PCT = 100 * Y2010 / sum(Y2010)) %>% 
+  mutate(cPCT = 100 * cumsum(Y2010) / sum(Y2010)) %>% 
+  mutate(across(Company, factor, levels = unique(Company),ordered = TRUE))
+# #
+pareto_chr <- setNames(c(aa$Y2010), aa$Company)
+stopifnot(identical(pareto_chr, aa %>% pull(Y2010, Company)))
+stopifnot(identical(pareto_chr, aa %>% select(1:2) %>% deframe()))
+# #Plot Pareto
+g301_02 <- pareto.chart(pareto_chr, 
+             xlab = "Company",
+			 ylab = "Cars",
+             # colors of the chart             
+             #col=heat.colors(length(pareto_chr)), 
+             # ranges of the percentages at the right
+             cumperc = seq(0, 100, by = 20),  
+             # label y right
+             ylab2 = "Cumulative Percentage", 
+             # title of the chart
+             main = "Pareto Chart"
+)
+```
+```{r '301KG-Pareto-A', ref.label=c('301KG-Pareto'), eval=FALSE}
+# #Display Code without showing the associated Graph
+```
+```{r '301KH-Save', include=FALSE}
+# #Save
+png(filename = paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
+plot(g301_02)
+dev.off()
+```
+```{r '301G-Cars02-Pareto', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
+# #Import
+knitr::include_graphics(paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
+```
+
+## Validation {.unnumbered}
+
+```{r '301-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr)
+f_rmExist(xxComputers, xxCordless)
+```
+```{r '301-Validation', include=TRUE, cache=FALSE}
+# #Summarised Packages and Objects
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
