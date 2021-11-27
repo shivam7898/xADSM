@@ -84,6 +84,8 @@ In a ratio scale, you can take a ratio of two values. Ex: 40 kg is twice as heav
 
 Also, "0" on ratio scale means the absence of that physical quantity. "0" on interval scale doesn't mean the same. 0 kg means the absence of weight. 0 °C doesn't mean absence of heat.
 
+Table: (\#tab:vs-interval-ratio) Interval scale Vs Ratio scale
+
 | Features | Interval scale | Ratio scale |
 | :--- | :--- | :---  | 
 | Variable property | Addition and subtraction | Multiplication and Division i.e. calculate ratios. Thus, you can leverage numbers on the scale against 0. |
@@ -91,8 +93,6 @@ Also, "0" on ratio scale means the absence of that physical quantity. "0" on int
 | Calculation | Statistically, in an interval scale, the Arithmetic Mean is calculated. Statistical dispersion permits range and standard deviation. The coefficient of variation is not permitted. | Statistically, in a ratio scale, the Geometric or Harmonic mean is calculated. Also, range and coefficient of variation are permitted for measuring statistical dispersion. |
 | Measurement | Interval scale can measure size and magnitude as multiple factors of a defined unit. | Ratio scale can measure size and magnitude as a factor of one defined unit in terms of another. |
 | Example | Temperature in Celsius, Calendar years and time, Profit | These possesses an absolute zero characteristic, like age, weight, height, or Sales |
-
-Table: (\#tab:vs-interval-ratio) Interval scale Vs Ratio scale
 
 ## Categorical and Quantitative Data
 ```{definition 'Categorical-Data'}
