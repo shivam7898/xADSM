@@ -19,6 +19,7 @@ subtitle: "ADSM: Statistics and R"
 ~~"Copy/Paste is the mother of learning."~~  
 "Repetition! Repetition is the mother of learning."
 
+<!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
 
 ```{r '000A', include=FALSE, cache=FALSE}
 # #Knitr Setup will be run only once while building a Book or a Chapter

@@ -4,10 +4,8 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-#invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
+invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
 ```
-
-<!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
 
 ## Overview
 
@@ -30,11 +28,12 @@ aa <- tibble(softdrink = c("Coca-Cola", "Diet Coke", "Dr. Pepper", "Pepsi", "Spr
 bb <- aa %>% 
   arrange(desc(Frequency)) %>% 
   mutate(cSUM = cumsum(Frequency)) %>%
-  mutate(PCT = paste0(100 * Frequency / sum(Frequency), "%")) %>% 
+  mutate(PROP = 100 * Frequency / sum(Frequency)) %>% 
+  mutate(PCT = paste0(PROP, "%")) %>% 
   mutate(cPCT = paste0(100 * cumsum(Frequency) / sum(Frequency), "%"))
 ```
 
-```{r '302DI-xxCordless', echo=FALSE}
+```{r '302DI-Drinks', echo=FALSE}
 kbl(bb,
   caption = 'Frequency Distribution',
   escape = FALSE, align = "c", booktabs = TRUE
@@ -59,31 +58,82 @@ Charts -
   - Only use it if total is 100% and Categories are fewer than 5 or 6.
     - Data should be clockwise sorted
 
-```{r '302IA-Bar'}
-# #Sorted Bar Plot of Frequencies (Needs sorted data & x-axis as Factor)
-g302_01 <- bb %>% 
-  mutate(across(softdrink, factor, levels = unique(softdrink))) %>% {
+
+
+## Charts {.tabset .tabset-fade}
+
+### Bar & Pie  {.unlisted .unnumbered}
+
+```{r '302IA-Bar', include=FALSE}
+# #Sorted Bar Chart of Frequencies (Needs sorted data & x-axis as Factor)
+g302_01 <- bb %>% mutate(across(softdrink, factor, levels = rev(unique(softdrink)))) %>% {
   ggplot(data = ., aes(x = softdrink, y = Frequency)) +
   geom_bar(stat = 'identity', aes(fill = softdrink)) + 
   scale_y_continuous(sec.axis = sec_axis(~ (. / sum(bb$Frequency))*100, name = "Percentages", 
                        labels = function(b) { paste0(round(b, 0), "%")})) +
+  geom_text(aes(label = paste0(Frequency, "\n(", PCT, ")")), vjust = 2, 
+            colour = c(rep("black", 2), rep("white", nrow(bb)-2))) +
   k_gglayer_bar +	
   labs(x = "Soft Drinks", y = "Frequency", title = "Bar Chart of Categorical Data")
 }
 ```
 
-```{r '302KH-Save', include=FALSE}
-# #Save
-png(filename = paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
-plot(g302_01)
-dev.off()
+```{r '302IB-Save', include=FALSE}
+ggsave(paste0(.z$PX, "g302_drinks_01_Bar", ".png"), plot = g302_01)
 ```
 
-```{r '302G-Drinks01-Bar', echo=FALSE, fig.cap="geom_bar(): Frequency Bar Chart"}
-# #Import
+```{r '302G-Drinks01-Bar', echo=FALSE, fig.cap="geom_bar(): Frequency Bar Chart", include=FALSE}
 knitr::include_graphics(paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
 ```
 
+```{r '302IC-Pie', include=FALSE}
+# #Pie Chart of Frequencies (Note the use of PROP)
+g302_02 <- bb %>% mutate(across(softdrink, factor, levels = unique(softdrink))) %>% {
+  ggplot(data = ., aes(x = '', y = Frequency, fill = rev(softdrink))) +
+  geom_bar(stat = 'identity', width = 1, color = "white") +
+  coord_polar(theta = "y", start = 0) +
+  geom_text(aes(label = paste0(softdrink, "\n", Frequency, " (", PCT, ")")), 
+            position = position_stack(vjust = 0.5), 
+            colour = c(rep("black", 2), rep("white", nrow(bb)-2))) +
+  k_gglayer_pie +	
+  labs(title = "Pie Chart of Categorical Data")
+}
+```
+
+```{r '302ID-Save', include=FALSE}
+ggsave(paste0(.z$PX, "g302_drinks_02_Pie", ".png"), plot = g302_02)
+```
+
+```{r '302G-Drinks02-Pie', echo=FALSE, fig.cap="Polar geom_bar(): Frequency Pie Chart", include=FALSE}
+knitr::include_graphics(paste0(.z$PX, "g302_drinks_02_Pie", ".png"))
+```
+
+```{r '302G-Drinks03', echo=FALSE, ref.label=c('302G-Drinks01-Bar', '302G-Drinks02-Pie'), fig.cap="Bar Chart and Pie Chart of Frequency"}
+# #
+```
+
+### Bar {.unlisted .unnumbered}
+
+```{r '302IA-Bar-A', ref.label=c('302IA-Bar'), eval=FALSE}
+# #
+```
+
+### Pie {.unlisted .unnumbered}
+
+```{r '302IC-Pie-A', ref.label=c('302IC-Pie'), eval=FALSE}
+# #
+```
+
+### f_theme_gg() {.unlisted .unnumbered}
+```{r '302F-f_theme_gg', ref.label=c('A05-ThemeGG'), eval=FALSE}
+# #
+```
+
+```{r '302F-A05-SetThemeNLists', ref.label=c('A05-SetThemeNLists'), eval=FALSE}
+# #
+```
+
+### Errors {.unlisted .unnumbered}
 ```{conjecture 'gg-stat-count-geom-bar'}
 \textcolor{brown}{Error: stat_count() can only have an x or y aesthetic.}
 ```

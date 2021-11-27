@@ -8,8 +8,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 ```
 
-<!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
-
 ## Overview
 
 - This chapter covers introductory information and basic definitions.
