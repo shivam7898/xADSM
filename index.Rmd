@@ -4,13 +4,14 @@ author: "shivam"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-#bibliography: [book.bib, packages.bib]
+bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This is a minimal example.
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+url: 'https\://bookdown.org/shivam7898/xADSM'
+github-repo: "shivam7898/xADSM"
 subtitle: "ADSM: Statistics and R"
 ---
 
@@ -20,11 +21,12 @@ subtitle: "ADSM: Statistics and R"
 ~~"Copy/Paste is the mother of learning."~~  
 "Repetition! Repetition is the mother of learning."
 
--shivam
 
 ```{r '000A', include=FALSE, cache=FALSE}
 # #Knitr Setup will be run only once while building a Book or a Chapter
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+# #Packages for inclusion in Bibliography
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 # #Source ALL Functions
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ```
@@ -55,17 +57,11 @@ sessionInfo()
 rmarkdown::pandoc_version()
 ```  
 
-```{r '000F-Bib', include=FALSE, eval=FALSE}
+```{r '000F-Bib', include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
-
-
-```{r '000G'}
-ls()
-(.packages())
-``` 
 
 ****
