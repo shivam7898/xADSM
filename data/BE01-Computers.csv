@@ -1,0 +1,11 @@
+SN,tablet,cost,os,display_inch,battery_hh,cpu
+1,Acer Iconia W510,599,Windows,10.1,8.5,Intel
+2,Amazon Kindle Fire HD,299,Android,8.9,9,TI OMAP
+3,Apple iPad 4,499,iOS,9.7,11,Apple
+4,HP Envy X2,860,Windows,11.6,8,Intel
+5,Lenovo ThinkPad Tablet,668,Windows,10.1,10.5,Intel
+6,Microsoft Surface Pro,899,Windows,10.6,4,Intel
+7,Motorola Droid XYboard,530,Android,10.1,9,TI OMAP
+8,Samsung Ativ Smart PC,590,Windows,11.6,7,Intel
+9,Samsung Galaxy Tab,525,Android,10.1,10,Nvidia
+10,Sony Tablet S,360,Android,9.4,8,Nvidia

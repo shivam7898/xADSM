@@ -1,0 +1,9 @@
+SN,brand,model,price,overall_score,voice_quality,handset_on_base,talk_time_hh
+1,AT&T,CL84100,60,73,Excellent,Yes,7
+2,AT&T,TL92271,80,70,Very Good,No,7
+3,Panasonic,4773B,100,78,Very Good,Yes,13
+4,Panasonic,6592T,70,72,Very Good,No,13
+5,Uniden,D2997,45,70,Very Good,No,10
+6,Uniden,D1788,80,73,Very Good,Yes,7
+7,Vtech,DS6521,60,72,Excellent,No,7
+8,Vtech,CS6649,50,72,Very Good,Yes,7
