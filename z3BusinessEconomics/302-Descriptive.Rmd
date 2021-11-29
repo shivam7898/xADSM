@@ -11,7 +11,7 @@ invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
 
 - This chapter covers ...
 
-## Summarizing Data for a Categorical Variable
+## Summarizing Data for a Categorical Variable {.tabset .tabset-fade}
 
 ```{definition 'Frequency-Distribution'}
 A \textcolor{pink}{frequency distribution} is a tabular summary of data showing the number (frequency) of observations in each of several non-overlapping categories or classes.
@@ -19,7 +19,17 @@ A \textcolor{pink}{frequency distribution} is a tabular summary of data showing 
 
 The \textcolor{pink}{relative frequency} of a class equals the fraction or proportion of observations belonging to a class i.e. it is out of 1 whereas 'percent frequency' is out of 100%.
 
-```{r '302CI-Drinks'}
+Rather than showing the frequency of each class, the \textcolor{pink}{cumulative frequency distribution} shows the number of data items with values less than or equal to the upper class limit of each class. 
+
+- Bar Chart
+  - Pareto Chart - `ggplot()` doesn't allow easy setup of dual axis
+  - Stacked Bar Chart - don't use it if there are more than 2 categories
+- Pie Chart
+  - Only use it if total is 100% and Categories are fewer than 5 or 6.
+  
+### Bar & Pie  {.unlisted .unnumbered}
+
+```{r '302CI-Drinks', include=FALSE}
 # #Frequency Distribution
 aa <- tibble(softdrink = c("Coca-Cola", "Diet Coke", "Dr. Pepper", "Pepsi", "Sprite"), 
              Frequency = c(19, 8, 5, 13, 5))
@@ -49,23 +59,8 @@ kbl(bb,
 	)
 ```
 
-Charts - 
-
-- Bar Chart
-  - Pareto Chart - 
-  - Stacked Bar Chart - Never use it if there are more than 2 categories
-- Pie Chart
-  - Only use it if total is 100% and Categories are fewer than 5 or 6.
-    - Data should be clockwise sorted
-
-
-
-## Charts {.tabset .tabset-fade}
-
-### Bar & Pie  {.unlisted .unnumbered}
-
 ```{r '302IA-Bar', include=FALSE}
-# #Sorted Bar Chart of Frequencies (Needs sorted data & x-axis as Factor)
+# #Sorted Bar Chart of Frequencies (Needs x-axis as Factor for proper sorting)
 g302_01 <- bb %>% mutate(across(softdrink, factor, levels = rev(unique(softdrink)))) %>% {
   ggplot(data = ., aes(x = softdrink, y = Frequency)) +
   geom_bar(stat = 'identity', aes(fill = softdrink)) + 
@@ -87,7 +82,7 @@ knitr::include_graphics(paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
 ```
 
 ```{r '302IC-Pie', include=FALSE}
-# #Pie Chart of Frequencies (Note the use of PROP)
+# #Pie Chart of Frequencies (Needs x-axis as Factor for proper sorting)
 g302_02 <- bb %>% mutate(across(softdrink, factor, levels = unique(softdrink))) %>% {
   ggplot(data = ., aes(x = '', y = Frequency, fill = rev(softdrink))) +
   geom_bar(stat = 'identity', width = 1, color = "white") +
@@ -109,6 +104,12 @@ knitr::include_graphics(paste0(.z$PX, "g302_drinks_02_Pie", ".png"))
 ```
 
 ```{r '302G-Drinks03', echo=FALSE, ref.label=c('302G-Drinks01-Bar', '302G-Drinks02-Pie'), fig.cap="Bar Chart and Pie Chart of Frequency"}
+# #
+```
+
+### Data {.unlisted .unnumbered}
+
+```{r '302CI-Drinks-A', eval=FALSE, ref.label=c('302CI-Drinks')}
 # #
 ```
 
@@ -139,6 +140,133 @@ knitr::include_graphics(paste0(.z$PX, "g302_drinks_02_Pie", ".png"))
 ```
 
 Solution: Use `geom_bar(stat = "identity")`
+
+## Summarizing Data for a Quantitative Variable {.tabset .tabset-fade}
+
+A \textcolor{pink}{histogram} is used for continuous data, where the bins represent ranges of data, while a bar chart is a plot of categorical variables. 
+
+The three steps necessary to define the classes for a frequency distribution with quantitative data are
+
+1. Determine the number of nonoverlapping classes (Bins)
+    - Classes are formed by specifying ranges that will be used to group the data.
+    - Approx. 5-20
+1. Determine the width of each class
+    - The bins are usually specified as consecutive, non-overlapping intervals of a variable. 
+    - The bins (intervals) must be adjacent and are often (but not required to be) of equal size.
+    - Approx. Bin Width = (Max - Min) / Number of Bins
+    - Ex: For a dataset with min =12 & max =33, 5 bins of 10-14, ..., 30-34 can be selected
+1. Determine the class 
+    - Class limits must be chosen so that each data item belongs to one and only one class
+    - For categorical data, this was not required because each item naturally fell into a separate class
+    - But with quantitative data, class limits are necessary to determine where each data value belongs
+    - The 'class midpoint' is the value halfway between the lower and upper class limits. For a Bin of 10-14, 12 will be its mid-point. 
+  
+- Dot Plot 
+  - A horizontal axis shows the range for the data. Each data value is represented by a dot placed above the axis.
+  - \textcolor{orange}{Caution:} Avoid! Y-Axis is deceptive. 
+- Histogram
+  - Unlike a bar graph, a histogram contains no natural separation between the rectangles of adjacent classes.
+- Stem-and-Leaf Display (Not useful)
+- 
+  
+### Histogram  {.unlisted .unnumbered}
+
+```{r '302CK-NormalRandom'}
+set.seed(3)
+# #Get Normal Data
+bb <- tibble(aa = rnorm(n = 10000)) 
+```
+
+```{r '302KA-Histogram', cache=FALSE}
+# #Histogram
+# # '..count..' or '..x..'
+g302_04 <- bb %>% {
+  ggplot(data = ., aes(x = aa, fill = ..count..)) + 
+  geom_histogram(bins = 50, position = "identity") +	
+  k_gglayer_hist +
+  labs(x = "Normal Data", y = "Count", title = "Histogram",
+       subtitle = paste0("n = ", format(nrow(.), big.mark=",")))
+}
+```
+
+```{r '302KB-Save', include=FALSE, cache=FALSE}
+ggsave(paste0(.z$PX, "g302_normal_01_Histogram", ".png"), plot = g302_04)
+```
+
+```{r '302G-Normal01-Hist', echo=FALSE, fig.cap="geom_histogram(): Histogram", echo=FALSE}
+knitr::include_graphics(paste0(.z$PX, "g302_normal_01_Histogram", ".png"))
+```
+
+### Dot Plot  {.unlisted .unnumbered}
+
+```{r '302CJ-Random'}
+# #Random Data
+aa <- c(26, 35, 22, 47, 37, 5, 50, 49, 42, 2, 8, 7, 4, 47, 44, 35, 17, 49, 1, 48, 
+        1, 27, 13, 26, 18, 44, 31, 4, 23, 47, 38, 28, 28, 5, 35, 39, 29, 13, 17, 
+        38, 1, 8, 3, 30, 18, 37, 29, 39, 7, 28)
+```
+
+```{r '302JA-Dot'}
+bb <- tibble(aa)
+# #Dot Chart of Frequencies
+g302_03 <- bb %>% {
+  ggplot(., aes(x = aa)) +
+  geom_dotplot(binwidth = 5, method = "histodot") + 
+  theme(axis.line.y = element_blank(), panel.grid = element_blank(), axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), axis.title.y =  element_blank()) + 
+  labs(x = "Bins", title="Dot Plot", subtitle = "Caution: Avoid! Y-Axis is deceptive.")
+}
+```
+
+```{r '302JB-Save', include=FALSE}
+ggsave(paste0(.z$PX, "g302_random_01_Dot", ".png"), plot = g302_03)
+```
+
+```{r '302G-Random01-Dot', echo=FALSE, fig.cap="geom_dotplot(): Frequency Dot Chart", echo=FALSE}
+knitr::include_graphics(paste0(.z$PX, "g302_random_01_Dot", ".png"))
+```
+
+### Get Frequency  {.unlisted .unnumbered}
+
+```{r '302JC-Frequency', include=FALSE}
+#set.seed(3)
+#aa <- paste0(sample(1:50, size = 50, replace = TRUE), collapse = ", ")
+aa <- c(26, 35, 22, 47, 37, 5, 50, 49, 42, 2, 8, 7, 4, 47, 44, 35, 17, 49, 1, 48, 
+        1, 27, 13, 26, 18, 44, 31, 4, 23, 47, 38, 28, 28, 5, 35, 39, 29, 13, 17, 
+        38, 1, 8, 3, 30, 18, 37, 29, 39, 7, 28)
+# #Get Frequency in another column
+agg_aa <- aggregate(aa, by = list(Group = aa), FUN = length)
+df_aa <- data.frame(Group = unique(aa), 
+                    x = vapply(unique(aa), function(y) sum(aa == y), integer(1))) %>% 
+  arrange(Group)
+cnt_aa <- tibble(aa) %>% count(aa) %>% rename(Group = aa, x = n)
+grp_aa <- tibble(aa) %>% group_by(aa) %>% tally() %>% rename(Group = aa, x = n) 
+stopifnot(all(identical(df_aa, agg_aa), 
+              identical(as_tibble(df_aa), cnt_aa), 
+              identical(grp_aa, cnt_aa)))
+#
+# #Any of the above can be summarised to get the Maximum Frequency
+bb <- cnt_aa
+bb %>% summarise(max(x)) %>% pull()
+#
+# # Get Frequncy Vector. Note this uses some tricky syntax and tabulate() has limitations
+str(match(aa, aa) %>% `[`(tabulate(.), .))
+#
+# #by() gives a list that later would need subsetting, so it is not useful here
+str(by(aa, INDICES = list(Group = aa), FUN = length))
+# 
+# #This looks similar to above but it retains original number of rows (not the unique)
+str(tibble(aa) %>% group_by(aa) %>% mutate(Count = n()))
+#
+# #Another way to find all the values which have maximum frequency i.e. Mode
+unq <- unique(aa)
+tab <- tabulate(match(aa, unq))
+unq[tab == max(tab)]
+#
+```
+
+
+
 
 ## Validation {.unnumbered}
 

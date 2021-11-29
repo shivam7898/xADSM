@@ -56,3 +56,11 @@ k_gglayer_pie <- list(
         panel.grid.minor = element_blank(),
         legend.position = 'none')
 )
+#
+# #Histogram
+k_gglayer_hist <- list(
+  scale_fill_viridis_c(direction = -1, alpha = 0.9),
+  theme(panel.grid.major.x = element_blank(), axis.line.y = element_blank(),
+        panel.border = element_blank(), axis.ticks.y = element_blank(), 
+        legend.position = 'none')
+)
