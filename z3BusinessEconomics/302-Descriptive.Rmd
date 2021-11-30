@@ -9,7 +9,9 @@ invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
 
 ## Overview
 
-- This chapter covers ...
+- This chapter covers 
+  - Transpose, Attributes, Total Row, Cut, Clipboard, Replace NA
+  - Bar Chart, Pie Chart, Histogram, CrossTab, Scatter Plot, Trendline, ThemeGG
 
 ## Summarizing Data for a Categorical Variable {.tabset .tabset-fade}
 
@@ -167,8 +169,7 @@ The three steps necessary to define the classes for a frequency distribution wit
 - Histogram
   - Unlike a bar graph, a histogram contains no natural separation between the rectangles of adjacent classes.
 - Stem-and-Leaf Display (Not useful)
-- 
-  
+
 ### Histogram  {.unlisted .unnumbered}
 
 ```{r '302CK-NormalRandom'}
@@ -264,7 +265,6 @@ tab <- tabulate(match(aa, unq))
 unq[tab == max(tab)]
 #
 ```
-
 
 ## Summarizing Data for Two Variables Using Tables {.tabset .tabset-fade}
 
@@ -676,10 +676,9 @@ knitr::include_graphics(paste0(.z$PX, "g302_trendline_01", ".png"))
 
 ```{r '302-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, g302_01, agg_aa, cnt_aa, df_aa, g302_02, g302_03, g302_04, grp_aa, ii, jj, kk, kk_both, kk_Kendall, kk_Luckett, tab, unq, xxJudges, xxKendall, xxLuckett, ex27, ex28, lab_x, lab_y, n_breaks, n_labs, n_x, n_y, nn, be0214, g302_05)
-#f_rmExist(xxComputers, xxCordless)
 ```
 
-```{r '302-Validation', include=TRUE, cache=FALSE}
+```{r '302-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

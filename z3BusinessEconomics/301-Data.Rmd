@@ -597,7 +597,7 @@ f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_
 f_rmExist(xxComputers, xxCordless)
 ```
 
-```{r '301-Validation', include=TRUE, cache=FALSE}
+```{r '301-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #
