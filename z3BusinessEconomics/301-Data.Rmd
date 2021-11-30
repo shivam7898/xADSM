@@ -590,7 +590,7 @@ dev.off()
 knitr::include_graphics(paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
 ```
 
-## Validation {.unnumbered}
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '301-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr)

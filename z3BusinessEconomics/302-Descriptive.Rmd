@@ -266,12 +266,372 @@ unq[tab == max(tab)]
 ```
 
 
+## Summarizing Data for Two Variables Using Tables {.tabset .tabset-fade}
 
+```{definition 'Cross-Tab'}
+A \textcolor{pink}{crosstabulation} is a tabular summary of data for two variables. It is used to investigate the relationship between them. Generally, one of the variable is categorical. 
+```
 
-## Validation {.unnumbered}
+- Simpson's Paradox
+  - The reversal of conclusions based on aggregate and unaggregated data is called Simpson’s paradox.
+  - Ex: Table \@ref(tab:302DK-Judges) shows the count of judgements that were 'upheld' or 'reversed' on appeal for two judges 
+    - 86% of the verdicts were upheld for Judge Luckett, while 88% of the verdicts were upheld for Judge Kendall. From this aggregated crosstabulation, we conclude that Judge Kendall is doing the better job because a greater percentage of his verdicts are being upheld.
+    - However, unaggregated crosstabulations show that in both types of courts (Common, Municipal) Judge Luckett has higher percentage of 'Upheld' Verdicts (90.6% and 84.7%) - compared to Judge Kendall (90% and 80%)
+    - Thus, Luckett has a better record because a greater percentage of his verdicts are being upheld in both courts. 
+    - This reversal of conclusions based on aggregated and unaggregated data illustrates Simpson’s paradox.
+  - Cause
+    - Note that for both judges the percentage of appeals that resulted in reversals was much higher in 'Municipal' than in 'Common' Court i.e. 15.3% vs. 9.4% for Luckett and 20% vs. 10% for Kendall.
+    - Because Judge Luckett tried a much higher percentage of his cases in 'Municipal', the aggregated data favored Judge Kendall i.e. 118/150 for Luckett vs. 25/125 for Kendall.
+    - Thus, for the original crosstabulation, we see that the 'type of court' is a \textcolor{pink}{hidden variable} that cannot be ignored when evaluating the records of the two judges.
+  
+```{r '302CK-Judges', include=FALSE}
+# #Judges: Because we are evaluating 'Judges', they are the 'elements' and thus are the 'rows'
+xxJudges <- tibble(Judge_Verdict = c('Luckett', 'Kendall'), Upheld = c(129, 110), Reversed = c(21, 15))
+# #Uaggregated crosstab for both Judges in different types of Courts
+xxKendall <- tibble(Kendall = c("Common", "Municipal "), 
+                    Upheld = c(90, 20), Reversed = c(10, 5))
+xxLuckett <- tibble(Luckett = c("Common", "Municipal "), 
+                    Upheld = c(29, 100), Reversed = c(3, 18))
+```
+
+```{r '302DK-Judges', echo=FALSE}
+aa <- xxJudges
+bb <- aa %>% 
+  bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
+  mutate(across(1, ~replace(., . %in% NA, "Total"))) %>%
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(upPCT = round(Upheld * 100 / SUM, 1)) %>% 
+  mutate(revPCT = round(Reversed * 100 / SUM, 1)) %>% 
+  mutate(xUpheld = paste0(Upheld, " (", upPCT, "%)")) %>% 
+  mutate(xReversed = paste0(Reversed, " (", revPCT, "%)")) %>% 
+  select(1, SUM, 7:8) %>% 
+  relocate(SUM, .after = last_col())
+#
+kk_both <- kbl(bb,
+  caption = 'Both Judges',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+#
+aa <- xxLuckett
+bb <- aa %>% 
+  bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
+  mutate(across(1, ~replace(., . %in% NA, "Total"))) %>%
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(upPCT = round(Upheld * 100 / SUM, 1)) %>% 
+  mutate(revPCT = round(Reversed * 100 / SUM, 1)) %>% 
+  mutate(xUpheld = paste0(Upheld, " (", upPCT, "%)")) %>% 
+  mutate(xReversed = paste0(Reversed, " (", revPCT, "%)")) %>% 
+  select(1, SUM, 7:8) %>% 
+  relocate(SUM, .after = last_col())
+#
+kk_Luckett <- kbl(bb,
+  caption = 'Luckett',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+#
+aa <- xxKendall
+bb <- aa %>% 
+  bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
+  mutate(across(1, ~replace(., . %in% NA, "Total"))) %>%
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(upPCT = round(Upheld * 100 / SUM, 1)) %>% 
+  mutate(revPCT = round(Reversed * 100 / SUM, 1)) %>% 
+  mutate(xUpheld = paste0(Upheld, " (", upPCT, "%)")) %>% 
+  mutate(xReversed = paste0(Reversed, " (", revPCT, "%)")) %>% 
+  select(1, SUM, 7:8) %>% 
+  relocate(SUM, .after = last_col())
+#
+kk_Kendall <- kbl(bb,
+  caption = 'Kendall',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+# #Multiple Kable Tables
+knitr::kables(list(kk_both, kk_Luckett, kk_Kendall))
+```
+
+### Judges {.unlisted .unnumbered}
+```{r '302CK-Judges-A', ref.label=c('302CK-Judges'), eval=FALSE}
+#
+```
+
+### Transpose {.unlisted .unnumbered}
+```{r '302KA-Transpose'}
+# #Judges
+aa <- tibble(Judge_Verdict = c('Luckett', 'Kendall'), Upheld = c(129, 110), Reversed = c(21, 15))
+bb <- tibble(Verdict_Judge = c('Upheld', 'Reversed'), Luckett = c(129, 21), Kendall = c(110, 15))
+aa
+# #Transpose, Assuming First Column Header has "Row_Col" Type Format
+ii <- aa %>% 
+  `attr<-`("ColsLost", unlist(strsplit(names(.)[1], "_"))[1]) %>% 
+  `attr<-`("RowsKept", unlist(strsplit(names(.)[1], "_"))[2]) %>% 
+  pivot_longer(c(-1), 
+               names_to = paste0(attributes(.)$RowsKept, "_", attributes(.)$ColsLost), 
+               values_to = "Values") %>% 
+  pivot_wider(names_from = 1, values_from = Values) %>% 
+  `attr<-`("ColsLost", NULL) %>% `attr<-`("RowsKept", NULL) 
+stopifnot(identical(bb, ii))
+ii
+# #Testing for Reverse
+ii <- bb %>% 
+  `attr<-`("ColsLost", unlist(strsplit(names(.)[1], "_"))[1]) %>% 
+  `attr<-`("RowsKept", unlist(strsplit(names(.)[1], "_"))[2]) %>% 
+  pivot_longer(c(-1), 
+               names_to = paste0(attributes(.)$RowsKept, "_", attributes(.)$ColsLost), 
+               values_to = "Values") %>% 
+  pivot_wider(names_from = 1, values_from = Values) %>% 
+  `attr<-`("ColsLost", NULL) %>% `attr<-`("RowsKept", NULL) 
+stopifnot(identical(aa, ii))
+```
+
+### String Split {.unlisted .unnumbered}
+
+```{r '302KB-StringSplit'}
+bb <- "Judge_Verdict"
+# #Split String by strsplit(), output is list
+(ii <- unlist(strsplit(bb, "_")))
+#
+# #Split on Dot 
+bb <- "Judge.Verdict"
+# #Using character classes
+ii <- unlist(strsplit(bb, "[.]"))
+# #By escaping special characters
+jj <- unlist(strsplit(bb, "\\."))
+# #Using Options
+kk <- unlist(strsplit(bb, ".", fixed = TRUE))
+stopifnot(all(identical(ii, jj), identical(ii, kk)))
+```
+
+### Attributes {.unlisted .unnumbered}
+
+```{r '302KC-Attributes'}
+jj <- ii <- bb <- aa
+# #attr() adds or removes an attribute
+attr(bb, "NewOne") <- "abc"
+# #Using Backticks
+ii <- `attr<-`(ii, "NewOne", "abc")
+# #Using Pipe
+jj <- jj %>% `attr<-`("NewOne", "abc")
+#
+stopifnot(all(identical(bb, ii), identical(bb, jj)))
+#
+# #List Attributes
+names(attributes(bb))
+#
+# #Specific Attribute Value
+attributes(bb)$NewOne
+#
+# #Remove Attributes
+attr(bb, "NewOne") <- NULL
+ii <- `attr<-`(ii, "NewOne", NULL)
+jj <- jj %>% `attr<-`("NewOne", NULL)
+stopifnot(all(identical(bb, ii), identical(bb, jj)))
+```
+
+### Total Row {.unlisted .unnumbered}
+```{r '302KD-RowTotal'}
+# #Note: bind_rows() needs two dataframes. Thus, first can be skipped in Pipe
+# #However, second dataframe can't be replaced with dot (.), it has to have a name
+aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum)))
+```
+
+### Replace NA {.unlisted .unnumbered}
+```{r '302KE-ReplaceNA'}
+# # USE '%in%' for NA, otherwise '==' works
+aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
+	mutate(across(1, ~ replace(., . %in% NA, "Total"))) 
+#
+#	#Replace NA in a Factor
+aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>% 
+  mutate(Judge_Verdict = factor(Judge_Verdict)) %>% 
+  mutate(across(1, fct_explicit_na, na_level = "Total"))
+```
+
+### To Factor {.unlisted .unnumbered}
+```{r '302KG-ToFactor'}
+#	#Convert to Factor
+aa %>% mutate(Judge_Verdict = factor(Judge_Verdict))
+```
+
+### Clipboard  {.unlisted .unnumbered}
+
+```{r '302KF-Clipboard', eval=FALSE}
+# #Paste but do not execute
+aa <- read_delim(clipboard())
+# #Copy Excel Data, then execute the above command
+#
+# #Print its structure
+dput(aa)
+# #Copy the relevant values, headers in tibble()
+bb <- tibble(  )
+# #The above command will be the setup to generate this tibble anywhere
+```
+
+## Exercise 
+
+### BE02E27 {.tabset .tabset-fade .unlisted .unnumbered}
+
+#### Data {.unlisted .unnumbered}
+
+```{r '302CL-Ex27'}
+ex27 <- tibble(Observation = 1:30, 
+             x = c("A", "B", "B", "C", "B", "C", "B", "C", "A", "B", "A", "B", "C", "C", "C", 
+                   "B", "C", "B", "C", "B", "C", "B", "C", "A", "B", "C", "C", "A", "B", "B"), 
+             y = c(1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 2, 
+                   2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2))
+```
+
+#### CrossTab {.unlisted .unnumbered}
+```{r '302LA-CrossTab'}
+bb <- ex27
+str(bb)
+# #Create CrossTab
+bb <- bb %>% 
+  count(x, y) %>% 
+  pivot_wider(names_from = y, values_from = n, values_fill = 0)
+```
+
+#### PCT {.unlisted .unnumbered}
+
+```{r '302LB-PCT'}
+bb
+# #Rowwise Percentage in Separate New Columns
+bb %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1), .names = "{.col}_Row" )) 
+#
+# #Rowwise Percentage in Same Columns
+bb %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1))) 
+#
+# #Equivalent
+bb %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))),
+         across(where(is.numeric), ~ round(. * 100 /SUM, 1))) 
+#
+# #Columnwise Percentage in Separate New Columns
+bb %>% 
+  mutate(across(where(is.numeric), ~ round(. * 100 /sum(.), 1), .names = "{.col}_Col" ))
+# #Columnwise Percentage in Same Columns
+bb %>% 
+  mutate(across(where(is.numeric), ~ round(. * 100 /sum(.), 1)))
+```
+
+### BE02E28 {.tabset .tabset-fade .unlisted .unnumbered}
+
+#### Data {.unlisted .unnumbered}
+
+```{r '302CM-Ex28'}
+ex28 <- tibble(Observation = 1:20, 
+        x = c(28, 17, 52, 79, 37, 71, 37, 27, 64, 53, 13, 84, 59, 17, 70, 47, 35, 62, 30, 43), 
+        y = c(72, 99, 58, 34, 60, 22, 77, 85, 45, 47, 98, 21, 32, 81, 34, 64, 68, 67, 39, 28))
+```
+
+#### CrossTab {.unlisted .unnumbered}
+
+```{r '302MA-CrossTab'}
+bb <- ex28
+# #Rounding to the lowest 10s before min and to the highest 10s after max
+nn <- 10L	
+n_x <- seq(floor(min(bb$x) / nn) * nn, ceiling(max(bb$x) / nn) * nn, by = 20)
+n_y <- seq(floor(min(bb$y) / nn) * nn, ceiling(max(bb$y) / nn) * nn, by = 20)
+#
+# #Labels in the format of [10-29]
+lab_x <- paste0(n_x, "-", n_x +20 -1) %>% head(-1)
+lab_y <- paste0(n_y, "-", n_y +20 -1) %>% head(-1)
+
+# #Wider Table without Totals
+ii <- bb %>% 
+  mutate(x_bins = cut(x, breaks = n_x, right = FALSE, labels = lab_x),
+         y_bins = cut(y, breaks = n_y, right = FALSE, labels = lab_y)) %>% 
+  count(x_bins, y_bins) %>% 
+  pivot_wider(names_from = y_bins, values_from = n, values_fill = 0, names_sort = TRUE)
+print(ii)
+# #Cross Tab with Total Column and Total Row
+jj <- ii %>% 
+  bind_rows(ii %>% summarise(across(where(is.numeric), sum))) %>% 
+	mutate(across(1, fct_explicit_na, na_level = "Total")) %>% 
+	mutate(SUM = rowSums(across(where(is.numeric))))
+print(jj)
+```
+
+#### Cut {.unlisted .unnumbered}
+
+```{r '302MB-Cut'}
+# #Group Continuous Data to Categorical Bins by base::cut()
+bb <- ex28
+#
+# #NOTE cut() increases the range slightly but ggplot functions don't
+bb %>% mutate(x_bins = cut(x, breaks = 8)) %>% 
+  pull(x_bins) %>% levels()
+# 
+# #By default, it excludes the lower range, but it can be included by option
+bb %>% mutate(x_bins = cut(x, breaks = 8, include.lowest = TRUE)) %>% 
+  pull(x_bins) %>% levels()
+#
+# #ggplot::cut_interval() makes n groups with equal range. There is a cut_number() also
+bb %>% mutate(x_bins = cut_interval(x, n = 8)) %>% 
+  pull(x_bins) %>% levels()
+#
+# #Specific Bins
+bb %>% mutate(x_bins = cut(x, breaks = seq(10, 90, by = 10))) %>% 
+  pull(x_bins) %>% levels()
+ii <- bb %>% mutate(x_bins = cut(x, breaks = seq(10, 90, by = 10), include.lowest = TRUE)) %>% 
+  pull(x_bins) %>% levels()
+print(ii)
+#
+# #ggplot::cut_width() makes groups of width
+bb %>% mutate(x_bins = cut_width(x, width = 10)) %>% 
+  pull(x_bins) %>% levels()
+#
+# #Match cut_width() and cut()
+jj <- bb %>% mutate(x_bins = cut_width(x, width = 10, boundary = 0)) %>% 
+  pull(x_bins) %>% levels()
+print(jj)
+stopifnot(identical(ii, jj))
+#
+# #Labelling
+n_breaks <- seq(10, 90, by = 10)
+n_labs <- paste0("*", n_breaks, "-", n_breaks + 10) %>% head(-1)
+
+bb %>% mutate(x_bins = cut(x, breaks = n_breaks, include.lowest = TRUE, labels = n_labs)) %>% 
+  pull(x_bins) %>% levels()
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '302-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, g302_01)
+f_rmExist(aa, bb, g302_01, agg_aa, cnt_aa, df_aa, g302_02, g302_03, g302_04, grp_aa, ii, jj, kk, kk_both, kk_Kendall, kk_Luckett, tab, unq, xxJudges, xxKendall, xxLuckett)
 #f_rmExist(xxComputers, xxCordless)
 ```
 
