@@ -64,3 +64,5 @@ k_gglayer_hist <- list(
         panel.border = element_blank(), axis.ticks.y = element_blank(), 
         legend.position = 'none')
 )
+#
+# #Scatter Plot Trendline

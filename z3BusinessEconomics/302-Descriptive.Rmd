@@ -628,10 +628,54 @@ bb %>% mutate(x_bins = cut(x, breaks = n_breaks, include.lowest = TRUE, labels =
   pull(x_bins) %>% levels()
 ```
 
+## Summarizing Data for Two Variables {.tabset .tabset-fade}
+
+- Scatterplot and Trendline
+- Side by Side and Stacked Bar Charts
+
+### Data {.unlisted .unnumbered}
+```{r '302CN-T214'}
+be0214 <- tibble(Week = 1:10, 
+                 Commercials = c(2, 5, 1, 3, 4, 1, 5, 3, 4, 2), 
+                 Sales = c(50, 57, 41, 54, 54, 38, 63, 48, 59, 46))
+```
+
+```{r '302NA-Trendline', include=FALSE}
+bb <- be0214 
+
+# #Define the formula for Trendline calculation
+k_gg_formula <- y ~ x
+#
+# #Scatterplot, Trendline alongwith its equation and R2 value
+g302_05 <- bb %>% {
+  ggplot(data = ., aes(x = Commercials, y = Sales)) + 
+  geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ", \n", ..rr.label.., ")")), 
+               formula = k_gg_formula, eq.with.lhs = "italic(hat(y))~`=`~",
+               eq.x.rhs = "~italic(x)", parse = TRUE) +
+  geom_point() + 
+  labs(x = "Commercials", y = "Sales ($100s)", title = "Scatter Plot",
+       subtitle = paste0("...with Trendline equation and R", '\u00b2', " value"))
+}
+```
+
+```{r '302NB-Save', include=FALSE}
+ggsave(paste0(.z$PX, "g302_trendline_01", ".png"), plot = g302_05)
+```
+
+```{r '302G-Trend01', echo=FALSE, fig.cap="geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
+knitr::include_graphics(paste0(.z$PX, "g302_trendline_01", ".png"))
+```
+
+### Trendline {.unlisted .unnumbered}
+```{r '302NA-Trendline-A', ref.label=c('302NA-Trendline'), eval=FALSE}
+#
+```
+
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '302-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, g302_01, agg_aa, cnt_aa, df_aa, g302_02, g302_03, g302_04, grp_aa, ii, jj, kk, kk_both, kk_Kendall, kk_Luckett, tab, unq, xxJudges, xxKendall, xxLuckett)
+f_rmExist(aa, bb, g302_01, agg_aa, cnt_aa, df_aa, g302_02, g302_03, g302_04, grp_aa, ii, jj, kk, kk_both, kk_Kendall, kk_Luckett, tab, unq, xxJudges, xxKendall, xxLuckett, ex27, ex28, lab_x, lab_y, n_breaks, n_labs, n_x, n_y, nn, be0214, g302_05)
 #f_rmExist(xxComputers, xxCordless)
 ```
 
