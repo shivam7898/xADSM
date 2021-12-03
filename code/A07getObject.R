@@ -8,7 +8,7 @@ f_getObject <- function(x_name, x_source, x_md = "") {
   a07bug <- FALSE
   # #Read the File or Object
   # #Ex: xxCars <- f_getObject("xxCars", "S16-cars2.csv", "30051fb47f65810f33cb992015b849cc")
-  # #tools::md5sum("xx.csv")
+  # #tools::md5sum("xx.csv") OR tools::md5sum(paste0(.z$XL, "xx", ".txt"))
   #
   # #Path to the File 
   loc_src <- paste0(.z$XL, x_source)

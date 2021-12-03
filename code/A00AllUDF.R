@@ -10,6 +10,8 @@ source(paste0(.z$RX, "A05ThemeGG", ".R"))
 source(paste0(.z$RX, "A06getRDS", ".R"))
 source(paste0(.z$RX, "A07getObject", ".R"))
 source(paste0(.z$RX, "A08getDef", ".R"))
+source(paste0(.z$RX, "A09isPrime", ".R"))
+source(paste0(.z$RX, "A10getUtil", ".R"))
 
 ## ---- A00Z ----
 # #f_rmExist()

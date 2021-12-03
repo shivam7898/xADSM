@@ -4,17 +4,727 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-#invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
+invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 ```
 
 ## Overview
 
 - This chapter covers ...
 
+## Definitions
+
+```{r '303D01', comment="", echo=FALSE, results='asis', cache=FALSE}
+f_getDef("Parameter-vs-Statistic")
+```
+
+## Number Theory {#Numbers .tabset .tabset-fade}
+
+```{definition 'Number'}
+A \textcolor{pink}{number} is a mathematical object used to count, measure, and label. Their study or usage is called \textcolor{pink}{arithmetic}, a term which may also refer to \textcolor{pink}{number theory}, the study of the properties of numbers. 
+```
+
+Individual numbers can be represented by symbols, called \textcolor{pink}{numerals}; for example, "5" is a numeral that represents the 'number five'. 
+
+As only a relatively small number of symbols can be memorized, basic numerals are commonly organized in a \textcolor{pink}{numeral system}, which is an organized way to represent any number. The most common numeral system is the \textcolor{pink}{Hindu–Arabic numeral system}, which allows for the representation of any number using a combination of ten fundamental numeric symbols, called \textcolor{pink}{digits}.
+
+\textcolor{pink}{Counting} is the process of determining the number of elements of a finite set of objects, i.e., determining the size of a set. \textcolor{pink}{Enumeration} refers to uniquely identifying the elements of a set by assigning a number to each element. 
+
+\textcolor{pink}{Measurement} is the quantification of attributes of an object or event, which can be used to compare with other objects or events.
+
+```{r '303-Sets-A', include=FALSE}
+# #NOT Working in Bookdown
+# # For Infinity '\u221e'
+cat(paste0(" \u2115 (0,1,2,...) \u2282 \u2124 (-1,0,1) \u2282 \u211a (-0.5,+0.5) \u2282 \u211d (\u221a2, e(\u2091), \u03c0) \u2282 \u2102 (a +i b) "))
+```
+
+### Sets {.unlisted .unnumbered}
+
+> Formally, $\mathbb{N} \to \mathbb{Z} \to \mathbb{Q} \to \mathbb{R} \to \mathbb{C}$  
+> Practically, $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C}$
+
+The \textcolor{pink}{natural numbers $\mathbb{N}$} are those numbers used for counting and ordering. ISO standard begin the natural numbers with 0, corresponding to the \textcolor{pink}{non-negative integers $\mathbb{N} = \{0, 1, 2, 3, \ldots \}$}, whereas others start with 1, corresponding to the \textcolor{pink}{positive integers $\mathbb{N^*} = \{1, 2, 3, \ldots \}$}
+
+The set of \textcolor{pink}{integers $\mathbb{Z}$} consists of zero ($0$), the positive natural numbers $\{1, 2, 3, \ldots \}$ and their additive inverses (the negative integers). Thus i.e., \textcolor{pink}{$\mathbb{Z} = \{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}$}. An integer is colloquially defined as a number that can be written without a fractional component. 
+
+\textcolor{pink}{Rational numbers $\mathbb{Q}$} are those which can be expressed as the quotient or fraction p/q of two integers, a numerator p and a non-zero denominator q. Thus, \textcolor{pink}{Rational Numbers $\mathbb{Q} = \{1, 2, 3, \ldots \}$}
+
+A \textcolor{pink}{real number} is a value of a continuous quantity that can represent a distance along a line. The real numbers include all the rational numbers $\mathbb{Q}$, and all the irrational numbers. Thus, \textcolor{pink}{Real Numbers $\mathbb{R} = \mathbb{Q} \cup \{\sqrt{2}, \sqrt{3}, \ldots\} \cup \{ \pi, e, \phi, \ldots \}$}
+
+The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are expressed in the form $a + ib$, where $a$ and $b$ are real numbers. These have two components the real numbers and a specific element denoted by $i$ (imaginary unit) which satisfies the equation \textcolor{pink}{$i^2 = −1$}.
+
+### Pi {.unlisted .unnumbered}
+
+The number \textcolor{pink}{Pi $\pi = 3.14159\ldots$} is defined as the ratio of a circle's circumference to its diameter.
+
+\begin{equation} 
+  \pi = \int _{-1}^{1} \frac{dx}{\sqrt{1- x^2}}
+  (\#eq:pi)
+\end{equation} 
+
+\begin{equation} 
+  e^{i\varphi}=\cos \varphi +i\sin \varphi 
+  (\#eq:euler-formula)
+\end{equation} 
+
+\begin{equation} 
+  e^{i\pi} + 1 =0
+  (\#eq:euler-identity)
+\end{equation} 
+
+```{r '303-PI'}
+# #Read OIS File for 20000 PI digits including integral (3) and fractional (14159...)
+# #md5sum = "daf0b33a67fd842a905bb577957a9c7f"
+tbl <- read_delim(file = paste0(.z$XL, "PI-OIS-b000796.txt"), 
+  delim = " ", col_names = c("POS", "VAL"), col_types = list(POS = "i", VAL = "i"))
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxPI <- tbl
+f_setRDS(xxPI)
+```
+
+### e {.unlisted .unnumbered}
+
+Euler's Number \textcolor{pink}{$e = 2.71828\ldots$}, is the base of the natural logarithm. 
+
+\begin{equation} 
+  e = \lim_{n \to \infty} \left(1 + \frac{1}{n} \right)^{n} = \sum \limits_{n=0}^{\infty} \frac{1}{n!}
+  (\#eq:euler-number-e)
+\end{equation} 
+
+### Phi {.unlisted .unnumbered}
+
+Two quantities are in the \textcolor{pink}{golden ratio $\varphi = 1.618\ldots$} if their ratio is the same as the ratio of their sum to the larger of the two quantities.
+
+\begin{equation} 
+  \varphi^2 - \varphi -1 =0 \\
+  \varphi = \frac{1+\sqrt{5}}{2}
+  (\#eq:golden-ratio-phi)
+\end{equation} 
+
+### Groups {.unlisted .unnumbered}
+
+```{definition 'Prime'}
+A \textcolor{pink}{prime number} is a natural number greater than 1 that is not a product of two smaller natural numbers. A natural number greater than 1 that is not prime is called a 'composite number'. 1 is neither a Prime nor a composite, it is a 'Unit'. Thus, by definition, Negative Integers and Zero cannot be Prime.
+```
+
+```{definition 'Parity-Odd-Even'}
+\textcolor{pink}{Parity} is the property of an integer $\mathbb{Z}$ of whether it is even or odd. It is \textcolor{pink}{even} if the integer is divisible by 2 with no remainders left and it is \textcolor{pink}{odd} otherwise. Thus, -2, 0, +2 are even but -1, 1 are odd. Numbers ending with 0, 2, 4, 6, 8 are even. Numbers ending with 1, 3, 5, 7, 9 are odd.
+```
+
+```{definition 'Positive-Negative'}
+An integer $\mathbb{Z}$ is \textcolor{pink}{positive} if it is greater than zero, and \textcolor{pink}{negative} if it is less than zero. Zero is defined as neither negative nor positive. 
+```
+
+## Primes {#Primes .tabset .tabset-fade}
+
+### Empty Vector {.unlisted .unnumbered}
+
+```{r '303-EmptyVector'}
+# #Create empty Vector with NA
+aa <- rep(NA_integer_, 10)
+print(aa)
+```
+
+### f_isPrime() {.unlisted .unnumbered}
+
+```{r '303F-isPrime', ref.label=c('A09A-isPrime', 'A09B-isPrimeV', 'A09C-isPrimeC'), eval=FALSE }
+#
+```
+
+### Primes {.unlisted .unnumbered}
+
+```{r '303-ListPrime', eval=FALSE}
+# #There are 4 Primes in First 10, 25 in 100, 168 in 1000, 1229 in 10000.
+# # Using Vectorise Version, get all the Primes
+aa <- 1:10
+bb <- aa[f_isPrimeV(aa)]
+ii <- f_getPrimeUpto(10)
+stopifnot(identical(bb, ii))
+# #
+xxPrime10 <- c(2, 3, 5, 7) |> as.integer()
+# #
+xxPrime100 <- c(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 
+               53, 59, 61, 67, 71, 73, 79, 83, 89, 97)  |> as.integer()
+#
+# #Generate List of ALL Primes till 524287 (i.e. Total 43,390 Primes)
+xxPrimes <- f_getPrimeUpto(524287L)
+# #Save as RDS
+f_setRDS(xxPrimes)
+```
+
+### Mersenne Prime {.unlisted .unnumbered}
+
+```{r '303-LargeNumbers', eval=FALSE, cache=FALSE}
+# #Mersenne primes are those prime number that are of the form (2^n -1).
+# #3, 7, 31, 127, 8191 (1028th), 131071 (12,251th), 524287 (43,390th), 2147483647 (105,097,565th), 
+# #2305843009213693951, 618970019642690137449562111, 
+# #162259276829213363391578010288127 170141183460469231731687303715884105727
+
+# #Following cannot be stored as Integer, thus it is automatically converted to Double
+tryCatch({
+    aa <- 2305843009213693951L
+  }, warning = function(w) {
+    # #NOTE Unable to Print this Warning properly!
+    print(paste0(w))
+	  #suppressWarnings(print(aa))
+  })  
+# #Warning: non-integer value 2305843009213693951L qualified with L; using numeric value 
+#
+#aa <- 2305843009213693951
+# #NOTE that the value changed. It is explicitly NOT a prime anymore.
+#print(aa, digits = 20)
+# #[1] 2305843009213693952
+#
+# #Largest Mersenne Prime that can be safely checked
+# #The number 2147483647 is the eighth Mersenne prime, equal to (2^231 − 1). 
+# #It is one of only four known double Mersenne primes.
+# #In computing, this number represents the largest value that a signed 32-bit integer field can hold. 
+aa <- 2147483647L
+print(aa)
+```
+
+### f_getPrime() {.unlisted .unnumbered}
+
+```{r '303F-getPrimeUpto', ref.label=c('A09D-getPrimeUpto'), eval=FALSE}
+#
+```
+
+### Benchmark {.unlisted .unnumbered}
+
+```{r '303-Benchmark', eval=FALSE}
+# #Compare any number of functions
+result <- microbenchmark(
+  sum(1:100)/length(1:100), 
+  mean(1:100),
+  #times = 1000,
+  check = 'identical'
+)
+# #Print Table
+print(result)
+##Unit: microseconds
+##                     expr min    lq    mean median     uq    max neval cld
+## sum(1:100)/length(1:100) 1.2 1.301 1.54795 1.5005 1.6005  7.501   100  a 
+##              mean(1:100) 5.9 6.001 6.56989 6.1010 6.2010 28.001   100   b
+#
+# #Boxplot of Benchmarking Result
+#autoplot(result)
+# #Above testcase showed a surprising result of sum()/length() being much faster than mean()
+```
+
+### Sum-Mean {.unlisted .unnumbered}
+
+For #Later - Include `rowsum(), rowSums(), colSums(), rowMeans(), colMeans()` in this also.
+
+```{r '303-SumMean'}
+# #Conclusion: use mean() because precision is difficult to achieve compared to speed
+#
+# #sum()/length() is faster than mean()
+# #However, mean() does double pass, so it would be more accurate
+# #mean.default() and var() compute means with an additional pass and so are more accurate
+# #e.g. the variance of a constant vector is (almost) always zero 
+# #and the mean of such a vector will be equal to the constant value to machine precision.
+aa <- 1:100
+#
+microbenchmark(
+  sum(aa)/length(aa), 
+  mean(aa),
+  mean.default(aa),
+  .Internal(mean(aa)),
+  #times = 1000,
+  check = 'identical'
+)
+# #rnorm() generates random deviates of given length
+set.seed(3)
+aa <- rnorm(1e7)
+str(aa)
+#
+# #NOTE manual calculation and mean() is NOT matching
+identical(sum(aa)/length(aa), mean(aa))
+#
+# #There is a slight difference
+sum(aa)/length(aa) - mean(aa)
+```
+
+### Remove Objects  {.unlisted .unnumbered}
+
+```{r '303-rmPattern', eval=FALSE}
+if(FALSE) {
+  # #Remove all objects matching a pattern
+  rm(list = ls(pattern = "f_"))
+}
+```
+
+### Options Memory {.unlisted .unnumbered}
+
+```{r '303-Memory'}
+# #Check the Current Options Value
+getOption("expressions")
+if(FALSE) {
+  # #Change Value
+  # #NOTE it didn't help when recursive function failed
+  # #Error: node stack overflow
+  # #Error during wrapup: node stack overflow
+  # #Error: no more error handlers available ...
+  options(expressions=10000)
+}
+```
+
+### Vectorize() {.unlisted .unnumbered}
+
+```{r '303-Vectorize', eval=FALSE}
+# #To Vectorise a Function
+f_isPrimeV <- Vectorize(f_isPrime)
+```
+
+### Compiling {.unlisted .unnumbered}
+
+```{r '303-Compile', eval=FALSE}
+# #To Pre-Compile a Function for faster performance
+f_isPrimeC <- cmpfun(f_isPrime)
+```
+
+### Profiling {.unlisted .unnumbered}
+
+```{r '303-Profile', eval=FALSE}
+# #To Profile a Function Calls for improvements
+Rprof("file.out")
+f_isPrime(2147483647L)
+#f_getPrimesUpto(131071L)
+Rprof(NULL)
+summaryRprof("file.out")
+```
+
+### Legacy A {.unlisted .unnumbered}
+
+```{r '303-isPrime-NOT', eval=FALSE}
+# #Functions to check for PRIME - All of them have various problems
+# #"-3L -2L -1L 0L 1L 8L" FALSE "2L 3L ... 524287L 2147483647L" TRUE
+isPrime_a <- function(x) {
+  # #Fails for "2147483647L" Error: cannot allocate vector of size 8.0 Gb
+  if (x == 2L) {
+    return(TRUE)
+  } else if (any(x %% 2:(x-1) == 0)) {
+    return(FALSE)
+  } else return(TRUE)
+}
+
+isPrime_b <- function(x){
+  # #Comparison of Division and Integer Division by 1,2,...,x
+  # #Fails for "2147483647L" Error: cannot allocate vector of size 16.0 Gb
+  # #Fails for "-ve and zero" Error: missing value where TRUE/FALSE needed
+  # vapply(x, function(y) sum(y / 1:y == y %/% 1:y), integer(1L)) == 2L
+  if(sum(x / 1:x == x %/% 1:x) == 2) {
+    return(TRUE) 
+  } else return(FALSE)
+}
+
+isPrime_c <- function(x) {
+  # #RegEx Slowest: Iit converts -ve values and coerce non-integers which may result in bugs
+  x <- abs(as.integer(x))
+  if(x > 8191L) {
+    print("Don't run this with large values. RegEx is really slow.")
+    stop()
+  }
+  !grepl('^1?$|^(11+?)\\1+$', strrep('1', x))
+}
+
+isPrime_d <- function(x) {
+  # #Fails for "1" & returns TRUE
+  # #Fails for "-ve and zero" Error: NA/NaN argument
+  if(x == 2L || all(x %% 2L:max(2, floor(sqrt(x))) != 0)) {
+    return(TRUE)
+  } else return(FALSE)
+}
+
+isPrime_e <- function(x) {
+  # #Fails for "-ve and zero" Error: NA/NaN argument
+  # #This is the most robust which can be improved by conditional check for positive integers
+  # #However, this checks the number against ALL Smaller values including non-primes
+  if(x == 2L || all(x %% 2L:ceiling(sqrt(x)) != 0)) {
+    # # "seq.int(3, ceiling(sqrt(x)), 2)" is slower
+    return(TRUE)
+  } else {
+    ## (any(x %% 2L:ceiling(sqrt(x)) == 0))
+    ## (any(x %% seq.int(3, ceiling(sqrt(x)), 2) == 0))
+    ## NOTE Further, if sequence starts from 3, add 2 also as a Prime Number
+    return(FALSE)
+  }
+}
+```
+
+### Legacy B {.unlisted .unnumbered}
+
+```{r '303-getPrime-NOT', eval=FALSE}
+# #131071 (12,251th), 524287 (43,390th), 2147483647 (105,097,565th)
+aa <- 1:131071
+# #Following works but only till 524287L, Memory Overflow ERROR for 2147483647L
+bb <- aa[f_isPrimeV(aa)]
+
+getPrimeUpto_a <- function(x){
+  # #Extremely Slow, Can't go beyond 8191L in benchmark testing
+  if(x < 2) return("ERROR")
+  y <- 2:x
+  primes <- rep(2L, x)
+  j <- 1L
+  for (i in y) {
+    if (!any(i %% primes == 0)) {
+      j <- j + 1L
+      primes[j] <- i
+	  #cat(paste0("i=", i, ", j=", j, ", Primes= ",paste0(head(primes, j), collapse = ", ")))
+    }
+	#cat("\n")
+  }
+  result <- head(primes, j)
+  #str(result)
+  #cat(paste0("Head: ", paste0(head(result), collapse = ", "), "\n"))
+  #cat(paste0("Tail: ", paste0(tail(result), collapse = ", "), "\n"))
+  return(result)
+}
+
+getPrimeUpto_b <- function(x){
+# #https://stackoverflow.com/questions/3789968/
+  # #This is much faster even from the "aa[f_isPrimeV(aa)]"
+    if(x < 2) return("ERROR")
+    y <- 2:x
+    i <- 1
+    while (y[i] <= sqrt(x)) {
+        y <-  y[y %% y[i] != 0 | y == y[i]]
+        i <- i+1
+    }
+	result <- y
+    #str(result)
+    #cat(paste0("Head: ", paste0(head(result), collapse = ", "), "\n"))
+    #cat(paste0("Tail: ", paste0(tail(result), collapse = ", "), "\n"))
+    return(result)
+}
+
+getPrimeUpto_c <- function(x) {
+  # #Problems and Slow
+  # #Returns a Vetor of Primes till the Number i.e. f_getPrimesUpto(7) = (2, 3, 5, 7)
+  # #NOTE: f_getPrimesUpto(1) and f_getPrimesUpto(2) both return "2"
+  if(!is.integer(x)) {
+    cat("Error! Integer required. \n")
+    stop()
+  } else if(!identical(1L, length(x))) {
+    cat("Error! Unit length vector required. \n")
+    stop()
+  } else if(x <= 0L) {
+    cat("Error! Positive Integer required. \n")
+    stop()
+  } else if(x > 2147483647) {
+    cat(paste0("Doubles are stored as approximation. Prime will not be calculated for value higher than '2147483647' \n"))
+    stop()
+  }
+  
+  # #Can't create vector of length 2147483647L and also not needed that many
+  # #ceiling(sqrt(7L)) return 3, however we need length 4 (2, 3, 5, 7)
+  # #So, added extra 10
+  #primes <- rep(NA_integer_, 10L + sqrt(2L))
+  primes <- rep(2L, 10L + sqrt(2L))
+  j <- 1L
+  primes[j] <- 2L
+  #
+  i <- 2L
+  while(i <= x) {
+    # #na.omit() was the slowest step, so changed all NA to 2L in the primes
+    #k <- na.omit(primes[primes <= ceiling(sqrt(i))])
+    k <- primes[primes <= ceiling(sqrt(i))]
+    if(all(as.logical(i %% k))) {
+      j <- j + 1
+      primes[j] <- i
+    }  
+    # #Increment with INTEGER Addition
+    i = i + 1L
+  }
+  result <- primes[complete.cases(primes)]
+  str(result)
+  cat(paste0("Head: ", paste0(head(result), collapse = ", "), "\n"))
+  cat(paste0("Tail: ", paste0(tail(result), collapse = ", "), "\n"))
+  return(result)
+}
+
+getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
+  # #Using Recursion is NOT a good solution
+  # #Function to return N Primes upto 1000 Primes (7919) or Max Value reaching 10000.
+  if(i > 10000){
+    cat("Reached 10000 \n")
+    return(primes)
+  }
+  if(bypass) {
+    maxN <- 1000L
+    if(!is.integer(n)) {
+      cat("Error! Integer required. \n")
+      stop()
+    } else if(!identical(1L, length(n))) {
+      cat("Error! Unit length vector required. \n")
+      stop()
+    } else if(n <= 0L) {
+      cat("Error! Positive Integer required. \n")
+      stop()
+    } else if(n > maxN) {
+      cat(paste0("Error! This will calculate only upto ", maxN, " prime Numebers. \n"))
+      stop()
+    }
+  }
+  if(length(primes) < n) {
+    if(all(as.logical(i %% primes[primes <= ceiling(sqrt(i))]))) {
+      # #Coercing 0 to FALSE, Non-zero Values to TRUE
+      # # "i %% 2L:ceiling(sqrt(i))" checks i agains all integers till sqrt(i)
+      # # "primes[primes <= ceiling(sqrt(i))]" checks i against only the primes till sqrt(i)
+      # #However, the above needs hardcoded 2L as prime so the vector is never empty
+      # #Current Number is Prime, so include it in the vector and check the successive one
+      f_getPrime(n, i = i+1, primes = c(primes, i), bypass = FALSE)
+    } else {
+      # #Current Number is NOT Prime, so check the successive one
+      f_getPrime(n, i = i+1, primes = primes, bypass = FALSE)
+    }
+  } else {
+    # #Return the vector when it reaches the count
+    return(primes)
+  }
+}
+```
+
+## Mesures of Location
+
+### Mean {#Mean .tabset .tabset-fade}
+
+```{definition 'Mean'}
+Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean $\overline{x}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count $n$.
+```
+
+- Refer equation \@ref(eq:mean)
+  - Sample mean is denoted by \textcolor{pink}{$\overline{x}$} (x bar) and Population mean is denoted by \textcolor{pink}{$\mu$}. 
+  - Mean is the most commonly used measure of central location, even though it is influenced by extreme values.
+
+\begin{equation} 
+  \bar{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}
+  (\#eq:mean)
+\end{equation} 
+
+In the mean calculation, normally each $x_i$ is given equal importance or weightage of $1/n$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
+
+\begin{equation} 
+  \bar{x} = \frac{\sum_{i=1}^n{w_ix_i}}{\sum_{i=1}^n{w_i}}
+  (\#eq:mean-weighted)
+\end{equation} 
+
+\textcolor{orange}{Caution:} Unit of mean is same as unit of the variable e.g. cost_per_kg thus 'w' would be 'kg'.
+
+#### Mean {.unlisted .unnumbered}
+
+```{r '303-Mean'}
+aa <- 1:10
+# #Mean of First 10 Numbers
+mean(aa)
+```
+
+#### More {.unlisted .unnumbered}
+
+```{r '303-MeanMore'}
+aa <- 1:10
+# #Mean of First 10 Numbers
+ii <- mean(aa)
+print(ii)
+jj <- sum(aa)/length(aa)
+stopifnot(identical(ii, jj))
+#
+# #Mean of First 10 Prime Numbers (is neither Prime nor Integer)
+mean(f_getRDS(xxPrimes)[1:10])
+#
+# #Mean of First 100 Digits of PI
+f_getRDS(xxPI)[1:100, ] %>% pull(VAL) %>% mean()
+```
+
+#### Weighted Mean {.unlisted .unnumbered}
+
+```{r '303-WeightedMean'}
+aa <- tibble(Purchase = 1:5, cost_per_kg = c(3, 3.4, 2.8, 2.9, 3.25), 
+             kg = c(1200, 500, 2750, 1000, 800))
+# #NOTE that unit of mean is same as unit of the variable e.g. cost_per_kg thus 'w' would be 'kg'
+(ii <- sum(aa$cost_per_kg * aa$kg)/sum(aa$kg))
+jj <- with(aa, sum(cost_per_kg * kg)/sum(kg))
+kk <- weighted.mean(x = aa$cost_per_kg, w = aa$kg)
+stopifnot(all(identical(ii, jj), identical(ii, kk)))
+```
+
+### Median {#Median .tabset .tabset-fade}
+
+```{definition 'Median'}
+\textcolor{pink}{Median} of a population is any value such that at most half of the population is less than the proposed median and at most half is greater than the proposed median.  
+```
+
+- Refer equation \@ref(eq:median)
+  - The median is the value in the middle when the data is sorted
+  - For an odd number of observations, the median is the middle value.
+  - For an even number of observations, the median is the average of the two middle values.
+  - Although the mean is the more commonly used measure of central location, whenever a data set contains extreme values, the median is preferred.
+  - The median is well-defined for any ordered data, and is independent of any distance metric. 
+    - The median can thus be applied to classes which are ranked but not numerical (ordinal), although the result might be halfway between classes if there is an even number of cases. 
+
+\begin{equation} 
+  \begin{align} 
+    \text{if n is odd, } median(x) & = x_{(n+1)/2} \\
+    \text{if n is even, } median(x) & = \frac{x_{(n/2)}+x_{(n/2)+1}}{2}
+  \end{align}
+  (\#eq:median)
+\end{equation} 
+
+#### Median {.unlisted .unnumbered}
+
+```{r '303-Median'}
+aa <- 1:10 
+# #Median of First 10 Numbers
+median(aa)
+```
+
+#### More {.unlisted .unnumbered}
+
+```{r '303-MedianMore'}
+aa <- 1:10 
+# #Median of First 10 Numbers
+median(aa)
+#
+# #Median of First 10 Prime Numbers (is NOT prime)
+median(f_getRDS(xxPrimes)[1:10])
+#
+# #Median of First 100 Digits of PI
+f_getRDS(xxPI)[1:100, ] %>% pull(VAL) %>% median()
+```
+
+### Geometric Mean {.tabset .tabset-fade}
+
+```{definition 'Geometric-Mean'}
+The \textcolor{pink}{geometric mean $\overline{x}_g$} is a measure of location that is calculated by finding the n^{th} root of the product of $n$ values. 
+```
+
+- Refer equation \@ref(eq:geometric-mean)
+  - The geometric mean applies only to positive numbers
+  - The geometric mean is often used for a set of numbers whose values are meant to be multiplied together or are exponential in nature
+  - For all positive data sets containing at least one pair of unequal values, the harmonic mean is always the least of the three means, while the arithmetic mean is always the greatest of the three and the geometric mean is always in between.
+
+\begin{equation} 
+  \overline{x}_g = \left(\prod _{i=1}^{n} x_i\right)^{\frac{1}{n}} = \sqrt[{n}]{x_1 x_2 \ldots x_n}
+  (\#eq:geometric-mean)
+\end{equation} 
+
+#### Geometric Mean {.unlisted .unnumbered }
+
+```{r '303-GeometricMean'}
+aa <- 1:10
+# #Geometric Mean of of First 10 Numbers
+exp(mean(log(aa)))
+```
+
+#### More {.unlisted .unnumbered }
+
+```{r '303-GMmore'}
+aa <- 1:10
+# #Geometric Mean of of First 10 Numbers
+ii <- exp(mean(log(aa)))
+jj <- prod(aa)^(1/length(aa))
+stopifnot(identical(ii, jj))
+#
+# #Geometric Mean of First 10 Prime Numbers 
+exp(mean(log(f_getRDS(xxPrimes)[1:10])))
+```
+
+### Mode {#Mode .tabset .tabset-fade}
+
+```{definition 'Mode'}
+The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
+```
+
+- The median makes sense when there is a linear order on the possible values. Unlike median, the concept of mode makes sense for any random variable assuming values from a vector space.
+
+
+#### Mode {.unlisted .unnumbered }
+
+```{r '303-ModeMore'}
+# #Mode of First 100 Digits of PI
+bb <- f_getRDS(xxPI)[1:100, ] %>% pull(VAL)
+f_getMode(bb)
+```
+
+#### More {.unlisted .unnumbered }
+
+```{r '303-ModeMore'}
+# #Mode of First 100 Digits of PI
+bb <- f_getRDS(xxPI)[1:100, ]
+#
+# #Get Frequency
+bb %>% count(VAL)
+#
+# #Get Mode
+bb %>% pull(VAL) %>% f_getMode()
+```
+
+#### f_getMode() {.unlisted .unnumbered }
+
+```{r '303F-getMode', ref.label=c('A10A-getMode')}
+#
+```
+
+### Percentiles {#Percentiles .tabset .tabset-fade}
+
+```{definition 'Percentile'}
+A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing $n$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
+```
+
+- Refer equation \@ref(eq:percentiles)
+  - Percentile is the value which divides the data into two groups when it is sorted
+  - \textcolor{pink}{Quartiles} are specific percentiles of 25%, 50% and 75%
+  - \textcolor{pink}{Median} is 50% percentile
+  - \textcolor{orange}{Caution:} Excel "PERCENTILE.EXC" calculations match with `type =6` option of `quantile()`, default is `type =7`
+  
+\begin{equation} 
+  L_p = \frac{p}{100}(n+1)
+  (\#eq:percentiles)
+\end{equation}
+
+#### Percentils {.unlisted .unnumbered}
+
+```{r '303-Percentile'}
+# #First 100 Digits of PI
+bb <- f_getRDS(xxPI)[1:100, ]
+#
+# #50% Percentile of Digits i.e. Median
+quantile(bb$VAL, 0.5)
+```
+
+#### More {.unlisted .unnumbered}
+
+```{r '303-PercentileMore'}
+# #First 100 Digits of PI
+bb <- f_getRDS(xxPI)[1:100, ]
+#
+# #50% Percentile of Digits i.e. Median
+ii <- quantile(bb$VAL, 0.5)
+print(ii)
+jj <- median(bb$VAL)
+stopifnot(identical(ii, jj))
+# 
+# #All Quartiles
+quantile(bb$VAL, seq(0, 1, 0.25))
+# #summary()
+summary(bb$VAL)
+#
+# #To Match with Excel "PERCENTILE.EXC" use type=6 in place of default type=7
+quantile(bb$VAL, seq(0, 1, 0.25), type = 6)
+```
+
+
+## Measures of Variability
+
+
+
+### Standard Deviation {.tabset .tabset-fade}
+Similarly, Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{$\sigma$}.
+
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '303-Cleanup', include=FALSE, cache=FALSE}
-#f_rmExist(aa, bb)
+f_rmExist(aa, ii, jj, kk, tbl, xxPI)
 ```
 
 ```{r '303-Validation', include=TRUE, cache=FALSE}

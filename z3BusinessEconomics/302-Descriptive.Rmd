@@ -31,7 +31,7 @@ Rather than showing the frequency of each class, the \textcolor{pink}{cumulative
   
 ### Bar & Pie  {.unlisted .unnumbered}
 
-```{r '302CI-Drinks', include=FALSE}
+```{r '302-I-Drinks', include=FALSE}
 # #Frequency Distribution
 aa <- tibble(softdrink = c("Coca-Cola", "Diet Coke", "Dr. Pepper", "Pepsi", "Sprite"), 
              Frequency = c(19, 8, 5, 13, 5))
@@ -45,7 +45,7 @@ bb <- aa %>%
   mutate(cPCT = paste0(100 * cumsum(Frequency) / sum(Frequency), "%"))
 ```
 
-```{r '302DI-Drinks', echo=FALSE}
+```{r '302-I-DrinksKBL', echo=FALSE}
 kbl(bb,
   caption = 'Frequency Distribution',
   escape = FALSE, align = "c", booktabs = TRUE
@@ -61,7 +61,7 @@ kbl(bb,
 	)
 ```
 
-```{r '302IA-Bar', include=FALSE}
+```{r '302-I-Bar', include=FALSE}
 # #Sorted Bar Chart of Frequencies (Needs x-axis as Factor for proper sorting)
 g302_01 <- bb %>% mutate(across(softdrink, factor, levels = rev(unique(softdrink)))) %>% {
   ggplot(data = ., aes(x = softdrink, y = Frequency)) +
@@ -75,7 +75,7 @@ g302_01 <- bb %>% mutate(across(softdrink, factor, levels = rev(unique(softdrink
 }
 ```
 
-```{r '302IB-Save', include=FALSE}
+```{r '302-I-SaveBar', include=FALSE}
 ggsave(paste0(.z$PX, "g302_drinks_01_Bar", ".png"), plot = g302_01)
 ```
 
@@ -83,7 +83,7 @@ ggsave(paste0(.z$PX, "g302_drinks_01_Bar", ".png"), plot = g302_01)
 knitr::include_graphics(paste0(.z$PX, "g302_drinks_01_Bar", ".png"))
 ```
 
-```{r '302IC-Pie', include=FALSE}
+```{r '302-I-Pie', include=FALSE}
 # #Pie Chart of Frequencies (Needs x-axis as Factor for proper sorting)
 g302_02 <- bb %>% mutate(across(softdrink, factor, levels = unique(softdrink))) %>% {
   ggplot(data = ., aes(x = '', y = Frequency, fill = rev(softdrink))) +
@@ -97,7 +97,7 @@ g302_02 <- bb %>% mutate(across(softdrink, factor, levels = unique(softdrink))) 
 }
 ```
 
-```{r '302ID-Save', include=FALSE}
+```{r '302-I-SavePie', include=FALSE}
 ggsave(paste0(.z$PX, "g302_drinks_02_Pie", ".png"), plot = g302_02)
 ```
 
@@ -111,19 +111,19 @@ knitr::include_graphics(paste0(.z$PX, "g302_drinks_02_Pie", ".png"))
 
 ### Data {.unlisted .unnumbered}
 
-```{r '302CI-Drinks-A', eval=FALSE, ref.label=c('302CI-Drinks')}
+```{r '302-I-Drinks-A', eval=FALSE, ref.label=c('302-I-Drinks')}
 # #
 ```
 
 ### Bar {.unlisted .unnumbered}
 
-```{r '302IA-Bar-A', ref.label=c('302IA-Bar'), eval=FALSE}
+```{r '302-I-Bar-A', ref.label=c('302-I-Bar'), eval=FALSE}
 # #
 ```
 
 ### Pie {.unlisted .unnumbered}
 
-```{r '302IC-Pie-A', ref.label=c('302IC-Pie'), eval=FALSE}
+```{r '302-I-Pie-A', ref.label=c('302-I-Pie'), eval=FALSE}
 # #
 ```
 
@@ -172,13 +172,13 @@ The three steps necessary to define the classes for a frequency distribution wit
 
 ### Histogram  {.unlisted .unnumbered}
 
-```{r '302CK-NormalRandom'}
+```{r '302-K-NormalRandom'}
 set.seed(3)
 # #Get Normal Data
 bb <- tibble(aa = rnorm(n = 10000)) 
 ```
 
-```{r '302KA-Histogram', cache=FALSE}
+```{r '302-K-Histogram', cache=FALSE}
 # #Histogram
 # # '..count..' or '..x..'
 g302_04 <- bb %>% {
@@ -190,7 +190,7 @@ g302_04 <- bb %>% {
 }
 ```
 
-```{r '302KB-Save', include=FALSE, cache=FALSE}
+```{r '302-K-Save', include=FALSE, cache=FALSE}
 ggsave(paste0(.z$PX, "g302_normal_01_Histogram", ".png"), plot = g302_04)
 ```
 
@@ -200,14 +200,14 @@ knitr::include_graphics(paste0(.z$PX, "g302_normal_01_Histogram", ".png"))
 
 ### Dot Plot  {.unlisted .unnumbered}
 
-```{r '302CJ-Random'}
+```{r '302-J-Random'}
 # #Random Data
 aa <- c(26, 35, 22, 47, 37, 5, 50, 49, 42, 2, 8, 7, 4, 47, 44, 35, 17, 49, 1, 48, 
         1, 27, 13, 26, 18, 44, 31, 4, 23, 47, 38, 28, 28, 5, 35, 39, 29, 13, 17, 
         38, 1, 8, 3, 30, 18, 37, 29, 39, 7, 28)
 ```
 
-```{r '302JA-Dot'}
+```{r '302-J-Dot'}
 bb <- tibble(aa)
 # #Dot Chart of Frequencies
 g302_03 <- bb %>% {
@@ -219,7 +219,7 @@ g302_03 <- bb %>% {
 }
 ```
 
-```{r '302JB-Save', include=FALSE}
+```{r '302-J-Save', include=FALSE}
 ggsave(paste0(.z$PX, "g302_random_01_Dot", ".png"), plot = g302_03)
 ```
 
@@ -229,7 +229,7 @@ knitr::include_graphics(paste0(.z$PX, "g302_random_01_Dot", ".png"))
 
 ### Get Frequency  {.unlisted .unnumbered}
 
-```{r '302JC-Frequency', include=FALSE}
+```{r '302-J-Frequency', include=FALSE}
 #set.seed(3)
 #aa <- paste0(sample(1:50, size = 50, replace = TRUE), collapse = ", ")
 aa <- c(26, 35, 22, 47, 37, 5, 50, 49, 42, 2, 8, 7, 4, 47, 44, 35, 17, 49, 1, 48, 
@@ -274,7 +274,7 @@ A \textcolor{pink}{crosstabulation} is a tabular summary of data for two variabl
 
 - Simpson's Paradox
   - The reversal of conclusions based on aggregate and unaggregated data is called Simpson’s paradox.
-  - Ex: Table \@ref(tab:302DK-Judges) shows the count of judgements that were 'upheld' or 'reversed' on appeal for two judges 
+  - Ex: Table \@ref(tab:302-K-JudgesTBL) shows the count of judgements that were 'upheld' or 'reversed' on appeal for two judges 
     - 86% of the verdicts were upheld for Judge Luckett, while 88% of the verdicts were upheld for Judge Kendall. From this aggregated crosstabulation, we conclude that Judge Kendall is doing the better job because a greater percentage of his verdicts are being upheld.
     - However, unaggregated crosstabulations show that in both types of courts (Common, Municipal) Judge Luckett has higher percentage of 'Upheld' Verdicts (90.6% and 84.7%) - compared to Judge Kendall (90% and 80%)
     - Thus, Luckett has a better record because a greater percentage of his verdicts are being upheld in both courts. 
@@ -284,7 +284,7 @@ A \textcolor{pink}{crosstabulation} is a tabular summary of data for two variabl
     - Because Judge Luckett tried a much higher percentage of his cases in 'Municipal', the aggregated data favored Judge Kendall i.e. 118/150 for Luckett vs. 25/125 for Kendall.
     - Thus, for the original crosstabulation, we see that the 'type of court' is a \textcolor{pink}{hidden variable} that cannot be ignored when evaluating the records of the two judges.
   
-```{r '302CK-Judges', include=FALSE}
+```{r '302-K-Judges', include=FALSE}
 # #Judges: Because we are evaluating 'Judges', they are the 'elements' and thus are the 'rows'
 xxJudges <- tibble(Judge_Verdict = c('Luckett', 'Kendall'), Upheld = c(129, 110), Reversed = c(21, 15))
 # #Uaggregated crosstab for both Judges in different types of Courts
@@ -294,7 +294,7 @@ xxLuckett <- tibble(Luckett = c("Common", "Municipal "),
                     Upheld = c(29, 100), Reversed = c(3, 18))
 ```
 
-```{r '302DK-Judges', echo=FALSE}
+```{r '302-K-JudgesTBL', echo=FALSE}
 aa <- xxJudges
 bb <- aa %>% 
   bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
@@ -380,12 +380,12 @@ knitr::kables(list(kk_both, kk_Luckett, kk_Kendall))
 ```
 
 ### Judges {.unlisted .unnumbered}
-```{r '302CK-Judges-A', ref.label=c('302CK-Judges'), eval=FALSE}
+```{r '302-K-Judges-A', ref.label=c('302-K-Judges'), eval=FALSE}
 #
 ```
 
 ### Transpose {.unlisted .unnumbered}
-```{r '302KA-Transpose'}
+```{r '302-K-Transpose'}
 # #Judges
 aa <- tibble(Judge_Verdict = c('Luckett', 'Kendall'), Upheld = c(129, 110), Reversed = c(21, 15))
 bb <- tibble(Verdict_Judge = c('Upheld', 'Reversed'), Luckett = c(129, 21), Kendall = c(110, 15))
@@ -415,7 +415,7 @@ stopifnot(identical(aa, ii))
 
 ### String Split {.unlisted .unnumbered}
 
-```{r '302KB-StringSplit'}
+```{r '302-K-StringSplit'}
 bb <- "Judge_Verdict"
 # #Split String by strsplit(), output is list
 (ii <- unlist(strsplit(bb, "_")))
@@ -433,7 +433,7 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
 
 ### Attributes {.unlisted .unnumbered}
 
-```{r '302KC-Attributes'}
+```{r '302-K-Attributes'}
 jj <- ii <- bb <- aa
 # #attr() adds or removes an attribute
 attr(bb, "NewOne") <- "abc"
@@ -458,14 +458,14 @@ stopifnot(all(identical(bb, ii), identical(bb, jj)))
 ```
 
 ### Total Row {.unlisted .unnumbered}
-```{r '302KD-RowTotal'}
+```{r '302-K-RowTotal'}
 # #Note: bind_rows() needs two dataframes. Thus, first can be skipped in Pipe
 # #However, second dataframe can't be replaced with dot (.), it has to have a name
 aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum)))
 ```
 
 ### Replace NA {.unlisted .unnumbered}
-```{r '302KE-ReplaceNA'}
+```{r '302-K-ReplaceNA'}
 # # USE '%in%' for NA, otherwise '==' works
 aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
 	mutate(across(1, ~ replace(., . %in% NA, "Total"))) 
@@ -477,14 +477,14 @@ aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
 ```
 
 ### To Factor {.unlisted .unnumbered}
-```{r '302KG-ToFactor'}
+```{r '302-K-ToFactor'}
 #	#Convert to Factor
 aa %>% mutate(Judge_Verdict = factor(Judge_Verdict))
 ```
 
 ### Clipboard  {.unlisted .unnumbered}
 
-```{r '302KF-Clipboard', eval=FALSE}
+```{r '302-K-Clipboard', eval=FALSE}
 # #Paste but do not execute
 aa <- read_delim(clipboard())
 # #Copy Excel Data, then execute the above command
@@ -502,7 +502,7 @@ bb <- tibble(  )
 
 #### Data {.unlisted .unnumbered}
 
-```{r '302CL-Ex27'}
+```{r '302-L-Ex27'}
 ex27 <- tibble(Observation = 1:30, 
              x = c("A", "B", "B", "C", "B", "C", "B", "C", "A", "B", "A", "B", "C", "C", "C", 
                    "B", "C", "B", "C", "B", "C", "B", "C", "A", "B", "C", "C", "A", "B", "B"), 
@@ -511,7 +511,7 @@ ex27 <- tibble(Observation = 1:30,
 ```
 
 #### CrossTab {.unlisted .unnumbered}
-```{r '302LA-CrossTab'}
+```{r '302-L-CrossTab'}
 bb <- ex27
 str(bb)
 # #Create CrossTab
@@ -522,7 +522,7 @@ bb <- bb %>%
 
 #### PCT {.unlisted .unnumbered}
 
-```{r '302LB-PCT'}
+```{r '302-L-PCT'}
 bb
 # #Rowwise Percentage in Separate New Columns
 bb %>% 
@@ -551,7 +551,7 @@ bb %>%
 
 #### Data {.unlisted .unnumbered}
 
-```{r '302CM-Ex28'}
+```{r '302-M-Ex28'}
 ex28 <- tibble(Observation = 1:20, 
         x = c(28, 17, 52, 79, 37, 71, 37, 27, 64, 53, 13, 84, 59, 17, 70, 47, 35, 62, 30, 43), 
         y = c(72, 99, 58, 34, 60, 22, 77, 85, 45, 47, 98, 21, 32, 81, 34, 64, 68, 67, 39, 28))
@@ -559,7 +559,7 @@ ex28 <- tibble(Observation = 1:20,
 
 #### CrossTab {.unlisted .unnumbered}
 
-```{r '302MA-CrossTab'}
+```{r '302-M-CrossTab'}
 bb <- ex28
 # #Rounding to the lowest 10s before min and to the highest 10s after max
 nn <- 10L	
@@ -587,7 +587,7 @@ print(jj)
 
 #### Cut {.unlisted .unnumbered}
 
-```{r '302MB-Cut'}
+```{r '302-M-Cut'}
 # #Group Continuous Data to Categorical Bins by base::cut()
 bb <- ex28
 #
@@ -634,13 +634,14 @@ bb %>% mutate(x_bins = cut(x, breaks = n_breaks, include.lowest = TRUE, labels =
 - Side by Side and Stacked Bar Charts
 
 ### Data {.unlisted .unnumbered}
-```{r '302CN-T214'}
+
+```{r '302-N-T214'}
 be0214 <- tibble(Week = 1:10, 
                  Commercials = c(2, 5, 1, 3, 4, 1, 5, 3, 4, 2), 
                  Sales = c(50, 57, 41, 54, 54, 38, 63, 48, 59, 46))
 ```
 
-```{r '302NA-Trendline', include=FALSE}
+```{r '302-N-Trendline', include=FALSE}
 bb <- be0214 
 
 # #Define the formula for Trendline calculation
@@ -659,7 +660,7 @@ g302_05 <- bb %>% {
 }
 ```
 
-```{r '302NB-Save', include=FALSE}
+```{r '302-N-Save', include=FALSE}
 ggsave(paste0(.z$PX, "g302_trendline_01", ".png"), plot = g302_05)
 ```
 
@@ -668,7 +669,7 @@ knitr::include_graphics(paste0(.z$PX, "g302_trendline_01", ".png"))
 ```
 
 ### Trendline {.unlisted .unnumbered}
-```{r '302NA-Trendline-A', ref.label=c('302NA-Trendline'), eval=FALSE}
+```{r '302-N-Trendline-A', ref.label=c('302-N-Trendline'), eval=FALSE}
 #
 ```
 

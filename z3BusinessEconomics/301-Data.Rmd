@@ -156,7 +156,9 @@ A \textcolor{pink}{population} is the set of all elements of interest in a parti
 A \textcolor{pink}{sample} is a subset of the population. 
 ```
 
-> The measurable quality /characteristic is called a "Parameter" for Population and "Statistic" for Sample.
+```{definition 'Parameter-vs-Statistic'}
+The measurable quality or characteristic is called a \textcolor{pink}{Population Parameter} if it is computed from the population. It is called a \textcolor{pink}{Sample Statistic} if it is computed from a sample.
+```
 
 ## Difference between a population and a sample {#PopulationSample}
 
@@ -228,7 +230,7 @@ Linear regression, time series analysis, and forecasting models fall into the ca
 Prescriptive analytics differs greatly from descriptive or predictive analytics. What distinguishes prescriptive analytics is that prescriptive models yield a best course of action to take. That is, the output of a prescriptive model is a best decision. 
 
 ```{definition 'Prescriptive-Analytics'}
-\textcolor{pink}{prescriptive analytics} is the set of analytical techniques that yield a best course of action. 
+\textcolor{pink}{Prescriptive analytics} is the set of analytical techniques that yield a best course of action. 
 ```
 
 Optimization models, which generate solutions that maximize or minimize some objective subject to a set of constraints, fall into the category of prescriptive models. 
@@ -250,23 +252,23 @@ Data mining relies heavily on statistical methodology such as multiple regressio
 
 ## Exercises
 
-- Table: \@ref(tab:301DI-xxComputers) 
-- Table: \@ref(tab:301DJ-xxCordless)  
-- Table: \@ref(tab:301DK-CarsMultiple)  
-  - Who appears to be the market share leader and how the market shares are changing over time?
+- Table: \@ref(tab:301-I-xxComputers) 
+- Table: \@ref(tab:301-J-xxCordless)  
+- Table: \@ref(tab:301-K-CarsMultiple)  
+  - Who appears to be the market share leader and how the market shares are changing over time
     - \textcolor{orange}{Caution:} Trend Analysis should be done by linear regression with `cor(), lm()` etc.
 
 ### R {.unlisted .unnumbered .tabset .tabset-fade}
 
 #### Load Data {.unlisted .unnumbered}
 
-```{r '301B-Load'}
+```{r '301-Load'}
 xxComputers <- f_getObject("xxComputers", "BE01-Computers.csv", "971fb6096e4f71e8185d3327a9033a10")
 xxCordless <- f_getObject("xxCordless", "BE01-Cordless.csv", "9991f612fe44f1c890440bd238084679")
 ```
 
 #### f_getObject() {.unlisted .unnumbered}
-```{r '301F-f_getObject', ref.label=c('A07-getObject'), eval=FALSE}
+```{r '301F-getObject', ref.label=c('A07-getObject'), eval=FALSE}
 # #
 ```
 
@@ -292,19 +294,19 @@ kbl(bb,
 
 #### Transpose Tibble {.unlisted .unnumbered}
 
-```{r '301CL-Assignment'}
+```{r '301-L-Assignment'}
 bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
               `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
               `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
 ```
 
-```{r '301LA-Long'}
+```{r '301-L-Long'}
 # #Transpose Tibble: Note that the First Column Header is lost after Transpose
 # #Longer
 bb %>% pivot_longer(!Company, names_to = "Year", values_to = "Values")
 ```
 
-```{r '301LB-Transpose'}
+```{r '301-L-Transpose'}
 # #Transpose
 (ii <- bb %>% 
   pivot_longer(!Company, names_to = "Year", values_to = "Values") %>% 
@@ -318,11 +320,11 @@ stopifnot(identical(ii,
 
 ### Computers {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '301CI-Assignment', include=FALSE}
+```{r '301-I-Assignment', include=FALSE}
 bb <- xxComputers
 ```
 
-```{r '301DI-xxComputers', echo=FALSE}
+```{r '301-I-xxComputers', echo=FALSE}
 bb <- xxComputers
 # #Kable Table
 kbl(bb,
@@ -341,8 +343,8 @@ kbl(bb,
 ```
 
 #### Mean {.unlisted .unnumbered}
-```{r '301IA-Mean'}
-# #What is the average cost for the tablets? #$582.90
+```{r '301-I-Mean'}
+# #What is the average cost for the tablets #$582.90
 cat(paste0("Avg. Cost for the tablets is = $", round(mean(bb$cost), digits = 1), "\n"))
 #
 # #Compare the average cost of tablets with different OS (Windows /Android) #$723.20 $428.5
@@ -357,8 +359,8 @@ cat(paste0("Avg. Cost of Tablets with Windows OS is = ",
 ```
 
 #### Percentage {.unlisted .unnumbered}
-```{r '301IB-Percentage'}
-# #What percentage of tablets use an Android operating system? #40%
+```{r '301-I-Percentage'}
+# #What percentage of tablets use an Android operating system #40%
 (ii <- bb %>%
   group_by(os) %>%
   summarise(PCT = n()) %>%
@@ -372,11 +374,11 @@ cat(paste0("Android OS is used in ",
 
 ### Cordless {.unlisted .unnumbered .tabset .tabset-fade} 
 
-```{r '301CJ-Assignment', include=FALSE}
+```{r '301-J-Assignment', include=FALSE}
 bb <- xxCordless
 ```
 
-```{r '301DJ-xxCordless', echo=FALSE}
+```{r '301-J-xxCordless', echo=FALSE}
 bb <- xxCordless
 # #Kable Table
 kbl(bb,
@@ -395,17 +397,17 @@ kbl(bb,
 ```
 
 #### Mean {.unlisted .unnumbered}
-```{r '301JA-Mean'}
-# #What is the average price for the cordless telephones? 
+```{r '301-J-Mean'}
+# #What is the average price for the cordless telephones 
 cat(paste0("Avg. Price is = $", round(mean(bb$price), digits = 1), "\n"))
 #
-# #What is the average talk time for the cordless telephones?
+# #What is the average talk time for the cordless telephones
 cat(paste0("Avg. Talk Time is = ", round(mean(bb$talk_time_hh), digits = 1), " Hours \n"))
 ```
 
 #### Percentage {.unlisted .unnumbered}
-```{r '301JB-Percentage'}
-# #What percentage of the cordless telephones have a voice quality of excellent? 
+```{r '301-J-Percentage'}
+# #What percentage of the cordless telephones have a voice quality of excellent 
 (hh <- bb %>%
   group_by(voice_quality) %>%
   summarise(PCT = n()) %>%
@@ -426,8 +428,8 @@ print(bb %>%
 ```
 
 #### PCT 2 {.unlisted .unnumbered}
-```{r '301JC-Percentage'}
-# #What percentage of the cordless telephones have a handset on the base? 
+```{r '301-J-PercentageMore'}
+# #What percentage of the cordless telephones have a handset on the base 
 bb %>%
   group_by(handset_on_base) %>%
   summarise(PCT = n()) %>%
@@ -439,7 +441,7 @@ bb %>%
 
 ### Cars {.unlisted .unnumbered .tabset .tabset-fade} 
 
-```{r '301CK-Assignment', include=FALSE}
+```{r '301-K-Assignment', include=FALSE}
 bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
               `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
               `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
@@ -454,7 +456,7 @@ ii <- bb %>%
 
 #### Transform {.unlisted .unnumbered}
 
-```{r '301DK-CarsMultiple', echo=FALSE}
+```{r '301-K-CarsMultiple', echo=FALSE}
 kk_bb <- kbl(bb,
   caption = 'Cars in Service (1000s)',
   escape = FALSE, align = "c", booktabs = TRUE
@@ -503,19 +505,19 @@ kk_ii <- kbl(ii,
 knitr::kables(list(kk_bb, kk_ii))
 ```
 
-```{r '301KA-Transform', ref.label=c('301CK-Assignment'), eval=FALSE}
+```{r '301-K-Transform', ref.label=c('301-K-Assignment'), eval=FALSE}
 # #
 ```
 
 #### TimeSeries {.unlisted .unnumbered}
-```{r '301KD-TimeSeries', include=FALSE}
+```{r '301-K-TimeSeries', include=FALSE}
 # #Time series graph for all companies on the same graph
 g301_01 <- ggplot(data = hh, 
                      aes(x = Year, y = Values, colour = Company, group = Company)) + 
   geom_line()
 ```
 
-```{r '301KE-Save', include=TRUE}
+```{r '301-K-SaveTimeSeries', include=TRUE}
 # #Save
 ggsave(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"), plot = g301_01)
 ```
@@ -526,9 +528,9 @@ knitr::include_graphics(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"))
 ```
 
 #### Rowwise {.unlisted .unnumbered}
-```{r '301KF-Rowwise'}
-# #who appears to be the market share leader?
-# #how the market shares are changing over time?
+```{r '301-K-Rowwise'}
+# #who appears to be the market share leader
+# #how the market shares are changing over time
 print(ii)
 # #Row Total
 jj <- ii %>% rowwise() %>% mutate(SUM = sum(c_across(where(is.numeric)))) %>% ungroup()
@@ -545,7 +547,7 @@ ii %>%
 ```
 
 #### Pareto {.unlisted .unnumbered}
-```{r '301KG-Pareto', include=FALSE}
+```{r '301-K-Pareto', include=FALSE}
 # #Bar Plot
 aa <- bb %>% 
   select(Company, `2010`) %>% 
@@ -574,11 +576,11 @@ g301_02 <- pareto.chart(pareto_chr,
 )
 ```
 
-```{r '301KG-Pareto-A', ref.label=c('301KG-Pareto'), eval=FALSE}
+```{r '301-K-Pareto-A', ref.label=c('301-K-Pareto'), eval=FALSE}
 # #Display Code without showing the associated Graph
 ```
 
-```{r '301KH-Save', include=FALSE}
+```{r '301-K-SavePareto', include=FALSE}
 # #Save
 png(filename = paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
 plot(g301_02)
