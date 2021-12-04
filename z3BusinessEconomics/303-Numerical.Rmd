@@ -1,4 +1,4 @@
-# Numerical Measures (BE03) {#BE03}
+# Numerical Measures (BE03) {#be03}
 
 ```{r '303A', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -9,7 +9,13 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 
 ## Overview
 
-- This chapter covers ...
+- This chapter covers 
+  - Side Topic: [Number Theory](#numbers-be03 "be03"), [Primes](#primes-be03 "be03"), [Benchmark](#benchmark-be03 "be03"), Vectorising & Compiling & Profiling Functions,
+  - Measures of Location: [Mean](mean-be03 "be03"), Weighted Mean, [Median](#median-be03 "be03"), Geometric Mean, [Mode](#mode-be03 "be03"), [Percentiles](#percentiles-be03 "be03"), Quantiles
+  - Measures of Variability: Range, IQR, [Variance](#variance-be03 "be03"), [Standard Deviation](#sd-be03 "be03")
+  - Relative Location: [z-scores](#z-scores-be03 "be03"), Chebyshev Theorem, Empirical Rule
+  - Two Variables: [Covariance](#covariance-be03 "be03"), [Correlation Coefficient](#correlation-be03 "be03")
+  - Graphs: [BoxPlot](#boxplot-be03 "be03"), [Scatterplot](#covariance-be03 "be03")
 
 ## Definitions
 
@@ -17,7 +23,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 f_getDef("Parameter-vs-Statistic")
 ```
 
-## Number Theory {#Numbers .tabset .tabset-fade}
+## Number Theory {#numbers-be03 .tabset .tabset-fade}
 
 ```{definition 'Number'}
 A \textcolor{pink}{number} is a mathematical object used to count, measure, and label. Their study or usage is called \textcolor{pink}{arithmetic}, a term which may also refer to \textcolor{pink}{number theory}, the study of the properties of numbers. 
@@ -115,7 +121,7 @@ A \textcolor{pink}{prime number} is a natural number greater than 1 that is not 
 An integer $\mathbb{Z}$ is \textcolor{pink}{positive} if it is greater than zero, and \textcolor{pink}{negative} if it is less than zero. Zero is defined as neither negative nor positive. 
 ```
 
-## Primes {#Primes .tabset .tabset-fade}
+## Primes {#primes-be03 .tabset .tabset-fade}
 
 ### Empty Vector {.unlisted .unnumbered}
 
@@ -189,7 +195,7 @@ print(aa)
 #
 ```
 
-### Benchmark {.unlisted .unnumbered}
+### Benchmark {#benchmark-be03 .unlisted .unnumbered}
 
 ```{r '303-Benchmark', eval=FALSE}
 # #Compare any number of functions
@@ -213,7 +219,7 @@ print(result)
 
 ### Sum-Mean {.unlisted .unnumbered}
 
-For #Later - Include `rowsum(), rowSums(), colSums(), rowMeans(), colMeans()` in this also.
+"ForLater" - Include `rowsum(), rowSums(), colSums(), rowMeans(), colMeans()` in this also.
 
 ```{r '303-SumMean'}
 # #Conclusion: use mean() because precision is difficult to achieve compared to speed
@@ -485,9 +491,9 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
 }
 ```
 
-## Mesures of Location
+## Measures of Location
 
-### Mean {#Mean .tabset .tabset-fade}
+### Mean {#mean-be03 .tabset .tabset-fade}
 
 ```{definition 'Mean'}
 Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean $\overline{x}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count $n$.
@@ -548,7 +554,7 @@ kk <- weighted.mean(x = aa$cost_per_kg, w = aa$kg)
 stopifnot(all(identical(ii, jj), identical(ii, kk)))
 ```
 
-### Median {#Median .tabset .tabset-fade}
+### Median {#median-be03 .tabset .tabset-fade}
 
 ```{definition 'Median'}
 \textcolor{pink}{Median} of a population is any value such that at most half of the population is less than the proposed median and at most half is greater than the proposed median.  
@@ -629,7 +635,7 @@ stopifnot(identical(ii, jj))
 exp(mean(log(f_getRDS(xxPrimes)[1:10])))
 ```
 
-### Mode {#Mode .tabset .tabset-fade}
+### Mode {#mode-be03 .tabset .tabset-fade}
 
 ```{definition 'Mode'}
 The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
@@ -640,7 +646,7 @@ The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
 
 #### Mode {.unlisted .unnumbered }
 
-```{r '303-ModeMore'}
+```{r '303-Mode'}
 # #Mode of First 100 Digits of PI
 bb <- f_getRDS(xxPI)[1:100, ] %>% pull(VAL)
 f_getMode(bb)
@@ -665,7 +671,7 @@ bb %>% pull(VAL) %>% f_getMode()
 #
 ```
 
-### Percentiles {#Percentiles .tabset .tabset-fade}
+### Percentiles {#percentiles-be03 .tabset .tabset-fade}
 
 ```{definition 'Percentile'}
 A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing $n$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
@@ -682,7 +688,7 @@ A \textcolor{pink}{percentile} provides information about how the data are sprea
   (\#eq:percentiles)
 \end{equation}
 
-#### Percentils {.unlisted .unnumbered}
+#### Percentiles {.unlisted .unnumbered}
 
 ```{r '303-Percentile'}
 # #First 100 Digits of PI
@@ -702,7 +708,7 @@ bb <- f_getRDS(xxPI)[1:100, ]
 ii <- quantile(bb$VAL, 0.5)
 print(ii)
 jj <- median(bb$VAL)
-stopifnot(identical(ii, jj))
+stopifnot(identical(unname(ii), jj))
 # 
 # #All Quartiles
 quantile(bb$VAL, seq(0, 1, 0.25))
@@ -715,19 +721,347 @@ quantile(bb$VAL, seq(0, 1, 0.25), type = 6)
 
 
 ## Measures of Variability
+In addition to measures of location, it is often desirable to consider measures of variability, or dispersion.
+
+- Range `range()`
+  - (Largest value - Smallest value) i.e. `max() - min()`
+  - Range is based on only two of the observations and thus is highly influenced by extreme values.
+- Interquartile Range (IQR) `IQR()`
+  - The difference between the third quartile, and the first quartile
+  - It overcomes the dependency on extreme values
+- Mean Absolute Error (MAE)
+  - $MAE = \frac{\sum |x_i - \overline{x}|}{n}$
+
+### Variance {#variance-be03 .tabset .tabset-fade}
+
+```{definition 'Variance'}
+The \textcolor{pink}{variance} is based on the difference between the value of each observation $x_i$ and the mean $\overline{x}$. The average of the squared deviations is called the variance. 
+```
+
+- Refer equation \@ref(eq:variance)
+  - Sample Variance is denoted by \textcolor{pink}{$s^2$} and Population Variance is denoted by \textcolor{pink}{$\sigma^2$}
+  - The variance is a measure of variability that utilizes all the data.
+  - The difference between each $x_i$ and the mean ($\overline{x}, \mu$) is called a \textcolor{pink}{deviation about the mean} i.e. ($x_i - \overline{x}$). Sum of deviation about the mean is always zero i.e. $\sum (x_i - \overline{x}) =0$
+  - In the computation of the variance, the deviations about the mean are squared.
+
+\begin{equation} 
+  \begin{align} 
+    \sigma^2 &= \frac{1}{n} \sum _{i=1}^{n} \left(x_i - \mu \right)^2 \\
+    s^2 &= \frac{1}{n-1} \sum _{i=1}^{n} \left(x_i - \overline{x} \right)^2
+  \end{align}
+  (\#eq:variance)
+\end{equation} 
+
+### Standard Deviation {#sd-be03 .tabset .tabset-fade}
+
+```{definition 'Standard-Deviation'}
+The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the positive square root of the variance.
+```
+
+- Refer equation \@ref(eq:sd)
+  - Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{$\sigma$}
+  - The \textcolor{pink}{coefficient of variation} is a relative measure of variability. It measures the standard deviation relative to the mean. It is given in percentage as $100 \times \sigma / \mu$
+
+\begin{equation} 
+  \begin{align} 
+     \sigma &= \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \mu\right)^2} \\
+    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}
+  \end{align}
+  (\#eq:sd)
+\end{equation} 
+
+## Measures of Distribution Shape
+
+### Skewness
+
+"ForLater" 
+
+## Relative Location
+
+### z-Scores {#z-scores-be03 .tabset .tabset-fade}
+
+Measures of relative location help us determine how far a particular value is from the mean. By using both the mean and standard deviation, we can determine the relative location of any observation. 
+
+```{definition 'TheSample'}
+A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x_n\}}$ have a sample mean \textcolor{pink}{$\overline{x}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
+```
+
+```{definition 'z-Scores'}
+The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standard deviations $x_i$ is from the mean $\overline{x}$. It is associated with each $x_i$. The z-score is often called the \textcolor{pink}{standardized value}. 
+```
+
+- Refer equation \@ref(eq:z-scores)
+  -  For example, $z_1 = 1.2$  would indicate that $x_1$ is 1.2 standard deviations greater than the sample mean. Similarly, $z_2 = -0.5$ would indicate that $x_2$ is 0.5 standard deviation less than the sample mean. 
+  - A z-score greater than zero occurs for observations with a value greater than the mean, and a z-scoreless than zero occurs for observations with a value less than the mean. 
+  - A z-score of zero indicates that the value of the observation is equal to the mean.
+  - The z-score for any observation can be interpreted as a measure of the relative location of the observation in a data set.
+  - The process of converting a value for a variable to a z-score is often referred to as a \textcolor{pink}{z transformation}.
+
+\begin{equation} 
+  z_i = \frac{x_i - \overline{x}}{s}
+  (\#eq:z-scores)
+\end{equation} 
+
+### Chebyshev Theorem {.tabset .tabset-fade}
+
+```{definition 'Chebyshev-Theorem'}
+\textcolor{pink}{Chebyshev Theorem} can be used to make statements about the proportion of data values that must be within a specified number of standard deviations $\sigma$, of the mean $\mu$.
+```
+
+- Refer to \@ref(def:Chebyshev-Theorem)
+  - \textcolor{pink}{Chebyshev Theorem:} At least $(1-1/z^2)$ of the data values must be within z standard deviations of the mean, where z is any value greater than 1. 
+    - Thus, at least 75% of the data values must be within $\overline{x} \pm 2s$, 89% within $\overline{x} \pm 3s$, and 94% $\overline{x} \pm 4s$.
+  - Chebyshev's theorem can be applied to any data set regardless of the shape of the distribution of the data. 
+  - Ex: Test scores of 100 students have $(\mu = 70, \sigma = 5)$
+  - How many students had test scores between 60 and 80
+    - From equation \@ref(eq:z-scores), $z_{60} = \frac{60 - 70}{5} = -2$
+    - Similarly, $z_{80} = \frac{80 - 70}{5} = +2$
+    - According to theorem \@ref(def:Chebyshev-Theorem), values that must be within $z$ standard deviation are
+      - ${(1-1/z^2) = (1 - 1/2^2) = 0.75 = 75\%}$
+      - i.e. 75 students must have test scores between 60 and 80
+  - How many students had test scores between 58 and 82
+    - $z_{58} = -2.4, z_{82} = +2.4$
+    - ${(1 - 1/2.4^2) \approx 0.826 \approx 83\%}$
+      - i.e. 83 students must have test scores between 58 and 82
+
+### Empirical Rule {.tabset .tabset-fade}
+
+```{definition 'Empirical-Rule'}
+\textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations $\sigma$ of the mean $\mu$ for a normal distribution.
+```
+
+- According to the \textcolor{pink}{empirical rule}, for a Normal distribution
+  - $\approx 68.26\%$ of the data values will be within $\overline{x} \pm s$
+  - $\approx 95.44\%$ within $\overline{x} \pm 2s$
+  - and almost all $\approx 99.74\%$ of the data values will be within $\overline{x} \pm 3s$. 
+
+## Outliers
+
+- Sometimes unusually large or unusually small values are called \textcolor{pink}{outliers}. 
+  - data value that has been incorrectly recorded /included - should be removed
+  - unusual data value that has been recorded correctly and belongs in the data set - should be kept
+- Standardized values (z-scores) can be used to identify outliers. 
+  - Empirical rule (\@ref(def:Empirical-Rule)) allows us to conclude that for normal distribution, almost all the data values will be within three standard deviations of the mean $(\overline{x} \pm 3s)$. 
+  - Hence, in using z-scores to identify outliers, we recommend treating any data value with a z-score less than −3 or greater than +3 as an outlier. 
+  - Such data values can then be reviewed for accuracy and to determine whether they belong in the data set.
+- Another approach to identifying outliers is based upon IQR 
+  - $\text{Lower Limit} = Q_1 - 1.5 \space \text{IQR}$ and $\text{Upper Limit} = Q_3 + 1.5 \space \text{IQR}$ 
+  - An observation is classified as an outlier if its value is less than the lower limit or greater than the upper limit. 
+
+## Summary {#BoxPlot .tabset .tabset-fade}
+
+Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median, Q3, Max
+
+- A boxplot is a graphical display of data based on a five-number summary. 
+  - By using the interquartile range, IQR = Q3 − Q1, limits are located at 1.5(IQR) below Q1 and 1.5(IQR) above Q3
+  - The \textcolor{pink}{whiskers} are drawn from the ends of the box to the smallest and largest values inside the limits 
+  - Boxplots can also be used to provide a graphical summary of two or more groups and facilitate visual comparisons among the groups. 
 
 
+### BoxPlot {#boxplot-be03 .unlisted .unnumbered}
 
-### Standard Deviation {.tabset .tabset-fade}
-Similarly, Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{$\sigma$}.
+```{r '303-BoxPlot', include=FALSE}
+# #nycflights13::weather
+bb <- weather
+# #NA are present in the data
+summary(bb$temp)
+#
+# #BoxPlot
+g303_01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE)) %>% {
+    ggplot(data = ., mapping = aes(x = month, y = temp)) +
+    #geom_violin() +
+    geom_boxplot(aes(fill = month), outlier.colour = 'red', notch = TRUE) +
+    stat_summary(fun = mean, geom = "point", size = 2, color = "steelblue") + 
+    scale_y_continuous(breaks = seq(0, 110, 10), limits = c(0, 110)) +
+    #geom_point() +
+    #geom_jitter(position=position_jitter(0.2)) +
+    k_gglayer_box +
+    theme(legend.position = 'none') +
+    labs(x = "Months", y = "Temperature", title = "BoxPlot", subtitle = "With Mean & Notch")
+}
+```
+
+```{r '303-SaveBox', include=FALSE}
+ggsave(paste0(.z$PX, "g303_boxplot_01", ".png"), plot = g303_01)
+```
+
+```{r '303G-Box01', echo=FALSE, fig.cap="geom_boxplot()", include=TRUE}
+knitr::include_graphics(paste0(.z$PX, "g303_boxplot_01", ".png"))
+```
+
+### Code {.unlisted .unnumbered}
+```{r '303-BoxPlot-A', ref.label=c('303-BoxPlot'), eval=FALSE}
+#
+```
+
+## Relationship between Two Variables
+
+### Covariance {#covariance-be03 .tabset .tabset-fade}
+
+```{definition 'Covariance'}
+\textcolor{pink}{Covariance} is a measure of linear association between two variables. Positive values indicate a positive relationship; negative values indicate a negative relationship.
+```
+
+- Refer equation \@ref(eq:covariance)
+  - For a sample of size $n$ with the observations $(x_1, y_1), (x_2, y_2)$, and so on, the covariance is given by equation \@ref(eq:covariance)
+  - A positive value for $s_{xy}$ indicates a positive linear association between x and y; that is, as the value of x increases, the value of y increases. Similarly a negative value shows a negative linear association.
+    - In the example, $s_{xy} = 11$
+  - If the points are evenly distributed in the scatterplot, the value of $s_{xy}$ will be close to zero, indicating no linear association between x and y.
+  - \textcolor{orange}{Caution:} Problem with using covariance as a measure of the strength of the linear relationship is that the value of the covariance depends on the units of measurement for x and y.
+
+\begin{equation} 
+  \begin{align} 
+    \sigma_{xy} &= \frac{\sum (x_i - \mu_x)(y_i - \mu_y)}{n} \\
+    s_{xy} &= \frac{\sum (x_i - \overline{x})(y_i - \overline{y})}{n-1} 
+  \end{align}
+  (\#eq:covariance)
+\end{equation} 
+
+```{r '303-Trendline', include=FALSE}
+bb <- f_getRDS(be0214) 
+
+# #Define the formula for Trendline calculation
+k_gg_formula <- y ~ x
+#
+# #Scatterplot, Trendline Equation, R2, mean x & y
+g303_02 <- bb %>% {
+  ggplot(data = ., aes(x = Commercials, y = Sales)) + 
+  geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ", \n", ..rr.label.., ")")), 
+               formula = k_gg_formula, eq.with.lhs = "italic(hat(y))~`=`~",
+               eq.x.rhs = "~italic(x)", parse = TRUE) +
+  geom_vline(aes(xintercept = round(mean(Commercials), 3)), color = 'red', linetype = "dashed") +
+  geom_hline(aes(yintercept = round(mean(Sales), 3)), color = 'red', linetype = "dashed") +
+  geom_text(aes(label = TeX(r"($\bar{x} = 3$)", output = "character"), 
+                x = round(mean(Commercials), 3), y = -Inf), 
+            color = 'red', , hjust = -0.2, vjust = -0.5, parse = TRUE, check_overlap = TRUE) + 
+  geom_text(aes(label = TeX(r"($\bar{y} = 51$)", output = "character"), 
+                x = Inf, y = round(mean(Sales), 3)), 
+            color = 'red', , hjust = 1.5, vjust = -0.5, parse = TRUE, check_overlap = TRUE) + 
+  geom_point() +
+  k_gglayer_scatter +
+  labs(x = "Commercials", y = "Sales ($100s)", title = "Scatter Plot",
+       subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)"))
+}
+```
+
+```{r '303-SaveTrend', include=FALSE}
+ggsave(paste0(.z$PX, "g303_trendline_01", ".png"), plot = g303_02)
+```
+
+```{r '303G-Trend01', echo=FALSE, fig.cap="Added Mean", include=FALSE}
+knitr::include_graphics(paste0(.z$PX, "g303_trendline_01", ".png"))
+```
+
+```{r '303G-Trend02', echo=FALSE, fig.cap="Original", include=FALSE}
+knitr::include_graphics(paste0(.z$PX, "g302_trendline_01", ".png"))
+```
+
+```{r '303G-Trend03', ref.label=c('303G-Trend02', '303G-Trend01'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
+#
+```
+
+#### Covariance {.unlisted .unnumbered}
+
+```{r '303-Covariance'}
+# #Get 'Deviation about the mean' i.e. devX and devY and their Product devXY
+ii <- bb %>% 
+  mutate(devX = Commercials - mean(Commercials), devY = Sales - mean(Sales), devXY = devX * devY) 
+#
+# #Sample Covariance
+sxy <- sum(ii$devXY) / {length(ii$devXY) -1}
+print(sxy)
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r '303-Trendline-A', ref.label='303-Trendline', eval=FALSE}
+#
+```
+
+#### More Text  {.unlisted .unnumbered}
+
+- [This](https://stats.stackexchange.com/questions/229667 "https://stats.stackexchange.com")
+  - Unlike Pearson correlation, covariance itself is not a measure of the magnitude of linear relationship. It is a measure of co-variation (which could be just monotonic). This is because covariance depends not only on the strength of linear association but also on the magnitude of the variances. 
+- More details are in following links
+  -  [This](https://stats.stackexchange.com/questions/17537   "https://stats.stackexchange.com/questions/17537/understanding-variance-intuitively")
+  -  [This](https://stats.stackexchange.com/questions/26/what-is-a-standard-deviation   "https://stats.stackexchange.com/questions/26/what-is-a-standard-deviation")
+  -  [This](https://stats.stackexchange.com/questions/18058/how-would-you-explain-covariance-to-someone-who  -understands-only-the-mean "https://stats.stackexchange.com/questions/18058/how-would-you-explain-covaria  nce-to-someone-who-understands-only-the-mean")
+  -  [This](https://stats.stackexchange.com/questions/12842/covariance-and-independence   "https://stats.stackexchange.com/questions/12842/covariance-and-independence")
+  -  [This](https://stats.stackexchange.com/questions/18082/how-would-you-explain-the-difference-between-co  rrelation-and-covariance "https://stats.stackexchange.com/questions/18082/how-would-you-explain-the-diffe  rence-between-correlation-and-covariance")
+  -  [This](https://stats.stackexchange.com/questions/29713/what-is-covariance-in-plain-language   "https://stats.stackexchange.com/questions/29713/what-is-covariance-in-plain-language")
+  -  [This](https://stats.stackexchange.com/questions/53/pca-on-correlation-or-covariance   "https://stats.stackexchange.com/questions/53/pca-on-correlation-or-covariance")
+  -  [This](https://stats.stackexchange.com/questions/229667/difference-between-correlation-and-covariance-is-covariance-only-useful-if-the "https://stats.stackexchange.com/questions/229667/difference-between-correlation-and-covariance-is-covariance-only-useful-if-the")
+  -  [This](https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant "https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant")
+  -  [This](https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence "https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence")
+
+### Correlation Coefficient {#correlation-be03 .tabset .tabset-fade}
+
+```{definition 'Correlation-Coefficient'}
+\textcolor{pink}{Correlation coefficient} is a measure of linear association between two variables that takes on values between −1 and +1. Values near +1 indicate a strong positive linear relationship; values near −1 indicate a strong negative linear relationship; and values near zero indicate the lack of a linear relationship.
+```
+
+- Refer equation \@ref(eq:correlation) & Table \@ref(tab:303-CorrelationKbl)
+  - The 'Pearson Product Moment Correlation Coefficient' or \textcolor{pink}{sample correlation coefficient} is computed by dividing the sample covariance $s_{xy}$ by the product of the sample standard deviation of x ($s_{x}$) and the sample standard deviation of y ($s_{y}$).
+    - Values close to −1 (negative) or +1 (positive) indicate a strong linear relationship. The closer the correlation is to zero, the weaker the relationship.
+  - In the example, $s_{xy} = 11$ (Equation \@ref(eq:covariance)) and $s_{x} = 1.49$, $s_{y} = 7.93$ (Equation \@ref(eq:sd))
+  - Thus, $r_{xy} = 0.93$
+  - \textcolor{orange}{Caution:} Correlation provides a measure of linear association and not necessarily causation. A high correlation between two variables does not mean that changes in one variable will cause changes in the other variable.
+  - \textcolor{orange}{Caution:} Because the correlation coefficient measures only the strength of the linear relationship between two quantitative variables, it is possible for the correlation coefficient to be near zero, suggesting no linear relationship, when the relationship between the two variables is nonlinear. 
+
+\begin{equation} 
+  \begin{align} 
+    \rho_{xy} &= \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}} \\
+    r_{xy} &= \frac{s_{xy}}{s_{x}s_{y}}
+  \end{align}
+  (\#eq:correlation)
+\end{equation} 
+
+#### Correlation  {.unlisted .unnumbered}
+
+```{r '303-Correlation', include=FALSE}
+jj <- ii %>% mutate(devXsq = devX * devX, devYsq = devY * devY)
+# #Sample Covariance Sx, Sample Standard Deviations Sx Sy
+sxy <- sum(ii$devXY) / {nrow(ii) -1}
+sx <- round(sqrt(sum(jj$devXsq) / {nrow(jj) -1}), 2)
+sy <- round(sqrt(sum(jj$devYsq) / {nrow(jj) -1}), 2)
+cat(paste0("Sxy =", sxy, ", Sx =", sx, ", Sy =", sy, "\n"))
+#
+# #Correlation Coefficient Rxy
+rxy <- round(sxy / {sx * sy}, 2)
+cat(paste0("Correlation Coefficient Rxy =", rxy, "\n"))
+```
+
+```{r '303-Correlation-A', ref.label=c('303-Covariance', '303-Correlation'), eval=TRUE}
+#
+```
+
+#### Data  {.unlisted .unnumbered}
+
+```{r '303-CorrelationKbl', echo=FALSE}
+bb <- jj
+kbl(bb,
+  caption = 'Correlation Calculation',
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '303-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, ii, jj, kk, tbl, xxPI)
+f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, g303_01, g303_02, rxy, sx, sxy, sy)
 ```
 
-```{r '303-Validation', include=TRUE, cache=FALSE}
+```{r '303-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

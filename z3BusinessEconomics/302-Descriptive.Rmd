@@ -1,4 +1,4 @@
-# Descriptive Statistics (BE02) {#BE02}
+# Descriptive Statistics (BE02) {#be02}
 
 ```{r '302A', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,8 +10,8 @@ invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
 ## Overview
 
 - This chapter covers 
-  - Transpose, Attributes, Total Row, Cut, Clipboard, Replace NA
-  - Bar Chart, Pie Chart, Histogram, CrossTab, Scatter Plot, Trendline, ThemeGG
+  - [CrossTab](#crosstab-be02 "be02") : Transpose, Attributes, Total Row, Cut, Clipboard, Replace NA
+  - Graphs: [Bar Chart](#bar-pie-be02 "be02"), [Pie Chart](#bar-pie-be02 "be02"), [Histogram](#histogram-be02 "be02"), [Scatterplot](#scatterplot-be02  "be02")
 
 ## Summarizing Data for a Categorical Variable {.tabset .tabset-fade}
 
@@ -29,7 +29,7 @@ Rather than showing the frequency of each class, the \textcolor{pink}{cumulative
 - Pie Chart
   - Only use it if total is 100% and Categories are fewer than 5 or 6.
   
-### Bar & Pie  {.unlisted .unnumbered}
+### Bar & Pie {#bar-pie-be02 .unlisted .unnumbered}
 
 ```{r '302-I-Drinks', include=FALSE}
 # #Frequency Distribution
@@ -170,7 +170,7 @@ The three steps necessary to define the classes for a frequency distribution wit
   - Unlike a bar graph, a histogram contains no natural separation between the rectangles of adjacent classes.
 - Stem-and-Leaf Display (Not useful)
 
-### Histogram  {.unlisted .unnumbered}
+### Histogram {#histogram-be02 .unlisted .unnumbered}
 
 ```{r '302-K-NormalRandom'}
 set.seed(3)
@@ -266,22 +266,22 @@ unq[tab == max(tab)]
 #
 ```
 
-## Summarizing Data for Two Variables Using Tables {.tabset .tabset-fade}
+## Summarizing Data for Two Variables Using Tables {#crosstab-be02 .tabset .tabset-fade}
 
 ```{definition 'Cross-Tab'}
 A \textcolor{pink}{crosstabulation} is a tabular summary of data for two variables. It is used to investigate the relationship between them. Generally, one of the variable is categorical. 
 ```
 
 - Simpson's Paradox
-  - The reversal of conclusions based on aggregate and unaggregated data is called Simpson’s paradox.
+  - The reversal of conclusions based on aggregate and unaggregated data is called Simpson's paradox.
   - Ex: Table \@ref(tab:302-K-JudgesTBL) shows the count of judgements that were 'upheld' or 'reversed' on appeal for two judges 
     - 86% of the verdicts were upheld for Judge Luckett, while 88% of the verdicts were upheld for Judge Kendall. From this aggregated crosstabulation, we conclude that Judge Kendall is doing the better job because a greater percentage of his verdicts are being upheld.
     - However, unaggregated crosstabulations show that in both types of courts (Common, Municipal) Judge Luckett has higher percentage of 'Upheld' Verdicts (90.6% and 84.7%) - compared to Judge Kendall (90% and 80%)
     - Thus, Luckett has a better record because a greater percentage of his verdicts are being upheld in both courts. 
-    - This reversal of conclusions based on aggregated and unaggregated data illustrates Simpson’s paradox.
+    - This reversal of conclusions based on aggregated and unaggregated data illustrates Simpson's paradox.
   - Cause
     - Note that for both judges the percentage of appeals that resulted in reversals was much higher in 'Municipal' than in 'Common' Court i.e. 15.3% vs. 9.4% for Luckett and 20% vs. 10% for Kendall.
-    - Because Judge Luckett tried a much higher percentage of his cases in 'Municipal', the aggregated data favored Judge Kendall i.e. 118/150 for Luckett vs. 25/125 for Kendall.
+    - Because Judge Luckett tried a much higher percentage of his cases in 'Municipal', the aggregated data favoured Judge Kendall i.e. 118/150 for Luckett vs. 25/125 for Kendall.
     - Thus, for the original crosstabulation, we see that the 'type of court' is a \textcolor{pink}{hidden variable} that cannot be ignored when evaluating the records of the two judges.
   
 ```{r '302-K-Judges', include=FALSE}
@@ -477,6 +477,7 @@ aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
 ```
 
 ### To Factor {.unlisted .unnumbered}
+
 ```{r '302-K-ToFactor'}
 #	#Convert to Factor
 aa %>% mutate(Judge_Verdict = factor(Judge_Verdict))
@@ -628,7 +629,7 @@ bb %>% mutate(x_bins = cut(x, breaks = n_breaks, include.lowest = TRUE, labels =
   pull(x_bins) %>% levels()
 ```
 
-## Summarizing Data for Two Variables {.tabset .tabset-fade}
+## Summarizing Data for Two Variables {#scatterplot-be02 .tabset .tabset-fade}
 
 - Scatterplot and Trendline
 - Side by Side and Stacked Bar Charts
@@ -639,6 +640,7 @@ bb %>% mutate(x_bins = cut(x, breaks = n_breaks, include.lowest = TRUE, labels =
 be0214 <- tibble(Week = 1:10, 
                  Commercials = c(2, 5, 1, 3, 4, 1, 5, 3, 4, 2), 
                  Sales = c(50, 57, 41, 54, 54, 38, 63, 48, 59, 46))
+f_setRDS(be0214)
 ```
 
 ```{r '302-N-Trendline', include=FALSE}

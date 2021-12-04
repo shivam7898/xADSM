@@ -66,3 +66,24 @@ k_gglayer_hist <- list(
 )
 #
 # #Scatter Plot Trendline
+k_gglayer_scatter <- list(
+  scale_fill_viridis_d(alpha = 0.9),
+  theme(panel.grid.minor = element_blank(),
+        panel.border = element_blank())
+)
+#
+# #BoxPlot
+k_gglayer_box <- list(
+  scale_fill_viridis_d(alpha = 0.9),
+  theme(panel.grid.major = element_line(colour = "#d3d3d3"),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(), panel.grid.major.x = element_blank(),
+        #plot.title = element_text(size = 14, family = "Tahoma", face = "bold"),
+        #text=element_text(family = "Tahoma"),
+        #axis.title = element_text(face="bold"),
+        #axis.text.x = element_text(colour="black", size = 11),
+        #axis.text.y = element_text(colour="black", size = 9),
+        axis.line = element_line(size=0.5, colour = "black"))
+)
+

@@ -1,4 +1,4 @@
-# Data and Statistics (BE01) {#BE01}
+# Data and Statistics (BE01) {#be01}
 > Definitions and Exercises are from the Book [@Anderson]
 
 ```{r '301A', include=FALSE, cache=FALSE}
@@ -11,12 +11,12 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 ## Overview
 
 - This chapter covers introductory information and basic definitions.
-- Exercises: Mean, Percentage, Transpose, Rowwise Calculations
-- Graphs: Multiple Time Series, Pareto Chart
+  - [Exercises](#exercises-be01 "be01"): Mean, Percentage, Transpose, Rowwise Calculations
+  - Graphs: [Multiple Time Series](#cars-be01 "be01"), [Pareto Chart](#cars-be01 "be01")
 
 ## Introduction
 ```{definition 'Data'}
-\textcolor{pink}{Data} are the facts and figures collected, analyzed, and summarized for presentation and interpretation.
+\textcolor{pink}{Data} are the facts and figures collected, analysed, and summarised for presentation and interpretation.
 ```
 
 ```{definition 'Elements'}
@@ -34,7 +34,7 @@ The set of measurements obtained for a particular element is called an \textcolo
 Hence, the total number of data items can be determined by multiplying the number of observations by the number of variables.
 
 ```{definition 'Statistics'}
-\textcolor{pink}{Statistics} is the art and science of collecting, analyzing, presenting, and interpreting data. 
+\textcolor{pink}{Statistics} is the art and science of collecting, analysing, presenting, and interpreting data. 
 ```
 
 ## Scales of Measurement
@@ -160,6 +160,10 @@ A \textcolor{pink}{sample} is a subset of the population.
 The measurable quality or characteristic is called a \textcolor{pink}{Population Parameter} if it is computed from the population. It is called a \textcolor{pink}{Sample Statistic} if it is computed from a sample.
 ```
 
+```{definition 'Point-Estimator'}
+A sample statistic is referred to as the \textcolor{pink}{point estimator} of the corresponding population parameter. For example, $\overline{x}, s, s^2, s_{xy}, r_{xy}$ sample statics are point estimators for corresponding population parameters of $\mu$ (mean), $\sigma$ (standard deviation), $\sigma^2$ (variance), $\sigma_{xy}$ (covariance), $\rho_{xy}$ (correlation).
+```
+
 ## Difference between a population and a sample {#PopulationSample}
 
 The population is the set of entities under study. 
@@ -250,7 +254,7 @@ The term \textcolor{pink}{data warehousing} is used to refer to the process of c
 
 Data mining relies heavily on statistical methodology such as multiple regression, logistic regression, and correlation. 
 
-## Exercises
+## Exercises {#exercises-be01}
 
 - Table: \@ref(tab:301-I-xxComputers) 
 - Table: \@ref(tab:301-J-xxCordless)  
@@ -439,7 +443,7 @@ bb %>%
   filter(handset_on_base == "Yes") 
 ```
 
-### Cars {.unlisted .unnumbered .tabset .tabset-fade} 
+### Cars {#cars-be01 .unlisted .unnumbered .tabset .tabset-fade} 
 
 ```{r '301-K-Assignment', include=FALSE}
 bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
