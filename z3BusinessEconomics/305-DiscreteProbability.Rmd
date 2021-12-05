@@ -10,6 +10,103 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
+  - [Discrete Probability](#discrete-prob-be05 "be05")
+
+## Definitions
+
+```{r '305D01', comment="", echo=FALSE, results='asis', cache=FALSE}
+f_getDef("Discrete")
+```
+
+```{r '305D02', comment="", echo=FALSE, results='asis', cache=FALSE}
+f_getDef("Continuous")
+```
+
+## Random Variable
+
+```{definition 'Random-Variable'}
+A \textcolor{pink}{random variable} is a numerical description of the outcome of an experiment. Random variables must assume numerical values. It can be either 'discrete' or 'continuous'.
+```
+
+```{definition 'Discrete-Random-Variable'}
+A random variable that may assume either a finite number of values or an infinite sequence of values such as $0, 1, 2, \dots $ is referred to as a \textcolor{pink}{discrete random variable}. It includes factor type i.e. Male as 0, Female as 1 etc.
+```
+
+```{definition 'Continuous-Random-Variable'}
+A random variable that may assume any numerical value in an interval or collection of intervals is called a \textcolor{pink}{continuous random variable}. It is given by \textcolor{pink}{$x \in [n, m]$}. If the entire line segment between the two points also represents possible values for the random variable, then the random variable is continuous.
+```
+
+## Developing Discrete Probability Distributions {#discrete-prob-be05}
+
+```{definition 'Probability-Distribution'}
+The \textcolor{pink}{probability distribution} for a random variable describes how probabilities are distributed over the values of the random variable.
+```
+
+```{definition 'Probability-Function'}
+For a discrete random variable x, a \textcolor{pink}{probability function $f(x)$}, provides the probability for each value of the random variable.
+```
+
+- The use of the relative frequency method to develop discrete probability distributions leads to what is called an \textcolor{pink}{empirical discrete distribution}.
+  - We treat the data as if they were the population and use the relative frequency method to assign probabilities to the experimental outcomes.
+
+- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04"))
+  1. \textcolor{pink}{$f(x) \geq 0$}
+  1. \textcolor{pink}{$\sum {f(x)} = 1$}
+- The simplest example of a discrete probability distribution given by a formula is the discrete uniform probability distribution; $f(x) = 1/n$, where $n$ is the number of values the random variable may assume
+
+### Expected Value
+
+```{definition 'Expected-Value-Discrete'}
+The \textcolor{pink}{expected value, or mean}, of a random variable is a measure of the central location for the random variable. i.e. \textcolor{pink}{$E(x) = \mu = \sum xf(x)$}
+```
+
+- NOTE
+  - The expected value is a weighted average of the values of the random variable where the weights are 
+the probabilities.
+  - The expected value does not have to be a value the random variable can assume. i.e. average need not to be integer
+  
+### Variance 
+
+```{definition 'Variance-Discrete'}
+The \textcolor{pink}{variance} is a weighted average of the squared deviations of a random variable from its mean. The weights are the probabilities. i.e. \textcolor{pink}{$\text{Var}(x) = \sigma^2 = \sum \{(x- \mu)^2 \cdot f(x)\}$}
+```
+
+## Bivariate Distributions
+
+```{definition 'Bivariate'}
+A probability distribution involving two random variables is called a \textcolor{pink}{bivariate probability distribution}. 
+```
+
+- NOTE:
+  - Each outcome for a bivariate experiment consists of two values, one for each random variable. Example: Rolling a pair of dice
+
+## Example-Dicarlo
+
+```{r '303-Dicarlo', include=FALSE}
+# #DicarloNY: Days with Number of Cars Sold per day for last 300 days
+xxdicarlo <- tibble(Cars = 0:5, Days = c(54, 117, 72, 42, 12, 3))
+bb <- xxdicarlo
+bb <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>% 
+  mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
+		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
+```
+
+```{r '303-Dicarlo-KBL', echo=FALSE}
+kbl(bb,
+  caption = 'Variance Calculation',
+  col.names = c("$x$", "$f(x)$", "$xf(x)$", "$(x - \\mu)$", "$(x - \\mu)^2$", "$\\sum {(x - \\mu)^{2}f(x)}$"),
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
