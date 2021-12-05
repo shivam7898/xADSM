@@ -280,14 +280,19 @@ xxCordless <- f_getObject("xxCordless", "BE01-Cordless.csv", "9991f612fe44f1c890
 
 ```{r '301D-KBL', eval=FALSE}
 bb <- xxComputers
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 # #Kable Table
 kbl(bb,
   caption = 'Caption',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
+				        #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
@@ -330,14 +335,19 @@ bb <- xxComputers
 
 ```{r '301-I-xxComputers', echo=FALSE}
 bb <- xxComputers
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 # #Kable Table
 kbl(bb,
   caption = 'xxComputers',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
+				        #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
@@ -384,14 +394,19 @@ bb <- xxCordless
 
 ```{r '301-J-xxCordless', echo=FALSE}
 bb <- xxCordless
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 # #Kable Table
 kbl(bb,
   caption = 'xxCordless',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
+				        #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
@@ -461,29 +476,37 @@ ii <- bb %>%
 #### Transform {.unlisted .unnumbered}
 
 ```{r '301-K-CarsMultiple', echo=FALSE}
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 kk_bb <- kbl(bb,
   caption = 'Cars in Service (1000s)',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
-				position = "float_left",
+				        position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
 	row_spec(0, color = "white", background = "#303030", bold = TRUE,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
+#
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_hh <- kbl(hh,
   caption = 'Cars (Longer)',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
-				position = "float_left",
+				        position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
@@ -491,14 +514,18 @@ kk_hh <- kbl(hh,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
 #
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 kk_ii <- kbl(ii,
   caption = 'Cars (Transposed)',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
-				position = "float_left",
+				        position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)

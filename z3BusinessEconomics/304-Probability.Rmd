@@ -175,8 +175,12 @@ bb <- aa %>%
 # #Probabilities
 ii <- bb %>% mutate(across(where(is.numeric), ~./1200))
 #
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 kk_bb <- kbl(bb,
   caption = 'Police: Promotion and Gender',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
@@ -190,8 +194,12 @@ kk_bb <- kbl(bb,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
 #
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 kk_ii <- kbl(ii,
   caption = 'Joint and Marginal Probabilities',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),

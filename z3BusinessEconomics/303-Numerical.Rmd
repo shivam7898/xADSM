@@ -1040,13 +1040,18 @@ cat(paste0("Correlation Coefficient Rxy =", rxy, "\n"))
 
 ```{r '303-CorrelationKbl', echo=FALSE}
 bb <- jj
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
 kbl(bb,
   caption = 'Correlation Calculation',
+  #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
+				        #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
