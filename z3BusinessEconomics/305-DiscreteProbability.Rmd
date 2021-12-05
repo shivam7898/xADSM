@@ -80,7 +80,7 @@ A probability distribution involving two random variables is called a \textcolor
 - NOTE:
   - Each outcome for a bivariate experiment consists of two values, one for each random variable. Example: Rolling a pair of dice
 
-## Example-Dicarlo
+## Example-Dicarlo {.tabset .tabset-fade}
 
 ```{r '303-Dicarlo', include=FALSE}
 # #DicarloNY: Days with Number of Cars Sold per day for last 300 days
@@ -90,6 +90,8 @@ bb <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>%
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
 		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
 ```
+
+### Table {.unlisted .unnumbered}
 
 ```{r '303-Dicarlo-KBL', echo=FALSE}
 kbl(bb,
@@ -106,6 +108,12 @@ kbl(bb,
 	row_spec(0, color = "white", background = "#303030", bold = TRUE,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
+```
+
+### Data {.unlisted .unnumbered}
+
+```{r '303-Dicarlo-A', ref.label=c('303-Dicarlo'), eval=FALSE}
+#
 ```
 
 

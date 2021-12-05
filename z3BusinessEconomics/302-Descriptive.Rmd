@@ -459,9 +459,27 @@ stopifnot(all(identical(bb, ii), identical(bb, jj)))
 
 ### Total Row {.unlisted .unnumbered}
 ```{r '302-K-RowTotal'}
-# #Note: bind_rows() needs two dataframes. Thus, first can be skipped in Pipe
-# #However, second dataframe can't be replaced with dot (.), it has to have a name
-aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum)))
+# #(Deprecated) Issues: 
+# #(1) bind_rows() needs two dataframes. Thus, first can be skipped in Pipe, But...
+# #The second dataframe can't be replaced with dot (.), it has to have a name
+# #(2) Pipe usage inside function call was working but was a concern
+# #(3) It introduced NA for that replace was needed as another step
+ii <- aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
+	mutate(across(1, ~ replace(., . %in% NA, "Total"))) 
+#
+# #(Deprecated) Works but needs ALL Column Names individually
+jj <- aa %>% add_row(Judge_Verdict = "Total", Upheld = sum(.[, 2]), Reversed = sum(.[, 3]))
+kk <- aa %>% add_row(Judge_Verdict = "Total", Upheld = sum(.$Upheld), Reversed = sum(.$Reversed))
+#
+# #(Deprecated) Removed the Multiple call to sum(). However, it needs First Column Header Name
+ll <- aa %>% add_row(Judge_Verdict = "Total", summarise(., across(where(is.numeric), sum)))
+# #(Deprecated) Replaced Column Header Name using "Tilde"
+mm <- aa %>% add_row(summarise(., across(where(is.character), ~"Total")), 
+               summarise(., across(where(is.numeric), sum)))
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll), identical(ii, mm)))
+#
+# #(Working): Minimised
+aa %>% add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum)))
 ```
 
 ### Replace NA {.unlisted .unnumbered}
