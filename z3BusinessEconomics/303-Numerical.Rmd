@@ -19,7 +19,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 
 ## Definitions
 
-```{r '303D01', comment="", echo=FALSE, results='asis', cache=FALSE}
+```{r '303D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Parameter-vs-Statistic")
 ```
 
@@ -160,7 +160,7 @@ f_setRDS(xxPrimes)
 
 ### Mersenne Prime {.unlisted .unnumbered}
 
-```{r '303-LargeNumbers', eval=FALSE, cache=FALSE}
+```{r '303-LargeNumbers', eval=FALSE}
 # #Mersenne primes are those prime number that are of the form (2^n -1).
 # #3, 7, 31, 127, 8191 (1028th), 131071 (12,251th), 524287 (43,390th), 2147483647 (105,097,565th), 
 # #2305843009213693951, 618970019642690137449562111, 

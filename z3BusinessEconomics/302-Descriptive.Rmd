@@ -183,7 +183,7 @@ set.seed(3)
 bb <- tibble(aa = rnorm(n = 10000)) 
 ```
 
-```{r '302-K-Histogram', cache=FALSE}
+```{r '302-K-Histogram'}
 # #Histogram
 # # '..count..' or '..x..'
 g302_04 <- bb %>% {
@@ -195,7 +195,7 @@ g302_04 <- bb %>% {
 }
 ```
 
-```{r '302-K-Save', include=FALSE, cache=FALSE}
+```{r '302-K-Save', include=FALSE}
 ggsave(paste0(.z$PX, "g302_normal_01_Histogram", ".png"), plot = g302_04)
 ```
 
