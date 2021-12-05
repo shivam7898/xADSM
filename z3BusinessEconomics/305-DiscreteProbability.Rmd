@@ -185,25 +185,48 @@ jj <- bb %>%
 
 ### Table {.unlisted .unnumbered}
 
-```{r '305-DicarloGS-KBL', echo=FALSE}
+```{r '305-DicarloGS-KBL', echo=FALSE, cache=FALSE}
+bb <- ii
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
-kbl(bb,
-  caption = 'Variance Calculation',
+kk_ii <- kbl(bb,
+  caption = 'Bivariate Table',
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
-				        #position = "float_left",
+				        position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 # #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
 	row_spec(0, color = "white", background = "#303030", bold = TRUE,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
+#
+bb <- jj
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
+kk_jj <- kbl(bb,
+  caption = 'Probability Distribution',
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				        position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+# #Multiple Kable Tables
+knitr::kables(list(kk_ii, kk_jj))
 ```
 
 ### DataGS {.unlisted .unnumbered}
@@ -226,7 +249,7 @@ print(ii)
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '305-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk)
+f_rmExist(aa, bb, ii, jj, kk, displ_names, kk_ii, kk_jj, sum_bb, xxdicarlo, xxdicarlo_gs)
 ```
 
 ```{r '305-Validation', include=TRUE, cache=FALSE}

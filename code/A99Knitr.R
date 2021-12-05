@@ -70,5 +70,5 @@ if (!("k_start" %in% ls(envir = .GlobalEnv))) {
     }
     NULL
   }) 
+} else print("Knitr not loaded again.")
 
-}

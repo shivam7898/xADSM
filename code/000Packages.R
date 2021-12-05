@@ -14,4 +14,4 @@ if (!("conflicted" %in% (.packages()))) {
   invisible(suppressMessages(conflict_prefer("filter", "dplyr")))
 # #Cleanup
   rm(pkg)
-} else print("Loaded!")
+} else print("Packages not loaded again.")
