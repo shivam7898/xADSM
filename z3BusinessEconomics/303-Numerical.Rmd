@@ -16,8 +16,9 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
   - Relative Location: [z-scores](#z-scores-be03 "be03"), Chebyshev Theorem, Empirical Rule
   - Two Variables: [Covariance](#covariance-be03 "be03"), [Correlation Coefficient](#correlation-be03 "be03")
   - Graphs: [BoxPlot](#boxplot-be03 "be03"), [Scatterplot](#covariance-be03 "be03")
+  - "ForLater" - Sum Mean Formulae, Skewness
 
-## Definitions (Referenced)
+## Definitions (Ref)
 
 ```{r '303D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Parameter-vs-Statistic")
@@ -121,6 +122,20 @@ A \textcolor{pink}{prime number} is a natural number greater than 1 that is not 
 An integer $\mathbb{Z}$ is \textcolor{pink}{positive} if it is greater than zero, and \textcolor{pink}{negative} if it is less than zero. Zero is defined as neither negative nor positive. 
 ```
 
+```{definition 'Mersenne-Primes'}
+\textcolor{pink}{Mersenne primes} are those prime number that are of the form \textcolor{pink}{$(2^n -1)$}; that is, $\{3, 7, 31, 127, \ldots \}$
+```
+
+
+Mersenne primes:
+
+- $\{3, 7, 31, 127, 8191, 131071, 524287, 2147483647, 2305843009213693951, \ldots \}$
+- $\{3 (2^{nd}), 7(4^{th}), 31(11^{th}), 127(31^{st}), 8191 (1028^{th}), 131071 (12,251^{th}), 524287 (43,390^{th}), \ldots \}$  
+  - Mersenne primes with their position in List of Primes
+- \textcolor{pink}{$2147483647 = (2^{231} − 1)$}
+  - It is 105,097,565th Prime, 8th Mersenne prime and is one of only four known double Mersenne primes.
+  - It represents the largest value that a signed 32-bit integer field can hold. 
+
 ## Primes {#primes-be03 .tabset .tabset-fade}
 
 ### Empty Vector {.unlisted .unnumbered}
@@ -158,35 +173,26 @@ xxPrimes <- f_getPrimeUpto(524287L)
 f_setRDS(xxPrimes)
 ```
 
-### Mersenne Prime {.unlisted .unnumbered}
+### Large Integers {.unlisted .unnumbered}
 
-```{r '303-LargeNumbers', eval=FALSE}
-# #Mersenne primes are those prime number that are of the form (2^n -1).
-# #3, 7, 31, 127, 8191 (1028th), 131071 (12,251th), 524287 (43,390th), 2147483647 (105,097,565th), 
-# #2305843009213693951, 618970019642690137449562111, 
-# #162259276829213363391578010288127 170141183460469231731687303715884105727
-
-# #Following cannot be stored as Integer, thus it is automatically converted to Double
-tryCatch({
-    aa <- 2305843009213693951L
-  }, warning = function(w) {
-    # #NOTE Unable to Print this Warning properly!
-    print(paste0(w))
-	  #suppressWarnings(print(aa))
-  })  
+```{r '303-LargeNumbers'}
+# #NOTE: Assigning 2147483647L causes the Chunk to throw Warnings even with 'eval=FALSE'.
+if(FALSE){
+# #Assignment of 2305843009213693951L is NOT possible without Warning
+# #Even within non-executing Block or with 'eval=FALSE' or suppressWarnings() or tryCatch()
+# #It cannot be stored as integer, thus it is automatically converted to double
+  #bb <- 2305843009213693951L
 # #Warning: non-integer value 2305843009213693951L qualified with L; using numeric value 
-#
-#aa <- 2305843009213693951
 # #NOTE that the value changed. It is explicitly NOT a prime anymore.
-#print(aa, digits = 20)
+  #print(aa, digits = 20)
 # #[1] 2305843009213693952
 #
-# #Largest Mersenne Prime that can be safely checked
-# #The number 2147483647 is the eighth Mersenne prime, equal to (2^231 − 1). 
-# #It is one of only four known double Mersenne primes.
-# #In computing, this number represents the largest value that a signed 32-bit integer field can hold. 
-aa <- 2147483647L
-print(aa)
+# #Assignment of 2147483647L is possible and direct printing in console works BUT
+# #Its printing will also throw Warnings that are difficult to handle
+# #Avoid Printing. Even within non-executing Block, it is affecting R Bookdown.
+  aa <- 2147483647L
+  #print(aa)
+}
 ```
 
 ### f_getPrime() {.unlisted .unnumbered}
