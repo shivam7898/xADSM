@@ -82,7 +82,7 @@ The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, 
 
 ## Assigning Probabilities {#assign-probability-be04}
 
-- Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05"))
+- Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuos Probability](#continuous-prob-be06 "be06"))
   1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let $E_i$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0,1]$}
   1. The sum of the probabilities for all the experimental outcomes must equal 1. Thus for $k$ experimental outcomes \textcolor{pink}{$\sum _{i=1}^k P(E_i) =1$}
 

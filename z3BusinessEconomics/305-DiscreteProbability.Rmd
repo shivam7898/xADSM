@@ -38,7 +38,7 @@ A random variable that may assume either a finite number of values or an infinit
 A random variable that may assume any numerical value in an interval or collection of intervals is called a \textcolor{pink}{continuous random variable}. It is given by \textcolor{pink}{$x \in [n, m]$}. If the entire line segment between the two points also represents possible values for the random variable, then the random variable is continuous.
 ```
 
-## Developing Discrete Probability Distributions {#discrete-prob-be05}
+## Discrete Probability Distributions {#discrete-prob-be05}
 
 ```{definition 'Probability-Distribution'}
 The \textcolor{pink}{probability distribution} for a random variable describes how probabilities are distributed over the values of the random variable.
@@ -51,10 +51,10 @@ For a discrete random variable x, a \textcolor{pink}{probability function $f(x)$
 - The use of the relative frequency method to develop discrete probability distributions leads to what is called an \textcolor{pink}{empirical discrete distribution}.
   - We treat the data as if they were the population and use the relative frequency method to assign probabilities to the experimental outcomes.
 
-- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04"))
+- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Continuos Probability](#continuous-prob-be06 "be06"))
   1. \textcolor{pink}{$f(x) \geq 0$}
   1. \textcolor{pink}{$\sum {f(x)} = 1$}
-- The simplest example of a discrete probability distribution given by a formula is the discrete uniform probability distribution; $f(x) = 1/n$, where $n$ is the number of values the random variable may assume
+- The simplest example of a discrete probability distribution given by a formula is the \textcolor{pink}{discrete uniform probability distribution}; $f(x) = 1/n$, where $n$ is the number of values the random variable may assume
   - Each possible value of the random variable has the same probability
 
 ### Expected Value

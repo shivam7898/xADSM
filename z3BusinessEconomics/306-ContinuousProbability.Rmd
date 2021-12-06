@@ -9,9 +9,55 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
+
 - This chapter covers 
+  - [Continuos Probability](#continuous-prob-be06 "be06")
 
 ## Definitions (Ref)
+
+```{r '306D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Discrete-Random-Variable")
+```
+
+```{r '306D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Continuous-Random-Variable")
+```
+
+
+## Uniform Probability Distribution {#continuous-prob-be06}
+
+```{definition 'Uniform-Probability-Distribution'}
+\textcolor{pink}{Uniform probability distribution} is a continuous probability distribution for which the probability that the random variable will assume a value in any interval is the same for each interval of equal length. Whenever the probability is proportional to the length of the interval, the random variable is uniformly distributed.
+```
+
+```{definition 'Probability-Density-Function'}
+The probability that the continuous random variable $x$ takes a value between $[a, b]$ is given by the area under the graph of \textcolor{pink}{probability density function $f(x)$}; that is, \textcolor{pink}{$A = \int _{a}^{b}f(x)\ dx$}. Note that $f(x)$ can be greater than 1, however its integral must be equal to 1.
+```
+
+- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Discrete Probability](#discrete-prob-be05 "be05") )
+  1. \textcolor{pink}{$f(x) \geq 0$} 
+  1. \textcolor{pink}{$A = \int _{-\infty}^{\infty}f(x)\ dx =1$}
+
+- NOTE:
+  - For a discrete random variable, the probability function $f(x)$ provides the probability that the random variable assumes a particular value. With continuous random variables, the counterpart of the probability function is the \textcolor{pink}{probability density function $f(x)$}. 
+    - The difference is that the probability density function does not directly provide probabilities.         - However, the area under the graph of $f(x)$ corresponding to a given interval does provide the probability that the continuous random variable $x$ assumes a value in that interval. 
+    - So when we compute probabilities for continuous random variables we are computing the probability that the random variable assumes any value in an interval (NOT at any particular point).
+    - Because the area under the graph of $f(x)$ at any particular point is zero, the probability of any particular value of the random variable is zero. 
+    - It also means that the probability of a continuous random variable assuming a value in any interval is the same whether or not the endpoints are included.
+  - Expected Value and Variance are given by \@ref(eq:continuous-var)
+
+
+\begin{equation}
+  \begin{align}
+    E(x) &= \frac{a+b}{2} \\
+    \text{Var}(x) &= \frac{(b-a)^2}{12}
+  \end{align}
+  (\#eq:continuous-var)
+\end{equation}
+
+
+## Normal Probability Distribution {.unlisted .unnumbered .tabset .tabset-fade}
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
@@ -21,7 +67,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
 ```{r '306-Validation', include=TRUE, cache=FALSE}
-# #Summarised Packages and Objects
+# #SUMMARISED Packages and Objects
 f_()
 #
 difftime(Sys.time(), k_start)
