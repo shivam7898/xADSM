@@ -11,14 +11,16 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - This chapter covers 
   - [Discrete Probability](#discrete-prob-be05 "be05")
+  - [Bivariate Distributions](#bivariate-be05 "be05")
+  - "ForLater" - Financial Applications, Exercises, Binomial, 
 
-## Definitions
+## Definitions (Referenced)
 
-```{r '305D01', comment="", echo=FALSE, results='asis', cache=FALSE}
+```{r '305D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Discrete")
 ```
 
-```{r '305D02', comment="", echo=FALSE, results='asis', cache=FALSE}
+```{r '305D02', comment="", echo=FALSE, results='asis'}
 f_getDef("Continuous")
 ```
 
@@ -29,7 +31,7 @@ A \textcolor{pink}{random variable} is a numerical description of the outcome of
 ```
 
 ```{definition 'Discrete-Random-Variable'}
-A random variable that may assume either a finite number of values or an infinite sequence of values such as $0, 1, 2, \dots $ is referred to as a \textcolor{pink}{discrete random variable}. It includes factor type i.e. Male as 0, Female as 1 etc.
+A random variable that may assume either a finite number of values or an infinite sequence of values such as $0, 1, 2, \dots$ is referred to as a \textcolor{pink}{discrete random variable}. It includes factor type i.e. Male as 0, Female as 1 etc.
 ```
 
 ```{definition 'Continuous-Random-Variable'}
@@ -53,6 +55,7 @@ For a discrete random variable x, a \textcolor{pink}{probability function $f(x)$
   1. \textcolor{pink}{$f(x) \geq 0$}
   1. \textcolor{pink}{$\sum {f(x)} = 1$}
 - The simplest example of a discrete probability distribution given by a formula is the discrete uniform probability distribution; $f(x) = 1/n$, where $n$ is the number of values the random variable may assume
+  - Each possible value of the random variable has the same probability
 
 ### Expected Value
 
@@ -71,14 +74,15 @@ the probabilities.
 The \textcolor{pink}{variance} is a weighted average of the squared deviations of a random variable from its mean. The weights are the probabilities. i.e. \textcolor{pink}{$\text{Var}(x) = \sigma^2 = \sum \{(x- \mu)^2 \cdot f(x)\}$}
 ```
 
-## Bivariate Distributions
+## Bivariate Distributions {#bivariate-be05}
 
 ```{definition 'Bivariate'}
-A probability distribution involving two random variables is called a \textcolor{pink}{bivariate probability distribution}. 
+A probability distribution involving two random variables is called a \textcolor{pink}{bivariate probability distribution}. A discrete bivariate probability distribution provides a probability for each pair of values that may occur for the two random variables.
 ```
 
 - NOTE:
   - Each outcome for a bivariate experiment consists of two values, one for each random variable. Example: Rolling a pair of dice
+  - Bivariate probabilities are often called \textcolor{pink}{joint probabilities}
 
 ## Ex Dicarlo {.tabset .tabset-fade}
 
@@ -90,6 +94,7 @@ bb <- xxdicarlo
 bb <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>% 
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
 		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
+R_dicarlo_var_y_305 <- sum(bb$x_mu_sq_Fx)
 # #Total Row
 bb <- bb %>% 
   mutate(across(1, as.character)) %>% 
@@ -98,7 +103,6 @@ bb <- bb %>%
          x_mu_sq_Fx = ifelse(x == "Total", paste0("sigma^2 = ", x_mu_sq_Fx), x_mu_sq_Fx)) %>% 
   mutate(across(4:5, ~ replace(., x == "Total", NA)))
 ```
-
 
 ### Table {.unlisted .unnumbered}
 
@@ -139,18 +143,22 @@ bb %>% mutate(across(everything(), as.character))
 ```
 
 ### Modify Value {.unlisted .unnumbered}
+
 ```{r '305-ModifyValue', eval=FALSE}
 bb <- xxdicarlo
 ii <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>% 
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
-		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) %>% 
+		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
+# #Add Total Row
+ii <- ii %>% 
   mutate(across(1, as.character)) %>% 
   add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.double), sum))) 
 #
 # #Modify Specific Row Values without using filter() 
 # #filter() does not have 'un-filter()' function like group()-ungroup() combination
 # #Selecting Row where x = "Total" and changing Column Values for Two Columns
-ii <- ii %>% mutate(xFx = ifelse(x == "Total", paste0("mu = ", xFx), xFx),
+ii <- ii %>% 
+  mutate(xFx = ifelse(x == "Total", paste0("mu = ", xFx), xFx),
        x_mu_sq_Fx = ifelse(x == "Total", paste0("sigma^2 = ", x_mu_sq_Fx), x_mu_sq_Fx)) 
 #
 # #Selecting Row where x = "Total" and doing same replacement on Two Columns
@@ -180,12 +188,13 @@ jj <- bb %>%
   mutate(across(where(is.numeric), ~./sum_bb)) %>% 
   mutate(across(1, as.character)) %>% 
   add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
-  mutate(SUM = rowSums(across(where(is.numeric))))
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(where(is.numeric), format, digits =1))
 ```
 
 ### Table {.unlisted .unnumbered}
 
-```{r '305-DicarloGS-KBL', echo=FALSE, cache=FALSE}
+```{r '305-DicarloGS-KBL', echo=FALSE}
 bb <- ii
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
@@ -240,19 +249,182 @@ knitr::kables(list(kk_ii, kk_jj))
 ```{r '305-TibbleSum'}
 bb <- xxdicarlo_gs
 # #Assuming there is NO Total Column NOR Total Row and First Column is character
-ii <- bb %>% summarise(across(where(is.numeric), sum)) %>% summarise(sum(.)) %>% pull(.)
-jj <- bb %>% summarise(across(-1, sum)) %>% summarise(sum(.)) %>% pull(.)
-stopifnot(identical(ii, jj))
-print(ii)
+kk <- bb %>% summarise(across(where(is.numeric), sum)) %>% summarise(sum(.)) %>% pull(.)
+ll <- bb %>% summarise(across(-1, sum)) %>% summarise(sum(.)) %>% pull(.)
+stopifnot(identical(kk, ll))
+print(kk)
 ```
+
+### format() {.unlisted .unnumbered}
+
+```{r '305-Digits'}
+bb <- xxdicarlo_gs
+# #Round off values to 1 significant digits i.e. 0.003 or 0.02
+# #NOTE: This changes the column to "character"
+bb %>% mutate(across(where(is.numeric), ~./sum_bb)) %>% 
+  mutate(across(where(is.numeric), format, digits =1))
+```
+
+## Bivariate ... {.tabset .tabset-fade}
+
+- Suppose we would like to know the probability distribution for total sales at both DiCarlo dealerships and the expected value and variance of total sales.
+  - We can define $s = x + y$ as Total Sales.
+  - Refer to the Tables \@ref(tab:305-DicarloGS-KBL) and \@ref(tab:305-Bivariate-KBL)
+    - $f(s_0) = f(x_0, y_0) = 0.07$ 
+    - $f(s_1) = f(x_0, y_1) + f(x_1, y_0) = 0.10 + 0.07 = 0.17$ 
+
+```{r '305-BivariateVariance', include=FALSE}
+bb <- xxdicarlo_gs
+sum_bb <- bb %>% summarise(across(-1, sum)) %>% summarise(sum(.)) %>% pull(.)
+# #Convert to Bivariate Probability Distribution
+ii <- bb %>% mutate(across(where(is.numeric), ~./sum_bb)) %>% select(-1)
+# #Using tapply(), sum the Matrix
+jj <- tapply(X= as.matrix(ii), INDEX = LETTERS[row(ii) + col(ii)-1], FUN = sum)
+# #Create Tibble
+kk <- tibble(Fs = jj, ID = LETTERS[1:length(Fs)], s = 1:length(Fs) - 1) %>% 
+  relocate(Fs, .after = last_col()) %>% 
+  mutate(sFs = s * Fs, s_Es = s - sum(sFs), 
+		     s_Es_sq = s_Es * s_Es, s_Es_sq_Fs = s_Es_sq * Fs) 
+# #Save for Notebook
+R_dicarlo_var_s_305 <- sum(kk$s_Es_sq_Fs)
+# #For Printing
+ll <- kk %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.double), sum))) %>% 
+  mutate(across(where(is.numeric), format, digits =2)) %>% 
+  mutate(sFs = ifelse(ID == "Total", paste0("E(s) = ", sFs), sFs),
+         s_Es_sq_Fs = ifelse(ID == "Total", paste0("Var(s) = ", s_Es_sq_Fs), s_Es_sq_Fs)) %>% 
+  mutate(across(c(2,5,6), ~ replace(., ID == "Total", NA)))
+```
+
+### Table {.unlisted .unnumbered}
+
+```{r '305-Bivariate-KBL', echo=FALSE}
+bb <- ll
+displ_names <- c("$ID$", "$s$", "$f(s)$", "$\\sum sf(s)$", "$(s - E(s))$", "$(s - E(s))^2$", 
+                "$\\sum {(s - E(s))^{2}f(s)}$") 
+stopifnot(identical(ncol(bb), length(displ_names)))
+#
+kbl(bb,
+  caption = 'Bivariate Expected Value and Variance',
+  col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				        #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r '305-BivariateVariance-A', ref.label=c('305-BivariateVariance'), eval=FALSE}
+#
+```
+
+### Bivariate to Original {.unlisted .unnumbered}
+
+```{r '305-DicarloG'}
+bb <- xxdicarlo_gs
+# #From the Bivariate get the original data
+ii <- bb %>% 
+  mutate(Fx = rowSums(across(where(is.numeric)))) %>% 
+  select(1, 8) %>% 
+  separate(col = Geneva_Saratoga, into = c(NA, "x"), sep = 1) %>% 
+  mutate(across(1, as.integer))
+# #Variance Calculation
+jj <- ii %>% mutate(across(Fx, ~./sum(Fx))) %>% 
+  mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
+		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
+# #Save for Notebook
+R_dicarlo_var_x_305 <- sum(jj$x_mu_sq_Fx)
+print(jj)
+```
+
+### Sum Diagonals {.unlisted .unnumbered}
+
+```{r '303-SumDiagonal'}
+bb <- xxdicarlo_gs
+#
+# #Tibble Total SUM 
+sum_bb <- bb %>% summarise(across(-1, sum)) %>% summarise(sum(.)) %>% pull(.)
+#
+# #Convert to Bivirate Probability Distribution and Exclude First Character Column
+ii <- bb %>% mutate(across(where(is.numeric), ~./sum_bb)) %>% select(-1)
+#
+# #(1A, 2B, 3C, 4D, 4E, 4F, 3G, 2H, 1I) 9 Unique Combinations = 24 (4x6) Experimental Outcomes 
+matrix(data = LETTERS[row(ii) + col(ii)-1], nrow = 4)
+# 
+# #Using tapply(), sum the Matrix
+jj <- tapply(X= as.matrix(ii), INDEX = LETTERS[row(ii) + col(ii)-1], FUN = sum)
+print(jj)
+# #In place of LETTERS, Numerical Index can also be used but Letters are more clear for grouping
+#tapply(X= as.matrix(ii), INDEX = c(0:8)[row(ii) + col(ii)-1], FUN = sum)
+#
+# #Create Tibble
+kk <- tibble(Fs = jj, ID = LETTERS[1:length(Fs)], s = 1:length(Fs) - 1) %>% 
+  relocate(Fs, .after = last_col())
+print(kk)
+```
+
+### String Split {.unlisted .unnumbered}
+
+```{r '305-SplitString'}
+bb <- xxdicarlo_gs
+# #Separate String based on Position 
+bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1) 
+```
+
+## Covariance
+
+- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer \@ref(eq:covariance-305)
+  - NOTE: It does not look like \@ref(eq:covariance), but for now, I am assuming it is Equivalent
+  - Calculated: $\text{Var}(s) = \text{Var}(x+y) =$ `r round(R_dicarlo_var_s_305, 3)`; $\text{Var}(y) =$ `r R_dicarlo_var_y_305`; $\text{Var}(x) =$ `r round(R_dicarlo_var_x_305, 3)`
+  - Variance $\sigma_{xy} = \frac{2.3895 - 0.8696 - 1.25}{2} = 0.1350$
+  - A covariance of .1350 indicates that daily sales at the two dealerships have a positive relationship. 
+
+\begin{equation} 
+     \sigma_{xy} = \frac{\text{Var}(x+y) - \text{Var}(x) - \text{Var}(y)}{2}
+  (\#eq:covariance-305)
+\end{equation} 
+
+- Correlation of random variables x and y is given by, Refer \@ref(eq:correlation), \textcolor{pink}{$\rho_{xy}  = \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}}$} 
+  - Where $\sigma_{x} = \sqrt{\text{Var}(x)} = \sqrt{0.8696} = 0.9325$; and $\sigma_{y} = \sqrt{\text{Var}(y)} = \sqrt{1.25} = 1.1180$
+  - Correlation Coefficient $\rho_{xy}  = \frac{0.1350}{0.9325 \times 1.1180} = 0.1295$
+  - The correlation coefficient of .1295 indicates there is a weak positive relationship between the random variables representing daily sales at the two dealerships. 
+
+## Distributions
+
+- "ForLater" 
+  - Binomial Probability Distribution - `dbinom(), pbinom(), qbinom(), rbinom()` 
+    - It can be used to determine the probability of obtaining $x$ successes in $n$ trials.
+    - 4 Assumptions must be TRUE
+      1. The experiment consists of a sequence of $n$ identical trials.
+      1. Two outcomes are possible on each trial, one called success and the other failure.
+      1. The probability of a success $p$ does not change from trial to trial. Consequently, the probability of failure, $1 − p$, does not change from trial to trial.
+      1. The trials are independent.
+  - Poisson Probability Distribution - `dpois(), ppois(), qpois(), rpois()` 
+    - To determine the probability of obtaining $x$ occurrences over an interval of time or space.
+    - 2 Assumptions must be TRUE
+      1. The probability of an occurrence of the event is the same for any two intervals of equal length.
+      1. The occurrence or nonoccurrence of the event in any interval is independent of the occurrence or nonoccurrence of the event in any other interval.
+  - Hypergeometric Probability Distribution
+    - Like the binomial, it is used to compute the probability of $x$ successes in $n$ trials. 
+    - But, in contrast to the binomial, the probability of success changes from trial to trial.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r '305-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, displ_names, kk_ii, kk_jj, sum_bb, xxdicarlo, xxdicarlo_gs)
+f_rmExist(aa, bb, ii, jj, kk, ll, displ_names, kk_ii, kk_jj, sum_bb, xxdicarlo, xxdicarlo_gs, 
+          R_dicarlo_var_s_305, R_dicarlo_var_x_305, R_dicarlo_var_y_305)
 ```
 
-```{r '305-Validation', include=TRUE, cache=FALSE}
+```{r '305-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

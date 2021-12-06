@@ -17,7 +17,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
   - Two Variables: [Covariance](#covariance-be03 "be03"), [Correlation Coefficient](#correlation-be03 "be03")
   - Graphs: [BoxPlot](#boxplot-be03 "be03"), [Scatterplot](#covariance-be03 "be03")
 
-## Definitions
+## Definitions (Referenced)
 
 ```{r '303D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Parameter-vs-Statistic")
@@ -643,7 +643,6 @@ The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
 
 - The median makes sense when there is a linear order on the possible values. Unlike median, the concept of mode makes sense for any random variable assuming values from a vector space.
 
-
 #### Mode {.unlisted .unnumbered }
 
 ```{r '303-Mode'}
@@ -718,7 +717,6 @@ summary(bb$VAL)
 # #To Match with Excel "PERCENTILE.EXC" use type=6 in place of default type=7
 quantile(bb$VAL, seq(0, 1, 0.25), type = 6)
 ```
-
 
 ## Measures of Variability
 In addition to measures of location, it is often desirable to consider measures of variability, or dispersion.
@@ -856,7 +854,6 @@ Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median
   - By using the interquartile range, IQR = Q3 − Q1, limits are located at 1.5(IQR) below Q1 and 1.5(IQR) above Q3
   - The \textcolor{pink}{whiskers} are drawn from the ends of the box to the smallest and largest values inside the limits 
   - Boxplots can also be used to provide a graphical summary of two or more groups and facilitate visual comparisons among the groups. 
-
 
 ### BoxPlot {#boxplot-be03 .unlisted .unnumbered}
 

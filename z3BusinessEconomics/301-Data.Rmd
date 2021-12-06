@@ -15,6 +15,7 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
   - Graphs: [Multiple Time Series](#cars-be01 "be01"), [Pareto Chart](#cars-be01 "be01")
 
 ## Introduction
+
 ```{definition 'Data'}
 \textcolor{pink}{Data} are the facts and figures collected, analysed, and summarised for presentation and interpretation.
 ```
@@ -93,6 +94,7 @@ Table: (\#tab:vs-interval-ratio) Interval scale Vs Ratio scale
 | Example | Temperature in Celsius, Calendar years and time, Profit | These possesses an absolute zero characteristic, like age, weight, height, or Sales |
 
 ## Categorical and Quantitative Data
+
 ```{definition 'Categorical-Data'}
 Data that can be grouped by specific categories are referred to as \textcolor{pink}{categorical data}. Categorical data use either the nominal or ordinal scale of measurement.  
 ```
@@ -116,6 +118,7 @@ Quantitative data that measure 'how much' are \textcolor{pink}{continuous} becau
 ```
 
 ## Cross-Sectional and Time Series Data
+
 ```{definition 'Cross-Sectional-Data'}
 \textcolor{pink}{Cross-sectional data} are data collected at the same or approximately the same point in time.  
 ```
@@ -142,6 +145,7 @@ As a result, the data obtained from a well-designed experiment can often provide
 1. Data Acquisition Errors - An error in data acquisition occurs whenever the data value obtained is not equal to the true or actual value that would be obtained with a correct procedure. Ex: recording error, misinterpretation etc. Blindly using any data that happen to be available or using data that were acquired with little care can result in misleading information and bad decisions. 
 
 ## Descriptive Statistics
+
 ```{definition 'Descriptive-Statistics'}
 Most of the statistical information is summarized and presented in a form that is easy to understand. Such summaries of data, which may be tabular, graphical, or numerical, are referred to as \textcolor{pink}{descriptive statistics}.  
 ```
@@ -357,6 +361,7 @@ kbl(bb,
 ```
 
 #### Mean {.unlisted .unnumbered}
+
 ```{r '301-I-Mean'}
 # #What is the average cost for the tablets #$582.90
 cat(paste0("Avg. Cost for the tablets is = $", round(mean(bb$cost), digits = 1), "\n"))
@@ -373,6 +378,7 @@ cat(paste0("Avg. Cost of Tablets with Windows OS is = ",
 ```
 
 #### Percentage {.unlisted .unnumbered}
+
 ```{r '301-I-Percentage'}
 # #What percentage of tablets use an Android operating system #40%
 (ii <- bb %>%
@@ -416,6 +422,7 @@ kbl(bb,
 ```
 
 #### Mean {.unlisted .unnumbered}
+
 ```{r '301-J-Mean'}
 # #What is the average price for the cordless telephones 
 cat(paste0("Avg. Price is = $", round(mean(bb$price), digits = 1), "\n"))
@@ -425,6 +432,7 @@ cat(paste0("Avg. Talk Time is = ", round(mean(bb$talk_time_hh), digits = 1), " H
 ```
 
 #### Percentage {.unlisted .unnumbered}
+
 ```{r '301-J-Percentage'}
 # #What percentage of the cordless telephones have a voice quality of excellent 
 (hh <- bb %>%
@@ -447,6 +455,7 @@ print(bb %>%
 ```
 
 #### PCT 2 {.unlisted .unnumbered}
+
 ```{r '301-J-PercentageMore'}
 # #What percentage of the cordless telephones have a handset on the base 
 bb %>%
@@ -541,6 +550,7 @@ knitr::kables(list(kk_bb, kk_ii))
 ```
 
 #### TimeSeries {.unlisted .unnumbered}
+
 ```{r '301-K-TimeSeries', include=FALSE}
 # #Time series graph for all companies on the same graph
 g301_01 <- ggplot(data = hh, 
@@ -559,6 +569,7 @@ knitr::include_graphics(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"))
 ```
 
 #### Rowwise {.unlisted .unnumbered}
+
 ```{r '301-K-Rowwise'}
 # #who appears to be the market share leader
 # #how the market shares are changing over time
@@ -578,6 +589,7 @@ ii %>%
 ```
 
 #### Pareto {.unlisted .unnumbered}
+
 ```{r '301-K-Pareto', include=FALSE}
 # #Bar Plot
 aa <- bb %>% 

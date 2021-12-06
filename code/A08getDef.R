@@ -10,7 +10,7 @@ f_getDef <- function(x) {
 
 ## ---- A08B-getExm ----
 f_getExm <- function(x) {
-# #Get the Referenced Definition. Ex: f_getExm("Hypothesis-Mean")
+# #Get the Referenced Exmple. Ex: f_getExm("Hypothesis-Mean")
   cat(paste0("\n\n", "\\@ref(exm:", x, ") ", knitr:::knit_code$get(x), collapse = "\n\n"))
 # #xxCLOSE: f_getExm()
 }
