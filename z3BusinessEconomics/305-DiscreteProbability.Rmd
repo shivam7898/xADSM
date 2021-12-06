@@ -14,7 +14,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - [Bivariate Distributions](#bivariate-be05 "be05")
   - "ForLater" - Financial Applications, Exercises, Binomial, Poisson
 
-## Definitions (Referenced)
+## Definitions (Ref)
 
 ```{r '305D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Discrete")
