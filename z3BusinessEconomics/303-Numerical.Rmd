@@ -13,7 +13,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
   - Side Topic: [Number Theory](#numbers-be03 "be03"), [Primes](#primes-be03 "be03"), [Benchmark](#benchmark-be03 "be03"), Vectorising & Compiling & Profiling Functions,
   - Measures of Location: [Mean](mean-be03 "be03"), Weighted Mean, [Median](#median-be03 "be03"), Geometric Mean, [Mode](#mode-be03 "be03"), [Percentiles](#percentiles-be03 "be03"), Quantiles
   - Measures of Variability: Range, IQR, [Variance](#variance-be03 "be03"), [Standard Deviation](#sd-be03 "be03")
-  - Relative Location: [z-scores](#z-scores-be03 "be03"), Chebyshev Theorem, Empirical Rule
+  - Relative Location: [z-scores](#z-scores-be03 "be03"), Chebyshev Theorem, [Empirical Rule](#empirical-be03 "be03")
   - Two Variables: [Covariance](#covariance-be03 "be03"), [Correlation Coefficient](#correlation-be03 "be03")
   - Graphs: [BoxPlot](#boxplot-be03 "be03"), [Scatterplot](#covariance-be03 "be03")
   - "ForLater" - Sum Mean Formulae, Skewness
@@ -828,7 +828,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
     - ${(1 - 1/2.4^2) \approx 0.826 \approx 83\%}$
       - i.e. 83 students must have test scores between 58 and 82
 
-### Empirical Rule {.tabset .tabset-fade}
+### Empirical Rule {#empirical-be03 .tabset .tabset-fade}
 
 ```{definition 'Empirical-Rule'}
 \textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations $\sigma$ of the mean $\mu$ for a normal distribution.

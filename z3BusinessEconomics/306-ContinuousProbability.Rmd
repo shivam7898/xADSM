@@ -9,7 +9,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-
 - This chapter covers 
   - [Continuos Probability](#continuous-prob-be06 "be06")
 
@@ -46,7 +45,6 @@ The probability that the continuous random variable $x$ takes a value between $[
     - It also means that the probability of a continuous random variable assuming a value in any interval is the same whether or not the endpoints are included.
   - Expected Value and Variance are given by \@ref(eq:continuous-var)
 
-
 \begin{equation}
   \begin{align}
     E(x) &= \frac{a+b}{2} \\
@@ -55,10 +53,252 @@ The probability that the continuous random variable $x$ takes a value between $[
   (\#eq:continuous-var)
 \end{equation}
 
+## Normal Probability Distribution {.tabset .tabset-fade}
 
-## Normal Probability Distribution {.unlisted .unnumbered .tabset .tabset-fade}
+```{definition 'Normal-Distribution'}
+A \textcolor{pink}{normal distribution} is a type of continuous probability distribution for a real-valued random variable. 
+```
+
+- Refer equation \@ref(eq:distribution-normal)
+  - Normal distribution is also known as Gaussian or Gauss or Laplace–Gauss distribution
+  - It is symmetrical
+  - The entire family of normal distributions is differentiated by two parameters: the mean $\mu$ and the standard deviation $\sigma$. They determine the location and shape of the normal distribution.
+  - The highest point on the normal curve is at the mean, which is also the median and mode of the distribution. 
+  - The normal distribution is symmetric around its mean. Its skewness measure is zero. 
+  - The tails of the normal curve extend to infinity in both directions and theoretically never touch the horizontal axis. 
+  - Larger values of the standard deviation result in wider, flatter curves, showing more variability in the data.
+  - Probabilities for the normal random variable are given by areas under the normal curve. The total area under the curve for the normal distribution is 1. 
+  - Values of a normal random variable are given as: $68.3\% (\mu \pm \sigma), 95.4\% (\mu \pm 2\sigma), 99.7\% (\mu \pm 3\sigma)$. This is the basis of [Empirical Rule](#empirical-be03 "be03")
+
+\begin{equation}
+  f(x)={\frac {1}{\sigma {\sqrt {2 \pi}}}} e^{-{\frac {1}{2}}\left( {\frac {x-\mu }{\sigma }}\right) ^{2}}
+  (\#eq:distribution-normal)
+\end{equation}
+
+```{r '306-Normal', include=FALSE}
+set.seed(3)
+# #Generate Normal Distribution and Save
+xxNormal <- rnorm(10000L, 0, 1)
+f_setRDS(xxNormal)
+#f_getRDS(xxNormal)
+```
+
+```{r '306-NormalPlot', include=FALSE}
+# #Histogram with Density Curve, Mean and Median: Normal Distribution
+bb <- f_getRDS(xxNormal)
+hh <- tibble(bb)
+bb <- NULL
+# #Basics
+median_hh <- round(median(hh[[1]]), 3)
+mean_hh <- round(mean(hh[[1]]), 3)
+sd_hh <- round(sd(hh[[1]]), 3)
+len_hh <- nrow(hh)
+#
+# #Base Plot
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+# #Shaded Area Object
+ii_area <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
+# #Median Line Data
+ii_line <- ggplot_build(ii)$data[[1]] %>% filter(x <= median_hh)
+#
+g306_01 <- ii + 
+  geom_density(alpha=0.2, colour = "#21908CFF") +
+  geom_histogram(aes(y=..density..), bins = 50, alpha = 0.4, fill = '#FDE725FF') +
+  geom_area(data = ii_area, aes(x = x, y = y), fill=NA, alpha = 0.5) + 
+  # #Full Vertical Line at Mean
+  #geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
+  # #Line upto the Density Curve at Mean #, linetype = "dotted"
+  geom_segment(data = ii_area, 
+               aes(x = mean_hh, y = 0, xend = mean_hh, yend = density), color = "#440154FF") +
+  # #Label 'Mean'
+  geom_text(aes(label = paste0("Mean= ", mean_hh), x = mean_hh, y = -Inf),
+            color = '#440154FF', hjust = -0.5, vjust = -1, angle = 90, check_overlap = TRUE) + 
+  # #Median Line
+  geom_segment(data = ii_line, 
+              aes(x = median_hh, y = 0, xend = median_hh, yend = density), color = "#3B528BFF") +
+  geom_text(aes(label = paste0("Median= ", median_hh), x = median_hh, y = -Inf), 
+            color = '#3B528BFF', hjust = -0.4, vjust = 1.2, angle = 90, check_overlap = TRUE) + 
+  # #Axis
+  #coord_cartesian(xlim = c(0, 800), ylim = c(0, 35000)) + 
+  # #Title, Subtitle, Caption, Axis Labels
+  labs(x = "x (Normal)", y = "Density", title = "Normal Distribution (Symmetrical)",
+        subtitle = paste0("(N=", len_hh, ", ", "Mean= ", mean_hh, 
+                          ", Median= ", median_hh, ", SD= ", sd_hh))
+```
+
+```{r '306-SaveNormal', include=FALSE}
+ggsave(paste0(.z$PX, "g306_Distribution_Normal_01", ".png"), plot = g306_01)
+```
+
+```{r '306G-Normal01', echo=FALSE, fig.cap="Normal Distribution"}
+knitr::include_graphics(paste0(.z$PX, "g306_Distribution_Normal_01", ".png"))
+```
+
+### rnorm() {.unlisted .unnumbered}
+
+```{r '306-Normal-A', ref.label=c('306-Normal'), eval=FALSE}
+#
+```
+
+### Density Function  {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r '306-NormalPlot-A', ref.label=c('306-NormalPlot'), eval=FALSE}
+#
+```
+
+### Build Plot  {.tabset .tabset-fade}
+
+```{r '303-BuildPlot-A'}
+# #Histogram with Density Curve, Mean and Median: Normal Distribution
+bb <- f_getRDS(xxNormal)
+hh <- tibble(bb)
+bb <- NULL
+# #Basics
+median_hh <- round(median(hh[[1]]), 3)
+mean_hh <- round(mean(hh[[1]]), 3)
+sd_hh <- round(sd(hh[[1]]), 3)
+len_hh <- nrow(hh)
+#
+# #Base Plot: Creates Only Density Function Line
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+#
+# #Change the line colour and alpha
+ii <- ii + geom_density(alpha = 0.2, colour = "#21908CFF") 
+#
+# #Add Histogram with 50 bins, alpha and fill
+ii <- ii + geom_histogram(aes(y = ..density..), bins = 50, alpha = 0.4, fill = '#FDE725FF')
+#
+# #Full Vertical Line at Mean. Goes across Function Boundary on Y-Axis
+#ii <- ii + geom_vline(aes(xintercept = mean_hh), color = '#440154FF')
+#
+# #Shaded Area Object for line /Area upto the the Function Boundary on Y-Axis
+# #Mean
+ii_mean <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
+# #Median
+ii_median <- ggplot_build(ii)$data[[1]] %>% filter(x <= median_hh)
+#
+# #To show values which are less than Mean in colour
+#ii <- ii + geom_area(data = ii_mean, aes(x = x, y = y), fill = 'blue', alpha = 0.5) 
+#
+# #Line upto the Density Curve at Mean 
+ii <- ii + geom_segment(data = ii_mean, 
+             aes(x = mean_hh, y = 0, xend = mean_hh, yend = density), color = "#440154FF")
+#
+# #Label 'Mean' 
+ii <- ii + geom_text(aes(label = paste0("Mean= ", mean_hh), x = mean_hh, y = -Inf),
+            color = '#440154FF', hjust = -0.5, vjust = -1, angle = 90, check_overlap = TRUE)
+#
+# #Similarly, Median Line and Label
+ii <- ii + geom_segment(data = ii_median, 
+             aes(x = median_hh, y = 0, xend = median_hh, yend = density), color = "#3B528BFF") +
+  geom_text(aes(label = paste0("Median= ", median_hh), x = median_hh, y = -Inf), 
+            color = '#3B528BFF', hjust = -0.4, vjust = 1.2, angle = 90, check_overlap = TRUE) 
+#
+# #Change Axis Limits
+ii <- ii + coord_cartesian(xlim = c(-5, 5), ylim = c(0, 0.5))
+#
+# #Change x-Axis Ticks interval
+xbreaks_hh <- seq(-3, 3)
+xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
+# # Latex Labels 
+xlabels_hh <- c(TeX(r'($\mu - 3 \sigma$)'), TeX(r'($\mu - 2 \sigma$)'), 
+                TeX(r'($\mu - \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\mu + \sigma$)'), 
+                TeX(r'($\mu + 2 \sigma$)'), TeX(r'($\mu + 3\sigma$)'))
+#
+ii <- ii + scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh)
+#
+# #Get Quantiles and Ranges of mean +/- sigma 
+q05_hh <- quantile(hh[[1]],.05)
+q95_hh <- quantile(hh[[1]],.95)
+density_hh <- density(hh[[1]])
+density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
+sig3l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 3 * sd_hh)
+sig3r_hh <- density_hh_tbl %>% filter(x >= mean_hh + 3 * sd_hh)
+sig2r_hh <- density_hh_tbl %>% filter(x >= mean_hh + 2 * sd_hh, x < mean_hh + 3 * sd_hh)
+sig2l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 2 * sd_hh, x > mean_hh - 3 * sd_hh)
+sig1r_hh <- density_hh_tbl %>% filter(x >= mean_hh + sd_hh, x < mean_hh + 2 * sd_hh)
+sig1l_hh <- density_hh_tbl %>% filter(x <= mean_hh - sd_hh, x > mean_hh - 2 * sd_hh)
+#
+# #Use (mean +/- 3 sigma) To Highlight. NOT ALL Zones have been highlighted
+ii <- ii + geom_area(data = sig3l_hh, aes(x = x, y = y), fill = 'red') +
+           geom_area(data = sig3r_hh, aes(x = x, y = y), fill = 'red')
+#
+# #Annotate Arrows 
+ii <- ii + 
+#  ggplot2::annotate("segment", x = xpoints_hh[4] -0.5 , xend = xpoints_hh[3], y = 0.42, 
+#                    yend = 0.42, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+#  ggplot2::annotate("segment", x = xpoints_hh[4] -0.5 , xend = xpoints_hh[2], y = 0.45, 
+#                    yend = 0.45, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+  ggplot2::annotate("segment", x = xpoints_hh[4] -0.5 , xend = xpoints_hh[1], y = 0.48, 
+                    yend = 0.48, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+#  ggplot2::annotate("segment", x = xpoints_hh[4] +0.5 , xend = xpoints_hh[5], y = 0.42, 
+#                    yend = 0.42, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+#  ggplot2::annotate("segment", x = xpoints_hh[4] +0.5 , xend = xpoints_hh[6], y = 0.45, 
+#                    yend = 0.45, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+  ggplot2::annotate("segment", x = xpoints_hh[4] +0.5 , xend = xpoints_hh[7], y = 0.48, 
+                    yend = 0.48, arrow = arrow(type = "closed", length = unit(0.02, "npc")))
+#
+# #Annotate Labels
+ii <- ii + 
+#  ggplot2::annotate(geom = "text", x = xpoints_hh[4], y = 0.42, label = "68.3%") +
+#  ggplot2::annotate(geom = "text", x = xpoints_hh[4], y = 0.45, label = "95.4%") +
+  ggplot2::annotate(geom = "text", x = xpoints_hh[4], y = 0.48, label = "99.7%")
+#
+# #Add a Theme and adjust Position of Title & Subtile (Both by plot.title.position) & Caption
+# #"plot" or "panel"
+ii <- ii + theme(#plot.tag.position = "topleft",
+                 #plot.caption.position = "plot", 
+                 #plot.caption = element_text(hjust = 0),
+                 plot.title.position = "panel")
+#
+# #Title, Subtitle, Caption, Axis Labels, Tag
+ii <- ii + labs(x = "x", y = "Density", 
+        subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
+                          "; Median= ", median_hh, "; SD= ", sd_hh), 
+        caption = "BE06AA", tag = NULL,
+        title = "Normal Distribution (Symmetrical)")
+#
+ii
+```
 
 
+
+
+
+### Plot LaTex {.unlisted .unnumbered}
+
+```{r '306-PlotLatexEq', eval = FALSE}
+# #Syntax
+#latex2exp::Tex(r('$\sigma =10$'), output = "character")
+# #Test Equation
+#plot(TeX(r'(abc: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
+#plot(TeX(r'(xyz: $f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \,\left(\frac{x - \mu}{\sigma}\right)^2} $)'), cex=2)
+```
+
+### Annotate Plot  {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r '306-AnnotatePlot', eval=FALSE}
+# #NOTE: Complex Equations like Normal Distribution are either slow, brackets are not plotter or simply crash the R.
+# #Syntax
+#ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($\sigma =10$)', output = "character"), parse = TRUE, check_overlap = TRUE)
+  #ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \, \left(\frac{x - \mu}{\sigma}\right)^2} $)', output = "character"), parse = TRUE, check_overlap = TRUE) +
+#    ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^{2}} $)', output = "character"), size = 8, parse = TRUE, check_overlap = TRUE) +
+#  geom_text(aes(label = TeX(r'($f(x)$)', output = "character"), x = -2, y = 0.3), size = 8, color = '#3B528BFF', parse = TRUE, check_overlap = TRUE) +
+```
+
+### ggplot_build()  {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r '306-ggplotObjects'}
+# #Data
+bb <- f_getRDS(xxNormal)
+hh <- tibble(bb)
+# #Base Plot
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+# #Attributes 
+attributes(ggplot_build(ii))$names
+#
+str(ggplot_build(ii)$data[[1]])
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
