@@ -1,4 +1,4 @@
-# Data and Statistics (BE01) {#be01}
+# Data and Statistics {#be01}
 > Definitions and Exercises are from the Book [@Anderson]
 
 ```{r '301A', include=FALSE, cache=FALSE}
