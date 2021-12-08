@@ -1,6 +1,6 @@
-# Continuous Probability Distributions (BE06) {#be06}
+# Continuous Probability Distributions {#c06}
 
-```{r '306A', include=FALSE, cache=FALSE}
+```{r 'C06', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -10,20 +10,20 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Continuos Probability](#continuous-prob-be06 "be06")
+  - [Continuos Probability](#continuous-prob-c06 "c06")
 
 ## Definitions (Ref)
 
-```{r '306D01', comment="", echo=FALSE, results='asis'}
+```{r 'C06D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Discrete-Random-Variable")
 ```
 
-```{r '306D02', comment="", echo=FALSE, results='asis'}
+```{r 'C06D02', comment="", echo=FALSE, results='asis'}
 f_getDef("Continuous-Random-Variable")
 ```
 
 
-## Uniform Probability Distribution {#continuous-prob-be06}
+## Uniform Probability Distribution {#continuous-prob-c06}
 
 ```{definition 'Uniform-Probability-Distribution'}
 \textcolor{pink}{Uniform probability distribution} is a continuous probability distribution for which the probability that the random variable will assume a value in any interval is the same for each interval of equal length. Whenever the probability is proportional to the length of the interval, the random variable is uniformly distributed.
@@ -75,7 +75,7 @@ A \textcolor{pink}{normal distribution} is a type of continuous probability dist
   (\#eq:distribution-normal)
 \end{equation}
 
-```{r '306-Normal', include=FALSE}
+```{r 'C06-Normal', include=FALSE}
 set.seed(3)
 # #Generate Normal Distribution and Save
 xxNormal <- rnorm(10000L, 0, 1)
@@ -83,8 +83,8 @@ f_setRDS(xxNormal)
 #f_getRDS(xxNormal)
 ```
 
-```{r '306-NormalPlot', include=FALSE}
-# #Histogram with Density Curve, Mean and Median: Normal Distribution
+```{r 'C06-NormalPlot', include=FALSE}
+# #Normal Distribution
 bb <- f_getRDS(xxNormal)
 hh <- tibble(bb)
 bb <- NULL
@@ -94,61 +94,77 @@ mean_hh <- round(mean(hh[[1]]), 3)
 sd_hh <- round(sd(hh[[1]]), 3)
 len_hh <- nrow(hh)
 #
-# #Base Plot
-ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
-# #Shaded Area Object
-ii_area <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
-# #Median Line Data
-ii_line <- ggplot_build(ii)$data[[1]] %>% filter(x <= median_hh)
+# #Get Quantiles and Ranges of mean +/- sigma 
+q05_hh <- quantile(hh[[1]],.05)
+q95_hh <- quantile(hh[[1]],.95)
+density_hh <- density(hh[[1]])
+density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
+sig3l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 3 * sd_hh)
+sig3r_hh <- density_hh_tbl %>% filter(x >= mean_hh + 3 * sd_hh)
+sig2r_hh <- density_hh_tbl %>% filter(x >= mean_hh + 2 * sd_hh, x < mean_hh + 3 * sd_hh)
+sig2l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 2 * sd_hh, x > mean_hh - 3 * sd_hh)
+sig1r_hh <- density_hh_tbl %>% filter(x >= mean_hh + sd_hh, x < mean_hh + 2 * sd_hh)
+sig1l_hh <- density_hh_tbl %>% filter(x <= mean_hh - sd_hh, x > mean_hh - 2 * sd_hh)
 #
-g306_01 <- ii + 
-  geom_density(alpha=0.2, colour = "#21908CFF") +
-  geom_histogram(aes(y=..density..), bins = 50, alpha = 0.4, fill = '#FDE725FF') +
-  geom_area(data = ii_area, aes(x = x, y = y), fill=NA, alpha = 0.5) + 
-  # #Full Vertical Line at Mean
-  #geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
-  # #Line upto the Density Curve at Mean #, linetype = "dotted"
-  geom_segment(data = ii_area, 
-               aes(x = mean_hh, y = 0, xend = mean_hh, yend = density), color = "#440154FF") +
-  # #Label 'Mean'
+# #Change x-Axis Ticks interval
+xbreaks_hh <- seq(-3, 3)
+xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
+# # Latex Labels 
+xlabels_hh <- c(TeX(r'($\mu - 3 \sigma$)'), TeX(r'($\mu - 2 \sigma$)'), 
+                TeX(r'($\mu - \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\mu + \sigma$)'), 
+                TeX(r'($\mu + 2 \sigma$)'), TeX(r'($\mu + 3\sigma$)'))
+#
+# #Base Plot: Creates Only Density Function Line
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+#
+# #Mean
+ii_mean <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
+# #Median
+ii_median <- ggplot_build(ii)$data[[1]] %>% filter(x <= median_hh)
+#
+C06P01 <- ii + geom_density(alpha = 0.2, colour = "#21908CFF") + 
+  geom_histogram(aes(y = ..density..), bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_segment(data = ii_mean, 
+               aes(x = mean_hh, y = 0, xend = mean_hh, yend = density), color = "#440154FF") + 
   geom_text(aes(label = paste0("Mean= ", mean_hh), x = mean_hh, y = -Inf),
             color = '#440154FF', hjust = -0.5, vjust = -1, angle = 90, check_overlap = TRUE) + 
-  # #Median Line
-  geom_segment(data = ii_line, 
-              aes(x = median_hh, y = 0, xend = median_hh, yend = density), color = "#3B528BFF") +
-  geom_text(aes(label = paste0("Median= ", median_hh), x = median_hh, y = -Inf), 
-            color = '#3B528BFF', hjust = -0.4, vjust = 1.2, angle = 90, check_overlap = TRUE) + 
-  # #Axis
-  #coord_cartesian(xlim = c(0, 800), ylim = c(0, 35000)) + 
-  # #Title, Subtitle, Caption, Axis Labels
-  labs(x = "x (Normal)", y = "Density", title = "Normal Distribution (Symmetrical)",
-        subtitle = paste0("(N=", len_hh, ", ", "Mean= ", mean_hh, 
-                          ", Median= ", median_hh, ", SD= ", sd_hh))
+  geom_segment(data = ii_median, 
+               aes(x = median_hh, y = 0, xend = median_hh, yend = density), color = "#3B528BFF") + 
+  geom_text(aes(label = paste0("Median= ", median_hh), x = median_hh, y = -Inf),
+            color = '#3B528BFF', hjust = -0.4, vjust = 1.2, angle = 90, check_overlap = TRUE) +  
+  coord_cartesian(xlim = c(-5, 5), ylim = c(0, 0.5)) + 
+  scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh) + 
+  geom_area(data = sig3l_hh, aes(x = x, y = y), fill = 'red') + 
+  geom_area(data = sig3r_hh, aes(x = x, y = y), fill = 'red') + 
+  ggplot2::annotate("segment", x = xpoints_hh[4] -0.5 , xend = xpoints_hh[1], y = 0.48, 
+                    yend = 0.48, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  ggplot2::annotate("segment", x = xpoints_hh[4] +0.5 , xend = xpoints_hh[7], y = 0.48, 
+                    yend = 0.48, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  ggplot2::annotate(geom = "text", x = xpoints_hh[4], y = 0.48, label = "99.7%") + 
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Density", 
+       subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
+                         "; Median= ", median_hh, "; SD= ", sd_hh), 
+        caption = "C06P01", title = "Normal Distribution (Symmetrical)")
 ```
 
-```{r '306-SaveNormal', include=FALSE}
-ggsave(paste0(.z$PX, "g306_Distribution_Normal_01", ".png"), plot = g306_01)
+```{r 'C06P01-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png"), plot = C06P01)
 ```
 
-```{r '306G-Normal01', echo=FALSE, fig.cap="Normal Distribution"}
-knitr::include_graphics(paste0(.z$PX, "g306_Distribution_Normal_01", ".png"))
+```{r 'C06P01', echo=FALSE, fig.cap="Normal Distribution"}
+knitr::include_graphics(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png"))
 ```
 
 ### rnorm() {.unlisted .unnumbered}
 
-```{r '306-Normal-A', ref.label=c('306-Normal'), eval=FALSE}
-#
-```
-
-### Density Function  {.unlisted .unnumbered .tabset .tabset-fade}
-
-```{r '306-NormalPlot-A', ref.label=c('306-NormalPlot'), eval=FALSE}
+```{r 'C06-Normal-A', ref.label=c('C06-Normal'), eval=FALSE}
 #
 ```
 
 ### Build Plot  {.tabset .tabset-fade}
 
-```{r '303-BuildPlot-A'}
+```{r '303-BuildPlot-A', eval=FALSE}
 # #Histogram with Density Curve, Mean and Median: Normal Distribution
 bb <- f_getRDS(xxNormal)
 hh <- tibble(bb)
@@ -255,40 +271,34 @@ ii <- ii + theme(#plot.tag.position = "topleft",
 ii <- ii + labs(x = "x", y = "Density", 
         subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
                           "; Median= ", median_hh, "; SD= ", sd_hh), 
-        caption = "BE06AA", tag = NULL,
+        caption = "C06AA", tag = NULL,
         title = "Normal Distribution (Symmetrical)")
 #
-ii
+#ii
 ```
-
-
-
-
 
 ### Plot LaTex {.unlisted .unnumbered}
 
-```{r '306-PlotLatexEq', eval = FALSE}
-# #Syntax
+```{r 'C06-PlotLatexEq', eval = FALSE}
+# #Syntax 
 #latex2exp::Tex(r('$\sigma =10$'), output = "character")
 # #Test Equation
-#plot(TeX(r'(abc: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
-#plot(TeX(r'(xyz: $f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \,\left(\frac{x - \mu}{\sigma}\right)^2} $)'), cex=2)
+plot(TeX(r'(abc: $\frac{2hc^2}{\lambda^5} \, \frac{1}{e^{\frac{hc}{\lambda k_B T}} - 1}$)'), cex=2)
+plot(TeX(r'(xyz: $f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \,\left(\frac{x - \mu}{\sigma}\right)^2} $)'), cex=2)
 ```
 
 ### Annotate Plot  {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '306-AnnotatePlot', eval=FALSE}
-# #NOTE: Complex Equations like Normal Distribution are either slow, brackets are not plotter or simply crash the R.
+```{r 'C06-AnnotatePlot', eval=FALSE}
 # #Syntax
-#ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($\sigma =10$)', output = "character"), parse = TRUE, check_overlap = TRUE)
-  #ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \, \left(\frac{x - \mu}{\sigma}\right)^2} $)', output = "character"), parse = TRUE, check_overlap = TRUE) +
-#    ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^{2}} $)', output = "character"), size = 8, parse = TRUE, check_overlap = TRUE) +
-#  geom_text(aes(label = TeX(r'($f(x)$)', output = "character"), x = -2, y = 0.3), size = 8, color = '#3B528BFF', parse = TRUE, check_overlap = TRUE) +
+ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($\sigma =10$)', output = "character"), parse = TRUE, check_overlap = TRUE)
+# #NOTE: Complex Equations like Normal Distribution are crashing the R.
+ggpp::annotate("text", x = -2, y = 0.3, label=TeX(r'($f(x) =\frac{1}{\sigma \sqrt{2\pi}}\, e^{- \, \frac{1}{2} \, \left(\frac{x - \mu}{\sigma}\right)^2} $)', output = "character"), parse = TRUE, check_overlap = TRUE)
 ```
 
 ### ggplot_build()  {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '306-ggplotObjects'}
+```{r 'C06-ggplotObjects'}
 # #Data
 bb <- f_getRDS(xxNormal)
 hh <- tibble(bb)
@@ -302,11 +312,11 @@ str(ggplot_build(ii)$data[[1]])
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '306-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+```{r 'C06-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, C06P01, density_hh, density_hh_tbl, hh, ii_mean, ii_median, len_hh, mean_hh, median_hh, q05_hh, q95_hh, sd_hh, sig1l_hh, sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal)
 ```
 
-```{r '306-Validation', include=TRUE, cache=FALSE}
+```{r 'C06-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects
 f_()
 #

@@ -1,6 +1,6 @@
-# Probability (BE04) {#be04}
+# Probability {#c04}
 
-```{r '304A', include=FALSE, cache=FALSE}
+```{r 'C04', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers Probability, Factorial, Combinations, Permutations, Bayes Theorem.
-  - [Probability Basics](#assign-probability-be04 "be04")
+  - [Probability Basics](#assign-probability-c04 "c04")
   - "ForLater" - Exercises
 
 ## Probability
@@ -80,7 +80,7 @@ The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, 
 - \textcolor{pink}{The number of permutations of $k$ distinct objects is $k!$}
   - An experiment results in more permutations than combinations for the same number of objects because every selection of $k$ objects can be ordered in $k!$ different ways.
 
-## Assigning Probabilities {#assign-probability-be04}
+## Assigning Probabilities {#assign-probability-c04}
 
 - Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuos Probability](#continuous-prob-be06 "be06"))
   1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let $E_i$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0,1]$}
@@ -166,7 +166,7 @@ occurred. The conditional probability of 'A given B' is \textcolor{pink}{$P(A|B)
 xxPolice <- tibble(Promo_Gender = c('Promoted', 'NotPromoted'), Men = c(288, 672), Women = c(36, 204))
 ```
 
-```{r '303-PoliceTBL', echo=FALSE}
+```{r 'C04T01', echo=FALSE}
 aa <- xxPolice
 bb <- aa %>% 
   bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
@@ -179,7 +179,7 @@ ii <- bb %>% mutate(across(where(is.numeric), ~./1200))
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_bb <- kbl(bb,
-  caption = 'Police: Promotion and Gender',
+  caption = "(C04T01) Police: Promotion and Gender",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -198,7 +198,7 @@ kk_bb <- kbl(bb,
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_ii <- kbl(ii,
-  caption = 'Joint and Marginal Probabilities',
+  caption = "(C04T01A) Joint and Marginal Probabilities",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -217,7 +217,7 @@ kk_ii <- kbl(ii,
 knitr::kables(list(kk_bb, kk_ii))
 ```
 
-- Refer to the Police Promotion Table \@ref(tab:303-PoliceTBL) 
+- Refer to the Police Promotion Table \@ref(tab:C04T01) 
   - Let, M (Man), W (Woman), A (Promoted), $A^{c}$ (Not Promoted)
   - Probability that a randomly selected officer ...
     - is man and is promoted: $P(A \cap M) = 288/1200 = 0.24$
@@ -290,11 +290,11 @@ probabilities are mutually exclusive and their union is the entire sample space.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '304-Cleanup', include=FALSE, cache=FALSE}
+```{r 'C04-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, kk_bb, kk_ii, xxPolice)
 ```
 
-```{r '304-Validation', include=FALSE, cache=FALSE}
+```{r 'C04-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

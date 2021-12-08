@@ -1,6 +1,6 @@
-# Numerical Measures (BE03) {#be03}
+# Numerical Measures {#c03}
 
-```{r '303A', include=FALSE, cache=FALSE}
+```{r 'C03', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -10,21 +10,21 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 ## Overview
 
 - This chapter covers 
-  - Side Topic: [Number Theory](#numbers-be03 "be03"), [Primes](#primes-be03 "be03"), [Benchmark](#benchmark-be03 "be03"), Vectorising & Compiling & Profiling Functions,
-  - Measures of Location: [Mean](mean-be03 "be03"), Weighted Mean, [Median](#median-be03 "be03"), Geometric Mean, [Mode](#mode-be03 "be03"), [Percentiles](#percentiles-be03 "be03"), Quantiles
-  - Measures of Variability: Range, IQR, [Variance](#variance-be03 "be03"), [Standard Deviation](#sd-be03 "be03")
-  - Relative Location: [z-scores](#z-scores-be03 "be03"), Chebyshev Theorem, [Empirical Rule](#empirical-be03 "be03")
-  - Two Variables: [Covariance](#covariance-be03 "be03"), [Correlation Coefficient](#correlation-be03 "be03")
-  - Graphs: [BoxPlot](#boxplot-be03 "be03"), [Scatterplot](#covariance-be03 "be03")
+  - Side Topic: [Number Theory](#numbers-c03 "c03"), [Primes](#primes-c03 "c03"), [Benchmark](#benchmark-c03 "c03"), Vectorising & Compiling & Profiling Functions,
+  - Measures of Location: [Mean](mean-c03 "c03"), Weighted Mean, [Median](#median-c03 "c03"), Geometric Mean, [Mode](#mode-c03 "c03"), [Percentiles](#percentiles-c03 "c03"), Quantiles
+  - Measures of Variability: Range, IQR, [Variance](#variance-c03 "c03"), [Standard Deviation](#sd-c03 "c03")
+  - Relative Location: [z-scores](#z-scores-c03 "c03"), Chebyshev Theorem, [Empirical Rule](#empirical-c03 "c03")
+  - Two Variables: [Covariance](#covariance-c03 "c03"), [Correlation Coefficient](#correlation-c03 "c03")
+  - Graphs: [BoxPlot](#boxplot-c03 "c03"), [Scatterplot](#covariance-c03 "c03")
   - "ForLater" - Sum Mean Formulae, Skewness
 
 ## Definitions (Ref)
 
-```{r '303D01', comment="", echo=FALSE, results='asis'}
+```{r 'C03D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Parameter-vs-Statistic")
 ```
 
-## Number Theory {#numbers-be03 .tabset .tabset-fade}
+## Number Theory {#numbers-c03 .tabset .tabset-fade}
 
 ```{definition 'Number'}
 A \textcolor{pink}{number} is a mathematical object used to count, measure, and label. Their study or usage is called \textcolor{pink}{arithmetic}, a term which may also refer to \textcolor{pink}{number theory}, the study of the properties of numbers. 
@@ -38,7 +38,7 @@ As only a relatively small number of symbols can be memorized, basic numerals ar
 
 \textcolor{pink}{Measurement} is the quantification of attributes of an object or event, which can be used to compare with other objects or events.
 
-```{r '303-Sets-A', include=FALSE}
+```{r 'C03-Sets-A', include=FALSE}
 # #NOT Working in Bookdown
 # # For Infinity '\u221e'
 cat(paste0(" \u2115 (0,1,2,...) \u2282 \u2124 (-1,0,1) \u2282 \u211a (-0.5,+0.5) \u2282 \u211d (\u221a2, e(\u2091), \u03c0) \u2282 \u2102 (a +i b) "))
@@ -78,7 +78,7 @@ The number \textcolor{pink}{Pi $\pi = 3.14159\ldots$} is defined as the ratio of
   (\#eq:euler-identity)
 \end{equation} 
 
-```{r '303-PI'}
+```{r 'C03-PI'}
 # #Read OIS File for 20000 PI digits including integral (3) and fractional (14159...)
 # #md5sum = "daf0b33a67fd842a905bb577957a9c7f"
 tbl <- read_delim(file = paste0(.z$XL, "PI-OIS-b000796.txt"), 
@@ -136,11 +136,11 @@ Mersenne primes:
   - It is 105,097,565th Prime, 8th Mersenne prime and is one of only four known double Mersenne primes.
   - It represents the largest value that a signed 32-bit integer field can hold. 
 
-## Primes {#primes-be03 .tabset .tabset-fade}
+## Primes {#primes-c03 .tabset .tabset-fade}
 
 ### Empty Vector {.unlisted .unnumbered}
 
-```{r '303-EmptyVector'}
+```{r 'C03-EmptyVector'}
 # #Create empty Vector with NA
 aa <- rep(NA_integer_, 10)
 print(aa)
@@ -148,13 +148,13 @@ print(aa)
 
 ### f_isPrime() {.unlisted .unnumbered}
 
-```{r '303F-isPrime', ref.label=c('A09A-isPrime', 'A09B-isPrimeV', 'A09C-isPrimeC'), eval=FALSE }
+```{r 'C03F-isPrime', ref.label=c('A09A-isPrime', 'A09B-isPrimeV', 'A09C-isPrimeC'), eval=FALSE }
 #
 ```
 
 ### Primes {.unlisted .unnumbered}
 
-```{r '303-ListPrime', eval=FALSE}
+```{r 'C03-ListPrime', eval=FALSE}
 # #There are 4 Primes in First 10, 25 in 100, 168 in 1000, 1229 in 10000.
 # # Using Vectorise Version, get all the Primes
 aa <- 1:10
@@ -175,7 +175,7 @@ f_setRDS(xxPrimes)
 
 ### Large Integers {.unlisted .unnumbered}
 
-```{r '303-LargeNumbers'}
+```{r 'C03-LargeNumbers'}
 # #NOTE: Assigning 2147483647L causes the Chunk to throw Warnings even with 'eval=FALSE'.
 if(FALSE){
 # #Assignment of 2305843009213693951L is NOT possible without Warning
@@ -197,13 +197,13 @@ if(FALSE){
 
 ### f_getPrime() {.unlisted .unnumbered}
 
-```{r '303F-getPrimeUpto', ref.label=c('A09D-getPrimeUpto'), eval=FALSE}
+```{r 'C03F-getPrimeUpto', ref.label=c('A09D-getPrimeUpto'), eval=FALSE}
 #
 ```
 
-### Benchmark {#benchmark-be03 .unlisted .unnumbered}
+### Benchmark {#benchmark-c03 .unlisted .unnumbered}
 
-```{r '303-Benchmark', eval=FALSE}
+```{r 'C03-Benchmark', eval=FALSE}
 # #Compare any number of functions
 result <- microbenchmark(
   sum(1:100)/length(1:100), 
@@ -227,7 +227,7 @@ print(result)
 
 "ForLater" - Include `rowsum(), rowSums(), colSums(), rowMeans(), colMeans()` in this also.
 
-```{r '303-SumMean'}
+```{r 'C03-SumMean'}
 # #Conclusion: use mean() because precision is difficult to achieve compared to speed
 #
 # #sum()/length() is faster than mean()
@@ -259,7 +259,7 @@ sum(aa)/length(aa) - mean(aa)
 
 ### Remove Objects  {.unlisted .unnumbered}
 
-```{r '303-rmPattern', eval=FALSE}
+```{r 'C03-rmPattern', eval=FALSE}
 if(FALSE) {
   # #Remove all objects matching a pattern
   rm(list = ls(pattern = "f_"))
@@ -268,7 +268,7 @@ if(FALSE) {
 
 ### Options Memory {.unlisted .unnumbered}
 
-```{r '303-Memory'}
+```{r 'C03-Memory'}
 # #Check the Current Options Value
 getOption("expressions")
 if(FALSE) {
@@ -283,21 +283,21 @@ if(FALSE) {
 
 ### Vectorize() {.unlisted .unnumbered}
 
-```{r '303-Vectorize', eval=FALSE}
+```{r 'C03-Vectorize', eval=FALSE}
 # #To Vectorise a Function
 f_isPrimeV <- Vectorize(f_isPrime)
 ```
 
 ### Compiling {.unlisted .unnumbered}
 
-```{r '303-Compile', eval=FALSE}
+```{r 'C03-Compile', eval=FALSE}
 # #To Pre-Compile a Function for faster performance
 f_isPrimeC <- cmpfun(f_isPrime)
 ```
 
 ### Profiling {.unlisted .unnumbered}
 
-```{r '303-Profile', eval=FALSE}
+```{r 'C03-Profile', eval=FALSE}
 # #To Profile a Function Calls for improvements
 Rprof("file.out")
 f_isPrime(2147483647L)
@@ -308,7 +308,7 @@ summaryRprof("file.out")
 
 ### Legacy A {.unlisted .unnumbered}
 
-```{r '303-isPrime-NOT', eval=FALSE}
+```{r 'C03-isPrime-NOT', eval=FALSE}
 # #Functions to check for PRIME - All of them have various problems
 # #"-3L -2L -1L 0L 1L 8L" FALSE "2L 3L ... 524287L 2147483647L" TRUE
 isPrime_a <- function(x) {
@@ -366,7 +366,7 @@ isPrime_e <- function(x) {
 
 ### Legacy B {.unlisted .unnumbered}
 
-```{r '303-getPrime-NOT', eval=FALSE}
+```{r 'C03-getPrime-NOT', eval=FALSE}
 # #131071 (12,251th), 524287 (43,390th), 2147483647 (105,097,565th)
 aa <- 1:131071
 # #Following works but only till 524287L, Memory Overflow ERROR for 2147483647L
@@ -499,7 +499,7 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
 
 ## Measures of Location
 
-### Mean {#mean-be03 .tabset .tabset-fade}
+### Mean {#mean-c03 .tabset .tabset-fade}
 
 ```{definition 'Mean'}
 Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean $\overline{x}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count $n$.
@@ -525,7 +525,7 @@ In the mean calculation, normally each $x_i$ is given equal importance or weight
 
 #### Mean {.unlisted .unnumbered}
 
-```{r '303-Mean'}
+```{r 'C03-Mean'}
 aa <- 1:10
 # #Mean of First 10 Numbers
 mean(aa)
@@ -533,7 +533,7 @@ mean(aa)
 
 #### More {.unlisted .unnumbered}
 
-```{r '303-MeanMore'}
+```{r 'C03-MeanMore'}
 aa <- 1:10
 # #Mean of First 10 Numbers
 ii <- mean(aa)
@@ -550,7 +550,7 @@ f_getRDS(xxPI)[1:100, ] %>% pull(VAL) %>% mean()
 
 #### Weighted Mean {.unlisted .unnumbered}
 
-```{r '303-WeightedMean'}
+```{r 'C03-WeightedMean'}
 aa <- tibble(Purchase = 1:5, cost_per_kg = c(3, 3.4, 2.8, 2.9, 3.25), 
              kg = c(1200, 500, 2750, 1000, 800))
 # #NOTE that unit of mean is same as unit of the variable e.g. cost_per_kg thus 'w' would be 'kg'
@@ -560,7 +560,7 @@ kk <- weighted.mean(x = aa$cost_per_kg, w = aa$kg)
 stopifnot(all(identical(ii, jj), identical(ii, kk)))
 ```
 
-### Median {#median-be03 .tabset .tabset-fade}
+### Median {#median-c03 .tabset .tabset-fade}
 
 ```{definition 'Median'}
 \textcolor{pink}{Median} of a population is any value such that at most half of the population is less than the proposed median and at most half is greater than the proposed median.  
@@ -584,7 +584,7 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
 
 #### Median {.unlisted .unnumbered}
 
-```{r '303-Median'}
+```{r 'C03-Median'}
 aa <- 1:10 
 # #Median of First 10 Numbers
 median(aa)
@@ -592,7 +592,7 @@ median(aa)
 
 #### More {.unlisted .unnumbered}
 
-```{r '303-MedianMore'}
+```{r 'C03-MedianMore'}
 aa <- 1:10 
 # #Median of First 10 Numbers
 median(aa)
@@ -622,7 +622,7 @@ The \textcolor{pink}{geometric mean $\overline{x}_g$} is a measure of location t
 
 #### Geometric Mean {.unlisted .unnumbered }
 
-```{r '303-GeometricMean'}
+```{r 'C03-GeometricMean'}
 aa <- 1:10
 # #Geometric Mean of of First 10 Numbers
 exp(mean(log(aa)))
@@ -630,7 +630,7 @@ exp(mean(log(aa)))
 
 #### More {.unlisted .unnumbered }
 
-```{r '303-GMmore'}
+```{r 'C03-GMmore'}
 aa <- 1:10
 # #Geometric Mean of of First 10 Numbers
 ii <- exp(mean(log(aa)))
@@ -641,7 +641,7 @@ stopifnot(identical(ii, jj))
 exp(mean(log(f_getRDS(xxPrimes)[1:10])))
 ```
 
-### Mode {#mode-be03 .tabset .tabset-fade}
+### Mode {#mode-c03 .tabset .tabset-fade}
 
 ```{definition 'Mode'}
 The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
@@ -651,7 +651,7 @@ The \textcolor{pink}{mode} is the value that occurs with greatest frequency.
 
 #### Mode {.unlisted .unnumbered }
 
-```{r '303-Mode'}
+```{r 'C03-Mode'}
 # #Mode of First 100 Digits of PI
 bb <- f_getRDS(xxPI)[1:100, ] %>% pull(VAL)
 f_getMode(bb)
@@ -659,7 +659,7 @@ f_getMode(bb)
 
 #### More {.unlisted .unnumbered }
 
-```{r '303-ModeMore'}
+```{r 'C03-ModeMore'}
 # #Mode of First 100 Digits of PI
 bb <- f_getRDS(xxPI)[1:100, ]
 #
@@ -672,11 +672,11 @@ bb %>% pull(VAL) %>% f_getMode()
 
 #### f_getMode() {.unlisted .unnumbered }
 
-```{r '303F-getMode', ref.label=c('A10A-getMode')}
+```{r 'C03F-getMode', ref.label=c('A10A-getMode')}
 #
 ```
 
-### Percentiles {#percentiles-be03 .tabset .tabset-fade}
+### Percentiles {#percentiles-c03 .tabset .tabset-fade}
 
 ```{definition 'Percentile'}
 A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing $n$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
@@ -695,7 +695,7 @@ A \textcolor{pink}{percentile} provides information about how the data are sprea
 
 #### Percentiles {.unlisted .unnumbered}
 
-```{r '303-Percentile'}
+```{r 'C03-Percentile'}
 # #First 100 Digits of PI
 bb <- f_getRDS(xxPI)[1:100, ]
 #
@@ -705,7 +705,7 @@ quantile(bb$VAL, 0.5)
 
 #### More {.unlisted .unnumbered}
 
-```{r '303-PercentileMore'}
+```{r 'C03-PercentileMore'}
 # #First 100 Digits of PI
 bb <- f_getRDS(xxPI)[1:100, ]
 #
@@ -736,7 +736,7 @@ In addition to measures of location, it is often desirable to consider measures 
 - Mean Absolute Error (MAE)
   - $MAE = \frac{\sum |x_i - \overline{x}|}{n}$
 
-### Variance {#variance-be03 .tabset .tabset-fade}
+### Variance {#variance-c03 .tabset .tabset-fade}
 
 ```{definition 'Variance'}
 The \textcolor{pink}{variance} is based on the difference between the value of each observation $x_i$ and the mean $\overline{x}$. The average of the squared deviations is called the variance. 
@@ -756,7 +756,7 @@ The \textcolor{pink}{variance} is based on the difference between the value of e
   (\#eq:variance)
 \end{equation} 
 
-### Standard Deviation {#sd-be03 .tabset .tabset-fade}
+### Standard Deviation {#sd-c03 .tabset .tabset-fade}
 
 ```{definition 'Standard-Deviation'}
 The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the positive square root of the variance.
@@ -782,7 +782,7 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
 
 ## Relative Location
 
-### z-Scores {#z-scores-be03 .tabset .tabset-fade}
+### z-Scores {#z-scores-c03 .tabset .tabset-fade}
 
 Measures of relative location help us determine how far a particular value is from the mean. By using both the mean and standard deviation, we can determine the relative location of any observation. 
 
@@ -828,7 +828,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
     - ${(1 - 1/2.4^2) \approx 0.826 \approx 83\%}$
       - i.e. 83 students must have test scores between 58 and 82
 
-### Empirical Rule {#empirical-be03 .tabset .tabset-fade}
+### Empirical Rule {#empirical-c03 .tabset .tabset-fade}
 
 ```{definition 'Empirical-Rule'}
 \textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations $\sigma$ of the mean $\mu$ for a normal distribution.
@@ -852,7 +852,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
   - $\text{Lower Limit} = Q_1 - 1.5 \space \text{IQR}$ and $\text{Upper Limit} = Q_3 + 1.5 \space \text{IQR}$ 
   - An observation is classified as an outlier if its value is less than the lower limit or greater than the upper limit. 
 
-## Summary {#BoxPlot .tabset .tabset-fade}
+## Summary {#boxplot-c03 .tabset .tabset-fade}
 
 Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median, Q3, Max
 
@@ -861,16 +861,16 @@ Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median
   - The \textcolor{pink}{whiskers} are drawn from the ends of the box to the smallest and largest values inside the limits 
   - Boxplots can also be used to provide a graphical summary of two or more groups and facilitate visual comparisons among the groups. 
 
-### BoxPlot {#boxplot-be03 .unlisted .unnumbered}
+### BoxPlot {.unlisted .unnumbered}
 
-```{r '303-BoxPlot', include=FALSE}
+```{r 'C03-BoxPlot', include=FALSE}
 # #nycflights13::weather
 bb <- weather
 # #NA are present in the data
 summary(bb$temp)
 #
 # #BoxPlot
-g303_01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE)) %>% {
+C03P01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE)) %>% {
     ggplot(data = ., mapping = aes(x = month, y = temp)) +
     #geom_violin() +
     geom_boxplot(aes(fill = month), outlier.colour = 'red', notch = TRUE) +
@@ -880,26 +880,27 @@ g303_01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE)
     #geom_jitter(position=position_jitter(0.2)) +
     k_gglayer_box +
     theme(legend.position = 'none') +
-    labs(x = "Months", y = "Temperature", title = "BoxPlot", subtitle = "With Mean & Notch")
+    labs(x = "Months", y = "Temperature", subtitle = "With Mean & Notch", 
+         caption = "C03P01", title = "BoxPlot")
 }
 ```
 
-```{r '303-SaveBox', include=FALSE}
-ggsave(paste0(.z$PX, "g303_boxplot_01", ".png"), plot = g303_01)
+```{r 'C03P01-Save', include=FALSE}
+ggsave(paste0(.z$PX,  "C03P01", "_BoxPlot", ".png"), plot = C03P01)
 ```
 
-```{r '303G-Box01', echo=FALSE, fig.cap="geom_boxplot()", include=TRUE}
-knitr::include_graphics(paste0(.z$PX, "g303_boxplot_01", ".png"))
+```{r 'C03P01', echo=FALSE, fig.cap="geom_boxplot()"}
+knitr::include_graphics(paste0(.z$PX, "C03P01", "_BoxPlot", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
-```{r '303-BoxPlot-A', ref.label=c('303-BoxPlot'), eval=FALSE}
+```{r 'C03-BoxPlot-A', ref.label=c('C03-BoxPlot'), eval=FALSE}
 #
 ```
 
 ## Relationship between Two Variables
 
-### Covariance {#covariance-be03 .tabset .tabset-fade}
+### Covariance {#covariance-c03 .tabset .tabset-fade}
 
 ```{definition 'Covariance'}
 \textcolor{pink}{Covariance} is a measure of linear association between two variables. Positive values indicate a positive relationship; negative values indicate a negative relationship.
@@ -920,14 +921,14 @@ knitr::include_graphics(paste0(.z$PX, "g303_boxplot_01", ".png"))
   (\#eq:covariance)
 \end{equation} 
 
-```{r '303-Trendline', include=FALSE}
-bb <- f_getRDS(be0214) 
+```{r 'C03-Trendline', include=FALSE}
+bb <- f_getRDS(xxCommercials) 
 
 # #Define the formula for Trendline calculation
 k_gg_formula <- y ~ x
 #
 # #Scatterplot, Trendline Equation, R2, mean x & y
-g303_02 <- bb %>% {
+C03P02 <- bb %>% {
   ggplot(data = ., aes(x = Commercials, y = Sales)) + 
   geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
   stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ", \n", ..rr.label.., ")")), 
@@ -943,30 +944,32 @@ g303_02 <- bb %>% {
             color = 'red', , hjust = 1.5, vjust = -0.5, parse = TRUE, check_overlap = TRUE) + 
   geom_point() +
   k_gglayer_scatter +
-  labs(x = "Commercials", y = "Sales ($100s)", title = "Scatter Plot",
-       subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)"))
+  labs(x = "Commercials", y = "Sales ($100s)",
+       subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)"), 
+       caption = "C03P02", title = "Scatter Plot")
 }
 ```
 
-```{r '303-SaveTrend', include=FALSE}
-ggsave(paste0(.z$PX, "g303_trendline_01", ".png"), plot = g303_02)
+```{r 'C03P02-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"), plot = C03P02)
 ```
 
-```{r '303G-Trend01', echo=FALSE, fig.cap="Added Mean", include=FALSE}
-knitr::include_graphics(paste0(.z$PX, "g303_trendline_01", ".png"))
+```{r 'C03P02', echo=FALSE, fig.cap="Added Mean", include=FALSE}
+knitr::include_graphics(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"))
 ```
 
-```{r '303G-Trend02', echo=FALSE, fig.cap="Original", include=FALSE}
-knitr::include_graphics(paste0(.z$PX, "g302_trendline_01", ".png"))
+```{r 'C02P05-A', echo=FALSE, fig.cap="Original", include=FALSE}
+# #NOTE: Chunk of C02 in C03.
+knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"))
 ```
 
-```{r '303G-Trend03', ref.label=c('303G-Trend02', '303G-Trend01'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
+```{r 'C03P02-A', ref.label=c('C02P05-A', 'C03P02'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
 #
 ```
 
 #### Covariance {.unlisted .unnumbered}
 
-```{r '303-Covariance'}
+```{r 'C03-Covariance'}
 # #Get 'Deviation about the mean' i.e. devX and devY and their Product devXY
 ii <- bb %>% 
   mutate(devX = Commercials - mean(Commercials), devY = Sales - mean(Sales), devXY = devX * devY) 
@@ -978,7 +981,7 @@ print(sxy)
 
 #### Code {.unlisted .unnumbered}
 
-```{r '303-Trendline-A', ref.label='303-Trendline', eval=FALSE}
+```{r 'C03-Trendline-A', ref.label='C03-Trendline', eval=FALSE}
 #
 ```
 
@@ -998,13 +1001,13 @@ print(sxy)
   -  [This](https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant "https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant")
   -  [This](https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence "https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence")
 
-### Correlation Coefficient {#correlation-be03 .tabset .tabset-fade}
+### Correlation Coefficient {#correlation-c03 .tabset .tabset-fade}
 
 ```{definition 'Correlation-Coefficient'}
 \textcolor{pink}{Correlation coefficient} is a measure of linear association between two variables that takes on values between −1 and +1. Values near +1 indicate a strong positive linear relationship; values near −1 indicate a strong negative linear relationship; and values near zero indicate the lack of a linear relationship.
 ```
 
-- Refer equation \@ref(eq:correlation) & Table \@ref(tab:303-CorrelationKbl)
+- Refer equation \@ref(eq:correlation) & Table \@ref(tab:C03T01)
   - The 'Pearson Product Moment Correlation Coefficient' or \textcolor{pink}{sample correlation coefficient} is computed by dividing the sample covariance $s_{xy}$ by the product of the sample standard deviation of x ($s_{x}$) and the sample standard deviation of y ($s_{y}$).
     - Values close to −1 (negative) or +1 (positive) indicate a strong linear relationship. The closer the correlation is to zero, the weaker the relationship.
   - In the example, $s_{xy} = 11$ (Equation \@ref(eq:covariance)) and $s_{x} = 1.49$, $s_{y} = 7.93$ (Equation \@ref(eq:sd))
@@ -1022,7 +1025,7 @@ print(sxy)
 
 #### Correlation  {.unlisted .unnumbered}
 
-```{r '303-Correlation', include=FALSE}
+```{r 'C03-Correlation', include=FALSE}
 jj <- ii %>% mutate(devXsq = devX * devX, devYsq = devY * devY)
 # #Sample Covariance Sx, Sample Standard Deviations Sx Sy
 sxy <- sum(ii$devXY) / {nrow(ii) -1}
@@ -1035,19 +1038,19 @@ rxy <- round(sxy / {sx * sy}, 2)
 cat(paste0("Correlation Coefficient Rxy =", rxy, "\n"))
 ```
 
-```{r '303-Correlation-A', ref.label=c('303-Covariance', '303-Correlation'), eval=TRUE}
+```{r 'C03-Correlation-A', ref.label=c('C03-Covariance', 'C03-Correlation'), eval=TRUE}
 #
 ```
 
 #### Data  {.unlisted .unnumbered}
 
-```{r '303-CorrelationKbl', echo=FALSE}
+```{r 'C03T01', echo=FALSE}
 bb <- jj
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kbl(bb,
-  caption = 'Correlation Calculation',
+  caption = "(C03T01) Correlation Calculation",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -1057,19 +1060,19 @@ kbl(bb,
 				        #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
-# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
-	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#C03030)
+	row_spec(0, color = "white", background = "#C03030", bold = TRUE,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '303-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, g303_01, g303_02, rxy, sx, sxy, sy)
+```{r 'C03-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, rxy, sx, sxy, sy, C03P01, C03P02)
 ```
 
-```{r '303-Validation', include=FALSE, cache=FALSE}
+```{r 'C03-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

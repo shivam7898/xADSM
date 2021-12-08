@@ -1,7 +1,7 @@
-# Data and Statistics {#be01}
+# Data and Statistics {#c01}
 > Definitions and Exercises are from the Book [@Anderson]
 
-```{r '301A', include=FALSE, cache=FALSE}
+```{r 'C01', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -11,8 +11,9 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 ## Overview
 
 - This chapter covers introductory information and basic definitions.
-  - [Exercises](#exercises-be01 "be01"): Mean, Percentage, Transpose, Rowwise Calculations
-  - Graphs: [Multiple Time Series](#cars-be01 "be01"), [Pareto Chart](#cars-be01 "be01")
+  - [Population vs Sample](#population-sample-c01 "c01")
+  - [Exercises](#exercises-c01 "c01"): Mean, Percentage, Transpose, Rowwise Calculations
+  - Graphs: [Multiple Time Series](#cars-c01 "c01"), [Pareto Chart](#cars-c01 "c01")
 
 ## Introduction
 
@@ -71,7 +72,7 @@ Variables such as distance, height, weight, and time use the ratio scale of meas
 
 For example, consider the cost of an automobile. A zero value for the cost would indicate that the automobile has no cost and is free. In addition, if we compare the cost of \$30,000 for one automobile to the cost of \$15,000 for a second automobile, the ratio property shows that the first automobile is \$30,000/\$15,000 = 2 times, or twice, the cost of the second automobile. 
 
-See Table \@ref(tab:vs-interval-ratio) for more details.
+See Table \@ref(tab:C01V01) for more details.
 
 ### Interval scale vs. Ratio scale
 
@@ -83,7 +84,7 @@ In a ratio scale, you can take a ratio of two values. Ex: 40 kg is twice as heav
 
 Also, "0" on ratio scale means the absence of that physical quantity. "0" on interval scale doesn't mean the same. 0 kg means the absence of weight. 0 °C doesn't mean absence of heat.
 
-Table: (\#tab:vs-interval-ratio) Interval scale Vs Ratio scale
+Table: (\#tab:C01V01) (C01V01) Interval scale Vs Ratio scale
 
 | Features | Interval scale | Ratio scale |
 | :--- | :--- | :---  | 
@@ -168,7 +169,7 @@ The measurable quality or characteristic is called a \textcolor{pink}{Population
 A sample statistic is referred to as the \textcolor{pink}{point estimator} of the corresponding population parameter. For example, $\overline{x}, s, s^2, s_{xy}, r_{xy}$ sample statics are point estimators for corresponding population parameters of $\mu$ (mean), $\sigma$ (standard deviation), $\sigma^2$ (variance), $\sigma_{xy}$ (covariance), $\rho_{xy}$ (correlation).
 ```
 
-## Difference between a population and a sample {#PopulationSample}
+## Difference between a population and a sample {#population-sample-c01}
 
 The population is the set of entities under study. 
 
@@ -258,11 +259,11 @@ The term \textcolor{pink}{data warehousing} is used to refer to the process of c
 
 Data mining relies heavily on statistical methodology such as multiple regression, logistic regression, and correlation. 
 
-## Exercises {#exercises-be01}
+## Exercises {#exercises-c01}
 
-- Table: \@ref(tab:301-I-xxComputers) 
-- Table: \@ref(tab:301-J-xxCordless)  
-- Table: \@ref(tab:301-K-CarsMultiple)  
+- Table: \@ref(tab:C01T02) 
+- Table: \@ref(tab:C01T03)  
+- Table: \@ref(tab:C01T04)  
   - Who appears to be the market share leader and how the market shares are changing over time
     - \textcolor{orange}{Caution:} Trend Analysis should be done by linear regression with `cor(), lm()` etc.
 
@@ -270,26 +271,26 @@ Data mining relies heavily on statistical methodology such as multiple regressio
 
 #### Load Data {.unlisted .unnumbered}
 
-```{r '301-Load'}
-xxComputers <- f_getObject("xxComputers", "BE01-Computers.csv", "971fb6096e4f71e8185d3327a9033a10")
-xxCordless <- f_getObject("xxCordless", "BE01-Cordless.csv", "9991f612fe44f1c890440bd238084679")
+```{r 'C01-Load'}
+xxComputers <- f_getObject("xxComputers", "C01-Computers.csv", "971fb6096e4f71e8185d3327a9033a10")
+xxCordless <- f_getObject("xxCordless", "C01-Cordless.csv", "9991f612fe44f1c890440bd238084679")
 ```
 
 #### f_getObject() {.unlisted .unnumbered}
-```{r '301F-getObject', ref.label=c('A07-getObject'), eval=FALSE}
+```{r 'C01F-getObject', ref.label=c('A07-getObject'), eval=FALSE}
 # #
 ```
 
 #### Print Table {.unlisted .unnumbered}
 
-```{r '301D-KBL', eval=FALSE}
+```{r 'C01T01-KBL', eval=FALSE}
 bb <- xxComputers
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 # #Kable Table
 kbl(bb,
-  caption = 'Caption',
+  caption = "(C01T01)",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -307,19 +308,19 @@ kbl(bb,
 
 #### Transpose Tibble {.unlisted .unnumbered}
 
-```{r '301-L-Assignment'}
+```{r 'C01-L-Assignment'}
 bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
               `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
               `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
 ```
 
-```{r '301-L-Long'}
+```{r 'C01-L-Long'}
 # #Transpose Tibble: Note that the First Column Header is lost after Transpose
 # #Longer
 bb %>% pivot_longer(!Company, names_to = "Year", values_to = "Values")
 ```
 
-```{r '301-L-Transpose'}
+```{r 'C01-L-Transpose'}
 # #Transpose
 (ii <- bb %>% 
   pivot_longer(!Company, names_to = "Year", values_to = "Values") %>% 
@@ -333,18 +334,18 @@ stopifnot(identical(ii,
 
 ### Computers {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '301-I-Assignment', include=FALSE}
+```{r 'C01-I-Assignment', include=FALSE}
 bb <- xxComputers
 ```
 
-```{r '301-I-xxComputers', echo=FALSE}
+```{r 'C01T02', echo=FALSE}
 bb <- xxComputers
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 # #Kable Table
 kbl(bb,
-  caption = 'xxComputers',
+  caption = "(C01T02) xxComputers",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -362,7 +363,7 @@ kbl(bb,
 
 #### Mean {.unlisted .unnumbered}
 
-```{r '301-I-Mean'}
+```{r 'C01-I-Mean'}
 # #What is the average cost for the tablets #$582.90
 cat(paste0("Avg. Cost for the tablets is = $", round(mean(bb$cost), digits = 1), "\n"))
 #
@@ -379,7 +380,7 @@ cat(paste0("Avg. Cost of Tablets with Windows OS is = ",
 
 #### Percentage {.unlisted .unnumbered}
 
-```{r '301-I-Percentage'}
+```{r 'C01-I-Percentage'}
 # #What percentage of tablets use an Android operating system #40%
 (ii <- bb %>%
   group_by(os) %>%
@@ -394,18 +395,18 @@ cat(paste0("Android OS is used in ",
 
 ### Cordless {.unlisted .unnumbered .tabset .tabset-fade} 
 
-```{r '301-J-Assignment', include=FALSE}
+```{r 'C01-J-Assignment', include=FALSE}
 bb <- xxCordless
 ```
 
-```{r '301-J-xxCordless', echo=FALSE}
+```{r 'C01T03', echo=FALSE}
 bb <- xxCordless
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 # #Kable Table
 kbl(bb,
-  caption = 'xxCordless',
+  caption = "(C01T03) xxCordless",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -423,7 +424,7 @@ kbl(bb,
 
 #### Mean {.unlisted .unnumbered}
 
-```{r '301-J-Mean'}
+```{r 'C01-J-Mean'}
 # #What is the average price for the cordless telephones 
 cat(paste0("Avg. Price is = $", round(mean(bb$price), digits = 1), "\n"))
 #
@@ -433,7 +434,7 @@ cat(paste0("Avg. Talk Time is = ", round(mean(bb$talk_time_hh), digits = 1), " H
 
 #### Percentage {.unlisted .unnumbered}
 
-```{r '301-J-Percentage'}
+```{r 'C01-J-Percentage'}
 # #What percentage of the cordless telephones have a voice quality of excellent 
 (hh <- bb %>%
   group_by(voice_quality) %>%
@@ -456,7 +457,7 @@ print(bb %>%
 
 #### PCT 2 {.unlisted .unnumbered}
 
-```{r '301-J-PercentageMore'}
+```{r 'C01-J-PercentageMore'}
 # #What percentage of the cordless telephones have a handset on the base 
 bb %>%
   group_by(handset_on_base) %>%
@@ -467,9 +468,9 @@ bb %>%
   filter(handset_on_base == "Yes") 
 ```
 
-### Cars {#cars-be01 .unlisted .unnumbered .tabset .tabset-fade} 
+### Cars {#cars-c01 .unlisted .unnumbered .tabset .tabset-fade} 
 
-```{r '301-K-Assignment', include=FALSE}
+```{r 'C01-K-Assignment', include=FALSE}
 bb <- tibble(Company = c("Hertz", "Dollar", "Avis"), 
               `2007` = c(327, 167, 204), `2008` = c(311, 140, 220),
               `2009` = c(286, 106, 300), `2010` = c(290, 108, 270))
@@ -484,12 +485,12 @@ ii <- bb %>%
 
 #### Transform {.unlisted .unnumbered}
 
-```{r '301-K-CarsMultiple', echo=FALSE}
+```{r 'C01T04', echo=FALSE}
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_bb <- kbl(bb,
-  caption = 'Cars in Service (1000s)',
+  caption = "(C01T04) Cars in Service",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -508,7 +509,7 @@ kk_bb <- kbl(bb,
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_hh <- kbl(hh,
-  caption = 'Cars (Longer)',
+  caption = "(C01T04A) Cars (Longer)",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -527,7 +528,7 @@ kk_hh <- kbl(hh,
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_ii <- kbl(ii,
-  caption = 'Cars (Transposed)',
+  caption = "(C01T04B) Cars (Transposed)",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -545,32 +546,34 @@ kk_ii <- kbl(ii,
 knitr::kables(list(kk_bb, kk_ii))
 ```
 
-```{r '301-K-Transform', ref.label=c('301-K-Assignment'), eval=FALSE}
+```{r 'C01-K-Transform', ref.label=c('C01-K-Assignment'), eval=FALSE}
 # #
 ```
 
 #### TimeSeries {.unlisted .unnumbered}
 
-```{r '301-K-TimeSeries', include=FALSE}
+```{r 'C01-K-TimeSeries', include=FALSE}
 # #Time series graph for all companies on the same graph
-g301_01 <- ggplot(data = hh, 
-                     aes(x = Year, y = Values, colour = Company, group = Company)) + 
-  geom_line()
+C01P01 <- hh %>% { ggplot(data = ., aes(x = Year, y = Values, colour = Company, group = Company)) + 
+    geom_line() +
+    labs(x = "Year", y = "Values", subtitle = NULL, 
+         caption = "C01P01", title = "Multiple Time Series Chart")
+  }
 ```
 
-```{r '301-K-SaveTimeSeries', include=TRUE}
-# #Save
-ggsave(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"), plot = g301_01)
+```{r 'C01P01-Save', include=TRUE}
+# #Save an Image
+ggsave(paste0(.z$PX, "C01P01_Cars_TimeSeries", ".png"), plot = C01P01)
 ```
 
-```{r '301G-Cars01-TimeSeries', echo=TRUE, fig.cap="Multiple Time Series Graph"}
-# #Import
-knitr::include_graphics(paste0(.z$PX, "g301_Cars_01_TimeSeries", ".png"))
+```{r 'C01P01', echo=TRUE, fig.cap="Multiple Time Series Graph"}
+# #Load an Image
+knitr::include_graphics(paste0(.z$PX, "C01P01_Cars_TimeSeries", ".png"))
 ```
 
 #### Rowwise {.unlisted .unnumbered}
 
-```{r '301-K-Rowwise'}
+```{r 'C01-K-Rowwise'}
 # #who appears to be the market share leader
 # #how the market shares are changing over time
 print(ii)
@@ -590,7 +593,7 @@ ii %>%
 
 #### Pareto {.unlisted .unnumbered}
 
-```{r '301-K-Pareto', include=FALSE}
+```{r 'C01-K-Pareto', include=FALSE}
 # #Bar Plot
 aa <- bb %>% 
   select(Company, `2010`) %>% 
@@ -605,9 +608,8 @@ pareto_chr <- setNames(c(aa$Y2010), aa$Company)
 stopifnot(identical(pareto_chr, aa %>% pull(Y2010, Company)))
 stopifnot(identical(pareto_chr, aa %>% select(1:2) %>% deframe()))
 # #Plot Pareto
-g301_02 <- pareto.chart(pareto_chr, 
-             xlab = "Company",
-			 ylab = "Cars",
+C01P02 <- pareto.chart(pareto_chr, 
+             xlab = "Company", ylab = "Cars",
              # colors of the chart             
              #col=heat.colors(length(pareto_chr)), 
              # ranges of the percentages at the right
@@ -619,30 +621,29 @@ g301_02 <- pareto.chart(pareto_chr,
 )
 ```
 
-```{r '301-K-Pareto-A', ref.label=c('301-K-Pareto'), eval=FALSE}
+```{r 'C01-K-Pareto-A', ref.label=c('C01-K-Pareto'), eval=FALSE}
 # #Display Code without showing the associated Graph
 ```
 
-```{r '301-K-SavePareto', include=FALSE}
-# #Save
-png(filename = paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
-plot(g301_02)
+```{r 'C01P02-Save', include=FALSE}
+# #Save without using ggsave()
+png(filename = paste0(.z$PX, "C01P02_Cars_Pareto", ".png"))
+plot(C01P02)
 dev.off()
 ```
 
-```{r '301G-Cars02-Pareto', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
-# #Import
-knitr::include_graphics(paste0(.z$PX, "g301_Cars_02_Pareto", ".png"))
+```{r 'C01P02', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
+knitr::include_graphics(paste0(.z$PX, "C01P02_Cars_Pareto", ".png"))
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '301-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, g301_01, g301_02, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr)
-f_rmExist(xxComputers, xxCordless)
+```{r 'C01-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr, C01P01, C01P02, 
+          xxComputers, xxCordless)
 ```
 
-```{r '301-Validation', include=FALSE, cache=FALSE}
+```{r 'C01-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

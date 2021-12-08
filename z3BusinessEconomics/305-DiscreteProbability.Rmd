@@ -1,6 +1,6 @@
-# Discrete Probability Distributions (BE05) {#be05}
+# Discrete Probability Distributions {#c05}
 
-```{r '305A', include=FALSE, cache=FALSE}
+```{r 'C05A', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -10,17 +10,17 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Discrete Probability](#discrete-prob-be05 "be05")
-  - [Bivariate Distributions](#bivariate-be05 "be05")
+  - [Discrete Probability](#discrete-prob-c05 "c05")
+  - [Bivariate Distributions](#bivariate-c05 "c05")
   - "ForLater" - Financial Applications, Exercises, Binomial, Poisson
 
 ## Definitions (Ref)
 
-```{r '305D01', comment="", echo=FALSE, results='asis'}
+```{r 'C05D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Discrete")
 ```
 
-```{r '305D02', comment="", echo=FALSE, results='asis'}
+```{r 'C05D02', comment="", echo=FALSE, results='asis'}
 f_getDef("Continuous")
 ```
 
@@ -38,7 +38,7 @@ A random variable that may assume either a finite number of values or an infinit
 A random variable that may assume any numerical value in an interval or collection of intervals is called a \textcolor{pink}{continuous random variable}. It is given by \textcolor{pink}{$x \in [n, m]$}. If the entire line segment between the two points also represents possible values for the random variable, then the random variable is continuous.
 ```
 
-## Discrete Probability Distributions {#discrete-prob-be05}
+## Discrete Probability Distributions {#discrete-prob-c05}
 
 ```{definition 'Probability-Distribution'}
 The \textcolor{pink}{probability distribution} for a random variable describes how probabilities are distributed over the values of the random variable.
@@ -74,7 +74,7 @@ the probabilities.
 The \textcolor{pink}{variance} is a weighted average of the squared deviations of a random variable from its mean. The weights are the probabilities. i.e. \textcolor{pink}{$\text{Var}(x) = \sigma^2 = \sum \{(x- \mu)^2 \cdot f(x)\}$}
 ```
 
-## Bivariate Distributions {#bivariate-be05}
+## Bivariate Distributions {#bivariate-c05}
 
 ```{definition 'Bivariate'}
 A probability distribution involving two random variables is called a \textcolor{pink}{bivariate probability distribution}. A discrete bivariate probability distribution provides a probability for each pair of values that may occur for the two random variables.
@@ -86,7 +86,7 @@ A probability distribution involving two random variables is called a \textcolor
 
 ## Ex Dicarlo {.tabset .tabset-fade}
 
-```{r '305-Dicarlo', include=FALSE}
+```{r 'C05-Dicarlo', include=FALSE}
 # #Dicarlo: Days with Number of Cars Sold per day for last 300 days
 xxdicarlo <- tibble(Cars = 0:5, Days = c(54, 117, 72, 42, 12, 3))
 #
@@ -94,7 +94,7 @@ bb <- xxdicarlo
 bb <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>% 
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
 		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
-R_dicarlo_var_y_305 <- sum(bb$x_mu_sq_Fx)
+R_dicarlo_var_y_C05 <- sum(bb$x_mu_sq_Fx)
 # #Total Row
 bb <- bb %>% 
   mutate(across(1, as.character)) %>% 
@@ -106,13 +106,13 @@ bb <- bb %>%
 
 ### Table {.unlisted .unnumbered}
 
-```{r '305-Dicarlo-KBL', echo=FALSE}
+```{r 'C05T04', echo=FALSE}
 displ_names <- c("$x$", "$f(x)$", "$\\sum xf(x)$", "$(x - \\mu)$", "$(x - \\mu)^2$", 
                 "$\\sum {(x - \\mu)^{2}f(x)}$") 
 stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kbl(bb,
-  caption = 'Variance Calculation',
+  caption = "(C05T04) Variance Calculation",
   col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -130,13 +130,13 @@ kbl(bb,
 
 ### Data {.unlisted .unnumbered}
 
-```{r '305-Dicarlo-A', ref.label=c('305-Dicarlo'), eval=FALSE}
+```{r 'C05-Dicarlo-A', ref.label=c('C05-Dicarlo'), eval=FALSE}
 #
 ```
 
 ### Change Class {.unlisted .unnumbered}
 
-```{r '305-ColClass', eval=FALSE}
+```{r 'C05-ColClass', eval=FALSE}
 # #Change Column Classes as required
 bb %>% mutate(across(1, as.character))
 bb %>% mutate(across(everything(), as.character))
@@ -144,7 +144,7 @@ bb %>% mutate(across(everything(), as.character))
 
 ### Modify Value {.unlisted .unnumbered}
 
-```{r '305-ModifyValue', eval=FALSE}
+```{r 'C05-ModifyValue', eval=FALSE}
 bb <- xxdicarlo
 ii <- bb %>% rename(x = Cars, Fx = Days) %>% mutate(across(Fx, ~./sum(Fx))) %>% 
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
@@ -168,7 +168,7 @@ ii %>% mutate(across(4:5, ~ replace(., x == "Total", NA)))
 
 ## Ex Dicarlo GS {.tabset .tabset-fade}
 
-```{r '305-DicarloGS', include=FALSE}
+```{r 'C05-DicarloGS', include=FALSE}
 xxdicarlo_gs <- tibble(Geneva_Saratoga = c("x0", "x1", "x2", "x3"), 
              y0 = c(21, 21, 9, 3), y1 = c(30, 36, 42, 9), y2 = c(24, 33, 9, 6), 
              y3 = c(9, 18, 12, 3), y4 = c(2, 2, 3, 5), y5 = c(0, 1, 2, 0))
@@ -194,13 +194,13 @@ jj <- bb %>%
 
 ### Table {.unlisted .unnumbered}
 
-```{r '305-DicarloGS-KBL', echo=FALSE}
+```{r 'C05T01', echo=FALSE}
 bb <- ii
 #displ_names <- c("") 
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_ii <- kbl(bb,
-  caption = 'Bivariate Table',
+  caption = "(C05T01) Bivariate Table",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -220,7 +220,7 @@ bb <- jj
 #stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kk_jj <- kbl(bb,
-  caption = 'Probability Distribution',
+  caption = "(C05T02) Probability Distribution",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -240,13 +240,13 @@ knitr::kables(list(kk_ii, kk_jj))
 
 ### DataGS {.unlisted .unnumbered}
 
-```{r '305-DicarloGS-A', ref.label=c('305-DicarloGS'), eval=FALSE}
+```{r 'C05-DicarloGS-A', ref.label=c('C05-DicarloGS'), eval=FALSE}
 #
 ```
 
 ### Tibble Total SUM {.unlisted .unnumbered}
 
-```{r '305-TibbleSum'}
+```{r 'C05-TibbleSum'}
 bb <- xxdicarlo_gs
 # #Assuming there is NO Total Column NOR Total Row and First Column is character
 kk <- bb %>% summarise(across(where(is.numeric), sum)) %>% summarise(sum(.)) %>% pull(.)
@@ -257,7 +257,7 @@ print(kk)
 
 ### format() {.unlisted .unnumbered}
 
-```{r '305-Digits'}
+```{r 'C05-Digits'}
 bb <- xxdicarlo_gs
 # #Round off values to 1 significant digits i.e. 0.003 or 0.02
 # #NOTE: This changes the column to "character"
@@ -269,11 +269,11 @@ bb %>% mutate(across(where(is.numeric), ~./sum_bb)) %>%
 
 - Suppose we would like to know the probability distribution for total sales at both DiCarlo dealerships and the expected value and variance of total sales.
   - We can define $s = x + y$ as Total Sales.
-  - Refer to the Tables \@ref(tab:305-DicarloGS-KBL) and \@ref(tab:305-Bivariate-KBL)
+  - Refer to the Tables \@ref(tab:C05T01) and \@ref(tab:C05T03)
     - $f(s_0) = f(x_0, y_0) = 0.07$ 
     - $f(s_1) = f(x_0, y_1) + f(x_1, y_0) = 0.10 + 0.07 = 0.17$ 
 
-```{r '305-BivariateVariance', include=FALSE}
+```{r 'C05-BivariateVariance', include=FALSE}
 bb <- xxdicarlo_gs
 sum_bb <- bb %>% summarise(across(-1, sum)) %>% summarise(sum(.)) %>% pull(.)
 # #Convert to Bivariate Probability Distribution
@@ -286,7 +286,7 @@ kk <- tibble(Fs = jj, ID = LETTERS[1:length(Fs)], s = 1:length(Fs) - 1) %>%
   mutate(sFs = s * Fs, s_Es = s - sum(sFs), 
 		     s_Es_sq = s_Es * s_Es, s_Es_sq_Fs = s_Es_sq * Fs) 
 # #Save for Notebook
-R_dicarlo_var_s_305 <- sum(kk$s_Es_sq_Fs)
+R_dicarlo_var_s_C05 <- sum(kk$s_Es_sq_Fs)
 # #For Printing
 ll <- kk %>% 
   add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.double), sum))) %>% 
@@ -298,14 +298,14 @@ ll <- kk %>%
 
 ### Table {.unlisted .unnumbered}
 
-```{r '305-Bivariate-KBL', echo=FALSE}
+```{r 'C05T03', echo=FALSE}
 bb <- ll
 displ_names <- c("$ID$", "$s$", "$f(s)$", "$\\sum sf(s)$", "$(s - E(s))$", "$(s - E(s))^2$", 
                 "$\\sum {(s - E(s))^{2}f(s)}$") 
 stopifnot(identical(ncol(bb), length(displ_names)))
 #
 kbl(bb,
-  caption = 'Bivariate Expected Value and Variance',
+  caption = "(C05T03) Bivariate Expected Value and Variance",
   col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
   ) %>%
@@ -323,13 +323,13 @@ kbl(bb,
 
 ### Code {.unlisted .unnumbered}
 
-```{r '305-BivariateVariance-A', ref.label=c('305-BivariateVariance'), eval=FALSE}
+```{r 'C05-BivariateVariance-A', ref.label=c('C05-BivariateVariance'), eval=FALSE}
 #
 ```
 
 ### Bivariate to Original {.unlisted .unnumbered}
 
-```{r '305-DicarloG'}
+```{r 'C05-DicarloG'}
 bb <- xxdicarlo_gs
 # #From the Bivariate get the original data
 ii <- bb %>% 
@@ -342,7 +342,7 @@ jj <- ii %>% mutate(across(Fx, ~./sum(Fx))) %>%
   mutate(xFx = x * Fx, x_mu = x - sum(xFx), 
 		     x_mu_sq = x_mu * x_mu, x_mu_sq_Fx = x_mu_sq * Fx) 
 # #Save for Notebook
-R_dicarlo_var_x_305 <- sum(jj$x_mu_sq_Fx)
+R_dicarlo_var_x_C05 <- sum(jj$x_mu_sq_Fx)
 print(jj)
 ```
 
@@ -374,7 +374,7 @@ print(kk)
 
 ### String Split {.unlisted .unnumbered}
 
-```{r '305-SplitString'}
+```{r 'C05-SplitString'}
 bb <- xxdicarlo_gs
 # #Separate String based on Position 
 bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1) 
@@ -382,15 +382,15 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
 
 ## Covariance
 
-- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer \@ref(eq:covariance-305)
+- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer \@ref(eq:covariance-C05)
   - NOTE: It does not look like \@ref(eq:covariance), but for now, I am assuming it is Equivalent
-  - Calculated: $\text{Var}(s) = \text{Var}(x+y) =$ `r round(R_dicarlo_var_s_305, 3)`; $\text{Var}(y) =$ `r R_dicarlo_var_y_305`; $\text{Var}(x) =$ `r round(R_dicarlo_var_x_305, 3)`
+  - Calculated: $\text{Var}(s) = \text{Var}(x+y) =$ `r round(R_dicarlo_var_s_C05, 3)`; $\text{Var}(y) =$ `r R_dicarlo_var_y_C05`; $\text{Var}(x) =$ `r round(R_dicarlo_var_x_C05, 3)`
   - Variance $\sigma_{xy} = \frac{2.3895 - 0.8696 - 1.25}{2} = 0.1350$
   - A covariance of .1350 indicates that daily sales at the two dealerships have a positive relationship. 
 
 \begin{equation} 
      \sigma_{xy} = \frac{\text{Var}(x+y) - \text{Var}(x) - \text{Var}(y)}{2}
-  (\#eq:covariance-305)
+  (\#eq:covariance-C05)
 \end{equation} 
 
 - Correlation of random variables x and y is given by, Refer \@ref(eq:correlation), \textcolor{pink}{$\rho_{xy}  = \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}}$} 
@@ -419,12 +419,11 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '305-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, displ_names, kk_ii, kk_jj, sum_bb, xxdicarlo, xxdicarlo_gs, 
-          R_dicarlo_var_s_305, R_dicarlo_var_x_305, R_dicarlo_var_y_305)
+```{r 'C05-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(bb, ii, jj, kk, ll, displ_names, kk_ii, kk_jj, sum_bb, xxdicarlo, xxdicarlo_gs, R_dicarlo_var_s_C05, R_dicarlo_var_x_C05, R_dicarlo_var_y_C05)
 ```
 
-```{r '305-Validation', include=FALSE, cache=FALSE}
+```{r 'C05-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #
