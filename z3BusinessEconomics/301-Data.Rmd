@@ -11,7 +11,7 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 ## Overview
 
 - This chapter covers introductory information and basic definitions.
-  - [Population vs Sample](#population-sample-c01 "c01")
+  - [Statisticl Inference](#stat-inference-c01 "c01"), [Population vs Sample](#population-sample-c01 "c01")
   - [Exercises](#exercises-c01 "c01"): Mean, Percentage, Transpose, Rowwise Calculations
   - Graphs: [Multiple Time Series](#cars-c01 "c01"), [Pareto Chart](#cars-c01 "c01")
 
@@ -165,9 +165,7 @@ A \textcolor{pink}{sample} is a subset of the population.
 The measurable quality or characteristic is called a \textcolor{pink}{Population Parameter} if it is computed from the population. It is called a \textcolor{pink}{Sample Statistic} if it is computed from a sample.
 ```
 
-```{definition 'Point-Estimator'}
-A sample statistic is referred to as the \textcolor{pink}{point estimator} of the corresponding population parameter. For example, $\overline{x}, s, s^2, s_{xy}, r_{xy}$ sample statics are point estimators for corresponding population parameters of $\mu$ (mean), $\sigma$ (standard deviation), $\sigma^2$ (variance), $\sigma_{xy}$ (covariance), $\rho_{xy}$ (correlation).
-```
+Refer [Sample](#sample-c07 "c07") For More ... 
 
 ## Difference between a population and a sample {#population-sample-c01}
 
@@ -183,7 +181,7 @@ Instead, we could take a subset of this population called a sample and use this 
 - It is an inference because there will be some uncertainty and inaccuracy involved in drawing conclusions about the population based upon a sample.
   - In Simple Random Sampling (SRS) each member of the population has an equal probability of being included in the sample, hence the term "random". There are many other sampling methods e.g. stratified sampling, cluster sampling, etc.
 
-## Statistical Inference
+## Statistical Inference {#stat-inference-c01}
 
 ```{definition 'Census'}
 The process of conducting a survey to collect data for the entire population is called a \textcolor{pink}{census}. 
@@ -192,22 +190,6 @@ The process of conducting a survey to collect data for the entire population is 
 ```{definition 'Sample-Survey'}
 The process of conducting a survey to collect data for a sample is called a \textcolor{pink}{sample survey}. 
 ```
-
-```{definition 'Random-Sample'}
-A \textcolor{pink}{random sample} is a sample that is chosen randomly. It could be more accurately called a 'randomly chosen sample'. Random samples are used to avoid bias and other unwanted effects.
-```
-
-```{definition 'SRS'}
-A \textcolor{pink}{simple random sample (SRS)} is a set of $n$ objects in a population of $N$ objects where all possible samples are equally likely to happen.
-```
-
-Random sample vs. SRS
-
-- Random sample: every element of the population has a (nonzero) probability of being drawn.
-  - each element does not necessarily have an equal chance of being chosen.
-- SRS: every element of the population has the same (nonzero) probability of being drawn. 
-  - SRS is thus a special case of a random sample.
-  - SRS is a subset of a statistical population in which each member of the subset has an equal probability of being chosen.
 
 ```{definition 'Statistical-Inference'}
 Statistics uses data from a sample to make estimates and test hypotheses about the characteristics of a population through a process referred to as \textcolor{pink}{statistical inference}.  
