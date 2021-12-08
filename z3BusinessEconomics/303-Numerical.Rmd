@@ -794,7 +794,7 @@ A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x
 The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standard deviations $x_i$ is from the mean $\overline{x}$. It is associated with each $x_i$. The z-score is often called the \textcolor{pink}{standardized value}. 
 ```
 
-- Refer equation \@ref(eq:z-scores)
+- Refer equation \@ref(eq:z-scores) (Similar to equation \@ref(eq:z-val))
   -  For example, $z_1 = 1.2$  would indicate that $x_1$ is 1.2 standard deviations greater than the sample mean. Similarly, $z_2 = -0.5$ would indicate that $x_2$ is 0.5 standard deviation less than the sample mean. 
   - A z-score greater than zero occurs for observations with a value greater than the mean, and a z-scoreless than zero occurs for observations with a value less than the mean. 
   - A z-score of zero indicates that the value of the observation is equal to the mean.
