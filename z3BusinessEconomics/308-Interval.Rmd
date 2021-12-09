@@ -208,7 +208,8 @@ cat(paste0("Normal Sample (n=", length(bb), ", mean=", mean_bb, ", sd=", round(s
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C08-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, dof_bb, dof_ii, err_margin_bb, est_l, est_r, mean_bb, p_l_ii, p_r_ii, sd_bb, t_ii, xxCreditCards, z_ii)
+f_rmExist(aa, bb, ii, jj, kk, ll, dof_bb, dof_ii, err_margin_bb, est_l, est_r, mean_bb, p_l_ii, 
+          p_r_ii, sd_bb, t_ii, xxCreditCards, z_ii)
 ```
 
 ```{r 'C08-Validation', include=FALSE, cache=FALSE}
