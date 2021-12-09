@@ -1,0 +1,35 @@
+# Interval Estimation {#c08}
+
+```{r 'C08', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- This chapter covers 
+
+
+## Definitions (Ref)
+
+```{r 'C08D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Elements")
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C08-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C08-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
