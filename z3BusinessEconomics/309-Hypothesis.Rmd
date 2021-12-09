@@ -1,4 +1,4 @@
-# Interval Estimation {#c09}
+# Hypothesis Tests {#c09}
 
 ```{r 'C09', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
