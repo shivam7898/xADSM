@@ -32,25 +32,31 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Environment {.unnumbered .tabset .tabset-fade}
 
+\textcolor{pink}{Assumption: Working directory has 3 sub-folders named "data", "images", "code".}
+
 ### R Version {.unlisted .unnumbered}
+
 ```{r '000B-RVersion'}
 # #R Version
 R.version.string
 ```  
 
 ### Working Directory {.unlisted .unnumbered}
+
 ```{r '000C-Directory'}
 # #Working Directory
 getwd()
 ```
 
 ### Session Info {.unlisted .unnumbered}
+
 ```{r '000D-Session'}
 # #Version information about R, the OS and attached or loaded packages
 sessionInfo()
 ``` 
  
 ### Pandoc {.unlisted .unnumbered}
+
 ```{r '000E-Pandoc'}
 # #Pandoc Version being used by RStudio
 rmarkdown::pandoc_version()

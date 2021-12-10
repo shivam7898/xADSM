@@ -3,9 +3,10 @@
 
 ## ---- A06A ----
 f_getRDS <- function(x) {
-# #Check if the File exists and then Read the Object
+# #Check if the File exists and then Read the Object i.e. bb <- f_getRDS(xxComputers)
   obj_name <- deparse(substitute(x))
   obj_path <- paste0(.z$XL, obj_name, ".rds")
+  #cat(paste0("Checking: ", obj_path, "\n"))
   if (file.exists(obj_path)) {
 	return(readRDS(obj_path))
   } else {

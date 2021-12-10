@@ -7,20 +7,715 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-## Overview
+## R Basics
 
-- "Introduction to R"
-  - "ForLater"
+> R is Case-sensitive i.e. c() not ~~C()~~ and View() not ~~view()~~
+
+> Hash Sign "#" comments out anything after it, till the newline. There are no multiline comments.
+
+> Backslash "\\" is reserved to escape the character that follows it.
+
+> Escape key stops the parser i.e. "+" sign where R is waiting for more input before evaluation.
+
+Overview 
+
+- [Change Working Directory](#working-dir-b09 "b09")
+
+### R Studio
+
+- There are 4 Panes -
+  1. Top Left - R Editor, Source
+  1. Bottom Left - Console, Terminal, ...
+  1. Top Right - Environment, History, ...
+  1. Bottom Right - Plots, ...
+- Sometimes there are only 3 panes i.e. Editor Pane is missing
+  - To Open Editor Pane - Create a New R Script by "File | New File | R Script" or \textcolor{pink}{"Ctrl+ Shift+ N"}
+- To Modify Pane Settings - Tools | Global Options | Pane Layout
+
+### Shortcuts
+
+- Execute the current expression in Source Pane (Top): "Ctrl+ Enter"
+- Execute the current expression in Console Pane (Bottom): "Enter"
+- Clear the Console Pane (Bottom): "Ctrl+ L"
+- Restart the Current R Session: "Ctrl+ Shift+ F10"
+- Create a New R Script: "Ctrl+ Shift+ N"
+- Insert "  <- " i.e. Assignment Operator with Space: "Alt+ -"
+- Insert " %>% " i.e. Pipe Operator with Space: "Ctrl+ Shift+ M"
+- Comment or Uncomment Lines: "Ctrl+ Shift+ C"
+- Set Working Directory: "Ctrl+ Shift+ H"
+- Search Command History: "Ctrl+ Up Arrow"
+- Search Files: "Ctrl+ ."
+
+### Executing an Expression
+
+Execute the current expression in Source Pane (Top) by 'Run' Button or \textcolor{pink}{"Ctrl+ Enter"}
+
+Execute the current expression in Console Pane (Bottom) by "Enter"
+
+### PATH and Working Directory {#working-dir-b09}
+
+Windows 10 uses backslash "\\" for PATH. R, however, uses slash "/". Backslash "\\" is escape character in R.
+
+- So, To provide "C:\\Users\\userName\\Documents" as PATH
+  - Use: "C:\\\\Users\\\\userName\\\\Documents"
+  - OR: "C:/Users/userName/Documents"
+  - OR: "~" Tilde acts as a Reference to Home Directory
+
+In R Studio, Set Working Directory by: 
+
+  - Session | Set Working Directory | Choose Directory or \textcolor{pink}{"Ctrl+ Shift+ H"}
+
+```{r 'B09-SetWorkingDir'}
+# #Current Working Directory
+getwd()
+#
+# #R Installation Directory (Old DOS Convention i.e. ~1 after 6 letters)
+R.home()
+Sys.getenv("R_HOME") 
+#
+# #This is Wrapped in IF Block to prevent accidental execution
+if(FALSE){
+# #WARNING: This will change your Working Directory
+  setwd("~")
+}
+```
+
+### Printing
+
+If the R program is written over the console, line by line, then the output is printed automatically i.e. no function needed for printing. This is called \textcolor{pink}{implicit printing}. 
+
+Inside an R Script File, implicit printing doesn't work and the expression needs to be printed explicitly.
+
+In R, the most common method to print the output 'explicitly' is by the function \textcolor{pink}{print()}. 
 
 
+```{r 'B09-Printing', eval=FALSE}
+# #Implicit Printing: This will NOT be printed to Console, if it is inside an R Script.
+"Hello World!"
+#
+# #Implicit Printing using '()': Same as above
+("Hello World!")
+#
+# #Explicit Printing using print() : To print Objects to Console, even inside an R Script.
+print("Hello World!")
+## [1] "Hello World!"
+```
+
+## Objects
+
+### List ALL Objects 
+
+Everything that exists in R is an object in the sense that it is a kind of data structure that can be manipulated. Expressions for evaluation are themselves objects; Evaluation consists of taking the object representing an expression and returning the object that is the value of that expression.
+
+
+```{r 'B09-ListObjetcs', eval=FALSE}
+# #ls(): List ALL Objects in the Current NameSpace (Environment)
+ls()
+## character(0)
+```
+
+### Assign a Value to an Object 
+
+\textcolor{orange}{Caution:} Always use "<-" for the assignment, NOT the "="
+
+While the "=" can be used for assignment, it's usage for assignment is highly discouraged because it may behave differently under certain subtle conditions which are difficult to debug. Convention is to use "=" only during function calls for arguments association (syntactic token).
+
+There are 5 assignment operators (<-, =, <<-, ->, ->>), others are not going to be discussed for now.
+
+All the created objects are listed in the Environment Tab of the Top Right Pane.
+
+```{r 'B09-FirstObject'}
+# #Assignment Operator "<-" is used to assign any value (ex: 10) to any object (ex: 'bb')
+bb <- 10
+#
+# #Print Object
+print(bb)
+```
+
+### Remove an Object
+
+In the Environment Tab, any object can be selected and deleted using Brush.
+
+```{r 'B09-RemoveObject'}
+# #Trying to Print an Object 'bb' and Handling the Error, if thrown
+tryCatch(print(bb), error = function(e) print(paste0(e)))
+#
+# #Remove an Object
+rm(bb)
+#
+# #Equivalent
+if(FALSE) {rm("bb")} #Same
+if(FALSE) {rm(list = "bb")} #Faster, verbose, and would not work without quotes
+#
+# #Trying to Print an Object 'bb' and Handling the Error, if thrown
+tryCatch(print(bb), error = function(e) print(paste0(e)))
+```
+
+## Data
+
+```{r 'B09D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Data")
+```
+
+```{r 'B09D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Elements")
+```
+
+```{r 'B09D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Variable")
+```
+
+
+```{r 'B09D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Observation")
+```
+
+
+```{r 'B09D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Statistics")
+```
+
+## Vectors {#vectors-b09 .tabset .tabset-fade}
+
+R has 6 basic data types (logical, integer, double, character, complex, and raw). These data types can be combined to form Data Structures (vector, list, matrix, dataframe, factor etc.). Refer [What is a Vector!](#vectors-b10 "b10")
+
+```{definition 'Vectors'}
+\textcolor{pink}{Vectors} are the simplest type of data structure in R. A vector is a sequence of data elements of the same basic type. 
+```
+
+```{definition 'Components'}
+Members of a vector are called \textcolor{pink}{components}.
+```
+
+Atomic vectors are homogeneous i.e. each component has the same datatype. A vector's type can be checked with the \textcolor{pink}{typeof()} or \textcolor{pink}{class()} function. Its length, i.e. the number of elements in the vector, can be checked with the function \textcolor{pink}{length()}.
+
+If the output of an expression doesn't show numbers in brackets like '[1]' then it is a \textcolor{pink}{'NULL'} type return. [Numbers] show that it is a Vector. Ex: \textcolor{pink}{str()} and \textcolor{pink}{cat()} outputs are of NULL Type.
+
+Use function \textcolor{pink}{c()} to create a vector (or a list) - 
+
+- In R, a literal character or number is just a vector of length 1. So, c() 'combines' them together in a series of 1-length vectors. 
+- c() neither creates nor concatenates the vectors, it combines them. Thus, it combines list into a list and vectors into a vector.
+- In R, list is a 'Vector' but not an 'Atomic Vector'.
+- All arguments are coerced to a common type which is the type of the returned value.
+- All attributes (e.g. dim) except 'names' are removed.
+- The output type is determined from the highest type of the components in the hierarchy `NULL` < `raw` < `logical` < `integer` < `double` < `complex` < `character` < `list` < `expression`.
+- To "index a vector" means, to address specific elements by using square brackets, i.e. x[10] means the ${10^{th}}$ element of vector 'x'.
+
+\textcolor{orange}{Caution:} Colon ":" might produce unexpected length of vectors (in case of 0-length vectors). Suggestion: Use colon only with hardcoded numbers i.e. "1:10" is ok, "1:n" is dangerous and should be avoided.
+
+\textcolor{orange}{Caution:} seq() function might produce unexpected type of vectors (in case of 1-length vectors). Suggestion: Use seq_along(), seq_len().
+
+### Atomic Vectors {.unnumbered}
+
+```{r 'B09-Vectors'}
+# #To know about an Object: str(), class(), length(), dim(), typeof(), is(), attributes(), names()
+# #Integer: To declare as integer "L" (NOT "l") is needed
+ii_int <- c(1L, 2L, 3L, 4L, 5L)
+str(ii_int)
+#
+# #Double (& Default)
+dd_dbl <- c(1, 2, 3, 4, 5)
+str(dd_dbl)
+#
+# #Character
+cc_chr <- c('a', 'b', 'c', 'd', 'e')
+str(cc_chr)
+#
+# #Logical
+ll_lgl <- c(TRUE, FALSE, FALSE, TRUE, TRUE)
+str(ll_lgl)
+```
+
+### Integer {.unnumbered}
+
+```{r 'B09-Integer'}
+# #Integer Vector of Length 1
+nn <- 5L
+#
+# #Colon ":" Operator - Avoid its usage
+str(c(1:nn))
+c(typeof(pi:6), typeof(6:pi))
+#
+# #seq() - Avoid its usage
+str(seq(1, nn))
+str(seq(1, nn, 1))
+str(seq(1, nn, 1L))
+str(seq(1L, nn, 1L))
+#
+# #seq_len()
+str(seq_len(nn))
+```
+
+### Double {.unnumbered}
+
+```{r 'B09-Double'}
+str(seq(1, 5, 1))
+```
+
+### Character {.unnumbered}
+
+```{r 'B09-Character'}
+str(letters[1:5])
+```
+
+### Logical {.unnumbered}
+
+```{r 'B09-Logical'}
+str(1:5 %% 2 == 0)
+```
+
+## DataFrame {#dataframe-b09}
+
+```{r 'B09-DataFrame'}
+# #Create Two Vectors
+income <- c(100, 200, 300, 400, 500)
+gender <- c("male", "female", "female", "female", "male")
+#
+# #Create a DataFrame
+bb <- data.frame(income, gender)
+#
+# #Print or View DataFrame
+#View(bb)
+print(bb)
+#
+# #Struture
+str(bb)
+#
+# #Names
+names(bb)
+```
+
+## Save and Load an R Script {#script-b09 .tabset .tabset-fade}
+
+R Script file extension is ".R"
+
+\textcolor{pink}{"Ctrl+ S"} will Open Save Window at Working Directory.
+
+\textcolor{pink}{"Ctrl+ O"} will Open the Browse Window at Working Directory.
+
+### Check File Exist {.unlisted .unnumbered}
+
+```{r 'B09-CheckFileExists'}
+# #Subdirectory "data" has data files like .csv .rds .txt .xlsx
+# #Subdirectory "code" has scripts files like .R 
+# #Subdirectory "images" has images like .png
+#
+# #Check if a File exists 
+path_relative <- "data/aa.xlsx" #Relative Path
+#
+if(file.exists(path_relative)) {
+    cat("File Exists\n") 
+  } else {
+    cat(paste0("File does not exist at ", getwd(), "/", path_relative, "\n"))
+  }
+#
+if(exists("XL", envir = .z)) {
+  cat(paste0("Absolute Path exists as: ", .z$XL, "\n"))
+  path_absolute <- paste0(.z$XL, "aa", ".xlsx") #Absolute Path
+  #
+  if(file.exists(path_absolute)) {
+    cat("File Exists\n") 
+  } else {
+    cat(paste0("File does not exist at ", path_absolute, "\n"))
+  }
+} else {
+  cat(paste0("Object 'XL' inside Hidden Environment '.z' does not exist. \n", 
+             "This is probably Author's File Path, Replace the File Path from Your own Directory\n"))
+}
+```
+
+### Aside {.unlisted .unnumbered}
+
+- This section is NOT useful for general reader and can be safely ignored. It contains my notes related to building this book. These are useful only for someone who is building his own book. (Shivam)
+- "Absolute Path" is NOT a problem in Building a Book, Knitting a Chapter, or on Direct Console.
+- "Absolute Path" has a problem only when Running code chunk directly from the Rmd document and when the Rmd document is inside a sub-directory (like in this book), then only the Working Directory differs.
+
+## CSV Import /Export {.tabset .tabset-fade}
+
+\textcolor{pink}{write.csv()} and \textcolor{pink}{read.csv()} combination can be used to export data and import it back into R. But, it has some limitations - 
+
+- Re-imported object "yy_data" will NOT match with the original object "xx_data" under default conditions
+  1. write.csv(), by default, write row.names (or row numbers) in the first column. 
+      - So, either use row.names = FALSE while writing 
+      - OR use row.names = 1 while reading
+  1. row.names attribute is always read as 'character' even though originally it might be 'integer'. 
+      - So, that attribute needs to be coerced
+  1. colClasses() needs to be defined to match with the original dataframe, otherwise 'income' is read as 'integer', even though originally it was 'numeric'.
+  1. Conclusion: Avoid, if possible.
+- Alternative: \textcolor{pink}{saveRDS()} and \textcolor{pink}{readRDS()}
+  - Functions to write a single R object to a file, and to restore it.
+  - Imported /Exported objects are always identical
+
+
+```{conjecture 'cannot-open-connection'}
+\textcolor{brown}{Error in file(file, ifelse(append, "a", "w")) : cannot open the connection}
+```
+
+- Check the path, file name, & file extension for typing mistakes
+- Execute getwd(), just before the command, to confirm that the working directory is as expected
+
+
+### write.csv() {.unnumbered}
+
+```{r 'B09-WriteToCSV'}
+xx_data <- bb
+#
+# #Write a dataframe to a CSV File
+write.csv(xx_data, "data/B09_xx_data.csv")
+#
+# #Read from the CSV into a dataframe
+yy_data <- read.csv("data/B09_xx_data.csv")
+#
+# #Check if the object being read is same as the obejct that was written 
+identical(xx_data, yy_data)
+```
+
+### Match Objects {.unnumbered}
+
+```{r 'B09-MatchDataFrame'}
+# #Exercise to show how to match the objects being imported /exported from CSV
+str(bb)
+xx_data <- bb
+# #Write to CSV
+write.csv(xx_data, "data/B09_xx_data.csv")
+#
+# #Read from CSV by providing row.names Column and colClasses()
+yy_data <- read.csv("data/B09_xx_data.csv", row.names = 1,
+                    colClasses = c('character', 'numeric', 'character'))
+#
+# #Coerce row.names attribute to integer
+attr(yy_data, "row.names") <- as.integer(attr(yy_data, "row.names"))
+#
+# #Check if the objects are identical
+identical(xx_data, yy_data)
+stopifnot(identical(xx_data, yy_data))
+```
+
+### RDS {.unnumbered}
+
+```{r 'B09-RDS'}
+str(bb)
+xx_data <- bb
+#
+# #Save the Object as RDS File
+saveRDS(xx_data, "data/B09_xx_data.rds")
+#
+# #Read from the RDS File
+yy_data <- readRDS("data/B09_xx_data.rds")
+#
+# #Objects are identical (No additional transformations are needed)
+identical(xx_data, yy_data)
+```
+
+## Modify Dataframe
+
+```{r 'B09-ModifyDataFrame'}
+str(xx_data)
+# #Adding a Column to a dataframe
+xx_data <- data.frame(xx_data, age = 22:26)
+#
+# #Adding a Column to a dataframe by adding a Vector
+x_age <- 22:26
+xx_data <- data.frame(xx_data, x_age)
+str(xx_data)
+#
+# #Adding a Column to a dataframe by using dollar "$"
+xx_data$age1 <- x_age
+#
+# #Adding a Blank Column using NA
+xx_data$blank <- NA
+#
+# #Editing of a dataframe can also be done
+# edit(xx_data)
+str(xx_data)
+#
+# #Removing a Column by subsetting
+xx_data <- xx_data[ , -c(3)]
+#
+# #Removing a Column using NULL
+xx_data$age1 <- NULL
+str(xx_data)
+```
+
+## Packages {#packages-b09 .tabset .tabset-fade}
+
+```{definition 'Packages'}
+\textcolor{pink}{Packages} are the fundamental units of reproducible R code. 
+```
+
+Packages include reusable functions, the documentation that describes how to use them, and sample data.
+
+In R Studio: Packages Tab | Install | Package Name = "psych" | Install
+
+- Packages are installed from \textcolor{pink}{CRAN} Servers
+  - To Change Server: Tools | Global Options | Packages | Primary CRAN Repository | Change | CRAN Mirrors (Select Your Preference) | OK
+  - All Installed Packages are listed under Packages Tab
+  - All Loaded Packages are listed under Packages Tab with a Tick Mark
+  - Some packages are dependent on other packages and those are also installed when 'dependencies = TRUE'
+  - If a package is NOT installed properly, it will show error when loaded by \textcolor{pink}{library()}
+
+### Install Packages {.unnumbered}
+
+```{r 'B09-InstallPackage', eval=FALSE}
+if(FALSE){
+  # #WARNING: This will install packages and R Studio will NOT work for that duration
+  # #Install Packages and their dependencies
+  install.packages("psych", dependencies = TRUE)
+}
+```
+
+### Load Packages {.unnumbered}
+
+```{r 'B09-Library', eval=FALSE}
+# #Load a Package with or without Quotes
+library(readxl)
+library("readr")
+```
+
+### Load Multiple Packages {.unnumbered}
+
+```{r 'B09-LoadPackages', eval=FALSE}
+# #Load Multiple Packages
+pkg_chr <- c("ggplot2", "tibble", "tidyr", "readr", "dplyr")
+#lapply(pkg_chr, FUN = function(x) {library(x, character.only = TRUE)})
+#
+# #Load Multiple Packages, Suppress Startup Messages, and No console output
+invisible(lapply(pkg_chr, FUN = function(x) {
+  suppressMessages(library(x, character.only = TRUE))}))
+```
+
+### Detach Package {.unnumbered}
+
+```{r 'B09-Detach', eval=FALSE}
+# #Detach a package
+#detach("package:psych", unload = TRUE)
+#
+# #Search Package in the already loaded packages
+pkg_chr <- "psych"
+if (pkg_chr %in% .packages()) {
+# #Detach a package that has been loaded previously
+  detach(paste0("package:", pkg_chr), character.only = TRUE, unload = TRUE)
+}
+```
+
+## Import Flights Data {#flights-b09 .tabset .tabset-fade}
+
+To Import Excel in R Studio : Environment | Dropdown | From Excel | Browse
+
+Object imported by \textcolor{pink}{read.csv()} i.e. 'mydata' is NOT same as the one imported by \textcolor{pink}{read_excel()} i.e. 'mydata_xl'
+
+- read_excel() imports as a Tibble which is a modern view of dataframe. It is more restrictive so that output would be more predictable.
+- read.csv(), if possible, imports as integer (ex: 'year' column). But, read_excel() imports, if possible, as a numeric.
+- Further, read_excel() has imported many columns as 'character' that should have been 'numeric' ex: dep_time
+- NOTE: To complete the set \textcolor{pink}{readr::read_csv()} is also covered here which reads CSV and generates a Tibble.
+
+All of these objects can be converted into any other form as needed i.e. dataframe to tibble or vice-versa.
+
+
+### Flights {.unnumbered}
+
+```{r 'B09-LoadCSV', eval=FALSE}
+# #Data File Name has been modified to include lecture number "B09"
+# #All Data Files are in the sub-directory named 'data'
+mydata <- read.csv("data/B09-FLIGHTS.csv")
+#
+# #To Copy from Clipboard, assuming copied from xlsx i.e. tab separated data
+mydata_clip <- read.csv("clipboard", sep = '\t', header = TRUE)
+```
+
+### RDS {.unnumbered}
+
+```{r 'B09-Flights'}
+# #Following Setup allows us to read CSV only once and then create an RDS file
+# #Its advantage is in terms of faster loading time and lower memory requirment
+xx_csv <- paste0("data/", "B09-FLIGHTS",".csv")
+xx_rds <- paste0("data/", "b09_flights", ".rds")
+b09_flights <- NULL
+if(file.exists(xx_rds)) {
+  b09_flights <- readRDS(xx_rds)
+} else {
+  # #Read CSV
+  b09_flights <- read.csv(xx_csv)
+  # #Write Object as RDS
+  saveRDS(b09_flights, xx_rds)
+}
+rm(xx_csv, xx_rds)
+mydata <- b09_flights
+```
+
+### Structure {.unnumbered}
+
+```{r 'B09-StructureFlight'}
+str(mydata)
+```
+
+### Head {.unnumbered}
+
+```{r 'B09-HeadFlight'}
+head(mydata)
+```
+
+### Tail {.unnumbered}
+
+```{r 'B09-TailFlight'}
+tail(mydata)
+```
+
+### Excel {.unnumbered}
+
+```{r 'B09-LoadXl', eval=FALSE}
+# #library(readxl)
+mydata_xl <- read_excel("data/B09-FLIGHTS.xlsx", sheet = "FLIGHTS")
+```
+
+### Excel RDS {.unnumbered}
+
+```{r 'B09-LoadXlRDS'}
+# #library(readxl)
+xx_xl <- paste0("data/", "B09-FLIGHTS",".xlsx")
+xx_rds_xl <- paste0("data/", "b09_flights_xls", ".rds")
+b09_flights_xls <- NULL
+if(file.exists(xx_rds_xl)) {
+  b09_flights_xls <- readRDS(xx_rds_xl)
+} else {
+  b09_flights_xls <- read_excel(xx_xl, sheet = "FLIGHTS")
+  saveRDS(b09_flights_xls, xx_rds_xl)
+}
+rm(xx_xl, xx_rds_xl)
+mydata_xl <- b09_flights_xls
+#
+```
+
+### xlsx {.unnumbered}
+
+```{r 'B09-XL'}
+str(mydata_xl)
+```
+
+### readr {.unnumbered}
+
+```{r 'B09-ReadR'}
+# #Following Setup allows us to read CSV only once and then create an RDS file
+# #Its advantage is in terms of faster loading time and lower memory requirment
+# #library(readr)
+xx_csv <- paste0("data/", "B09-FLIGHTS",".csv")
+xx_rds <- paste0("data/", "xxflights", ".rds")
+xxflights <- NULL
+if(file.exists(xx_rds)) {
+  xxflights <- readRDS(xx_rds)
+} else {
+  xxflights <- read_csv(xx_csv, show_col_types = FALSE)
+  attr(xxflights, "spec") <- NULL
+  attr(xxflights, "problems") <- NULL
+  saveRDS(xxflights, xx_rds)
+}
+rm(xx_csv, xx_rds)
+mydata_rdr <- xxflights
+```
+
+## Subsetting
+
+```{r 'B09-Subset'}
+# #Subset All Rows and last 3 columns
+data6 <- mydata[ , c(17:19)]
+str(data6)
+# #Subset by deleting the 1:16 columns
+data7 <- mydata[ , -c(1:16)]
+stopifnot(identical(data6, data7))
+```
+
+## Attach a Dataset
+
+\textcolor{orange}{Caution:} Attaching a Dataset should be avoided to prevent unexpected behaviour due to 'masking'. Using full scope resolution i.e. 'data_frame$column_header' would result in fewer bugs. However, if a Dataset has been attached, please ensure that it is detached also.
+
+```{r 'B09-AttachDataSet', eval=FALSE}
+if(FALSE){
+  # #WARNING: Attaching a Dataset is discouraged because of 'masking'
+  # #'dep_time' is Column Header of a dataframe 'mydata'
+  tryCatch(str(dep_time), error = function(e) print(paste0(e)))
+## [1] "Error in str(dep_time): object 'dep_time' not found\n"
+  # #Attach the Dataset
+  attach(mydata)
+  # #Now all the column headers are accessible without the $ sign
+  str(dep_time)
+## int [1:336776] 517 533 542 544 554 554 555 557 557 558 ...
+  # #But, there are other datasets also, attaching another one results in MESSAGE
+  attach(mydata_xl)
+## The following objects are masked from mydata:
+##
+##     air_time, arr_delay, arr_time, carrier, day, dep_delay, dep_time, dest,
+##     distance, flight, hour, minute, month, origin, sched_arr_time,
+##     sched_dep_time, tailnum, time_hour, year
+  str(dep_time)
+## chr [1:336776] "517" "533" "542" "544" "554" "554" "555" "557" "557" "558" "558" ...
+#
+# #'mydata_xl$dep_time' masked the already present 'mydata$dep_time'.
+# #Thus now it is showing as 'chr' in place of original 'int'
+# #Column Header Names can be highly varied and those will silently mask other variable
+# #Hence, attaching a dataset would result in random bugs or unexpected behaviours
+#
+# #Detach a Dataset
+  detach(mydata_xl)
+  detach(mydata)
+}
+```
+
+## Package "psych" {.tabset .tabset-fade}
+
+- \textcolor{pink}{pairs.panels()} -
+  - It shows a scatter plot of matrices, with bivariate scatter plots below the diagonal, histograms on the diagonal, and the Pearson correlation above the diagonal.
+    - Calculation time is highly dependent on dataset size and type 
+    - See Figure \@ref(fig:B09P01)
+    - Conclusion: "air_time and distance are highly correlated"
+
+```{conjecture 'need-finite-xlim'}
+\textcolor{brown}{Error in plot.window(...) : need finite 'xlim' values}
+```
+
+- In this case, the error will be observed if the output of pairs.panels() is assigned to an object.
+- Direct console output (i.e. no assignment) should not be a problem
+
+```{conjecture 'par-old-par'}
+\textcolor{brown}{Error in par(old.par) : invalid value specified for graphical parameter "pin"}
+```
+
+- The Error is generally observed because the Plot does not have enough space in R Studio (Lower Right Pane). In general, it is NOT a problem. It is an error of map() xlim[1] should be less than xlim[2].
+- Use larger window size or control image size output
+
+### Image {.unlisted .unnumbered}
+
+```{r 'B09P01', echo=FALSE, fig.cap="Correlation using psych::pairs.panels()"}
+knitr::include_graphics(paste0(.z$PX, "B09P01_Psych", ".png"))
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'B09-Psych', eval=FALSE, cache=TRUE}
+# # Subset 3 Columns and 1,00,000 rows 
+x_rows <- 100000L
+data_pairs <- mydata[1:x_rows, c(7, 16, 9)]
+#
+# #Equivalent
+data_pairs <- mydata  %>%
+  select(air_time, distance, arr_delay) %>%
+  slice_head(n = x_rows)
+#
+if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
+  print("Please reduce the number of points to a sane number!")
+  ggplot()
+} else {
+  #B09P01
+  pairs.panels(data_pairs)
+}
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B09-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, b09_flights, b09_flights_xls, cc_chr, data6, data7, dd_dbl, gender, ii_int, income, ll_lgl, mydata, mydata_rdr, mydata_xl, nn, path_absolute, path_relative, x_age, xx_data, xxflights, yy_data)
 ```
 
-```{r 'B09-Validation', include=TRUE, cache=FALSE}
+```{r 'B09-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

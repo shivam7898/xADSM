@@ -1,0 +1,653 @@
+# R Introduction (B10, Sep-05) {#b10}
+
+```{r 'B10', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Introduction to R"
+  - 
+
+- Links (Ref)
+  - [Install or Load Multiple Packages](#packages-b09 "b09")  
+  - [Load Flights Dataset](#flights-b09 "b09")  
+  - [Change Working Directory](#working-dir-b09 "b09")
+  - [Print Dataframe](#dataframe-b09 "b09")
+
+```{r 'B10-Flights', include=FALSE}
+# #Load Data: Flights
+xxflights <- f_getRDS(xxflights)
+mydata <- xxflights
+```
+
+## Notebooks
+
+These allow you to combine executable code and rich text in a single document, along with images, HTML, LaTeX and more.
+
+```{definition 'R-Markdown'}
+\textcolor{pink}{R Markdown} is a file format for making dynamic documents with R. 
+```
+
+An R Markdown document is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code.
+To know more [Go to Rstudio](https://rmarkdown.rstudio.com/articles_intro.html "https://rmarkdown.rstudio.com/articles_intro.html") 
+
+To know more about Google Colab [Go to Google Colab](https://colab.research.google.com "https://colab.research.google.com") 
+
+NOTE: As I am not using Google Colab, the workflow explained between 00:00 to 35:10 is NOT covered here. If someone is using Google Colab, and is willing to share their notes, I would include those.
+
+## Plot
+
+Base R graphs /plots as shown in figure \@ref(fig:B10P01)
+
+```{conjecture 'plot-finite-xlim'}
+\textcolor{brown}{Error in plot.window(...) : need finite 'xlim' values}
+```
+
+- If this error is coming when base R plot() function is called
+- Check if data has NA values or if character data is supplied where numerical is needed
+- Also, don't use assignment to save base R plot and then print
+
+```{r 'B10P01-Save', echo=c(3,4), results='hide'}
+# #Save Base Plot without using ggsave()
+png(filename = paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png"))
+# #Flights: Arrival Time (Y) vs. Departure (X) Time (Arrival Time is linked to Departure Time)
+plot(mydata$dep_time, mydata$arr_time)
+title("Flights", line = 2, adj = 0)
+title(sub="B10P01", line=4, adj = 1)
+B10P01 <- recordPlot()
+dev.off()
+```
+
+```{r 'B10P01', echo=FALSE, fig.cap="Flights: Arrival Time (Y) vs. Departure (X) Time"}
+knitr::include_graphics(paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png"))
+```
+
+
+## Dataset {.tabset .tabset-fade}
+
+- Use cbind() or rbind() to merge dataframes 
+
+### Dimensions {.unnumbered}
+
+```{r 'B10-Dim'}
+# #Create a Subset of Dataframe of 1000 Rows for quick calculations
+bb <- head(mydata, 1000)
+#
+# #Dimensions: dim() Row x Column; nrow(); ncol()
+dim(bb)
+#
+stopifnot(identical(nrow(bb), dim(bb)[1]))
+stopifnot(identical(ncol(bb), dim(bb)[2]))
+```
+
+### Split {.unnumbered}
+
+```{r 'B10-Split'}
+# #Split a Dataframe by subsetting
+data_1 <- bb[ ,1:8]
+data_2 <- bb[ ,9:19]
+# str(data_1)
+```
+
+### Merge {.unnumbered}
+
+```{r 'B10-MergeCbind'}
+# #Merge a Dataframe by cbind()
+data_3 <- cbind(data_1, data_2)
+# #Equivalent
+data_4 <- data.frame(data_1, data_2)
+# str(bb_3)
+stopifnot(identical(data_3, data_4))
+```
+
+### RowSplit {.unnumbered}
+
+```{r 'B10-RowSplit'}
+# #Row Split
+data_5 <- bb[1:300, ]
+data_6 <- bb[301:1000, ]
+#
+# #Equivalent
+n_rows <- 300L
+data_5 <- bb[1:n_rows, ]
+data_6 <- bb[(n_rows+1L):nrow(bb), ]
+#
+stopifnot(identical(data_5, head(bb, n_rows)))
+stopifnot(identical(data_6, tail(bb, (nrow(bb)-n_rows))))
+```
+
+### RowMerge {.unnumbered}
+
+```{r 'B10-RowMerge'}
+# #Merge a Dataframe by rbind()
+data_7 <- rbind(data_5, data_6)
+stopifnot(identical(bb, data_7))
+```
+
+## Change Column Headers 
+
+```{r 'B10-ModifyNames'}
+# #Change A Specific Name based on Index Ex: First Header "year" -> "YEAR"
+# #NOTE: Output of 'names(bb)' is a character vector, not a dataframe
+# #So, [1] is being used to subset for 1st element and NOT the [ , 1] (as done for dataframe)
+(names(bb)[1] <- "YEAR")
+#
+# #Change all Column Headers to Uppercase by toupper() or Lowercase by tolower()
+names(bb) <- toupper(names(bb))
+```
+
+
+## NA {#na-b10 .tabset .tabset-fade}
+
+```{definition 'NA'}
+\textcolor{pink}{NA} is a logical constant of length 1 which contains a missing value indicator. 
+```
+
+NA can be coerced to any other vector type except raw. There are also constants like NA_integer_, NA_real_ etc.
+For checking only the presence of NA, \textcolor{pink}{anyNA()} is faster than \textcolor{pink}{is.na()}
+
+Overview of 'Not Available'
+
+- If the imported data has blank cell, it would be imported as NA
+
+To remove all NA
+
+- \textcolor{pink}{na.omit()}
+  - Output is a dataframe
+  - It is slower but adds the omitted row numbers as an attribute i.e. na.action
+- \textcolor{pink}{complete.cases()}
+  - Output is a logical vector, thus it needs subsetting to get the dataframe
+  - Faster and also allows partial selection of columns i.e. ignore NA in other columns
+  - \textcolor{orange}{Caution:} It may throw Error if 'POSIXlt' Columns are present
+- \textcolor{pink}{tidyr::drop_na()}
+- \textcolor{pink}{rowSums(is.na())}
+  - It can also be used for excluding rows with more than allowed numbers of NA. However, in general, this is not recommended because random columns retain NA. These may break the code later or change the number of observations. It is useful when all columns are similar in nature e.g. if each column represent response to a survey question.
+
+
+
+### NA {.unnumbered}
+
+```{r 'B10-NA'}
+bb <- xxflights
+# #anyNA() is faster than is.na()
+if(anyNA(bb)) print("NA are Present!") else print("NA not found")
+#
+# #Columnwise NA Count
+bb_na_col <- colSums(is.na(bb))
+#
+# #Vector of Columns having NA
+which(bb_na_col != 0)
+stopifnot(identical(which(bb_na_col != 0), which(vapply(bb, anyNA, logical(1)))))
+#
+# #Indices of Rows with NA
+head(which(!complete.cases(bb)))
+#
+# #How many rows contain NA
+sum(!complete.cases(bb))
+#
+# #How many rows have NA in specific Columns
+sum(!complete.cases(bb[, c(6, 9, 4)]))
+```
+
+
+### RemoveNA {.unnumbered}
+
+```{r 'B10-RemoveNA'}
+# #Remove all rows which have any NA 
+# #na.omit(), complete.cases(), tidyr::drop_na(), rowSums(is.na())
+bb_1 <- na.omit(bb)
+# #Print the Count of removed rows containg NA
+print(paste0("Note: ", length(attributes(bb_1)$na.action), " rows removed."))
+#
+# #Remove additional Attribute added by na.omit()
+attr(bb_1, "na.action") <- NULL
+#
+# #Equivalent 
+bb_2 <- bb[complete.cases(bb), ]
+bb_3 <- bb %>% drop_na()
+bb_4 <- bb[rowSums(is.na(bb)) == 0, ]
+#Validation
+stopifnot(all(identical(bb_1, bb_2), identical(bb_1, bb_3), identical(bb_1, bb_4)))
+#
+# #complete.cases also allow partial selection of specific columns
+# #Remove rows which have NA in some columns i.e. ignore NA in other columns
+dim(bb[complete.cases(bb[ , c(6, 9, 4)]), ])
+# #Equivalent 
+dim(bb %>% drop_na(dep_delay, arr_delay, dep_time))
+#
+# #Remove rows which have more than allowed number of NA (ex:4) in any column
+# #Caution: In general, this is not recommended because random columns retain NA
+dim(bb[rowSums(is.na(bb)) <= 4L, ])
+```
+
+## Apply {#apply-b10}
+
+Sources:  [Grouping Functions and the Apply Family](https://stackoverflow.com/questions/3505701 "https://stackoverflow.com/questions/3505701"), [Why is vapply safer than sapply](https://stackoverflow.com/questions/12339650 "https://stackoverflow.com/questions/12339650"), [Hadley - Advanced R - Functionals](https://adv-r.hadley.nz/functionals.html "https://adv-r.hadley.nz/functionals.html"), 
+[This](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r "https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r"), 
+[This](https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71 "https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71"), 
+& [This](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family "https://www.datacamp.com/community/tutorials/r-tutorial-apply-family")
+
+Apply Function in R are designed to avoid explicit use of loop constructs. 
+
+- To manipulate slices of data in a repetitive way. 
+- They act on an input list, matrix or array, and apply a named function with one or several optional arguments.
+
+1. \textcolor{pink}{apply(X, MARGIN, FUN, ..., simplify = TRUE)}
+    - Refer R Manual p72 - "Apply Functions Over Array Margins"
+    - Returns a vector or array or list of values obtained by applying a function to margins of an array or matrix.
+    - When you want to apply a function to the rows or columns of a matrix (and higher-dimensional analogues); not generally advisable for data frames as it will coerce to a matrix first
+    - MARGIN = 1 indicates application over ROWS, 2 indicates COLUMNS 
+    - Examples & Details: "ForLater"
+1. \textcolor{pink}{lapply(X, FUN, ...)}
+    - Refer R Manual p342 - "Apply a Function over a List or Vector"
+    - 'list' apply i.e. lapply returns a list of the same length as X, each element of which is the result of applying FUN to the corresponding element of X.
+    - Examples & Details: "ForLater"
+    - When you want to apply a function to each element of a list in turn and get a list back.
+    - \textcolor{pink}{lapply(x, mean)}
+    - \textcolor{pink}{lapply(x, function(x) c(mean(x), sd(x)))}
+1. \textcolor{pink}{sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)}
+    - 'simplified' wrapper of lapply 
+    - When you want to apply a function to each element of a list in turn, but you want a vector back, rather than a list.
+    - \textcolor{orange}{Caution:} It sometimes fails silently or unexpectedly changes output type 
+1. \textcolor{pink}{vapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE)}
+    - 'verified' apply i.e. vapply is similar to sapply, but has a pre-specified type of return value, so it can be safer (and sometimes faster) to use.
+    - vapply returns a vector or array of type matching the FUN.VALUE.
+    - With FUN.VALUE you can specify the type and length of the output that should be returned each time your applied function is called. 
+    - It improves consistency by providing limited return type checks.
+    - Further, if the input length is zero, sapply will always return an empty list, regardless of the input type (Thus behaving differently from non-zero length input). Whereas, with vapply, you are guaranteed to have a particular type of output, so you don't need to write extra checks for zero length inputs.
+1. Others - "ForLater"
+    - tapply is a tagged apply where the tags identify the subsets
+    - mapply for applying a function to multiple arguments
+    - rapply for a 'recursive' version of lapply
+    - eapply for applying a function to each entry in an 'environment'
+
+
+```{r 'B10-Apply'}
+# #Subset Dataframe 
+bb <- xxflights
+data_8 <- bb[ , c("dep_delay", "arr_delay", "dep_time")]
+#data_8 <- bb %>% select(dep_delay, arr_delay, dep_time) 
+#
+# #Remove missing values
+data_9 <- na.omit(data_8)
+#
+# #Calculate Columnwise Mean
+(bb_1 <- apply(data_9, 2, mean))
+bb_2 <- unlist(lapply(data_9, mean))
+bb_3 <- sapply(data_9, mean)
+bb_4 <- vapply(data_9, mean, numeric(1))
+#
+stopifnot(all(identical(bb_1, bb_2), identical(bb_1, bb_3), identical(bb_1, bb_4)))
+```
+
+## Vectors {#vectors-b10 .tabset .tabset-fade}
+
+Refer [The 6 Datatypes of Atomic Vectors](#vectors-b09 "b09")
+
+Create a Basic Tibble \@ref(tab:B10T01) for evaluating 'is.x()' series of functions in Base R
+
+- anyNA() is TRUE if there is an NA present, FALSE otherwise
+- is.atomic() is TRUE for All Atomic Vectors, factor, matrix but NOT for list
+- is.vector() is TRUE for All Atomic Vectors, list but NOT for factor, matrix, DATE & POSIXct
+  - \textcolor{orange}{Caution:} With vapply() it returns TRUE for matrix (it checks individual elements)
+  - \textcolor{orange}{Caution:} FALSE if the vector has attributes (except names) ex: DATE & POSIXct
+- is.numeric() is TRUE for both integer and double
+- is.integer(), is.double(), is.character(), is.logical() are TRUE for their respective datatypes only
+- is.factor(), is.ordered() are membership functions for factors with or without ordering
+  - For more: nlevels(), levels()
+- lubridate
+  - is.timepoint() is TRUE for POSIXct, POSIXlt, or Date
+  - is.POSIXt(), is.Date() are TRUE for their respective datatypes only
+
+
+```{r 'B10-BasicTibble', include=FALSE}
+# #Basic Tibble
+nn <- 6L
+xxbasic10 <- tibble(ii = 1:nn, dd = seq(1,nn, 1), cc = head(letters, nn), 
+             ll = (ii %% 2) == 0, ff = factor(rep(c("odd","even"), length.out=nn)),
+			 fo = factor(rep(c("odd","even"), length.out=nn), ordered = TRUE),
+			 dtm = Sys.time() + 1:nn, dat = Sys.Date() + 1:nn)
+bb <- xxbasic10
+str(bb)
+```
+
+```{r 'B10-SaveTibble', include=FALSE}
+# #Save Tibble
+f_setRDS(xxbasic10)
+```
+
+```{r 'B10T01', echo=FALSE}
+bb <- xxbasic10
+#displ_names <- c("") 
+#stopifnot(identical(ncol(bb), length(displ_names)))
+#
+# #Kable Table
+kbl(head(bb),
+  caption = "(B10T01) Vector Classes",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+				        #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+
+### Basic Tibble {.unnumbered}
+
+```{r 'B10-BasicTibble-A', ref.label=c('B-BasicTibble'), eval=FALSE}
+#
+```
+
+### is {.unnumbered}
+
+```{r 'B10-is'}
+# #Validation
+# #anyNA() is TRUE if there is an NA present, FALSE otherwise
+vapply(bb, anyNA, logical(1))
+#
+# #is.atomic() is TRUE for All Atomic Vectors, factor, matrix but NOT for list
+vapply(bb, is.atomic, logical(1))
+#
+# #is.vector() is TRUE for All Atomic Vectors, list but NOT for factor, matrix, DATE & POSIXct
+# #CAUTION: With vapply() it returns TRUE for matrix (it checks individual elements)
+# #CAUTION: FALSE if the vector has attributes (except names) ex: DATE & POSIXct
+vapply(bb, is.vector, logical(1))
+#
+# #is.numeric() is TRUE for both integer and double
+vapply(bb, is.numeric, logical(1))
+#
+# #is.integer() is TRUE only for integer
+vapply(bb, is.integer, logical(1))
+#
+# #is.double() is TRUE only for double
+vapply(bb, is.double, logical(1))
+#
+# #is.character() is TRUE only for character
+vapply(bb, is.character, logical(1))
+#
+# #is.logical() is TRUE only for logical
+vapply(bb, is.logical, logical(1))
+```
+
+### Factor {.unnumbered}
+
+```{r 'B10-Factors'}
+# #Factors
+# #is.factor() is TRUE only for factor (unordered or ordered)
+vapply(bb, is.factor, logical(1))
+#
+# #is.ordered() is TRUE only for ordered factor
+vapply(bb, is.ordered, logical(1))
+#
+# #nlevels()
+vapply(bb, nlevels, integer(1))
+#
+# #levels()
+vapply(bb, function(x) !is.null(levels(x)), logical(1))
+#
+# #table()
+table(bb$ff)
+```
+
+### lubridate::is {.unnumbered}
+
+```{r 'B10-LubridateIS'}
+# #Package lubridate covers the missing functions for POSIXct, POSIXlt, or Date 
+# #is.timepoint() is TRUE for POSIXct, POSIXlt, or Date
+vapply(bb, is.timepoint, logical(1))
+#
+# #is.POSIXt() is TRUE only for POSIXct 
+vapply(bb, is.POSIXt, logical(1))
+#
+# #is.Date() is only TRUE for DATE 
+vapply(bb, is.Date, logical(1))
+```
+
+
+### Duplicates {.unnumbered}
+
+```{r 'B10-Duplicates'}
+# #Which Columns have Duplicate Values
+vapply(bb, function(x) anyDuplicated(x) != 0L, logical(1))
+```
+
+## Factors {#factors-b10 .tabset .tabset-fade}
+
+```{definition 'Factors'}
+\textcolor{pink}{Factors} are the data objects which are used to categorize the data and store it as levels. 
+```
+
+They can store both strings and integers. They are useful in the columns which have a limited number of unique values. Like "Male, Female" and "True, False" etc. They are useful in data analysis for statistical modelling.
+
+Factor is nothing but the numeric representation of the character vector.
+
+as.factor() vs. factor()
+
+- as.factor() is faster than factor() when input is a factor or integer
+- as.factor retains unused or NA levels whereas factor drops them
+  - levels can also be dropped using droplevels()
+
+### Transformation {.unnumbered} 
+
+```{r 'B10-AsFactor'}
+str(bb$ll)
+# #Coercion to Factor
+bb$new <- as.factor(bb$ll)
+str(bb$new)
+#
+# #table()
+table(bb$ll)
+table(bb$new)
+#
+# #Levels can be Labelled differently also
+str(bb$ff)
+# # 
+str(factor(bb$ff, levels = c("even", "odd"), labels = c("day", "night")))
+str(factor(bb$ff, levels = c("odd", "even"), labels = c("day", "night")))
+#
+# #Coercion from Factor to character, logical etc.
+bb$xcc <- as.character(bb$new)
+bb$xll <- as.logical(bb$new)
+#
+str(bb)
+```
+
+### Flights {.unnumbered} 
+
+```{r 'B10-FactorMod'}
+bb <- xxflights
+aa <- c("month", "day")
+str(bb[aa])
+# #To factor
+bb$day <- as.factor(bb$day)
+bb$month <- as.factor(bb$month)
+# #Equivalent
+#bb[aa] <- lapply(bb[aa], as.factor)
+str(bb[aa])
+```
+
+## Lists {#lists-b10 .tabset .tabset-fade}
+
+```{definition 'Lists'}
+\textcolor{pink}{Lists} are by far the most flexible data structure in R. They can be seen as a collection of elements without any restriction on the class, length or structure of each element.
+```
+
+\textcolor{orange}{Caution:} The only thing you need to take care of, is that you don't give two elements the same name. R will NOT throw ERROR.
+
+```{definition 'DataFrame'}
+\textcolor{pink}{Data Frames} are lists with restriction that all elements of a data frame are of equal length.
+```
+
+Due to the resulting two-dimensional structure, data frames can mimic some of the behaviour of matrices. You can select rows and do operations on rows. You can't do that with lists, as a row is undefined there.
+
+A Dataframe is intended to be used as a relational table. This means that elements in the same column are related to each other in the sense that they are all measures of the same metric. And, elements in the same row are related to each other in the sense that they are all measures from the same observation or measures of the same item. This is why when you look at the structure of a Dataframe, it will state the the number of observations and the number of variables instead of the number of rows and columns. 
+
+Dataframes are distinct from Matrices because they can include heterogenous data types among columns/variables. Dataframes do not permit multiple data types within a column/variable, for reasons that also follow from the relational table idea.
+
+All this implies that you should use a data frame for any dataset that fits in that two-dimensional structure. Essentially, you use data frames for any dataset where a column coincides with a variable and a row coincides with a single observation in the broad sense of the word. For all other structures, lists are the way to go.
+
+- Does everything in R have (exactly one) class 
+  - Everything has (at least one) class. Objects can have multiple classes
+  - It is mostly just the class attribute of an object. But when the class attribute is not set, the \textcolor{pink}{class()} function makes up a class from the object 'type' and the 'dim' attribute.
+  - lists and dataframes have same typeof 'list' but different class
+- Then what does \textcolor{pink}{typeof()} tell us
+  - It tells us the internal 'storage mode' of an object. How the R perceives the object and interacts with it.
+  - An object has one and only one mode [Difference between mode and class](https://stackoverflow.com/questions/35445112 "https://stackoverflow.com/questions/35445112")
+  - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) can't be
+- To define an object, what should be known about it
+  - class(), typeof(), is(), attributes(), str(), inherits(), ...
+
+
+### list {.unnumbered}
+
+```{r 'B10-List'}
+# #CAUTION: Don't Create a list with duplicate names (R will NOT throw ERROR)
+bb <- list(a=1, b=2, a=3)
+# # 3rd index can't be accessed using $
+bb$a
+identical(bb$a, bb[[1]])
+identical(bb$a, bb[[3]])
+bb[[3]]
+```
+
+
+### class vs. typeof {.unnumbered}
+
+```{r 'B10-LstVsDft'}
+# #Create a list
+bb_lst <- list( a = c(1, 2), b = c('a', 'b', 'c'))
+tryCatch(
+# #Trying to create varying length of variables in dataframe like in list
+  bb_dft <- data.frame(a = c(1,2), b = c('a', 'b', 'c')), 
+  error = function(e) {
+# #Print ERROR
+    cat(paste0(e))
+# #Double Arrow Assignment '<<-' to assign in parent environment
+	bb_dft <<- data.frame(a = c(1, 2), b = c('a', 'b'))
+	}
+  )
+#
+# #Both list and dataframe have same type() 
+typeof(bb_lst)
+typeof(bb_dft)
+#
+# #But, class() is different for list and dataframe
+class(bb_lst)
+class(bb_dft)
+#
+str(bb_lst)
+str(bb_dft)
+#
+# #Although 'bb_lst_c' is a list but inside coercion takes place i.e. '9' is character
+bb_lst_c <- list( a = c(8, 'x'), b = c('y', 9))
+str(bb_lst_c[[2]][2])
+#
+# #Here, '9' is numeric, it is stored as list element so note the extra [[]]
+bb_lst_l <- list( a = list(8, 'x'), b = list('y', 9))
+str(bb_lst_l[[2]][[2]])
+```
+
+
+## Matrix
+
+```{r 'B10-Matrix'}
+# #Create a Matrix
+bb_mat <- matrix(1:6, nrow = 2, ncol = 3)
+print(bb_mat)
+str(bb_mat)
+class(bb_mat)
+typeof(bb_mat)
+```
+
+
+## Merge
+
+```{r 'B10-Merge'}
+# #Basic Tibble
+bb <- xxbasic10
+str(bb)
+# #Split with 'cc' as common ID column
+bb_a <- bb[1:3]
+bb_b <- bb[3:ncol(bb)]
+#
+# #merge() using the common ID column 'cc'
+bb_new <- merge(bb_a, bb_b, by = "cc")
+bb_new
+```
+
+
+## Sort {#sorting-b10 .tabset .tabset-fade}
+
+- \textcolor{pink}{sort()}
+  - It sorts the vector in an ascending order
+- \textcolor{pink}{rank()}
+  - rank returns the order of each element in an ascending list
+  - The smallest number receives the rank 1
+  - If there are ties, it returns numeric not integer with ranks being 2.5 etc
+- \textcolor{pink}{order()}
+  - order returns the index each element would have in an ascending list
+- \textcolor{pink}{dplyr::arrange()}
+  - arrange() orders the rows of a data frame by the values of selected columns.
+  - NA are always sorted to the end, even when wrapped with desc().
+
+```{conjecture 'Function-Not-Found'}
+\textcolor{brown}{Error in arrange(bb, day) : could not find function "arrange"}
+```
+
+- Load the Package (dplyr etc.) having the function.
+
+### order {.unnumbered}
+
+```{r 'B10-Order'}
+bb <- xxflights
+# #Sort ascending (default)
+bb_1 <- bb[order(bb$dep_delay), ]
+# #Sort descending
+bb_2 <- bb[order(-bb$dep_delay), ]
+#
+bb[1:5, c("dep_time", "dep_delay", "tailnum", "carrier")]
+bb_1[1:5, c("dep_time", "dep_delay", "tailnum", "carrier")]
+bb_2[1:5, c("dep_time", "dep_delay", "tailnum", "carrier")]
+```
+
+### Multi Column {.unnumbered}
+
+```{r 'B10-OrderMulti'}
+bb <- xxbasic10
+bb
+# #Sort ascending (default)
+(bb_1 <- bb[order(bb$ll), ])
+# #Sort on Multiple Columns with ascending and descending
+(bb_2 <- bb[order(bb$ll, -bb$dd), ])
+#
+stopifnot(identical(bb_2, arrange(bb, ll, -dd)))
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B10-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, B10P01, bb_1, bb_2, bb_3, bb_4, bb_a, bb_b, bb_dft, bb_lst, 
+          bb_lst_c, bb_lst_l, bb_mat, bb_na_col, bb_new, data_1, data_2, data_3, data_4, data_5, 
+          data_6, data_7, data_8, data_9, mydata, n_rows, nn, xxbasic10, xxflights)
+```
+
+```{r 'B10-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
