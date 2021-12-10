@@ -1,0 +1,49 @@
+# Independence {#c12}
+
+```{r 'C12', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Comparing Multiple Proportions, Test of Independence and Goodness of Fit"
+  - "ForLater" - Everything
+
+## Summary
+
+Hypothesis-testing procedures that expand our capacity for making statistical inferences about populations
+
+  - The test statistic used in conducting the hypothesis tests in this chapter is based on the chi-square ${\chi^2}$ distribution.
+  - In all cases, the data are categorical. 
+  - Applications
+    - Testing the equality of population proportions for three or more populations 
+    - Testing the independence of two categorical variables 
+    - Testing whether a probability distribution for a population follows a specific historical or theoretical probability distribution
+
+
+All tests apply to categorical variables and all tests use a chi-square ${\chi^2}$ test statistic that is based on the differences between observed frequencies and expected frequencies. In each case, expected frequencies are computed under the assumption that the null hypothesis is true. These chi-square tests are upper tailed tests. Large differences between observed and expected frequencies provide a large value for the chi-square test statistic and indicate that the null hypothesis should be rejected. 
+
+The test for the equality of population proportions for three or more populations is based on independent random samples selected from each of the populations. The sample data show the counts for each of two categorical responses for each population. The null hypothesis is that the population proportions are equal. Rejection of the null hypothesis supports the conclusion that the population proportions are not all equal. 
+
+The test of independence between two categorical variables uses one sample from a population with the data showing the counts for each combination of two categorical variables. The null hypothesis is that the two variables are independent and the test is referred to as a test of independence. If the null hypothesis is rejected, there is statistical evidence of an association or dependency between the two variables. 
+
+The goodness of fit test is used to test the hypothesis that a population has a specific historical or theoretical probability distribution. We showed applications for populations with a multinomial probability distribution and with a normal probability distribution. Since the normal probability distribution applies to continuous data, intervals of data values were established to create the categories for the categorical variable required for the goodness of fit test.
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C12-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C12-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

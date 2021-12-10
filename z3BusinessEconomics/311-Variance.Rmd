@@ -10,9 +10,80 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Inferences About Population Variances"
-  
+  - "ForLater" - Hypothesis Testing, Inferences About Two Population Variances 
 
 
+## Inferences About a Population Variance 
+
+In many manufacturing applications, controlling the process variance is extremely important in maintaining quality.
+
+The sample variance ${s^2}$, given by equation \@ref(eq:variance), is the point estimator of the population variance ${\sigma}^2$.
+
+\begin{equation}
+  s^2 = \frac{\sum {(x_i - {\overline{x}})}^2}{n-1}
+  (\#eq:variance)
+\end{equation}
+
+
+```{definition 'Distribution-Chi-Square'}
+Whenever a simple random sample of size ${n}$ is selected from a normal population, the sampling distribution of $\frac{(n-1)s^2}{{\sigma}^2}$ is a \textcolor{pink}{chi-square distribution} with ${n − 1}$ degrees of freedom.
+```
+
+Note:
+
+- The chi-square distribution is based on sampling from a normal population.
+- It can be used to develop interval estimates and conduct hypothesis tests about a population variance.
+- The notation \textcolor{pink}{${\chi_{\alpha}^2}$} denotes the value for the chi-square distribution that provides an area or probability of ${\alpha}$ to the \textcolor{pink}{right} of the ${\chi_{\alpha}^2}$ value. 
+
+
+Interval Estimation
+
+Example: Asample of 20 containers ${n =20}$ has the sample variance ${s^2} = 0.0025$ 
+
+- DOF = 19
+- For (DOF = 19), ${\chi_{\alpha = 0.025}^2} = 32.852$, indicating that 2.5% of the chi-square values are to the right of 32.852, and ${\chi_{\alpha = 0.975}^2} = 8.907$ indicating that 97.5% of the chi-square values are to the right of 8.907.
+- For (DOF = 19), 95% of the chi-square values are between ${\chi_{\alpha = 0.975}^2}$ and ${\chi_{\alpha = 0.025}^2}$ 
+  - There is a .95 probability of obtaining a ${\chi^2}$ value such that ${\chi_{0.975}^2} \leq {\chi^2} \leq{\chi_{0.025}^2}$
+
+```{r '311-ChiSq'}
+# #pnorm() qnorm() | pt() qt() | pchisq() qchisq()
+#
+# #p-value approach: Find Commulative Probability P corresponding to the given ChiSq & DOF=59
+pchisq(q = 32.852, df = 19, lower.tail = FALSE)
+#
+# #ChiSq value for which Area under the curve towards Right is alpha=0.025 & DOF=19 #32.852
+qchisq(p = 0.025, df = 19, lower.tail = FALSE)
+```
+
+- Using equation \@ref(eq:variance), we can get \@ref(eq:chi-confidence-95), which provides a 95% confidence interval estimate for the population variance ${\sigma}^2$.
+
+\begin{equation}
+  \frac{(n-1)s^2}{{\chi_{0.025}^2}} \leq {\sigma}^2 \leq \frac{(n-1)s^2}{{\chi_{0.975}^2}}
+  (\#eq:chi-confidence-95)
+\end{equation}
+
+- Using values from the example, $0.0014 \leq {\sigma}^2 \leq 0.0053 \Rightarrow 0.0380 \leq {\sigma} \leq 0.0730$
+  - which gives the 95% confidence interval for the population standard deviation
+
+Generalising the equation \@ref(eq:chi-confidence-95), the equation \@ref(eq:chi-confidence) is the interval estimate of a population variance.
+
+\begin{equation}
+  \frac{(n-1)s^2}{{\chi_{{\alpha}/2}^2}} \leq {\sigma}^2 \leq \frac{(n-1)s^2}{{\chi_{{1-\alpha}/2}^2}}
+  (\#eq:chi-confidence)
+\end{equation}
+
+where the ${\chi^2}$ values are based on a chi-square distribution with ${n-1}$ degrees of freedom and where $(1 − {\alpha})$ is the confidence coefficient.
+
+
+
+"ForLater" 
+
+- Hypothesis Testing
+- Inferences About Two Population Variances 
+
+```{definition 'Distribution-F'}
+The \textcolor{pink}{F distribution} is based on sampling from two normal populations.
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
@@ -21,7 +92,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'C11-Validation', include=TRUE, cache=FALSE}
+```{r 'C11-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

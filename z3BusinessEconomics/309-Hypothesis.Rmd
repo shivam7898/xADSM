@@ -393,10 +393,10 @@ Critical Value Approach
 ```{r '309-ptqt'}
 # #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 #
-# #p-value approach: Find Commulative Probability P corresponding to the given 't' value
+# #p-value approach: Find Commulative Probability P corresponding to the given t-value & DOF=59
 pt(q = 1.84, df = 59, lower.tail = FALSE)
 #
-# #Critical Value approach: t-value for which Area under the curve towards Right is alpha = 0.05
+# #Critical Value: t-value for which Area under the curve towards Right is alpha=0.05 & DOF=59
 qt(p = 0.05, df = 59, lower.tail = FALSE)
 ```
 

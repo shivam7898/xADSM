@@ -1,0 +1,42 @@
+# ANOVA {#c13}
+
+```{r 'C13', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Experimental Design and Analysis of Variance"
+  - "ForLater" - Everything
+
+## Summary
+
+Analysis of variance (ANOVA) can be used to test for differences among means of several populations or treatments. 
+
+The completely randomized design and the randomized block design are used to draw conclusions about differences in the means of a single factor. The primary purpose of blocking in the randomized block design is to remove extraneous sources of variation from the error term. Such blocking provides a better estimate of the true error variance and a better test to determine whether the population or treatment means of the factor differ significantly. 
+
+The basis for the statistical tests used in analysis of variance and experimental design is the development of two independent estimates of the population variance ${\sigma}^2$. In the single-factor case, one estimator is based on the variation between the treatments; this estimator provides an unbiased estimate of ${\sigma}^2$ only if the means $\{{\mu}_1, {\mu}_2, \ldots, {\mu}_k\}$ are all equal. A second estimator of ${\sigma}^2$ is based on the variation of the observations within each sample; this estimator will always provide an unbiased estimate of ${\sigma}^2$. 
+
+By computing the ratio of these two estimators (the F statistic), it is determined whether to reject the null hypothesis that the population or treatment means are equal.
+
+In all the experimental designs considered, the partitioning of the sum of squares and degrees of freedom into their various sources enabled us to compute the appropriate values for the analysis of variance calculations and tests. 
+
+Further, Fisher;s LSD procedure and the Bonferroni adjustment can be used to perform pairwise comparisons to determine which means are different.
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C13-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C13-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
