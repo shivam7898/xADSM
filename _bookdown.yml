@@ -6,6 +6,6 @@ language:
     fig: !expr function(x) sprintf("Figure %s ", x)
 #    cnj: 'Conjecture '
     cnj: 'ERROR '
-#rmd_subdir: ["xA_NA", "xB_BusinessEconomics", "xL_Lectures", "xZ_End"]
-#book_filename: "S13_Debug.Rmd"
-rmd_subdir: ["z3BusinessEconomics", "z9End"]
+#book_filename: "S13.Rmd"
+rmd_subdir: ["z2LectureNotes", "z3BusinessEconomics", "z9End"]
+# This is a comment.
