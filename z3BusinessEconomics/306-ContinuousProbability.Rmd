@@ -11,6 +11,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - This chapter covers 
   - [Continuos Probability](#continuous-prob-c06 "c06"), [Standard Normal](#standard-normal-c06 "c06")
+  - [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), [For P(z), find z by qnorm()](#get-pz-c06 "c06")
   - "ForLater" - Exercises, Normal Approximation of Binomial Probabilities, Exponential Probability Distribution, Relationship Between the Poisson and Exponential Distributions
 
 ## Definitions (Ref)
@@ -31,7 +32,7 @@ f_getDef("Continuous-Random-Variable")
 ```
 
 ```{definition 'Probability-Density-Function'}
-The probability that the continuous random variable $x$ takes a value between $[a, b]$ is given by the area under the graph of \textcolor{pink}{probability density function $f(x)$}; that is, \textcolor{pink}{$A = \int _{a}^{b}f(x)\ dx$}. Note that $f(x)$ can be greater than 1, however its integral must be equal to 1.
+The probability that the continuous random variable ${x}$ takes a value between $[a, b]$ is given by the area under the graph of \textcolor{pink}{probability density function $f(x)$}; that is, \textcolor{pink}{$A = \int _{a}^{b}f(x)\ dx$}. Note that $f(x)$ can be greater than 1, however its integral must be equal to 1.
 ```
 
 - Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Discrete Probability](#discrete-prob-be05 "be05") )
@@ -40,7 +41,7 @@ The probability that the continuous random variable $x$ takes a value between $[
 
 - NOTE:
   - For a discrete random variable, the probability function $f(x)$ provides the probability that the random variable assumes a particular value. With continuous random variables, the counterpart of the probability function is the \textcolor{pink}{probability density function $f(x)$}. 
-    - The difference is that the probability density function does not directly provide probabilities.         - However, the area under the graph of $f(x)$ corresponding to a given interval does provide the probability that the continuous random variable $x$ assumes a value in that interval. 
+    - The difference is that the probability density function does not directly provide probabilities.         - However, the area under the graph of $f(x)$ corresponding to a given interval does provide the probability that the continuous random variable ${x}$ assumes a value in that interval. 
     - So when we compute probabilities for continuous random variables we are computing the probability that the random variable assumes any value in an interval (NOT at any particular point).
     - Because the area under the graph of $f(x)$ at any particular point is zero, the probability of any particular value of the random variable is zero. 
     - It also means that the probability of a continuous random variable assuming a value in any interval is the same whether or not the endpoints are included.
@@ -63,7 +64,7 @@ A \textcolor{pink}{normal distribution} is a type of continuous probability dist
 - Refer equation \@ref(eq:distribution-normal)
   - Normal distribution ${\mathcal {N}}_{(\mu,\, \sigma)}$ is also known as Gaussian or Gauss or Laplace–Gauss distribution
   - It is symmetrical
-  - The entire family of normal distributions is differentiated by two parameters: the mean $\mu$ and the standard deviation $\sigma$. They determine the location and shape of the normal distribution.
+  - The entire family of normal distributions is differentiated by two parameters: the mean ${\mu}$ and the standard deviation ${\sigma}$. They determine the location and shape of the normal distribution.
   - The highest point on the normal curve is at the mean, which is also the median and mode of the distribution. 
   - The normal distribution is symmetric around its mean. Its skewness measure is zero. 
   - The tails of the normal curve extend to infinity in both directions and theoretically never touch the horizontal axis. 
@@ -111,9 +112,9 @@ sig1l_hh <- density_hh_tbl %>% filter(x <= mean_hh - sd_hh, x > mean_hh - 2 * sd
 xbreaks_hh <- seq(-3, 3)
 xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
 # # Latex Labels 
-xlabels_hh <- c(TeX(r'($\mu - 3 \sigma$)'), TeX(r'($\mu - 2 \sigma$)'), 
-                TeX(r'($\mu - \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\mu + \sigma$)'), 
-                TeX(r'($\mu + 2 \sigma$)'), TeX(r'($\mu + 3\sigma$)'))
+xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'(${\mu}$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
 #
 # #Base Plot: Creates Only Density Function Line
 ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
@@ -122,7 +123,7 @@ ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
 ii_mean <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
 # #Median
 ii_median <- ggplot_build(ii)$data[[1]] %>% filter(x <= median_hh)
-#
+#$
 C06P01 <- ii + geom_density(alpha = 0.2, colour = "#21908CFF") + 
   geom_histogram(aes(y = ..density..), bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
   geom_segment(data = ii_mean, 
@@ -219,7 +220,7 @@ xbreaks_hh <- seq(-3, 3)
 xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
 # # Latex Labels 
 xlabels_hh <- c(TeX(r'($\mu - 3 \sigma$)'), TeX(r'($\mu - 2 \sigma$)'), 
-                TeX(r'($\mu - \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\mu + \sigma$)'), 
+                TeX(r'($\mu - \sigma$)'), TeX(r'(${\mu}$)'), TeX(r'($\mu + \sigma$)'), 
                 TeX(r'($\mu + 2 \sigma$)'), TeX(r'($\mu + 3\sigma$)'))
 #
 ii <- ii + scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh)
@@ -325,8 +326,8 @@ A random variable that has a normal distribution with a mean of zero \textcolor{
 
 - NOTE (R,C) notation denotes Row x Column of a Table
   - Because the standard normal random variable is continuous, $P(z \leq 1.00) = P(z < 1.00)$
-  - The cumulative probability corresponding to $z = 1.00$ is the table value located at the intersection of the row labeled \textcolor{pink}{$1.0$} and the column labeled \textcolor{pink}{$.00$} i.e. $P_{\left(z\leq 1.00\right)} = P_{\left(1.0, \,.00\right)} = 0.8413$
-  - To compute the probability that $z$ is in the interval between −.50 and 1.25 
+  - The cumulative probability corresponding to $z = 1.00$ is the table value located at the intersection of the row labeled \textcolor{pink}{${1.0}$} and the column labeled \textcolor{pink}{${.00}$} i.e. $P_{\left(z\leq 1.00\right)} = P_{\left(1.0, \,.00\right)} = 0.8413$
+  - To compute the probability that ${z}$ is in the interval between −.50 and 1.25 
     - $P_{\left(-0.50 \leq z\leq 1.25\right)} = P_{\left(z\leq 1.25\right)} - P_{\left(z\leq -0.50 \right)} = P_{\left(1.2, \,.05\right)} - P_{\left(-0.50, \,.00\right)} = 0.8944 - 0.3085 = 0.5859$ 
   - To compute the probability of obtaining a z value of at least 1.58
     - $P_{\left(z\geq 1.58\right)} = 1 - P_{\left(z\leq 1.58\right)} = 1 - P_{\left(1.5, \,.08\right)} = 1 - 0.9429 = 0.0571$ 
@@ -338,7 +339,7 @@ A random variable that has a normal distribution with a mean of zero \textcolor{
   -
 
 
-### Cal P  {.unlisted .unnumbered}
+### Cal P  {#get-pz-c06 .unlisted .unnumbered}
 
 ```{r '306-getP'}
 # #Find Commulative Probability P corresponding to the given 'z' value
@@ -407,9 +408,9 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 
 - Probabilities for all normal distributions are computed by using the standard normal distribution. 
   - A normal distribution \textcolor{pink}{${\mathcal {N}}_{(\mu,\, \sigma)}$} is converted to the standard normal distribution \textcolor{pink}{${\mathcal {z}}_{(\mu=0,\, \sigma=1)}$} by equation \@ref(eq:z-val) (Similar to equation \@ref(eq:z-scores))
-    - $x=\mu \Rightarrow z =0$ i.e. A value of $x$ equal to its mean $\mu$ corresponds to $z = 0$. 
-    - $x=\mu+\sigma \Rightarrow z = 1$ i.e. an $x$ value that is one standard deviation above its mean $(\mu+\sigma)$ corresponds to $z = 1$. 
-    - Thus, we can interpret $z$ as the number of standard deviations $(\sigma)$ that the normal random variable $x$ is from its mean $(\mu)$.
+    - $x=\mu \Rightarrow z =0$ i.e. A value of ${x}$ equal to its mean ${\mu}$ corresponds to $z = 0$. 
+    - $x=\mu+\sigma \Rightarrow z = 1$ i.e. an ${x}$ value that is one standard deviation above its mean $(\mu+\sigma)$ corresponds to $z = 1$. 
+    - Thus, we can interpret ${z}$ as the number of standard deviations $(\sigma)$ that the normal random variable ${x}$ is from its mean $(\mu)$.
   - For a normal distribution ${\mathcal {N}}_{(\mu=10,\, \sigma=2)}$, What is the probability that the random variable x is between 10 and 14
     - At x=10, z = 0 and at x=14, z = 2, Thus
     - $P_{\left(0 \leq z\leq 2\right)} = P_{\left(z\leq 2\right)} - P_{\left(z\leq 0 \right)} = P_{\left(2.0, \,.00\right)} - P_{\left(0, \,.00\right)} = 0.9772 - 0.5000 = 0.4772$ 

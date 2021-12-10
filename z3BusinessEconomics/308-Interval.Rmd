@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Interval Estimation](#interval-c08 "c08") and [t-table](#get-t-c08 "c08")
+  - [Interval Estimation](#interval-c08 "c08") and [For P(t), find t by qt()](#get-t-c08 "c08")
 
 ## Interval Estimate {#interval-c08}
 
@@ -29,30 +29,30 @@ The confidence level expressed as a decimal value is the c\textcolor{pink}{onfid
 
 ## Known SD {.unlisted .unnumbered .tabset .tabset-fade}
 
-In order to develop an interval estimate of a population mean, either the population standard deviation $\sigma$ or the sample standard deviation $s$ must be used to compute the margin of error. In most applications $\sigma$ is not known, and $s$ is used to compute the margin of error. 
+In order to develop an interval estimate of a population mean, either the population standard deviation ${\sigma}$ or the sample standard deviation ${s}$ must be used to compute the margin of error. In most applications ${\sigma}$ is not known, and ${s}$ is used to compute the margin of error. 
 
 In some applications, large amounts of relevant historical data are available and can be used to estimate the population standard deviation prior to sampling. Also, in quality control applications where a process is assumed to be operating correctly, or 'in control,' it is appropriate to treat the population standard deviation as known. 
 
-\textcolor{pink}{Sampling distribution of $\overline{x}$ can be used to compute the probability that $\overline{x}$ will be within a given distance of $\mu$.}
+\textcolor{pink}{Sampling distribution of ${\overline{x}}$ can be used to compute the probability that ${\overline{x}}$ will be within a given distance of ${\mu}$.}
 
 Example: Lloyd's Department Store
 
 - Each week Lloyd's Department Store selects a simple random sample of 100 customers in order to learn about the amount spent per shopping trip. 
-  - With $x$ representing the amount spent per shopping trip, the sample mean $\overline{x}$ provides a point estimate of $\mu$, the mean amount spent per shopping trip for the population of all Lloyd’s customers. Based on the historical data, Lloyd's now assumes a known value of $\sigma = 20$ for the population standard deviation. 
+  - With ${x}$ representing the amount spent per shopping trip, the sample mean ${\overline{x}}$ provides a point estimate of ${\mu}$, the mean amount spent per shopping trip for the population of all Lloyd’s customers. Based on the historical data, Lloyd's now assumes a known value of $\sigma = 20$ for the population standard deviation. 
   - During the most recent week, Lloyd's surveyed 100 customers $(n = 100)$ and obtained a sample mean of $\overline{x} = 82$.
-  - we can conclude that the sampling distribution of $\overline{x}$ follows a normal distribution with a standard error of $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{20}{\sqrt{100}} =2$. 
-  - Because the sampling distribution shows how values of $\overline{x}$ are distributed around the population mean $\mu$, the sampling distribution of $\overline{x}$ provides information about the possible differences between $\overline{x}$ and $\mu$.
+  - we can conclude that the sampling distribution of ${\overline{x}}$ follows a normal distribution with a standard error of $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{20}{\sqrt{100}} =2$. 
+  - Because the sampling distribution shows how values of ${\overline{x}}$ are distributed around the population mean ${\mu}$, the sampling distribution of ${\overline{x}}$ provides information about the possible differences between ${\overline{x}}$ and ${\mu}$.
   - Using the standard normal probability table, we find that \textcolor{pink}{95\% of the values of any normally distributed random variable are within $\pm 1.96$ standard deviations of the mean i.e. $[\mu - 1.96 \sigma, \mu + 1.96\sigma]$}. 
-    - Thus, 95% of the $\overline{x}$ values must be within $\pm 1.96 \sigma_{\overline{x}}$ of the mean $\mu$. 
-    - In the Lloyd’s example we know that the sampling distribution of $\overline{x}$ is normally distributed with a standard error of $\sigma_{\overline{x}} =2$. 
-    - we can conclude that 95% of all $\overline{x}$ values obtained using a sample size of $n = 100$ will be within $(\pm 1.96 \times 2 = \pm 3.92)$ of the population mean $\mu$.
+    - Thus, 95% of the ${\overline{x}}$ values must be within $\pm 1.96 \sigma_{\overline{x}}$ of the mean ${\mu}$. 
+    - In the Lloyd’s example we know that the sampling distribution of ${\overline{x}}$ is normally distributed with a standard error of $\sigma_{\overline{x}} =2$. 
+    - we can conclude that 95% of all ${\overline{x}}$ values obtained using a sample size of $n = 100$ will be within $(\pm 1.96 \times 2 = \pm 3.92)$ of the population mean ${\mu}$.
   - As given above, sample mean was $\overline{x} = 82$
     - Interval estimate of $\overline{x} = 82 \pm 3.92 = [78.08, 85.92]$
-    - Because 95% of all the intervals constructed using $\overline{x} = 82 \pm 3.92$ will contain the population mean, we say that we are 95% confident that the interval 78.08 to 85.92 includes the population mean $\mu$. 
+    - Because 95% of all the intervals constructed using $\overline{x} = 82 \pm 3.92$ will contain the population mean, we say that we are 95% confident that the interval 78.08 to 85.92 includes the population mean ${\mu}$. 
     - We say that this interval has been established at the 95% confidence level. 
     - The value 0.95 is referred to as the \textcolor{pink}{confidence coefficient}, and the interval 78.08 to 85.92 is called the 95% \textcolor{pink}{confidence interval}.
 
-Interval Estimate of a Population Mean: $\sigma$ known is given by equation \@ref(eq:interval-with-sigma)
+Interval Estimate of a Population Mean: ${\sigma}$ known is given by equation \@ref(eq:interval-with-sigma)
 
 \begin{equation}
   \begin{align}
@@ -81,7 +81,7 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 
 
 ```{definition 't-distribution'}
-When $s$ is used to estimate $\sigma$, the margin of error and the interval estimate for the population mean are based on a probability distribution known as the \textcolor{pink}{t distribution}.
+When ${s}$ is used to estimate ${\sigma}$, the margin of error and the interval estimate for the population mean are based on a probability distribution known as the \textcolor{pink}{t distribution}.
 ```
 
 The t distribution is a family of similar probability distributions, with a specific t distribution depending on a parameter known as the\textcolor{pink}{degrees of freedom}. As the number of degrees of freedom increases, the difference between the t distribution and the standard normal distribution becomes smaller and smaller. 
@@ -90,7 +90,7 @@ Just as $z_{0.025}$ was used to indicate the z value providing a 0.025 area in t
 
 As the degrees of freedom increase, the t distribution approaches the standard normal distribution. Ex:  $t_{0.025} = 2.262 \,(\text{DOF} = 9)$, $t_{0.025} = 2.200 \,(\text{DOF} = 60)$, and $t_{0.025} = 1.96 \,(\text{DOF} = \infty) = z_{0.025}$
 
-Interval Estimate of a Population Mean: $\sigma$ Unknown is given by equation \@ref(eq:interval-no-sigma)
+Interval Estimate of a Population Mean: ${\sigma}$ Unknown is given by equation \@ref(eq:interval-no-sigma)
 
 \begin{equation}
   \begin{align}
@@ -99,7 +99,7 @@ Interval Estimate of a Population Mean: $\sigma$ Unknown is given by equation \@
   (\#eq:interval-no-sigma)
 \end{equation}
 
-where $s$ is the sample standard deviation, $(1 − \alpha)$ is the confidence coefficient and $t_{\alpha/2}$ is the t-value providing an area of $\alpha/2$ in the upper tail of the t distribution with $n-1$ degrees of freedom.
+where ${s}$ is the sample standard deviation, $(1 − \alpha)$ is the confidence coefficient and $t_{\alpha/2}$ is the t-value providing an area of $\alpha/2$ in the upper tail of the t distribution with ${n-1}$ degrees of freedom.
 
 Refer equation \@ref(eq:sd), the expression for the sample standard deviation is 
 
@@ -119,6 +119,7 @@ Why $(n-1)$ are the degrees of freedom
 ### Cal T  {#get-t-c08 .unlisted .unnumbered}
 
 ```{r '308-getT'}
+# #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 # #Find t-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
 # #To look for Area under the curve towards Right only i.e. alpha/2 = 0.025
 p_r_ii <- 0.025
@@ -134,6 +135,7 @@ cat(paste0("(Left) P(t) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(t) 
 ### qt() {.unlisted .unnumbered}
 
 ```{r '308-getTgivenAlpha'}
+# #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 # #Find t-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
 # #To look for Area under the curve towards Right only i.e. alpha/2 = 0.025
 p_r_ii <- 0.025

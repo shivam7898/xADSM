@@ -51,13 +51,13 @@ cat(paste0(" \u2115 (0,1,2,...) \u2282 \u2124 (-1,0,1) \u2282 \u211a (-0.5,+0.5)
 
 The \textcolor{pink}{natural numbers $\mathbb{N}$} are those numbers used for counting and ordering. ISO standard begin the natural numbers with 0, corresponding to the \textcolor{pink}{non-negative integers $\mathbb{N} = \{0, 1, 2, 3, \ldots \}$}, whereas others start with 1, corresponding to the \textcolor{pink}{positive integers $\mathbb{N^*} = \{1, 2, 3, \ldots \}$}
 
-The set of \textcolor{pink}{integers $\mathbb{Z}$} consists of zero ($0$), the positive natural numbers $\{1, 2, 3, \ldots \}$ and their additive inverses (the negative integers). Thus i.e., \textcolor{pink}{$\mathbb{Z} = \{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}$}. An integer is colloquially defined as a number that can be written without a fractional component. 
+The set of \textcolor{pink}{integers $\mathbb{Z}$} consists of zero (${0}$), the positive natural numbers $\{1, 2, 3, \ldots \}$ and their additive inverses (the negative integers). Thus i.e., \textcolor{pink}{$\mathbb{Z} = \{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}$}. An integer is colloquially defined as a number that can be written without a fractional component. 
 
 \textcolor{pink}{Rational numbers $\mathbb{Q}$} are those which can be expressed as the quotient or fraction p/q of two integers, a numerator p and a non-zero denominator q. Thus, \textcolor{pink}{Rational Numbers $\mathbb{Q} = \{1, 2, 3, \ldots \}$}
 
 A \textcolor{pink}{real number} is a value of a continuous quantity that can represent a distance along a line. The real numbers include all the rational numbers $\mathbb{Q}$, and all the irrational numbers. Thus, \textcolor{pink}{Real Numbers $\mathbb{R} = \mathbb{Q} \cup \{\sqrt{2}, \sqrt{3}, \ldots\} \cup \{ \pi, e, \phi, \ldots \}$}
 
-The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are expressed in the form $a + ib$, where $a$ and $b$ are real numbers. These have two components the real numbers and a specific element denoted by $i$ (imaginary unit) which satisfies the equation \textcolor{pink}{$i^2 = −1$}.
+The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are expressed in the form $a + ib$, where ${a}$ and ${b}$ are real numbers. These have two components the real numbers and a specific element denoted by ${i}$ (imaginary unit) which satisfies the equation \textcolor{pink}{$i^2 = −1$}.
 
 ### Pi {.unlisted .unnumbered}
 
@@ -502,11 +502,11 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
 ### Mean {#mean-c03 .tabset .tabset-fade}
 
 ```{definition 'Mean'}
-Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean $\overline{x}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count $n$.
+Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean ${\overline{x}}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count ${n}$.
 ```
 
 - Refer equation \@ref(eq:mean)
-  - Sample mean is denoted by \textcolor{pink}{$\overline{x}$} (x bar) and Population mean is denoted by \textcolor{pink}{$\mu$}. 
+  - Sample mean is denoted by \textcolor{pink}{${\overline{x}}$} (x bar) and Population mean is denoted by \textcolor{pink}{${\mu}$}. 
   - Mean is the most commonly used measure of central location, even though it is influenced by extreme values.
 
 \begin{equation} 
@@ -514,7 +514,7 @@ Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean $\overl
   (\#eq:mean)
 \end{equation} 
 
-In the mean calculation, normally each $x_i$ is given equal importance or weightage of $1/n$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
+In the mean calculation, normally each ${x_i}$ is given equal importance or weightage of ${1/n}$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
 
 \begin{equation} 
   \bar{x} = \frac{\sum_{i=1}^n{w_ix_i}}{\sum_{i=1}^n{w_i}}
@@ -607,7 +607,7 @@ f_getRDS(xxPI)[1:100, ] %>% pull(VAL) %>% median()
 ### Geometric Mean {.tabset .tabset-fade}
 
 ```{definition 'Geometric-Mean'}
-The \textcolor{pink}{geometric mean $\overline{x}_g$} is a measure of location that is calculated by finding the n^{th} root of the product of $n$ values. 
+The \textcolor{pink}{geometric mean $\overline{x}_g$} is a measure of location that is calculated by finding the n^{th} root of the product of ${n}$ values. 
 ```
 
 - Refer equation \@ref(eq:geometric-mean)
@@ -679,7 +679,7 @@ bb %>% pull(VAL) %>% f_getMode()
 ### Percentiles {#percentiles-c03 .tabset .tabset-fade}
 
 ```{definition 'Percentile'}
-A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing $n$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
+A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing ${n}$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
 ```
 
 - Refer equation \@ref(eq:percentiles)
@@ -739,13 +739,13 @@ In addition to measures of location, it is often desirable to consider measures 
 ### Variance {#variance-c03 .tabset .tabset-fade}
 
 ```{definition 'Variance'}
-The \textcolor{pink}{variance} is based on the difference between the value of each observation $x_i$ and the mean $\overline{x}$. The average of the squared deviations is called the variance. 
+The \textcolor{pink}{variance} is based on the difference between the value of each observation ${x_i}$ and the mean ${\overline{x}}$. The average of the squared deviations is called the variance. 
 ```
 
 - Refer equation \@ref(eq:variance)
   - Sample Variance is denoted by \textcolor{pink}{$s^2$} and Population Variance is denoted by \textcolor{pink}{$\sigma^2$}
   - The variance is a measure of variability that utilizes all the data.
-  - The difference between each $x_i$ and the mean ($\overline{x}, \mu$) is called a \textcolor{pink}{deviation about the mean} i.e. ($x_i - \overline{x}$). Sum of deviation about the mean is always zero i.e. $\sum (x_i - \overline{x}) =0$
+  - The difference between each ${x_i}$ and the mean ($\overline{x}, \mu$) is called a \textcolor{pink}{deviation about the mean} i.e. ($x_i - \overline{x}$). Sum of deviation about the mean is always zero i.e. $\sum (x_i - \overline{x}) =0$
   - In the computation of the variance, the deviations about the mean are squared.
 
 \begin{equation} 
@@ -763,7 +763,7 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
 ```
 
 - Refer equation \@ref(eq:sd)
-  - Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{$\sigma$}
+  - Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{${\sigma}$}
   - The \textcolor{pink}{coefficient of variation} is a relative measure of variability. It measures the standard deviation relative to the mean. It is given in percentage as $100 \times \sigma / \mu$
 
 \begin{equation} 
@@ -787,15 +787,15 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
 Measures of relative location help us determine how far a particular value is from the mean. By using both the mean and standard deviation, we can determine the relative location of any observation. 
 
 ```{definition 'TheSample'}
-A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x_n\}}$ have a sample mean \textcolor{pink}{$\overline{x}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
+A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x_n\}}$ have a sample mean \textcolor{pink}{${\overline{x}}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
 ```
 
 ```{definition 'z-Scores'}
-The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standard deviations $x_i$ is from the mean $\overline{x}$. It is associated with each $x_i$. The z-score is often called the \textcolor{pink}{standardized value}. 
+The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of standard deviations ${x_i}$ is from the mean ${\overline{x}}$. It is associated with each ${x_i}$. The z-score is often called the \textcolor{pink}{standardized value}. 
 ```
 
 - Refer equation \@ref(eq:z-scores) (Similar to equation \@ref(eq:z-val))
-  -  For example, $z_1 = 1.2$  would indicate that $x_1$ is 1.2 standard deviations greater than the sample mean. Similarly, $z_2 = -0.5$ would indicate that $x_2$ is 0.5 standard deviation less than the sample mean. 
+  -  For example, $z_1 = 1.2$  would indicate that ${x_1}$ is 1.2 standard deviations greater than the sample mean. Similarly, $z_2 = -0.5$ would indicate that ${x_2}$ is 0.5 standard deviation less than the sample mean. 
   - A z-score greater than zero occurs for observations with a value greater than the mean, and a z-scoreless than zero occurs for observations with a value less than the mean. 
   - A z-score of zero indicates that the value of the observation is equal to the mean.
   - The z-score for any observation can be interpreted as a measure of the relative location of the observation in a data set.
@@ -809,7 +809,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
 ### Chebyshev Theorem {.tabset .tabset-fade}
 
 ```{definition 'Chebyshev-Theorem'}
-\textcolor{pink}{Chebyshev Theorem} can be used to make statements about the proportion of data values that must be within a specified number of standard deviations $\sigma$, of the mean $\mu$.
+\textcolor{pink}{Chebyshev Theorem} can be used to make statements about the proportion of data values that must be within a specified number of standard deviations ${\sigma}$, of the mean ${\mu}$.
 ```
 
 - Refer to \@ref(def:Chebyshev-Theorem)
@@ -820,7 +820,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
   - How many students had test scores between 60 and 80
     - From equation \@ref(eq:z-scores), $z_{60} = \frac{60 - 70}{5} = -2$
     - Similarly, $z_{80} = \frac{80 - 70}{5} = +2$
-    - According to theorem \@ref(def:Chebyshev-Theorem), values that must be within $z$ standard deviation are
+    - According to theorem \@ref(def:Chebyshev-Theorem), values that must be within ${z}$ standard deviation are
       - ${(1-1/z^2) = (1 - 1/2^2) = 0.75 = 75\%}$
       - i.e. 75 students must have test scores between 60 and 80
   - How many students had test scores between 58 and 82
@@ -831,7 +831,7 @@ The \textcolor{pink}{z-score, $z_i$}, can be interpreted as the number of standa
 ### Empirical Rule {#empirical-c03 .tabset .tabset-fade}
 
 ```{definition 'Empirical-Rule'}
-\textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations $\sigma$ of the mean $\mu$ for a normal distribution.
+\textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations ${\sigma}$ of the mean ${\mu}$ for a normal distribution.
 ```
 
 - According to the \textcolor{pink}{empirical rule}, for a Normal distribution
@@ -907,7 +907,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P01", "_BoxPlot", ".png"))
 ```
 
 - Refer equation \@ref(eq:covariance)
-  - For a sample of size $n$ with the observations $(x_1, y_1), (x_2, y_2)$, and so on, the covariance is given by equation \@ref(eq:covariance)
+  - For a sample of size ${n}$ with the observations $(x_1, y_1), (x_2, y_2)$, and so on, the covariance is given by equation \@ref(eq:covariance)
   - A positive value for $s_{xy}$ indicates a positive linear association between x and y; that is, as the value of x increases, the value of y increases. Similarly a negative value shows a negative linear association.
     - In the example, $s_{xy} = 11$
   - If the points are evenly distributed in the scatterplot, the value of $s_{xy}$ will be close to zero, indicating no linear association between x and y.

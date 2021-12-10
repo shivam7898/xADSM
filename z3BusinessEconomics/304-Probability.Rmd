@@ -34,7 +34,7 @@ The \textcolor{pink}{sample space} for a random experiment is the set of all exp
 ## Counting Rule 
 
 ```{definition 'Counting-Rule'}
-\textcolor{pink}{Counting Rule for Multiple-Step Experiments:} If an experiment can be described as a sequence of $k$ steps with $n_1$ possible outcomes on the first step, $n_2$ possible outcomes on the second step, and so on, then the total number of experimental outcomes is given by $\{(n_1)(n_2) \cdots (n_k) \}$
+\textcolor{pink}{Counting Rule for Multiple-Step Experiments:} If an experiment can be described as a sequence of ${k}$ steps with ${n_1}$ possible outcomes on the first step, ${n_2}$ possible outcomes on the second step, and so on, then the total number of experimental outcomes is given by $\{(n_1)(n_2) \cdots (n_k) \}$
 ```
 
 ```{definition 'Tree-Diagram'}
@@ -44,7 +44,7 @@ A \textcolor{pink}{tree diagram} is a graphical representation that helps in vis
 ## Factorial 
 
 ```{definition 'Factorial'}
-The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, is the product of all positive integers less than or equal to n. The value of 0! is 1 i.e. \textcolor{pink}{$0!=1$}
+The \textcolor{pink}{factorial} of a non-negative integer ${n}$, denoted by $n!$, is the product of all positive integers less than or equal to n. The value of 0! is 1 i.e. \textcolor{pink}{$0!=1$}
 ```
 
 \begin{equation} 
@@ -58,7 +58,7 @@ The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, 
 ## Combinations
 
 ```{definition 'Combinations'}
-\textcolor{pink}{Combination} allows one to count the number of experimental outcomes when the experiment involves selecting $k$ objects from a set of $N$ objects. The number of \textcolor{pink}{combinations} of $N$ objects taken $k$ at a time is equal to the \textcolor{pink}{binomial coefficient $C_k^N$}
+\textcolor{pink}{Combination} allows one to count the number of experimental outcomes when the experiment involves selecting ${k}$ objects from a set of ${N}$ objects. The number of \textcolor{pink}{combinations} of ${N}$ objects taken ${k}$ at a time is equal to the \textcolor{pink}{binomial coefficient $C_k^N$}
 ```
 
 \begin{equation} 
@@ -69,7 +69,7 @@ The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, 
 ## Permutations
 
 ```{definition 'Permutations'}
-\textcolor{pink}{Permutation} allows one to compute the number of experimental outcomes when $k$ objects are to be selected from a set of $N$ objects where the order of selection is important. The same $k$ objects selected in a different order are considered a different experimental outcome. The number of \textcolor{pink}{permutations} of $N$ objects taken $k$ at a time is given by \textcolor{pink}{$P_k^N$}
+\textcolor{pink}{Permutation} allows one to compute the number of experimental outcomes when ${k}$ objects are to be selected from a set of ${N}$ objects where the order of selection is important. The same ${k}$ objects selected in a different order are considered a different experimental outcome. The number of \textcolor{pink}{permutations} of ${N}$ objects taken ${k}$ at a time is given by \textcolor{pink}{$P_k^N$}
 ```
 
 \begin{equation} 
@@ -77,21 +77,21 @@ The \textcolor{pink}{factorial} of a non-negative integer $n$, denoted by $n!$, 
   (\#eq:permutation)
 \end{equation} 
 
-- \textcolor{pink}{The number of permutations of $k$ distinct objects is $k!$}
-  - An experiment results in more permutations than combinations for the same number of objects because every selection of $k$ objects can be ordered in $k!$ different ways.
+- \textcolor{pink}{The number of permutations of ${k}$ distinct objects is $k!$}
+  - An experiment results in more permutations than combinations for the same number of objects because every selection of ${k}$ objects can be ordered in $k!$ different ways.
 
 ## Assigning Probabilities {#assign-probability-c04}
 
 - Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuos Probability](#continuous-prob-be06 "be06"))
-  1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let $E_i$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0,1]$}
-  1. The sum of the probabilities for all the experimental outcomes must equal 1. Thus for $k$ experimental outcomes \textcolor{pink}{$\sum _{i=1}^k P(E_i) =1$}
+  1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let ${E_i}$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0,1]$}
+  1. The sum of the probabilities for all the experimental outcomes must equal 1. Thus for ${k}$ experimental outcomes \textcolor{pink}{$\sum _{i=1}^k P(E_i) =1$}
 
 ```{definition 'Event'}
-An \textcolor{pink}{event} is a collection of sample points. The probability of any event is equal to the sum of the probabilities of the sample points in the event. The sample space, $S$, is an event. Because it contains all the experimental outcomes, it has a probability of 1; that is, \textcolor{pink}{$P(S) = 1$}
+An \textcolor{pink}{event} is a collection of sample points. The probability of any event is equal to the sum of the probabilities of the sample points in the event. The sample space, ${s}$, is an event. Because it contains all the experimental outcomes, it has a probability of 1; that is, \textcolor{pink}{$P(S) = 1$}
 ```
 
 ```{definition 'Complement'}
-Given an event $A$, the \textcolor{pink}{complement of A ($A^c$)} is defined to be the event consisting of all sample points that are not in A. Thus, \textcolor{pink}{$P(A) + P(A^{c}) =1$}
+Given an event ${A}$, the \textcolor{pink}{complement of A ($A^c$)} is defined to be the event consisting of all sample points that are not in A. Thus, \textcolor{pink}{$P(A) + P(A^{c}) =1$}
 ```
 
 ```{definition 'Union'}
@@ -126,11 +126,11 @@ drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, a part
   - Solution: \textcolor{black}{$C_{5}^{59} \times C_{1}^{35}$}
 - An experiment has four equally likely outcomes: E1, E2, E3, and E4
   - What is the probability that E2 occurs
-    - Solution: \textcolor{black}{$1/4$}
+    - Solution: \textcolor{black}{${1/4}$}
   - What is the probability that any two of the outcomes occur (e.g., E1 or E3)
     - Solution: \textcolor{black}{$2/4 = 1/2$}  
   - What is the probability that any three of the outcomes occur (e.g., E1 or E2 or E4)
-    - Solution: \textcolor{black}{$3/4$}  
+    - Solution: \textcolor{black}{${3/4}$}  
 - Consider the experiment of selecting a playing card from a deck of 52 playing cards. Each card corresponds to a sample point with a 1/52 probability.
   - Probability of the event that an ace is selected
     - Solution: \textcolor{black}{$4/52 = 1/13$}

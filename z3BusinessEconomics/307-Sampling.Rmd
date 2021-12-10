@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Sample](#sample-c07 "c07")
+  - [Sample](#sample-c07 "c07"), [Standard Error](#standard-error-c07 "c07"), [Central Limit Theorem](#clt-c07 "c07")
   - "ForLater" - Sampling Distribution of $\overline{p}$, Properties of Point Estimators, Other Sampling Methods
 
 ## Definitions (Ref)
@@ -54,7 +54,7 @@ The \textcolor{pink}{target population} is the population we want to make infere
 
 
 ```{definition 'SRS'}
-A \textcolor{pink}{simple random sample (SRS)} is a set of $k$ objects in a population of $N$ objects where all possible samples are equally likely to happen. The number of such different simple random samples is $C_k^N$
+A \textcolor{pink}{simple random sample (SRS)} is a set of ${k}$ objects in a population of ${N}$ objects where all possible samples are equally likely to happen. The number of such different simple random samples is $C_k^N$
 ```
 
 ```{definition 'Sampling-without-Replacement'}
@@ -72,7 +72,7 @@ A \textcolor{pink}{simple random sample (SRS)} is a set of $k$ objects in a popu
   - In the infinite population case, statisticians recommend selecting what is called a 'random sample'.
   
 ```{definition 'Random-Sample'}
-A \textcolor{pink}{random sample} of size $n$ from an infinite population is a sample selected such that the following two conditions are satisfied. Each element selected comes from the same population. Each element is selected independently. The second condition prevents selection bias.
+A \textcolor{pink}{random sample} of size ${n}$ from an infinite population is a sample selected such that the following two conditions are satisfied. Each element selected comes from the same population. Each element is selected independently. The second condition prevents selection bias.
 ```
 
 Random sample vs. SRS
@@ -100,7 +100,7 @@ Random sample vs. SRS
 ## Point Estimation  {.tabset .tabset-fade}
 
 ```{definition 'Proportion'}
-A \textcolor{pink}{population proportion $P$}, is a parameter that describes a percentage value associated with a population. It is given by $P = \frac{X}{N}$, where $X$ is the count of successes in the population, and $N$ is the size of the population. It is estimated through \textcolor{pink}{sample proportion $\overline{p} = \frac{x}{n}$}, where $x$ is the count of successes in the sample, and $n$ is the size of the sample obtained from the population.
+A \textcolor{pink}{population proportion ${P}$}, is a parameter that describes a percentage value associated with a population. It is given by $P = \frac{X}{N}$, where ${x}$ is the count of successes in the population, and ${N}$ is the size of the population. It is estimated through \textcolor{pink}{sample proportion $\overline{p} = \frac{x}{n}$}, where ${x}$ is the count of successes in the sample, and ${N}$ is the size of the sample obtained from the population.
 ```
 
 ```{definition 'Point-Estimation'}
@@ -108,7 +108,7 @@ To estimate the value of a \textcolor{pink}{population parameter}, we compute a 
 ```
 
 ```{definition 'Point-Estimator'}
-A sample statistic is the \textcolor{pink}{point estimator} of the corresponding population parameter. For example, $\overline{x}, s, s^2, s_{xy}, r_{xy}$ sample statics are point estimators for corresponding population parameters of $\mu$ (mean), $\sigma$ (standard deviation), $\sigma^2$ (variance), $\sigma_{xy}$ (covariance), $\rho_{xy}$ (correlation)
+A sample statistic is the \textcolor{pink}{point estimator} of the corresponding population parameter. For example, $\overline{x}, s, s^2, s_{xy}, r_{xy}$ sample statics are point estimators for corresponding population parameters of ${\mu}$ (mean), ${\sigma}$ (standard deviation), $\sigma^2$ (variance), $\sigma_{xy}$ (covariance), $\rho_{xy}$ (correlation)
 ```
 
 ```{definition 'Point-Estimate'}
@@ -118,28 +118,33 @@ The numerical value obtained for the sample statistic is called the \textcolor{p
 ## Sampling Distributions
 
 ```{definition 'Sampling-Distribution'}
-The \textcolor{pink}{sampling distribution of $\overline{x}$} is the probability distribution of all possible values of the sample mean $\overline{x}$.
+The \textcolor{pink}{sampling distribution of ${\overline{x}}$} is the probability distribution of all possible values of the sample mean ${\overline{x}}$.
 ```
 
-Suppose, from a Population, we take a sample of size $n$ and calculate point estimate mean $\overline{x}_{1}$. Further, we can select another random sample from the Population and get another point estimate mean  $\overline{x}_{2}$. If we repeat this process for 500 times, we will have a frame of $\{\overline{x}_{1}, \overline{x}_{2}, \ldots, \overline{x}_{500}\}$.
+Suppose, from a Population, we take a sample of size ${n}$ and calculate point estimate mean $\overline{x}_{1}$. Further, we can select another random sample from the Population and get another point estimate mean  $\overline{x}_{2}$. If we repeat this process for 500 times, we will have a frame of $\{\overline{x}_{1}, \overline{x}_{2}, \ldots, \overline{x}_{500}\}$.
 
-If we consider the process of selecting a simple random sample as an experiment, the sample mean $\overline{x}$ is the numerical description of the outcome of the experiment. Thus, the sample mean $\overline{x}$ is a random variable. As a result, just like other random variables, $\overline{x}$ has a mean or expected value, a standard deviation, and a probability distribution. Because the various possible values of $\overline{x}$ are the result of different simple random samples, the probability distribution of $\overline{x}$ is called the \textcolor{pink}{sampling distribution of $\overline{x}$}. Knowledge of this sampling distribution and its properties will enable us to make probability statements about how close the sample mean $\overline{x}$ is to the population mean $\mu$.
+If we consider the process of selecting a simple random sample as an experiment, the sample mean ${\overline{x}}$ is the numerical description of the outcome of the experiment. Thus, the sample mean ${\overline{x}}$ is a random variable. As a result, just like other random variables, ${\overline{x}}$ has a mean or expected value, a standard deviation, and a probability distribution. Because the various possible values of ${\overline{x}}$ are the result of different simple random samples, the probability distribution of ${\overline{x}}$ is called the \textcolor{pink}{sampling distribution of ${\overline{x}}$}. Knowledge of this sampling distribution and its properties will enable us to make probability statements about how close the sample mean ${\overline{x}}$ is to the population mean ${\mu}$.
 
-Just as with other probability distributions, the sampling distribution of $\overline{x}$ has an expected value or mean, a standard deviation, and a characteristic shape or form.
+Just as with other probability distributions, the sampling distribution of ${\overline{x}}$ has an expected value or mean, a standard deviation, and a characteristic shape or form.
 
 ### Mean
 
-- Expected Value of $\overline{x}$
-  - The mean of the $\overline{x}$ random variable is the expected value of $\overline{x}$. 
-  - Let $E(\overline{x})$ represent the expected value of $\overline{x}$ and $\mu$ represent the mean of the population from which we are selecting a simple random sample. Then, \textcolor{pink}{$E(\overline{x}) = \mu$} 
-  - When the expected value of a point estimator equals the population parameter, we say the point estimator is \textcolor{pink}{unbiased}. Thus, \textcolor{pink}{$\overline{x}$ is an unbiased estimator of the population mean  $\mu$}.
+- Expected Value of ${\overline{x}}$
+  - The mean of the ${\overline{x}}$ random variable is the expected value of ${\overline{x}}$. 
+  - Let $E(\overline{x})$ represent the expected value of ${\overline{x}}$ and ${\mu}$ represent the mean of the population from which we are selecting a simple random sample. Then, \textcolor{pink}{$E(\overline{x}) = \mu$} 
+  - When the expected value of a point estimator equals the population parameter, we say the point estimator is \textcolor{pink}{unbiased}. Thus, \textcolor{pink}{${\overline{x}}$ is an unbiased estimator of the population mean  ${\mu}$}.
 
-### Standard Deviation
+### Standard Deviation {#standard-error-c07}
 
-- Standard Deviation of $\overline{x}$, \textcolor{pink}{$\sigma_{\overline{x}}$} is given by \@ref(eq:sigma-x-bar)
+
+```{definition 'Standard-Error'}
+In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to the standard deviation of a point estimator. The standard error of ${\overline{x}}$ is the standard deviation of the sampling distribution of ${\overline{x}}$.
+```
+
+- Standard Deviation of ${\overline{x}}$, \textcolor{pink}{$\sigma_{\overline{x}}$} is given by \@ref(eq:sigma-x-bar)
   - $\sqrt{\frac{N - n}{N-1}}$ is commonly referred to as the \textcolor{pink}{finite population correction factor}. With large population, it approaches 1
   - Thus, $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$ becomes good approximation when the sample size is less than or equal to 5% of the population size; that is, \textcolor{pink}{$n/N \leq 0.05$}.
-  - To further emphasize the difference between $\sigma_{\overline{x}}$ and $\sigma$, we refer to the standard deviation of $\overline{x}$, $\sigma_{\overline{x}}$, as the \textcolor{pink}{standard error of the mean}. In general, the term \textcolor{pink}{standard error} refers to the standard deviation of a point estimator. 
+  - To further emphasize the difference between $\sigma_{\overline{x}}$ and ${\sigma}$, we refer to the standard deviation of ${\overline{x}}$, $\sigma_{\overline{x}}$, as the \textcolor{pink}{standard error of the mean}.  
   - The standard error of the mean is helpful in determining how far the sample mean may be from the population mean.
 
 \begin{equation}
@@ -150,21 +155,21 @@ Just as with other probability distributions, the sampling distribution of $\ove
   (\#eq:sigma-x-bar)
 \end{equation}
 
-### Form 
+### Form {#clt-c07}
 
-Form of the Sampling Distribution of $\overline{x}$
+Form of the Sampling Distribution of ${\overline{x}}$
 
-- When the population has a normal distribution, the sampling distribution of $\overline{x}$ is normally distributed for any sample size. 
+- When the population has a normal distribution, the sampling distribution of ${\overline{x}}$ is normally distributed for any sample size. 
 
-- When the population from which we are selecting a random sample does not have a normal distribution, \textcolor{pink}{the central limit theorem} is helpful in identifying the shape of the sampling distribution of $\overline{x}$.
+- When the population from which we are selecting a random sample does not have a normal distribution, \textcolor{pink}{the central limit theorem} is helpful in identifying the shape of the sampling distribution of ${\overline{x}}$.
 
 ```{definition 'Central-Limit-Theorem'}
-\textcolor{pink}{Central Limit Theorem:} In selecting random samples of size $n$ from a population, the sampling distribution of the sample mean  $\overline{x}$ can be approximated by a normal distribution as the sample size becomes large.
+\textcolor{pink}{Central Limit Theorem:} In selecting random samples of size ${n}$ from a population, the sampling distribution of the sample mean  ${\overline{x}}$ can be approximated by a normal distribution as the sample size becomes large.
 ```
 
 How large the sample size needs to be before the central limit theorem applies and we can assume that the shape of the sampling distribution is approximately normal
 
-- For most applications, the sampling distribution of $\overline{x}$ can be approximated by a normal distribution whenever the sample is size 30 or more. 
+- For most applications, the sampling distribution of ${\overline{x}}$ can be approximated by a normal distribution whenever the sample is size 30 or more. 
 - In cases where the population is highly skewed or outliers are present, samples of size 50 may be needed. 
 - Finally, if the population is discrete, the sample size needed for a normal approximation often depends on the population proportion.
 
@@ -179,37 +184,37 @@ Task of developing a profile of the company’s 2500 managers. The characteristi
   - Salary: ${\mathcal {N}}_{(\mu = 51800,\, \sigma =4000)}$
   - Proportion of the population that completed the training program $p = \frac{1500}{2500} = 0.60$
 
-- Suppose that a sample of 30 managers will be used. i.e. $n=30$ and 19 Yes for Training
+- Suppose that a sample of 30 managers will be used. i.e. ${n=30}$ and 19 Yes for Training
   - Suppose, sample have ${\mathcal {N}}_{(\overline{x} = 51814,\, s =3348)}$
   - Also, $\overline{p} = \frac{x}{n} = \frac{19}{30} = 0.63$
 
-- If 500 such samples are taken, where each have their own $\overline{x}$
+- If 500 such samples are taken, where each have their own ${\overline{x}}$
   - Then their expected value $E(\overline{x}) = \mu = 51800$
   - Standard Error $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{4000}{\sqrt{30}} = 730.3$
 
-- Suppose the director believes the sample mean $\overline{x}$ will be an acceptable estimate of the population mean $\mu$ if the sample mean is within \$500 of the population mean. 
+- Suppose the director believes the sample mean ${\overline{x}}$ will be an acceptable estimate of the population mean ${\mu}$ if the sample mean is within \$500 of the population mean. 
   - However, it is not possible to guarantee that the sample mean will be within \$500 of the population
   - We can reframe the request in probability terms i.e.
     - What is the probability that the sample mean computed using a simple random sample of 30 EAI managers will be within \$500 of the population mean
-    - i.e. Probability that $\overline{x} \in [51300, 52300] $
+    - i.e. Probability that $\overline{x} \in [51300, 52300]$
       - For $z = \frac{\overline{x} - \mu}{\sigma_{\overline{x}}}$
       - For $\overline{x} = 52300 \Rightarrow z = \frac{52300 - 51800}{730.30} = 0.68$
       - For $\overline{x} = 51300 \Rightarrow z = \frac{51300 - 51800}{730.30} = -0.68$
   - $P_{(51300 \leq \overline{x} \leq 52300)} = P_{(\overline{x} \leq 52300)} - P_{(\overline{x} \leq 51300)} = P_{(z \leq 0.68)} - P_{(z \leq -0.68)} = 0.7517 - 0.2483 = 0.5034$
-    - A simple random sample of 30 EAI managers has a 0.5034 probability of providing a sample mean $\overline{x}$ that is within \$500 of the population mean. 
-      - Thus, there is a $1 − 0.5034 = 0.4966$ probability that the difference between $\overline{x}$ and $\mu$ will be more than \$500. 
+    - A simple random sample of 30 EAI managers has a 0.5034 probability of providing a sample mean ${\overline{x}}$ that is within \$500 of the population mean. 
+      - Thus, there is a $1 − 0.5034 = 0.4966$ probability that the difference between ${\overline{x}}$ and ${\mu}$ will be more than \$500. 
       - In other words, a simple random sample of 30 EAI managers has roughly a 50–50 chance of providing a sample mean within the allowable $500. Perhaps a larger sample size should be considered. 
-      - Let us explore this possibility by considering the relationship between the sample size and the sampling distribution of $\overline{x}$.
+      - Let us explore this possibility by considering the relationship between the sample size and the sampling distribution of ${\overline{x}}$.
 
 - Impact of $n = 100$ in place of $n =30$
-  - First note that $E(\overline{x}) = \mu$ regardless of the sample size. Thus, the mean of all possible values of $\overline{x}$ is equal to the population mean $\mu$ regardless of the sample size $n$. 
+  - First note that $E(\overline{x}) = \mu$ regardless of the sample size. Thus, the mean of all possible values of ${\overline{x}}$ is equal to the population mean ${\mu}$ regardless of the sample size ${n}$. 
   - However, standard error is reduced to $\sigma_{\overline{x}} = \frac{4000}{\sqrt{100}} = 400$
   - For $\overline{x} = 52300 \Rightarrow z = \frac{52300 - 51800}{400} = 1.25$
   - For $\overline{x} = 51300 \Rightarrow z = \frac{51300 - 51800}{400} = -1.25$
   - Thus $P_{(51300 \leq \overline{x} \leq 52300)} = P_{(\overline{x} \leq 52300)} - P_{(\overline{x} \leq 51300)} = P_{(z \leq 1.25)} - P_{(z \leq -1.25)} = 0.8944 - 0.1056 = 0.7888$
   - Thus, by increasing the sample size from 30 to 100 EAI managers, we increase the probability of obtaining a sample mean within \$500 of the population mean from 0.5034 to 0.7888.
 
-\textcolor{orange}{Caution:} Here, we took advantage of the fact that the population mean $\mu$ and the population standard deviation $\sigma$ were known. However, usually these values will be unknown. 
+\textcolor{orange}{Caution:} Here, we took advantage of the fact that the population mean ${\mu}$ and the population standard deviation ${\sigma}$ were known. However, usually these values will be unknown. 
 
 ## "ForLater" {.unlisted .unnumbered}
 

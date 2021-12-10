@@ -10,6 +10,448 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
+  - [Hypothesis Testing](#hypothesis-c09 "c09"), [Type I and Type II Errors](#errors-ab-c09, "c09"), [One Tail Test](#one-tail-c09 "c09"), [Two Tail Test](#two-tail-c09 "c09"), [Tests with unknown sigma](#get-pt-c09 "c09")
+  - [Calculate P(t) by pt()](#get-pt-c09 "c09")
+  - "ForLater" - Population Proportion, Calculating the Probability of Type II Errors, Determining the Sample Size
+
+## Hypothesis Testing {#hypothesis-c09}
+
+```{definition 'Hypothesis-Testing'}
+\textcolor{pink}{Hypothesis testing} is a process in which, using data from a sample, an inference is made about a population parameter or a population probability distribution. 
+```
+
+Note:
+
+- Hypothesis testing is used to determine whether a statement about the value of a population parameter should or should not be rejected.
+- It is the process to check whether the sample information is matching with population information.
+- The hypothesis testing procedure uses data from a sample to test the two competing statements indicated by ${H_0}$ and ${H_a}$
+
+```{definition 'Hypothesis-Null'}
+\textcolor{pink}{Null Hypothesis $(H_0)$} is a tentative assumption about a population parameter. It is assumed True, by default, in the hypothesis testing procedure.
+```
+
+```{definition 'Hypothesis-Alternative'}
+\textcolor{pink}{Alternative Hypothesis $(H_a)$} is the complement of the Null Hypothesis. It is concluded to be True, if the Null Hypothesis is rejected.
+```
+
+Note:
+
+- The conclusion that the alternative hypothesis $(H_a)$ is true is made if the sample data provide sufficient evidence to show that the null hypothesis $(H_0)$ can be rejected.
+
+## Developing Null and Alternative Hypotheses 
+
+All hypothesis testing applications involve collecting a sample and using the sample results to provide evidence for drawing a conclusion.
+
+In some situations it is easier to identify the alternative hypothesis first and then develop the null hypothesis.
+
+- The Alternative Hypothesis as a Research Hypothesis 
+  - A new fuel injection system designed to increase the miles-per-gallon rating from the current value 24 miles per gallon.
+    - $H_a : \mu > 24 \iff H_0: \mu \leq 24$
+  - A new teaching method is developed that is believed to be better than the current method. 
+    - $H_a : \text{\{New method is better}\} \iff H_0: \text{\{New method is NOT better}\}$
+  - A new sales force bonus plan is developed in an attempt to increase sales. 
+    - $H_a : \text{\{New plan increases sales}\} \iff H_0: \text{\{New plan does not increase sales}\}$
+  - A new drug is developed with the goal of lowering blood pressure more than an existing drug. 
+    - ${H_a}$ : New drug lowers blood pressure more than the existing drug
+    - ${H_0}$ : New drug does not provide lower blood pressure than the existing drug
+  - In each case, rejection of the null hypothesis ${H_0}$ provides statistical support for the research hypothesis ${H_a}$.
+
+- The Null Hypothesis as an Assumption to Be Challenged
+  - The null hypothesis ${H_0}$ expresses the belief or assumption about the value of the population parameter. The alternative hypothesis ${H_a}$ is that the belief or assumption is incorrect.
+  - Ex: The label on a soft drink bottle states that it contains 67.6 fluid ounces. 
+    - We consider the label correct provided the population mean filling weight for the bottles is \textcolor{pink}{at least} 67.6 fluid ounces. 
+    - Without any reason to believe otherwise, we would give the manufacturer the benefit of the doubt and assume that the statement provided on the label is correct. 
+    - $H_0 : \mu \geq 67.6 \iff H_a: \mu < 67.6$
+    - If the sample results lead to the conclusion to reject ${H_0}$, the inference that $H_a: \mu < 67.6$ is true can be made. With this statistical support, the agency is justified in concluding that the label is incorrect and underfilling of the bottles is occurring. Appropriate action to force the manufacturer to comply with labeling standards would be considered. 
+    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the manufacturer's labeling is correct cannot be rejected. With this conclusion, no action would be taken.
+    - A manufacturer's product information is usually assumed to be true and stated as the null hypothesis. The conclusion that the information is incorrect can be made if the null hypothesis is rejected.
+  - Same situation, from the manufacturer's point of view
+    - The company does not want to underfill the containers (legal requirement). However, the company does not want to overfill containers either because it would be an unnecessary cost. 
+    - $H_0 : \mu = 67.6 \iff H_a: \mu \neq 67.6$
+    - If the sample results lead to the conclusion to reject ${H_0}$, the inference is made that $H_a: \mu \neq 67.6$ is true. We conclude that the bottles are not being filled properly and the production process should be adjusted. 
+    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the process is functioning properly cannot be rejected. In this case, no further action would be taken.
+
+
+## Three forms of hypotheses  {.tabset .tabset-fade}
+
+For hypothesis tests involving a population mean, we let $\mu_0$ denote the hypothesized value and we must choose one of the following three forms for the hypothesis test.
+
+
+```{definition 'Hypothesis-1T-Lower-Tail'}
+\textcolor{pink}{$\text{\{Left Tail or Lower Tail\} } H_0 : \mu \geq \mu_0 \iff H_a: \mu < \mu_0$}
+```
+
+```{definition 'Hypothesis-1T-Upper-Tail'}
+\textcolor{pink}{$\text{\{Right Tail or Upper Tail\} } H_0 : \mu \leq \mu_0 \iff H_a: \mu > \mu_0$}
+```
+
+```{definition 'Hypothesis-2T-Two-Tail'}
+\textcolor{pink}{$\text{\{Two Tail\} } H_0 : \mu = \mu_0 \iff H_a: \mu \neq \mu_0$}
+```
+
+
+### Notes  {.unlisted .unnumbered}
+
+
+- The equality part of the expression $\{\mu \geq \mu_0 \, | \, \mu \leq \mu_0 \, | \, \mu = \mu_0\}$ \textcolor{pink}{always} appears in the null hypothesis ${H_0}$. 
+- Alternative hypothesisis often what the test is attempting to establish.
+  - Hence, asking whether the user is looking for evidence to support $\{\mu < \mu_0 \, | \, \mu > \mu_0 \, | \, \mu \neq \mu_0\}$ will help determine ${H_a}$
+
+### Exercises  {.unlisted .unnumbered}
+
+- The manager of an automobile dealership is considering a new bonus plan designed to increase sales volume. Currently, the mean sales volume is 14 automobiles per month. The manager wants to conduct a research study to see whether the new bonus plan increases sales volume. 
+  - Solution: \textcolor{black}{$H_0 : \mu \leq 14 \iff H_a: \mu > 14$}
+- A director of manufacturing must convince management that a proposed manufacturing method reduces costs before the new method can be implemented. The current production method operates with a mean cost of \$220 per hour. 
+  - Solution: \textcolor{black}{$H_0 : \mu \geq 220 \iff H_a: \mu < 220$}
+
+
+## Type I and Type II Errors  {#errors-ab-c09}
+
+Ideally the hypothesis testing procedure should lead to the acceptance of ${H_0}$ when ${H_0}$ is true and the rejection of ${H_0}$ when ${H_a}$ is true. Unfortunately, the correct conclusions are not always possible. Because hypothesis tests are based on sample information, we must allow for the possibility of errors. 
+
+```{r 'C09P01', echo=FALSE, fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+knitr::include_graphics(paste0(.z$PX, "C09P01", "_Hypothesis_Errors", ".jpg"))
+```
+
+
+```{definition 'Error-Type-I'}
+The error of rejecting ${H_0}$ when it is true, is \textcolor{pink}{Type I error}.
+```
+
+
+```{definition 'Error-Type-II'}
+The error of accepting ${H_0}$ when it is false, is \textcolor{pink}{Type II error}.
+```
+
+
+
+```{definition 'Level-of-Significance'}
+The \textcolor{pink}{level of significance $(\alpha)$} is the probability of making a Type I error when the null hypothesis is true as an equality.
+```
+
+In practice, the person responsible for the hypothesis test specifies the level of significance. By selecting ${\alpha}$, that person is controlling the probability of making a Type I error. 
+
+- If the cost of making a Type I error is high, small values of ${\alpha}$ are preferred. Ex: $\alpha =0.01$ - If the cost of making a Type I error is not too high, larger values of ${\alpha}$ are typically used. Ex: $\alpha = 0.05$ 
+
+
+```{definition 'Significance-Tests'}
+Applications of hypothesis testing that only control for the Type I error $(\alpha)$ are called \textcolor{pink}{significance tests}. 
+```
+
+
+Although most applications of hypothesis testing control for the probability of making a Type I error, they do not always control for the probability of making a Type II error. Hence, if we decide to accept ${H_0}$, we cannot determine how confident we can be with that decision. Because of the uncertainty associated with making a Type II error when conducting significance tests, statisticians usually recommend that we use the statement \textcolor{pink}{"do not reject ${H_0}$"} instead of "accept H0." Using the statement "do not reject ${H_0}$" carries the recommendation to withhold both judgment and action. In effect, by not directly accepting ${H_0}$, the statistician avoids the risk of making a Type II error.
+
+
+## Known SD
+
+
+### One-tailed Test {#one-tail-c09}
+
+One-tailed tests about a population mean take one of the following two forms:
+
+```{r 'C09D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Lower-Tail")
+```
+
+```{r 'C09D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+
+```{definition 'One-Tailed-Test'}
+\textcolor{pink}{One-tailed test} is a hypothesis test in which rejection of the null hypothesis occurs for values of the test statistic in one tail of its sampling distribution.
+```
+
+
+```{definition 'Test-Statistic'}
+\textcolor{pink}{Test statistic} is a statistic whose value helps determine whether a null hypothesis should be rejected.
+```
+
+
+
+Example: The label on a can of Hilltop Coffee states that the can contains 3 pounds of coffee. As long as the population mean filling weight is at least 3 pounds per can, the rights of consumers will be protected. Thus, the government (FTC) interprets the label information on a large can of coffee as a claim by Hilltop that the population mean filling weight is at least 3 pounds per can. 
+  
+- Develop the null and alternative hypotheses for the test
+  - $H_0 : \mu \geq 3 \iff H_a: \mu < 3$
+- Take a Sample
+  - Suppose a sample of 36 cans of coffee is selected and the sample mean ${\overline{x}}$ is computed as an estimate of the population mean ${\mu}$. If the value of the sample mean ${\overline{x}}$ is less than 3 pounds, the sample results will cast doubt on the null hypothesis. 
+  - What we want to know is how much less than 3 pounds must ${\overline{x}}$ be before we would be willing to declare the difference significant and risk making a Type I error by falsely accusing Hilltop of a label violation. A key factor in addressing this issue is the value the decision maker selects for the level of significance. 
+- Specify the level of significance ${\alpha}$ 
+  - FTC is willing to risk a 1% chance of making such an error i.e. $\alpha 0.01$
+- Compute the value of test statistic 
+  - Assume, known $\sigma = 0.18$ and Normal distribution
+  - Refer equation \@ref(eq:sigma-x-bar), standard error of ${\overline{x}}$ is $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{0.18}{\sqrt{36}} = 0.03$
+  - Because the sampling distribution of ${\overline{x}}$ is normally distributed, $z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} = \frac{\overline{x} - 3}{0.03}$
+  - Because the sampling distribution of x is normally distributed, the sampling distribution of ${z}$ is a standard normal distribution. 
+  - A value of $z = −1$ means that the value of ${\overline{x}}$ is one standard error below the hypothesized value of the mean. For a value of $z = −2$, it would be two standard errors below the mean, and so on. 
+  - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06")
+    - Ex: $P_{\left(z = -3\right)} = 0.0013$
+    - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean $\mu_0=3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
+  - For hypothesis tests about a population mean in the ${\sigma}$ known case, we use the standard normal random variable ${z}$ as a test statistic to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. As given in equation \@ref(eq:test-statistic-with-sigma)
+
+\begin{equation}
+  z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}
+  (\#eq:test-statistic-with-sigma)
+\end{equation}
+
+The key question for a lower tail test is, \textcolor{pink}{How small must the test statistic ${z}$ be before we choose to reject the null hypothesis} 
+
+Two approaches can be used to answer this: the p-value approach and the critical value approach.
+
+#### p-value approach
+
+```{definition 'Approach-p-value'}
+The \textcolor{pink}{p-value approach} uses the value of the test statistic ${z}$ to compute a probability called a \textcolor{pink}{p-value}.
+```
+
+```{definition 'p-value'}
+A \textcolor{pink}{p-value} is a probability that provides a measure of the evidence against the null hypothesis provided by the sample. The p-value is used to determine whether the null hypothesis should be rejected. Smaller p-values indicate more evidence against ${H_0}$.
+```
+
+A small p-value indicates the value of the test statistic is unusual given the assumption that ${H_0}$ is true.
+
+For a \textcolor{pink}{lower tail test}, the p-value is the probability of obtaining a value for the test statistic as small as or smaller than that provided by the sample. 
+- we use the standard normal distribution to find the probability that ${z}$ is less than or equal to the value of the test statistic. 
+- After computing the p-value, we must then decide whether it is small enough to reject the null hypothesis; this decision involves comparing the p-value to the level of significance.
+
+For the Hilltop Coffee Example
+
+- Suppose the sample of 36 Hilltop coffee cans provides a sample mean of ${\overline{x}}$ = 2.92 pounds. 
+  - Is $\overline{x} = 2.92$ small enough to cause us to reject ${H_0}$
+- Because this is a lower tail test, the p-value is the area under the standard normal curve for values of ${z}$ less than or equal to the value of the test statistic. 
+  - Refer equation \@ref(eq:test-statistic-with-sigma), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
+  - Thus, the p-value is the probability that ${z}$ is less than or equal to −2.67 (the lower tail area corresponding to the value of the test statistic).
+- Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value
+  - $P_{\left(\overline{x} = 2.92\right)} = P_{\left(z = -2.67\right)} = 0.0038$
+  - This p-value does not provide much support for the null hypothesis, but is it small enough to cause us to reject ${H_0}$
+- Compare p-value with Level of significance $\alpha = 0.01$
+  - Because .0038 is less than or equal to $\alpha = 0.01$, we reject ${H_0}$. Therefore, we find sufficient statistical evidence to reject the null hypothesis at the .01 level of significance.
+  - We can conclude that Hilltop is underfilling the cans.
+  
+\textcolor{pink}{Rejection Rule: Reject ${H_0}$ if p-value $\leq \alpha$}
+
+Further, in this case, we would reject ${H_0}$ for any value of $\alpha \geq (p = 0.0038)$. For this reason, the p-value is also called the \textcolor{pink}{observed level of significance}.
+
+#### Critical value approach
+
+```{definition 'Approach-Critical-Value'}
+The \textcolor{pink}{critical value approach} requires that we first determine a value for the test statistic called the \textcolor{pink}{critical value}. 
+```
+
+
+```{definition 'Critical-Value'}
+\textcolor{pink}{Critical value} is the value that is compared with the test statistic to determine whether ${H_0}$ should be rejected.
+```
+
+For a \textcolor{pink}{lower tail test}, the critical value serves as a benchmark for determining whether the value of the test statistic is small enough to reject the null hypothesis. 
+  - \textcolor{pink}{Critical value} is the value of the test statistic that corresponds to an area of ${\alpha}$ (the level of significance) in the lower tail of the sampling distribution of the test statistic.
+  - In other words, the critical value is the largest value of the test statistic that will result in the rejection of the null hypothesis. 
+
+Hilltop Coffee Example
+
+- The sampling distribution for the test statistic ${z}$ is a standard normal distribution. 
+  - Therefore, the critical value is the value of the test statistic that corresponds to an area of $\alpha = 0.01$ in the lower tail of a standard normal distribution. 
+  - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
+  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+  - Thus, if the sample results in a value of the test statistic that is less than or equal to −2.33, the corresponding p-value will be less than or equal to .01; in this case, we should reject the null hypothesis. 
+- Compare test statistic with z-value
+  - Because $(z = -2.67) < (z_{\alpha = 0.01} = −2.33)$, we can reject ${H_0}$
+  - We can conclude that Hilltop is underfilling the cans.
+
+\textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq z_{\alpha}$}
+
+
+#### Summary
+
+The p-value approach to hypothesis testing and the critical value approach will always lead to the same rejection decision; that is, whenever the p-value is less than or equal to ${\alpha}$, the value of the test statistic will be less than or equal to the critical value. 
+
+- The advantage of the p-value approach is that the p-value tells us how significant the results are (the observed level of significance). 
+  - If we use the critical value approach, we only know that the results are significant at the stated level of significance.
+
+For \textcolor{pink}{upper tail test} The test statistic ${z}$ is still computed as earlie. But, for an upper tail test, the p-value is the probability of obtaining a value for the test statistic as large as or larger than that provided by the sample. 
+Thus, to compute the p-value for the upper tail test in the ${\sigma}$ known case, we must use the standard normal distribution to find the probability that ${z}$ is greater than or equal to the value of the test statistic. Using the critical value approach causes us to reject the null hypothesis if the value of the test statistic is greater than or equal to the critical value $z_{\alpha}$; in other words, we reject ${H_0}$ if $z \geq z_{\alpha}$.
+
+### Two-tailed Test {#two-tail-c09}
+
+```{r 'C09D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-2T-Two-Tail")
+```
+
+
+```{definition 'Two-Tailed-Test'}
+\textcolor{pink}{Two-tailed test} is a hypothesis test in which rejection of the null hypothesis occurs for values of the test statistic in either tail of its sampling distribution.
+```
+
+
+Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
+
+- $H_0 : \mu = 295 \iff H_a: \mu \neq 295$
+- The quality control team selected $\alpha = 0.05$ as the level of significance for the test.
+- From previous tests, assume known $\sigma = 12$
+- For a sample size $n = 50$
+  - Standard Error of ${\overline{x}}$ is $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{12}{\sqrt{50}} = 1.7$
+  - [Central Limit Theorem](#clt-c07 "c07"), allows us to conclude that the sampling distribution of ${\overline{x}}$ can be approximated by a normal distribution.
+- Suppose for the sample, $\overline{x} = 297.6$
+
+- p-value approach
+  - For a two-tailed test, the p-value is the probability of obtaining a value for the test statistic as unlikely as or more unlikely than that provided by the sample. 
+  - Refer equation \@ref(eq:test-statistic-with-sigma), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
+  - Now to compute the p-value we must find the probability of obtaining a value for the test statistic at least as unlikely as $z = 1.53$. 
+    - Clearly values of $z \geq 1.53$ are at least as unlikely. 
+    - But, because this is a two-tailed test, values of $z \leq −1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 
+  - Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value
+    - $P_{\left(z\right)} = P_{\left(z \leq -1.53\right)} + P_{\left(z \geq 1.53\right)}$
+    - $P_{\left(z\right)} = 2 \times P_{\left(z \geq 1.53\right)}$, Because the normal curve is symmetric
+    - $P_{\left(z\right)} = 2 \times 0.0630 = 0.1260$
+  - Compare p-value with Level of significance $\alpha = 0.05$
+    - We do not reject ${H_0}$ because the $(\text{p-value}= 0.1260) > (\alpha = 0.05)$
+    - Because the null hypothesis is not rejected, no action will be taken.
+- critical value approach
+  - The critical values for the test will occur in both the lower and upper tails of the standard normal distribution. 
+  - With a level of significance of $\alpha = 0.05$, the area in each tail corresponding to the critical values is $\alpha/2 = 0.025$. 
+  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+    - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.025$ for $-z_{\alpha/2 = 0.025} = −1.96$ and $z_{\alpha/2 = 0.025} = 1.96$ 
+  - Compare test statistic with z-value
+    - Because $(z = 1.53)$ is NOT greater than  $(z_{\alpha/2 = 0.025} = 1.96)$, we can NOT reject ${H_0}$
+
+\textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq -z_{\alpha/2}$ or $z \geq z_{\alpha/2}$}
+
+
+## Steps of Hypothesis Testing 
+
+Common Steps
+
+1. Develop the null and alternative hypotheses.
+1. Specify the level of significance. 
+1. Collect the sample data and compute the value of the test statistic. 
+
+p-Value Approach Step 
+
+4. Use the value of the test statistic to compute the p-value. 
+4. Reject ${H_0}$ if the p-value $\leq \alpha$. 
+4. Interpret the statistical conclusion in the context of the application. 
+
+Critical Value Approach 
+
+4. Use the level of significance to determine the critical value and the rejection rule. 
+4. Use the value of the test statistic and the rejection rule to determine whether to reject ${H_0}$.
+4. Interpret the statistical conclusion in the context of the application.
+
+
+## Relationship Between Interval Estimation and Hypothesis Testing 
+
+Refer equation \@ref(eq:interval-with-sigma), For the ${\sigma}$ known case, the ${(1 - \alpha)}\%$ confidence interval estimate of a population mean is given by 
+
+\begin{equation*}
+  \overline{x} \pm z_{\alpha/2} \frac{\sigma}{\sqrt{n}}
+\end{equation*}
+
+We know that $100 {(1 - \alpha)}\%$ of the confidence intervals generated will contain the population mean and $100 {\alpha}\%$ of the confidence intervals generated will not contain the population mean. 
+
+Thus, if we reject ${H_0}$ whenever the confidence interval does not contain ${\mu}_0$, we will be rejecting the null hypothesis when it is true $(\mu = {\mu}_0)$ with probability ${\alpha}$. 
+
+The level of significance is the probability of rejecting the null hypothesis when it is true. So constructing a $100 {(1 - \alpha)}\%$ confidence interval and rejecting ${H_0}$ whenever the interval does not contain ${\mu}_0$ is equivalent to conducting a two-tailed hypothesis test with ${\alpha}$ as the level of significance.
+
+Ex: Golf company
+
+- For ${\alpha} =0.05$, 95% confidence interval estimate of the population mean is 
+  - ${\overline{x}} \pm z_{0.025} \frac{{\sigma}}{\sqrt{n}} = 297.6 \pm 1.96 \frac{12}{\sqrt{50}} = 297.6 \pm 3.3$
+  - Interval: $[294.3, 300.9]$
+  - We can conclude with 95% confidence that the mean distance for the population of golf balls is between 294.3 and 300.9 yards. 
+  - Because the hypothesized value for the population mean, ${\mu}_0 = 295$, is in this interval, the hypothesis testing conclusion is that the null hypothesis, ${H_0: {\mu} = 295}$, cannot be rejected.
+
+"ForLater" - Exercises
+
+
+## Unknown SD  {#get-pt-c09}
+
+For the ${\sigma}$ unknown case, the sampling distribution of the test statistic follows the t distribution with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:test-statistic-no-sigma)
+
+\begin{equation}
+  t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}}
+  (\#eq:test-statistic-no-sigma)
+\end{equation}
+
+One-Tailed Test
+
+- Ex: Heathrow Airport, testing for mean rating 7 i.e. ${\mu}_0 = 7$
+  - ${H_0}: {\mu} \leq 7 \iff {H_a} \geq 7$
+  - Sample: ${\overline{x}} = 7.25, s = 1.052, n = 60$
+  - ${\alpha} = 0.05$
+  - Refer equation \@ref(eq:test-statistic-no-sigma), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{7.25 - 7}{1.052/\sqrt{60}} = 1.84$
+  - $\text{DOF} = n-1 = 60 -1 = 59$
+  - Refer [For P(t), find t by qt()](#get-t-c08 "c08") and This is a Right Tail Test
+    - ${P_{\left(t \geq 1.84\right)}} = 0.0354$ i.e. between 0.05 and 0.025
+  - Comparison
+    - ${(P_{\left(t \geq 1.84\right)}} = 0.035) < ({\alpha} = 0.05)$
+    - Thus, we can reject the ${H_0}$ and can accept the ${H_a}$
+
+Critical Value Approach
+  - $(\text{DOF = 59}), \,t_{{\alpha} = 0.05} = 1.671$
+  - Because $(t = 1.84) > (t_{{\alpha} = 0.05} = 1.671)$, Reject ${H_0}$
+
+```{r '309-ptqt'}
+# #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
+#
+# #p-value approach: Find Commulative Probability P corresponding to the given 't' value
+pt(q = 1.84, df = 59, lower.tail = FALSE)
+#
+# #Critical Value approach: t-value for which Area under the curve towards Right is alpha = 0.05
+qt(p = 0.05, df = 59, lower.tail = FALSE)
+```
+
+Two Tailed Test
+
+- Ex: Holiday Toys, testing for sale of 40 units, i.e. ${\mu}_0 = 40$
+  - ${H_0}: {\mu} = 40 \iff {H_a} \neq 40$
+  - Sample: ${\overline{x}} = 37.4, s = 11.79, n = 25$
+  - ${\alpha} = 0.05$
+  - Refer equation \@ref(eq:test-statistic-no-sigma), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{37.4 - 40}{11.79/\sqrt{25}} = -1.10$
+  - $\text{DOF} = n-1 = 25 -1 = 24$
+  - Because we have a two-tailed test, the p-value is two times the area under the curve of the t distribution for $t \leq -1.10$
+    - $P_{\left(t\right)} = P_{\left(t \leq -1.10\right)} + P_{\left(z \geq 1.10\right)}$
+    - $P_{\left(t\right)} = 2 \times P_{\left(t \leq -1.10\right)}$, Because the normal curve is symmetric
+    - $P_{\left(t\right)} = 2 \times 0.1411 = 0.2822$ i.e. between 2 * (0.20 and 0.10) or (0.40, 0.20)
+  - Comparison
+    - $(P_{\left(t\right)}  = 0.282)2 > ({\alpha} = 0.05)$
+    - Thus, we can NOT reject the ${H_0}$
+  
+Critical Value Approach
+  - $(\text{DOF = 24})$
+  - We find that $P_{\left(t\right)} = 0.025$ for $-t_{\alpha/2 = 0.025} = -2.064$ and $t_{\alpha/2 = 0.025} = 2.064$ 
+  - Compare test statistic with z-value
+    - Because $(t = -1.10)$ is NOT lower than  $(-z_{\alpha/2 = 0.025} = -2.064)$, we can NOT reject ${H_0}$
+
+
+## Hypothesis Testing and Decision Making
+
+If the purpose of a hypothesis test is to make a decision when ${H_0}$ is true and a different decision when ${H_a}$ is true, the decision maker may want to, and in some cases be forced to, take action with both the conclusion do not reject ${H_0}$ and the conclusion reject ${H_0}$. 
+
+If this situation occurs, statisticians generally recommend controlling the probability of making a Type II error. With the probabilities of both the Type I and Type II error controlled, the conclusion from the hypothesis test is either to accept ${H_0}$ or reject ${H_0}$. In the first case, ${H_0}$ is concluded to be true, while in the second case, ${H_a}$ is concluded true. Thus, a decision and appropriate action can be taken when either conclusion is reached.
+
+"ForLater" - Calculate ${\beta}$
+
+When the true population mean ${\mu}$ is close to the null hypothesis value of ${\mu} = 120$, the probability is high that we will make a Type II error. However, when the true population mean ${\mu}$ is far below the null hypothesis value of ${\mu} = 120$, the probability is low that we will make a Type II error.
+
+
+```{definition 'Power'}
+The probability of correctly rejecting ${H_0}$ when it is false is called the \textcolor{pink}{power} of the test. For any particular value of ${\mu}$, the power is \textcolor{pink}{$1 − \beta$}.
+```
+
+
+```{definition 'Power-Curve'}
+\textcolor{pink}{Power Curve} is a graph of the probability of rejecting ${H_0}$ for all possible values of the population parameter ${\mu}$ not satisfying the null hypothesis. It provides the probability of correctly rejecting the null hypothesis.
+```
+
+Note that the power curve extends over the values of ${\mu}$ for which the null hypothesis is false. The height of the power curve at any value of ${\mu}$ indicates the probability of correctly rejecting ${H_0}$ when ${H_0}$ is false.
+
+## Summary
+
+We can make 3 observations about the relationship among ${\alpha}, \beta, n (\text{sample size})$. 
+
+1. Once two of the three values are known, the other can be computed. 
+1. For a given level of significance ${\alpha}$, increasing the sample size will reduce ${\beta}$.
+1. For a given sample size, decreasing ${\alpha}$ will increase ${\beta}$, whereas increasing ${\alpha}$ will decrease ${\beta}$.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -17,7 +459,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'C09-Validation', include=TRUE, cache=FALSE}
+```{r 'C09-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
