@@ -1,15 +1,13 @@
 # END {#LAST .unnumbered}
 [Goto FIRST](#FIRST "Top of the Document")
 ```{r '999-ShowRunTime', cache=FALSE, include=TRUE}
-#(.packages())
 f_()
 #
 difftime(Sys.time(), k_start)
 #
-# #Run Times of all chunks (Indicates slow and/or unnamed chunks)
 if(!identical(0L, length(k_all_chunk_times_lt))) {
   print(k_all_chunk_times_lt[order(unlist(k_all_chunk_times_lt), decreasing=TRUE)], digits = 2) 
-  }
+}
 ```
 
 ```{js '999-DetailsDisclosureElement', include=FALSE, eval=FALSE}

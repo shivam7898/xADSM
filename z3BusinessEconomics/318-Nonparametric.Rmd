@@ -11,6 +11,52 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - 
   - "ForLater" - Everything
+  - [Parametric Methods](#parametric-c18 "c18"), [Nonparametric Methods](#non-parametric-c18 "c18")
+
+## Paramtetric Methods {#parametric-c18}
+
+```{definition 'Parametric-Methods'}
+\textcolor{pink}{Parametric methods} are the statistical methods that begin with an assumption about the probability distribution of the population which is often that the population has a normal distribution. A sampling distribution for the test statistic can then be derived and used to make an inference about one or more parameters of the population such as the population mean ${\mu}$ or the population standard deviation ${\sigma}$.
+```
+
+Parametric methods mostly require quantitative data. However these are ~~generally~~ sometimes more powerful than nonparametric methods. 
+
+- The reason that parametric tests are sometimes more powerful than randomisation and tests based on ranks is that the parametric tests make use of some extra information about the data: the nature of the distribution from which the data are assumed to have come. 
+- \textcolor{pink}{Powerful} here means, they require smaller sample size.
+- However, their power advantage is not invariant
+- Further, Rarely if ever a parametric test and a non-parametric test actually have the same null. 
+  - The parametric t-test is testing the mean of the distribution, assuming the first two moments exist.
+  - The Wilcoxon rank sum test does not assume any moments, and tests equality of distributions instead. 
+  - The two tests are testing different hypotheses (comparable in a limited sense but different).
+- \textcolor{pink}{At large sample sizes, either of the parametric or the nonparametric tests work adequately.}
+
+
+## Nonparamtetric Methods {#non-parametric-c18}
+
+```{definition 'Distribution-free-Methods'}
+\textcolor{pink}{Distribution-free methods} are the Statistical methods that make no assumption about the probability distribution of the population.
+```
+
+
+```{definition 'Nonparametric-Methods'}
+\textcolor{pink}{Nonparametric methods} are the statistical methods that require no assumption about the form of the probability distribution of the population and are often referred to as distribution free methods. Several of the methods can be applied with categorical as well as quantitative data.
+```
+
+Most of the statistical methods referred to as parametric methods require quantitative data, while nonparametric methods allow inferences based on either categorical or quantitative data. 
+
+- However, the computations used in the nonparametric methods are generally done with categorical data.
+  - Nominal or ordinal measures in many cases require a nonparametric test.
+- Whenever the data are quantitative, we will transform the data into categorical data in order to conduct the nonparametric test. 
+- Most nonparametric tests use some way of ranking the measurements.
+- Nonparametric tests are used in cases where parametric tests are not appropriate.
+  - Nonparametric tests are often necessary, specially when the distribution is not normal (skewness), the distribution is not known, or the sample size is too small (<30) to assume a normal distribution. 
+  - Also, if there are extreme values or values that are clearly "out of range" nonparametric tests should be used.
+
+
+
+
+
+
 
 
 ## Summary

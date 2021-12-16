@@ -11,7 +11,7 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 ## Overview
 
 - This chapter covers introductory information and basic definitions.
-  - [Statisticl Inference](#stat-inference-c01 "c01"), [Population vs Sample](#population-sample-c01 "c01")
+  - [Statistical Inference](#stat-inference-c01 "c01"), [Population vs Sample](#population-sample-c01 "c01")
   - [Exercises](#exercises-c01 "c01"): Mean, Percentage, Transpose, Rowwise Calculations
   - Graphs: [Multiple Time Series](#cars-c01 "c01"), [Pareto Chart](#cars-c01 "c01")
 
@@ -82,7 +82,7 @@ In an interval scale, you can take difference of two values. You may not be able
 
 In a ratio scale, you can take a ratio of two values. Ex: 40 kg is twice as heavy as 20 kg (taking ratios).
 
-Also, "0" on ratio scale means the absence of that physical quantity. "0" on interval scale doesn't mean the same. 0 kg means the absence of weight. 0 °C doesn't mean absence of heat.
+Also, "0" on ratio scale means the absence of that physical quantity. "0" on interval scale does not mean the same. 0 kg means the absence of weight. 0 °C does not mean absence of heat.
 
 Table: (\#tab:C01V01) (C01V01) Interval scale Vs Ratio scale
 
@@ -196,6 +196,29 @@ Statistics uses data from a sample to make estimates and test hypotheses about t
 ```
 
 Whenever statisticians use a sample to estimate a population characteristic of interest, they usually provide a statement of the quality, or precision, associated with the estimate.  
+
+Inferential statistics are used for Hypothesis Testing. 
+
+- It is often used to compare the differences between the treatment groups.
+- It uses measurements from the sample of subjects in the experiment to compare the treatment groups and make generalizations about the larger population of subjects.
+- Most inferential statistics are based on the principle that a test-statistic value is calculated on the basis of a particular formula. 
+  - That value along with the degrees of freedom, and the rejection criteria are used to determine whether differences exist between the treatment groups. 
+  - The larger the sample size, the more likely a statistic is to indicate that differences exist between the treatment groups.
+
+
+The two most common types of Statistical Inference are -
+
+1. Confidence Intervals
+    - To estimate a population parameter
+1. Test of Significance
+    - To assess the evidence provided by data about some claim concerning a population
+    - i.e. To compare observed data with a claim (Hypothesis)
+    - The results of a significance test are expressed in terms of a probability that measures how well the data and the claim agree
+
+Reasoning for Tests of Significance
+
+- Example: Is the sample mean ${\overline{x}}$ \textcolor{pink}{significantly different }from population mean ${\mu}$
+- To determine if two numbers are significantly different, a statistical test must be conducted to provide evidence
 
 ## Analytics
 
@@ -615,7 +638,7 @@ dev.off()
 ```
 
 ```{r 'C01P02', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
-knitr::include_graphics(paste0(.z$PX, "C01P02_Cars_Pareto", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C01P02_Cars_Pareto", ".png")) #iiii
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

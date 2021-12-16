@@ -24,8 +24,8 @@ The \textcolor{pink}{relative frequency} of a class equals the fraction or propo
 Rather than showing the frequency of each class, the \textcolor{pink}{cumulative frequency distribution} shows the number of data items with values less than or equal to the upper class limit of each class. 
 
 - Bar Chart
-  - Pareto Chart - `ggplot()` doesn't allow easy setup of dual axis
-  - Stacked Bar Chart - don't use it if there are more than 2 categories
+  - Pareto Chart - `ggplot()` does not allow easy setup of dual axis
+  - Stacked Bar Chart - do not use it if there are more than 2 categories
 - Pie Chart
   - Only use it if total is 100% and Categories are fewer than 5 or 6.
   
@@ -281,13 +281,13 @@ unq[tab == max(tab)]
 A \textcolor{pink}{crosstabulation} is a tabular summary of data for two variables. It is used to investigate the relationship between them. Generally, one of the variable is categorical. 
 ```
 
-- Simpson's Paradox
-  - The reversal of conclusions based on aggregate and unaggregated data is called Simpson's paradox.
+- Simpson Paradox
+  - The reversal of conclusions based on aggregate and unaggregated data is called Simpson paradox.
   - Ex: Table \@ref(tab:C02T01) shows the count of judgements that were 'upheld' or 'reversed' on appeal for two judges 
     - 86% of the verdicts were upheld for Judge Abel, while 88% of the verdicts were upheld for Judge Ken. From this aggregated crosstabulation, we conclude that Judge Ken is doing the better job because a greater percentage of his verdicts are being upheld.
     - However, unaggregated crosstabulations show that in both types of courts (Common, Municipal) Judge Abel has higher percentage of 'Upheld' Verdicts (90.6% and 84.7%) - compared to Judge Ken (90% and 80%)
     - Thus, Abel has a better record because a greater percentage of his verdicts are being upheld in both courts. 
-    - This reversal of conclusions based on aggregated and unaggregated data illustrates Simpson's paradox.
+    - This reversal of conclusions based on aggregated and unaggregated data illustrates Simpson paradox.
   - Cause
     - Note that for both judges the percentage of appeals that resulted in reversals was much higher in 'Municipal' than in 'Common' Court i.e. 15.3% vs. 9.4% for Abel and 20% vs. 10% for Ken.
     - Because Judge Abel tried a much higher percentage of his cases in 'Municipal', the aggregated data favoured Judge Ken i.e. 118/150 for Abel vs. 25/125 for Ken.
@@ -485,7 +485,7 @@ stopifnot(all(identical(bb, ii), identical(bb, jj)))
 ```{r 'C02-K-RowTotal'}
 # #(Deprecated) Issues: 
 # #(1) bind_rows() needs two dataframes. Thus, first can be skipped in Pipe, But...
-# #The second dataframe can't be replaced with dot (.), it has to have a name
+# #The second dataframe can not be replaced with dot (.), it has to have a name
 # #(2) Pipe usage inside function call was working but was a concern
 # #(3) It introduced NA for that replace was needed as another step
 ii <- aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
@@ -636,7 +636,7 @@ print(jj)
 # #Group Continuous Data to Categorical Bins by base::cut()
 bb <- ex28
 #
-# #NOTE cut() increases the range slightly but ggplot functions don't
+# #NOTE cut() increases the range slightly but ggplot functions do not
 bb %>% mutate(x_bins = cut(x, breaks = 8)) %>% 
   pull(x_bins) %>% levels()
 # 
@@ -712,7 +712,7 @@ ggsave(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"), plot = C02P05)
 ```
 
 ```{r 'C02P05', echo=FALSE, fig.cap="geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
-knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png")) #iiii
 ```
 
 ### Trendline {.unlisted .unnumbered}

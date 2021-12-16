@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Hypothesis Testing](#hypothesis-c09 "c09"), [Type I and Type II Errors](#errors-ab-c09, "c09"), [One Tail Test](#one-tail-c09 "c09"), [Two Tail Test](#two-tail-c09 "c09"), [Tests with unknown sigma](#get-pt-c09 "c09")
+  - [Hypothesis Testing](#hypothesis-c09 "c09"), [Type I and Type II Errors](#errors-ab-c09, "c09"), [Test Statistic ](##test-stat-c09 "c09"), [One Tail Test](#one-tail-c09 "c09"), [Two Tail Test](#two-tail-c09 "c09"), [Tests with unknown sigma](#get-pt-c09 "c09")
   - [Calculate P(t) by pt()](#get-pt-c09 "c09")
   - "ForLater" - Population Proportion, Calculating the Probability of Type II Errors, Determining the Sample Size
 
@@ -37,6 +37,8 @@ Note:
 Note:
 
 - The conclusion that the alternative hypothesis $(H_a)$ is true is made if the sample data provide sufficient evidence to show that the null hypothesis $(H_0)$ can be rejected.
+- The null and alternative hypotheses are competing statements about the population. Either the null hypothesis ${H_0}$ is true or the alternative hypothesis ${H_a}$ is true, but not both. 
+
 
 ## Developing Null and Alternative Hypotheses 
 
@@ -63,9 +65,9 @@ In some situations it is easier to identify the alternative hypothesis first and
     - Without any reason to believe otherwise, we would give the manufacturer the benefit of the doubt and assume that the statement provided on the label is correct. 
     - $H_0 : \mu \geq 67.6 \iff H_a: \mu < 67.6$
     - If the sample results lead to the conclusion to reject ${H_0}$, the inference that $H_a: \mu < 67.6$ is true can be made. With this statistical support, the agency is justified in concluding that the label is incorrect and underfilling of the bottles is occurring. Appropriate action to force the manufacturer to comply with labeling standards would be considered. 
-    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the manufacturer's labeling is correct cannot be rejected. With this conclusion, no action would be taken.
-    - A manufacturer's product information is usually assumed to be true and stated as the null hypothesis. The conclusion that the information is incorrect can be made if the null hypothesis is rejected.
-  - Same situation, from the manufacturer's point of view
+    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the labeling is correct cannot be rejected. With this conclusion, no action would be taken.
+    - A product information is usually assumed to be true and stated as the null hypothesis. The conclusion that the information is incorrect can be made if the null hypothesis is rejected.
+  - Same situation, from the point of view of the manufacturer
     - The company does not want to underfill the containers (legal requirement). However, the company does not want to overfill containers either because it would be an unnecessary cost. 
     - $H_0 : \mu = 67.6 \iff H_a: \mu \neq 67.6$
     - If the sample results lead to the conclusion to reject ${H_0}$, the inference is made that $H_a: \mu \neq 67.6$ is true. We conclude that the bottles are not being filled properly and the production process should be adjusted. 
@@ -76,6 +78,7 @@ In some situations it is easier to identify the alternative hypothesis first and
 
 For hypothesis tests involving a population mean, we let $\mu_0$ denote the hypothesized value and we must choose one of the following three forms for the hypothesis test.
 
+Alternative is One-Sided, if it states that a parameter is larger or smaller than the null value. Alternative is Two-sided, if it states that the parameter is different from the null value. 
 
 ```{definition 'Hypothesis-1T-Lower-Tail'}
 \textcolor{pink}{$\text{\{Left Tail or Lower Tail\} } H_0 : \mu \geq \mu_0 \iff H_a: \mu < \mu_0$}
@@ -110,39 +113,134 @@ For hypothesis tests involving a population mean, we let $\mu_0$ denote the hypo
 Ideally the hypothesis testing procedure should lead to the acceptance of ${H_0}$ when ${H_0}$ is true and the rejection of ${H_0}$ when ${H_a}$ is true. Unfortunately, the correct conclusions are not always possible. Because hypothesis tests are based on sample information, we must allow for the possibility of errors. 
 
 ```{r 'C09P01', echo=FALSE, fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
-knitr::include_graphics(paste0(.z$PX, "C09P01", "_Hypothesis_Errors", ".jpg"))
+knitr::include_graphics(paste0(.z$PX, "C09P01", "_Hypothesis_Errors", ".jpg")) #iiii
 ```
-
 
 ```{definition 'Error-Type-I'}
 The error of rejecting ${H_0}$ when it is true, is \textcolor{pink}{Type I error}.
 ```
 
-
 ```{definition 'Error-Type-II'}
 The error of accepting ${H_0}$ when it is false, is \textcolor{pink}{Type II error}.
 ```
-
-
 
 ```{definition 'Level-of-Significance'}
 The \textcolor{pink}{level of significance $(\alpha)$} is the probability of making a Type I error when the null hypothesis is true as an equality.
 ```
 
-In practice, the person responsible for the hypothesis test specifies the level of significance. By selecting ${\alpha}$, that person is controlling the probability of making a Type I error. 
+```{r 'C09D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Confidence-Coefficient")
+```
 
-- If the cost of making a Type I error is high, small values of ${\alpha}$ are preferred. Ex: $\alpha =0.01$ - If the cost of making a Type I error is not too high, larger values of ${\alpha}$ are typically used. Ex: $\alpha = 0.05$ 
+
+In practice, the person responsible for the hypothesis test specifies the level of significance. By selecting ${\alpha}$, that person is controlling the probability of making a Type I error.
+
+- Most common value are ${\alpha} = 0.05, 0.01$. 
+  - For example, a significance level of ${\alpha} = 0.05$ indicates a 5% risk of concluding that a difference exists when there is no actual difference. 
+  - Lower significance levels indicate that you require stronger evidence before you will reject the null hypothesis.
+  - If the cost of making a Type I error is high, small values of ${\alpha}$ are preferred. Ex: ${\alpha} = 0.01$ 
+  - If the cost of making a Type I error is not too high, larger values of ${\alpha}$ are typically used. Ex: $\alpha = 0.05$ 
 
 
 ```{definition 'Significance-Tests'}
 Applications of hypothesis testing that only control for the Type I error $(\alpha)$ are called \textcolor{pink}{significance tests}. 
 ```
 
+Although most applications of hypothesis testing control for the probability of making a Type I error, they do not always control for the probability of making a Type II error. Hence, if we decide to accept ${H_0}$, we cannot determine how confident we can be with that decision. Because of the uncertainty associated with making a Type II error when conducting significance tests, statisticians usually recommend that we use the statement \textcolor{pink}{"do not reject ${H_0}$"} instead of "accept ${H_0}$." Using the statement "do not reject ${H_0}$" carries the recommendation to withhold both judgment and action. In effect, by not directly accepting ${H_0}$, the statistician avoids the risk of making a Type II error.
 
-Although most applications of hypothesis testing control for the probability of making a Type I error, they do not always control for the probability of making a Type II error. Hence, if we decide to accept ${H_0}$, we cannot determine how confident we can be with that decision. Because of the uncertainty associated with making a Type II error when conducting significance tests, statisticians usually recommend that we use the statement \textcolor{pink}{"do not reject ${H_0}$"} instead of "accept H0." Using the statement "do not reject ${H_0}$" carries the recommendation to withhold both judgment and action. In effect, by not directly accepting ${H_0}$, the statistician avoids the risk of making a Type II error.
+### Additional
 
+Refer figure \@ref(fig:C09P01)
+
+1. Type I (\textcolor{pink}{${\alpha}$}): 
+    - False Positive: Rejecting a True ${H_0}$ thus claiming False ${H_a}$
+    - An alpha error is when you mistakenly reject the Null and believe that something significant happened
+      - i.e. you believe that the means of the two populations are different when they are not
+      - i.e. you report that your findings are significant when in fact they have occurred by chance
+    - The probability of making a type I error is represented by alpha level ${\alpha}$, which is the p-value below which you reject the null hypothesis
+      - The \textcolor{pink}{p-value} is the actual risk you have in being wrong if you reject the null
+        - You would like that to be low
+        - This p-value is compared with and should be lower than the alpha
+        - A p-value of 0.05 indicates that you are willing to accept a 5% chance that you are wrong when you reject the null hypothesis. You can reduce your risk of committing a type I error by using a lower value for p. For example, a p-value of 0.01 would mean there is a 1% chance of committing a Type I error.
+        - However, using a lower value for alpha means that you will be less likely to detect a true difference if one really exists (thus risking a type II error).
+    - ${\alpha}$ is \textcolor{pink}{Significance Level} (for $(1-{\alpha})$ confidence of not committing Type 1 error)
+      - It is the boundary for specifying a statistically significant finding when interpreting the p-value
+    - NOTE: Fail to reject True ${H_0}$ ($\approx$ accept) is the correct decision shown in Top Left Quadrant
+1. Type II (\textcolor{pink}{${\beta}$}): 
+    - False Negative: Failing to reject ($\approx$ accept) a False ${H_0}$ 
+    - A beta error is when you fail to reject the null when you should have
+      - i.e. you missed something significant and failed to take action
+      - i.e. you conclude that there is not a significant effect, when actually there really is
+      - You can decrease your risk of committing a type II error by ensuring your test has enough \textcolor{pink}{power.}
+      - You can do this by ensuring your sample size is large enough to detect a practical difference when one truly exists.
+
+```{r 'C09D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Power")
+```
+
+
+- The consequences of making a type I error mean that changes or interventions are made which are unnecessary, and thus waste time, resources, etc.
+- Type II errors typically lead to the preservation of the status quo (i.e. interventions remain the same) when change is needed.
+- Generally max 5% ${\alpha}$ and max 20% ${\beta}$ errors are recommended
+    
 
 ## Known SD
+
+
+### Test Statistic {#test-stat-c09}
+
+```{definition 'Test-Statistic'}
+\textcolor{pink}{Test statistic} is a number calculated from a statistical test of a hypothesis. It shows how closely the observed data match the distribution expected under the null hypothesis of that statistical test. It helps determine whether a null hypothesis should be rejected.
+```
+
+```{r 'C09D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Probability-Distribution")
+```
+
+The test statistic summarizes the observed data into a single number using the central tendency, variation, sample size, and number of predictor variables in the statistical model. Refer Table \@ref(tab:C09V01)
+
+Table: (\#tab:C09V01) (C09V01) Test Statistic
+
+| Test statistic | ${H_0}$ and ${H_a}$ | Statistical tests that use it |
+| :--- | :--- | :--- | 
+| t-value | Null: The means of two groups are equal | T-test, Regression tests | 
+| | Alternative: The means of two groups are not equal | |
+| z-value | Null: The means of two groups are equal | Z-test |
+| | Alternative:The means of two groups are not equal | |
+| F-value | Null: The variation among two or more groups is greater than or equal to the variation between the groups | ANOVA, ANCOVA, MANOVA |
+| | Alternative: The variation among two or more groups is smaller than the variation between the groups  | |
+| ${\chi}^2\text{-value}$ | Null: Two samples are independent | Chi-squared test, Non-parametric correlation tests |
+| | Alternative: Two samples are not independent (i.e. they are correlated) | |
+
+### Tails
+
+```{r 'C09D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Tails") #dddd
+```
+
+```{definition 'Tailed-Test'}
+A \textcolor{pink}{one-tailed test} and a \textcolor{pink}{two-tailed test} are alternative ways of computing the statistical significance of a parameter inferred from a data set, in terms of a test statistic.
+```
+
+One tailed-tests are concerned with one side of a statistic. Thus, one-tailed tests deal with only one tail of the distribution, and the z-score is on only one side of the statistic. Whereas, Two-tailed tests deal with both tails of the distribution, and the z-score is on both sides of the statistic. 
+
+In a one-tailed test, the area under the rejection region is equal to the level of significance, ${\alpha}$. When the rejection region is below the acceptance region, we say that it is a \textcolor{pink}{left-tail test}. Similarly, when the rejection region is above the acceptance region, we say that it is a \textcolor{pink}{right-tail test}.
+
+In the two-tailed test, there are two critical regions, and the area under each region is $\frac{\alpha}{2}$. 
+
+
+One-Tail vs. Two-Tail
+
+- One-tailed tests have more statistical power to detect an effect in one direction than a two-tailed test with the same design and significance level. 
+  - One-tailed tests occur most frequently for studies where one of the following is true:
+    - Effects can exist in only one direction.
+    - Effects can exist in both directions but the researchers only care about an effect in one direction.
+- The disadvantage of one-tailed tests is that they have no statistical power to detect an effect in the other direction.
+  - Whereas, A two-tailed hypothesis test is designed to show whether the sample mean is significantly greater than OR significantly less than the mean of a population.
+    - A two-tailed test is designed to examine both sides of a specified data range as designated by the probability distribution involved. 
+- Thumb rule
+  - Consider both directions when deciding if you should run a one tailed test or two. If you can skip one tail and it is not irresponsible or unethical to do so, then you can run a one-tailed test.
+  - Two-tail test is done when you do not know about direction, so you test for both sides.
 
 
 ### One-tailed Test {#one-tail-c09}
@@ -157,17 +255,9 @@ f_getDef("Hypothesis-1T-Lower-Tail")
 f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
-
 ```{definition 'One-Tailed-Test'}
 \textcolor{pink}{One-tailed test} is a hypothesis test in which rejection of the null hypothesis occurs for values of the test statistic in one tail of its sampling distribution.
 ```
-
-
-```{definition 'Test-Statistic'}
-\textcolor{pink}{Test statistic} is a statistic whose value helps determine whether a null hypothesis should be rejected.
-```
-
-
 
 Example: The label on a can of Hilltop Coffee states that the can contains 3 pounds of coffee. As long as the population mean filling weight is at least 3 pounds per can, the rights of consumers will be protected. Thus, the government (FTC) interprets the label information on a large can of coffee as a claim by Hilltop that the population mean filling weight is at least 3 pounds per can. 
   
@@ -208,7 +298,7 @@ The \textcolor{pink}{p-value approach} uses the value of the test statistic ${z}
 A \textcolor{pink}{p-value} is a probability that provides a measure of the evidence against the null hypothesis provided by the sample. The p-value is used to determine whether the null hypothesis should be rejected. Smaller p-values indicate more evidence against ${H_0}$.
 ```
 
-A small p-value indicates the value of the test statistic is unusual given the assumption that ${H_0}$ is true.
+\textcolor{pink}{p-value (p)} is the probability of obtaining a result equal to or more extreme than was observed in the data. It is the probability of observing the result given that the null hypothesis is true. A small p-value indicates the value of the test statistic is unusual given the assumption that ${H_0}$ is true. 
 
 For a \textcolor{pink}{lower tail test}, the p-value is the probability of obtaining a value for the test statistic as small as or smaller than that provided by the sample. 
 - we use the standard normal distribution to find the probability that ${z}$ is less than or equal to the value of the test statistic. 
@@ -228,9 +318,9 @@ For the Hilltop Coffee Example
   - Because .0038 is less than or equal to $\alpha = 0.01$, we reject ${H_0}$. Therefore, we find sufficient statistical evidence to reject the null hypothesis at the .01 level of significance.
   - We can conclude that Hilltop is underfilling the cans.
   
-\textcolor{pink}{Rejection Rule: Reject ${H_0}$ if p-value $\leq \alpha$}
+\textcolor{pink}{Rejection Rule: Reject ${H_0}$ if p-value $\leq {\alpha}$}
 
-Further, in this case, we would reject ${H_0}$ for any value of $\alpha \geq (p = 0.0038)$. For this reason, the p-value is also called the \textcolor{pink}{observed level of significance}.
+Further, in this case, we would reject ${H_0}$ for any value of ${\alpha} \geq (p = 0.0038)$. For this reason, the p-value is also called the \textcolor{pink}{observed level of significance}.
 
 #### Critical value approach
 
@@ -240,7 +330,7 @@ The \textcolor{pink}{critical value approach} requires that we first determine a
 
 
 ```{definition 'Critical-Value'}
-\textcolor{pink}{Critical value} is the value that is compared with the test statistic to determine whether ${H_0}$ should be rejected.
+\textcolor{pink}{Critical value} is the value that is compared with the test statistic to determine whether ${H_0}$ should be rejected. Significance level ${\alpha}$, or confidence level ($1 - {\alpha}$), dictates the \textcolor{pink}{critical value ($Z$)}, or critical limit. Ex: For Upper Tail Test, $Z_{{\alpha} = 0.05} = 1.645$. 
 ```
 
 For a \textcolor{pink}{lower tail test}, the critical value serves as a benchmark for determining whether the value of the test statistic is small enough to reject the null hypothesis. 
@@ -268,8 +358,34 @@ The p-value approach to hypothesis testing and the critical value approach will 
 - The advantage of the p-value approach is that the p-value tells us how significant the results are (the observed level of significance). 
   - If we use the critical value approach, we only know that the results are significant at the stated level of significance.
 
-For \textcolor{pink}{upper tail test} The test statistic ${z}$ is still computed as earlie. But, for an upper tail test, the p-value is the probability of obtaining a value for the test statistic as large as or larger than that provided by the sample. 
+For \textcolor{pink}{upper tail test} The test statistic ${z}$ is still computed as earlier. But, for an upper tail test, the p-value is the probability of obtaining a value for the test statistic as large as or larger than that provided by the sample. 
 Thus, to compute the p-value for the upper tail test in the ${\sigma}$ known case, we must use the standard normal distribution to find the probability that ${z}$ is greater than or equal to the value of the test statistic. Using the critical value approach causes us to reject the null hypothesis if the value of the test statistic is greater than or equal to the critical value $z_{\alpha}$; in other words, we reject ${H_0}$ if $z \geq z_{\alpha}$.
+
+
+#### Acceptance and Rejection Region
+
+```{r 'C09D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Interval-Estimate") 
+```
+
+
+```{definition 'Acceptance-Region'}
+A \textcolor{pink}{acceptance region} (confidence interval), is a set of values for the test statistic for which the null hypothesis is accepted. i.e. if the observed test statistic is in the confidence interval then we accept the null hypothesis and reject the alternative hypothesis.
+```
+
+\begin{equation} 
+  Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}} \quad \Leftrightarrow \mu = \overline {X} - Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu = \overline {X} \pm Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu \approx \overline {X} \pm Z \frac{s}{\sqrt{n}}
+  (\#eq:z-mu)
+\end{equation} 
+
+```{definition 'Margin-Error'}
+The \textcolor{pink}{margin of error} tells how far the original population means might be from the sample mean. It is given by $Z\frac{\sigma}{\sqrt{n}}$ 
+```
+
+```{definition 'Rejection-Region'}
+A \textcolor{pink}{rejection region} (critical region), is a set of values for the test statistic for which the null hypothesis is rejected. i.e. if the observed test statistic is in the critical region then we reject the null hypothesis and accept the alternative hypothesis.
+```
+
 
 ### Two-tailed Test {#two-tail-c09}
 
@@ -316,6 +432,23 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
 
 \textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq -z_{\alpha/2}$ or $z \geq z_{\alpha/2}$}
 
+
+
+(Online, might be wrong) Ex: Assume that for a Population with mean ${\mu}$ unknown and standard deviation ${\sigma} = 15$, if we take a sample ${n = 100}$ its sample mean is ${\overline{x}} = 42$.
+
+Assume ${\alpha} = 0.05$ and if we are conducting a Two Tail Test, $Z_{\alpha/2=0.05/2} = 1.960$
+
+- If we take a different sample of same size or a sample of different size, the sample mean calculated for those would be different.
+- So, our sample mean ${\overline{x}}$ might not be the true population mean ${\mu}$
+- Thus, a range is inferred using the sample size, the sample mean, and the population standard deviation, and it is assumed that the true population means falls under this interval. This interval is called a \textcolor{pink}{confidence interval}.
+- Confidence interval is calculated using critical limit ${z}$, and thus are calculated for specific significance level ${\alpha}$
+- Margin of Error $= Z\frac{\sigma}{\sqrt{n}} = 1.96 \times 15 /\sqrt{100} = 2.94$
+
+As shown in the equation \@ref(eq:z-mu), our interval range is $\mu = \overline {X} \pm 2.94 = 42 \pm 2.94 \rightarrow \mu  \in (39.06, 44.94)$
+
+> We are 95% confident that the population mean will be between 39.04 and 44.94
+
+Note that a 95% confidence interval does not mean there is a 95% chance that the true value being estimated is in the calculated interval. Rather, given a population, there is a 95% chance that choosing a random sample from this population results in a confidence interval which contains the true value being estimated.
 
 ## Steps of Hypothesis Testing 
 
@@ -390,7 +523,7 @@ Critical Value Approach
   - $(\text{DOF = 59}), \,t_{{\alpha} = 0.05} = 1.671$
   - Because $(t = 1.84) > (t_{{\alpha} = 0.05} = 1.671)$, Reject ${H_0}$
 
-```{r '309-ptqt'}
+```{r 'C09-PtQt'}
 # #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 #
 # #p-value approach: Find Commulative Probability P corresponding to the given t-value & DOF=59

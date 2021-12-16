@@ -84,7 +84,7 @@ if(FALSE){
 
 If the R program is written over the console, line by line, then the output is printed automatically i.e. no function needed for printing. This is called \textcolor{pink}{implicit printing}. 
 
-Inside an R Script File, implicit printing doesn't work and the expression needs to be printed explicitly.
+Inside an R Script File, implicit printing does not work and the expression needs to be printed explicitly.
 
 In R, the most common method to print the output 'explicitly' is by the function \textcolor{pink}{print()}. 
 
@@ -118,7 +118,7 @@ ls()
 
 \textcolor{orange}{Caution:} Always use "<-" for the assignment, NOT the "="
 
-While the "=" can be used for assignment, it's usage for assignment is highly discouraged because it may behave differently under certain subtle conditions which are difficult to debug. Convention is to use "=" only during function calls for arguments association (syntactic token).
+While the "=" can be used for assignment, its usage for assignment is highly discouraged because it may behave differently under certain subtle conditions which are difficult to debug. Convention is to use "=" only during function calls for arguments association (syntactic token).
 
 There are 5 assignment operators (<-, =, <<-, ->, ->>), others are not going to be discussed for now.
 
@@ -172,7 +172,7 @@ f_getDef("Observation")
 
 
 ```{r 'B09D05', comment="", echo=FALSE, results='asis'}
-f_getDef("Statistics")
+f_getDef("Statistics") #dddd
 ```
 
 ## Vectors {#vectors-b09 .tabset .tabset-fade}
@@ -187,9 +187,9 @@ R has 6 basic data types (logical, integer, double, character, complex, and raw)
 Members of a vector are called \textcolor{pink}{components}.
 ```
 
-Atomic vectors are homogeneous i.e. each component has the same datatype. A vector's type can be checked with the \textcolor{pink}{typeof()} or \textcolor{pink}{class()} function. Its length, i.e. the number of elements in the vector, can be checked with the function \textcolor{pink}{length()}.
+Atomic vectors are homogeneous i.e. each component has the same datatype. A vector type can be checked with the \textcolor{pink}{typeof()} or \textcolor{pink}{class()} function. Its length, i.e. the number of elements in the vector, can be checked with the function \textcolor{pink}{length()}.
 
-If the output of an expression doesn't show numbers in brackets like '[1]' then it is a \textcolor{pink}{'NULL'} type return. [Numbers] show that it is a Vector. Ex: \textcolor{pink}{str()} and \textcolor{pink}{cat()} outputs are of NULL Type.
+If the output of an expression does not show numbers in brackets like '[1]' then it is a \textcolor{pink}{'NULL'} type return. [Numbers] show that it is a Vector. Ex: \textcolor{pink}{str()} and \textcolor{pink}{cat()} outputs are of NULL Type.
 
 Use function \textcolor{pink}{c()} to create a vector (or a list) - 
 
@@ -320,7 +320,7 @@ if(exists("XL", envir = .z)) {
   }
 } else {
   cat(paste0("Object 'XL' inside Hidden Environment '.z' does not exist. \n", 
-             "This is probably Author's File Path, Replace the File Path from Your own Directory\n"))
+             "It is probably File Path of the Author, Replace the File Path from Your own Directory\n"))
 }
 ```
 
@@ -685,7 +685,7 @@ if(FALSE){
 ### Image {.unlisted .unnumbered}
 
 ```{r 'B09P01', echo=FALSE, fig.cap="Correlation using psych::pairs.panels()"}
-knitr::include_graphics(paste0(.z$PX, "B09P01_Psych", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B09P01_Psych", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}

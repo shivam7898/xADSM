@@ -1,0 +1,1063 @@
+# Statistics (B12, Sep-26) {#b12}
+
+```{r 'B12', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+  - "Introduction to Statistics"
+    - [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
+
+- Links (Ref)
+  - [Population vs Sample](#population-sample-c01 "c01")
+
+```{r 'B12-Flights', include=FALSE}
+# #Load Data: Flights
+xxflights <- f_getRDS(xxflights)
+bb <- xxflights
+```
+
+## Definitions
+
+```{r 'B12D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Population")
+```
+
+```{r 'B12D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Census")
+```
+
+```{r 'B12D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Sample")
+```
+
+```{r 'B12D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Random-Sample")
+```
+
+## Inferential Statistics
+
+```{r 'B12D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Statistical-Inference")
+```
+
+Inferential statistics are used for Hypothesis Testing. Refer [Statistical Inference](#stat-inference-c01 "c01")
+
+
+## Hypothesis Testing
+
+Refer [Hypothesis Testing](#hypothesis-c09 "c09")
+
+```{r 'B12D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-Testing")
+```
+
+```{r 'B12D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-Null")
+```
+
+```{r 'B12D17', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-Alternative")
+```
+
+Refer [Steps of Hypothesis Testing](#one-tail-c09 "c09")
+
+1. State the NULL Hypothesis ${H_0}$
+    - The null will always be in the form of decisions regarding the population, not the sample. 
+      - If we have population data, we can do the census and then there is no requirement of any hypothesis or estimation.
+    - The Null Hypothesis will always be written as the absence of some parameter or process characteristic
+      - The test is designed to assess the strength of the evidence against the null hypothesis. 
+      - Often the null hypothesis is a statement of "no difference."
+    - Equality part of expression always appears in ${H_0}$ i.e. it can be \textcolor{pink}{$>=$} , \textcolor{pink}{$<=$} , \textcolor{pink}{$==$} 
+    - The term 'null' is used because this hypothesis assumes that there is no difference between the two means or that the recorded difference is not significant.
+1. An Alternative Hypothesis ${H_a}$, is then stated which will be the complement of the Null Hypothesis.
+    - ${H_a}$ can not have equality part of expression i.e. it can be \textcolor{pink}{$<$} , \textcolor{pink}{$>$} , \textcolor{pink}{$!=$} 
+    - The claim about the population that evidence is being sought for is the alternative hypothesis
+      - However, to prove it is true, its complement (null hypothesis) is tried to be proven false. Because it is easier to prove something false.
+1. For Hypothesis tests involving a population mean, let ${\mu}_0$ denote the hypothesized value 
+
+```{r 'B12D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Lower-Tail")
+```
+
+```{r 'B12D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+```{r 'B12D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-2T-Two-Tail")
+```
+
+
+- Sample data is used to determine whether or not you can be statistically confident that you can reject or fail to reject the ${H_0}$. 
+    - If the ${H_0}$ is \textcolor{pink}{rejected}, the statistical conclusion is that the ${H_a}$ is \textcolor{pink}{TRUE}.
+- Notes:
+    - Sometimes it is easier to formulate the alternative hypothesis (the conclusion that you hope to support) and create NULL hypothesis based on that. 
+    - Ex: If we are testing for validity of the claim that number of defects are less than 2%
+      - ${H_a} : {\mu} < 2\% \iff {H_0} : {\mu} \geq 2\%$
+      - If the ${H_0}$ is rejected, then the statistical conclusion is that the ${H_a}$ is TRUE i.e. defects are less than 2% in the population
+      - If the ${H_0}$ is not rejected, then no conclusion can be formed about the ${H_a}$.
+
+\textcolor{pink}{Question:} Is there an ideal sample size
+
+  - NO
+  - ("ForLater") However, there exists a relationship between (I guess) alpha, beta and sample size n. (I could not find the link on later search.) 
+  - (Paraphrasing and only memory based so can be worng!) Basically, for a given analysis, if we want to keep both types of errors to a managable level, we can calculate minimum number of samples that would help us in determining the outcome at a certain minimum confidence level etc.
+
+## Point Estimation
+
+```{r 'B12D11', comment="", echo=FALSE, results='asis'}
+f_getDef("Point-Estimation")
+```
+
+```{r 'B12D12', comment="", echo=FALSE, results='asis'}
+f_getDef("Point-Estimator")
+```
+
+```{r 'B12D13', comment="", echo=FALSE, results='asis'}
+f_getDef("Point-Estimate")
+```
+
+Example: ${\overline{x}}$ is an estimator (of populataion parameter 'mean' ${\mu}$). Its estimate is 3 and this calculation process is an estimation.
+
+## Standard Deviation
+
+```{r 'B12D44', comment="", echo=FALSE, results='asis'}
+f_getDef("Mean") #dddd
+```
+
+Refer [Standard Deviation](#sd-c03 "c03") and equation \@ref(eq:sd)
+
+```{r 'B12D14', comment="", echo=FALSE, results='asis'}
+f_getDef("Standard-Deviation")
+```
+
+\begin{equation} 
+  \begin{align} 
+     \sigma &= \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \mu\right)^2} \\
+    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}
+  \end{align}
+\end{equation} 
+
+A low standard deviation indicates that the values tend to be close to the mean (also called the expected value) of the set, while a high standard deviation indicates that the values are spread out over a wider range. 
+
+## Variance
+
+Refer [Variance](#variance-c03 "c03") and equation \@ref(eq:variance)
+
+```{r 'B12D15', comment="", echo=FALSE, results='asis'}
+f_getDef("Variance")
+```
+
+\begin{equation} 
+  \begin{align} 
+    \sigma^2 &= \frac{1}{n} \sum _{i=1}^{n} \left(x_i - \mu \right)^2 \\
+    s^2 &= \frac{1}{n-1} \sum _{i=1}^{n} \left(x_i - \overline{x} \right)^2
+  \end{align}
+\end{equation} 
+
+Variability is most commonly measured with the Range, IQR, SD, and Variance.
+
+## Standard Error or Sampling Fluctuation
+
+The sample we draw from the population is only one from a large number of potential samples. 
+
+- If ten researchers were all studying the same population, drawing their own samples then they may obtain different answers i.e. each of the ten researchers may come up with a different mean 
+- Thus, the statistic in question (mean) varies for sample to sample. It has a distribution called a sampling distribution. 
+- We can use this distribution to understand the uncertainty in our estimate of the population parameter.
+
+Refer [Standard Error](#standard-error-c07 "c07")
+
+```{r 'B12D16', comment="", echo=FALSE, results='asis'}
+f_getDef("Standard-Error")
+```
+
+```{r 'B12D20', comment="", echo=FALSE, results='asis'}
+f_getDef("Sampling-Error")
+```
+
+Sampling fluctuation (Standard Error) refers to the extent to which a statistic (mean, median, mode, sd etc.) takes on different values with different samples i.e. it refers to how much the value of the statistic fluctuates from sample to sample. 
+
+```{r 'B12D43', comment="", echo=FALSE, results='asis'}
+f_getDef("Sampling-Distribution")
+```
+
+Standard Deviation of ${\overline{x}}$, \textcolor{pink}{$\sigma_{\overline{x}}$} is given by equation \@ref(eq:sigma-x-bar) i.e. $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$
+
+- Generally, the standard error is unknown.
+- Higher the standard error, higher the deviation from sample to sample i.e. lower the reliability.
+
+## Test Statistic
+
+Refer [Test Statistic ](##test-stat-c09 "c09")
+
+```{r 'B12D22', comment="", echo=FALSE, results='asis'}
+f_getDef("Test-Statistic")
+```
+
+For hypothesis tests about a population mean in the ${\sigma}$ known case, we use the standard normal random variable ${z}$ as a test statistic to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. As given in equation \@ref(eq:test-statistic-with-sigma) i.e. $z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}$
+
+## Calculate SD & SE {#stat-height-b12 .tabset .tabset-fade}
+
+Standard Error (SE) is same as 'the standard deviation of the sampling distribution'.
+The 'variance of the sampling distribution' is the Variance of the data divided by N.
+
+### Calculate Statistics {.unnumbered}
+
+```{r 'B12-ExHeight'}
+# #DataSet: Height of 5 people in 'cm'
+hh <- c(170.5, 161, 160, 170, 150.5)
+#
+# #N by length()
+print(hh_len <- length(hh))
+#
+# #Mean by mean()
+hh_mean <- mean(hh)
+cat("Mean = ", hh_mean)
+#
+# #Variance by var()
+hh_var <- round(var(hh), 3)
+cat("Variance = ", hh_var)
+#
+# #Standard Deviation (SD) by sd()
+hh_sd <- round(sd(hh), 3)
+cat("Standard Deviation (SD) = ", hh_sd)
+#
+# #Standard Error (SE) 
+hh_se_sd <- round(hh_sd / sqrt(hh_len), 3)
+cat("Standard Error (SE) = ", hh_se_sd)
+```
+
+### R Functions {.unnumbered}
+
+```{r 'B12-CalHeight'}
+# #DataSet: Height of 5 people in 'cm'
+print(hh)
+#
+# #N by length()
+print(hh_len <- length(hh))
+#
+# #sum by sum()
+print(hh_sum <- sum(hh))
+#
+# #Mean by mean()
+hh_mean <- mean(hh)
+hh_mean_cal <- hh_sum / hh_len
+stopifnot(identical(hh_mean, hh_mean_cal))
+cat("Mean = ", hh_mean)
+#
+# #Calculate the deviation from the mean by subtracting each value from the mean
+print(hh_dev <- hh - hh_mean)
+#
+# #Square the deviation
+print(hh_sqdev <- hh_dev^2)
+#
+# #Get Sum of the squared deviations
+print(hh_sqdev_sum <- sum(hh_sqdev))
+#
+# #Divide it by the 'sample size (N) – 1' for the Variance or use var()
+hh_var <- round(var(hh), 3)
+hh_var_cal <- hh_sqdev_sum / (hh_len -1)
+stopifnot(identical(hh_var, hh_var_cal))
+cat("Variance = ", hh_var)
+#
+# #Variance of the sampling distribution 
+hh_var_sample <- hh_var / hh_len
+cat("Variance of the Sampling Distribution = ", hh_var)
+#
+# #Take square root of the Variance for the Standard Deviation (SD) or use sd()
+hh_sd_cal <- round(sqrt(hh_var), 3)
+hh_sd <- sd(hh)
+stopifnot(identical(round(hh_sd, 3), hh_sd_cal))
+cat("Standard Deviation (SD) = ", hh_sd)
+#
+# #Standard Error (SE)
+# #SE
+# #Divide the SD by the square root of the sample size for the Standard Error (SE)
+# #
+hh_se_sd <- round(hh_sd / sqrt(hh_len), 3)
+#
+# #Calculate SE from Variance 
+hh_se_var <- round(sqrt(hh_var_sample), 3)
+stopifnot(identical(hh_se_sd, hh_se_var))
+cat("Standard Error (SE) = ", hh_se_sd)
+```
+
+## Histogram and Density  {.tabset .tabset-fade}
+
+Using Dataset Flights : "air_time" -Amount of time spent in the air, in minutes. Refer figure \@ref(fig:B12P0102)
+
+### Graphs {.unnumbered}
+
+```{r 'B12-Histogram-Eval', ref.label=c('B12-Histogram'), eval=TRUE, echo=FALSE}
+#
+```
+
+```{r 'B12P01-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"), plot = B12P01)
+```
+
+```{r 'B12P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"))
+```
+
+```{r 'B12-Density-Eval', ref.label=c('B12-Density'), echo=FALSE}
+#
+```
+
+```{r 'B12P02-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"), plot = B12P02)
+```
+
+```{r 'B12P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"))
+```
+
+```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01','B12P02'), fig.cap="Flights: Air Time (min) excluding NA (Histogram and Density)"}
+#
+```
+
+### NA {.unnumbered}
+
+```{r 'B12-FlightsRemoveNA'}
+# #Remove All NA
+aa <- na.omit(xxflights$air_time)
+attr(aa, "na.action") <- NULL
+str(aa)
+summary(aa)
+```
+
+### Stats {.unnumbered}
+
+```{r 'B12-FlightStats'}
+# #Overview of Data after removal of NA
+bb <- aa
+stopifnot(is.null(dim(bb)))
+summary(bb)
+# #min(), max(), range(), summary()
+min_bb <- summary(bb)[1]
+max_bb <- summary(bb)[6]
+range_bb <- max_bb - min_bb
+cat(paste0("Range = ", range_bb, " (", min_bb, ", ", max_bb, ")\n"))
+# #IQR(), summary()
+iqr_bb <- IQR(bb)
+cat(paste0("IQR = ", iqr_bb, " (", summary(bb)[2], ", ", summary(bb)[5], ")\n"))
+# #median(), mean(), summary()[3], summary()[4] 
+median_bb <- median(bb)
+cat("Median =", median_bb, "\n")
+mu_mean_bb <- mean(bb)
+cat("Mean \u03bc =", mu_mean_bb, "\n")
+#
+sigma_sd_bb <- sd(bb)
+cat("SD (sigma) \u03c3 =", sigma_sd_bb, "\n")
+#
+variance_bb <- var(bb)
+cat(sprintf('Variance (sigma)%s %s%s =', '\u00b2', '\u03c3', '\u00b2'), variance_bb, "\n")
+```
+
+### Historgram {.unnumbered}
+
+```{r 'B12-Histogram', eval=FALSE}
+# #Histogram
+bb <- na.omit(xxflights$air_time)
+hh <- tibble(ee = bb)
+# #Basics
+median_hh <- round(median(hh[[1]]), 3)
+mean_hh <- round(mean(hh[[1]]), 3)
+sd_hh <- round(sd(hh[[1]]), 3)
+len_hh <- nrow(hh)
+#
+B12P01 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
+  geom_text(aes(label = paste0("Mean= ", round(mean_hh, 1)), x = mean_hh, y = -Inf),
+            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90, check_overlap = TRUE) + 
+  geom_vline(aes(xintercept = median_hh), color = '#3B528BFF') +
+  geom_text(aes(label = paste0("Median= ", round(median_hh, 1)), x = median_hh, y = -Inf),
+            color = '#3B528BFF', hjust = -0.5, vjust = -0.7, angle = 90, check_overlap = TRUE) +  
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Frequency", 
+       subtitle = paste0("(N=", nrow(.), "; ", "Mean= ", round(mean(.[[1]]), 1), 
+                         "; Median= ", round(median(.[[1]]), 1), "; SD= ", round(sd(.[[1]]), 1),
+                         ")"), 
+        caption = "B12P01", title = "Flights: Air Time")
+}
+```
+
+### Density {.unnumbered}
+
+```{r 'B12-Density', eval=FALSE}
+# #Density Curve
+# #Get Quantiles and Ranges of mean +/- sigma 
+q05_hh <- quantile(hh[[1]],.05)
+q95_hh <- quantile(hh[[1]],.95)
+density_hh <- density(hh[[1]])
+density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
+sig3r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 3 * sd_hh})
+sig3l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 3 * sd_hh})
+sig2r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 2 * sd_hh}, {x < mean_hh + 3 * sd_hh})
+sig2l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 2 * sd_hh}, {x > mean_hh - 3 * sd_hh})
+sig1r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + sd_hh}, {x < mean_hh + 2 * sd_hh})
+sig1l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - sd_hh}, {x > mean_hh - 2 * sd_hh})
+sig0r_hh <- density_hh_tbl %>% filter(x > mean_hh, {x < mean_hh + 1 * sd_hh})
+sig0l_hh <- density_hh_tbl %>% filter(x < mean_hh, {x > mean_hh - 1 * sd_hh})
+#
+# #Change x-Axis Ticks interval
+xbreaks_hh <- seq(-3, 3)
+xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
+#
+# # Latex Labels 
+xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
+#
+B12P02 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_density(alpha = 0.2, colour = "#21908CFF") + 
+  geom_area(data = sig3l_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig3r_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig2l_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig2r_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig1l_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig1r_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig0l_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  geom_area(data = sig0r_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  #scale_y_continuous(limits = c(0, 0.009), breaks = seq(0, 0.009, 0.003)) +
+  scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh) + 
+  ggplot2::annotate("segment", x = xpoints_hh[4] - 0.5 * sd_hh, xend = xpoints_hh[2], y = 0.007, 
+                    yend = 0.007, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  ggplot2::annotate("segment", x = xpoints_hh[4] + 0.5 * sd_hh, xend = xpoints_hh[6], y = 0.007, 
+                    yend = 0.007, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  ggplot2::annotate(geom = "text", x = xpoints_hh[4], y = 0.007, label = "95.4%") + 
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Density", 
+       subtitle = paste0("(N=", nrow(.), "; ", "Mean= ", round(mean(.[[1]]), 1), 
+                         "; Median= ", round(median(.[[1]]), 1), "; SD= ", round(sd(.[[1]]), 1),
+                         ")"), 
+        caption = "B12P02", title = "Flights: Air Time")
+}
+```
+
+### Aside {.unlisted .unnumbered}
+
+- This section is NOT useful for general reader and can be safely ignored. It contains my notes related to building this book. These are useful only for someone who is building his own book. (Shivam)
+- Side by Side Images need a Caption in Final Chunk
+- LaTex Inside Tex() will not be able to execute braces as usual, avoid them or escape them
+
+## Effect of Sample Size and Repeat Sampling {#sample-sampling-b12}
+
+Using Dataset Flights : "air_time" -Amount of time spent in the air, in minutes. 
+
+A.  Effect of increasing sample size (N =100, 1000, 10000), Refer figure \@ref(fig:B12P030405G)
+    - the precision and confidence in the estimate increases and uncertainty decreases
+    - the distribution of sample means become thinner. i.e. the sample standard deviation decreases
+A.  Effect of increasing the Sampling, Refer figure \@ref(fig:B12P060708G)
+    - The mean of the distribution of sample means equals the mean of the parent distribution. 
+    - Refer [Standard Error](#standard-error-c07 "c07")
+
+\textcolor{orange}{Caution:} Trend here does not match with the theory. However, the exercise shows the 'How to do it' part. It can be repeated with better data, larger sample size, or repeat sampling.
+
+### Sample Size {.tabset .tabset-fade}
+
+```{r 'B12-Sample', include=FALSE}
+bb <- na.omit(xxflights$air_time)
+# #Pseudo Random Number Generation by set.seed() 
+set.seed(3)
+# #Set Sample Size
+#nn <- 100L
+# #Take a sample from dataset
+xb100 <- sample(bb, size = 100L)
+xb1000 <- sample(bb, size = 1000L)
+xb10000 <- sample(bb, size = 10000L)
+# #Population Mean
+mu_hh <- round(mean(bb), 1)
+```
+
+```{r 'B12-Sample100', include=FALSE, eval=FALSE}
+# #Histogram: N = 100
+hh <- tibble(ee = xb100)
+ylim_hh <- 12.5
+caption_hh <- "B12P03"
+```
+
+```{r 'B12-Sample-100-A', ref.label=c('B12-Sample100', 'B12-SampleHist'), include=FALSE}
+#
+```
+
+```{r 'B12P03-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png"), plot = B12P03)
+```
+
+```{r 'B12P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png"))
+```
+
+```{r 'B12-Sample1000', include=FALSE, eval=FALSE}
+# #Histogram: N = 1000
+hh <- tibble(ee = xb1000)
+ylim_hh <- 125
+caption_hh <- "B12P04"
+```
+
+```{r 'B12-Sample1000-A', ref.label=c('B12-Sample1000', 'B12-SampleHist'), include=FALSE}
+#
+```
+
+```{r 'B12P04-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png"), plot = B12P04)
+```
+
+```{r 'B12P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png"))
+```
+
+```{r 'B12-Sample10000', include=FALSE, eval=FALSE}
+# #Histogram: N = 10000
+hh <- tibble(ee = xb10000)
+ylim_hh <- 1250
+caption_hh <- "B12P05"
+```
+
+```{r 'B12-Sample10000-A', ref.label=c('B12-Sample10000', 'B12-SampleHist'), include=FALSE}
+#
+```
+
+```{r 'B12P05-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png"), plot = B12P05)
+```
+
+```{r 'B12P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png"))
+```
+
+#### GIF {.unnumbered}
+
+```{r 'B12-GrobSample', include=FALSE}
+# #Get Grob
+B12A_P03 <- ggplot_gtable(ggplot_build(B12P03))
+B12A_P04 <- ggplot_gtable(ggplot_build(B12P04))
+B12A_P05 <- ggplot_gtable(ggplot_build(B12P05))
+#
+# #Get Max Width of All the Plots
+maxWidth = grid::unit.pmax(B12A_P03$widths[2:5], B12A_P04$widths[2:5], B12A_P05$widths[2:5])
+# #Update Width
+B12A_P03$widths[2:5] <- as.list(maxWidth)
+B12A_P04$widths[2:5] <- as.list(maxWidth)
+B12A_P05$widths[2:5] <- as.list(maxWidth)
+# Save Grobs
+ggsave(paste0(.z$PX, "B12A_P03", ".png"), plot = B12A_P03)
+ggsave(paste0(.z$PX, "B12A_P04", ".png"), plot = B12A_P04)
+ggsave(paste0(.z$PX, "B12A_P05", ".png"), plot = B12A_P05)
+```
+
+```{r 'B12-GifSampleSize', include=FALSE}
+png_files <- list.files(.z$PX, pattern = "B12A.*.*png$", full.names = TRUE)
+gifski(png_files, gif_file = paste0(.z$PX, "B12A", ".gif"), delay = 2)
+```
+
+```{r 'B12P030405G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
+knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
+```
+
+#### Images {.unnumbered}
+
+```{r 'B12P030405', echo=FALSE, ref.label=c('B12P03', 'B12P04', 'B12P05'), fig.cap="Effect of Increasing Sample Size", out.width='33%'}
+#
+```
+
+#### Code {.unnumbered}
+
+```{r 'B12-Sample-A', ref.label=c('B12-Sample', 'B12-Sample100'), eval=FALSE}
+#
+```
+
+```{r 'B12-SampleHist', eval=FALSE}
+# #Assumes 'hh' has data in 'ee'. In: mu_hh, caption_hh, ylim_hh
+#
+B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean(.data[["ee"]])), color = '#440154FF') +
+  geom_text(aes(label = TeX(r'($\bar{x}$)', output = "character"), 
+                x = mean(.data[["ee"]]), y = -Inf), 
+            color = '#440154FF', hjust = 2, vjust = -2.5, parse = TRUE, check_overlap = TRUE) + 
+  geom_vline(aes(xintercept = mu_hh), color = '#3B528BFF') +
+  geom_text(aes(label = TeX(r'($\mu$)', output = "character"), x = mu_hh, y = -Inf),
+            color = '#3B528BFF', hjust = -1, vjust = -2, parse = TRUE, check_overlap = TRUE) + 
+  coord_cartesian(xlim = c(0, 800), ylim = c(0, ylim_hh)) + 
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Frequency", 
+       subtitle = paste0("(Mean= ", round(mean(.[[1]]), 1), 
+                         "; SD= ", round(sd(.[[1]]), 1),
+                         #"; Var= ", round(var(.[[1]]), 1),
+                         "; SE= ", round(sd(.[[1]]) / sqrt(nrow(.)), 1),
+                         ")"), 
+      caption = caption_hh, title = paste0("Sample Size = ", nrow(.)))
+}
+assign(caption_hh, B12)
+rm(B12)
+```
+
+#### Warnings {.unlisted .unnumbered}
+
+- "In mean.default(gg) : argument is not numeric or logical: returning NA"
+  - For ggplot() - This comes up if the object 'gg' is NULL. Check if the ggplot is looking into global scope in place of local dataframe that was passed.
+
+#### Deprecated {.unlisted .unnumbered}
+
+```{r 'B12-ToGGpassOneVal', eval=FALSE, include=FALSE}
+# To Pass Average to the ggplot in Row 1 Column 2 
+dd <- data.frame(gg = xb100, xxstore = c(mu_mean_bb, rep(NA, length(xb100) -1)))
+# #Which can be later accessed 
+geom_text(aes(label = paste0("mu=", round(xxstore[1], 1)), x = xxstore[1], y = -Inf), 
+	  color = 'blue', hjust = -0.2, vjust = -0.5)
+```
+
+### Repeat Sampling  {.tabset .tabset-fade}
+
+```{r 'B12-RepeatSampling', include=FALSE}
+bb <- na.omit(xxflights$air_time)
+# #Pseudo Random Number Generation by set.seed() 
+set.seed(3)
+# #Set Sample Size
+nn <- 10L
+# #Set Repeat Sampling Rate
+rr <- 20L
+# #Take Sample of N = 10, get mean, repeat i.e. get distribution of mean
+xr20 <- replicate(rr, mean(sample(bb, size = nn)))
+rr <- 200L
+xr200 <- replicate(rr, mean(sample(bb, size = nn)))
+rr <- 2000L
+xr2000 <- replicate(rr, mean(sample(bb, size = nn)))
+#
+# #Population Mean
+mu_hh <- round(mean(bb), 1)
+```
+
+```{r 'B12-Sampling20', include=FALSE, eval=FALSE}
+# #Histogram: N = 10, Repeat = 20
+hh <- tibble(ee = xr20)
+ylim_hh <- 2
+caption_hh <- "B12P06"
+```
+
+```{r 'B12-Sampling20-A', ref.label=c('B12-Sampling20', 'B12-RepeatSampligHist'), include=FALSE}
+#
+```
+
+```{r 'B12P06-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P06", "_N10_Rep20", ".png"), plot = B12P06)
+```
+
+```{r 'B12P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P06", "_N10_Rep20", ".png"))
+```
+
+```{r 'B12-Sampling200', include=FALSE, eval=FALSE}
+# #Histogram: N = 10, Repeat = 200
+hh <- tibble(ee = xr200)
+ylim_hh <- 20
+caption_hh <- "B12P07"
+```
+
+```{r 'B12-Sampling200-A', ref.label=c('B12-Sampling200', 'B12-RepeatSampligHist'), include=FALSE}
+#
+```
+
+```{r 'B12P07-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P07", "_N10_Rep20", ".png"), plot = B12P07)
+```
+
+```{r 'B12P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P07", "_N10_Rep20", ".png"))
+```
+
+```{r 'B12-Sampling2000', include=FALSE, eval=FALSE}
+# #Histogram: N = 10, Repeat = 2000
+hh <- tibble(ee = xr2000)
+ylim_hh <- 200
+caption_hh <- "B12P08"
+```
+
+```{r 'B12-Sampling2000-A', ref.label=c('B12-Sampling2000', 'B12-RepeatSampligHist'), include=FALSE}
+#
+```
+
+```{r 'B12P08-Save', include=FALSE}
+ggsave(paste0(.z$PX, "B12P08", "_N10_Rep20", ".png"), plot = B12P08)
+```
+
+```{r 'B12P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P08", "_N10_Rep20", ".png"))
+```
+
+#### GIF {.unnumbered}
+
+```{r 'B12-GrobRepeatSample', include=FALSE}
+# #Get Grob
+B12B_P06 <- ggplot_gtable(ggplot_build(B12P06))
+B12B_P07 <- ggplot_gtable(ggplot_build(B12P07))
+B12B_P08 <- ggplot_gtable(ggplot_build(B12P08))
+#
+# #Get Max Width of All the Plots
+maxWidth = grid::unit.pmax(B12B_P06$widths[2:5], B12B_P07$widths[2:5], B12B_P08$widths[2:5])
+# #Update Width
+B12B_P06$widths[2:5] <- as.list(maxWidth)
+B12B_P07$widths[2:5] <- as.list(maxWidth)
+B12B_P08$widths[2:5] <- as.list(maxWidth)
+# Save Grobs
+ggsave(paste0(.z$PX, "B12B_P06", ".png"), plot = B12B_P06)
+ggsave(paste0(.z$PX, "B12B_P07", ".png"), plot = B12B_P07)
+ggsave(paste0(.z$PX, "B12B_P08", ".png"), plot = B12B_P08)
+```
+
+```{r 'B12-GifSampleRepeat', include=FALSE}
+png_files <- list.files(.z$PX, pattern = "B12B.*.*png$", full.names = TRUE)
+gifski(png_files, gif_file = paste0(.z$PX, "B12B", ".gif"), delay = 2)
+```
+
+```{r 'B12P060708G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
+knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
+```
+
+#### Images {.unnumbered}
+
+```{r 'B12P060708', echo=FALSE, ref.label=c('B12P06', 'B12P07', 'B12P08'), fig.cap="Effect of Increasing Sampling", out.width='33%'}
+#
+```
+
+#### Code {.unnumbered}
+
+```{r 'B12-RepeatSampling-A', ref.label=c('B12-RepeatSampling', 'B12-Sampling20'), eval=FALSE}
+#
+```
+
+```{r 'B12-RepeatSampligHist', eval=FALSE}
+# #Assumes 'hh' has data in 'ee'. In: mu_hh, caption_hh, ylim_hh, nn
+#
+B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean(.data[["ee"]])), color = '#440154FF') +
+  geom_text(aes(label = TeX(r'($E(\bar{x})$)', output = "character"), 
+                x = mean(.data[["ee"]]), y = -Inf), 
+            color = '#440154FF', hjust = 1.5, vjust = -1.5, parse = TRUE, check_overlap = TRUE) + 
+  geom_vline(aes(xintercept = mu_hh), color = '#3B528BFF') +
+  geom_text(aes(label = TeX(r'($\mu$)', output = "character"), x = mu_hh, y = -Inf),
+            color = '#3B528BFF', hjust = -1, vjust = -2, parse = TRUE, check_overlap = TRUE) + 
+  coord_cartesian(xlim = c(0, 800), ylim = c(0, ylim_hh)) + 
+  theme(plot.title.position = "panel") + 
+  labs(x = TeX(r'($\bar{x} \, (\neq x)$)'), y = TeX(r'(Frequency of $\, \bar{x}$)'), 
+       subtitle = TeX(sprintf(
+         "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f",
+                             mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
+       caption = caption_hh, 
+       title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
+}
+assign(caption_hh, B12)
+rm(B12)
+```
+
+## Normal Distribution
+
+```{r 'B12P09', include=FALSE, fig.cap="Normal Distribution"}
+knitr::include_graphics(paste0(.z$PX, "B12P09_Distribution_Normal.jpg"))
+```
+
+Refer [Normal Distribution](#normal-d-c06 "c06") and equation \@ref(eq:distribution-normal)
+
+```{r 'B12D18', comment="", echo=FALSE, results='asis'}
+f_getDef("Normal-Distribution")
+```
+
+Their importance is partly due to the [Central Limit Theorem](#clt-c07 "c07"). Assumption of normal distribution allow us application of [Parametric Methods](#parametric-c18 "c18")
+
+```{r 'B12D23', comment="", echo=FALSE, results='asis'}
+f_getDef("Parametric-Methods")
+```
+
+```{r 'B12D19', comment="", echo=FALSE, results='asis'}
+f_getDef("Central-Limit-Theorem")
+```
+
+It states that, under some conditions, the average of many samples (observations) of a random variable with finite mean and variance is itself a random variable—whose distribution converges to a normal distribution as the number of samples increases. 
+
+Parametric statistical tests typically assume that samples come from normally distributed populations, but the central limit theorem means that this assumption is not necessary to meet when you have a large enough sample. A sample size of 30 or more is generally considered large.
+
+This is the basis of [Empirical Rule](#empirical-be03 "be03"). 
+
+```{r 'B12D21', comment="", echo=FALSE, results='asis'}
+f_getDef("Empirical-Rule")
+```
+
+\textcolor{orange}{Caution:} If data from small samples do not closely follow this pattern, then other distributions like the t-distribution may be more appropriate.
+
+## Standard Normal Distribution
+
+Refer [Standard Normal](#standard-normal-c06 "c06") and equation \@ref(eq:normal-z)
+
+```{r 'B12D24', comment="", echo=FALSE, results='asis'}
+f_getDef("Standard-Normal")
+```
+
+The simplest case of a normal distribution is known as the standard normal distribution. 
+Given the Population with normal distribution ${\mathcal {N}}_{(\mu,\, \sigma)}$ 
+
+If $\overline {X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is $\sigma/{\sqrt{n}}$ and thus the z-score is \textcolor{pink}{$Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}}$}
+
+The z-score is the test statistic used in a z-test. The z-test is used to compare the means of two groups, or to compare the mean of a group to a set value. Its null hypothesis typically assumes no difference between groups.
+
+The area under the curve to the right of a z-score is the p-value, and it is the likelihood of your observation occurring if the null hypothesis is true.
+
+Usually, a p-value of 0.05 or less means that your results are unlikely to have arisen by chance; it indicates a statistically significant effect.
+
+## Outliers 
+
+Refer [Outliers](#outliers-c03 "c03")
+
+```{r 'B12D25', comment="", echo=FALSE, results='asis'}
+f_getDef("Outliers")
+```
+
+- \textcolor{pink}{Question:} If we include a datapoint which is +4 standard deviations away, would we be able to get the Normal Distribution
+  - Shape of the curve will be tilted, thus it will be difficult to keep the datapoint and satify the condition for normality
+  - Generally, only ${{\mu}-3{\sigma} \leq {x} \leq {\mu}+3{\sigma}}$ values are kept and the remaining are treated as outliers
+- \textcolor{pink}{Question:} Is is a bad data if it is +4 standard deviations away
+  - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assuption, parametric methods can not be applied to the dataset
+  - In general, convert to z-value, remove those which have z-value higher than +3 or lower than -3
+- \textcolor{pink}{Question:} But, how many removals are too many removals
+  - There are techniques for this consideration, will be covered later. "ForLater"
+  - (Aside) In a sample of 1000 observations, the presence of up to five observations deviating from the mean by more than three times the standard deviation is within the range of what can be expected. If the sample size is only 100, however, just three such outliers are already reason for concern. 
+- \textcolor{pink}{Concern:} Frequency or Proportion of outliers should not be very high 
+  - It is true that we cannot have normal distribution in that case.
+    - However, can we afford to remove all the data points with $z > 3$, this needs to be answered in the context of analysis.
+      - Here the 'assignable cause' is applied. i.e. each datapoint that is proposed to be an outlier is individually analysed and either kept or removed
+- \textcolor{pink}{Concern:} Sometimes the outliers are present because the dataset is a mixture of two distributions
+  - In that case, those should be treated separately
+- \textcolor{pink}{Question:} Are there tools for all of this ~~jugglery~~
+  - Yes, there are, specially nonparametric methods does not take any assumption about distribution.
+  - However, these are not as robust as parametric tests, so if possible, stay with parametric tests
+
+## Type I and Type II Errors 
+
+```{r 'B12P10', echo=FALSE, fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg"))
+```
+
+Example
+
+- Type-I "An innocent person is convicted"
+- Type-II "A guilty person is not convicted"
+
+Since we are using sample data to make inferences about the population, it is possible that we will make an error. In the case of the Null Hypothesis, we can make one of two errors.
+
+Refer [Type I and Type II Errors](#errors-ab-c09, "c09")
+
+```{r 'B12D26', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Type-I")
+```
+
+```{r 'B12D27', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Type-II") 
+```
+
+```{r 'B12D28', comment="", echo=FALSE, results='asis'}
+f_getDef("Level-of-Significance")
+```
+
+```{r 'B12D29', comment="", echo=FALSE, results='asis'}
+f_getDef("Confidence-Coefficient") 
+```
+
+```{r 'B12D30', comment="", echo=FALSE, results='asis'}
+f_getDef("Power")
+```
+
+There is always a tradeoff between Type-I and Type-II errors.
+
+- Generally max 5% ${\alpha}$ and max 20% ${\beta}$ errors are recommended
+
+In practice, the person responsible for the hypothesis test specifies the level of significance. By selecting ${\alpha}$, that person is controlling the probability of making a Type I error. 
+
+- If the cost of making a Type I error is high, small values of ${\alpha}$ are preferred. Ex: $\alpha =0.01$ 
+- If the cost of making a Type I error is not too high, larger values of ${\alpha}$ are typically used. Ex: $\alpha = 0.05$ 
+
+```{r 'B12D31', comment="", echo=FALSE, results='asis'}
+f_getDef("Significance-Tests")
+```
+
+Although most applications of hypothesis testing control for the probability of making a Type I error, they do not always control for the probability of making a Type II error. Because of the uncertainty associated with making a Type II error when conducting significance tests, statisticians usually recommend that we use the statement \textcolor{pink}{"do not reject ${H_0}$"} instead of "accept ${H_0}$."
+
+
+## Critical Value
+
+```{r 'B12P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P11_Tail_Left.jpg"))
+```
+
+```{r 'B12P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B12P12_Tail_Right.jpg"))
+```
+
+```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11','B12P12'), fig.cap="Left Tail vs. Right Tail"}
+#
+```
+
+```{r 'B12P13', echo=FALSE, fig.cap="Two Tail"}
+knitr::include_graphics(paste0(.z$PX, "B12P13_Tail_Two.jpg")) #iiii
+```
+
+```{r 'B12D32', comment="", echo=FALSE, results='asis'}
+f_getDef("Critical-Value")
+```
+
+```{r 'B12-GetZ'}
+# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
+#
+# #Left Tail Test
+round(qnorm(p = xxalpha, lower.tail = TRUE), 4)
+#
+# #Right Tail Test
+round(qnorm(p = xxalpha, lower.tail = FALSE), 4)
+```
+
+```{r 'B12D33', comment="", echo=FALSE, results='asis'}
+f_getDef("p-value")
+```
+
+```{r 'B12D34', comment="", echo=FALSE, results='asis'}
+f_getDef("Acceptance-Region")
+```
+
+```{r 'B12D35', comment="", echo=FALSE, results='asis'}
+f_getDef("Rejection-Region")
+```
+
+## Tailed Tests
+
+```{r 'B12D39', comment="", echo=FALSE, results='asis'}
+f_getDef("Tailed-Test")
+```
+
+One tailed-tests are concerned with one side of a statistic. Whereas, Two-tailed tests deal with both tails of the distribution.
+
+Two-tail test is done when you do not know about direction, so you test for both sides.
+
+
+```{r 'B12D36', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Lower-Tail")
+```
+
+```{r 'B12D37', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+```{r 'B12D38', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-2T-Two-Tail") 
+```
+
+## Approaches 
+
+```{r 'B12D40', comment="", echo=FALSE, results='asis'}
+f_getDef("Approach-p-value")
+```
+
+Steps for the p-value approach or test statistic approach
+
+- Calculate $z$ for given $x$: $z = \frac{\overline{x} - \mu_0}{s}$
+- Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value from z-table
+  - $P_{\left(\overline{x}\right)} = P_{\left(z\right)}$
+- Compare p-value with Level of significance ${\alpha}$
+
+
+```{r 'B12D41', comment="", echo=FALSE, results='asis'}
+f_getDef("Approach-Critical-Value")
+```
+
+Steps for the critical value approach
+
+- Calculate $z$ for given $x$: $z = \frac{\overline{x} - \mu_0}{s}$
+- Using the z-table, find the z for given Level of significance ${\alpha} = 0.01$ 
+  - $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
+  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+- Compare test statistic with z-value i.e. $(z)$ vs. $(z_{\alpha = 0.01})$
+
+
+## z-test vs. t-test
+
+If the population standard error (SE) is known, apply z-test. If it is unknown, apply t-test. t-test will converge to z-test with increasing sample size.
+
+\textcolor{pink}{Question:} Does the probability from t-table differ from the probability value from z-table
+
+- No, practically for sample size greater than 30, there is no difference
+
+It is assumed that $(\overline{x} - \mu)$ follows Normality. However the Standard Error (SE) does not follow normality, generally it follows chi-sq distribution. Thus, $(\overline{x} - \mu)/SE$ becomes 'Normal/ChiSq' and this ratio follows the t-distribution. Thus, the test we apply is called t-test.
+
+```{r 'B12-GetT'}
+# #For Degrees of Freedom = 10 (N=11)
+# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
+dof <- 10L
+#
+# #Left Tail Test
+round(qt(p = xxalpha, df = dof, lower.tail = TRUE), 4)
+#
+# #Right Tail Test
+round(qt(p = xxalpha, df = dof, lower.tail = FALSE), 4)
+```
+
+## t-test
+
+### Degrees of Freedom
+
+```{r 'B12D42', comment="", echo=FALSE, results='asis'}
+f_getDef("Degrees-of-Freedom") 
+```
+
+Why $(n-1)$ are the degrees of freedom
+
+- Degrees of freedom refer to the number of independent pieces of information that go into the computation. i.e. $\{(x_{1}-\overline{x}), (x_{2}-\overline{x}), \ldots, (x_{n}-\overline{x})\}$
+- However, $\sum (x_{i}-\overline{x}) = 0$ for any data set. 
+- Thus, only $(n − 1)$ of the $(x_{i}-\overline{x})$ values are independent.
+  - if we know $(n − 1)$ of the values, the remaining value can be determined exactly by using the condition.
+
+\textcolor{pink}{Question:} Is there any minimum sample size we must consider before calculating degrees of freedom
+
+- Larger sample sizes are needed if the distribution of the population is highly skewed or includes outliers.
+
+\textcolor{pink}{Guess:} Degrees of freedom is also calculated to remove the possible bias
+
+- No
+
+
+### How to use t-table
+
+- Rows have degrees of freedom, Columns have ${\alpha}$ values, get the t-statistic at their intersection
+  - For DOF = 10, and ${\alpha} = 0.05$, t-table has value 1.812 (Critical Limit)
+  - In right tail test, if the test-statistic is greater than critical limit, we can reject the null
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B12-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, 
+          B12P01, B12P02, density_hh, density_hh_tbl, hh_dev, hh_len, hh_mean, hh_mean_cal, hh_sd,
+          hh_sd_cal, hh_se_sd, hh_se_var, hh_sqdev, hh_sqdev_sum, hh_sum, hh_var, hh_var_cal,
+          hh_var_sample, iqr_bb, len_hh, max_bb, mean_hh, median_bb, median_hh, min_bb, 
+          mu_mean_bb, q05_hh, q95_hh, range_bb, sd_hh, sig0l_hh, sig0r_hh, sig1l_hh, sig1r_hh, 
+          sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, sigma_sd_bb, variance_bb, xbreaks_hh, 
+          xlabels_hh, xpoints_hh, xxflights, B12A_P03, B12A_P04, B12A_P05, B12B_P06, B12B_P07, 
+          B12B_P08, B12P03, B12P04, B12P05, B12P06, B12P07, B12P08, caption_hh, dof, maxWidth, 
+          mu_hh, png_files, xb100, xb1000, xb10000, xr20, xr200, xr2000, xxalpha, ylim_hh)
+```
+
+```{r 'B12-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

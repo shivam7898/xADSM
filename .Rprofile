@@ -1,13 +1,13 @@
 # #(.Rprofile) [3/3] =============================================================================#
 # #This file is Not auto-executed. It is sourced by [2/3] & thus executes on Restart R
-# [1] Location: Sys.getenv("HOME") - 
+# [1] Location: Sys.getenv("HOME") -
 #	This is kept in USER HOME and changed only when USER is changed.
 #	This File is Auto-executed on Start-up & on RStudio Restart R
 #	To change the working directory to "D:/Analytics/R"
 #	To execute the .Rprofile [2/3] (No Auto-execution)
 # [2] Location: "D:/Analytics/R"
-#	To point to the latest project as working directory 
-#	To execute the .Rprofile [3/3] (No Auto-execution) 
+#	To point to the latest project as working directory
+#	To execute the .Rprofile [3/3] (No Auto-execution)
 # [3] Location: Working Directory
 # Advantage is that every project has its own .Rprofile, thus it can keep its own changes.
 # This file is executed when RStudio opens a project or a file in the directory.
@@ -25,6 +25,13 @@ if (!identical(.libPaths()[1], "C:/Softwares/R/LibFiles")) {
 
 # #To only download binaries and avoid 'latest code' type Errors in Windows.
 options(pkgType = "binary")
+
+# #scipen =999 can be used to disable the scientific notation
+# #But, I am worried that it will cause to show unnecessary trailing 0s in Numbers
+# #So, for now keeping it disabled and more 'irritatingly'...
+# #I was unable to find original code where I decided not to use scipen
+# #Alternatives: sprintf(), format(), formatC(), round(), prettyNum()
+#options(scipen=0, digits=7) #Default
 
 # #Maximum Print Limit (Not lines, Characters. So, higher number is used.)
 options(max.print=1000)
@@ -56,7 +63,7 @@ library("utils")
   }
 }
 
-#Hidden namespace to save objects & functions from "rm(list=ls())" 
+#Hidden namespace to save objects & functions from "rm(list=ls())"
 .z <- new.env()
 attach(.z)
 

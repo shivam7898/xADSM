@@ -3,7 +3,7 @@
 if (!("k_start" %in% ls(envir = .GlobalEnv))) {
 # #Compile Start Time 
   k_start <- Sys.time()
-# #It will be run only once while building a Book or a Chapter
+# #It will be run only once while building Book or Chapter (ensured by IF block, not by 'setup')
   knitr::opts_chunk$set(include = TRUE,
                         echo = TRUE,
                         eval = TRUE,

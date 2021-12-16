@@ -45,7 +45,7 @@ Example: Asample of 20 containers ${n =20}$ has the sample variance ${s^2} = 0.0
 - For (DOF = 19), 95% of the chi-square values are between ${\chi_{\alpha = 0.975}^2}$ and ${\chi_{\alpha = 0.025}^2}$ 
   - There is a .95 probability of obtaining a ${\chi^2}$ value such that ${\chi_{0.975}^2} \leq {\chi^2} \leq{\chi_{0.025}^2}$
 
-```{r '311-ChiSq'}
+```{r 'C11-ChiSq'}
 # #pnorm() qnorm() | pt() qt() | pchisq() qchisq()
 #
 # #p-value approach: Find Commulative Probability P corresponding to the given ChiSq & DOF=59

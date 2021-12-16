@@ -13,7 +13,8 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
   - Side Topic: [Number Theory](#numbers-c03 "c03"), [Primes](#primes-c03 "c03"), [Benchmark](#benchmark-c03 "c03"), Vectorising & Compiling & Profiling Functions,
   - Measures of Location: [Mean](mean-c03 "c03"), Weighted Mean, [Median](#median-c03 "c03"), Geometric Mean, [Mode](#mode-c03 "c03"), [Percentiles](#percentiles-c03 "c03"), Quantiles
   - Measures of Variability: Range, IQR, [Variance](#variance-c03 "c03"), [Standard Deviation](#sd-c03 "c03")
-  - Relative Location: [z-scores](#z-scores-c03 "c03"), Chebyshev Theorem, [Empirical Rule](#empirical-c03 "c03")
+  - Shape [Skewness](#skewness-c03 "c03"), [Kurtosis]({#kurtosis-c03 "c03")
+  - Relative Location: [z-scores](#z-scores-c03 "c03"), Chebyshev Theorem, [Empirical Rule](#empirical-c03 "c03"), [Outliers](#outliers-c03 "c03")
   - Two Variables: [Covariance](#covariance-c03 "c03"), [Correlation Coefficient](#correlation-c03 "c03")
   - Graphs: [BoxPlot](#boxplot-c03 "c03"), [Scatterplot](#covariance-c03 "c03")
   - "ForLater" - Sum Mean Formulae, Skewness
@@ -21,7 +22,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
 ## Definitions (Ref)
 
 ```{r 'C03D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Parameter-vs-Statistic")
+f_getDef("Parameter-vs-Statistic") #dddd
 ```
 
 ## Number Theory {#numbers-c03 .tabset .tabset-fade}
@@ -61,7 +62,7 @@ The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are exp
 
 ### Pi {.unlisted .unnumbered}
 
-The number \textcolor{pink}{Pi $\pi = 3.14159\ldots$} is defined as the ratio of a circle's circumference to its diameter.
+The number \textcolor{pink}{Pi $\pi = 3.14159\ldots$} is defined as the ratio of circumference of a circle to its diameter.
 
 \begin{equation} 
   \pi = \int _{-1}^{1} \frac{dx}{\sqrt{1- x^2}}
@@ -91,7 +92,7 @@ f_setRDS(xxPI)
 
 ### e {.unlisted .unnumbered}
 
-Euler's Number \textcolor{pink}{$e = 2.71828\ldots$}, is the base of the natural logarithm. 
+Euler Number \textcolor{pink}{$e = 2.71828\ldots$}, is the base of the natural logarithm. 
 
 \begin{equation} 
   e = \lim_{n \to \infty} \left(1 + \frac{1}{n} \right)^{n} = \sum \limits_{n=0}^{\infty} \frac{1}{n!}
@@ -133,7 +134,7 @@ Mersenne primes:
 - $\{3 (2^{nd}), 7(4^{th}), 31(11^{th}), 127(31^{st}), 8191 (1028^{th}), 131071 (12,251^{th}), 524287 (43,390^{th}), \ldots \}$  
   - Mersenne primes with their position in List of Primes
 - \textcolor{pink}{$2147483647 = (2^{231} − 1)$}
-  - It is 105,097,565th Prime, 8th Mersenne prime and is one of only four known double Mersenne primes.
+  - It is 105,097,565$^{th}$ Prime, $8^{th}$ Mersenne prime and is one of only four known double Mersenne primes.
   - It represents the largest value that a signed 32-bit integer field can hold. 
 
 ## Primes {#primes-c03 .tabset .tabset-fade}
@@ -273,7 +274,7 @@ if(FALSE) {
 getOption("expressions")
 if(FALSE) {
   # #Change Value
-  # #NOTE it didn't help when recursive function failed
+  # #NOTE it did not help when recursive function failed
   # #Error: node stack overflow
   # #Error during wrapup: node stack overflow
   # #Error: no more error handlers available ...
@@ -334,7 +335,7 @@ isPrime_c <- function(x) {
   # #RegEx Slowest: Iit converts -ve values and coerce non-integers which may result in bugs
   x <- abs(as.integer(x))
   if(x > 8191L) {
-    print("Don't run this with large values. RegEx is really slow.")
+    print("Do not run this with large values. RegEx is really slow.")
     stop()
   }
   !grepl('^1?$|^(11+?)\\1+$', strrep('1', x))
@@ -373,7 +374,7 @@ aa <- 1:131071
 bb <- aa[f_isPrimeV(aa)]
 
 getPrimeUpto_a <- function(x){
-  # #Extremely Slow, Can't go beyond 8191L in benchmark testing
+  # #Extremely Slow, can not go beyond 8191L in benchmark testing
   if(x < 2) return("ERROR")
   y <- 2:x
   primes <- rep(2L, x)
@@ -428,7 +429,7 @@ getPrimeUpto_c <- function(x) {
     stop()
   }
   
-  # #Can't create vector of length 2147483647L and also not needed that many
+  # #Can not create vector of length 2147483647L and also not needed that many
   # #ceiling(sqrt(7L)) return 3, however we need length 4 (2, 3, 5, 7)
   # #So, added extra 10
   #primes <- rep(NA_integer_, 10L + sqrt(2L))
@@ -571,6 +572,8 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
   - For an odd number of observations, the median is the middle value.
   - For an even number of observations, the median is the average of the two middle values.
   - Although the mean is the more commonly used measure of central location, whenever a data set contains extreme values, the median is preferred.
+    - \textcolor{pink}{The mean and median are different concepts and answer different questions.} 
+      - Ex: Income - nearly always reported as median, but if we are looking the the 'spending power of whole community' it may no not be right.
   - The median is well-defined for any ordered data, and is independent of any distance metric. 
     - The median can thus be applied to classes which are ranked but not numerical (ordinal), although the result might be halfway between classes if there is an even number of cases. 
 
@@ -739,7 +742,7 @@ In addition to measures of location, it is often desirable to consider measures 
 ### Variance {#variance-c03 .tabset .tabset-fade}
 
 ```{definition 'Variance'}
-The \textcolor{pink}{variance} is based on the difference between the value of each observation ${x_i}$ and the mean ${\overline{x}}$. The average of the squared deviations is called the variance. 
+The \textcolor{pink}{variance $({\sigma}^2)$} is based on the difference between the value of each observation ${x_i}$ and the mean ${\overline{x}}$. The average of the squared deviations is called the variance. 
 ```
 
 - Refer equation \@ref(eq:variance)
@@ -759,7 +762,7 @@ The \textcolor{pink}{variance} is based on the difference between the value of e
 ### Standard Deviation {#sd-c03 .tabset .tabset-fade}
 
 ```{definition 'Standard-Deviation'}
-The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the positive square root of the variance.
+The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the positive square root of the variance. It is a measure of the amount of variation or dispersion of a set of values.
 ```
 
 - Refer equation \@ref(eq:sd)
@@ -774,11 +777,294 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
   (\#eq:sd)
 \end{equation} 
 
-## Measures of Distribution Shape
+## Measures of Distribution Shape 
 
-### Skewness
+### Skewness {#skewness-c03 .tabset .tabset-fade} 
 
-"ForLater" 
+```{definition 'Skewness'}
+\textcolor{pink}{Skewness $(\tilde{\mu}_{3})$} is a measure of the shape of a data distribution. It is a measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
+```
+
+```{definition 'Tails'}
+A \textcolor{pink}{tail} refers to the tapering sides at either end of a distribution curve.
+```
+
+
+- Data skewed to the left result in negative skewness; a symmetric data distribution results in zero skewness; and data skewed to the right result in positive skewness. 
+- $\tilde{\mu}_{3}$ is the $3^{rd}$ standardized moment
+  - Side topic: A \textcolor{pink}{standardized moment} of a probability distribution is a moment (normally a higher degree central moment) that is normalized. The normalization is typically a division by an expression of the standard deviation which renders the moment scale invariant. 
+    - $\tilde{\mu}_{1} = 0$, because the first moment about the mean is always zero. 
+    - $\tilde{\mu}_{2} = 1$, because the second moment about the mean is equal to the variance ${\sigma}^2$. 
+    - $\tilde{\mu}_{3}$ is a measure of skewness
+    - $\tilde{\mu}_{4}$ refers to the Kurtosis 
+
+
+Refer figure \@ref(fig:C03P060405) 
+
+- No skew: (symmetric)
+  - A unimodal distribution with zero value of skewness does not imply that this distribution is symmetric necessarily. However, a symmetric unimodal or multimodal distribution always has zero skewness.   - The normal distribution has a skewness of zero. But reverse may not be true.
+- Negative skew: (left-skewed, left-tailed, or skewed to the left)
+  - The left tail is longer, thus the 'left' refers to the left tail being drawn out
+  - The curve itself appears to be leaning to the right i.e. the mass of the distribution is concentrated on the right of the figure
+- Positive skew: (right-skewed, right-tailed, or skewed to the right)
+  - The right tail is longer, thus the 'right' refers to the right tail being drawn out 
+  - The curve itself appears to be leaning to the left i.e. the mass of the distribution is concentrated on the left of the figure
+- Relationship of mean and median
+  - The skewness is not directly related to the relationship between the mean and median: a distribution with negative skew can have its mean greater than or less than the median, and likewise for positive skew
+  - However, generally the skew can be calculated as $({\mu} -{\nu})/\sigma$, where ${\nu}$ is median
+- Application:
+  - Skewness indicates the direction and relative magnitude of deviation from the normal distribution.
+  - It indicates the direction of outliers
+  - With pronounced skewness, standard statistical inference procedures such as a confidence interval for a mean will be not only incorrect, in the sense that the true coverage level will differ from the nominal (e.g., 95%) level, but they will also result in unequal error probabilities on each side. 
+
+Skewness is given by the equation \@ref(eq:skewness), which is being shown here because it ~~looked cool~~ has deep meaning
+
+\begin{equation} 
+ Skew = \frac{\tfrac {1}{n}\sum_{i=1}^{n}(x_{i}-{\overline {x}})^{3}}{\left[\tfrac {1}{n-1}\sum_{i=1}^{n}(x_{i}-{\overline {x}})^{2} \right]^{3/2}}
+  (\#eq:skewness)
+\end{equation} 
+
+
+#### Charts {.unlisted .unnumbered}
+
+```{r 'C03-LoadDistributions-A', include=FALSE, ref.label=c('C03-LoadDistributions')}
+#
+```
+
+```{r 'C03-DensityNormal', include=FALSE, eval=FALSE}
+hh <- tibble(ee = xxNormal)
+title_hh <- "Normal Distribution (Symmetrical)"
+caption_hh <- "C03P04"
+```
+
+```{r 'C03-DensityNormal-A', ref.label=c('C03-DensityNormal', 'C03-Density'), include=FALSE}
+#
+```
+
+```{r 'C03P04-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"), 
+       plot = eval(parse(text = caption_hh)))
+```
+
+```{r 'C03P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"))
+```
+
+```{r 'C03-DensityExp', include=FALSE, eval=FALSE}
+hh <- tibble(ee = xxExp)
+title_hh <- "Exponential Distribution (Positive Skew, Right Tail)"
+caption_hh <- "C03P05" 
+```
+
+```{r 'C03-DensityExp-A', ref.label=c('C03-DensityExp', 'C03-Density'), include=FALSE}
+#
+```
+
+```{r 'C03P05-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png"), 
+       plot = eval(parse(text = caption_hh)))
+```
+
+```{r 'C03P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png"))
+```
+
+```{r 'C03-DensityBeta', include=FALSE, eval=FALSE}
+hh <- tibble(ee = xxBeta)
+title_hh <- "Beta Distribution (Negative Skew, Left Tail)"
+caption_hh <- "C03P06"
+```
+
+```{r 'C03-DensityBeta-A', ref.label=c('C03-DensityBeta', 'C03-Density'), include=FALSE}
+#
+```
+
+```{r 'C03P06-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P06", "_Beta_Negative", ".png"), 
+       plot = eval(parse(text = caption_hh)))
+```
+
+```{r 'C03P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C03P06", "_Beta_Negative", ".png"))
+```
+
+```{r 'C03P060405', echo=FALSE, ref.label=c('C03P06', 'C03P04', 'C03P05') ,fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)", out.width='33%'}
+#
+```
+
+#### skewness() {.unlisted .unnumbered}
+
+```{r 'C03-Skewness_Gen'}
+# #Skewness Calculation: Package "e1071" (Package "moments" deprecated)
+even_skew <- c(49, 50, 51)
+pos_skew <- c(even_skew, 60)
+neg_skew <- c(even_skew, 40)
+skew_lst <- list(even_skew, pos_skew, neg_skew)
+# #Mean, Median, SD
+cat(paste0("Mean (neg, even, pos): ", 
+           paste0(vapply(skew_lst, mean, numeric(1)), collapse = ", "), "\n"))
+cat(paste0("Median (neg, even, pos): ", 
+           paste0(vapply(skew_lst, median, numeric(1)), collapse = ", "), "\n"))
+cat(paste0("SD (neg, even, pos): ", paste0(
+           round(vapply(skew_lst, sd, numeric(1)), 1), collapse = ", "), "\n"))
+#
+cat(paste0("Skewness (neg, even, pos): ", paste0(
+           round(vapply(skew_lst, e1071::skewness, numeric(1)), 1), collapse = ", "), "\n"))
+cat(paste0("Kurtosis (neg, even, pos): ", paste0(
+           round(vapply(skew_lst, e1071::kurtosis, numeric(1)), 1), collapse = ", "), "\n"))
+```
+
+#### Normal Exp Beta {.unlisted .unnumbered}
+
+```{r 'C03-SkewnessNormal'}
+# #Skewness Calculation: Package "e1071" (Package "moments" deprecated)
+dis_lst <- list(xxNormal, xxExp, xxBeta)
+#
+# #Skewness: Normal has value close to 3 Kurtosis (=0 excess Kurtosis)
+# #Skewness "e1071" has Type = 3 as default. Its Type = 1 matches "moments"
+# #Practically, Normal has (small) NON-Zero Positive Skewness
+skew_e_t3 <- vapply(dis_lst, e1071::skewness, numeric(1))
+skew_e_t2 <- vapply(dis_lst, e1071::skewness, type = 2, numeric(1))
+skew_e_t1 <- vapply(dis_lst, e1071::skewness, type = 1, numeric(1))
+skew_mmt <-  vapply(dis_lst, moments::skewness, numeric(1))
+stopifnot(identical(round(skew_e_t1, 10), round(skew_mmt, 10)))
+cat(paste0("e1071: Type = 1 Skewness (Normal, Exp, Beta): ", 
+           paste0(round(skew_e_t1, 4), collapse = ", "), "\n"))
+cat(paste0("e1071: Type = 2 Skewness (Normal, Exp, Beta): ", 
+           paste0(round(skew_e_t2, 4), collapse = ", "), "\n"))
+cat(paste0("e1071: Type = 3 Skewness (Normal, Exp, Beta): ", 
+           paste0(round(skew_e_t3, 4), collapse = ", "), "\n"))
+#
+# #Formula: (sigma_ (x_i - mu)^3) /(n * sd^3)
+bb <- xxNormal
+skew_man <- sum({bb - mean(bb)}^3) / {length(bb) * sd(bb)^3}
+cat(paste0("(Manual) Skewness of Normal: ", round(skew_man, 4), 
+           " (vs. e1071 Type 3 = ", round(skew_e_t3[1], 4), ") \n"))
+```
+
+#### Distributions {.unlisted .unnumbered}
+
+```{r 'C03-Distributions', eval=FALSE}
+set.seed(3)
+nn <- 10000L
+# #Normal distribution is symmetrical
+xxNormal <- rnorm(n = nn, mean = 0, sd = 1)
+# #The exponential distribution is positive skew
+xxExp <- rexp(n = nn, rate = 1)
+# #The beta distribution with hyper-parameters α=5 and β=2 is negative skew
+xxBeta <- rbeta(n = nn, shape1 = 5, shape2 = 2)
+#
+# #Save
+f_setRDS(xxNormal)
+f_setRDS(xxExp)
+f_setRDS(xxBeta)
+#f_getRDS(xxNormal)
+```
+
+```{r 'C03-LoadDistributions', eval=FALSE}
+# #Get the Distributions
+xxNormal <- f_getRDS(xxNormal)
+xxExp <- f_getRDS(xxExp)
+xxBeta <- f_getRDS(xxBeta)
+```
+
+#### Density {.unlisted .unnumbered}
+
+```{r 'C03-Density', eval=FALSE}
+# #Density Curve
+# #Assumes 'hh' has data in 'ee'. In: caption_hh
+#Basics
+mean_hh <- mean(hh$ee)
+sd_hh <- sd(hh$ee)
+#
+skew_hh <- skewness(hh$ee)
+kurt_hh <- kurtosis(hh$ee)
+# #Get Quantiles and Ranges of mean +/- sigma 
+q05_hh <- quantile(hh[[1]], .05)
+q95_hh <- quantile(hh[[1]], .95)
+density_hh <- density(hh[[1]])
+density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
+sig3r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 3 * sd_hh})
+sig3l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 3 * sd_hh})
+sig2r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 2 * sd_hh}, {x < mean_hh + 3 * sd_hh})
+sig2l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 2 * sd_hh}, {x > mean_hh - 3 * sd_hh})
+sig1r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + sd_hh}, {x < mean_hh + 2 * sd_hh})
+sig1l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - sd_hh}, {x > mean_hh - 2 * sd_hh})
+sig0r_hh <- density_hh_tbl %>% filter(x > mean_hh, {x < mean_hh + 1 * sd_hh})
+sig0l_hh <- density_hh_tbl %>% filter(x < mean_hh, {x > mean_hh - 1 * sd_hh})
+#
+# #Change x-Axis Ticks interval
+xbreaks_hh <- seq(-3, 3)
+xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
+#
+# # Latex Labels 
+xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
+#
+C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_density(alpha = 0.2, colour = "#21908CFF") + 
+  geom_area(data = sig3l_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig3r_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig2l_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig2r_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig1l_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig1r_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig0l_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  geom_area(data = sig0r_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh) + 
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5), 
+        axis.ticks = element_blank(), 
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        axis.line.y = element_blank(), axis.title.y = element_blank(), axis.text.y = element_blank()) + 
+  labs(x = "x", y = "Density", 
+       subtitle = paste0("Mean = ", round(mean_hh, 3), "; SD = ", round(sd_hh, 3), "; Skewness = ", round(skew_hh, 3), "; Kurtosis = ", round(kurt_hh, 3)), 
+        caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C03)
+rm(C03)
+```
+
+### Kurtosis {#kurtosis-c03 .tabset .tabset-fade} 
+
+```{definition 'Kurtosis'}
+\textcolor{pink}{Kurtosis $(\tilde{\mu}_{4})$} is a measure of the "tailedness" of the probability distribution of a real-valued random variable. Like skewness, kurtosis describes the shape of a probability distribution. For ${\mathcal {N}}_{(\mu,\, \sigma)}$, kurtosis is 3 and \textcolor{pink}{excess kurtosis} is 0 (i.e. subtract 3).
+```
+
+Distributions with zero excess kurtosis are called \textcolor{pink}{mesokurtic}. The most prominent example of a mesokurtic distribution is the normal distribution. The kurtosis of any univariate normal distribution is 3. 
+
+Distributions with kurtosis less than 3 are said to be \textcolor{pink}{platykurtic}. It means the distribution produces fewer and less extreme outliers than does the normal distribution. An example of a platykurtic distribution is the uniform distribution, which does not produce outliers.
+
+Distributions with kurtosis greater than 3 are said to be \textcolor{pink}{leptokurtic}. An example of a leptokurtic distribution is the Laplace distribution, which has tails that asymptotically approach zero more slowly than a Gaussian, and therefore produces more outliers than the normal distribution. 
+
+Kurtosis is the average (or expected value) of the standardized data raised to the fourth power. Any standardized values that are less than 1 (i.e., data within one standard deviation of the mean, where the "peak" would be), contribute virtually nothing to kurtosis, since raising a number that is less than 1 to the fourth power makes it closer to zero. The only data values that contribute to kurtosis in any meaningful way are those outside the region of the peak; i.e., the outliers. Therefore, kurtosis measures outliers only; it measures nothing about the "peak". 
+
+The sample kurtosis is a useful measure of whether there is a problem with outliers in a data set. Larger kurtosis indicates a more serious outlier problem. 
+
+```{r 'C03-Kurtosis'}
+# #Kurtosis Calculation: Package "e1071" (Package "moments" deprecated)
+dis_lst <- list(xxNormal, xxExp, xxBeta)
+#
+# #Kurtosis: Normal has value close to 3 Kurtosis (=0 excess Kurtosis)
+# #Kurtosis "e1071" has Type = 3 as default. Its Type = 1 matches "moments" with difference of 3
+kurt_e_t3 <- vapply(dis_lst, e1071::kurtosis, numeric(1))
+kurt_e_t2 <- vapply(dis_lst, e1071::kurtosis, type = 2, numeric(1))
+kurt_e_t1 <- vapply(dis_lst, e1071::kurtosis, type = 1, numeric(1))
+kurt_mmt <-  vapply(dis_lst, moments::kurtosis, numeric(1))
+stopifnot(identical(round(kurt_e_t1, 10), round(kurt_mmt - 3, 10)))
+cat(paste0("e1071: Type = 1 Kurtosis (Normal, Exp, Beta): ", 
+           paste0(round(kurt_e_t1, 4), collapse = ", "), "\n"))
+cat(paste0("e1071: Type = 2 Kurtosis (Normal, Exp, Beta): ", 
+           paste0(round(kurt_e_t2, 4), collapse = ", "), "\n"))
+cat(paste0("e1071: Type = 3 Kurtosis (Normal, Exp, Beta): ", 
+           paste0(round(kurt_e_t3, 4), collapse = ", "), "\n"))
+#
+# #Formula: (sigma_ (x_i - mu)^4) /(n * sd^4)
+bb <- xxNormal
+kurt_man <- {sum({bb - mean(bb)}^4) / {length(bb) * sd(bb)^4}} - 3
+cat(paste0("(Manual) Kurtosis of Normal: ", round(kurt_man, 4), 
+           " (vs. e1071 Type 3 = ", round(kurt_e_t3[1], 4), ") \n"))
+```
 
 ## Relative Location
 
@@ -791,7 +1077,7 @@ A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x
 ```
 
 ```{definition 'z-Scores'}
-The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of standard deviations ${x_i}$ is from the mean ${\overline{x}}$. It is associated with each ${x_i}$. The z-score is often called the \textcolor{pink}{standardized value}. 
+The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of standard deviations ${x_i}$ is from the mean ${\overline{x}}$. It is associated with each ${x_i}$. The z-score is often called the \textcolor{pink}{standardized value} or \textcolor{pink}{standard score}. 
 ```
 
 - Refer equation \@ref(eq:z-scores) (Similar to equation \@ref(eq:z-val))
@@ -799,12 +1085,143 @@ The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of stan
   - A z-score greater than zero occurs for observations with a value greater than the mean, and a z-scoreless than zero occurs for observations with a value less than the mean. 
   - A z-score of zero indicates that the value of the observation is equal to the mean.
   - The z-score for any observation can be interpreted as a measure of the relative location of the observation in a data set.
-  - The process of converting a value for a variable to a z-score is often referred to as a \textcolor{pink}{z transformation}.
+  - The process of converting a value for a variable to a z-score is often referred to as a \textcolor{pink}{z transformation} or \textcolor{pink}{scaling}.
 
 \begin{equation} 
   z_i = \frac{x_i - \overline{x}}{s}
   (\#eq:z-scores)
 \end{equation} 
+
+NOTE:  "Z statistic" is a special case of "Z critical" because $\sigma/\sqrt{n}$ is the 'standard error of the sample mean' which means that it is a standard deviation. Rather than (eg) a known population standard deviation or even just sample standard deviation, per CLT, it is the standard deviation of the sample mean. The 'critical Z' (i.e. standard score) is something than can always be computed ("a general case") whenever there is a mean and standard deviation; it translates X into a Z variable with zero mean and unit variance. (it "imposes normality" when the data may not be normal!). The "Z statistic" similarly standardizes as a special case where it is standardizing the sample mean.
+
+```{definition 't-statistic'}
+Computing a z-score requires knowing the mean ${\mu}$ and standard deviation ${\sigma}$ of the complete population to which a data point belongs. If one only has a sample of observations from the population, then the analogous computation with sample mean ${\overline{x}}$ and sample standard deviation ${s}$ yields the \textcolor{pink}{t-statistic}. 
+```
+
+\textcolor{orange}{Caution:} 
+
+- Scaling does influence the interpretation of the parameters when doing many statistical analyses (regression, PCA etc) so the decision to scale should be based on how you want to interpret your parameters. 
+  - Although the shapes of distributions are unchanged by scaling, the distributions themselves are definitely changed. 
+  - Ex: After scaling a Poisson distribution, it would no longer be a Poisson distribution
+  - However, scaling will not change the underlying distribution of the variable nor will it influence (positively or negatively) the violations of model assumptions.
+
+
+```{r 'C03-Original', include=FALSE}
+xxflights <- f_getRDS(xxflights)
+bb <- na.omit(xxflights$air_time)
+hh <- tibble(ee = bb)
+title_hh <- "Flights: Air Time (Original)"
+caption_hh <- "C03P07" 
+```
+
+```{r 'C03-Original-A', ref.label=c('C03-Original', 'C03-Histogram'), include=FALSE}
+#
+```
+
+```{r 'C03P07-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P07", "_Flights_Original", ".png"), plot = C03P07)
+```
+
+```{r 'C03P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C03P07", "_Flights_Original", ".png"))
+```
+
+```{r 'C03-Scaled'}
+xxflights <- f_getRDS(xxflights)
+bb <- na.omit(xxflights$air_time)
+# Scaling
+ii <- {bb - mean(bb)} / sd(bb)
+str(ii)
+# #scale() gives a Matrix with original mean and sd as its attribute
+jj <- scale(bb)
+str(jj)
+stopifnot(identical(as.vector(ii), as.vector(jj)))
+#
+hh <- tibble(ee = as.vector(jj))
+title_hh <- "Flights: Air Time (Scaled)"
+caption_hh <- "C03P08" #iiii
+```
+
+```{r 'C03-Scaled-A', ref.label=c('C03-Scaled', 'C03-Histogram'), include=FALSE}
+#
+```
+
+```{r 'C03P08-Save', include=FALSE}
+ggsave(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png"), plot = C03P08)
+```
+
+```{r 'C03P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")) #iiii
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C03P0708', echo=FALSE, ref.label=c('C03P07', 'C03P08') ,fig.cap="Before and After Scaling"}
+#
+```
+
+#### Histogram {.unlisted .unnumbered}
+
+```{r 'C03-Histogram', eval=FALSE}
+# #hh$ee title_hh caption_hh
+#
+C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean(.data[["ee"]])), color = '#440154FF') +
+  annotate(geom = "text", x = mean(.[[1]]), y = -Inf, 
+           label = TeX(r'($\bar{x}$)', output = "character"), 
+           color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE) +
+  coord_cartesian(ylim = c(0, 35000)) +
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Frequency", 
+       subtitle = paste0("(Mean= ", round(mean(.[[1]]), 3), 
+                         "; SD= ", round(sd(.[[1]]), 3),
+                         ")"), 
+      caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C03)
+C03
+rm(C03)
+```
+
+#### Annotate  {.unlisted .unnumbered}
+
+```{r 'C03-Annotate', eval=FALSE}
+if(FALSE){
+# #If TeX() is present, check_overlap = TRUE is NOT being respected, slow plot draw for n >10000
+geom_text(aes(label = TeX(r'($\bar{x}$)', output = "character"), 
+              x = mean(.data[["ee"]]), y = -Inf),
+          color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE, check_overlap = TRUE) 
+# #Create your own dataset
+geom_text(data = tibble(x = mean(.[[1]]), y = -Inf, 
+                        label = TeX(r'($\bar{x}$)', output = "character")), 
+          aes(x = x, y = y, label = label), 
+          color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE ) 
+# #Or Equivalent
+ggplot2::annotate(geom = "text", x = mean(.[[1]]), y = -Inf, 
+                  label = TeX(r'($\bar{x}$)', output = "character"), 
+                  color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE) 
+#
+ggpp::annotate(geom = "text", x = mean(.[[1]]), y = -Inf, 
+               label = TeX(r'($\bar{x}$)', output = "character"), 
+               color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE) 
+}
+```
+
+#### Colours {.unlisted .unnumbered}
+
+```{r 'C03-Colours'}
+# #List All Colour Names in R
+str(colors())
+# #Packages: viridis, scales, viridisLite
+# #Show N Colours with Max. Contrast
+q_colors <- 5
+# #Display Colours
+if(FALSE) show_col(viridis_pal()(q_colors))
+# #Get the Viridis i.e. "D" palette Hex Values for N Colours
+v_colors <-  viridis(q_colors, option = "D")
+v_colors
+```
 
 ### Chebyshev Theorem {.tabset .tabset-fade}
 
@@ -815,7 +1232,7 @@ The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of stan
 - Refer to \@ref(def:Chebyshev-Theorem)
   - \textcolor{pink}{Chebyshev Theorem:} At least $(1-1/z^2)$ of the data values must be within z standard deviations of the mean, where z is any value greater than 1. 
     - Thus, at least 75% of the data values must be within $\overline{x} \pm 2s$, 89% within $\overline{x} \pm 3s$, and 94% $\overline{x} \pm 4s$.
-  - Chebyshev's theorem can be applied to any data set regardless of the shape of the distribution of the data. 
+  - Chebyshev theorem can be applied to any data set regardless of the shape of the distribution of the data. 
   - Ex: Test scores of 100 students have $(\mu = 70, \sigma = 5)$
   - How many students had test scores between 60 and 80
     - From equation \@ref(eq:z-scores), $z_{60} = \frac{60 - 70}{5} = -2$
@@ -831,23 +1248,35 @@ The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of stan
 ### Empirical Rule {#empirical-c03 .tabset .tabset-fade}
 
 ```{definition 'Empirical-Rule'}
-\textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations ${\sigma}$ of the mean ${\mu}$ for a normal distribution.
+\textcolor{pink}{Empirical rule} is used to compute the percentage of data values that must be within one, two, and three standard deviations ${\sigma}$ of the mean ${\mu}$ for a normal distribution. These probabilities are Pr(x) 68.27%, 95.45%, and 99.73%.
 ```
 
 - According to the \textcolor{pink}{empirical rule}, for a Normal distribution
-  - $\approx 68.26\%$ of the data values will be within $\overline{x} \pm s$
-  - $\approx 95.44\%$ within $\overline{x} \pm 2s$
-  - and almost all $\approx 99.74\%$ of the data values will be within $\overline{x} \pm 3s$. 
+  - $Pr({\mu} - 1{\sigma} \leq {X} \leq {\mu} + 1{\sigma}) \approx 68.27\%$
+  - $Pr({\mu} - 2{\sigma} \leq {X} \leq {\mu} + 2{\sigma}) \approx 95.45\%$ i.e. mostly
+  - $Pr({\mu} - 3{\sigma} \leq {X} \leq {\mu} + 3{\sigma}) \approx 99.73\%$ i.e. almost all data values
 
-## Outliers
 
-- Sometimes unusually large or unusually small values are called \textcolor{pink}{outliers}. 
+## Outliers {#outliers-c03}
+
+
+```{definition 'Outliers'}
+Sometimes unusually large or unusually small values are called \textcolor{pink}{outliers}. It is a data point that differs significantly from other observations.
+```
+
+- Reasons
+  - Outliers can occur by chance in any distribution, but they often indicate either measurement error or that the population has a heavy-tailed distribution. A frequent cause of outliers is a mixture of two distributions, which may be two distinct sub-populations.
+  - In most larger samplings of data, some data points will be further away from the sample mean than what is deemed reasonable. However, a small number of outliers is to be expected (and not due to any anomalous condition). 
+  - Estimators capable of coping with outliers are said to be \textcolor{pink}{robust}: the median is a robust statistic of central tendency, while the mean is not. However, the mean is generally a more precise estimator.
+- Keeping vs. Removing Outliers
   - data value that has been incorrectly recorded /included - should be removed
   - unusual data value that has been recorded correctly and belongs in the data set - should be kept
 - Standardized values (z-scores) can be used to identify outliers. 
-  - Empirical rule (\@ref(def:Empirical-Rule)) allows us to conclude that for normal distribution, almost all the data values will be within three standard deviations of the mean $(\overline{x} \pm 3s)$. 
+  - [Empirical Rule](#empirical-c03 "c03") allows us to conclude that for normal distribution, almost all the data values will be within three standard deviations of the mean $(\overline{x} \pm 3s)$. 
   - Hence, in using z-scores to identify outliers, we recommend treating any data value with a z-score less than −3 or greater than +3 as an outlier. 
   - Such data values can then be reviewed for accuracy and to determine whether they belong in the data set.
+  - In the case of normally distributed data, the three sigma rule can be used to identify outliers. 
+    - In a sample of 1000 observations, the presence of up to five observations deviating from the mean by more than three times the standard deviation is within the range of what can be expected. If the sample size is only 100, however, just three such outliers are already reason for concern. 
 - Another approach to identifying outliers is based upon IQR 
   - $\text{Lower Limit} = Q_1 - 1.5 \space \text{IQR}$ and $\text{Upper Limit} = Q_3 + 1.5 \space \text{IQR}$ 
   - An observation is classified as an outlier if its value is less than the lower limit or greater than the upper limit. 
@@ -958,12 +1387,12 @@ ggsave(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"), plot = C03P02)
 knitr::include_graphics(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"))
 ```
 
-```{r 'C02P05-A', echo=FALSE, fig.cap="Original", include=FALSE}
-# #NOTE: Chunk of C02 in C03.
+```{r 'C03P03-A', echo=FALSE, fig.cap="Original", include=FALSE}
+# #Reading image of another file
 knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"))
 ```
 
-```{r 'C03P02-A', ref.label=c('C02P05-A', 'C03P02'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
+```{r 'C03P02-A', ref.label=c('C03P03-A', 'C03P02'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
 #
 ```
 
@@ -981,7 +1410,7 @@ print(sxy)
 
 #### Code {.unlisted .unnumbered}
 
-```{r 'C03-Trendline-A', ref.label='C03-Trendline', eval=FALSE}
+```{r 'C03-Trendline-A', ref.label=c('C03-Trendline'), eval=FALSE}
 #
 ```
 
@@ -1069,7 +1498,13 @@ kbl(bb,
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C03-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, rxy, sx, sxy, sy, C03P01, C03P02)
+f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, rxy, sx, sxy, sy, C03P01, C03P02, C03P04, C03P05, C03P06,
+          C03P07, C03P08, caption_hh, dis_lst, ee, even_skew, kurt_e_t1, kurt_e_t2, kurt_e_t3, 
+          kurt_hh, kurt_man, kurt_mmt, neg_skew, pos_skew, q_colors, sig0l_hh, sig0r_hh, 
+          skew_e_t1, skew_e_t2, skew_e_t3, skew_hh, skew_lst, skew_man, skew_mmt, title_hh, 
+          v_colors, xxalpha, xxBeta, xxExp, xxflights, density_hh, density_hh_tbl, hh, mean_hh, 
+          q05_hh, q95_hh, sd_hh, sig1l_hh, sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, 
+          xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal)
 ```
 
 ```{r 'C03-Validation', include=FALSE, cache=FALSE}

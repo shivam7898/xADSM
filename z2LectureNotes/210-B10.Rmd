@@ -49,7 +49,7 @@ Base R graphs /plots as shown in figure \@ref(fig:B10P01)
 
 - If this error is coming when base R plot() function is called
 - Check if data has NA values or if character data is supplied where numerical is needed
-- Also, don't use assignment to save base R plot and then print
+- Also, do not use assignment to save base R plot and then print
 
 ```{r 'B10P01-Save', echo=c(3,4), results='hide'}
 # #Save Base Plot without using ggsave()
@@ -63,7 +63,7 @@ dev.off()
 ```
 
 ```{r 'B10P01', echo=FALSE, fig.cap="Flights: Arrival Time (Y) vs. Departure (X) Time"}
-knitr::include_graphics(paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png")) #iiii
 ```
 
 
@@ -258,7 +258,7 @@ Apply Function in R are designed to avoid explicit use of loop constructs.
     - vapply returns a vector or array of type matching the FUN.VALUE.
     - With FUN.VALUE you can specify the type and length of the output that should be returned each time your applied function is called. 
     - It improves consistency by providing limited return type checks.
-    - Further, if the input length is zero, sapply will always return an empty list, regardless of the input type (Thus behaving differently from non-zero length input). Whereas, with vapply, you are guaranteed to have a particular type of output, so you don't need to write extra checks for zero length inputs.
+    - Further, if the input length is zero, sapply will always return an empty list, regardless of the input type (Thus behaving differently from non-zero length input). Whereas, with vapply, you are guaranteed to have a particular type of output, so you do not need to write extra checks for zero length inputs.
 1. Others - "ForLater"
     - tapply is a tagged apply where the tags identify the subsets
     - mapply for applying a function to multiple arguments
@@ -288,7 +288,7 @@ stopifnot(all(identical(bb_1, bb_2), identical(bb_1, bb_3), identical(bb_1, bb_4
 
 Refer [The 6 Datatypes of Atomic Vectors](#vectors-b09 "b09")
 
-Create a Basic Tibble \@ref(tab:B10T01) for evaluating 'is.x()' series of functions in Base R
+Create a Basic Tibble, Table\@ref(tab:B10T01), for evaluating 'is.x()' series of functions in Base R
 
 - anyNA() is TRUE if there is an NA present, FALSE otherwise
 - is.atomic() is TRUE for All Atomic Vectors, factor, matrix but NOT for list
@@ -484,13 +484,13 @@ str(bb[aa])
 \textcolor{pink}{Lists} are by far the most flexible data structure in R. They can be seen as a collection of elements without any restriction on the class, length or structure of each element.
 ```
 
-\textcolor{orange}{Caution:} The only thing you need to take care of, is that you don't give two elements the same name. R will NOT throw ERROR.
+\textcolor{orange}{Caution:} The only thing you need to take care of, is that you do not give two elements the same name. R will NOT throw ERROR.
 
 ```{definition 'DataFrame'}
 \textcolor{pink}{Data Frames} are lists with restriction that all elements of a data frame are of equal length.
 ```
 
-Due to the resulting two-dimensional structure, data frames can mimic some of the behaviour of matrices. You can select rows and do operations on rows. You can't do that with lists, as a row is undefined there.
+Due to the resulting two-dimensional structure, data frames can mimic some of the behaviour of matrices. You can select rows and do operations on rows. You can not do that with lists, as a row is undefined there.
 
 A Dataframe is intended to be used as a relational table. This means that elements in the same column are related to each other in the sense that they are all measures of the same metric. And, elements in the same row are related to each other in the sense that they are all measures from the same observation or measures of the same item. This is why when you look at the structure of a Dataframe, it will state the the number of observations and the number of variables instead of the number of rows and columns. 
 
@@ -505,7 +505,7 @@ All this implies that you should use a data frame for any dataset that fits in t
 - Then what does \textcolor{pink}{typeof()} tell us
   - It tells us the internal 'storage mode' of an object. How the R perceives the object and interacts with it.
   - An object has one and only one mode [Difference between mode and class](https://stackoverflow.com/questions/35445112 "https://stackoverflow.com/questions/35445112")
-  - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) can't be
+  - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) can not be
 - To define an object, what should be known about it
   - class(), typeof(), is(), attributes(), str(), inherits(), ...
 
@@ -513,9 +513,9 @@ All this implies that you should use a data frame for any dataset that fits in t
 ### list {.unnumbered}
 
 ```{r 'B10-List'}
-# #CAUTION: Don't Create a list with duplicate names (R will NOT throw ERROR)
+# #CAUTION: Do not Create a list with duplicate names (R will NOT throw ERROR)
 bb <- list(a=1, b=2, a=3)
-# # 3rd index can't be accessed using $
+# # 3rd index can not be accessed using $
 bb$a
 identical(bb$a, bb[[1]])
 identical(bb$a, bb[[3]])

@@ -122,7 +122,7 @@ Two events are said to be \textcolor{pink}{mutually exclusive} if the events hav
 - Simple random sampling uses a sample of size k from a population of size N to obtain data that can be used to make inferences about the characteristics of a population. Suppose that, from a population of 50 bank accounts, we want to take a random sample of four accounts in order to learn about the population. How many different random samples of four accounts are possible
   - Solution: \textcolor{black}{$C_{4}^{50} = 50!/4!46!$}
 - To play Powerball, a participant must select five numbers from the digits 1 through 59, and then select a Powerball number from the digits 1 through 35. To determine the winning numbers for each game, lottery officials draw 5 white balls out a drum of 59 white balls numbered 1 through 59 and 1 red ball out of a 
-drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, a participant's numbers must match the numbers on the 5 white balls in any order and must also match the number on the red Powerball. How many Powerball lottery outcomes are possible
+drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, numbers on the lottery must match the numbers on the 5 white balls in any order and must also match the number on the red Powerball. How many Powerball lottery outcomes are possible
   - Solution: \textcolor{black}{$C_{5}^{59} \times C_{1}^{35}$}
 - An experiment has four equally likely outcomes: E1, E2, E3, and E4
   - What is the probability that E2 occurs
@@ -161,7 +161,7 @@ drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, a part
 occurred. The conditional probability of 'A given B' is \textcolor{pink}{$P(A|B) = \frac{P(A \cup B)}{P(B)}$}
 ```
 
-```{r '303-Police', include=FALSE}
+```{r 'C04-Police', include=FALSE}
 # #Police
 xxPolice <- tibble(Promo_Gender = c('Promoted', 'NotPromoted'), Men = c(288, 672), Women = c(36, 204))
 ```
@@ -266,12 +266,12 @@ newspaper
 ## Bayes Theorem
 
 Often, we begin the analysis with initial or \textcolor{pink}{prior probability} estimates for specific events of interest. Then, from sources such as a sample, a special report, or a product test, we obtain additional information about the events. Given this new information, we update the prior probability 
-values by calculating revised probabilities, referred to as \textcolor{pink}{posterior probabilities}. Bayes’ theorem provides a means for making these probability calculations. 
+values by calculating revised probabilities, referred to as \textcolor{pink}{posterior probabilities}. Bayes theorem provides a means for making these probability calculations. 
 
 - Refer to the equation \@ref(eq:bayes)
-  - \textcolor{pink}{Bayes' theorem} is applicable when the events for which we want to compute posterior 
+  - \textcolor{pink}{Bayes theorem} is applicable when the events for which we want to compute posterior 
 probabilities are mutually exclusive and their union is the entire sample space.
-    - An event, $P(A)$, and its complement, $P(A^{c})$, are mutually exclusive, and their union is the entire sample space. Thus, Bayes' theorem is always applicable for computing posterior probabilities of an event and its complement.
+    - An event, $P(A)$, and its complement, $P(A^{c})$, are mutually exclusive, and their union is the entire sample space. Thus, Bayes theorem is always applicable for computing posterior probabilities of an event and its complement.
   - Example: A firm has two suppliers, currently 65% parts are supplied by one and remaining by other; that is, $P(A_{1}) = 0.65, P(A_{2}) = 0.35$. Quality of products supplied is 98% Good for supplier one and 95% Good for supplier 2.
     - $P(G|A_{1}) = 0.98, P(B|A_{1}) = 0.02$
     - $P(G|A_{2}) = 0.95, P(B|A_{2}) = 0.05$

@@ -1,0 +1,422 @@
+# Data Manipulation (B11, Sep-12) {#b11}
+
+```{r 'B11', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+  - "Understanding basic data manipulation using R"
+
+- Links (Ref)
+  - [Transform columns as Factors](#factors-b10 "b10")
+  - [Sorting Basics](#sorting-b10 "b10")
+  - [Do not miss the missing values i.e. NA](#na-b10 "b10")
+
+```{r 'B11-Flights', include=FALSE}
+# #Load Data: Flights
+xxflights <- f_getRDS(xxflights)
+bb <- xxflights
+```
+
+## Get Help
+
+```{r 'B11-Help', eval=FALSE}
+# #To get the Help files on any Topic including 'loaded' Packages
+?dplyr
+?mutate
+# #To get the Help files on any Topic including functions from 'not loaded' Packages
+?dplyr::mutate()
+# #Operators need Backticks i.e. ` . In keyboards it is located below 'Esc' Key
+?`:`
+```
+
+
+## Logical Operators and Functions {#logicals-b11 .tabset .tabset-fade}
+
+- "\textcolor{pink}{|}"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Or, binary, vectorized)
+- "\textcolor{pink}{||}"&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;(Or, binary, not vectorized)
+- "\textcolor{pink}{&}"&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;(And, binary, vectorized)
+- "\textcolor{pink}{&&}"&nbsp;(And, binary, not vectorized)
+- Functions - \textcolor{pink}{any()}, \textcolor{pink}{all()}
+
+Overview
+
+- Vectorised forms are "&" "|" 
+  - Thus, these compare vectors elementwise and operate over complete vector length.
+  - \textcolor{pink}{NA is a valid logical object}. Where a component of x or y is NA, the result will be NA if the outcome is ambiguous.
+  - All components of x or y are evaluated
+  - (\textcolor{pink}{recycling}) of elements occur if vector lengths are different
+  - These are NOT recommended for use inside if() clauses
+  - These are generally used for filtering
+  - &, | do the pairwise operation in R (vs bitwise in Python, C etc.) 
+- Non-vectorised forms are "&&" "||" 
+  - These examine only the first element of each vector
+    - \textcolor{orange}{Caution:} For these, vector length should always be 1
+    - Use all() and any() to reduce the length to one
+  - (\textcolor{pink}{short-circuit}) These stop execution as soon as these find at least one definite condition i.e. TRUE for ||, FALSE for &&.
+    - They will not evaluate the second operand if the first operand is enough to determine the value of the expression. 
+  - These are preferred in if() clauses
+  - &&, || do the bitwise operation in R (vs pairwise in Python, C etc.) 
+- all() and any()
+  - all() : Are All Values TRUE
+    - TRUE for 0-length vector
+  - any() : Is at least one of the values TRUE
+    - FALSE for 0-length vector
+  - The value is a logical vector of length one being `TRUE`, `FALSE`, or `NA`.
+
+
+### Operators {.unnumbered}
+
+```{r 'B11-PairwiseSingle'}
+# #At lease one TRUE is present
+NA | TRUE
+# #Depending upon what the unknown is, the outcome will change
+NA | FALSE
+# #Depending upon what the unknown is, the outcome will change
+NA & TRUE
+# #At lease one FALSE is present
+NA & FALSE 
+#
+# #For length 1 vectors, output of vectorised and non-vectorised forms is same
+stopifnot(all(identical(NA || TRUE, NA | TRUE), identical(NA || FALSE, NA | FALSE),
+              identical(NA && TRUE, NA & TRUE), identical(NA && FALSE, NA & FALSE)))
+#
+# #But for vectors of >1 length, output is different
+x <- 1:5
+y <- 5:1
+(x > 2) & (y < 3)
+(x > 2) && (y < 3)
+#
+# # '&&' evaluates only the first element of Vector, thus caution is advised
+TRUE & c(TRUE, FALSE)
+TRUE & c(FALSE, FALSE)
+TRUE && c(TRUE, FALSE)
+TRUE && c(FALSE, FALSE)
+TRUE && all(c(TRUE, FALSE))
+TRUE && any(c(TRUE, FALSE))
+```
+
+### Evaluation {.unnumbered}
+
+```{r 'B11-ShortCircuit'}
+if(exists("x")) rm(x)
+exists("x")
+#
+# # No short-circuit for "|" or "&", Evaluates Right and throws Error
+tryCatch( TRUE | x, error = function(e) cat(paste0(e)))
+tryCatch( FALSE & x, error = function(e) cat(paste0(e)))
+#
+# #Does not evaluate Right input because outcome already determined
+tryCatch( TRUE || x, error = function(e) cat(paste0(e)))
+tryCatch( FALSE && x, error = function(e) cat(paste0(e)))
+# #evaluates Right input because outcome can not be determined and throws error
+tryCatch( TRUE && x, error = function(e) cat(paste0(e)))
+```
+
+### AnyAll {.unnumbered}
+
+```{r 'B11-AnyAll'}
+# #any()
+any(NA, TRUE)
+any(NA, FALSE)
+any(NA, TRUE, na.rm = TRUE)
+any(NA, FALSE, na.rm = TRUE)
+any(character(0))
+#
+# #all()
+all(NA, TRUE)
+all(NA, FALSE)
+all(NA, TRUE, na.rm = TRUE)
+all(NA, FALSE, na.rm = TRUE)
+all(character(0))
+```
+
+## Relational Operators {#relationals-b11}
+
+\textcolor{pink}{$>$} , \textcolor{pink}{$<$} , \textcolor{pink}{$==$} , \textcolor{pink}{$>=$} , \textcolor{pink}{$<=$} , \textcolor{pink}{$!=$} 
+
+
+## Filter  {.tabset .tabset-fade}
+
+- \textcolor{pink}{dplyr::filter()}
+  - (Masks) base::filter()
+  - [Do not miss the missing values i.e. NA](#na-b10 "b10")
+  - It treats comma as '&'
+- \textcolor{pink}{subset()} vs. \textcolor{pink}{filter()} - 
+  - \textcolor{orange}{Caution:} R Manual itself warns against usage of subset(). It is better to use \textcolor{pink}{[]} for subsetting
+  - \textcolor{orange}{Caution:} NOT Verified Yet
+    - subset works on matrices, however, filter does not
+    - subset does not work on databases, filter does
+    - subset does not drop the rownames, however, filter removes them
+    - filter preserves the class of the column, subset does not
+    - filter works with grouped data, subset ignores them
+  - filter is stricter and thus would lead to fewer causes of unexpected outcome
+
+```{conjecture 'Object-Not-Found-01'}
+\textcolor{brown}{Error in match.arg(method) : object 'day' not found}
+```
+
+- when 'dplyr' package is not loaded, base::filter() throws this error. 
+- Either Load the Package (dplyr etc.) or use scope resolution '::'
+
+
+### Basics {.unnumbered}
+
+```{r 'B11-dplyrFilter'}
+# #dplyr::filter() - Filter Rows based on Multiple Columns
+bb_1 <- filter(bb, month == 1, day == 1)
+dim(bb_1)
+# #Filtering by multiple criteria within a single logical expression
+stopifnot(identical(bb_1, filter(bb, month == 1 & day == 1)))
+#
+if(anyNA(bb_1)) {
+  bb_na <- na.omit(bb_1)
+  print(paste0("Note: ", length(attributes(bb_na)$na.action), " rows removed."))
+} else {
+  print("NA not found")
+}
+dim(bb_na)
+```
+
+### Conditional {.unnumbered}
+
+```{r 'B11-ConditionalFilter'}
+dim(bb)
+#
+# #Flights in either months of November or Decemeber
+dim(bb_2 <- filter(bb, month == 11 | month == 12))
+#
+# #Flights with arrival delay '<= 120' or departure delay '<= 120' 
+# #It excludes flights where arrival & departure BOTH are delayed by >2 hours
+# #If either delay is less than 2 hours, the flight is included
+dim(bb_3 <- filter(bb, arr_delay <= 120 | dep_delay <= 120))
+dim(bb_4 <- filter(bb, !(arr_delay > 120 & dep_delay > 120)))
+dim(bb_5 <- filter(bb, (!arr_delay > 120 | !dep_delay > 120)))
+#
+# #Destination to IAH or HOU
+dim(bb_6 <- filter(bb, dest == "IAH" | dest == "HOU"))
+dim(bb_7 <- filter(bb, dest %in% c("IAH", "HOU")))
+#
+# #Carrier being "UA", "US", "DL"
+dim(bb_8 <- filter(bb, carrier == "UA" | carrier == "US" | carrier == "DL"))
+dim(bb_9 <- filter(bb, carrier %in% c("UA", "US", "DL")))
+#
+# #Did not leave late (before /on time departure) but Arrived late by >2 hours
+dim(bb_10 <- filter(bb, (arr_delay > 120) & !(dep_delay > 0)))
+# 
+# #Departed between midnight and 6 AM (inclusive)
+dim(bb_11 <- filter(bb, (sched_dep_time >= 00 & sched_dep_time <= 600)))
+```
+
+
+### subset() {.unnumbered}
+
+```{r 'B11-Subset'}
+# #subset() - Recommendation is against its usage. Use either '[]' or filter()
+dim(bb_12 <- subset(bb, month == 1 | !(dep_delay >= 120), 
+                    select = c("flight", "arr_delay")))
+dim(bb_13 <- subset(bb, month == 1 | !(dep_delay >= 120) | carrier == "DL", 
+                select = c("flight", "arr_delay")))
+```
+
+
+## Subsetting {.tabset .tabset-fade}
+
+\textcolor{pink}{$[ \ \ ]$} , \textcolor{pink}{$[[ \ \ ]]$} , \textcolor{pink}{$\$$}
+
+- Extract or Replace Parts of an Object
+  - Operators acting on vectors, matrices, arrays and lists to extract or replace parts. 
+  - The most important distinction between "[ ]", "[[ ]]" and "$" is that the "[ ]" can select more than one element whereas the other two select a single element. 
+  - "$" does not allow computed indices, whereas "[[ ]]" does.
+  - Subsetting (except by an empty index) will drop all attributes except names, dim and dimnames. Indexing will keep them.
+  
+```{conjecture 'Comparison-possible'}
+\textcolor{brown}{Error in day == 1 : comparison (1) is possible only for atomic and list types}
+```
+
+- It occurs when the data is not available i.e. column name is NOT found
+- It might happen when the original code assumed that the dataframe is attached
+- Either attach the dataframe (NOT Recommended) or use "$" to access column names
+
+\textcolor{pink}{dplyr::select()}
+
+- It can use Range "\textcolor{pink}{:}", Not "\textcolor{pink}{!}", And "\textcolor{pink}{&}", Or "\textcolor{pink}{|}" 
+- Selection Helpers
+  - everything(): Matches all variables.
+  - last_col(): Select last variable, possibly with an offset.
+- These helpers select variables by matching patterns in their names:
+  - starts_with(): Starts with a prefix.
+  - ends_with(): Ends with a suffix.
+  - contains(): Contains a literal string.
+  - matches(): Matches a regular expression.
+  - num_range(): Matches a numerical range like x01, x02, x03.
+- These helpers select variables from a character vector:
+  - all_of(): Matches variable names in a character vector. All names must be present, otherwise an out-of-bounds error is thrown.
+  - any_of(): Same as all_of(), except that no error is thrown for names that do not exist.
+- This helper selects variables with a function:
+  - where(): Applies a function to all variables and selects those for which the function returns TRUE.
+
+
+### Cols {.unnumbered}
+
+```{r 'B11-SubsetCol'}
+dim(bb)
+#
+# #Subset Consecutive Columns using Colon
+stopifnot(identical(bb[ , 2:5], bb[ , -c(1, 6:ncol(bb))]))
+#
+# #dplyr::select()
+bb_14 <- select(bb, year:day, arr_delay, dep_delay, distance, air_time)
+bb_15 <- bb %>% select(year:day, arr_delay, dep_delay, distance, air_time)
+stopifnot(identical(bb_14, bb_15))
+```
+
+
+### Rows {.unnumbered}
+
+```{r 'B11-SubsetRow'}
+dim(bb)
+#
+# #Subset Rows
+dim(bb[which(bb$day == 1 & !(bb$month ==1)), ])
+dim(bb[which(bb$day == 1 | bb$month ==1), ])
+dim(bb[which(bb$day == 1 & bb$month ==1), ])
+dim(bb[which(bb$day == 1, bb$month ==1), ])
+dim(bb[which(bb$day == 1 & !(bb$carrier == "DL")), ])
+dim(bb[which(bb$day == 1 | bb$carrier == "DL"), ])
+dim(bb[which(bb$day == 1 & bb$carrier == "DL"), ])
+dim(bb[which(bb$day == 1, bb$carrier == "DL"), ])
+
+```
+
+
+## Grouped Summary {.tabset .tabset-fade}
+
+- \textcolor{pink}{dplyr::summarise()} or dplyr::summarize()
+- \textcolor{pink}{dplyr::group_by()}
+  - It converts an existing Tibble into a grouped Tibble where operations are performed "by group". 
+  - \textcolor{pink}{ungroup()} removes grouping.
+  - \textcolor{pink}{n()} gives the number of observations in the current group.
+
+### Summarise {.unnumbered}
+
+```{r 'B11-Summarise'}
+bb <- xxflights
+# #dplyr::summarise() & dplyr::summarize() are same
+# #Get the mean of a column with NA excluded
+#
+summarize(bb, delay_mean = mean(dep_delay, na.rm = TRUE))
+#
+# #base::summary()
+summary(bb$dep_delay)
+#
+# #Grouped Summary
+by_ymd <- group_by(bb, year, month, day)
+mysum <- summarize(by_ymd, 
+                   dep_delay_mean = mean(dep_delay, na.rm = TRUE), 
+                   arr_delay_mean = mean(arr_delay, na.rm = TRUE),
+                   .groups = "keep")
+# #Equivalent 
+bb %>% 
+  group_by(year, month, day) %>% 
+  summarize(dep_delay_mean = mean(dep_delay, na.rm = TRUE), 
+			arr_delay_mean = mean(arr_delay, na.rm = TRUE),
+			.groups= "keep")
+```
+
+
+### group_by() {.unnumbered}
+
+```{r 'B11-SummaryDistance'}
+# #Get delay grouped by distance 'Distance between airports, in miles.'
+summary(bb$distance)
+#
+# #How many unique values are present in this numeric data i.e. factors
+str(as.factor(bb$distance))
+str(sort(unique(bb$distance)))
+bb %>% 
+  group_by(distance) %>% 
+  summarize(count = n(),
+            dep_delay_mean = mean(dep_delay, na.rm = TRUE), 
+            arr_delay_mean = mean(arr_delay, na.rm = TRUE),
+            .groups= "keep")
+#
+# #For distance =17, there is only 1 flight and that too has NA, so the mean is NaN
+bb[bb$distance == 17, ]
+#
+# #In general, Flight to any destination (ex: ABQ) has travelled same distance (1826)
+unique(bb %>% filter(dest == "ABQ") %>% select(distance))
+#
+# #Mean Delays for Destinations with more than 1000 miles distance
+bb %>% 
+  group_by(dest) %>% 
+  filter(distance > 1000) %>% 
+  summarize(count = n(), 
+            distance_mean = mean(distance, na.rm = TRUE),
+            dep_delay_mean = mean(dep_delay, na.rm = TRUE), 
+            arr_delay_mean = mean(arr_delay, na.rm = TRUE))
+```
+
+
+## Mutate {.tabset .tabset-fade}
+
+- \textcolor{pink}{dplyr::mutate()}
+  - Newly created variables are available immediately
+  - New variables overwrite existing variables of the same name. 
+  - Variables can be removed by setting their value to NULL.
+  - mutate() adds new variables and preserves existing ones
+    - mutate() can also keep or drop column according to the .keep argument.
+  - transmute() adds new variables and drops existing ones. 
+
+```{conjecture 'UseMethod-No-applicable-method'}
+\textcolor{brown}{Error in UseMethod("select") : no applicable method for 'select' applied to an object of class "function"}
+```
+
+- Run 'str(MyObject)' to check if 'MyObject' exists, looks as expected and R is not finding something else. 
+- Most probably R reserved keyword 'data' was called in place of the actual 'data'.
+- To minimise this type of Error, do not use the keywords which match with Base R Functions e.g. 'data' (Function in utils) or 'df' (function in stats)
+
+```{conjecture 'Object-Not-Found-02'}
+\textcolor{brown}{Error: Problem with mutate() column ... column object 'arr\_delay' not found}
+```
+
+- Run 'str(MyObject)' to check if the column exists in the dataset 
+- \textcolor{orange}{Caution:} if the dataset was attached earlier, then R will NOT throw this error. However, later when the code is being executed in a clean environment, it will fail. To avoid this, it is recommended to use proper scope resolution and to avoid attaching the dataset (if possible)
+
+```{r 'B11-Mutate'}
+dim(bb)
+#
+bb_16 <- select(bb, year:day, arr_delay, dep_delay, distance, air_time)
+bb_17 <- mutate(bb_16,
+       gain = arr_delay - dep_delay,
+       speed = distance / air_time * 60,
+       hours = air_time / 60,
+       gain_per_hour = gain / hours)
+# #Equivalent
+bb %>% 
+  select(year:day, arr_delay, dep_delay, distance, air_time) %>% 
+  mutate(gain = arr_delay - dep_delay,
+         speed = distance / air_time * 60,
+         hours = air_time / 60,
+         gain_per_hour = gain / hours)
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B11-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, bb_1, bb_10, bb_11, bb_12, bb_13, bb_14, bb_15, bb_16, bb_17, bb_2, bb_3, bb_4, bb_5, bb_6, bb_7, bb_8, bb_9, bb_na, by_ymd, mysum, x, xxflights, y)
+```
+
+```{r 'B11-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

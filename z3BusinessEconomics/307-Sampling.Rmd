@@ -1,4 +1,4 @@
-# Continuous Probability Distributions {#c07}
+# Sampling Distributions {#c07}
 
 ```{r 'C07', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -9,7 +9,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-- This chapter covers 
+- "Sampling and Sampling Distributions"
   - [Sample](#sample-c07 "c07"), [Standard Error](#standard-error-c07 "c07"), [Central Limit Theorem](#clt-c07 "c07")
   - "ForLater" - Sampling Distribution of $\overline{p}$, Properties of Point Estimators, Other Sampling Methods
 
@@ -32,7 +32,7 @@ f_getDef("Sample")
 ```
 
 ```{r 'C07D05', comment="", echo=FALSE, results='asis'}
-f_getDef("Parameter-vs-Statistic")
+f_getDef("Parameter-vs-Statistic") #dddd
 ```
 
 ## Sample {#sample-c07 .tabset .tabset-fade}
@@ -91,7 +91,7 @@ Random sample vs. SRS
     - Each element is selected independently.
       - It is satisfied by designing the production process so that each box of cereal is filled independently.
   - Example: Consider the population of customers arriving at a fast-food restaurant. 
-    - McDonald's, implemented a random sampling procedure for this situation. 
+    - McDonald, implemented a random sampling procedure for this situation. 
     - The sampling procedure was based on the fact that some customers presented discount coupons.
     - Whenever a customer presented a discount coupon, the next customer served was asked to complete a customer profile questionnaire. Because arriving customers presented discount coupons randomly and independently of other customers, this sampling procedure ensured that customers were selected independently.
 
@@ -112,7 +112,7 @@ A sample statistic is the \textcolor{pink}{point estimator} of the corresponding
 ```
 
 ```{definition 'Point-Estimate'}
-The numerical value obtained for the sample statistic is called the \textcolor{pink}{point estimate}.
+The numerical value obtained for the sample statistic is called the \textcolor{pink}{point estimate}. Estimate is used for sample value only, for population value it would be parameter. Estimate is a value while Estimator is a function.
 ```
 
 ## Sampling Distributions
@@ -136,7 +136,6 @@ Just as with other probability distributions, the sampling distribution of ${\ov
 
 ### Standard Deviation {#standard-error-c07}
 
-
 ```{definition 'Standard-Error'}
 In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to the standard deviation of a point estimator. The standard error of ${\overline{x}}$ is the standard deviation of the sampling distribution of ${\overline{x}}$.
 ```
@@ -145,7 +144,7 @@ In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to t
   - $\sqrt{\frac{N - n}{N-1}}$ is commonly referred to as the \textcolor{pink}{finite population correction factor}. With large population, it approaches 1
   - Thus, $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}}$ becomes good approximation when the sample size is less than or equal to 5% of the population size; that is, \textcolor{pink}{$n/N \leq 0.05$}.
   - To further emphasize the difference between $\sigma_{\overline{x}}$ and ${\sigma}$, we refer to the standard deviation of ${\overline{x}}$, $\sigma_{\overline{x}}$, as the \textcolor{pink}{standard error of the mean}.  
-  - The standard error of the mean is helpful in determining how far the sample mean may be from the population mean.
+  - (Sampling Fluctuation) The standard error of the mean is helpful in determining how far the sample mean may be from the population mean.
 
 \begin{equation}
   \begin{align}
@@ -154,6 +153,87 @@ In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to t
   \end{align}
   (\#eq:sigma-x-bar)
 \end{equation}
+
+
+```{definition 'Sampling-Error'}
+A \textcolor{pink}{sampling error} is the difference between a population parameter and a sample statistic.
+```
+
+- Standard error is a measure of sampling error. There are others, but standard error is, by far, the most commonly used. 
+  - However, sampling error is NOT the only reason for a difference between the survey estimate and the true value in the population. 
+  - Another, and arguably more important, reason for this difference is bias. 
+    - Bias can be introduced when designing the sampling scheme. 
+	- Most forms of bias cannot be calculated nor measured after the data are collected, and are, therefore, often invisible. 
+	- Bias must be avoided by using correct procedures at each step of the survey process. 
+	- Bias has NOTHING to do with sample size which affects only sampling error and standard error. 
+	- As a result, large sample sizes do NOT eliminate bias. In fact, the larger sample size may increase the likelihood of bias in the data collection.
+
+
+
+Refer [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
+
+```{r 'C07P01-A', echo=FALSE, fig.cap="Effect of Sample Size vs Repeat Sampling"}
+# #Reading image of another file #iiii
+knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
+knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
+```
+
+## Synopsis 
+
+"ForLater"
+
+If a statistically independent sample of ${n}$ observations ${x_1,x_2,\ldots,x_n}$ is taken from a statistical population with a standard deviation of $\sigma$, then the mean value calculated from the sample $\overline{x}$ will have an associated \textcolor{pink}{standard error of the mean $\sigma_\overline{x}$} given by
+
+\begin{equation} 
+  \sigma_\overline{x} = \frac{\sigma}{\sqrt{n}}
+  (\#eq:std-dev-mean)
+\end{equation} 
+
+The standard deviation $\sigma$ of the population being sampled is seldom known. Therefore, $\sigma_\overline{x}$ is usually estimated by replacing $\sigma$ with the sample standard deviation $\sigma_{x}$ instead: 
+
+\begin{equation} 
+  \sigma_\overline{x} \approx \frac{\sigma_{x}}{\sqrt{n}}
+  (\#eq:std-dev-mean-apx)
+\end{equation} 
+
+As this is only an 'estimator' for the true "standard error", other notations are used, such as:
+
+\begin{equation} 
+  \widehat{\sigma}_\overline{x} = \frac{\sigma_{x}}{\sqrt{n}}
+  (\#eq:std-dev-mean-cap)
+\end{equation} 
+
+OR:
+
+\begin{equation} 
+  {s}_\overline{x} = \frac{s}{\sqrt{n}}
+  (\#eq:std-dev-mean-sx)
+\end{equation} 
+
+Key:
+
+- \textcolor{pink}{$\sigma$} : Standard deviation of the population
+- \textcolor{pink}{$\sigma_{x}$} : Standard deviation of the sample
+- \textcolor{pink}{$\sigma_\overline{x}$} : Standard deviation of the mean 
+  - the standard error
+- \textcolor{pink}{$\widehat{\sigma}_\overline{x}$} : Estimator of the standard deviation of the mean 
+  - the most often calculated quantity
+  - also often colloquially called the ~~standard error~~
+
+Non-mathematical view:
+
+- The SD (standard deviation) quantifies scatter — how much the values vary from one another.
+- The SEM (standard error of the mean) quantifies how precisely you know the true mean of the population. 
+  - It takes into account both the value of the SD and the sample size.
+- Both SD and SEM are in the same units i.e. the units of the data (in contrast, variance has squared units).
+- The SEM, by definition, is always smaller than the SD. (divided by $\sqrt{n}$)
+  - The SEM gets smaller as your samples get larger. 
+  - So, the mean of a large sample is likely to be closer to the true population mean than is the mean of a small sample. 
+  - With a huge sample, you will know the value of the mean with a lot of precision even if the data is scattered.
+- The SD does not change predictably as you acquire more data. 
+  - The SD you compute from a sample is the best possible estimate of the SD of the overall population. 
+  - As you collect more data, you will assess the SD of the population with more precision. But you can not predict whether the SD from a larger sample will be bigger or smaller than the SD from a small sample. 
+  - Technically, variance does not change predictably. Above is a simplification. For details, see [Difference between SE and SD](https://stats.stackexchange.com/questions/32318 "https://stats.stackexchange.com/questions/32318")
 
 ### Form {#clt-c07}
 
@@ -164,7 +244,7 @@ Form of the Sampling Distribution of ${\overline{x}}$
 - When the population from which we are selecting a random sample does not have a normal distribution, \textcolor{pink}{the central limit theorem} is helpful in identifying the shape of the sampling distribution of ${\overline{x}}$.
 
 ```{definition 'Central-Limit-Theorem'}
-\textcolor{pink}{Central Limit Theorem:} In selecting random samples of size ${n}$ from a population, the sampling distribution of the sample mean  ${\overline{x}}$ can be approximated by a normal distribution as the sample size becomes large.
+\textcolor{pink}{Central Limit Theorem:} In selecting random samples of size ${n}$ from a population, the sampling distribution of the sample mean ${\overline{x}}$ can be approximated by a normal distribution as the sample size becomes large.
 ```
 
 How large the sample size needs to be before the central limit theorem applies and we can assume that the shape of the sampling distribution is approximately normal
@@ -176,7 +256,7 @@ How large the sample size needs to be before the central limit theorem applies a
 
 ## Ex: EAI {.unlisted .unnumbered .tabset .tabset-fade}
 
-Task of developing a profile of the company’s 2500 managers. The characteristics to be identified include the mean annual salary for the managers and the proportion of managers having completed a training.
+Task of developing a profile of 2500 managers. The characteristics to be identified include the mean annual salary for the managers and the proportion of managers having completed a training.
 
 - Population 
   - Population Size N = 2500 managers

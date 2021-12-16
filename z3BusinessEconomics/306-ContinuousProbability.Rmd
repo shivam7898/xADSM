@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - This chapter covers 
-  - [Continuos Probability](#continuous-prob-c06 "c06"), [Standard Normal](#standard-normal-c06 "c06")
+  - [Continuos Probability](#continuous-prob-c06 "c06"), [Normal Distribution](#normal-d-c06 "c06"), [Standard Normal](#standard-normal-c06 "c06")
   - [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), [For P(z), find z by qnorm()](#get-pz-c06 "c06")
   - "ForLater" - Exercises, Normal Approximation of Binomial Probabilities, Exponential Probability Distribution, Relationship Between the Poisson and Exponential Distributions
 
@@ -55,13 +55,13 @@ The probability that the continuous random variable ${x}$ takes a value between 
   (\#eq:continuous-var)
 \end{equation}
 
-## Normal Probability Distribution {.tabset .tabset-fade}
+## Normal Probability Distribution {#normal-d-c06 .tabset .tabset-fade}
 
 ```{definition 'Normal-Distribution'}
-A \textcolor{pink}{normal distribution} is a type of continuous probability distribution for a real-valued random variable. It is given by \textcolor{pink}{${\mathcal {N}}_{(\mu,\, \sigma^2)}$ OR ${\mathcal {N}}_{(\mu,\, \sigma)}$}
+A \textcolor{pink}{normal distribution (${\mathcal {N}}_{(\mu,\, \sigma^2)}$)} is a type of continuous probability distribution for a real-valued random variable.
 ```
 
-- Refer equation \@ref(eq:distribution-normal)
+- The general form of its probability density function is given by equation \@ref(eq:distribution-normal)
   - Normal distribution ${\mathcal {N}}_{(\mu,\, \sigma)}$ is also known as Gaussian or Gauss or Laplace–Gauss distribution
   - It is symmetrical
   - The entire family of normal distributions is differentiated by two parameters: the mean ${\mu}$ and the standard deviation ${\sigma}$. They determine the location and shape of the normal distribution.
@@ -70,26 +70,19 @@ A \textcolor{pink}{normal distribution} is a type of continuous probability dist
   - The tails of the normal curve extend to infinity in both directions and theoretically never touch the horizontal axis. 
   - Larger values of the standard deviation result in wider, flatter curves, showing more variability in the data.
   - Probabilities for the normal random variable are given by areas under the normal curve. The total area under the curve for the normal distribution is 1. 
-  - Values of a normal random variable are given as: $68.3\% (\mu \pm \sigma), 95.4\% (\mu \pm 2\sigma), 99.7\% (\mu \pm 3\sigma)$. This is the basis of [Empirical Rule](#empirical-be03 "be03")
+  - Values of a normal random variable are given as: $68.27\% (\mu \pm \sigma), 95.45\% (\mu \pm 2\sigma), 99.73\% (\mu \pm 3\sigma)$. This is the basis of [Empirical Rule](#empirical-be03 "be03")
 
 \begin{equation}
   f(x)={\frac {1}{\sigma {\sqrt {2 \pi}}}} e^{-{\frac {1}{2}}\left( {\frac {x-\mu }{\sigma }}\right) ^{2}}
   (\#eq:distribution-normal)
 \end{equation}
 
-```{r 'C06-Normal', include=FALSE}
-set.seed(3)
-# #Generate Normal Distribution and Save
-xxNormal <- rnorm(10000L, 0, 1)
-f_setRDS(xxNormal)
-#f_getRDS(xxNormal)
-```
-
 ```{r 'C06-NormalPlot', include=FALSE}
 # #Normal Distribution
-bb <- f_getRDS(xxNormal)
-hh <- tibble(bb)
-bb <- NULL
+xxNormal <- f_getRDS(xxNormal)
+ee <- xxNormal
+hh <- tibble(ee)
+ee <- NULL
 # #Basics
 median_hh <- round(median(hh[[1]]), 3)
 mean_hh <- round(mean(hh[[1]]), 3)
@@ -113,11 +106,11 @@ xbreaks_hh <- seq(-3, 3)
 xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
 # # Latex Labels 
 xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
-                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'(${\mu}$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
                 TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
 #
-# #Base Plot: Creates Only Density Function Line
-ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+# #Base Plot: Creates Only Density Function Line 
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + geom_density() } 
 #
 # #Mean
 ii_mean <- ggplot_build(ii)$data[[1]] %>% filter(x <= mean_hh)	
@@ -155,22 +148,16 @@ ggsave(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png"), plot = C06P01)
 ```
 
 ```{r 'C06P01', echo=FALSE, fig.cap="Normal Distribution"}
-knitr::include_graphics(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png")) #iiii
 ```
 
-### rnorm() {.unlisted .unnumbered}
+### Histogram  {#histogram-c06 .unlisted .unnumbered}
 
-```{r 'C06-Normal-A', ref.label=c('C06-Normal'), eval=FALSE}
-#
-```
-
-### Build Plot  {.unlisted .unnumbered}
-
-```{r '303-BuildPlot-A', eval=FALSE}
+```{r 'C06-BuildPlot-A', eval=FALSE}
 # #Histogram with Density Curve, Mean and Median: Normal Distribution
-bb <- f_getRDS(xxNormal)
-hh <- tibble(bb)
-bb <- NULL
+ee <- f_getRDS(xxNormal)
+hh <- tibble(ee)
+ee <- NULL
 # #Basics
 median_hh <- round(median(hh[[1]]), 3)
 mean_hh <- round(mean(hh[[1]]), 3)
@@ -178,7 +165,7 @@ sd_hh <- round(sd(hh[[1]]), 3)
 len_hh <- nrow(hh)
 #
 # #Base Plot: Creates Only Density Function Line
-ii <- hh %>% { ggplot(data = ., mapping = aes(x = bb)) + geom_density() }
+ii <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + geom_density() }
 #
 # #Change the line colour and alpha
 ii <- ii + geom_density(alpha = 0.2, colour = "#21908CFF") 
@@ -219,9 +206,9 @@ ii <- ii + coord_cartesian(xlim = c(-5, 5), ylim = c(0, 0.5))
 xbreaks_hh <- seq(-3, 3)
 xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
 # # Latex Labels 
-xlabels_hh <- c(TeX(r'($\mu - 3 \sigma$)'), TeX(r'($\mu - 2 \sigma$)'), 
-                TeX(r'($\mu - \sigma$)'), TeX(r'(${\mu}$)'), TeX(r'($\mu + \sigma$)'), 
-                TeX(r'($\mu + 2 \sigma$)'), TeX(r'($\mu + 3\sigma$)'))
+xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
 #
 ii <- ii + scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh)
 #
@@ -312,6 +299,26 @@ attributes(ggplot_build(ii))$names
 str(ggplot_build(ii)$data[[1]])
 ```
 
+### Errors {.unlisted .unnumbered}
+
+```{conjecture 'ggplot-list'}
+\textcolor{brown}{Error in is.finite(x) : default method not implemented for type 'list'}
+```
+
+- For ggplot() subsetting inside aes() is discouraged. 
+- Assuming names(hh)[1] is "ee" 
+  - either use (x = "ee") : Use of hh[1] or .[1] will throw error
+  - or use (x = .data[["ee"]]) : Use of hh[[1]] or .[[1]] will work but would throw warning.
+    - Warning "Warning: Use of `.[[1]]` is discouraged. Use `.data[[1]]` instead."
+    - Using .data[[1]] will throw different error
+
+```{conjecture 'ggplot-data'}
+\textcolor{brown}{Error: Must subset the data pronoun with a string.}
+```
+
+- ggplot() | aes() | using .data[[1]] will throw this error
+- use .data[["ee"]] or "ee"
+  - .data is pronoun for an environment, it is for scope resolution, not dataframe like dot (.)
 
 ### UNICODE {.unlisted .unnumbered}
 
@@ -321,7 +328,22 @@ str(ggplot_build(ii)$data[[1]])
 ## Standard Normal  {#standard-normal-c06 .tabset .tabset-fade}
 
 ```{definition 'Standard-Normal'}
-A random variable that has a normal distribution with a mean of zero \textcolor{pink}{$\mu =0$} and a standard deviation of one\textcolor{pink}{ $\sigma =1$} is said to have a \textcolor{pink}{standard normal probability distribution $f(z) = \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}$}. It is given by \textcolor{pink}{${\mathcal {z}}_{(\mu=0,\, \sigma=1)}$}
+A random variable that has a normal distribution with a mean of zero \textcolor{pink}{$({\mu} = 0)$} and a standard deviation of one \textcolor{pink}{$({\sigma} = 1)$} is said to have a \textcolor{pink}{standard normal probability distribution}. The \textcolor{pink}{z-distribution} is given by \textcolor{pink}{${\mathcal {z}}_{({\mu} = 0,\, {\sigma} = 1)}$}
+```
+
+\begin{equation} 
+  f(z) = \varphi(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}
+  (\#eq:normal-z)
+\end{equation} 
+
+- Refer equation \@ref(eq:normal-z)
+  - Here, the factor $1/{\sqrt{2\pi}}$ ensures that the total area under the curve $\varphi(x)$ is equal to one. 
+  - The factor $1/2$ in the exponent ensures that the distribution has unit variance, and therefore also unit standard deviation. 
+  - This function is symmetric around $x = 0$, where it attains its maximum value $1/{\sqrt{2\pi}}$ and has inflection points at $x = +1$ and $x = -1$. 
+  - While individual observations from normal distributions are referred to as ${x}$, they are referred to as ${z}$ in the z-distribution. 
+
+```{r 'C06D03', comment="", echo=FALSE, results='asis'}
+f_getDef("z-Scores") #dddd
 ```
 
 - NOTE (R,C) notation denotes Row x Column of a Table
@@ -341,7 +363,7 @@ A random variable that has a normal distribution with a mean of zero \textcolor{
 
 ### Cal P  {#get-pz-c06 .unlisted .unnumbered}
 
-```{r '306-getP'}
+```{r 'C06-getP'}
 # #Find Commulative Probability P corresponding to the given 'z' value
 # #Area under the curve to the left of z-value = 1.00
 pnorm(q = 1.00)
@@ -349,7 +371,7 @@ pnorm(q = 1.00)
 
 ### pnorm()  {.unlisted .unnumbered}
 
-```{r '306-getPgivenZ'}
+```{r 'C06-getPgivenZ'}
 # #Find Commulative Probability P corresponding to the given 'z' value
 # #Area under the curve to the left of z-value = 1.00
 # #pnorm(q = 1.00) #default 'lower.tail = TRUE'
@@ -380,7 +402,7 @@ cat(paste0("P(", format(z_min_ii, nsmall = 3), " <= z <= ",
 
 ### Cal Z  {.unlisted .unnumbered}
 
-```{r '306-getZ'}
+```{r 'C06-getZ'}
 # #Find a z value such that the probability of obtaining a larger z value is .10
 # #z-value for which Area under the curve towards Right is 0.10
 qnorm(p = 1 - 0.10)
@@ -389,7 +411,7 @@ qnorm(p = 0.10, lower.tail = FALSE)
 
 ### qnorm()  {.unlisted .unnumbered}
 
-```{r '306-getZgivenP'}
+```{r 'C06-getZgivenP'}
 # #Find a z value such that the probability of obtaining a larger z value is .10
 # #z-value for which Area under the curve towards Right is 0.10 i.e. right >10%
 #qnorm(p = 1 - 0.10)
@@ -406,10 +428,17 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 
 ## Any Normal  {.tabset .tabset-fade}
 
+- Any normal distribution can be standardized by converting the individual values into z-scores. 
+  - z-scores tell that how many standard deviations away from the mean each value lies.
 - Probabilities for all normal distributions are computed by using the standard normal distribution. 
   - A normal distribution \textcolor{pink}{${\mathcal {N}}_{(\mu,\, \sigma)}$} is converted to the standard normal distribution \textcolor{pink}{${\mathcal {z}}_{(\mu=0,\, \sigma=1)}$} by equation \@ref(eq:z-val) (Similar to equation \@ref(eq:z-scores))
-    - $x=\mu \Rightarrow z =0$ i.e. A value of ${x}$ equal to its mean ${\mu}$ corresponds to $z = 0$. 
-    - $x=\mu+\sigma \Rightarrow z = 1$ i.e. an ${x}$ value that is one standard deviation above its mean $(\mu+\sigma)$ corresponds to $z = 1$. 
+  - If ${x}$ is a random variable from this population, then its z-score is $Z=\frac {X-\mu }{\sigma}$
+  - If $\overline {X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is $\sigma/{\sqrt{n}}$ and thus the z-score is $ Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}}$
+  - If $\sum {X}$ is the total of a sample of size ${n}$ from this population, then the expected total is $n\times\mu$ and the standard error is $\sigma {\sqrt{n}}$. Thus the z-score is $Z={\frac {\sum {X}-n\mu }{\sigma {\sqrt {n}}}}$
+
+- Thus
+  - $x=\mu \Rightarrow z =0$ i.e. A value of ${x}$ equal to its mean ${\mu}$ corresponds to $z = 0$. 
+  - $x=\mu+\sigma \Rightarrow z = 1$ i.e. an ${x}$ value that is one standard deviation above its mean $(\mu+\sigma)$ corresponds to $z = 1$. 
     - Thus, we can interpret ${z}$ as the number of standard deviations $(\sigma)$ that the normal random variable ${x}$ is from its mean $(\mu)$.
   - For a normal distribution ${\mathcal {N}}_{(\mu=10,\, \sigma=2)}$, What is the probability that the random variable x is between 10 and 14
     - At x=10, z = 0 and at x=14, z = 2, Thus
@@ -427,10 +456,24 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
   (\#eq:z-val)
 \end{equation}
 
+Reasons to convert normal distributions into the standard normal distribution:
+
+- To find the probability of observations in a distribution falling above or below a given value
+- To find the probability that a sample mean significantly differs from a known population mean
+- To compare scores on different distributions with different means and standard deviations
+
+Each z-score is associated with a probability, or p-value, that gives the likelihood of values below that z-score occurring. By converting an individual value into a z-score, we can find the probability of all values up to that value occurring in a normal distribution.
+
+The z-score is the test statistic used in a z-test. The z-test is used to compare the means of two groups, or to compare the mean of a group to a set value. Its null hypothesis typically assumes no difference between groups.
+
+The area under the curve to the right of a z-score is the p-value, and it’s the likelihood of your observation occurring if the null hypothesis is true.
+
+Usually, a p-value of 0.05 or less means that your results are unlikely to have arisen by chance; it indicates a statistically significant effect.
+
 
 ### Cal P {.unlisted .unnumbered}
 
-```{r '306-getPany'}
+```{r 'C06-getPany'}
 # #For N(mu =10, sd =2) Probability that X is in [10, 14]
 # #Same as P(0 <= z <= 2)
 mu_ii <- 10
@@ -453,7 +496,7 @@ cat(paste0("P(", x_min_ii, " <= x <= ", x_max_ii, ") = ", format(px_ii, nsmall =
 
 ### Grear Tire {.unlisted .unnumbered}
 
-```{r '306-Tire'}
+```{r 'C06-Tire'}
 # #Grear Tire N(mu = 36500, sd =5000)
 # #Probability that the tire mileage, x, will exceed 40,000 # 24.2% Tires
 mu_ii <- 36500
@@ -496,7 +539,7 @@ cat(paste0("(Left) P(x) = ", p_l_ii, " (i.e. (Right) 1-P(z) = ", p_r_ii,
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C06-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, C06P01, density_hh, density_hh_tbl, hh, ii_mean, ii_median, 
+f_rmExist(aa, bb, ee, ii, jj, kk, ll, C06P01, density_hh, density_hh_tbl, hh, ii_mean, ii_median, 
           len_hh, mean_hh, median_hh, q05_hh, q95_hh, sd_hh, sig1l_hh, sig1r_hh, sig2l_hh, 
           sig2r_hh, sig3l_hh, sig3r_hh, xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal, mu_ii, 
           p_ii, p_l_ii, p_r_ii, px_ii, pz_ii, sd_ii, x_ii, x_max_ii, x_min_ii, xz_ii, z_ii, 

@@ -23,7 +23,7 @@ Because a point estimator cannot be expected to provide the exact value of the p
 ```
 
 ```{definition 'Confidence-Coefficient'}
-The confidence level expressed as a decimal value is the c\textcolor{pink}{onfidence coefficient}. i.e. 0.95 is the confidence coefficient for a 95% confidence level.
+The confidence level expressed as a decimal value is the \textcolor{pink}{confidence coefficient ($1-{\alpha}$)}. i.e. 0.95 is the confidence coefficient for a 95% confidence level.
 ```
 
 
@@ -35,16 +35,16 @@ In some applications, large amounts of relevant historical data are available an
 
 \textcolor{pink}{Sampling distribution of ${\overline{x}}$ can be used to compute the probability that ${\overline{x}}$ will be within a given distance of ${\mu}$.}
 
-Example: Lloyd's Department Store
+Example: Lloyd Department Store
 
-- Each week Lloyd's Department Store selects a simple random sample of 100 customers in order to learn about the amount spent per shopping trip. 
-  - With ${x}$ representing the amount spent per shopping trip, the sample mean ${\overline{x}}$ provides a point estimate of ${\mu}$, the mean amount spent per shopping trip for the population of all Lloyd’s customers. Based on the historical data, Lloyd's now assumes a known value of $\sigma = 20$ for the population standard deviation. 
-  - During the most recent week, Lloyd's surveyed 100 customers $(n = 100)$ and obtained a sample mean of $\overline{x} = 82$.
+- Each week Lloyd Department Store selects a simple random sample of 100 customers in order to learn about the amount spent per shopping trip. 
+  - With ${x}$ representing the amount spent per shopping trip, the sample mean ${\overline{x}}$ provides a point estimate of ${\mu}$, the mean amount spent per shopping trip for the population of all Lloyd customers. Based on the historical data, Lloyd now assumes a known value of $\sigma = 20$ for the population standard deviation. 
+  - During the most recent week, Lloyd surveyed 100 customers $(n = 100)$ and obtained a sample mean of $\overline{x} = 82$.
   - we can conclude that the sampling distribution of ${\overline{x}}$ follows a normal distribution with a standard error of $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{20}{\sqrt{100}} =2$. 
   - Because the sampling distribution shows how values of ${\overline{x}}$ are distributed around the population mean ${\mu}$, the sampling distribution of ${\overline{x}}$ provides information about the possible differences between ${\overline{x}}$ and ${\mu}$.
   - Using the standard normal probability table, we find that \textcolor{pink}{95\% of the values of any normally distributed random variable are within $\pm 1.96$ standard deviations of the mean i.e. $[\mu - 1.96 \sigma, \mu + 1.96\sigma]$}. 
     - Thus, 95% of the ${\overline{x}}$ values must be within $\pm 1.96 \sigma_{\overline{x}}$ of the mean ${\mu}$. 
-    - In the Lloyd’s example we know that the sampling distribution of ${\overline{x}}$ is normally distributed with a standard error of $\sigma_{\overline{x}} =2$. 
+    - In the Lloyd example we know that the sampling distribution of ${\overline{x}}$ is normally distributed with a standard error of $\sigma_{\overline{x}} =2$. 
     - we can conclude that 95% of all ${\overline{x}}$ values obtained using a sample size of $n = 100$ will be within $(\pm 1.96 \times 2 = \pm 3.92)$ of the population mean ${\mu}$.
   - As given above, sample mean was $\overline{x} = 82$
     - Interval estimate of $\overline{x} = 82 \pm 3.92 = [78.08, 85.92]$
@@ -65,7 +65,7 @@ where $(1 − \alpha)$ is the confidence coefficient and $z_{\alpha/2}$ is the z
 
 For a 95% confidence interval, the confidence coefficient is $(1 − \alpha) = 0.95$ and thus, $\alpha = 0.05$. Using the standard normal probability table, an area of $\alpha/2 = 0.05/2 = 0.025$ in the upper tail provides $z_{.025} = 1.96$. 
 
-```{r '308-getZgivenAlpha'}
+```{r 'C08-getZgivenAlpha'}
 # #Find z-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
 # #To look for Area under the curve towards Right only i.e. alpha/2 = 0.025
 p_r_ii <- 0.025
@@ -73,9 +73,17 @@ p_l_ii <- 1 - p_r_ii
 z_ii <- round(qnorm(p = p_l_ii, lower.tail = TRUE), 4)
 cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) = ", 
            format(p_r_ii, nsmall = 3), ") at z = ", z_ii, "\n"))
+#
+# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
+#
+# #Left Tail Test
+round(qnorm(p = xxalpha, lower.tail = TRUE), 4)
+#
+# #Right Tail Test
+round(qnorm(p = xxalpha, lower.tail = FALSE), 4)
 ```
 
-"ForLater" - Various Common alpha values and z-values Table - (Book Table 8.1)
 
 ## Unknown SD {.tabset .tabset-fade}
 
@@ -85,6 +93,9 @@ When ${s}$ is used to estimate ${\sigma}$, the margin of error and the interval 
 ```
 
 The t distribution is a family of similar probability distributions, with a specific t distribution depending on a parameter known as the\textcolor{pink}{degrees of freedom}. As the number of degrees of freedom increases, the difference between the t distribution and the standard normal distribution becomes smaller and smaller. 
+
+
+
 
 Just as $z_{0.025}$ was used to indicate the z value providing a 0.025 area in the upper tail of a standard normal distribution, $t_{0.025}$ indicates a 0.025 area in the upper tail of a t distribution. In general, the notation $t_{\alpha/2}$ represents a t value with an area of $\alpha/2$ in the upper tail of the t distribution.
 
@@ -107,10 +118,14 @@ Refer equation \@ref(eq:sd), the expression for the sample standard deviation is
     {s} = \sqrt{\frac{\sum \left(x_i - \bar{x}\right)^2}{n-1}}
 \end{equation*} 
 
+```{definition 'Degrees-of-Freedom'}
+The number of \textcolor{pink}{degrees of freedom} is the number of values in the final calculation of a statistic that are free to vary. In general, the degrees of freedom of an estimate of a parameter are $(n - 1)$.
+```
+
 Why $(n-1)$ are the degrees of freedom
 
 - Degrees of freedom refer to the number of independent pieces of information that go into the computation. i.e. $\{(x_{1}-\overline{x}), (x_{2}-\overline{x}), \ldots, (x_{n}-\overline{x})\}$
-- However, $\sum (x_{i}-\overline{x}) =0$ for any data set. 
+- However, $\sum (x_{i}-\overline{x}) = 0$ for any data set. 
 - Thus, only $(n − 1)$ of the $(x_{i}-\overline{x})$ values are independent.
   - if we know $(n − 1)$ of the values, the remaining value can be determined exactly by using the condition.
 
@@ -118,7 +133,7 @@ Why $(n-1)$ are the degrees of freedom
 
 ### Cal T  {#get-t-c08 .unlisted .unnumbered}
 
-```{r '308-getT'}
+```{r 'C08-getT'}
 # #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 # #Find t-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
 # #To look for Area under the curve towards Right only i.e. alpha/2 = 0.025
@@ -134,7 +149,7 @@ cat(paste0("(Left) P(t) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(t) 
  
 ### qt() {.unlisted .unnumbered}
 
-```{r '308-getTgivenAlpha'}
+```{r 'C08-getTgivenAlpha'}
 # #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.
 # #Find t-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
 # #To look for Area under the curve towards Right only i.e. alpha/2 = 0.025
@@ -171,13 +186,13 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 
 ### Ex: Credit Card {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r '308-CreditCards'}
+```{r 'C08-CreditCards'}
 # #A sample of n = 70 households provided the credit card balances.
 xxCreditCards <- c(9430, 7535, 4078, 5604, 5179, 4416, 10676, 1627, 10112, 6567, 13627, 18719, 14661, 12195, 10544, 13659, 7061, 6245, 13021, 9719, 2200, 10746, 12744, 5742, 7159, 8137, 9467, 12595, 7917, 11346, 12806, 4972, 11356, 7117, 9465, 19263, 9071, 3603, 16804, 13479, 14044, 6817, 6845, 10493, 615, 13627, 12557, 6232, 9691, 11448, 8279, 5649, 11298, 4353, 3467, 6191, 12851, 5337, 8372, 7445, 11032, 6525, 5239, 6195, 12584, 15415, 15917, 12591, 9743, 10324)
 f_setRDS(xxCreditCards)
 ```
 
-```{r '308-Credit-Estimate-Interval'}
+```{r 'C08-Credit-Estimate-Interval'}
 bb <- f_getRDS(xxCreditCards)
 mean_bb <- mean(bb)
 sd_bb <- sd(bb)
@@ -211,7 +226,7 @@ cat(paste0("Normal Sample (n=", length(bb), ", mean=", mean_bb, ", sd=", round(s
 
 ```{r 'C08-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, dof_bb, dof_ii, err_margin_bb, est_l, est_r, mean_bb, p_l_ii, 
-          p_r_ii, sd_bb, t_ii, xxCreditCards, z_ii)
+          p_r_ii, sd_bb, t_ii, xxCreditCards, z_ii, xxalpha)
 ```
 
 ```{r 'C08-Validation', include=FALSE, cache=FALSE}

@@ -1,6 +1,6 @@
 # Discrete Probability Distributions {#c05}
 
-```{r 'C05A', include=FALSE, cache=FALSE}
+```{r 'C05', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -21,7 +21,7 @@ f_getDef("Discrete")
 ```
 
 ```{r 'C05D02', comment="", echo=FALSE, results='asis'}
-f_getDef("Continuous")
+f_getDef("Continuous") #dddd
 ```
 
 ## Random Variable
@@ -50,6 +50,7 @@ For a discrete random variable x, a \textcolor{pink}{probability function $f(x)$
 
 - The use of the relative frequency method to develop discrete probability distributions leads to what is called an \textcolor{pink}{empirical discrete distribution}.
   - We treat the data as if they were the population and use the relative frequency method to assign probabilities to the experimental outcomes.
+  - The \textcolor{pink}{distribution} of data is how often each observation occurs, and can be described by its central tendency and variation around that central tendency.
 
 - Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Continuos Probability](#continuous-prob-be06 "be06"))
   1. \textcolor{pink}{$f(x) \geq 0$}
@@ -348,7 +349,7 @@ print(jj)
 
 ### Sum Diagonals {.unlisted .unnumbered}
 
-```{r '303-SumDiagonal'}
+```{r 'C05-SumDiagonal'}
 bb <- xxdicarlo_gs
 #
 # #Tibble Total SUM 
@@ -382,7 +383,7 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
 
 ## Covariance
 
-- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer \@ref(eq:covariance-C05)
+- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer equation \@ref(eq:covariance-C05)
   - NOTE: It does not look like \@ref(eq:covariance), but for now, I am assuming it is Equivalent
   - Calculated: $\text{Var}(s) = \text{Var}(x+y) =$ `r round(R_dicarlo_var_s_C05, 3)`; $\text{Var}(y) =$ `r R_dicarlo_var_y_C05`; $\text{Var}(x) =$ `r round(R_dicarlo_var_x_C05, 3)`
   - Variance $\sigma_{xy} = \frac{2.3895 - 0.8696 - 1.25}{2} = 0.1350$
@@ -393,7 +394,7 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
   (\#eq:covariance-C05)
 \end{equation} 
 
-- Correlation of random variables x and y is given by, Refer \@ref(eq:correlation), \textcolor{pink}{$\rho_{xy}  = \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}}$} 
+- Correlation of random variables x and y is given by, Refer equation \@ref(eq:correlation), \textcolor{pink}{$\rho_{xy}  = \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}}$} 
   - Where $\sigma_{x} = \sqrt{\text{Var}(x)} = \sqrt{0.8696} = 0.9325$; and $\sigma_{y} = \sqrt{\text{Var}(y)} = \sqrt{1.25} = 1.1180$
   - Correlation Coefficient $\rho_{xy}  = \frac{0.1350}{0.9325 \times 1.1180} = 0.1295$
   - The correlation coefficient of .1295 indicates there is a weak positive relationship between the random variables representing daily sales at the two dealerships. 
