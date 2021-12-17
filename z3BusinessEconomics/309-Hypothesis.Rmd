@@ -76,20 +76,20 @@ In some situations it is easier to identify the alternative hypothesis first and
 
 ## Three forms of hypotheses  {.tabset .tabset-fade}
 
-For hypothesis tests involving a population mean, we let $\mu_0$ denote the hypothesized value and we must choose one of the following three forms for the hypothesis test.
+For hypothesis tests involving a population mean, we let ${\mu}_0$ denote the hypothesized value and we must choose one of the following three forms for the hypothesis test.
 
 Alternative is One-Sided, if it states that a parameter is larger or smaller than the null value. Alternative is Two-sided, if it states that the parameter is different from the null value. 
 
 ```{definition 'Hypothesis-1T-Lower-Tail'}
-\textcolor{pink}{$\text{\{Left Tail or Lower Tail\} } H_0 : \mu \geq \mu_0 \iff H_a: \mu < \mu_0$}
+\textcolor{pink}{$\text{\{Left Tail or Lower Tail\} } {H_0} : {\mu} \geq {\mu}_0 \iff {H_a}: {\mu} < {\mu}_0$}
 ```
 
 ```{definition 'Hypothesis-1T-Upper-Tail'}
-\textcolor{pink}{$\text{\{Right Tail or Upper Tail\} } H_0 : \mu \leq \mu_0 \iff H_a: \mu > \mu_0$}
+\textcolor{pink}{$\text{\{Right Tail or Upper Tail\} } {H_0} : {\mu} \leq {\mu}_0 \iff {H_a}: {\mu} > {\mu}_0$}
 ```
 
 ```{definition 'Hypothesis-2T-Two-Tail'}
-\textcolor{pink}{$\text{\{Two Tail\} } H_0 : \mu = \mu_0 \iff H_a: \mu \neq \mu_0$}
+\textcolor{pink}{$\text{\{Two Tail\} } {H_0} :{\mu} = {\mu}_0 \iff {H_a}: {\mu} \neq {\mu}_0$}
 ```
 
 
@@ -119,11 +119,11 @@ knitr::include_graphics(paste0(.z$PX, "C09P01", "_Hypothesis_Errors", ".jpg")) #
 ```
 
 ```{definition 'Error-Type-I'}
-The error of rejecting ${H_0}$ when it is true, is \textcolor{pink}{Type I error}.
+The error of rejecting ${H_0}$ when it is true, is \textcolor{pink}{Type I error $({\alpha})$}.
 ```
 
 ```{definition 'Error-Type-II'}
-The error of accepting ${H_0}$ when it is false, is \textcolor{pink}{Type II error}.
+The error of accepting ${H_0}$ when it is false, is \textcolor{pink}{Type II error $({\beta})$}.
 ```
 
 ```{definition 'Level-of-Significance'}
@@ -463,8 +463,13 @@ Common Steps
 p-Value Approach Step 
 
 4. Use the value of the test statistic to compute the p-value. 
-4. Reject ${H_0}$ if the p-value $\leq \alpha$. 
+4. Reject ${H_0}$ if the p-value $\leq {\alpha}$. 
 4. Interpret the statistical conclusion in the context of the application. 
+
+
+```{definition 'Approach-p-value-Steps'}
+\textcolor{pink}{p-value Approach:} Form Hypothesis | Specify ${\alpha}$ | Calculate test statistic | Calculate p-value | Compare p-value with ${\alpha}$ | Interpret
+```
 
 Critical Value Approach 
 

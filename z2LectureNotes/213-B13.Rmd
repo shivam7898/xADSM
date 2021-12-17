@@ -47,14 +47,92 @@ f_getDef("Confidence-Coefficient")
 ```
 
 ```{r 'B13D05', comment="", echo=FALSE, results='asis'}
-f_getDef("Power") #dddd
+f_getDef("Power")
+```
+
+```{r 'B13D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Significance-Tests")
+```
+
+```{r 'B13D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Approach-p-value-Steps") #dddd
+```
+
+
+## Approaches {.tabset .tabset-fade}
+
+Population Size = 100, ${\alpha} = 0.05$
+
+Hypothesis: $\text{\{Right Tail or Upper Tail\} } {H_0} : {\mu} \leq 22 \iff {H_a}: {\mu} > 22$
+
+Sample: n=4, dof = 3, ${\overline{x}} = 23$
+
+Sample: n=10, dof = 9, ${\overline{x}} = 23$
+
+
+We know if we take another sample, we will have a different sample mean. So, we need to confirm whether the above calculated sample mean ${\overline{x}} = 23$ represent the population mean ${\mu}$ i.e. Can we reject or fail to reject ${H_0}$ based on this sample!
+
+3 Approaches for Hypothesis Testing - 
+
+1.  Test Statistic Approach
+    - Fictitious values: Standard Error (SE) = 0.22, so $t = \frac{23 - 22}{0.22} = 4.545$
+    - For (DOF = 3): $P_{(t)} = {\alpha} = 0.05$, at ${}^{3}t_{\alpha} = 2.353$
+    - For (DOF = 9): $P_{(t)} = {\alpha} = 0.05$, at ${}^{9}t_{\alpha} = 1.833$
+    - For both the cases, ${t}$ is greater than ${}^{dof}t_{\alpha}$
+    - Hence null is rejected, the 'test is statistically significant'
+1.  p-value approach 
+    - Fictitious values: Standard Error (SE) = 0.22, so $t = \frac{23 - 22}{0.22} = 4.545$
+    - Get ${}^3\!P_{(t = 4.545)} = 0.00997$
+    - Get ${}^9\!P_{(t = 4.545)} = 0.000697$
+    - For both the cases, $P_{(t)}$ is lower than ${\alpha}$
+    - Hence null is rejected, the 'test is statistically significant'
+
+1.  Confidence Interval Approach
+
+
+If the population standard error (SE) is known, apply z-test. If it is unknown, apply t-test. t-test will converge to z-test with increasing sample size.
+
+2-T Rule of Thumb - Skipped "09:55"
+
+
+```{r 'B-GetPz', include=FALSE}
+# #Get P(z)
+z01 <- round(pnorm(3.44), digits = 6)
+z02 <- 1 - round(pnorm(3.44), digits = 6)
+z03 <- round(pnorm(3.44, lower.tail = FALSE), digits = 6)
+z04 <- format(pnorm(4.55, lower.tail = FALSE), digits = 3, scientific = FALSE)
+z05 <- format(pnorm(1.22, lower.tail = FALSE), digits = 5)
+z06 <- format(pnorm(1.99, lower.tail = FALSE), digits = 5)
+```
+
+### Examples {.unlisted .unnumbered}
+
+Example: 
+
+1. \textcolor{pink}{Question:} If we get a z-value of 3.44 (Right Tail), What is the Probability $P_{(z)}$
+    - For z = 3.44 & Left Tail, p-value = `r z01` (by \textcolor{pink}{`pnorm(z)`})
+    - For z = 3.44 & Right Tail, p-value = `r z02` (by \textcolor{pink}{`1 - pnorm(z)`})
+    - For z = 3.44 & Right Tail, p-value = `r z03` (by \textcolor{pink}{`pnorm(z, lower.tail = FALSE)`})
+1. \textcolor{pink}{Question:} If we get a z-value of 4.55 (Right Tail), What is the Probability $P_{(z)}$
+    - For z = 4.55 & Right Tail, p-value = `r z04` 
+1. \textcolor{pink}{Question:} If we get a z-value of 1.22 (Right Tail), would we reject the null at ${\alpha} = 0.05$
+    - For z = 1.22 & Right Tail, p-value = `r z05` 
+    - Because $P_{(z)}$ is greater than the ${\alpha}$, we fail to reject the null, the 'test is statistically NOT significant'
+1.  \textcolor{pink}{Question:} If we get a z-value of 1.99 (Right Tail), would we reject the null at ${\alpha} = 0.05$
+    - For z = 1.99 & Right Tail, p-value = `r z06` 
+    - Because $P_{(z)}$ is lower than the ${\alpha}$, null is rejected, the 'test is statistically significant'
+
+### Code {.unlisted .unnumbered}
+
+```{r 'B-GetPz-A', ref.label=c('B-GetPz'), eval=FALSE}
+#
 ```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B13-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, z01, z02, z03, z04, z05, z06)
 ```
 
 ```{r 'B13-Validation', include=FALSE, cache=FALSE}

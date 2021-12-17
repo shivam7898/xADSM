@@ -358,8 +358,9 @@ f_getDef("z-Scores") #dddd
 - Reverse i.e. given the probability, find out the z-value
   - Find a z value such that the probability of obtaining a larger z value is .10
     - The standard normal probability table gives the area under the curve to the left of a particular z value, which would be $P_{\left(z\right)} = 1 - 0.10 = 0.9000 \approx P_{\left(1.2, \,.08\right)} \Rightarrow z = 1.28$
-  -
 
+
+\textcolor{pink}{${z} \in \mathbb{R} \leftrightarrow P_{(z)} \in (0,1)$}
 
 ### Cal P  {#get-pz-c06 .unlisted .unnumbered}
 
