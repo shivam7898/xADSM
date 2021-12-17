@@ -110,6 +110,8 @@ Alternative is One-Sided, if it states that a parameter is larger or smaller tha
 
 ## Type I and Type II Errors  {#errors-ab-c09}
 
+Refer [Type I and Type II Errors (B12)](#errors-ab-b12, "b12")
+
 Ideally the hypothesis testing procedure should lead to the acceptance of ${H_0}$ when ${H_0}$ is true and the rejection of ${H_0}$ when ${H_a}$ is true. Unfortunately, the correct conclusions are not always possible. Because hypothesis tests are based on sample information, we must allow for the possibility of errors. 
 
 ```{r 'C09P01', echo=FALSE, fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}

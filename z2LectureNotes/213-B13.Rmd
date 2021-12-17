@@ -1,0 +1,67 @@
+# Statistics (B13, Oct-03) {#b13}
+
+```{r 'B13', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Introduction to Statistics"
+
+
+- Links (Ref)
+  - 
+
+
+```{r 'B13-Flights', include=FALSE}
+# #Load Data: Flights
+xxflights <- f_getRDS(xxflights)
+bb <- xxflights
+```
+
+## Definitions
+
+```{r 'B13P01', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+#knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg")) #iiii
+```
+
+Refer [Type I and Type II Errors (B12)](#errors-ab-b12, "b12") & [Type I and Type II Errors](#errors-ab-c09, "c09")
+
+```{r 'B13D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Type-I")
+```
+
+```{r 'B13D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Type-II") 
+```
+
+```{r 'B13D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Level-of-Significance")
+```
+
+```{r 'B13D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Confidence-Coefficient") 
+```
+
+```{r 'B13D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Power") #dddd
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B13-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+```
+
+```{r 'B13-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

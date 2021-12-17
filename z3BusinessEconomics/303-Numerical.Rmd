@@ -222,6 +222,9 @@ print(result)
 # #Boxplot of Benchmarking Result
 #autoplot(result)
 # #Above testcase showed a surprising result of sum()/length() being much faster than mean()
+#
+# #Or Compare Plot Rendering
+if(FALSE) microbenchmark(print(jj), print(kk), print(ll), times = 2)
 ```
 
 ### Sum-Mean {.unlisted .unnumbered}
@@ -1119,7 +1122,10 @@ caption_hh <- "C03P07"
 ```
 
 ```{r 'C03P07-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P07", "_Flights_Original", ".png"), plot = C03P07)
+loc_png <- paste0(.z$PX, "C03P07", "_Flights_Original", ".png")
+if(!file.exists(loc_png)){
+ggsave(loc_png, plot = C03P07)
+}
 ```
 
 ```{r 'C03P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -1147,7 +1153,10 @@ caption_hh <- "C03P08" #iiii
 ```
 
 ```{r 'C03P08-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png"), plot = C03P08)
+loc_png <- paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")
+if(!file.exists(loc_png)){
+ggsave(loc_png, plot = C03P08)
+}
 ```
 
 ```{r 'C03P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -1180,7 +1189,6 @@ C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
       caption = caption_hh, title = title_hh)
 }
 assign(caption_hh, C03)
-C03
 rm(C03)
 ```
 
@@ -1188,7 +1196,7 @@ rm(C03)
 
 ```{r 'C03-Annotate', eval=FALSE}
 if(FALSE){
-# #If TeX() is present, check_overlap = TRUE is NOT being respected, slow plot draw for n >10000
+# #check_overlap = TRUE works for de-blurring. However, it still checks each point thus slow
 geom_text(aes(label = TeX(r'($\bar{x}$)', output = "character"), 
               x = mean(.data[["ee"]]), y = -Inf),
           color = '#440154FF', hjust = -2, vjust = -2.5, parse = TRUE, check_overlap = TRUE) 
@@ -1504,7 +1512,7 @@ f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, rxy, sx, sxy, sy, C03P01, C03P02, C03P0
           skew_e_t1, skew_e_t2, skew_e_t3, skew_hh, skew_lst, skew_man, skew_mmt, title_hh, 
           v_colors, xxalpha, xxBeta, xxExp, xxflights, density_hh, density_hh_tbl, hh, mean_hh, 
           q05_hh, q95_hh, sd_hh, sig1l_hh, sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, 
-          xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal)
+          xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal, loc_png)
 ```
 
 ```{r 'C03-Validation', include=FALSE, cache=FALSE}

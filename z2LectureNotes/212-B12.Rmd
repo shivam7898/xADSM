@@ -11,6 +11,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
   - "Introduction to Statistics"
     - [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
+    - [Normal Distribution](#normal-d-b12 "b12")
+    - [Type I and Type II Errors (B12)](#errors-ab-b12, "b12")
 
 - Links (Ref)
   - [Population vs Sample](#population-sample-c01 "c01")
@@ -298,7 +300,8 @@ Using Dataset Flights : "air_time" -Amount of time spent in the air, in minutes.
 ```
 
 ```{r 'B12P01-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"), plot = B12P01)
+loc_png <- paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12P01)
 ```
 
 ```{r 'B12P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -366,23 +369,27 @@ cat(sprintf('Variance (sigma)%s %s%s =', '\u00b2', '\u03c3', '\u00b2'), variance
 bb <- na.omit(xxflights$air_time)
 hh <- tibble(ee = bb)
 # #Basics
-median_hh <- round(median(hh[[1]]), 3)
-mean_hh <- round(mean(hh[[1]]), 3)
-sd_hh <- round(sd(hh[[1]]), 3)
+median_hh <- round(median(hh[[1]]), 1)
+mean_hh <- round(mean(hh[[1]]), 1)
+sd_hh <- round(sd(hh[[1]]), 1)
 len_hh <- nrow(hh)
 #
 B12P01 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
   geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
   geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
-  geom_text(aes(label = paste0("Mean= ", round(mean_hh, 1)), x = mean_hh, y = -Inf),
-            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90, check_overlap = TRUE) + 
+  geom_text(data = tibble(x = mean_hh, y = -Inf, 
+                          label = paste0("Mean= ", mean_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90) +
   geom_vline(aes(xintercept = median_hh), color = '#3B528BFF') +
-  geom_text(aes(label = paste0("Median= ", round(median_hh, 1)), x = median_hh, y = -Inf),
-            color = '#3B528BFF', hjust = -0.5, vjust = -0.7, angle = 90, check_overlap = TRUE) +  
+  geom_text(data = tibble(x = median_hh, y = -Inf, 
+                          label = paste0("Median= ", median_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#3B528BFF', hjust = -0.5, vjust = -0.7, angle = 90) +
   theme(plot.title.position = "panel") + 
   labs(x = "x", y = "Frequency", 
-       subtitle = paste0("(N=", nrow(.), "; ", "Mean= ", round(mean(.[[1]]), 1), 
-                         "; Median= ", round(median(.[[1]]), 1), "; SD= ", round(sd(.[[1]]), 1),
+       subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
+                         "; Median= ", median_hh, "; SD= ", sd_hh,
                          ")"), 
         caption = "B12P01", title = "Flights: Air Time")
 }
@@ -547,15 +554,24 @@ maxWidth = grid::unit.pmax(B12A_P03$widths[2:5], B12A_P04$widths[2:5], B12A_P05$
 B12A_P03$widths[2:5] <- as.list(maxWidth)
 B12A_P04$widths[2:5] <- as.list(maxWidth)
 B12A_P05$widths[2:5] <- as.list(maxWidth)
+```
+
+```{r 'B12-GrobA-Save', include=FALSE}
 # Save Grobs
-ggsave(paste0(.z$PX, "B12A_P03", ".png"), plot = B12A_P03)
-ggsave(paste0(.z$PX, "B12A_P04", ".png"), plot = B12A_P04)
-ggsave(paste0(.z$PX, "B12A_P05", ".png"), plot = B12A_P05)
+loc_png <- paste0(.z$PX, "B12A_P03", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P03)
+loc_png <- paste0(.z$PX, "B12A_P04", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P04)
+loc_png <- paste0(.z$PX, "B12A_P05", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P05)
 ```
 
 ```{r 'B12-GifSampleSize', include=FALSE}
+loc_gif <- paste0(.z$PX, "B12A", ".gif")
+if(!file.exists(loc_gif)){
 png_files <- list.files(.z$PX, pattern = "B12A.*.*png$", full.names = TRUE)
-gifski(png_files, gif_file = paste0(.z$PX, "B12A", ".gif"), delay = 2)
+gifski(png_files, gif_file = loc_gif, delay = 2)
+}
 ```
 
 ```{r 'B12P030405G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
@@ -707,15 +723,24 @@ maxWidth = grid::unit.pmax(B12B_P06$widths[2:5], B12B_P07$widths[2:5], B12B_P08$
 B12B_P06$widths[2:5] <- as.list(maxWidth)
 B12B_P07$widths[2:5] <- as.list(maxWidth)
 B12B_P08$widths[2:5] <- as.list(maxWidth)
+```
+
+```{r 'B12-GrobB-Save', include=FALSE}
 # Save Grobs
-ggsave(paste0(.z$PX, "B12B_P06", ".png"), plot = B12B_P06)
-ggsave(paste0(.z$PX, "B12B_P07", ".png"), plot = B12B_P07)
-ggsave(paste0(.z$PX, "B12B_P08", ".png"), plot = B12B_P08)
+loc_png <- paste0(.z$PX, "B12B_P06", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P06)
+loc_png <- paste0(.z$PX, "B12B_P07", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P07)
+loc_png <- paste0(.z$PX, "B12B_P08", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P08)
 ```
 
 ```{r 'B12-GifSampleRepeat', include=FALSE}
+loc_gif <- paste0(.z$PX, "B12B", ".gif")
+if(!file.exists(loc_gif)){
 png_files <- list.files(.z$PX, pattern = "B12B.*.*png$", full.names = TRUE)
-gifski(png_files, gif_file = paste0(.z$PX, "B12B", ".gif"), delay = 2)
+gifski(png_files, gif_file = loc_gif, delay = 2)
+}
 ```
 
 ```{r 'B12P060708G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
@@ -759,7 +784,7 @@ assign(caption_hh, B12)
 rm(B12)
 ```
 
-## Normal Distribution
+## Normal Distribution {#normal-d-b12}
 
 ```{r 'B12P09', include=FALSE, fig.cap="Normal Distribution"}
 knitr::include_graphics(paste0(.z$PX, "B12P09_Distribution_Normal.jpg"))
@@ -839,10 +864,10 @@ f_getDef("Outliers")
   - Yes, there are, specially nonparametric methods does not take any assumption about distribution.
   - However, these are not as robust as parametric tests, so if possible, stay with parametric tests
 
-## Type I and Type II Errors 
+## Type I and Type II Errors {#errors-ab-b12}
 
-```{r 'B12P10', echo=FALSE, fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
-knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg"))
+```{r 'B12P10', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+#knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg"))
 ```
 
 Example
@@ -1050,7 +1075,8 @@ f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz,
           sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, sigma_sd_bb, variance_bb, xbreaks_hh, 
           xlabels_hh, xpoints_hh, xxflights, B12A_P03, B12A_P04, B12A_P05, B12B_P06, B12B_P07, 
           B12B_P08, B12P03, B12P04, B12P05, B12P06, B12P07, B12P08, caption_hh, dof, maxWidth, 
-          mu_hh, png_files, xb100, xb1000, xb10000, xr20, xr200, xr2000, xxalpha, ylim_hh)
+          mu_hh, png_files, xb100, xb1000, xb10000, xr20, xr200, xr2000, xxalpha, ylim_hh, loc_gif,
+          loc_png)
 ```
 
 ```{r 'B12-Validation', include=FALSE, cache=FALSE}

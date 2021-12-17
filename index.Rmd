@@ -19,6 +19,8 @@ subtitle: "ADSM: Statistics and R"
 ~~"Copy/Paste is the mother of learning."~~  
 "Repetition! Repetition is the mother of learning."
 
+Sources: [GitHub](https://github.com/shivam7898/xADSM/tree/main/docs "https://github.com") | [Google Drive](https://drive.google.com/drive/folders/1KS69a-U_64OkVbIr9VKhxu97HBPzbVsz?usp=sharing "https://drive.google.com") | [OneDrive](https://1drv.ms/u/s!AjRu26ZthlQCitEmPzybZMV0tISo5w?e=JFE5ju "https://onedrive.live.com")
+
 <!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
 
 ```{r '000A', include=FALSE, cache=FALSE}
@@ -32,7 +34,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Environment {.unnumbered .tabset .tabset-fade}
 
-\textcolor{pink}{Assumption: Working directory has 3 sub-folders named "data", "images", "code".}
+\textcolor{pink}{Assumption: Working directory has sub-folders named "data", "images", "code", "docs".}
 
 ### R Version {.unlisted .unnumbered}
 

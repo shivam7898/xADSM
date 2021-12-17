@@ -51,15 +51,18 @@ Base R graphs /plots as shown in figure \@ref(fig:B10P01)
 - Check if data has NA values or if character data is supplied where numerical is needed
 - Also, do not use assignment to save base R plot and then print
 
-```{r 'B10P01-Save', echo=c(3,4), results='hide'}
+```{r 'B10P01-Save', echo=c(5,6), results='hide'}
+loc_png <- paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png")
+if(!file.exists(loc_png)) {
 # #Save Base Plot without using ggsave()
-png(filename = paste0(.z$PX, "B10P01", "_Flights_Scatter_Arr_Dep", ".png"))
+png(filename = loc_png)
 # #Flights: Arrival Time (Y) vs. Departure (X) Time (Arrival Time is linked to Departure Time)
 plot(mydata$dep_time, mydata$arr_time)
 title("Flights", line = 2, adj = 0)
 title(sub="B10P01", line=4, adj = 1)
 B10P01 <- recordPlot()
 dev.off()
+}
 ```
 
 ```{r 'B10P01', echo=FALSE, fig.cap="Flights: Arrival Time (Y) vs. Departure (X) Time"}
@@ -640,7 +643,7 @@ stopifnot(identical(bb_2, arrange(bb, ll, -dd)))
 ```{r 'B10-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, B10P01, bb_1, bb_2, bb_3, bb_4, bb_a, bb_b, bb_dft, bb_lst, 
           bb_lst_c, bb_lst_l, bb_mat, bb_na_col, bb_new, data_1, data_2, data_3, data_4, data_5, 
-          data_6, data_7, data_8, data_9, mydata, n_rows, nn, xxbasic10, xxflights)
+          data_6, data_7, data_8, data_9, mydata, n_rows, nn, xxbasic10, xxflights, loc_png)
 ```
 
 ```{r 'B10-Validation', include=FALSE, cache=FALSE}
