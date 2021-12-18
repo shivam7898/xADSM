@@ -55,7 +55,11 @@ f_getDef("Significance-Tests")
 ```
 
 ```{r 'B13D07', comment="", echo=FALSE, results='asis'}
-f_getDef("Approach-p-value-Steps") #dddd
+f_getDef("Approach-p-value-Steps") 
+```
+
+```{r 'B13D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Standard-Error") #dddd
 ```
 
 
@@ -95,7 +99,7 @@ If the population standard error (SE) is known, apply z-test. If it is unknown, 
 2-T Rule of Thumb - Skipped "09:55"
 
 
-```{r 'B-GetPz', include=FALSE}
+```{r 'B-GetPz', include=TRUE}
 # #Get P(z)
 z01 <- round(pnorm(3.44), digits = 6)
 z02 <- 1 - round(pnorm(3.44), digits = 6)
@@ -103,6 +107,7 @@ z03 <- round(pnorm(3.44, lower.tail = FALSE), digits = 6)
 z04 <- format(pnorm(4.55, lower.tail = FALSE), digits = 3, scientific = FALSE)
 z05 <- format(pnorm(1.22, lower.tail = FALSE), digits = 5)
 z06 <- format(pnorm(1.99, lower.tail = FALSE), digits = 5)
+z07 <- format(pnorm(1.99, lower.tail = TRUE), digits = 5)
 ```
 
 ### Examples {.unlisted .unnumbered}
@@ -119,14 +124,28 @@ Example:
     - For z = 1.22 & Right Tail, p-value = `r z05` 
     - Because $P_{(z)}$ is greater than the ${\alpha}$, we fail to reject the null, the 'test is statistically NOT significant'
 1.  \textcolor{pink}{Question:} If we get a z-value of 1.99 (Right Tail), would we reject the null at ${\alpha} = 0.05$
-    - For z = 1.99 & Right Tail, p-value = `r z06` 
-    - Because $P_{(z)}$ is lower than the ${\alpha}$, null is rejected, the 'test is statistically significant'
+    - For z = 1.99 & Right Tail, p-value = `r z06` ( = 1 - `r z07`)
+    - Because $P_{(z)}$ is lower than the ${\alpha}$, null is rejected, the 'test is statistically significant'    
 
 ### Code {.unlisted .unnumbered}
 
 ```{r 'B-GetPz-A', ref.label=c('B-GetPz'), eval=FALSE}
 #
 ```
+
+### Flowchart
+
+- Tests |
+  - Test of Means |
+    - One Sample |
+      - z-test (Population Standard Deviation ${\sigma}$, is known)
+      - t-test (Population Standard Deviation ${\sigma}$, is unknown)
+    - Two Sample |
+      - Independent Sample
+      - Dependent Sample (or Repeated)
+  -
+
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

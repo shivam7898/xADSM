@@ -12,9 +12,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Inference About Means and Proportions with Two Populations"
   - "ForLater"
 
-
-## Summary
-
 How interval estimates and hypothesis tests can be developed for situations involving two populations when the difference between the two population means or the two population proportions is of prime importance.
 
 Example 
@@ -22,16 +19,223 @@ Example
 - To develop an interval estimate of the difference between the mean starting salary for a population of men and the mean starting salary for a population of women.
 - To conduct a hypothesis test to determine whether any difference is present between the proportion of defective parts in a population of parts produced by supplier A and the proportion of defective parts in a population of parts produced by supplier B. 
 
+## Known SD
+
+### Inferences About the Difference Between Two Population Means
+
+```{definition 'Independent-Simple-Random-Samples'}
+Let ${\mathcal{N}}_{({\mu}_1,\, {\sigma}_1)}$ and ${\mathcal{N}}_{({\mu}_2,\, {\sigma}_2)}$ be the two populations. To make an inference about the difference between the means $({\mu}_1 - {\mu}_2)$, we select a simple random sample of ${n}_1$ units from population 1 and a second simple random sample of ${n}_2$ units from population 2. The two samples, taken separately and independently, are referred to as \textcolor{pink}{independent simple random samples}. 
+```
+
+#### Interval Estimation
+
+Interval Estimation of $({\mu}_1 - {\mu}_2)$
+
+The point estimator of the difference between the two population means $({\mu}_1 - {\mu}_2)$ is the difference between the two sample means $({\overline{x}}_1 - {\overline{x}}_2)$.
+
+As with other point estimators, the point estimator $({\overline{x}}_1 - {\overline{x}}_2)$ has a standard error \textcolor{pink}{${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$},  that describes the variation in the sampling distribution of the estimator. It is the standard deviation of the sampling distribution of $({\overline{x}}_1 - {\overline{x}}_2)$. Refer equation \@ref(eq:se-x1x2)
+
+
+\begin{equation}
+  {\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:se-x1x2)
+\end{equation}
+
+
+```{r 'C10D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Interval-Estimate") #dddd
+```
+
+
+In the case of estimation of the difference between two population means, an interval estimate will take the following form: $({\overline{x}}_1 - {\overline{x}}_2) \, \pm \text{MOE}_{{\gamma}}$. For $\text{MOE}_{{\gamma}}$, refer equation \@ref(eq:moe-x1x2)
+
+
+\begin{equation}
+  \text{MOE}_{{\gamma}} = {z}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:moe-x1x2)
+\end{equation}
+
+Thus, the interval estimate is as given in equation \@ref(eq:int-estm-x1x2)
+
+
+\begin{equation}
+  \text{Interval Estimate} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:int-estm-x1x2)
+\end{equation}
+
+
+Example: Greystone
+
+Two stores (Inner (1), Suburb (2)) - Difference between the mean ages of the customers 
+
+- Let ${\mu}_1$ and ${\mu}_2$ denote the mean of Population (Age of All Customers of a Store)
+- (Store 1) Sample ${n}_1 = 36$, ${\overline{x}}_1 = 40$ years, Assume known ${\sigma}_1 = 9$ years
+- (Store 2) Sample ${n}_2 = 49$, ${\overline{x}}_2 = 35$ years, Assume known ${\sigma}_2 = 10$ years
+- Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), For ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+- Using equation \@ref(eq:moe-x1x2) and \@ref(eq:int-estm-x1x2) 
+  - $\text{MOE}_{\gamma} = {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}} = 1.96\sqrt{\frac{9^2}{36} + \frac{10^2}{49}} = 4.06$
+  - $\text{Interval Estimate} = ({\overline{x}}_1 - {\overline{x}}_2) \pm \text{MOE}_{\gamma} = (40 - 35) \pm 4.06 = 5 \pm 4.06$
+
+
+#### Hypothesis Tests {.tabset .tabset-fade}
+
+Using ${D_0}$ to denote the hypothesized difference between ${\mu}_1$ and ${\mu}_2$, the three forms for a hypothesis test are as follows: 
+
+```{definition 'Hypo-2Sample-Lower'}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {\mu}_1 - {\mu}_2 \geq {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 < {D_0}$}
+```
+
+```{definition 'Hypo-2Sample-Upper'}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {\mu}_1 - {\mu}_2 \leq {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 > {D_0}$}
+```
+
+```{definition 'Hypo-2Sample-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\mu}_1 - {\mu}_2 = {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 \neq {D_0}$}
+```
+
+The test statistic for the difference between two population means when ${\sigma}_1$ and ${\sigma}_2$ are known is given in equation \@ref(eq:z-sd-x1x2)
+
+
+\begin{equation}
+  z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}} 
+  (\#eq:z-sd-x1x2)
+\end{equation}
+
+##### Example {.unlisted .unnumbered}
+
+Example: Evaluate differences in education quality between two training centers
+
+- Hypothesis
+  - $\text{\{Two Tail\} } {H_0} : {\mu}_1 - {\mu}_2 = 0 \iff {H_a}: {\mu}_1 - {\mu}_2 \neq 0$
+- (Centra A) ${n}_1 = 30, \, {\overline{x}}_1 = 82, \, {\sigma}_1 = 10$
+- (Centra B) ${n}_2 = 40, \, {\overline{x}}_2 = 78, \, {\sigma}_2 = 10$
+- Calculate Test Statistic using \@ref(eq:z-sd-x1x2)
+  - $z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}} = \frac{(82 - 78) - 0}{\sqrt{\frac{10^2}{30} + \frac{10^2}{40}}} = 1.66$
+- Calculate $P_{(z)}$
+  - Because z is in upper tail, we get upper tail area and because it is Two-Tail Test, we double it
+  - ${}^{2T}\!P_{(z = 1.66)} = 2 \times {}^{U}\!P_{(z= 1.66)} = 2 \times 0.0485 = 0.0970$
+- Compare with ${\alpha} = 0.05$
+  - Because $({}^{2T}\!P_{(z = 1.66)} = 0.0970) > ({\alpha} = 0.05)$, we can NOT reject ${H_0}$
+  - The sample results do not provide sufficient evidence to conclude the training centers differ in quality.
+
+##### Simple R {.unlisted .unnumbered}
+
+```{r 'C10-GetPz'}
+# #Get P(z) for z = 1.66 (Two-Tail)
+#
+# #Get the default (lower), subtract from 1, Double if Two-Tail
+ii <- 2 * {1 - pnorm(q = 1.66)}
+jj <- 2 * {1 - pnorm(q = 1.66, lower.tail = TRUE)}
+#
+# #Use the symmetry i.e. 'minus z' value, Double if Two-Tail
+kk <- 2 * pnorm(q = -1.66)
+#
+# #Use the actual Upper Tail Option, Double if Two-Tail
+ll <- 2 * pnorm(q = 1.66, lower.tail = FALSE)
+#
+stopifnot(all(identical(round(ii, 7), round(jj, 7)), identical(round(ii, 7), round(kk, 7)),
+              identical(round(ii, 7), round(ll, 7))))
+ll
+```
+
+##### Involved {.unlisted .unnumbered}
+
+[(External) Unpaired Two-Samples T-test](http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r "http://www.sthda.com")
+
+```{r 'C10-'}
+# # Generate Data for Two Centers
+set.seed(3)
+setA <- rnorm(n = 30, mean = 82, sd = 10)
+setB <- rnorm(n = 40, mean = 78, sd = 10)
+bb <- tibble(sets = c(rep("setA", length(setA)), rep("setB", length(setB))), values = c(setA, setB))
+# Summary
+bb %>% group_by(sets) %>% summarise(Count = n(), Mean = mean(values), SD = sd(values))
+#
+# #Assumption 1: Are the two samples independents
+# #YES
+#
+# #Assumtion 2: Are the data from each of the 2 groups follow a normal distribution
+# #Shapiro-Wilk normality test
+isNormal_A <- with(bb, shapiro.test(values[sets == "setA"]))
+isNormal_B <- with(bb, shapiro.test(values[sets == "setB"]))
+#isNormal_A
+#isNormal_A$statistic
+# #p-value > 0.05 is needed for Normality
+isNormal_A$p.value
+isNormal_B$p.value
+#
+# #Both have p-values greater than the significance level alpha = 0.05.
+# #implying that the distribution of the data are not significantly different from the normal
+# #In other words, we can assume the normality.
+#
+bb %>% 
+  group_by(sets) %>% 
+  summarise(p = shapiro.test(values)$p.value)
+#
+# #Assumption 3. Do the two populations have the same variances
+# #We will use F-test to test for homogeneity in variances. (p-value > 0.05 is needed)
+#
+bb_testF <- var.test(values ~ sets, data = bb)
+# bb_testF
+bb_testF$p.value
+#
+# #The p-value of F-test is greater than the significance level alpha = 0.05. 
+# #In conclusion, there is no significant difference between the variances of the two sets of data.
+# #Therefore, we can use the classic t-test witch assume equality of the two variances.
+#
+# #Compute unpaired two-samples t-test
+#
+# #Question : Is there any significant difference between the mean of two populations
+#
+bb_testT <- t.test(values ~ sets, data = bb, var.equal = TRUE)
+bb_testT
+#
+cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6), ")\n"))
+cat(paste0("df (n1 +n2 -2) is the degrees of freedom (df = ", bb_testT$parameter, ")\n"))
+cat(paste0("p-value is the significance level of the t-test (p-value = ", 
+           round(bb_testT$p.value, 6), ")\n"))
+cat(paste0("conf.int is the confidence interval of the mean at 95% (conf.int = [", paste0(round(bb_testT$conf.int, 3), collapse = ", "), "])\n"))
+cat(paste0("sample estimates is the mean value of the samples. Mean: ", 
+           paste0(round(bb_testT$estimate, 2), collapse = ", "), "\n"))
+#
+# #Compare p-value with alpha = 0.05
+alpha <- 0.05
+if(bb_testT$p.value >= alpha) {
+  cat(paste0("p-value (", round(bb_testT$p.value, 6), ") is greater than alpha (", alpha, 
+      "). We failed to reject H0. We cannot conclude that the populations are different.\n")) 
+} else {
+    cat(paste0("p-value (", round(bb_testT$p.value, 6), ") is less than alpha (", alpha, 
+      ")\n. We can reject the H0 with 95% confidence. The populations are different.\n"))
+}
+```
+
+##### Shapiro–Wilk test {.unlisted .unnumbered}
+
+```{definition 'Shapiro–Wilk-Test'}
+The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
+```
+
+The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. 
+
+On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) can not be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+
+
+
+## Summary
+
+
+
+
 - The matched sample design is generally preferred to the independent sample design because the matched-sample procedure often improves the precision of the estimate.
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C10-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, alpha, bb_testF, bb_testT, isNormal_A, isNormal_B, setA, setB)
 ```
 
-```{r 'C10-Validation', include=FALSE, cache=FALSE}
+```{r 'C10-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

@@ -15,15 +15,15 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Interval Estimate {#interval-c08}
 
 ```{definition 'Interval-Estimate'}
-Because a point estimator cannot be expected to provide the exact value of the population parameter, an \textcolor{pink}{interval estimate} is often computed by adding and subtracting a value, called the \textcolor{pink}{margin of error}, to the point estimate. $\text{Interval Estimate} = \text{Point Estimate} \pm \text{Margin of Error}$
+Because a point estimator cannot be expected to provide the exact value of the population parameter, an \textcolor{pink}{interval estimate} is often computed by adding and subtracting a value, called the \textcolor{pink}{margin of error (MOE)}, to the point estimate. $\text{Interval Estimate} = \text{Point Estimate} \pm \text{MOE}_{\gamma}$
 ```
 
 ```{definition 'Confidence-Interval'}
-\textcolor{pink}{Confidence interval} is another name for an interval estimate. Normally it is given as \textcolor{pink}{$(1 - \alpha)$}. Ex: 95% confidence interval
+\textcolor{pink}{Confidence interval} is another name for an interval estimate. Normally it is given as \textcolor{pink}{$({\gamma} = 1 - {\alpha})$}. Ex: 95% confidence interval
 ```
 
 ```{definition 'Confidence-Coefficient'}
-The confidence level expressed as a decimal value is the \textcolor{pink}{confidence coefficient ($1-{\alpha}$)}. i.e. 0.95 is the confidence coefficient for a 95% confidence level.
+The confidence level expressed as a decimal value is the \textcolor{pink}{confidence coefficient $({\gamma} = 1 - {\alpha})$}. i.e. 0.95 is the confidence coefficient for a 95% confidence level.
 ```
 
 

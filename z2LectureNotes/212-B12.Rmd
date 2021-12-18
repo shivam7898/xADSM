@@ -992,7 +992,7 @@ f_getDef("Approach-p-value")
 Steps for the p-value approach or test statistic approach
 
 - Calculate $z$ for given $x$: $z = \frac{\overline{x} - \mu_0}{s}$
-- Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value from z-table
+- Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value from z-table
   - $P_{\left(\overline{x}\right)} = P_{\left(z\right)}$
 - Compare p-value with Level of significance ${\alpha}$
 
@@ -1006,7 +1006,7 @@ Steps for the critical value approach
 - Calculate $z$ for given $x$: $z = \frac{\overline{x} - \mu_0}{s}$
 - Using the z-table, find the z for given Level of significance ${\alpha} = 0.01$ 
   - $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
-  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+  - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
 - Compare test statistic with z-value i.e. $(z)$ vs. $(z_{\alpha = 0.01})$
 
 

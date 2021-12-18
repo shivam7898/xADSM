@@ -276,7 +276,7 @@ Example: The label on a can of Hilltop Coffee states that the can contains 3 pou
   - Because the sampling distribution of ${\overline{x}}$ is normally distributed, $z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} = \frac{\overline{x} - 3}{0.03}$
   - Because the sampling distribution of x is normally distributed, the sampling distribution of ${z}$ is a standard normal distribution. 
   - A value of $z = −1$ means that the value of ${\overline{x}}$ is one standard error below the hypothesized value of the mean. For a value of $z = −2$, it would be two standard errors below the mean, and so on. 
-  - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06")
+  - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Ex: $P_{\left(z = -3\right)} = 0.0013$
     - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean $\mu_0=3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
   - For hypothesis tests about a population mean in the ${\sigma}$ known case, we use the standard normal random variable ${z}$ as a test statistic to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. As given in equation \@ref(eq:test-statistic-with-sigma)
@@ -313,7 +313,7 @@ For the Hilltop Coffee Example
 - Because this is a lower tail test, the p-value is the area under the standard normal curve for values of ${z}$ less than or equal to the value of the test statistic. 
   - Refer equation \@ref(eq:test-statistic-with-sigma), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
   - Thus, the p-value is the probability that ${z}$ is less than or equal to −2.67 (the lower tail area corresponding to the value of the test statistic).
-- Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value
+- Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
   - $P_{\left(\overline{x} = 2.92\right)} = P_{\left(z = -2.67\right)} = 0.0038$
   - This p-value does not provide much support for the null hypothesis, but is it small enough to cause us to reject ${H_0}$
 - Compare p-value with Level of significance $\alpha = 0.01$
@@ -344,7 +344,7 @@ Hilltop Coffee Example
 - The sampling distribution for the test statistic ${z}$ is a standard normal distribution. 
   - Therefore, the critical value is the value of the test statistic that corresponds to an area of $\alpha = 0.01$ in the lower tail of a standard normal distribution. 
   - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
-  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+  - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
   - Thus, if the sample results in a value of the test statistic that is less than or equal to −2.33, the corresponding p-value will be less than or equal to .01; in this case, we should reject the null hypothesis. 
 - Compare test statistic with z-value
   - Because $(z = -2.67) < (z_{\alpha = 0.01} = −2.33)$, we can reject ${H_0}$
@@ -417,7 +417,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
   - Now to compute the p-value we must find the probability of obtaining a value for the test statistic at least as unlikely as $z = 1.53$. 
     - Clearly values of $z \geq 1.53$ are at least as unlikely. 
     - But, because this is a two-tailed test, values of $z \leq −1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 
-  - Refer [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), to get the p-value
+  - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
     - $P_{\left(z\right)} = P_{\left(z \leq -1.53\right)} + P_{\left(z \geq 1.53\right)}$
     - $P_{\left(z\right)} = 2 \times P_{\left(z \geq 1.53\right)}$, Because the normal curve is symmetric
     - $P_{\left(z\right)} = 2 \times 0.0630 = 0.1260$
@@ -427,7 +427,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
 - critical value approach
   - The critical values for the test will occur in both the lower and upper tails of the standard normal distribution. 
   - With a level of significance of $\alpha = 0.05$, the area in each tail corresponding to the critical values is $\alpha/2 = 0.025$. 
-  - Refer [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+  - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.025$ for $-z_{\alpha/2 = 0.025} = −1.96$ and $z_{\alpha/2 = 0.025} = 1.96$ 
   - Compare test statistic with z-value
     - Because $(z = 1.53)$ is NOT greater than  $(z_{\alpha/2 = 0.025} = 1.96)$, we can NOT reject ${H_0}$

@@ -137,7 +137,7 @@ Just as with other probability distributions, the sampling distribution of ${\ov
 ### Standard Deviation {#standard-error-c07}
 
 ```{definition 'Standard-Error'}
-In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to the standard deviation of a point estimator. The standard error of ${\overline{x}}$ is the standard deviation of the sampling distribution of ${\overline{x}}$.
+In general, \textcolor{pink}{standard error $\sigma_{\overline{x}}$} refers to the standard deviation of a point estimator. The standard error of ${\overline{x}}$ is the standard deviation of the sampling distribution of ${\overline{x}}$. It is the indicator of 'Sampling Fluctuation'.
 ```
 
 - Standard Deviation of ${\overline{x}}$, \textcolor{pink}{$\sigma_{\overline{x}}$} is given by \@ref(eq:sigma-x-bar)

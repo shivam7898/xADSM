@@ -11,7 +11,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - This chapter covers 
   - [Continuos Probability](#continuous-prob-c06 "c06"), [Normal Distribution](#normal-d-c06 "c06"), [Standard Normal](#standard-normal-c06 "c06")
-  - [Calculate P(z) by pnorm()](#get-pz-c06 "c06"), [For P(z), find z by qnorm()](#get-pz-c06 "c06")
+  - [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
   - "ForLater" - Exercises, Normal Approximation of Binomial Probabilities, Exponential Probability Distribution, Relationship Between the Poisson and Exponential Distributions
 
 ## Definitions (Ref)
