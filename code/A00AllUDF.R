@@ -13,6 +13,7 @@ if(identical(0L, length(ls(pattern = "f_$")))) {
   source(paste0(.z$RX, "A08getDef", ".R"))
   source(paste0(.z$RX, "A09isPrime", ".R"))
   source(paste0(.z$RX, "A10getUtil", ".R"))
+  source(paste0(.z$RX, "A11getStat", ".R"))
 } else print("Functions not loaded again.")
 ## ---- A00Z ----
 # #f_rmExist()
