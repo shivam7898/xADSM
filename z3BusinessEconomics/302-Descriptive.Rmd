@@ -485,7 +485,7 @@ stopifnot(all(identical(bb, ii), identical(bb, jj)))
 ```{r 'C02-K-RowTotal'}
 # #(Deprecated) Issues: 
 # #(1) bind_rows() needs two dataframes. Thus, first can be skipped in Pipe, But...
-# #The second dataframe can not be replaced with dot (.), it has to have a name
+# #The second dataframe cannot be replaced with dot (.), it has to have a name
 # #(2) Pipe usage inside function call was working but was a concern
 # #(3) It introduced NA for that replace was needed as another step
 ii <- aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%

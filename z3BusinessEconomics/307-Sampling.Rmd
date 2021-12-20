@@ -232,7 +232,7 @@ Non-mathematical view:
   - With a huge sample, you will know the value of the mean with a lot of precision even if the data is scattered.
 - The SD does not change predictably as you acquire more data. 
   - The SD you compute from a sample is the best possible estimate of the SD of the overall population. 
-  - As you collect more data, you will assess the SD of the population with more precision. But you can not predict whether the SD from a larger sample will be bigger or smaller than the SD from a small sample. 
+  - As you collect more data, you will assess the SD of the population with more precision. But you cannot predict whether the SD from a larger sample will be bigger or smaller than the SD from a small sample. 
   - Technically, variance does not change predictably. Above is a simplification. For details, see [Difference between SE and SD](https://stats.stackexchange.com/questions/32318 "https://stats.stackexchange.com/questions/32318")
 
 ### Form {#clt-c07}

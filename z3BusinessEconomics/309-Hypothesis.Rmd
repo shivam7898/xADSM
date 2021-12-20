@@ -430,7 +430,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
   - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.025$ for $-z_{\alpha/2 = 0.025} = −1.96$ and $z_{\alpha/2 = 0.025} = 1.96$ 
   - Compare test statistic with z-value
-    - Because $(z = 1.53)$ is NOT greater than  $(z_{\alpha/2 = 0.025} = 1.96)$, we can NOT reject ${H_0}$
+    - Because $(z = 1.53)$ is NOT greater than  $(z_{\alpha/2 = 0.025} = 1.96)$, we cannot reject ${H_0}$
 
 \textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq -z_{\alpha/2}$ or $z \geq z_{\alpha/2}$}
 
@@ -554,13 +554,13 @@ Two Tailed Test
     - $P_{\left(t\right)} = 2 \times 0.1411 = 0.2822$ i.e. between 2 * (0.20 and 0.10) or (0.40, 0.20)
   - Comparison
     - $(P_{\left(t\right)}  = 0.282)2 > ({\alpha} = 0.05)$
-    - Thus, we can NOT reject the ${H_0}$
+    - Thus, we cannot reject the ${H_0}$
   
 Critical Value Approach
   - $(\text{DOF = 24})$
   - We find that $P_{\left(t\right)} = 0.025$ for $-t_{\alpha/2 = 0.025} = -2.064$ and $t_{\alpha/2 = 0.025} = 2.064$ 
   - Compare test statistic with z-value
-    - Because $(t = -1.10)$ is NOT lower than  $(-z_{\alpha/2 = 0.025} = -2.064)$, we can NOT reject ${H_0}$
+    - Because $(t = -1.10)$ is NOT lower than  $(-z_{\alpha/2 = 0.025} = -2.064)$, we cannot reject ${H_0}$
 
 
 ## Hypothesis Testing and Decision Making

@@ -377,7 +377,7 @@ aa <- 1:131071
 bb <- aa[f_isPrimeV(aa)]
 
 getPrimeUpto_a <- function(x){
-  # #Extremely Slow, can not go beyond 8191L in benchmark testing
+  # #Extremely slow, cannot go beyond 8191L in benchmark testing
   if(x < 2) return("ERROR")
   y <- 2:x
   primes <- rep(2L, x)
@@ -432,7 +432,7 @@ getPrimeUpto_c <- function(x) {
     stop()
   }
   
-  # #Can not create vector of length 2147483647L and also not needed that many
+  # #Cannot create vector of length 2147483647L and also not needed that many
   # #ceiling(sqrt(7L)) return 3, however we need length 4 (2, 3, 5, 7)
   # #So, added extra 10
   #primes <- rep(NA_integer_, 10L + sqrt(2L))

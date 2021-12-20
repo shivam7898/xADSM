@@ -113,7 +113,7 @@ tryCatch( FALSE & x, error = function(e) cat(paste0(e)))
 # #Does not evaluate Right input because outcome already determined
 tryCatch( TRUE || x, error = function(e) cat(paste0(e)))
 tryCatch( FALSE && x, error = function(e) cat(paste0(e)))
-# #evaluates Right input because outcome can not be determined and throws error
+# #evaluates Right input because outcome cannot be determined and throws error
 tryCatch( TRUE && x, error = function(e) cat(paste0(e)))
 ```
 

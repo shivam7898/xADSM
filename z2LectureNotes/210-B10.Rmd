@@ -493,7 +493,7 @@ str(bb[aa])
 \textcolor{pink}{Data Frames} are lists with restriction that all elements of a data frame are of equal length.
 ```
 
-Due to the resulting two-dimensional structure, data frames can mimic some of the behaviour of matrices. You can select rows and do operations on rows. You can not do that with lists, as a row is undefined there.
+Due to the resulting two-dimensional structure, data frames can mimic some of the behaviour of matrices. You can select rows and do operations on rows. You cannot do that with lists, as a row is undefined there.
 
 A Dataframe is intended to be used as a relational table. This means that elements in the same column are related to each other in the sense that they are all measures of the same metric. And, elements in the same row are related to each other in the sense that they are all measures from the same observation or measures of the same item. This is why when you look at the structure of a Dataframe, it will state the the number of observations and the number of variables instead of the number of rows and columns. 
 
@@ -508,7 +508,7 @@ All this implies that you should use a data frame for any dataset that fits in t
 - Then what does \textcolor{pink}{typeof()} tell us
   - It tells us the internal 'storage mode' of an object. How the R perceives the object and interacts with it.
   - An object has one and only one mode [Difference between mode and class](https://stackoverflow.com/questions/35445112 "https://stackoverflow.com/questions/35445112")
-  - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) can not be
+  - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) cannot be
 - To define an object, what should be known about it
   - class(), typeof(), is(), attributes(), str(), inherits(), ...
 
@@ -518,7 +518,7 @@ All this implies that you should use a data frame for any dataset that fits in t
 ```{r 'B10-List'}
 # #CAUTION: Do not Create a list with duplicate names (R will NOT throw ERROR)
 bb <- list(a=1, b=2, a=3)
-# # 3rd index can not be accessed using $
+# # 3rd index cannot be accessed using $
 bb$a
 identical(bb$a, bb[[1]])
 identical(bb$a, bb[[3]])

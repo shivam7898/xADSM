@@ -77,7 +77,7 @@ Refer [Steps of Hypothesis Testing](#one-tail-c09 "c09")
     - Equality part of expression always appears in ${H_0}$ i.e. it can be \textcolor{pink}{$>=$} , \textcolor{pink}{$<=$} , \textcolor{pink}{$==$} 
     - The term 'null' is used because this hypothesis assumes that there is no difference between the two means or that the recorded difference is not significant.
 1. An Alternative Hypothesis ${H_a}$, is then stated which will be the complement of the Null Hypothesis.
-    - ${H_a}$ can not have equality part of expression i.e. it can be \textcolor{pink}{$<$} , \textcolor{pink}{$>$} , \textcolor{pink}{$!=$} 
+    - ${H_a}$ cannot have equality part of expression i.e. it can be \textcolor{pink}{$<$} , \textcolor{pink}{$>$} , \textcolor{pink}{$!=$} 
     - The claim about the population that evidence is being sought for is the alternative hypothesis
       - However, to prove it is true, its complement (null hypothesis) is tried to be proven false. Because it is easier to prove something false.
 1. For Hypothesis tests involving a population mean, let ${\mu}_0$ denote the hypothesized value 
@@ -849,7 +849,7 @@ f_getDef("Outliers")
   - Shape of the curve will be tilted, thus it will be difficult to keep the datapoint and satify the condition for normality
   - Generally, only ${{\mu}-3{\sigma} \leq {x} \leq {\mu}+3{\sigma}}$ values are kept and the remaining are treated as outliers
 - \textcolor{pink}{Question:} Is is a bad data if it is +4 standard deviations away
-  - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assuption, parametric methods can not be applied to the dataset
+  - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assuption, parametric methods cannot be applied to the dataset
   - In general, convert to z-value, remove those which have z-value higher than +3 or lower than -3
 - \textcolor{pink}{Question:} But, how many removals are too many removals
   - There are techniques for this consideration, will be covered later. "ForLater"
