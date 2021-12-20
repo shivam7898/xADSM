@@ -19,65 +19,69 @@ Example
 - To develop an interval estimate of the difference between the mean starting salary for a population of men and the mean starting salary for a population of women.
 - To conduct a hypothesis test to determine whether any difference is present between the proportion of defective parts in a population of parts produced by supplier A and the proportion of defective parts in a population of parts produced by supplier B. 
 
-## Known SD
+## Known SD: Two Population Means
 
-### Inferences About the Difference Between Two Population Means
+\textcolor{pink}{Inferences About the Difference Between Two Population Means}
 
 ```{definition 'Independent-Simple-Random-Samples'}
 Let ${\mathcal{N}}_{({\mu}_1,\, {\sigma}_1)}$ and ${\mathcal{N}}_{({\mu}_2,\, {\sigma}_2)}$ be the two populations. To make an inference about the difference between the means $({\mu}_1 - {\mu}_2)$, we select a simple random sample of ${n}_1$ units from population 1 and a second simple random sample of ${n}_2$ units from population 2. The two samples, taken separately and independently, are referred to as \textcolor{pink}{independent simple random samples}. 
 ```
 
-#### Interval Estimation
+### Interval Estimation
 
-Interval Estimation of $({\mu}_1 - {\mu}_2)$
+\textcolor{pink}{Interval Estimation of $({\mu}_1 - {\mu}_2)$}
 
-The point estimator of the difference between the two population means $({\mu}_1 - {\mu}_2)$ is the difference between the two sample means $({\overline{x}}_1 - {\overline{x}}_2)$.
+The point estimator of the difference between the two population means $({\mu}_1 - {\mu}_2)$ is the difference between the two sample means \textcolor{pink}{$({\overline{x}}_1 - {\overline{x}}_2)$}. Thus, $E_{( {\overline{x}}_1 - {\overline{x}}_2 )}$ represents the difference of population means. It is given by equation \@ref(eq:point-estm-2s-sd)
 
-As with other point estimators, the point estimator $({\overline{x}}_1 - {\overline{x}}_2)$ has a standard error \textcolor{pink}{${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$},  that describes the variation in the sampling distribution of the estimator. It is the standard deviation of the sampling distribution of $({\overline{x}}_1 - {\overline{x}}_2)$. Refer equation \@ref(eq:se-x1x2)
+\textcolor{pink}{Point Estimate :}
 
+\begin{equation}
+  E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = {\overline{x}}_1 - {\overline{x}}_2 
+  (\#eq:point-estm-2s-sd)
+\end{equation}
+
+As with other point estimators, the point estimator $E_{( {\overline{x}}_1 - {\overline{x}}_2 )}$ has a standard error \textcolor{pink}{${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$}, that describes the variation in the sampling distribution of the estimator. It is the standard deviation of the sampling distribution of $({\overline{x}}_1 - {\overline{x}}_2)$. Refer equation \@ref(eq:se-2s-sd)
+
+\textcolor{pink}{Standard Error of $({\overline{x}}_1 - {\overline{x}}_2)$ :}
 
 \begin{equation}
   {\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
-  (\#eq:se-x1x2)
+  (\#eq:se-2s-sd)
 \end{equation}
 
-
 ```{r 'C10D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Interval-Estimate") #dddd
+f_getDef("Interval-Estimate")
 ```
 
 
-In the case of estimation of the difference between two population means, an interval estimate will take the following form: $({\overline{x}}_1 - {\overline{x}}_2) \, \pm \text{MOE}_{{\gamma}}$. For $\text{MOE}_{{\gamma}}$, refer equation \@ref(eq:moe-x1x2)
+In the case of estimation of the difference between two population means, an interval estimate will take the following form: $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} \, \pm \text{MOE}_{{\gamma}}$. Refer equation \@ref(eq:moe-2s-sd) and \@ref(eq:interval-estm-2s-sd)
 
+\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :}
 
 \begin{equation}
   \text{MOE}_{{\gamma}} = {z}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
-  (\#eq:moe-x1x2)
+  (\#eq:moe-2s-sd)
 \end{equation}
 
-Thus, the interval estimate is as given in equation \@ref(eq:int-estm-x1x2)
-
+\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :}
 
 \begin{equation}
-  \text{Interval Estimate} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
-  (\#eq:int-estm-x1x2)
+  \text{Interval Estimate}_{\gamma} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {z}_{\frac{{\alpha}}{2}} \sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:interval-estm-2s-sd)
 \end{equation}
 
+Example: Greystone: Difference between the mean 
 
-Example: Greystone
+- (1: Inner ) ${n}_1 = 36, {\overline{x}}_1 = 40, {\sigma}_1 = 9$
+- (2: Suburb) ${n}_2 = 49, {\overline{x}}_2 = 35, {\sigma}_2 = 10$
+- For ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+  - `qnorm(p = 0.025, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}} = \sqrt{\frac{{9}^2}{36} + \frac{{10}^2}{49}} = 2.0714$
+  - `sqrt(9^2/36 + 10^2/49)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:moe-2s-sd) $\text{MOE}_{\gamma} = {z}_{\frac{{\alpha}}{2}} {\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = 1.96 * 2.071 = 4.06$
+- \@ref(eq:interval-estm-2s-sd) $\text{Interval Estimate}_{\gamma} = ({\overline{x}}_1 - {\overline{x}}_2) \pm \text{MOE}_{\gamma} = (40 - 35) \pm 4.06 = 5 \pm 4.06$
 
-Two stores (Inner (1), Suburb (2)) - Difference between the mean ages of the customers 
-
-- Let ${\mu}_1$ and ${\mu}_2$ denote the mean of Population (Age of All Customers of a Store)
-- (Store 1) Sample ${n}_1 = 36$, ${\overline{x}}_1 = 40$ years, Assume known ${\sigma}_1 = 9$ years
-- (Store 2) Sample ${n}_2 = 49$, ${\overline{x}}_2 = 35$ years, Assume known ${\sigma}_2 = 10$ years
-- Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), For ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
-- Using equation \@ref(eq:moe-x1x2) and \@ref(eq:int-estm-x1x2) 
-  - $\text{MOE}_{\gamma} = {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}} = 1.96\sqrt{\frac{9^2}{36} + \frac{10^2}{49}} = 4.06$
-  - $\text{Interval Estimate} = ({\overline{x}}_1 - {\overline{x}}_2) \pm \text{MOE}_{\gamma} = (40 - 35) \pm 4.06 = 5 \pm 4.06$
-
-
-#### Hypothesis Tests {.tabset .tabset-fade}
+### Hypothesis Tests {.tabset .tabset-fade}
 
 Using ${D_0}$ to denote the hypothesized difference between ${\mu}_1$ and ${\mu}_2$, the three forms for a hypothesis test are as follows: 
 
@@ -93,32 +97,37 @@ Using ${D_0}$ to denote the hypothesized difference between ${\mu}_1$ and ${\mu}
 \textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\mu}_1 - {\mu}_2 = {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 \neq {D_0}$}
 ```
 
-The test statistic for the difference between two population means when ${\sigma}_1$ and ${\sigma}_2$ are known is given in equation \@ref(eq:z-sd-x1x2)
+The test statistic for the difference between two population means when ${\sigma}_1$ and ${\sigma}_2$ are known is given in equation \@ref(eq:z-2s-sd) 
 
+\textcolor{pink}{Test Statistic for Hypothesis Tests :}
 
 \begin{equation}
   z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}} 
-  (\#eq:z-sd-x1x2)
+  (\#eq:z-2s-sd)
 \end{equation}
 
-##### Example {.unlisted .unnumbered}
+#### Example {.unlisted .unnumbered}
 
 Example: Evaluate differences in education quality between two training centers
 
-- Hypothesis
-  - $\text{\{Two Tail\} } {H_0} : {\mu}_1 - {\mu}_2 = 0 \iff {H_a}: {\mu}_1 - {\mu}_2 \neq 0$
-- (Centra A) ${n}_1 = 30, \, {\overline{x}}_1 = 82, \, {\sigma}_1 = 10$
-- (Centra B) ${n}_2 = 40, \, {\overline{x}}_2 = 78, \, {\sigma}_2 = 10$
-- Calculate Test Statistic using \@ref(eq:z-sd-x1x2)
-  - $z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}} = \frac{(82 - 78) - 0}{\sqrt{\frac{10^2}{30} + \frac{10^2}{40}}} = 1.66$
-- Calculate $P_{(z)}$
+```{r 'C10D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two") 
+```
+
+- (1: A) ${n}_1 = 30, {\overline{x}}_1 = 82, {\sigma}_1 = 10$
+- (2: B) ${n}_2 = 40, {\overline{x}}_2 = 78, {\sigma}_2 = 10$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{10}^2}{30} + \frac{{10}^2}{40}} = 2.4152$
+  - `sqrt(10^2/30 + 10^2/40)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:z-2s-sd) $z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{(82 - 78) - 0}{2.415} = 1.66$
+- Calculate ${}^2\!P_{(z)}$
   - Because z is in upper tail, we get upper tail area and because it is Two-Tail Test, we double it
-  - ${}^{2T}\!P_{(z = 1.66)} = 2 \times {}^{U}\!P_{(z= 1.66)} = 2 \times 0.0485 = 0.0970$
+  - ${}^2\!P_{(z = 1.66)} = 2 * {}^U\!P_{(z= 1.66)} = 2 * 0.0485 = 0.0970$
+    - `2 * pnorm(q = 1.66, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
-  - Because $({}^{2T}\!P_{(z = 1.66)} = 0.0970) > ({\alpha} = 0.05)$, we can NOT reject ${H_0}$
+  - ${}^2\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected
   - The sample results do not provide sufficient evidence to conclude the training centers differ in quality.
 
-##### Simple R {.unlisted .unnumbered}
+#### Comparison {.unlisted .unnumbered}
 
 ```{r 'C10-GetPz'}
 # #Get P(z) for z = 1.66 (Two-Tail)
@@ -138,7 +147,7 @@ stopifnot(all(identical(round(ii, 7), round(jj, 7)), identical(round(ii, 7), rou
 ll
 ```
 
-##### Involved {.unlisted .unnumbered}
+#### More {.unlisted .unnumbered}
 
 [(External) Unpaired Two-Samples T-test](http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r "http://www.sthda.com")
 
@@ -209,7 +218,7 @@ if(bb_testT$p.value >= alpha) {
 }
 ```
 
-##### Shapiro–Wilk test {.unlisted .unnumbered}
+#### Shapiro–Wilk test {.unlisted .unnumbered}
 
 ```{definition 'Shapiro–Wilk-Test'}
 The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
@@ -217,7 +226,177 @@ The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the n
 
 The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. 
 
-On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) can not be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+
+## Exercises {.tabset .tabset-fade}
+
+### 01 {.unlisted .unnumbered}
+
+```{r 'C10D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two")
+```
+
+- (1:) ${n}_1 = 50, {\overline{x}}_1 = 13.6, {\sigma}_1 = 2.2$
+- (2:) ${n}_2 = 35, {\overline{x}}_2 = 11.6, {\sigma}_2 = 3.0$
+- What is the point estimate of the difference between the two population means
+  - \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 13.6 - 11.6 = 2$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{2.2}^2}{50} + \frac{{3}^2}{35}} = 0.5949$
+  - `sqrt(2.2^2/50 + 3^2/35)` \textcolor{pink}{$\#\mathcal{R}$}  
+- Provide a 90% confidence interval for the difference between the two population means
+  - ${\gamma = 0.90} \iff{\alpha} = 0.10 \iff {z_{{\alpha}/2}} = {z_{0.05}} = 1.6448$
+    - `qnorm(p = 0.05, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - \@ref(eq:moe-2s-sd) $\text{MOE}_{\gamma =0.90} = 1.6448 * 0.5949 = 0.9785$ 
+  - \@ref(eq:interval-estm-2s-sd) $\text{Interval Estimate}_{\gamma} = 2 \pm 0.9785$
+- Provide a 95% confidence interval for the difference between the two population means
+  - ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+  - $\text{MOE}_{\gamma =0.95} = 1.96 * 0.5949 = 1.166$ 
+  - $\text{Interval Estimate}_{\gamma} = 2 \pm 1.166$
+
+### 02 {.unlisted .unnumbered}
+
+```{r 'C10D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper")
+```
+
+- (1:) ${n}_1 = 40, {\overline{x}}_1 = 25.2, {\sigma}_1 = 5.2$
+- (2:) ${n}_2 = 50, {\overline{x}}_2 = 22.8, {\sigma}_2 = 6.0$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{5.2}^2}{40} + \frac{{6}^2}{50}} = 1.1815$
+  - `sqrt(5.2^2/40 + 6^2/50)` \textcolor{pink}{$\#\mathcal{R}$}
+- What is the value of the test statistic
+  - \@ref(eq:z-2s-sd) $z = \frac{(25.2 - 22.8) - 0}{1.18} = 2.03$
+- What is the p-value 
+  - ${}^U\!P_{z = 2.03} = 0.0212$
+    - `pnorm(q = 2.03, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+- With ${\alpha} = 0.05$, what is your hypothesis testing conclusion
+  - ${}^U\!P_{z} < {\alpha} \to {H_0}$ Rejected
+
+
+### 04 Conde {.unlisted .unnumbered}
+
+```{r 'C10D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two")
+```
+
+- (1: small) ${n}_1 = 37, {\overline{x}}_1 = 85.36, {\sigma}_1 = 4.55$
+- (2: large) ${n}_2 = 44, {\overline{x}}_2 = 81.40, {\sigma}_2 = 3.97$
+- \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 85.36 - 81.40 = 3.96$ 
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{4.55}^2}{37} + \frac{{3.97}^2}{44}} = 0.958$
+    - `sqrt(4.55^2/37 + 3.97^2/44)` \textcolor{pink}{$\#\mathcal{R}$}
+- ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+    - `qnorm(p = 0.025, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = 1.96 * 0.958 = 1.87768$ 
+- \@ref(eq:interval-estm-2s-sd), $\text{Interval Estimate}_{\gamma} = 3.96 \pm 1.88$
+- Test Statistic z
+  - \@ref(eq:z-2s-sd) $z = \frac{(85.36 - 81.40 ) - 0}{0.958} = 4.13369$
+- p-value
+  - ${}^2\!P_{(z = 4.13369)} = 2 * {}^U\!P_{(z= 4.13369)} = 2 * 0.0000178 \approx 0$
+    - `pnorm(q = 4.13369, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - ${}^2\!P_{z} < {\alpha} \to {H_0}$ Rejected
+
+
+### 08 Rite Aid {.unlisted .unnumbered}
+
+```{r 'C10D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Lower")
+```
+
+- Will improving customer service result in higher stock prices 
+- For each case: ${n} = 60, {\sigma} = 6, {\alpha} = 0.05$
+  - \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{6}^2}{60} + \frac{{6}^2}{60}} = 1.0954$
+    - `sqrt(6^2/60 + 6^2/60)` \textcolor{pink}{$\#\mathcal{R}$}
+
+- Rite $\{{\overline{x}}_1 = 73, {\overline{x}}_2 = 76\}$, Expedia $\{{\overline{x}}_1 = 75,  {\overline{x}}_2 = 77\}$, JC $\{{\overline{x}}_1 = 77, {\overline{x}}_2 = 78\}$
+- For Rite Aid, is the increase in the satisfaction score from year 1 to year 2 statistically significant
+  - \@ref(eq:z-2s-sd) $z = \frac{(73 - 76) - 0}{1.0954} = -2.738613$
+  - ${}^L\!P_{(z = -2.738613)} = 0.003$
+    - `pnorm(q = -2.738613, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ rejected i.e. The increase is significant
+    - \textcolor{orange}{Caution:} Using Two-Tail Test will result in different result. The type of test should be considered carefully
+
+```{r 'C10D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper") 
+```
+
+- Can you conclude that the year 2 score for Rite Aid is above the national average of 75.7
+  - 1 is 76, 2 is national 75.7
+  - \@ref(eq:z-2s-sd) $z = \frac{(76 - 75.7) - 0}{1.0954} = 0.2739$
+  - ${}^U\!P_{(z = 0.2739)} = 0.392$
+    - `pnorm(q = 0.2739, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^U\!P_{z} > {\alpha} \to {H_0}$ cannot be rejected. Difference is NOT significant.
+    - Cannot conclude that the increase is above the national average
+
+```{r 'C10D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Lower")
+```
+
+- For Expedia, is the increase from year 1 to year 2 statistically significant
+  - \@ref(eq:z-2s-sd) $z = \frac{(75 - 77) - 0}{1.0954} = -1.826$
+  - ${}^L\!P_{(z = -1.826)} = 0.0339$
+    - `pnorm(q = -1.826, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ rejected i.e. The increase is significant
+
+- When conducting a hypothesis test with the values given for the standard deviation, sample size, and alpha, how large must the increase from year 1 to year 2 be for it to be statistically significant
+  - ${\alpha} = 0.05 \iff {}^L\!P_{(z)} = 0.05 \to z = -1.6448$
+    - `qnorm(p = 0.05, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = -1.6448 * 1.0954 = -1.8$ 
+  - At least 1.8 increase should be there for result to be significant
+  - For JC, because the increase is only 1 i.e. less than 1.8, it will not be significant
+
+
+## Unknown SD: Two Population Means
+
+Use the sample standard deviations, ${s}_1$ and ${s}_2$, to estimate the unknown population standard deviations $({\sigma}_1, {\sigma}_2)$.
+
+When $({\sigma}_1, {\sigma}_2)$ are estimated by $({s}_1, {s}_2)$, the t distribution is used to make inferences about the difference between two population means.
+
+\textcolor{pink}{Interval Estimation of $({\mu}_1 - {\mu}_2)$}
+
+\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :} Refer \@ref(eq:moe-2s-nsd) like \@ref(eq:moe-2s-sd) 
+
+\begin{equation}
+  \text{MOE}_{{\gamma}} = {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:moe-2s-nsd)
+\end{equation}
+
+\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :} Refer \@ref(eq:interval-estm-2s-nsd) like \@ref(eq:interval-estm-2s-sd) using \@ref(eq:se-2s-sd)
+
+\begin{equation}
+  \text{Interval Estimate}_{\gamma} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}
+  (\#eq:interval-estm-2s-nsd)
+\end{equation}
+
+\textcolor{pink}{Degrees of Freedom (DOF) :}  Refer \@ref(eq:dof-2s)
+
+\begin{equation}
+  \text{DOF} = \frac{ { \left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right) }^2} {\frac{1}{n_1 - 1}{ \left( \frac{s_1^2}{n_1} \right) }^2 + \frac{1}{n_2 - 1}{ \left( \frac{s_2^2}{n_2} \right) }^2}
+  (\#eq:dof-2s)
+\end{equation}
+
+Example: Clearwater - To estimate the difference between the mean
+
+```{r 'C10D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two") #dddd
+```
+
+- (1: Cherry) ${n}_1 = 28, {\overline{x}}_1 = 1025, {s}_1 = 150$
+- (2: Beech) ${n}_2 = 22, {\overline{x}}_2 = 910, {s}_2 = 125$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{150}^2}{28} + \frac{{125}^2}{22}} = 38.9076$
+  - `sqrt(150^2/28 + 125^2/22)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:dof-2s) $\text{DOF} = 47$
+  - `floor({150^2 / 28 + 125^2 / 22 }^2 / {{150^2 / 28}^2/{28-1} + {125^2 / 22}^2/{22-1}})` \textcolor{pink}{$\#\mathcal{R}$}
+- ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {{}^2\!t_{{\alpha}/2}} = {{}^2\!t_{0.025}} = 2.012$
+  - `qt(p = 0.025, df = 47, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \@ref(eq:moe-2s-nsd) $\text{MOE}_{\gamma =0.95} = 2.012 * 38.9076 = 78.3$
+- \@ref(eq:interval-estm-2s-nsd) $\text{Interval Estimate}_{\gamma} = (1025-910) \pm 78$
+
+\textcolor{pink}{Hypothesis Tests}
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests :} Refer \@ref(eq:t-2s-nsd) like \@ref(eq:z-2s-sd) 
+
+\begin{equation}
+  t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
+  (\#eq:t-2s-nsd)
+\end{equation}
 
 
 
