@@ -360,16 +360,44 @@ f_getDef("Hypo-2Sample-Upper")
 
 ### Code {.unlisted .unnumbered}
 
+CONVERT HERE to Tilde Based Option, to take advantage of Column Headers
+
 ```{r 'C10-xxSoftware'}
 # #Software 
 xxSoftware <- tibble(Old = c(300, 280, 344, 385, 372, 360, 288, 321, 376, 290, 301, 283), 
                      New = c(274, 220, 308, 336, 198, 300, 315, 258, 318, 310, 332, 263))
-bb <- xxSoftware
+aa <- xxSoftware
 # Summary
-bb %>% 
+aa %>% 
   pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
   group_by(key) %>% 
   summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+#
+# #Welch Two Sample t-test
+# #Alternative must be: "two.sided" (Default), "less", "greater"
+bb_ha <- "greater"
+bb_testT <- t.test(x = bb$Old, y = bb$New, alternative = bb_ha)
+bb_testT
+#
+cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6), ")\n"))
+cat(paste0("df is the degrees of freedom (df = ", round(bb_testT$parameter, 1), ")\n"))
+cat(paste0("p-value is the significance level of the t-test (p-value = ", 
+           round(bb_testT$p.value, 6), ")\n"))
+cat(paste0("conf.int is the confidence interval of the mean at 95% (conf.int = [",
+           paste0(round(bb_testT$conf.int, 3), collapse = ", "), "])\n"))
+cat(paste0("sample estimates is the mean value of the samples. Mean: ", 
+           paste0(round(bb_testT$estimate, 2), collapse = ", "), "\n"))
+#
+# #Compare p-value with alpha = 0.05
+alpha <- 0.05
+if(any(all(bb_ha == "two.sided", bb_testT$p.value >= alpha / 2), 
+       all(bb_ha != "two.sided", bb_testT$p.value >= alpha))) {
+  cat(paste0("p-value (", round(bb_testT$p.value, 6), ") is greater than alpha (", alpha, 
+      "). We failed to reject H0. We cannot conclude that the populations are different.\n")) 
+} else {
+    cat(paste0("p-value (", round(bb_testT$p.value, 6), ") is less than alpha (", alpha, 
+      ").\nWe can reject the H0 with 95% confidence. The populations are different.\n"))
+}
 ```
 
 
