@@ -10,7 +10,9 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Inference About Means and Proportions with Two Populations"
-  - "ForLater"
+
+
+## Introduction
 
 How interval estimates and hypothesis tests can be developed for situations involving two populations when the difference between the two population means or the two population proportions is of prime importance.
 
@@ -391,12 +393,16 @@ f_getDef("Hypo-2Sample-Two") #dddd
 
 \textcolor{pink}{Hypothesis Tests}
 
-\textcolor{pink}{Test Statistic for Hypothesis Tests :} Refer \@ref(eq:t-2s-nsd) like \@ref(eq:z-2s-sd) 
+\textcolor{pink}{Test Statistic for Hypothesis Tests :} Refer \@ref(eq:t-2s-nsd) like \@ref(eq:z-2s-sd) using \@ref(eq:se-2s-sd)
 
 \begin{equation}
   t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
   (\#eq:t-2s-nsd)
 \end{equation}
+
+\textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2}$. "ForLater"
+
+Example: Software
 
 
 
