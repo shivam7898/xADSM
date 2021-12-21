@@ -154,10 +154,10 @@ stopifnot(all(identical(round(ii, 7), round(jj, 7)), identical(round(ii, 7), rou
 ll
 ```
 
-#### Shapiro–Wilk test {.unlisted .unnumbered}
+#### Shapiro-Wilk test {.unlisted .unnumbered}
 
-```{definition 'Shapiro–Wilk-Test'}
-The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
+```{definition 'Shapiro-Wilk-Test'}
+The \textcolor{pink}{Shapiro-Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
 ```
 
 The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. 
@@ -334,7 +334,7 @@ f_getDef("Hypo-2Sample-Two")
   (\#eq:t-2s-nsd)
 \end{equation}
 
-\textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2}$. "ForLater"
+\textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2$. "ForLater"
 
 ### Example {.unlisted .unnumbered}
 
@@ -360,13 +360,16 @@ f_getDef("Hypo-2Sample-Upper")
 
 ### Code {.unlisted .unnumbered}
 
-```{r 'C-'}
+```{r 'C10-xxSoftware'}
 # #Software 
 xxSoftware <- tibble(Old = c(300, 280, 344, 385, 372, 360, 288, 321, 376, 290, 301, 283), 
                      New = c(274, 220, 308, 336, 198, 300, 315, 258, 318, 310, 332, 263))
 bb <- xxSoftware
 # Summary
-bb %>% pivot_longer(everything(), names_to = "key", values_to = "value") %>% group_by(key) %>% summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+bb %>% 
+  pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
+  group_by(key) %>% 
+  summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
 ```
 
 
@@ -398,7 +401,7 @@ Then the computation of the p-value and the interpretation of the sample results
 
 [(External) Unpaired Two-Samples T-test](http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r "http://www.sthda.com")
 
-```{r 'C10-'}
+```{r 'C10-PooledSampleVariance'}
 # #Pooled Sample Variance
 # #Evaluate differences in education quality between two training centers
 # #Generate Data for Two Centers
@@ -452,7 +455,8 @@ cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6)
 cat(paste0("df (n1 +n2 -2) is the degrees of freedom (df = ", bb_testT$parameter, ")\n"))
 cat(paste0("p-value is the significance level of the t-test (p-value = ", 
            round(bb_testT$p.value, 6), ")\n"))
-cat(paste0("conf.int is the confidence interval of the mean at 95% (conf.int = [", paste0(round(bb_testT$conf.int, 3), collapse = ", "), "])\n"))
+cat(paste0("conf.int is the confidence interval of the mean at 95% (conf.int = [",
+           paste0(round(bb_testT$conf.int, 3), collapse = ", "), "])\n"))
 cat(paste0("sample estimates is the mean value of the samples. Mean: ", 
            paste0(round(bb_testT$estimate, 2), collapse = ", "), "\n"))
 #
@@ -470,10 +474,10 @@ if(bb_testT$p.value >= alpha) {
 
 ### Columns Summary {.unlisted .unnumbered}
 
-
-```{r 'C-'}
+```{r 'C10-ColumnSummary'}
 bb <- xxSoftware
 str(bb)
+#
 # #Applying Multiple Functions with Summarise but Output as Cross-Table
 # #(Original) Columns as Rows, Functions as Columns
 # #NOTE: Do not know how to apply n(), count(), tally() in place of length()
@@ -485,8 +489,9 @@ bb %>%
 
 ### pivot_longer() {.unlisted .unnumbered}
 
-```{r 'C-'}
+```{r 'C10-PivotLonger'}
 str(bb)
+#
 # #gather() is deprecated. Here is for reference.
 # #Longer Tibble is filled with All Values of Col A, then All Values fo Col B and so on
 ii <- gather(bb)
@@ -495,13 +500,13 @@ kk <- bb %>% gather("key", "value", everything())
 #
 # #pivot_longer()
 # #Longer Tibble is filled with First Row of All Columns, then 2nd Row of All Columns and so on
-ll <- bb %>% pivot_longer(everything(), names_to = "key", values_to = "value") %>% arrange(key)
+ll <- bb %>% pivot_longer(everything(), names_to = "key", values_to = "value") %>% arrange(desc(key))
 stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll)))
 ```
 
 ### Multiple Functions {.unlisted .unnumbered}
 
-```{r 'C-'}
+```{r 'C10-SummariseMultipleFunctions'}
 str(bb)
 # #Store a Grouped Tibble
 ii <- bb %>% 
@@ -528,7 +533,8 @@ ii %>% summarise(Count = across(value, length),
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C10-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, alpha, bb_testF, bb_testT, isNormal_A, isNormal_B, setA, setB)
+f_rmExist(aa, bb, ii, jj, kk, ll, alpha, bb_testF, bb_testT, isNormal_A, isNormal_B, setA, setB,
+          xxSoftware)
 ```
 
 ```{r 'C10-Validation', include=TRUE, cache=FALSE}
