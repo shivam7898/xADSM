@@ -72,11 +72,16 @@ In the case of estimation of the difference between two population means, an int
   (\#eq:interval-estm-2s-sd)
 \end{equation}
 
+
 Example: Greystone: Difference between the mean 
+
+```{r 'C10D11', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two") #dddd
+```
 
 - (1: Inner ) ${n}_1 = 36, {\overline{x}}_1 = 40, {\sigma}_1 = 9$
 - (2: Suburb) ${n}_2 = 49, {\overline{x}}_2 = 35, {\sigma}_2 = 10$
-- For ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+- For ${\gamma = 0.95} \iff{\alpha} = 0.05 \to {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
   - `qnorm(p = 0.025, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 - \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}} = \sqrt{\frac{{9}^2}{36} + \frac{{10}^2}{49}} = 2.0714$
   - `sqrt(9^2/36 + 10^2/49)` \textcolor{pink}{$\#\mathcal{R}$}
@@ -149,12 +154,254 @@ stopifnot(all(identical(round(ii, 7), round(jj, 7)), identical(round(ii, 7), rou
 ll
 ```
 
-#### More {.unlisted .unnumbered}
+#### Shapiro–Wilk test {.unlisted .unnumbered}
+
+```{definition 'Shapiro–Wilk-Test'}
+The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
+```
+
+The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. 
+
+On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+
+## Exercises {.tabset .tabset-fade}
+
+### 01 {.unlisted .unnumbered}
+
+```{r 'C10D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two")
+```
+
+- (1:) ${n}_1 = 50, {\overline{x}}_1 = 13.6, {\sigma}_1 = 2.2$
+- (2:) ${n}_2 = 35, {\overline{x}}_2 = 11.6, {\sigma}_2 = 3.0$
+- What is the point estimate of the difference between the two population means
+  - \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 13.6 - 11.6 = 2$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{2.2}^2}{50} + \frac{{3}^2}{35}} = 0.5949$
+  - `sqrt(2.2^2/50 + 3^2/35)` \textcolor{pink}{$\#\mathcal{R}$}  
+- Provide a 90% confidence interval for the difference between the two population means
+  - ${\gamma = 0.90} \iff{\alpha} = 0.10 \to {z_{{\alpha}/2}} = {z_{0.05}} = 1.6448$
+    - `qnorm(p = 0.05, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - \@ref(eq:moe-2s-sd) $\text{MOE}_{\gamma =0.90} = 1.6448 * 0.5949 = 0.9785$ 
+  - \@ref(eq:interval-estm-2s-sd) $\text{Interval Estimate}_{\gamma} = 2 \pm 0.9785$
+- Provide a 95% confidence interval for the difference between the two population means
+  - ${\gamma = 0.95} \iff{\alpha} = 0.05 \to {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+  - $\text{MOE}_{\gamma =0.95} = 1.96 * 0.5949 = 1.166$ 
+  - $\text{Interval Estimate}_{\gamma} = 2 \pm 1.166$
+
+### 02 {.unlisted .unnumbered}
+
+```{r 'C10D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper")
+```
+
+- (1:) ${n}_1 = 40, {\overline{x}}_1 = 25.2, {\sigma}_1 = 5.2$
+- (2:) ${n}_2 = 50, {\overline{x}}_2 = 22.8, {\sigma}_2 = 6.0$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{5.2}^2}{40} + \frac{{6}^2}{50}} = 1.1815$
+  - `sqrt(5.2^2/40 + 6^2/50)` \textcolor{pink}{$\#\mathcal{R}$}
+- What is the value of the test statistic
+  - \@ref(eq:z-2s-sd) $z = \frac{(25.2 - 22.8) - 0}{1.18} = 2.03$
+- What is the p-value 
+  - ${}^U\!P_{z = 2.03} = 0.0212$
+    - `pnorm(q = 2.03, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+- With ${\alpha} = 0.05$, what is your hypothesis testing conclusion
+  - ${}^U\!P_{z} < {\alpha} \to {H_0}$ Rejected
+
+
+### 04 Conde {.unlisted .unnumbered}
+
+```{r 'C10D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two")
+```
+
+- (1: small) ${n}_1 = 37, {\overline{x}}_1 = 85.36, {\sigma}_1 = 4.55$
+- (2: large) ${n}_2 = 44, {\overline{x}}_2 = 81.40, {\sigma}_2 = 3.97$
+- \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 85.36 - 81.40 = 3.96$ 
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{4.55}^2}{37} + \frac{{3.97}^2}{44}} = 0.958$
+    - `sqrt(4.55^2/37 + 3.97^2/44)` \textcolor{pink}{$\#\mathcal{R}$}
+- ${\gamma = 0.95} \iff{\alpha} = 0.05 \to {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
+    - `qnorm(p = 0.025, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = 1.96 * 0.958 = 1.87768$ 
+- \@ref(eq:interval-estm-2s-sd), $\text{Interval Estimate}_{\gamma} = 3.96 \pm 1.88$
+- Test Statistic z
+  - \@ref(eq:z-2s-sd) $z = \frac{(85.36 - 81.40 ) - 0}{0.958} = 4.13369$
+- p-value
+  - ${}^2\!P_{(z = 4.13369)} = 2 * {}^U\!P_{(z= 4.13369)} = 2 * 0.0000178 \approx 0$
+    - `pnorm(q = 4.13369, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - ${}^2\!P_{z} < {\alpha} \to {H_0}$ Rejected
+
+
+### 08 Rite Aid {.unlisted .unnumbered}
+
+```{r 'C10D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Lower")
+```
+
+- Will improving customer service result in higher stock prices 
+- For each case: ${n} = 60, {\sigma} = 6, {\alpha} = 0.05$
+  - \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{6}^2}{60} + \frac{{6}^2}{60}} = 1.0954$
+    - `sqrt(6^2/60 + 6^2/60)` \textcolor{pink}{$\#\mathcal{R}$}
+
+- Rite $\{{\overline{x}}_1 = 73, {\overline{x}}_2 = 76\}$, Expedia $\{{\overline{x}}_1 = 75,  {\overline{x}}_2 = 77\}$, JC $\{{\overline{x}}_1 = 77, {\overline{x}}_2 = 78\}$
+- For Rite Aid, is the increase in the satisfaction score from year 1 to year 2 statistically significant
+  - \@ref(eq:z-2s-sd) $z = \frac{(73 - 76) - 0}{1.0954} = -2.738613$
+  - ${}^L\!P_{(z = -2.738613)} = 0.003$
+    - `pnorm(q = -2.738613, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. The increase is significant
+    - \textcolor{orange}{Caution:} Using Two-Tail Test will result in different result. The type of test should be considered carefully.
+
+```{r 'C10D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper") 
+```
+
+- Can you conclude that the year 2 score for Rite Aid is above the national average of 75.7
+  - 1 is 76, 2 is national 75.7
+  - \@ref(eq:z-2s-sd) $z = \frac{(76 - 75.7) - 0}{1.0954} = 0.2739$
+  - ${}^U\!P_{(z = 0.2739)} = 0.392$
+    - `pnorm(q = 0.2739, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^U\!P_{z} > {\alpha} \to {H_0}$ cannot be rejected. Difference is NOT significant.
+    - Cannot conclude that the increase is above the national average
+
+```{r 'C10D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Lower")
+```
+
+- For Expedia, is the increase from year 1 to year 2 statistically significant
+  - \@ref(eq:z-2s-sd) $z = \frac{(75 - 77) - 0}{1.0954} = -1.826$
+  - ${}^L\!P_{(z = -1.826)} = 0.0339$
+    - `pnorm(q = -1.826, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. The increase is significant
+
+- When conducting a hypothesis test with the values given for the standard deviation, sample size, and alpha, how large must the increase from year 1 to year 2 be for it to be statistically significant
+  - ${\alpha} = 0.05 \iff {}^L\!P_{(z)} = 0.05 \to {z_{0.05}} = -1.6448$
+    - `qnorm(p = 0.05, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
+  - \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = -1.6448 * 1.0954 = -1.8$ 
+  - At least 1.8 increase should be there for result to be significant
+  - For JC, because the increase is only 1 i.e. less than 1.8, it will not be significant
+
+
+## Unknown SD: Two Population Means {.tabset .tabset-fade}
+
+Use the sample standard deviations, ${s}_1$ and ${s}_2$, to estimate the unknown population standard deviations $({\sigma}_1, {\sigma}_2)$.
+
+When $({\sigma}_1, {\sigma}_2)$ are estimated by $({s}_1, {s}_2)$, the t distribution is used to make inferences about the difference between two population means.
+
+\textcolor{pink}{Interval Estimation of $({\mu}_1 - {\mu}_2)$}
+
+\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :} Refer \@ref(eq:moe-2s-nsd) like \@ref(eq:moe-2s-sd) 
+
+\begin{equation}
+  \text{MOE}_{{\gamma}} = {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
+  (\#eq:moe-2s-nsd)
+\end{equation}
+
+\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :} Refer \@ref(eq:interval-estm-2s-nsd) like \@ref(eq:interval-estm-2s-sd) using \@ref(eq:se-2s-sd)
+
+\begin{equation}
+  \text{Interval Estimate}_{\gamma} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}
+  (\#eq:interval-estm-2s-nsd)
+\end{equation}
+
+\textcolor{pink}{Degrees of Freedom (DOF) :}  Refer \@ref(eq:dof-2s)
+
+\begin{equation}
+  \text{DOF} = \frac{ { \left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right) }^2} {\frac{1}{n_1 - 1}{ \left( \frac{s_1^2}{n_1} \right) }^2 + \frac{1}{n_2 - 1}{ \left( \frac{s_2^2}{n_2} \right) }^2}
+  (\#eq:dof-2s)
+\end{equation}
+
+Example: Clearwater - To estimate the difference between the mean
+
+```{r 'C10D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two")
+```
+
+- (1: Cherry) ${n}_1 = 28, {\overline{x}}_1 = 1025, {s}_1 = 150$
+- (2: Beech) ${n}_2 = 22, {\overline{x}}_2 = 910, {s}_2 = 125$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{150}^2}{28} + \frac{{125}^2}{22}} = 38.9076$
+  - `sqrt(150^2/28 + 125^2/22)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:dof-2s) $\text{DOF} = 47$
+  - `floor({150^2 / 28 + 125^2 / 22 }^2 / {{150^2 / 28}^2/{28-1} + {125^2 / 22}^2/{22-1}})` \textcolor{pink}{$\#\mathcal{R}$}
+- ${\gamma = 0.95} \iff{\alpha} = 0.05 \to {{}^2\!t_{{\alpha}/2}} = {{}^2\!t_{0.025}} = 2.012$
+  - `qt(p = 0.025, df = 47, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \@ref(eq:moe-2s-nsd) $\text{MOE}_{\gamma =0.95} = 2.012 * 38.9076 = 78.3$
+- \@ref(eq:interval-estm-2s-nsd) $\text{Interval Estimate}_{\gamma} = (1025-910) \pm 78$
+
+\textcolor{pink}{Hypothesis Tests}
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests :} Refer \@ref(eq:t-2s-nsd) like \@ref(eq:z-2s-sd) using \@ref(eq:se-2s-sd)
+
+\begin{equation}
+  t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
+  (\#eq:t-2s-nsd)
+\end{equation}
+
+\textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2}$. "ForLater"
+
+### Example {.unlisted .unnumbered}
+
+Software: To show that the new software will provide a shorter mean time
+
+```{r 'C10D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper")
+```
+
+- (1: Old) ${n}_1 = 12, {\overline{x}}_1 = 325, {s}_1 = 40$
+- (2: New) ${n}_2 = 12, {\overline{x}}_2 = 286, {s}_2 = 44$
+- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{40}^2}{12} + \frac{{44}^2}{12}} = 17.1659$
+  - `sqrt(40^2/12 + 44^2/12)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:dof-2s) $\text{DOF} = 21$
+  - `floor({40^2 / 12 + 44^2 / 12 }^2 / {{40^2 / 12}^2/{12-1} + {44^2 / 12}^2/{12-1}})` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:t-2s-nsd) $t = \frac{(325 - 286) - 0}{17.1659} = 2.272$
+- Calculate ${}^U\!P_{(t)}$
+  - ${}^U\!P_{(t = 2.272)} = 0.0168$
+    - `pt(q = 2.272, df = 21,lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(t)} < {\alpha} \to {H_0}$ is rejected i.e. The decrease is significant
+  - It supports the conclusion that the new software provides a smaller population mean.
+
+### Code {.unlisted .unnumbered}
+
+```{r 'C-'}
+# #Software 
+xxSoftware <- tibble(Old = c(300, 280, 344, 385, 372, 360, 288, 321, 376, 290, 301, 283), 
+                     New = c(274, 220, 308, 336, 198, 300, 315, 258, 318, 310, 332, 263))
+bb <- xxSoftware
+# Summary
+bb %>% pivot_longer(everything(), names_to = "key", values_to = "value") %>% group_by(key) %>% summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+```
+
+
+### Pooled {.unlisted .unnumbered}
+
+Another approach used to make inferences about the difference between two population means when ${\sigma}_1$ and ${\sigma}_2$ are unknown is based on the assumption that the two population standard deviations are equal $({\sigma}_1 = {\sigma}_2 = {\sigma})$. Under this assumption, the two sample standard deviations are combined to provide the \textcolor{pink}{pooled sample variance} as given in equation \@ref(eq:var-pool-2s-nsd). 
+
+\begin{equation}
+  {s}_p^2 = \frac{({n}_1 - 1){s}_1^2 + ({n}_2 - 1){s}_2^2}{{n}_1 + {n}_2 - 2}
+  (\#eq:var-pool-2s-nsd)
+\end{equation}
+
+
+The t test statistic becomes \@ref(eq:t-pool-2s-nsd) with \textcolor{pink}{$({n}_1 + {n}_2 - 2)$} degrees of freedom.
+
+\begin{equation}
+  t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{s}_p\sqrt{\frac{1}{{n}_1} + \frac{1}{{n}_2}}}
+  (\#eq:t-pool-2s-nsd)
+\end{equation}
+
+Then the computation of the p-value and the interpretation of the sample results are same as earlier. 
+
+- \textcolor{orange}{Caution:} A difficulty with this procedure is that the assumption that the two population standard deviations are equal is usually difficult to verify. 
+  - Unequal population standard deviations are frequently encountered. 
+  - Using the pooled procedure may not provide satisfactory results, especially if the sample sizes ${n}_1$ and ${n}_2$ are quite different. 
+  - The original t procedure does not require this assumption. It is a more general procedure and is recommended for most applications.
+
+### Pooled Code {.unlisted .unnumbered}
 
 [(External) Unpaired Two-Samples T-test](http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r "http://www.sthda.com")
 
 ```{r 'C10-'}
-# # Generate Data for Two Centers
+# #Pooled Sample Variance
+# #Evaluate differences in education quality between two training centers
+# #Generate Data for Two Centers
 set.seed(3)
 setA <- rnorm(n = 30, mean = 82, sd = 10)
 setB <- rnorm(n = 40, mean = 78, sd = 10)
@@ -220,190 +467,54 @@ if(bb_testT$p.value >= alpha) {
 }
 ```
 
-#### Shapiro–Wilk test {.unlisted .unnumbered}
 
-```{definition 'Shapiro–Wilk-Test'}
-The \textcolor{pink}{Shapiro–Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. (p-value should be greater than ${\alpha}$ for normality)
+### Columns Summary {.unlisted .unnumbered}
+
+
+```{r 'C-'}
+bb <- xxSoftware
+str(bb)
+# #Applying Multiple Functions with Summarise but Output as Cross-Table
+# #(Original) Columns as Rows, Functions as Columns
+# #NOTE: Do not know how to apply n(), count(), tally() in place of length()
+bb %>% 
+  pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
+  group_by(key) %>% 
+  summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
 ```
 
-The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. 
+### pivot_longer() {.unlisted .unnumbered}
 
-On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
-
-## Exercises {.tabset .tabset-fade}
-
-### 01 {.unlisted .unnumbered}
-
-```{r 'C10D03', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+```{r 'C-'}
+str(bb)
+# #gather() is deprecated. Here is for reference.
+# #Longer Tibble is filled with All Values of Col A, then All Values fo Col B and so on
+ii <- gather(bb)
+jj <- bb %>% gather("key", "value")
+kk <- bb %>% gather("key", "value", everything()) 
+#
+# #pivot_longer()
+# #Longer Tibble is filled with First Row of All Columns, then 2nd Row of All Columns and so on
+ll <- bb %>% pivot_longer(everything(), names_to = "key", values_to = "value") %>% arrange(key)
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll)))
 ```
 
-- (1:) ${n}_1 = 50, {\overline{x}}_1 = 13.6, {\sigma}_1 = 2.2$
-- (2:) ${n}_2 = 35, {\overline{x}}_2 = 11.6, {\sigma}_2 = 3.0$
-- What is the point estimate of the difference between the two population means
-  - \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 13.6 - 11.6 = 2$
-- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{2.2}^2}{50} + \frac{{3}^2}{35}} = 0.5949$
-  - `sqrt(2.2^2/50 + 3^2/35)` \textcolor{pink}{$\#\mathcal{R}$}  
-- Provide a 90% confidence interval for the difference between the two population means
-  - ${\gamma = 0.90} \iff{\alpha} = 0.10 \iff {z_{{\alpha}/2}} = {z_{0.05}} = 1.6448$
-    - `qnorm(p = 0.05, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
-  - \@ref(eq:moe-2s-sd) $\text{MOE}_{\gamma =0.90} = 1.6448 * 0.5949 = 0.9785$ 
-  - \@ref(eq:interval-estm-2s-sd) $\text{Interval Estimate}_{\gamma} = 2 \pm 0.9785$
-- Provide a 95% confidence interval for the difference between the two population means
-  - ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
-  - $\text{MOE}_{\gamma =0.95} = 1.96 * 0.5949 = 1.166$ 
-  - $\text{Interval Estimate}_{\gamma} = 2 \pm 1.166$
+### Multiple Functions {.unlisted .unnumbered}
 
-### 02 {.unlisted .unnumbered}
-
-```{r 'C10D04', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper")
+```{r 'C-'}
+str(bb)
+# #Store a Grouped Tibble
+ii <- bb %>% 
+  pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
+  group_by(key) 
+str(ii)
+ii %>% summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+# 
+# #Equivalent (except Column Headers)
+ii %>% summarise(Count = across(value, length), 
+                 Mean = across(value, mean), 
+                 SD = across(value, sd))
 ```
-
-- (1:) ${n}_1 = 40, {\overline{x}}_1 = 25.2, {\sigma}_1 = 5.2$
-- (2:) ${n}_2 = 50, {\overline{x}}_2 = 22.8, {\sigma}_2 = 6.0$
-- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{5.2}^2}{40} + \frac{{6}^2}{50}} = 1.1815$
-  - `sqrt(5.2^2/40 + 6^2/50)` \textcolor{pink}{$\#\mathcal{R}$}
-- What is the value of the test statistic
-  - \@ref(eq:z-2s-sd) $z = \frac{(25.2 - 22.8) - 0}{1.18} = 2.03$
-- What is the p-value 
-  - ${}^U\!P_{z = 2.03} = 0.0212$
-    - `pnorm(q = 2.03, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
-- With ${\alpha} = 0.05$, what is your hypothesis testing conclusion
-  - ${}^U\!P_{z} < {\alpha} \to {H_0}$ Rejected
-
-
-### 04 Conde {.unlisted .unnumbered}
-
-```{r 'C10D05', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
-```
-
-- (1: small) ${n}_1 = 37, {\overline{x}}_1 = 85.36, {\sigma}_1 = 4.55$
-- (2: large) ${n}_2 = 44, {\overline{x}}_2 = 81.40, {\sigma}_2 = 3.97$
-- \@ref(eq:point-estm-2s-sd) $E_{( {\overline{x}}_1 - {\overline{x}}_2 )} = 85.36 - 81.40 = 3.96$ 
-- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{4.55}^2}{37} + \frac{{3.97}^2}{44}} = 0.958$
-    - `sqrt(4.55^2/37 + 3.97^2/44)` \textcolor{pink}{$\#\mathcal{R}$}
-- ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {z_{{\alpha}/2}} = {z_{0.025}} = 1.96$
-    - `qnorm(p = 0.025, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
-- \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = 1.96 * 0.958 = 1.87768$ 
-- \@ref(eq:interval-estm-2s-sd), $\text{Interval Estimate}_{\gamma} = 3.96 \pm 1.88$
-- Test Statistic z
-  - \@ref(eq:z-2s-sd) $z = \frac{(85.36 - 81.40 ) - 0}{0.958} = 4.13369$
-- p-value
-  - ${}^2\!P_{(z = 4.13369)} = 2 * {}^U\!P_{(z= 4.13369)} = 2 * 0.0000178 \approx 0$
-    - `pnorm(q = 4.13369, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
-  - ${}^2\!P_{z} < {\alpha} \to {H_0}$ Rejected
-
-
-### 08 Rite Aid {.unlisted .unnumbered}
-
-```{r 'C10D06', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Lower")
-```
-
-- Will improving customer service result in higher stock prices 
-- For each case: ${n} = 60, {\sigma} = 6, {\alpha} = 0.05$
-  - \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{6}^2}{60} + \frac{{6}^2}{60}} = 1.0954$
-    - `sqrt(6^2/60 + 6^2/60)` \textcolor{pink}{$\#\mathcal{R}$}
-
-- Rite $\{{\overline{x}}_1 = 73, {\overline{x}}_2 = 76\}$, Expedia $\{{\overline{x}}_1 = 75,  {\overline{x}}_2 = 77\}$, JC $\{{\overline{x}}_1 = 77, {\overline{x}}_2 = 78\}$
-- For Rite Aid, is the increase in the satisfaction score from year 1 to year 2 statistically significant
-  - \@ref(eq:z-2s-sd) $z = \frac{(73 - 76) - 0}{1.0954} = -2.738613$
-  - ${}^L\!P_{(z = -2.738613)} = 0.003$
-    - `pnorm(q = -2.738613, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
-    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ rejected i.e. The increase is significant
-    - \textcolor{orange}{Caution:} Using Two-Tail Test will result in different result. The type of test should be considered carefully
-
-```{r 'C10D07', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper") 
-```
-
-- Can you conclude that the year 2 score for Rite Aid is above the national average of 75.7
-  - 1 is 76, 2 is national 75.7
-  - \@ref(eq:z-2s-sd) $z = \frac{(76 - 75.7) - 0}{1.0954} = 0.2739$
-  - ${}^U\!P_{(z = 0.2739)} = 0.392$
-    - `pnorm(q = 0.2739, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
-    - ${}^U\!P_{z} > {\alpha} \to {H_0}$ cannot be rejected. Difference is NOT significant.
-    - Cannot conclude that the increase is above the national average
-
-```{r 'C10D08', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Lower")
-```
-
-- For Expedia, is the increase from year 1 to year 2 statistically significant
-  - \@ref(eq:z-2s-sd) $z = \frac{(75 - 77) - 0}{1.0954} = -1.826$
-  - ${}^L\!P_{(z = -1.826)} = 0.0339$
-    - `pnorm(q = -1.826, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
-    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ rejected i.e. The increase is significant
-
-- When conducting a hypothesis test with the values given for the standard deviation, sample size, and alpha, how large must the increase from year 1 to year 2 be for it to be statistically significant
-  - ${\alpha} = 0.05 \iff {}^L\!P_{(z)} = 0.05 \to z = -1.6448$
-    - `qnorm(p = 0.05, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
-  - \@ref(eq:moe-2s-sd), $\text{MOE}_{\gamma =0.95} = -1.6448 * 1.0954 = -1.8$ 
-  - At least 1.8 increase should be there for result to be significant
-  - For JC, because the increase is only 1 i.e. less than 1.8, it will not be significant
-
-
-## Unknown SD: Two Population Means
-
-Use the sample standard deviations, ${s}_1$ and ${s}_2$, to estimate the unknown population standard deviations $({\sigma}_1, {\sigma}_2)$.
-
-When $({\sigma}_1, {\sigma}_2)$ are estimated by $({s}_1, {s}_2)$, the t distribution is used to make inferences about the difference between two population means.
-
-\textcolor{pink}{Interval Estimation of $({\mu}_1 - {\mu}_2)$}
-
-\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :} Refer \@ref(eq:moe-2s-nsd) like \@ref(eq:moe-2s-sd) 
-
-\begin{equation}
-  \text{MOE}_{{\gamma}} = {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\sigma}_1^2}{{n}_1} + \frac{{\sigma}_2^2}{{n}_2}}
-  (\#eq:moe-2s-nsd)
-\end{equation}
-
-\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :} Refer \@ref(eq:interval-estm-2s-nsd) like \@ref(eq:interval-estm-2s-sd) using \@ref(eq:se-2s-sd)
-
-\begin{equation}
-  \text{Interval Estimate}_{\gamma} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = ({\overline{x}}_1 - {\overline{x}}_2) \pm {t}_{\frac{{\alpha}}{2}}\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}
-  (\#eq:interval-estm-2s-nsd)
-\end{equation}
-
-\textcolor{pink}{Degrees of Freedom (DOF) :}  Refer \@ref(eq:dof-2s)
-
-\begin{equation}
-  \text{DOF} = \frac{ { \left( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} \right) }^2} {\frac{1}{n_1 - 1}{ \left( \frac{s_1^2}{n_1} \right) }^2 + \frac{1}{n_2 - 1}{ \left( \frac{s_2^2}{n_2} \right) }^2}
-  (\#eq:dof-2s)
-\end{equation}
-
-Example: Clearwater - To estimate the difference between the mean
-
-```{r 'C10D09', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two") #dddd
-```
-
-- (1: Cherry) ${n}_1 = 28, {\overline{x}}_1 = 1025, {s}_1 = 150$
-- (2: Beech) ${n}_2 = 22, {\overline{x}}_2 = 910, {s}_2 = 125$
-- \@ref(eq:se-2s-sd) ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)} = \sqrt{\frac{{150}^2}{28} + \frac{{125}^2}{22}} = 38.9076$
-  - `sqrt(150^2/28 + 125^2/22)` \textcolor{pink}{$\#\mathcal{R}$}
-- \@ref(eq:dof-2s) $\text{DOF} = 47$
-  - `floor({150^2 / 28 + 125^2 / 22 }^2 / {{150^2 / 28}^2/{28-1} + {125^2 / 22}^2/{22-1}})` \textcolor{pink}{$\#\mathcal{R}$}
-- ${\gamma = 0.95} \iff{\alpha} = 0.05 \iff {{}^2\!t_{{\alpha}/2}} = {{}^2\!t_{0.025}} = 2.012$
-  - `qt(p = 0.025, df = 47, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
-- \@ref(eq:moe-2s-nsd) $\text{MOE}_{\gamma =0.95} = 2.012 * 38.9076 = 78.3$
-- \@ref(eq:interval-estm-2s-nsd) $\text{Interval Estimate}_{\gamma} = (1025-910) \pm 78$
-
-\textcolor{pink}{Hypothesis Tests}
-
-\textcolor{pink}{Test Statistic for Hypothesis Tests :} Refer \@ref(eq:t-2s-nsd) like \@ref(eq:z-2s-sd) using \@ref(eq:se-2s-sd)
-
-\begin{equation}
-  t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
-  (\#eq:t-2s-nsd)
-\end{equation}
-
-\textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2}$. "ForLater"
-
-Example: Software
-
 
 
 ## Summary
