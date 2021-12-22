@@ -148,18 +148,6 @@ Example:
 
 ## Two Sample t-Test
 
-Example: 
-
-```{r 'B13D09', comment="", echo=FALSE, results='asis'}
-f_getDef("Independent-Sample-Design-Example")
-```
-
-```{r 'B13D10', comment="", echo=FALSE, results='asis'}
-f_getDef("Matched-Sample-Design-Example")
-```
-
-Paired samples t-tests typically consist of a sample of matched pairs of similar units, or one group of units that has been tested twice (a "repeated measures" t-test). 
-
 ```{r 'B13D11', comment="", echo=FALSE, results='asis'}
 f_getDef("Hypo-2Sample-Lower")
 ```
@@ -172,11 +160,55 @@ f_getDef("Hypo-2Sample-Upper")
 f_getDef("Hypo-2Sample-Two") #dddd
 ```
 
-Test Statistic for Independent Sample t-Test Statistic is given by \@ref(eq:t-2s-nsd) as below
+Example: 
+
+```{r 'B13D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Independent-Sample-Design-Example")
+```
+
+```{r 'B13D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Matched-Sample-Design-Example")
+```
+
+Test Statistic for Independent Sample t-Test Statistic is given by \@ref(eq:t-2s-nsd) as shown below
 
 \begin{equation}
   t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
 \end{equation}
+
+The t-test is any statistical hypothesis test in which the test statistic follows a Student's t-distribution under the null hypothesis.
+
+A t-test is the most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. 
+
+
+Example: If we want to evaluate effect of a Training Program.
+
+We can take two samples of 50 people each. First Set "Untrained" would be from the set of people who did not receive training. Second Set "Trained" would be from the set of people who have undergone the training. Comparison of these two sample mean performances would be done by "independent sample" t-test.
+
+Or
+
+We can take a sample of 50 "Untrained" people. Get their mean performance. Provide the training of these 50 people. Then again get their mean performance. Now, we have "paired" samples of performances of same people. One set has their performance before the training and another is after the training. Comparison of these two sample mean performances would be done by "paired sample" t-test.
+
+Paired samples t-tests typically consist of a sample of matched pairs of similar units, or one group of units that has been tested twice (a "repeated measures" t-test). 
+
+The matched sample design is generally preferred to the independent sample design because \textcolor{pink}{the matched-sample procedure often improves the precision of the estimate.}
+
+- \textcolor{pink}{Question:} How do you conclude that the training was effective. Or even that the training didnot make the situation worse somehow. Assume 25 people performed better and 25 people performed worse (somehow!)
+  - (Prof) In this situation we cannot claim that the training is effective.
+    - We start with the null hypothesis that the two sample means are same (Two Tail Test). If we are able to reject this. Then we can perform Upper or Lower Tail Test and again try to find a significant result.
+  - If we cannot reject the null hypothesis, then we conclude that "we cannot claim that the training is effective".
+
+
+- Example: If we want to comment on performance of new employees compared to ideal value of 95. Take a sample of 20 people and get their perfomance. 
+  - We would need to perform One Sample t-test
+- Example: If we want to comment on performance of Engineers and Non-engineers
+  - Two Sample Independent t-test
+- Example: We want to check whether we have recruited more number of females compared to males. 
+  - Two Sample Proportion Test
+- Example: If we want to comment on their induction training program by conducting a test before and after the program
+  - Two Sample Paired t-test
+
+## More than Two Samples
 
 
 
