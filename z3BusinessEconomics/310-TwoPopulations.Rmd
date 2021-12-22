@@ -336,6 +336,12 @@ f_getDef("Hypo-2Sample-Two")
 
 \textcolor{orange}{Caution:} Use of ${\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}$ symbol is probably wrong here because it should not represent formula containing ${s}_1, {s}_2$. "ForLater"
 
+```{conjecture 't-test-grouping'}
+\textcolor{brown}{Error in t.test.formula() : grouping factor must have exactly 2 levels}
+```
+
+- For t.test(): Formula needs to be 'value ~ key', not ~~'key ~ value'~~
+
 ### Example {.unlisted .unnumbered}
 
 Software: To show that the new software will provide a shorter mean time
@@ -590,9 +596,62 @@ f_getDef("Hypo-2Sample-Two") #dddd
 - Compare with ${\alpha} = 0.05$
   - ${}^2\!P_{(t)} < {\alpha} \to {H_0}$ is rejected 
 
-## Matched Samples
+## Matched Samples (Paired)
+
+Suppose employees at a manufacturing company can use two different methods to perform a production task. To maximize production output, the company wants to identify the method with the smaller population mean completion time. We can use two alternative designs for the sampling procedure.
+
+\textcolor{pink}{Independent sample design:} A simple random sample of workers is selected and each worker in the sample uses method 1. A second independent simple random sample of workers is selected and each worker in this sample uses method 2.
+
+\textcolor{pink}{Matched sample design:} One simple random sample of workers is selected. Each worker first uses one method and then uses the other method. The order of the two methods is assigned randomly to the workers, with some workers performing method 1 first and others performing method 2 first. Each worker provides a pair of data values, one value for method 1 and another value for method 2.
+
+In the matched sample design the two production methods are tested under similar conditions (i.e., with the same workers); hence this design often leads to a smaller sampling error than the independent sample design. The primary reason is that in a matched sample design, variation between workers is eliminated because the same workers are used for both production methods.
+
+The key to the analysis of the matched sample design is to realize that we consider only the column of differences.
+
+Example: Two Production Methods
+
+- (1: Method 1) $\{6, 5, 7, 6.2, 6, 6.4\}$
+- (2: Method 2) $\{5.4, 5.2, 6.5, 5.9, 6, 5.8\}$
+- Difference: ${d}_i =\{0.6, -0.2, 0.5, 0.3, 0, 0.6\}$
+
+Let ${\mu}_d$ = the mean of the difference in values for the population of workers.
+
+```{definition 'Hypo-Paired-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\mu}_d = 0 \iff {H_a}: {\mu}_d \neq 0$}
+```
+
+Sample Mean is given by \@ref(eq:mean-d) like \@ref(eq:mean) and Sample Standard Deviation is given by \@ref(eq:sd-d) like \@ref(eq:sd) 
+
+\begin{equation} 
+  \overline{d} = \frac{\sum{{d}_i}}{n}
+  (\#eq:mean-d)
+\end{equation} 
+
+\begin{equation} 
+  {s}_d = \sqrt{\frac{\sum ({d}_i - \overline{d})^2}{n-1}}
+  (\#eq:sd-d)
+\end{equation} 
+
+\textcolor{pink}{Test Statistic with $(n-1)$ degrees of freedom :} Refer \@ref(eq:t-pair) like \@ref(eq:test-statistic-no-sigma) 
 
 
+\begin{equation}
+  t = \frac{\overline{d} - {\mu}_d}{{s}_d/\sqrt{n}}
+  (\#eq:t-pair)
+\end{equation}
+
+
+```{r 'C-'}
+# #Matched Samples: Same workers providing data for two methods
+xxMatchedMethods <- tibble(M1 = c(6, 5, 7, 6.2, 6, 6.4), 
+                           M2 = c(5.4, 5.2, 6.5, 5.9, 6, 5.8))
+aa <- xxMatchedMethods
+# #Get Differnce
+bb <- aa %>% mutate(d = M1-M2)
+str(bb)
+paste0(round(bb[3], 1))
+
+```
 
 
 
