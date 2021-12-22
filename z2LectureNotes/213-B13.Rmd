@@ -59,7 +59,7 @@ f_getDef("Approach-p-value-Steps")
 ```
 
 ```{r 'B13D08', comment="", echo=FALSE, results='asis'}
-f_getDef("Standard-Error") #dddd
+f_getDef("Standard-Error")
 ```
 
 
@@ -140,10 +140,45 @@ Example:
     - One Sample |
       - z-test (Population Standard Deviation ${\sigma}$, is known)
       - t-test (Population Standard Deviation ${\sigma}$, is unknown)
-    - Two Sample |
-      - Independent Sample
-      - Dependent Sample (or Repeated)
-  -
+    - Two Sample | 
+      - Independent Sample | [Mean - Two Sample - Independent](#mean-2s-sd "c10")
+      - Dependent Sample (or Repeated) | [Mean - Two Sample - Paired](#mean-paired-c10 "c10")
+    - More than Two Samples
+-
+
+## Two Sample t-Test
+
+Example: 
+
+```{r 'B13D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Independent-Sample-Design-Example")
+```
+
+```{r 'B13D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Matched-Sample-Design-Example")
+```
+
+Paired samples t-tests typically consist of a sample of matched pairs of similar units, or one group of units that has been tested twice (a "repeated measures" t-test). 
+
+```{r 'B13D11', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Lower")
+```
+
+```{r 'B13D12', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Upper")
+```
+
+```{r 'B13D13', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Two") #dddd
+```
+
+Test Statistic for Independent Sample t-Test Statistic is given by \@ref(eq:t-2s-nsd) as below
+
+
+
+\begin{equation}
+  t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
+\end{equation}
 
 
 

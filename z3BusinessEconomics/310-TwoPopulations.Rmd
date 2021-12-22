@@ -10,6 +10,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Inference About Means and Proportions with Two Populations"
+  - [Mean - Two Sample - Independent](#mean-2s-sd "c10")
+  - [Mean - Two Sample - Paired](#mean-paired-c10 "c10")
 
 
 ## Introduction
@@ -21,7 +23,7 @@ Example
 - To develop an interval estimate of the difference between the mean starting salary for a population of men and the mean starting salary for a population of women.
 - To conduct a hypothesis test to determine whether any difference is present between the proportion of defective parts in a population of parts produced by supplier A and the proportion of defective parts in a population of parts produced by supplier B. 
 
-## Known SD: Two Population Means
+## Known SD: Two Population Means {#mean-2s-sd}
 
 \textcolor{pink}{Inferences About the Difference Between Two Population Means}
 
@@ -596,19 +598,27 @@ f_getDef("Hypo-2Sample-Two")
 - Compare with ${\alpha} = 0.05$
   - ${}^2\!P_{(t)} < {\alpha} \to {H_0}$ is rejected 
 
-## Matched Samples (Paired)
+## Matched Samples (Paired) {#mean-paired-c10}
 
 Suppose employees at a manufacturing company can use two different methods to perform a production task. To maximize production output, the company wants to identify the method with the smaller population mean completion time. We can use two alternative designs for the sampling procedure.
 
+
+```{definition 'Independent-Sample-Design-Example'}
 \textcolor{pink}{Independent sample design:} A simple random sample of workers is selected and each worker in the sample uses method 1. A second independent simple random sample of workers is selected and each worker in this sample uses method 2.
+```
 
+
+```{definition 'Matched-Sample-Design-Example'}
 \textcolor{pink}{Matched sample design:} One simple random sample of workers is selected. Each worker first uses one method and then uses the other method. The order of the two methods is assigned randomly to the workers, with some workers performing method 1 first and others performing method 2 first. Each worker provides a pair of data values, one value for method 1 and another value for method 2.
+```
 
-In the matched sample design the two production methods are tested under similar conditions (i.e., with the same workers); hence this design often leads to a smaller sampling error than the independent sample design. The primary reason is that in a matched sample design, variation between workers is eliminated because the same workers are used for both production methods.
+In the matched sample design the two production methods are tested under similar conditions (i.e., with the same workers); hence this design often leads to a smaller sampling error than the independent sample design. 
+
+The primary reason is that in a matched sample design, variation between workers is eliminated because the same workers are used for both production methods.
 
 The key to the analysis of the matched sample design is to realize that we consider only the column of differences.
 
-A matched sample procedure for inferences about two population means generally provides better precision than the independent sample approach; therefore it is the recommended design. 
+The matched sample design is generally preferred to the independent sample design because \textcolor{pink}{the matched-sample procedure often improves the precision of the estimate.}
 
 Let ${\mu}_d$ = the mean of the difference in values for the population
 
@@ -676,7 +686,7 @@ Example: Two Production Methods
 
 ### Code {.unlisted .unnumbered}
 
-```{r 'C-Paired-TwoT'}
+```{r 'C10-Paired-TwoT'}
 # #Matched Samples: Same workers providing data for two methods
 xxMatchedMethods <- tibble(M1 = c(6, 5, 7, 6.2, 6, 6.4), 
                            M2 = c(5.4, 5.2, 6.5, 5.9, 6, 5.8))
@@ -822,14 +832,30 @@ f_getDef("Hypo-2Sample-Prop-Two") #dddd
 
 ### Code {.unlisted .unnumbered}
 
+[(External) Two-Proportions Z-Test](http://www.sthda.com/english/wiki/two-proportions-z-test-in-r "http://www.sthda.com")
 
-
-## Summary
-
-
-
-
-- The matched sample design is generally preferred to the independent sample design because the matched-sample procedure often improves the precision of the estimate.
+```{r 'C10-TwoProp'}
+bb_ha <- "two.sided"
+bb_gamma <- 0.90
+bb_propT <- prop.test(x = c(35, 27), n = c(250, 300), alternative = bb_ha, 
+                      conf.level = bb_gamma, correct = FALSE)
+bb_propT
+names(bb_propT)
+#
+# #X-squared might be the square of calculated z-value
+cat(paste0("X-squared is the number of Successes (X-squared = ", round(bb_propT$statistic, 6), ")\n"))
+#
+# #By default, the function prop.test() uses the Yates continuity correction
+# #It is important if either the expected successes or failures is < 5. 
+# #If you do not want the correction, use the additional argument correct = FALSE. 
+# #i.e. To make the test mathematically equivalent to the uncorrected z-test of a proportion.
+cat(paste0("p-value is the significance level of the t-test (p-value = ", 
+           round(bb_propT$p.value, 6), ")\n"))
+cat(paste0("conf.int is the confidence interval for the probability of success at", bb_gamma,
+           " level (conf.int = [", paste0(round(bb_propT$conf.int, 3), collapse = ", "), "])\n"))
+cat(paste0("sample estimates is the the estimated probability of success. p: ", 
+           paste0(round(bb_propT$estimate, 2), collapse = ", "), "\n"))
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
