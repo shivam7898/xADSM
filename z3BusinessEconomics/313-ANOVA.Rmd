@@ -12,6 +12,131 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Experimental Design and Analysis of Variance"
   - "ForLater" - Everything
 
+## Introduction
+
+Example: Chemitech: Comparision of theree methods of assembly A, B, C in terms of most assemblies per week
+
+- In this experiment
+  - assembly method is the \textcolor{pink}{independent variable or factor}. 
+  - Because three assembly methods correspond to this factor, we say that three treatments are associated with this experiment; each treatment corresponds to one of the three assembly methods. 
+    - The three assembly methods or \textcolor{pink}{treatments} define the three \textcolor{pink}{populations of interest}
+  - This is an example of a single-factor experiment; it involves one categorical factor (method of assembly)
+  - For each population the \textcolor{pink}{dependent or response variable} is the number of filtration systems assembled per week, and the primary statistical objective of the experiment is to determine whether the mean number of units produced per week is the same for all three populations (methods).
+- Suppose a random sample of three employees is selected from all assembly workers. 
+  - The three randomly selected workers are the \textcolor{pink}{experimental units}. 
+  - The experimental design that we will use is called a \textcolor{pink}{completely randomized design}.       - This type of design requires that each of the three assembly methods or treatments be assigned randomly to one of the experimental units or workers. 
+
+```{definition 'Randomization'}
+\textcolor{pink}{Randomization} is the process of assigning the treatments to the experimental units at random.
+```
+
+- Suppose that instead of selecting just three workers at random we selected 15 workers and then randomly assigned each of the three treatments to 5 of the workers. 
+  - Because each method of assembly is assigned to 5 workers, we say that five \textcolor{pink}{replicates} have been obtained.
+- As given in data, sample means for A, B, C are : $\{{\overline{x}}_1 = 62, {\overline{x}}_1 = 66, {\overline{x}}_1 = 52\}$
+  - From these data, method B appears to result in higher production rates than either of the other methods.
+
+```{r 'C-Chemitech'}
+xxChemitech <- tibble(A = c(58, 64, 55, 66, 67), 
+                      B = c(58, 69, 71, 64, 68), 
+                      C = c(48, 57, 59, 47, 49))
+aa <- xxChemitech
+# #Summary
+aa %>% 
+    pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
+    group_by(key) %>% 
+    summarise(across(value, 
+                     list(Count = length, Mean = mean, SD = sd, Variance = var), 
+                     .names = "{.fn}"))
+
+```
+
+
+## Hypothesis
+
+- The real issue is \textcolor{pink}{whether the three sample means observed are different enough} for us to conclude that the means of the populations corresponding to the three methods of assembly are different.
+  - Let $\{{\mu}_1, {\mu}_2, {\mu}_3\}$ denote mean number of units produced per week using methods A, B and C
+  - we want to use the sample means to test the following hypotheses:
+  
+```{r 'C13D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-ANOVA") #dddd
+```
+
+If ${H_0}$ is rejected, we cannot conclude that all population means are different. Rejecting ${H_0}$ means that at least two population means have different values.
+
+## Assumptions for Analysis of Variance
+  
+Three assumptions are required to use analysis of variance. 
+
+1. \textcolor{pink}{For each population, the response variable is normally distributed.}
+    - Implication: In the example, the number of units produced per week (response variable) must be normally distributed for each assembly method. 
+2. \textcolor{pink}{The variance of the response variable, ${\sigma}^2$, is the same for all of the populations.} 
+    - Implication: In the example, the variance of the number of units produced per week must be the same for each assembly method. 
+3. \textcolor{pink}{The observations must be independent.} 
+    - Implication: In the example, the number of units produced per week for each employee must be independent of the number of units produced per week for any other employee.
+
+If the sample sizes are equal, analysis of variance is not sensitive to departures from the assumption of normally distributed populations.
+
+## Conceptual Overview
+
+If the means for the three populations are equal, we would expect the three sample means to be close together. The more the sample means differ, the stronger the evidence we have for the conclusion that the population means differ. In other words, if the variability among the sample means is "small," it supports ${H_0}$; if the variability among the sample means is "large," it supports ${H_a}$.
+
+If the null hypothesis is true, we can use the variability among the sample means to develop an estimate of ${\sigma}^2$. 
+
+First, note that if the assumptions for analysis of variance are satisfied and the null hypothesis is true, each sample will have come from the same normal distribution with mean ${\mu}$ and variance ${\sigma}^2$. 
+
+Recall that the sampling distribution of the sample mean ${\overline{x}}$ for a simple random sample of size ${n}$ from a normal population will be normally distributed with mean ${\mu}$ and variance $ {\sigma}_{{\overline{x}}}^2 = \frac{{\sigma}^2}{n}$.
+
+In this case, the mean and variance of the three sample mean values $\{{\overline{x}}_1 = 62, {\overline{x}}_1 = 66, {\overline{x}}_1 = 52\}$ can be used to estimate the mean and variance of the sampling distribution. 
+
+When the sample sizes are equal, as in this example, the best estimate of the mean of the sampling distribution of ${\overline{x}}$ is the mean or average of the sample means. 
+
+In this example, an estimate of the mean of the sampling distribution of ${\overline{x}}$ is $(62 + 66 + 52)/3 = 60$. We refer to this estimate as the \textcolor{pink}{overall sample mean}. 
+
+An estimate of the variance of the sampling distribution of ${\overline{x}}$, ${\sigma}_{{\overline{x}}}^2$, is provided by the variance of the three sample means.
+
+$${s}_{\overline{x}}^2 = \frac{(62 - 60)^2 + (66 - 60)^2 + (52 - 60)^2}{3 - 1} = 52$$
+Because ${\sigma}^2 = n {\sigma}_{{\overline{x}}}^2$, the estimate can be given by 
+
+$$E_{{\sigma}^2} = n E_{{\sigma}_{{\overline{x}}}^2} = n {s}_{\overline{x}}^2 = 5 * 52 = 260$$
+
+The $n {s}_{\overline{x}}^2$ is referred as \textcolor{pink}{between-treatments estimate of ${\sigma}^2$.} It is based on the assumption that the null hypothesis is true. In this case, each sample comes from the same population, and there is only one sampling distribution of ${\overline{x}}$.
+
+In contrast, when the population means are not equal, the between-treatments estimate will overestimate the population variance ${\sigma}^2$.
+
+The variation within each of the samples also has an effect on the conclusion we reach in analysis of variance. When a simple random sample is selected from each population, each of the sample variances provides an unbiased estimate of ${\sigma}^2$. Hence, we can combine or pool the individual estimates of ${\sigma}^2$ into one overall estimate. The estimate of ${\sigma}^2$ obtained in this way is called the \textcolor{pink}{pooled or within-treatments estimate of ${\sigma}^2$}. 
+
+Because each sample variance provides an estimate of ${\sigma}^2$ based only on the variation within each sample, the within-treatments estimate of ${\sigma}^2$ is not affected by whether the population means are equal. When the sample sizes are equal, the within-treatments estimate of ${\sigma}^2$ can be obtained by computing the average of the individual sample variances $\{27.5, 26.5, 31\}$. 
+
+For this exmple we obtain:
+
+$$\text{Within-treatments estimate of } {\sigma}^2 = \frac{27.5 + 26.5 + 31}{3} = 28.33$$
+Remember, that the between-treatments approach provides a good estimate of ${\sigma}^2$ only if the null hypothesis is true; if the null hypothesis is false, the between-treatments approach overestimates ${\sigma}^2$. The within-treatments approach provides a good estimate of ${\sigma}^2$ in either case. 
+
+Thus, if the null hypothesis is true, the two estimates will be similar and their ratio will be close to 1. 
+
+If the null hypothesis is false, the between-treatments estimate will be larger than the within-treatments estimate, and their ratio will be large. 
+
+## ANOVA
+
+\textcolor{pink}{Analysis of Variance and the Completely Randomized Design}
+
+
+```{definition 'Hypo-ANOVA'}
+\textcolor{pink}{$\text{\{ANOVA\}} {H_0} : {\mu}_1 = {\mu}_2 = \dots = {\mu}_k \iff {H_a}: \text{Not all population means are equal}$}
+```
+
+where ${\mu}_j$ is mean of the $j^{\text{th}}$ population. We assume that a simple random sample of size ${n}_j$ has been selected from each of the ${k}$ populations or treatments. For the resulting sample data, let
+
+$${x}_{ij} = \text{value of observation } i \text{ for treatment } j \\
+{n}_{j} = \text{number of observations for treatment } j \\
+{\overline{x}}_{j} = \text{sample mean for treatment } j \\
+{s}_{j}^2 = \text{sample variance for treatment } j \\
+{s}_{j} = \text{sample e standard deviation for treatment } j
+$$
+
+
+
+
 ## Summary
 
 Analysis of variance (ANOVA) can be used to test for differences among means of several populations or treatments. 
@@ -24,7 +149,7 @@ By computing the ratio of these two estimators (the F statistic), it is determin
 
 In all the experimental designs considered, the partitioning of the sum of squares and degrees of freedom into their various sources enabled us to compute the appropriate values for the analysis of variance calculations and tests. 
 
-Further, Fisher;s LSD procedure and the Bonferroni adjustment can be used to perform pairwise comparisons to determine which means are different.
+Further, Fisher LSD procedure and the Bonferroni adjustment can be used to perform pairwise comparisons to determine which means are different.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
