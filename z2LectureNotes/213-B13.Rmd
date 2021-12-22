@@ -151,7 +151,7 @@ Example:
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B13-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, z01, z02, z03, z04, z05, z06)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, z01, z02, z03, z04, z05, z06, z07)
 ```
 
 ```{r 'B13-Validation', include=FALSE, cache=FALSE}

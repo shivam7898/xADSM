@@ -667,7 +667,7 @@ paste0(round(bb[3], 1))
 
 ```{r 'C10-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, alpha, bb_testF, bb_testT, isNormal_A, isNormal_B, setA, setB,
-          xxSoftware)
+          xxSoftware, bb_ha, xxMatchedMethods)
 ```
 
 ```{r 'C10-Validation', include=TRUE, cache=FALSE}

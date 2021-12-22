@@ -81,15 +81,15 @@ For hypothesis tests involving a population mean, we let ${\mu}_0$ denote the hy
 Alternative is One-Sided, if it states that a parameter is larger or smaller than the null value. Alternative is Two-sided, if it states that the parameter is different from the null value. 
 
 ```{definition 'Hypothesis-1T-Lower-Tail'}
-\textcolor{pink}{$\text{\{Left Tail or Lower Tail\} } {H_0} : {\mu} \geq {\mu}_0 \iff {H_a}: {\mu} < {\mu}_0$}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {\mu} \geq {\mu}_0 \iff {H_a}: {\mu} < {\mu}_0$}
 ```
 
 ```{definition 'Hypothesis-1T-Upper-Tail'}
-\textcolor{pink}{$\text{\{Right Tail or Upper Tail\} } {H_0} : {\mu} \leq {\mu}_0 \iff {H_a}: {\mu} > {\mu}_0$}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {\mu} \leq {\mu}_0 \iff {H_a}: {\mu} > {\mu}_0$}
 ```
 
 ```{definition 'Hypothesis-2T-Two-Tail'}
-\textcolor{pink}{$\text{\{Two Tail\} } {H_0} :{\mu} = {\mu}_0 \iff {H_a}: {\mu} \neq {\mu}_0$}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} :{\mu} = {\mu}_0 \iff {H_a}: {\mu} \neq {\mu}_0$}
 ```
 
 
