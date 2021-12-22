@@ -845,8 +845,9 @@ caption_hh <- "C03P04"
 ```
 
 ```{r 'C03P04-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"), 
-       plot = eval(parse(text = caption_hh)))
+#ggsave(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"), plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
 ```
 
 ```{r 'C03P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -864,8 +865,8 @@ caption_hh <- "C03P05"
 ```
 
 ```{r 'C03P05-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png"), 
-       plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
 ```
 
 ```{r 'C03P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -883,8 +884,8 @@ caption_hh <- "C03P06"
 ```
 
 ```{r 'C03P06-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P06", "_Beta_Negative", ".png"), 
-       plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P06", "_Beta_Negative", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
 ```
 
 ```{r 'C03P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
