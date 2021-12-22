@@ -12,10 +12,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Introduction to Statistics"
 
 
-- Links (Ref)
-  - 
-
-
 ```{r 'B13-Flights', include=FALSE}
 # #Load Data: Flights
 xxflights <- f_getRDS(xxflights)
@@ -133,7 +129,7 @@ Example:
 #
 ```
 
-### Flowchart
+## Flowchart
 
 - Tests |
   - Test of Means |
@@ -209,6 +205,10 @@ The matched sample design is generally preferred to the independent sample desig
   - Two Sample Paired t-test
 
 ## More than Two Samples
+
+Assume there are 3 samples A, B, C. We can do $C_2^3 = 3$ number of tests i.e. $\{(A, B), (B, C), (C, A)\}$. However, assuming ${\alpha} = 0.05 \iff {\gamma} = 0.95$ for each test, the confidence for 3 consecutive tests become ${\gamma}^3 = 0.857 \iff {\alpha} = 0.143$, which is a very high and unacceptable value. To avoid this, we use ANOVA as a single test.
+
+High value of F-test would indicate that the populations are different.
 
 
 

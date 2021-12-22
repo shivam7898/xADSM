@@ -35,7 +35,7 @@ Example: Chemitech: Comparision of theree methods of assembly A, B, C in terms o
 - As given in data, sample means for A, B, C are : $\{{\overline{x}}_1 = 62, {\overline{x}}_1 = 66, {\overline{x}}_1 = 52\}$
   - From these data, method B appears to result in higher production rates than either of the other methods.
 
-```{r 'C-Chemitech'}
+```{r 'C13-Chemitech'}
 xxChemitech <- tibble(A = c(58, 64, 55, 66, 67), 
                       B = c(58, 69, 71, 64, 68), 
                       C = c(48, 57, 59, 47, 49))
@@ -282,7 +282,31 @@ The analysis of variance can be viewed as the process of partitioning the total 
 The square root of MSE provides the best estimate of the population standard deviation ${\sigma}$. This estimate of ${\sigma}$ on the computer output is \textcolor{pink}{Pooled StDev}.
 
 
+## Code
 
+```{r 'C13-ANOVA'}
+str(aa)
+bb <- aa %>% pivot_longer(everything(), names_to = "key", values_to = "value")
+# 
+# #ANOVA
+bb_anova <- aov(formula = value ~ key, data = bb)
+#names(bb_anova)
+#bb_anova
+summary(bb_anova)
+#
+# #Df shows the degrees of freedom for the independent variable (levels - 1)
+# #and the degrees of freedom for the residuals (total observations - 1 - levels).
+# #Sum Sq shows the sum of squares (total variation between the group means and the overall mean)
+# #Mean Sq shows the mean of the sum of squares i.e. 
+# #(sum of squares / degrees of freedom for each parameter).
+# #F-value column is the test statistic from the F test. 
+# #i.e. Mean square of each independent variable / mean square of the residuals. 
+# #The larger the F value, the more likely it is that 
+# #the variation caused by the independent variable is real and not due to chance.
+# #The Pr(>F) column is the p-value of the F-statistic. 
+# #i.e. likelihood that the F-value calculated from the test would have occurred 
+# #if the null hypothesis of no difference among group means were true.
+```
 
 
 
