@@ -320,7 +320,7 @@ str(bb)
 
 ```{r 'B10-SaveTibble', include=FALSE}
 # #Save Tibble
-f_setRDS(xxbasic10)
+#f_setRDS(xxbasic10)
 ```
 
 ```{r 'B10T01', echo=FALSE}
