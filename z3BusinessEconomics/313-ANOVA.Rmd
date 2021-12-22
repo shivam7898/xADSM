@@ -84,13 +84,13 @@ If the null hypothesis is true, we can use the variability among the sample mean
 
 First, note that if the assumptions for analysis of variance are satisfied and the null hypothesis is true, each sample will have come from the same normal distribution with mean ${\mu}$ and variance ${\sigma}^2$. 
 
-Recall that the sampling distribution of the sample mean ${\overline{x}}$ for a simple random sample of size ${n}$ from a normal population will be normally distributed with mean ${\mu}$ and variance $ {\sigma}_{{\overline{x}}}^2 = \frac{{\sigma}^2}{n}$.
+Recall that the sampling distribution of the sample mean ${\overline{x}}$ for a simple random sample of size ${n}$ from a normal population will be normally distributed with mean ${\mu}$ and variance ${\sigma}_{{\overline{x}}}^2 = \frac{{\sigma}^2}{n}$.
 
 In this case, the mean and variance of the three sample mean values $\{{\overline{x}}_1 = 62, {\overline{x}}_1 = 66, {\overline{x}}_1 = 52\}$ can be used to estimate the mean and variance of the sampling distribution. 
 
 When the sample sizes are equal, as in this example, the best estimate of the mean of the sampling distribution of ${\overline{x}}$ is the mean or average of the sample means. 
 
-In this example, an estimate of the mean of the sampling distribution of ${\overline{x}}$ is $(62 + 66 + 52)/3 = 60$. We refer to this estimate as the \textcolor{pink}{overall sample mean}. 
+In this example, an estimate of the mean of the sampling distribution of ${\overline{x}}$ is $(62 + 66 + 52)/3 = 60$. We refer to this estimate as the \textcolor{pink}{overall sample mean}. Refer equation \@ref(eq:mean-all-n-anv)
 
 An estimate of the variance of the sampling distribution of ${\overline{x}}$, ${\sigma}_{{\overline{x}}}^2$, is provided by the variance of the three sample means.
 
@@ -127,13 +127,73 @@ If the null hypothesis is false, the between-treatments estimate will be larger 
 
 where ${\mu}_j$ is mean of the $j^{\text{th}}$ population. We assume that a simple random sample of size ${n}_j$ has been selected from each of the ${k}$ populations or treatments. For the resulting sample data, let
 
-$${x}_{ij} = \text{value of observation } i \text{ for treatment } j \\
-{n}_{j} = \text{number of observations for treatment } j \\
-{\overline{x}}_{j} = \text{sample mean for treatment } j \\
-{s}_{j}^2 = \text{sample variance for treatment } j \\
-{s}_{j} = \text{sample e standard deviation for treatment } j
-$$
+\begin{equation}
+  \begin{align}
+  {x}_{ij} &= \text{value of observation } i \text{ for treatment } j \\
+{n}_{j} &= \text{number of observations for treatment } j \\
+{\overline{x}}_{j} &= \text{sample mean for treatment } j \\
+{s}_{j}^2 &= \text{sample variance for treatment } j \\
+{s}_{j} &= \text{sample e standard deviation for treatment } j
+  \end{align}
+\end{equation}
 
+The formulas for the sample mean and sample variance for treatment ${j}$ are given in equations \@ref(eq:mean-anv) and \@ref(eq:var-anv)
+
+
+\begin{equation}
+  {\overline{x}}_j =  \frac{\sum_{i=1}^{n_j}{x}_{ij}}{{n}_j}
+  (\#eq:mean-anv)
+\end{equation}
+
+\begin{equation}
+  {s}_j^2 = \frac{\sum_{i=1}^{n_j}{\left({x}_{ij} - {\overline{x}}_j\right)^2}}{{n}_j - 1}
+  (\#eq:var-anv)
+\end{equation}
+
+The overall sample mean, denoted ${\overline{\overline{x}}}$, is the sum of all the observations divided by the total number of observations. 
+
+
+\begin{equation}
+  {\bar{\bar{x}}} = \frac{\sum_{j=1}^k{\sum_{i=1}^{{n}_j}{{x}_{ij}}}}{{n}_T}
+  (\#eq:mean-all-anv)
+\end{equation}
+
+Where
+
+\begin{equation}
+  {n}_T = {n}_1 + {n}_2 + \cdots + {n}_k
+  (\#eq:n-anv)
+\end{equation}
+
+If the size of each sample is {n}, the equation \@ref(eq:n-anv) becomes ${n}_T = kn$, and the equation \@ref(eq:mean-all-anv) reduces to \@ref(eq:mean-all-n-anv)
+
+\begin{equation}
+  {\bar{\bar{x}}} = \frac{\sum_{j=1}^k{{\overline{x}}_{j}}}{k}
+  (\#eq:mean-all-n-anv)
+\end{equation}
+
+Thus, whenever the sample sizes are the same, the overall sample mean is just the average of the ${k}$ sample means.
+
+Thus, in the example, from \@ref(eq:mean-all-n-anv), ${\bar{\bar{x}}} = \frac{62+66+52}{3} = 60$
+
+## MSTR
+
+\textcolor{pink}{Between-Treatments Estimate of Population Variance}
+
+The between-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{mean square due to treatments} and is denoted \textcolor{pink}{$\text{MSTR}$}. Refer equation \@ref(eq:mstr-anv)
+
+\begin{equation}
+  \text{MSTR} = \frac{\text{SSTR}}{k - 1} = \frac{\sum_{j=1}^{k}{n}_j\left({\overline{x}}_j - {\bar{\bar{x}}} \right)^2}{k - 1}
+  (\#eq:mstr-anv)
+\end{equation}
+
+
+The numerator in equation \@ref(eq:mstr-anv) is called the \textcolor{pink}{sum of squares due to treatments} and is denoted \textcolor{pink}{$\text{SSTR}$}. The denominator, ${k − 1}$, represents the degrees of freedom associated with SSTR.
+
+\begin{equation}
+  \text{SSTR} = \sum_{j=1}^{k}{n}_j\left({\overline{x}}_j - {\bar{\bar{x}}} \right)^2
+  (\#eq:sstr-anv)
+\end{equation}
 
 
 
