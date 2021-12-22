@@ -174,8 +174,6 @@ f_getDef("Hypo-2Sample-Two") #dddd
 
 Test Statistic for Independent Sample t-Test Statistic is given by \@ref(eq:t-2s-nsd) as below
 
-
-
 \begin{equation}
   t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
 \end{equation}
