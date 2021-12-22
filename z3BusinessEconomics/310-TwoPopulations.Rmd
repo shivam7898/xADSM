@@ -128,7 +128,7 @@ f_getDef("Hypo-2Sample-Two")
 - \@ref(eq:z-2s-sd) $z = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{(82 - 78) - 0}{2.415} = 1.66$
 - Calculate ${}^2\!P_{(z)}$
   - Because z is in upper tail, we get upper tail area and because it is Two-Tail Test, we double it
-  - ${}^2\!P_{(z = 1.66)} = 2 * {}^U\!P_{(z= 1.66)} = 2 * 0.0485 = 0.0970$
+  - ${}^2\!P_{(z = 1.66)} = 2 * {}^U\!P_{(z = 1.66)} = 2 * 0.0485 = 0.0970$
     - `2 * pnorm(q = 1.66, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
   - ${}^2\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected
@@ -225,7 +225,7 @@ f_getDef("Hypo-2Sample-Two")
 - Test Statistic z
   - \@ref(eq:z-2s-sd) $z = \frac{(85.36 - 81.40 ) - 0}{0.958} = 4.13369$
 - p-value
-  - ${}^2\!P_{(z = 4.13369)} = 2 * {}^U\!P_{(z= 4.13369)} = 2 * 0.0000178 \approx 0$
+  - ${}^2\!P_{(z = 4.13369)} = 2 * {}^U\!P_{(z = 4.13369)} = 2 * 0.0000178 \approx 0$
     - `pnorm(q = 4.13369, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
   - ${}^2\!P_{z} < {\alpha} \to {H_0}$ Rejected
 
@@ -384,7 +384,7 @@ bb <- aa %>% pivot_longer(everything(), names_to = "key", values_to = "value")
 # #Alternative must be: "two.sided" (Default), "less", "greater"
 bb_ha <- "greater"
 #bb_testT <- t.test(x = bb$Old, y = bb$New, alternative = bb_ha)
-bb_testT <- t.test(value ~ key, data = bb, alternative = bb_ha)
+bb_testT <- t.test(formula = value ~ key, data = bb, alternative = bb_ha)
 bb_testT
 #
 cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6), ")\n"))
@@ -484,7 +484,7 @@ bb_testF$p.value
 #
 # #Question : Is there any significant difference between the mean of two populations
 #
-bb_testT <- t.test(values ~ sets, data = bb, var.equal = TRUE)
+bb_testT <- t.test(formula = values ~ sets, data = bb, var.equal = TRUE)
 bb_testT
 #
 cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6), ")\n"))
@@ -608,13 +608,9 @@ In the matched sample design the two production methods are tested under similar
 
 The key to the analysis of the matched sample design is to realize that we consider only the column of differences.
 
-Example: Two Production Methods
+A matched sample procedure for inferences about two population means generally provides better precision than the independent sample approach; therefore it is the recommended design. 
 
-- (1: Method 1) $\{6, 5, 7, 6.2, 6, 6.4\}$
-- (2: Method 2) $\{5.4, 5.2, 6.5, 5.9, 6, 5.8\}$
-- Difference: ${d}_i =\{0.6, -0.2, 0.5, 0.3, 0, 0.6\}$
-
-Let ${\mu}_d$ = the mean of the difference in values for the population of workers.
+Let ${\mu}_d$ = the mean of the difference in values for the population
 
 ```{definition 'Hypo-Paired-Two'}
 \textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\mu}_d = 0 \iff {H_a}: {\mu}_d \neq 0$}
@@ -640,8 +636,47 @@ Sample Mean is given by \@ref(eq:mean-d) like \@ref(eq:mean) and Sample Standard
   (\#eq:t-pair)
 \end{equation}
 
+\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :} Refer \@ref(eq:moe-pair) like \@ref(eq:moe-2s-sd) 
 
-```{r 'C-'}
+
+\begin{equation}
+  \text{MOE}_{{\gamma}} = {t}_{\frac{{\alpha}}{2}}\frac{{s}_d}{\sqrt{n}}
+  (\#eq:moe-pair)
+\end{equation}
+
+\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :} Refer \@ref(eq:interval-estm-pair) like \@ref(eq:interval-estm-2s-sd) 
+
+\begin{equation}
+  \text{Interval Estimate}_{\gamma} = \overline{d} \pm {t}_{\frac{{\alpha}}{2}}\frac{{s}_d}{\sqrt{n}}
+  (\#eq:interval-estm-pair)
+\end{equation}
+
+"ForLater" - Exercise
+
+### Example {.unlisted .unnumbered}
+
+Example: Two Production Methods
+
+- (1: Method 1) $\{6, 5, 7, 6.2, 6, 6.4\}$
+- (2: Method 2) $\{5.4, 5.2, 6.5, 5.9, 6, 5.8\}$
+- Difference: ${d}_i =\{0.6, -0.2, 0.5, 0.3, 0, 0.6\}$
+- ${n} = 6, {\overline{d}} = 0.3, {{s}_d} = 0.335, \text{DOF} = 5, \text{SE} = {{s}_d}/\sqrt{n} = 0.1366$
+- \@ref(eq:t-pair) $t = \frac{\overline{d} - {\mu}_d}{{s}_d/\sqrt{n}} = \frac{0.30 - 0}{0.335/\sqrt{6}} = 2.196$
+  - `{mean(bb$d) - 0 } / {sd(bb$d) / sqrt(length(bb$d))}` \textcolor{pink}{$\#\mathcal{R}$}
+- Calculate ${}^2\!P_{(t)}$
+  - ${}^2\!P_{(t = 2.196)} = 2 * {}^U\!P_{(t = 2.196)} = 2 * 0.0397 = 0.07949$
+    - `2 * pt(q = 2.196, df = 5, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^2\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected
+- 95% Confidence Interval can also be estimated
+  - ${\gamma = 0.95} \iff{\alpha} = 0.05 \to {{}^2\!t_{{\alpha}/2}} = {{}^2\!t_{0.025}} = 2.57$
+  - `qt(p = 0.025, df = 5, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \@ref(eq:moe-pair) $\text{MOE}_{\gamma =0.95} = 2.57 * 0.1366 = 0.35$
+- \@ref(eq:interval-estm-pair) $\text{Interval Estimate}_{\gamma} = 0.3 \pm 0.35$
+
+### Code {.unlisted .unnumbered}
+
+```{r 'C-Paired-TwoT'}
 # #Matched Samples: Same workers providing data for two methods
 xxMatchedMethods <- tibble(M1 = c(6, 5, 7, 6.2, 6, 6.4), 
                            M2 = c(5.4, 5.2, 6.5, 5.9, 6, 5.8))
@@ -650,8 +685,23 @@ aa <- xxMatchedMethods
 bb <- aa %>% mutate(d = M1-M2)
 str(bb)
 paste0(round(bb[3], 1))
-
+#
+cat(paste0("- ${n} = ", length(bb$d), ", {\\overline{d}} = ", round(mean(bb$d), 1), 
+           ", {{s}_d} = ", round(sd(bb$d), 3),"$\n"))
+cat(paste0("t = ", round({mean(bb$d) - 0 } / {sd(bb$d) / sqrt(length(bb$d))}, 3), "\n"))
+#
+# #Paired t-test
+bb <- aa %>% pivot_longer(everything(), names_to = "key", values_to = "value")
+#
+# #Welch Two Sample t-test
+# #Alternative must be: "two.sided" (Default), "less", "greater"
+bb_ha <- "two.sided"
+bb_testT <- t.test(formula = value ~ key, data = bb, alternative = bb_ha, paired = TRUE)
+bb_testT
 ```
+
+## Population Proportions
+
 
 
 
