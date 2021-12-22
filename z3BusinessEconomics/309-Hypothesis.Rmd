@@ -505,11 +505,11 @@ Ex: Golf company
 
 ## Unknown SD  {#get-pt-c09}
 
-For the ${\sigma}$ unknown case, the sampling distribution of the test statistic follows the t distribution with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:test-statistic-no-sigma)
+For the ${\sigma}$ unknown case, the sampling distribution of the test statistic follows the t distribution with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:test-statistic-nsd)
 
 \begin{equation}
   t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}}
-  (\#eq:test-statistic-no-sigma)
+  (\#eq:test-statistic-nsd)
 \end{equation}
 
 One-Tailed Test
@@ -518,7 +518,7 @@ One-Tailed Test
   - ${H_0}: {\mu} \leq 7 \iff {H_a} \geq 7$
   - Sample: ${\overline{x}} = 7.25, s = 1.052, n = 60$
   - ${\alpha} = 0.05$
-  - Refer equation \@ref(eq:test-statistic-no-sigma), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{7.25 - 7}{1.052/\sqrt{60}} = 1.84$
+  - Refer equation \@ref(eq:test-statistic-nsd), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{7.25 - 7}{1.052/\sqrt{60}} = 1.84$
   - $\text{DOF} = n-1 = 60 -1 = 59$
   - Refer [For P(t), find t by qt()](#get-t-c08 "c08") and This is a Right Tail Test
     - ${P_{\left(t \geq 1.84\right)}} = 0.0354$ i.e. between 0.05 and 0.025
@@ -546,7 +546,7 @@ Two Tailed Test
   - ${H_0}: {\mu} = 40 \iff {H_a} \neq 40$
   - Sample: ${\overline{x}} = 37.4, s = 11.79, n = 25$
   - ${\alpha} = 0.05$
-  - Refer equation \@ref(eq:test-statistic-no-sigma), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{37.4 - 40}{11.79/\sqrt{25}} = -1.10$
+  - Refer equation \@ref(eq:test-statistic-nsd), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{37.4 - 40}{11.79/\sqrt{25}} = -1.10$
   - $\text{DOF} = n-1 = 25 -1 = 24$
   - Because we have a two-tailed test, the p-value is two times the area under the curve of the t distribution for $t \leq -1.10$
     - $P_{\left(t\right)} = P_{\left(t \leq -1.10\right)} + P_{\left(z \geq 1.10\right)}$

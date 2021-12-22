@@ -101,13 +101,13 @@ Just as $z_{0.025}$ was used to indicate the z value providing a 0.025 area in t
 
 As the degrees of freedom increase, the t distribution approaches the standard normal distribution. Ex:  $t_{0.025} = 2.262 \,(\text{DOF} = 9)$, $t_{0.025} = 2.200 \,(\text{DOF} = 60)$, and $t_{0.025} = 1.96 \,(\text{DOF} = \infty) = z_{0.025}$
 
-Interval Estimate of a Population Mean: ${\sigma}$ Unknown is given by equation \@ref(eq:interval-no-sigma)
+Interval Estimate of a Population Mean: ${\sigma}$ Unknown is given by equation \@ref(eq:interval-nsd)
 
 \begin{equation}
   \begin{align}
     \overline{x} \pm t_{\alpha/2} \frac{s}{\sqrt{n}}
   \end{align}
-  (\#eq:interval-no-sigma)
+  (\#eq:interval-nsd)
 \end{equation}
 
 where ${s}$ is the sample standard deviation, $(1 − \alpha)$ is the confidence coefficient and $t_{\alpha/2}$ is the t-value providing an area of $\alpha/2$ in the upper tail of the t distribution with ${n-1}$ degrees of freedom.
