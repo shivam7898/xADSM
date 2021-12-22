@@ -580,7 +580,7 @@ ii %>% summarise(Count = across(value, length),
 ### 10 {.unlisted .unnumbered}
 
 ```{r 'C10D12', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two") #dddd
+f_getDef("Hypo-2Sample-Two")
 ```
 
 - (1:) ${n}_1 = 35, {\overline{x}}_1 = 13.6, {\sigma}_1 = 5.2$
@@ -702,6 +702,126 @@ bb_testT
 
 ## Population Proportions
 
+To make an inference about the difference between the two population proportions $({p}_1 - {p}_2)$, we select a simple random sample of ${n}_1$ units from population 1 and a second simple random sample of ${n}_2$ units from population 2. Let $\overline{{p}}_1, \overline{{p}}_2$ denote the sample proportions for simple random sample from populations 1 and 2.
+
+\textcolor{pink}{$({x})$ denotes Count of Success}
+
+\textcolor{pink}{Interval Estimation of $({p}_1 - {p}_2)$}
+
+The point estimator of the difference between two population proportions is the difference between the sample proportions of two independent simple random samples.
+
+\textcolor{pink}{Point Estimate :} Refer \@ref(eq:point-estm-p) like \@ref(eq:point-estm-2s-sd)
+
+\begin{equation}
+  E_{( {\overline{p}}_1 - {\overline{p}}_2 )} = {\overline{p}}_1 - {\overline{p}}_2
+  (\#eq:point-estm-p)
+\end{equation}
+
+As with other point estimators, the point estimator $E_{( {\overline{p}}_1 - {\overline{p}}_2 )}$ has a standard error \textcolor{pink}{${\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}$}, that describes the variation in the sampling distribution of the estimator. 
+
+The two population proportions,$({p}_1, {p}_2)$, are unknown. Thus, sample proportions $({\overline{p}}_1, {\overline{p}}_2)$ are being used to estimate them. 
+
+\textcolor{pink}{Standard Error of $({\overline{p}}_1 - {\overline{p}}_2)$ :} Refer equation \@ref(eq:se-p) like \@ref(eq:se-2s-sd)
+
+\begin{equation}
+  \begin{align}
+  {\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} &= \sqrt{\frac{{p}_1 (1-{p}_1)}{{n}_1} + \frac{{p}_2 (1-{p}_2)}{{n}_2}} \\
+&= \sqrt{\frac{{\overline{p}}_1 (1-{\overline{p}}_1)}{{n}_1} + \frac{{\overline{p}}_2 (1-{\overline{p}}_2)}{{n}_2}} 
+  \end{align}
+  (\#eq:se-p)
+\end{equation}
+
+\textcolor{pink}{Margin of Error ($\text{MOE}_{{\gamma}}$) :} Refer equation \@ref(eq:moe-p) like \@ref(eq:moe-2s-sd)
+
+\begin{equation}
+  \text{MOE}_{{\gamma}} = {z}_{\frac{{\alpha}}{2}}{\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} = {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\overline{p}}_1 (1-{\overline{p}}_1)}{{n}_1} + \frac{{\overline{p}}_2 (1-{\overline{p}}_2)}{{n}_2}}
+  (\#eq:moe-p)
+\end{equation}
+
+\textcolor{pink}{$\text{Interval Estimate}_{\gamma}$ :} Refer equation \@ref(eq:interval-estm-p) like \@ref(eq:interval-estm-2s-sd)
+
+\begin{equation}
+  \text{Interval Estimate}_{\gamma} = ({\overline{p}}_1 - {\overline{p}}_2) \pm {z}_{\frac{{\alpha}}{2}}\sqrt{\frac{{\overline{p}}_1 (1-{\overline{p}}_1)}{{n}_1} + \frac{{\overline{p}}_2 (1-{\overline{p}}_2)}{{n}_2}}
+  (\#eq:interval-estm-p)
+\end{equation}
+
+Example: Tax Preparation: (Count of Success $({x})$ is Number of Returns with Errors)
+
+- (1: Office 1) $\{{n}_1 = 250, {x}_1 = 35\} \to {\overline{p}}_1 = {n}_1/{x}_1 = 0.14$
+- (2: Office 2) $\{{n}_2 = 300, {x}_2 = 27\} \to {\overline{p}}_2 = {n}_2/{x}_2 = 0.09$
+- point estimate
+  - \@ref(eq:point-estm-p) $E_{( {\overline{p}}_1 - {\overline{p}}_2 )} = 0.14 - 0.09 = 0.05$
+    - Thus, we estimate that Office 1 has a .05, or 5%, greater error rate than Office 2.
+- For ${\gamma = 0.90} \iff{\alpha} = 0.10 \to {z_{{\alpha}/2}} = {z_{0.05}} = 1.645$
+  - `qnorm(p = 0.05, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \@ref(eq:se-p) ${\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} = 0.0275$
+  - `sqrt(0.14 * (1 - 0.14) / 250 + 0.09 * (1 - 0.09) / 300)` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:moe-p) $\text{MOE}_{\gamma} = {z}_{\frac{{\alpha}}{2}} {\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} = 1.645 * 0.0275 = 0.045$
+- \@ref(eq:interval-estm-p) $\text{Interval Estimate}_{\gamma} = ({\overline{p}}_1 - {\overline{p}}_2) \pm \text{MOE}_{\gamma} = 0.05 \pm 0.045$
+
+### Hypothesis
+
+```{definition 'Hypo-2Sample-Prop-Lower'}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {p}_1 - {p}_2 \geq 0 \iff {H_a}: {p}_1 - {p}_2 < 0$}
+```
+
+```{definition 'Hypo-2Sample-Prop-Upper'}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {p}_1 - {p}_2 \leq 0 \iff {H_a}: {p}_1 - {p}_2 > 0$}
+```
+
+```{definition 'Hypo-2Sample-Prop-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {p}_1 - {p}_2 = 0 \iff {H_a}: {p}_1 - {p}_2 \neq 0$}
+```
+
+When we assume ${H_0}$ is true as an equality, we have ${p}_1 - {p}_2 = 0$, which is the same as saying that the population proportions are equal, ${p}_1 = {p}_2 = {p}$. The equation \@ref(eq:se-p) becomes \@ref(eq:se-p-same) 
+
+\textcolor{pink}{Standard Error of $({\overline{p}}_1 - {\overline{p}}_2)$ :} When ${p}_1 = {p}_2 = {p}$
+
+\begin{equation}
+  \begin{align}
+  {\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} &= \sqrt{{p} (1-{p})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)} \\
+&= \sqrt{{\overline{p}} (1-{\overline{p}})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)} 
+  \end{align}
+  (\#eq:se-p-same)
+\end{equation}
+
+
+With ${p}$ unknown, we pool, or combine, the point estimators from the two samples $({p}_1, {p}_2)$ to obtain a single point estimator of ${p}$ is given by \@ref(eq:pooled-estm-p)
+
+\textcolor{pink}{Pooled Estimator of ${p}$ :} When ${p}_1 = {p}_2 = {p}$
+
+\begin{equation}
+  {\overline{p}} = \frac{{n}_1 {\overline{p}}_1 + {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2}
+  (\#eq:pooled-estm-p)
+\end{equation}
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests :}
+
+\begin{equation}
+  z = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{{\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}} = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{\sqrt{{\overline{p}} (1-{\overline{p}})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)}}
+  (\#eq:z-p)
+\end{equation}
+
+Example: Tax Preparation: Continuation
+
+```{r 'C10D13', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypo-2Sample-Prop-Two") #dddd
+```
+
+- \@ref(eq:pooled-estm-p) ${\overline{p}} = \frac{{n}_1 {\overline{p}}_1+ {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2} = \frac{250 * 0.14 + 300 * 0.09}{250 + 300} = $
+
+
+
+
+- Calculate ${}^2\!P_{(t)}$
+  - ${}^2\!P_{(t = 2.196)} = 2 * {}^U\!P_{(t = 2.196)} = 2 * 0.0397 = 0.07949$
+    - `2 * pt(q = 2.196, df = 5, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^2\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected
+
+
+
+### Code {.unlisted .unnumbered}
 
 
 

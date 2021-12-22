@@ -21,3 +21,16 @@ f_get2sDof <- function(s1, n1, s2, n2) {
   cat(paste0("- ", "`", "floor({", s1,"^2 / ", n1, " + ", s2, "^2 / ", n2, " }^2 / {{", s1, "^2 / ", n1, "}^2/{", n1, "-1} + {", s2, "^2 / ", n2, "}^2/{", n2, "-1}})", "`", " \\textcolor{pink}{$\\#\\mathcal{R}$}", "\n"))
   return(xx)
 }
+
+## ---- A11B-getSeProp ----
+f_getSeProp <- function(p1, n1, p2, n2) {
+  # f_getSeProp(0.5, 11, 0.25, 22)
+  # # Return Standard Error SE for Proportions
+  # Value rounded down to provide a larger t-value and a more conservative interval estimate
+  xx  <- sqrt(p1 * (1 - p1) / n1 + p2 * (1 - p2) / n2)
+  cat(paste0("- ", "`", "sqrt(", p1, " * (1 - ", p1, ") / ", n1, " + ", p2, " * (1 - ", p2, ") / ", n2, ")", "`", " \\textcolor{pink}{$\\#\\mathcal{R}$}", "\n"))
+  cat(paste0("- ", "`", "{", n1, " * ", p1, " + ", n2, " * ", p2, "} / {", n1, " + ", n2, "}", "`", " \\textcolor{pink}{$\\#\\mathcal{R}$}", "\n"))
+  return(xx)
+}
+
+
