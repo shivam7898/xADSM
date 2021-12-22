@@ -141,7 +141,7 @@ f_getDef("Standard-Deviation")
 \begin{equation} 
   \begin{align} 
      \sigma &= \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \mu\right)^2} \\
-    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}
+    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \overline{x}\right)^2}
   \end{align}
 \end{equation} 
 

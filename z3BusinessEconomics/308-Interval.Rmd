@@ -115,7 +115,7 @@ where ${s}$ is the sample standard deviation, $(1 − \alpha)$ is the confidence
 Refer equation \@ref(eq:sd), the expression for the sample standard deviation is 
 
 \begin{equation*} 
-    {s} = \sqrt{\frac{\sum \left(x_i - \bar{x}\right)^2}{n-1}}
+    {s} = \sqrt{\frac{\sum \left(x_i - \overline{x}\right)^2}{n-1}}
 \end{equation*} 
 
 ```{definition 'Degrees-of-Freedom'}

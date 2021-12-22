@@ -514,14 +514,14 @@ Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean ${\over
   - Mean is the most commonly used measure of central location, even though it is influenced by extreme values.
 
 \begin{equation} 
-  \bar{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}
+  \overline{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}
   (\#eq:mean)
 \end{equation} 
 
 In the mean calculation, normally each ${x_i}$ is given equal importance or weightage of ${1/n}$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
 
 \begin{equation} 
-  \bar{x} = \frac{\sum_{i=1}^n{w_ix_i}}{\sum_{i=1}^n{w_i}}
+  \overline{x} = \frac{\sum_{i=1}^n{w_ix_i}}{\sum_{i=1}^n{w_i}}
   (\#eq:mean-weighted)
 \end{equation} 
 
@@ -775,7 +775,7 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
 \begin{equation} 
   \begin{align} 
      \sigma &= \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \mu\right)^2} \\
-    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}
+    {s} &= \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \overline{x}\right)^2}
   \end{align}
   (\#eq:sd)
 \end{equation} 
