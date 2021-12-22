@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Experimental Design and Analysis of Variance"
-  - "ForLater" - Everything
+  - "ForLater" - Exercises, Fisher LSD Onwards 
 
 ## Introduction
 
@@ -187,13 +187,107 @@ The between-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{m
   (\#eq:mstr-anv)
 \end{equation}
 
-
-The numerator in equation \@ref(eq:mstr-anv) is called the \textcolor{pink}{sum of squares due to treatments} and is denoted \textcolor{pink}{$\text{SSTR}$}. The denominator, ${k − 1}$, represents the degrees of freedom associated with SSTR.
+The numerator in equation \@ref(eq:mstr-anv) is called the \textcolor{pink}{sum of squares due to treatments} and is denoted \textcolor{pink}{$\text{SSTR}$}. The denominator, ${k − 1}$, represents the degrees of freedom associated with SSTR. Refer equation \@ref(eq:sstr-anv)
 
 \begin{equation}
   \text{SSTR} = \sum_{j=1}^{k}{n}_j\left({\overline{x}}_j - {\bar{\bar{x}}} \right)^2
   (\#eq:sstr-anv)
 \end{equation}
+
+If ${H_0}$ is true, MSTR provides an unbiased estimate of ${\sigma}^2$. However, if the means of the ${k}$ populations are not equal, MSTR is not an unbiased estimate of ${\sigma}^2$; in fact, in that case, MSTR should overestimate ${\sigma}^2$.
+
+In the example:
+
+- \@ref(eq:sstr-anv) $\text{SSTR} = 5(62 - 60)^2 + 5(66 - 60)^2 + 5(52 - 60)^2 = 520$
+- \@ref(eq:mstr-anv) $\text{MSTR} = \frac{520}{3 - 1} = 260$
+
+## MSE
+
+\textcolor{pink}{Within-Treatments Estimate of Population Variance}
+
+The within-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{mean square due to error} and is denoted \textcolor{pink}{$\text{MSE}$}.Refer equation \@ref(eq:mse-anv)
+
+\begin{equation}
+  \text{MSE} = \frac{\text{SSE}}{{n}_T - k} = \frac{\sum_{j=1}^{k}{({n}_j - 1){s}_j^2}}{{n}_T - k}
+  (\#eq:mse-anv)
+\end{equation}
+
+The numerator in equation \@ref(eq:mse-anv) is called the \textcolor{pink}{sum of squares due to error} and is denoted \textcolor{pink}{$\text{SSE}$}. The denominator, ${{n}_T - k}$ is referred to as the degrees of freedom associated with SSE. Refer equation \@ref(eq:sse-anv)
+
+
+\begin{equation}
+  \text{SSE} = \sum_{j=1}^{k}{({n}_j - 1){s}_j^2}
+  (\#eq:sse-anv)
+\end{equation}
+
+In the example:
+
+- \@ref(eq:sse-anv) $\text{SSE} = (5 - 1)27.5 + (5 - 1)26.5 + (5 - 1)31 = 340$
+- \@ref(eq:mse-anv) $\text{MSE} = \frac{340}{15 - 3} = 28.33$
+
+## F test
+
+\textcolor{pink}{Comparing the Variance Estimates}
+
+If the null hypothesis is true, $\text{MSTR}$ and $\text{MSE}$ provide two independent, unbiased estimates of ${\sigma}^2$. 
+
+Refer [Chapter: Variance](#c11 "c11").
+
+We know that for normal populations, the sampling distribution of the ratio of two independent estimates of ${\sigma}^2$ follows an F distribution. Hence, if the null hypothesis is true and the ANOVA assumptions are valid, the sampling distribution of $\frac{\text{MSTR}}{\text{MSE}}$ is an F distribution with numerator degrees of freedom equal to ${k - 1}$ and denominator degrees of freedom equal to ${{n}_T - k}$. 
+
+In other words, if the null hypothesis is true, the value of MSTR/MSE should appear to have been selected from this F distribution. However, if the null hypothesis is false, the value of $\frac{\text{MSTR}}{\text{MSE}}$ will be inflated because MSTR overestimates ${\sigma}^2$. Hence, we will reject ${H_0}$ if the resulting value of $\frac{\text{MSTR}}{\text{MSE}}$ appears to be too large to have been selected from an F distribution with ${k - 1}$ numerator degrees of freedom and ${{n}_T - k}$ denominator degrees of freedom. 
+
+Because the decision to reject ${H_0}$ is based on the value of $\frac{\text{MSTR}}{\text{MSE}}$, the test statistic used to test for the equality of ${k}$ population means is given by equation \@ref(eq:f-anv)
+
+\textcolor{pink}{Test Statistic for the Equality of ${k}$ Population Means :}
+
+
+\begin{equation}
+  F = \frac{\text{MSTR}}{\text{MSE}}
+  (\#eq:f-anv)
+\end{equation}
+
+In the example:
+
+- \@ref(eq:f-anv) $F = \frac{260}{28.33} = 9.18$
+- Numerator : $\text{DOF} = k - 1 = 3 - 1 = 2$
+- Denominator : $\text{DOF} = {n}_T - k = 15 - 3 = 12$
+
+Because we will only reject the null hypothesis for large values of the test statistic, the p-value is the upper tail area of the F distribution to the right of the test statistic ${F}$.
+
+- Calculate ${}^U\!P_{(F)}$
+  - ${}^U\!P_{F = 9.18} = 0.0038$
+    - `pf(q = 9.18, df1 = 2, df2 = 12, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(F)} < {\alpha} \to {H_0}$ is rejected i.e. 
+  - The test provides sufficient evidence to conclude that the means of the three populations are not equal.
+  - Analysis of variance supports the conclusion that the population mean number of units produced per week for the three assembly methods are not equal
+
+## ANOVA Table
+
+The sum of squares associated with the source of variation referred to as "Total" is called the \textcolor{pink}{total sum of squares (SST)}. SST divided by its degrees of freedom ${n}_T - 1$ is nothing more than the overall sample variance that would be obtained if we treated the entire set of 15 observations as one data set. With the entire data set as one sample. Refer equation \@ref(eq:sst-anv)
+
+
+\begin{equation}
+  \text{SST} = \text{SSTR} + \text{SSE} = \sum_{j=1}^k{\sum_{i=1}^{{n}_j}{\left( {x}_{ij} - \bar{\bar{x}}\right)^2}}
+  (\#eq:sst-anv)
+\end{equation}
+
+The degrees of freedom associated with this total sum of squares is the sum of the degrees of freedom associated with the sum of squares due to treatments and the sum of squares due to error i.e. ${n}_T - 1 = (k - 1) + ({n}_T - k)$.
+
+In other words, SST can be partitioned into two sums of squares: the sum of squares due to treatments and the sum of squares due to error. Note also that the degrees of freedom corresponding to SST, ${n}_T - 1$, can be partitioned into the degrees of freedom corresponding to SSTR, $k - 1$, and the degrees of freedom corresponding to SSE, ${n}_T - k$. 
+
+The analysis of variance can be viewed as the process of partitioning the total sum of squares and the degrees of freedom into their corresponding sources: treatments and error. Dividing the sum of squares by the appropriate degrees of freedom provides the variance estimates, the F value, and the p-value used to test the hypothesis of equal population means.
+
+The square root of MSE provides the best estimate of the population standard deviation ${\sigma}$. This estimate of ${\sigma}$ on the computer output is \textcolor{pink}{Pooled StDev}.
+
+
+
+
+
+
+
+
 
 
 
