@@ -246,7 +246,7 @@ f_getDef("Hypo-2Sample-Lower")
   - \@ref(eq:z-2s-sd) $z = \frac{(73 - 76) - 0}{1.0954} = -2.738613$
   - ${}^L\!P_{(z = -2.738613)} = 0.003$
     - `pnorm(q = -2.738613, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
-    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. The increase is significant
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. the increase is significant
     - \textcolor{orange}{Caution:} Using Two-Tail Test will result in different result. The type of test should be considered carefully.
 
 ```{r 'C10D07', comment="", echo=FALSE, results='asis'}
@@ -269,7 +269,7 @@ f_getDef("Hypo-2Sample-Lower")
   - \@ref(eq:z-2s-sd) $z = \frac{(75 - 77) - 0}{1.0954} = -1.826$
   - ${}^L\!P_{(z = -1.826)} = 0.0339$
     - `pnorm(q = -1.826, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$}
-    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. The increase is significant
+    - ${}^L\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. the increase is significant
 
 - When conducting a hypothesis test with the values given for the standard deviation, sample size, and alpha, how large must the increase from year 1 to year 2 be for it to be statistically significant
   - ${\alpha} = 0.05 \iff {}^L\!P_{(z)} = 0.05 \to {z_{0.05}} = -1.6448$
@@ -361,7 +361,7 @@ f_getDef("Hypo-2Sample-Upper")
   - ${}^U\!P_{(t = 2.272)} = 0.0168$
     - `pt(q = 2.272, df = 21, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
-  - ${}^U\!P_{(t)} < {\alpha} \to {H_0}$ is rejected i.e. The decrease is significant
+  - ${}^U\!P_{(t)} < {\alpha} \to {H_0}$ is rejected i.e. the decrease is significant
   - It supports the conclusion that the new software provides a smaller population mean.
 
 ### Code {.unlisted .unnumbered}
@@ -808,18 +808,17 @@ Example: Tax Preparation: Continuation
 f_getDef("Hypo-2Sample-Prop-Two") #dddd
 ```
 
-- \@ref(eq:pooled-estm-p) ${\overline{p}} = \frac{{n}_1 {\overline{p}}_1+ {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2} = \frac{250 * 0.14 + 300 * 0.09}{250 + 300} = $
-
-
-
-
-- Calculate ${}^2\!P_{(t)}$
-  - ${}^2\!P_{(t = 2.196)} = 2 * {}^U\!P_{(t = 2.196)} = 2 * 0.0397 = 0.07949$
-    - `2 * pt(q = 2.196, df = 5, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
-- Compare with ${\alpha} = 0.05$
-  - ${}^2\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected
-
-
+- \@ref(eq:pooled-estm-p) ${\overline{p}} = \frac{{n}_1 {\overline{p}}_1+ {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2} = \frac{250 * 0.14 + 300 * 0.09}{250 + 300} = 0.1127$
+  - `{250 * 0.14 + 300 * 0.09} / {250 + 300}` \textcolor{pink}{$\#\mathcal{R}$}
+- \@ref(eq:z-p) $z = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{{\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}} = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{\sqrt{{\overline{p}} (1-{\overline{p}})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)}} $
+  - $z = \frac{(0.14 - 0.09)}{\sqrt{0.1127 (1-0.1127)\left(\frac{1}{250} + \frac{1}{300}\right)}}  = \frac{(0.14 - 0.09)}{0.0271} = 1.845$
+  - NOTE: The denominator calculated in this manner $(0.0271)$ is very close to the originally calculated ${\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} = 0.0275$
+- Calculate ${}^2\!P_{(z)}$
+  - ${}^2\!P_{(z = 1.845)} = 2 * {}^U\!P_{(z = 1.845)} = 2 * 0.0325 = 0.065$
+    - `2 * pnorm(q = 1.845, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.01$
+  - ${}^2\!P_{(z)} < {\alpha} \to {H_0}$ is rejected i.e. the proportions are different
+  - The firm can conclude that the error rates differ between the two offices.
 
 ### Code {.unlisted .unnumbered}
 
