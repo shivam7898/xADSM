@@ -1092,7 +1092,7 @@ The \textcolor{pink}{z-score, ${z_i}$}, can be interpreted as the number of stan
   - The process of converting a value for a variable to a z-score is often referred to as a \textcolor{pink}{z transformation} or \textcolor{pink}{scaling}.
 
 \begin{equation} 
-  z_i = \frac{x_i - \overline{x}}{s}
+  z_i = \frac{{x}_i - {\overline{x}}}{{s}}
   (\#eq:z-scores)
 \end{equation} 
 

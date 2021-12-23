@@ -129,7 +129,7 @@ Example: ${\overline{x}}$ is an estimator (of populataion parameter 'mean' ${\mu
 ## Standard Deviation
 
 ```{r 'B12D44', comment="", echo=FALSE, results='asis'}
-f_getDef("Mean") #dddd
+f_getDef("Mean")
 ```
 
 Refer [Standard Deviation](#sd-c03 "c03") and equation \@ref(eq:sd)
@@ -201,7 +201,9 @@ Refer [Test Statistic ](##test-stat-c09 "c09")
 f_getDef("Test-Statistic")
 ```
 
-For hypothesis tests about a population mean in the ${\sigma}$ known case, we use the standard normal random variable ${z}$ as a test statistic to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. As given in equation \@ref(eq:test-statistic-with-sigma) i.e. $z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}$
+```{r 'B12D45', comment="", echo=FALSE, results='asis'}
+f_getDef("1s-known-sd") #dddd
+```
 
 ## Calculate SD & SE {#stat-height-b12 .tabset .tabset-fade}
 

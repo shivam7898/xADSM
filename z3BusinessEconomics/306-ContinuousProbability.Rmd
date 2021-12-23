@@ -429,6 +429,8 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 
 ## Any Normal  {.tabset .tabset-fade}
 
+
+
 - Any normal distribution can be standardized by converting the individual values into z-scores. 
   - z-scores tell that how many standard deviations away from the mean each value lies.
 - Probabilities for all normal distributions are computed by using the standard normal distribution. 
@@ -453,7 +455,7 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
     
 
 \begin{equation}
-  z = \frac{x- {\mu}}{\sigma} 
+  z = \frac{x - {\mu}}{{\sigma}} 
   (\#eq:z-val)
 \end{equation}
 

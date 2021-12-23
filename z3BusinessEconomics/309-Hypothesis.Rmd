@@ -273,11 +273,15 @@ Example: The label on a can of Hilltop Coffee states that the can contains 3 pou
   - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Ex: $P_{\left(z = -3\right)} = 0.0013$
     - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean $\mu_0=3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
-  - For hypothesis tests about a population mean in the ${\sigma}$ known case, we use the standard normal random variable ${z}$ as a test statistic to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. As given in equation \@ref(eq:test-statistic-with-sigma)
+
+
+```{definition '1s-known-sd'}
+If ${\sigma}$ is known, the standard normal random variable \textcolor{pink}{${z}$ is used as test statistic} to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. Refer equation \@ref(eq:z-sd) $\to z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}$
+```
 
 \begin{equation}
-  z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}
-  (\#eq:test-statistic-with-sigma)
+  z = \frac{\overline{x} - {\mu}_0}{\sigma_{\overline{x}}} = \frac{\overline{x} - {\mu}_0}{\sigma/\sqrt{n}}
+  (\#eq:z-sd)
 \end{equation}
 
 The key question for a lower tail test is, \textcolor{pink}{How small must the test statistic ${z}$ be before we choose to reject the null hypothesis} 
@@ -305,7 +309,7 @@ For the Hilltop Coffee Example
 - Suppose the sample of 36 Hilltop coffee cans provides a sample mean of ${\overline{x}}$ = 2.92 pounds. 
   - Is $\overline{x} = 2.92$ small enough to cause us to reject ${H_0}$
 - Because this is a lower tail test, the p-value is the area under the standard normal curve for values of ${z}$ less than or equal to the value of the test statistic. 
-  - Refer equation \@ref(eq:test-statistic-with-sigma), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
+  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
   - Thus, the p-value is the probability that ${z}$ is less than or equal to −2.67 (the lower tail area corresponding to the value of the test statistic).
 - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
   - $P_{\left(\overline{x} = 2.92\right)} = P_{\left(z = -2.67\right)} = 0.0038$
@@ -377,7 +381,7 @@ A \textcolor{pink}{acceptance region} (confidence interval), is a set of values 
 ```
 
 \begin{equation} 
-  Z=\frac {\overline{X}-\mu }{\sigma/{\sqrt{n}}} \quad \Leftrightarrow \mu = \overline{X} - Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu = \overline{X} \pm Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu \approx \overline{X} \pm Z \frac{s}{\sqrt{n}}
+  Z = \frac {{\overline{x}} - {\mu}}{\sigma/{\sqrt{n}}} \quad \iff {\mu} = {\overline{x}} - Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} = {\overline{x}} \pm Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} \approx {\overline{x}} \pm Z \frac{{s}}{\sqrt{n}}
   (\#eq:z-mu)
 \end{equation} 
 
@@ -414,7 +418,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
 
 - p-value approach
   - For a two-tailed test, the p-value is the probability of obtaining a value for the test statistic as unlikely as or more unlikely than that provided by the sample. 
-  - Refer equation \@ref(eq:test-statistic-with-sigma), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
+  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
   - Now to compute the p-value we must find the probability of obtaining a value for the test statistic at least as unlikely as $z = 1.53$. 
     - Clearly values of $z \geq 1.53$ are at least as unlikely. 
     - But, because this is a two-tailed test, values of $z \leq −1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 

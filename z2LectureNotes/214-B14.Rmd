@@ -12,27 +12,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Inferential Statistics: Hypothesis Testing"
   - [Equality in Hypothesis](#equality-b14 "b14")
 
-
-```{r 'B14-xxWSES', include=FALSE}
-# #Load Data: WSES
-xxWSES <- f_getObject("xxWSES", "B13-WSES.csv", "772c81252c54a3162f1f8dbd0ceb9aeb")
-bb <- xxWSES
-```
-
-## Data: WSES
-
-\textcolor{pink}{FILENAME:} "B13-WSES.csv"
-
-- Assuming: Average Sales 8-million $({\mu}_0 = 8)$, Standard Deviation 2-million $({\sigma} = 2)$
-- Hypothesis test to check whether the average sales value in the population is at least 8-million
-
-```{r 'B14D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypothesis-1T-Upper-Tail") #dddd
-```
-
-- test statistic
-  - \@ref(eq:z-2s-sd) $z = \frac{(25.2 - 22.8) - 0}{1.18} = 2.03$
-
 ## Equality in Hypothesis  {#equality-b14 .unlisted .unnumbered}
 
 - The equality part of the expression $\{\mu \geq \mu_0 \, | \, \mu \leq \mu_0 \, | \, \mu = \mu_0\}$ \textcolor{pink}{always} appears in the null hypothesis ${H_0}$. 
@@ -40,6 +19,103 @@ f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 - Alternative hypothesis is often what the test is attempting to establish.
   - Hence, asking whether the user is looking for evidence to support $\{\mu < \mu_0 \, | \, \mu > \mu_0 \, | \, \mu \neq \mu_0\}$ will help determine ${H_a}$
 
+
+```{r 'B14D02', comment="", echo=FALSE, results='asis'}
+f_getDef("1s-known-sd") #dddd
+```
+
+- test statistic
+  - \@ref(eq:z-sd) $z = \frac{{\overline{x}} - {\mu}_0}{{\sigma}}$
+
+## Example: WSES
+
+```{r 'B14-xxWSES', include=FALSE}
+# #Load Data: WSES
+xxWSES <- f_getObject("xxWSES", "B13-WSES.csv", "772c81252c54a3162f1f8dbd0ceb9aeb")
+if(FALSE) {
+  loc_src <- paste0(.z$XL, "B13-WSES.xlsx")
+  aa <- read_excel(path = loc_src, sheet = excel_sheets(path = loc_src)[2])
+  str(aa)
+}
+```
+
+\textcolor{pink}{FILENAME:} "B13-WSES.csv"
+
+- Assuming: Average Sales 8-million $({\mu}_0 = 8)$, Standard Deviation 2-million $({\sigma} = 2)$
+- Hypothesis test to check whether the average sales value in the population is at least 8-million
+
+```{r 'B14D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+\textcolor{orange}{Caution:} While importing data, for Mac users, probably it will be easier to import CSV file. However, I am not a Mac user so cannot comment on this.
+
+### Data {.unlisted .unnumbered}
+
+```{r 'B-'}
+# #Assign to another variable for easy modification and keeping the original data as backup
+bb <- xxWSES
+str(bb)
+```
+
+### Rename Headers {.unlisted .unnumbered}
+
+```{r 'B-Rename'}
+# #List Column Headers
+names(bb)
+#
+# #Rename Headers
+bb_headers <- c("SN" , "RS" , "SO" , "PDT" , "INT" , "RG" , "RS1" , "PM" , "SVM" , "PP" , "JB" , "LCC")
+names(bb) <- bb_headers
+#
+# #Verification
+names(bb)
+#
+```
+
+### Character to Ordered Factor {.unlisted .unnumbered}
+
+- From the case study, it can be seen that Client Area is a categorical variable (factor) 
+- And, it is mentioned that it is ordinal in terms of order size (ordered factor)
+
+```{r 'B-'}
+# #"Reporting Status i.e. RS": Converting "character" to "factor" and Label them
+bb$RS <- factor(bb$RS, levels = c("Lost", "Won"), labels = c("0", "1"))
+#
+# #"Sales Outcome i.e. SO": Converting "numeric" to "factor" 
+bb$SO <- factor(bb$SO)
+#
+# #"Product i.e. PDT": Case study has provided that it is ordinal based on order size
+# #What are the unique values in this column
+unique(bb$PDT)
+#
+# #Converting "character" to "Ordered factor"
+# #Note: If level order is not provided, by default, alphabatical ordering will be assigned.
+levels(factor(bb$PDT, ordered = TRUE))
+#
+# #Provide ordering of factor levels in Ascending Order.
+bb$PDT <- factor(bb$PDT, ordered = TRUE, 
+      levels = c("GTMSys", "Procsys", "LearnSys", "Finsys", "Lifesys", "Logissys", "ContactSys"))
+
+
+# #"Region" Column was renamed to "RG"
+
+
+#
+
+
+# #Convert Character to Ordered Character
+#aa_tbl$RG <- factor(aa_tbl$RG, order = TRUE, levels = c("UK", "Other Europe","Americas","Africa",
+                        #                            "India", "Japan", "Singapore","Spain","Canada"))
+```
+
+
+
+```{r 'B-'}
+loc_src <- paste0(.z$XL, "B13-WSES.xlsx")
+ii <- read_excel(path = loc_src, sheet = excel_sheets(path = loc_src)[2])
+str(ii)
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
