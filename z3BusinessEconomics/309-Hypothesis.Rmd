@@ -92,13 +92,7 @@ Alternative is One-Sided, if it states that a parameter is larger or smaller tha
 \textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} :{\mu} = {\mu}_0 \iff {H_a}: {\mu} \neq {\mu}_0$}
 ```
 
-
-### Notes  {.unlisted .unnumbered}
-
-
-- The equality part of the expression $\{\mu \geq \mu_0 \, | \, \mu \leq \mu_0 \, | \, \mu = \mu_0\}$ \textcolor{pink}{always} appears in the null hypothesis ${H_0}$. 
-- Alternative hypothesisis often what the test is attempting to establish.
-  - Hence, asking whether the user is looking for evidence to support $\{\mu < \mu_0 \, | \, \mu > \mu_0 \, | \, \mu \neq \mu_0\}$ will help determine ${H_a}$
+Refer [Equality in Hypothesis](#equality-b14 "b14")
 
 ### Exercises  {.unlisted .unnumbered}
 

@@ -10,19 +10,32 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Inferential Statistics: Hypothesis Testing"
+  - [Equality in Hypothesis](#equality-b14 "b14")
 
 
-```{r 'B14-Flights', include=FALSE}
-# #Load Data: Flights
-xxflights <- f_getRDS(xxflights)
-bb <- xxflights
+```{r 'B14-xxWSES', include=FALSE}
+# #Load Data: WSES
+xxWSES <- f_getObject("xxWSES", "B13-WSES.csv", "772c81252c54a3162f1f8dbd0ceb9aeb")
+bb <- xxWSES
 ```
 
-## Definitions
+## Data: WSES
+
+\textcolor{pink}{FILENAME:} "B13-WSES.csv"
+
+- Assuming: Average Sales 8-million, Standard Deviation 2-million
+- Hypothesis test to check whether the average sales value in the population is at least 8-million
 
 ```{r 'B14D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Error-Type-I") #dddd
+f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 ```
+
+## Equality in Hypothesis  {#equality-b14 .unlisted .unnumbered}
+
+- The equality part of the expression $\{\mu \geq \mu_0 \, | \, \mu \leq \mu_0 \, | \, \mu = \mu_0\}$ \textcolor{pink}{always} appears in the null hypothesis ${H_0}$. 
+  - We try to reject null, so that we can confidently accept the alternate. If the alternate is ambiguous e.g. "is greater than or equal to" then we will not be able to conclude with confidence.
+- Alternative hypothesis is often what the test is attempting to establish.
+  - Hence, asking whether the user is looking for evidence to support $\{\mu < \mu_0 \, | \, \mu > \mu_0 \, | \, \mu \neq \mu_0\}$ will help determine ${H_a}$
 
 
 

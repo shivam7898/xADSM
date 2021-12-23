@@ -1,0 +1,1001 @@
+Opportunity No.,Reporting Status,Sales Outcome,Product,Industry,Region,Relative Strength in the segment,Profit of Customer in Million,Sales Value in Million,Profit %,WSES Proportion in Joint Bid,Leads Conversion Class
+1,Lost,0,LearnSys,Banks,Africa,45,2.11,10.29,29,66,F
+2,Won,1,GTMSys,Airline,UK,56,0.79,11.42,46,50,E
+3,Lost,0,GTMSys,Capital Markets,UK,48,1.62,5.63,70,50,F
+4,Won,1,GTMSys,Insurance,UK,58,0.09,10.17,46,56,E
+5,Won,1,GTMSys,Others,UK,49,1.46,10.6,32,54,V
+6,Lost,0,Lifesys,Others,Other Europe,64,0.94,6.8,65,52,F
+7,Lost,0,Finsys,Consumer goods,UK,54,1.32,5.25,50,68,V
+8,Lost,0,Finsys,Consumer goods,UK,54,1.09,7.3,74,48,V
+9,Lost,0,GTMSys,Health,UK,67,1.3,6.53,46,56,L
+10,Lost,0,Finsys,Consumer goods,UK,54,1.32,9.69,57,63,L
+11,Won,1,Lifesys,Capital Markets,Other Europe,47,0.36,6.74,50,65,V
+12,Lost,0,GTMSys,Telecom equipments,Spain,66,0.9,11.45,58,50,L
+13,Lost,0,Procsys,Consumer goods,UK,53,0.81,5.85,60,78,E
+14,Lost,0,GTMSys,Banks,UK,61,0.79,7.68,58,45,E
+15,Lost,0,GTMSys,Others,UK,49,2.11,7.69,46,54,V
+16,Won,1,GTMSys,Capital Markets,Other Europe,41,0.34,7.88,44,69,V
+17,Lost,0,GTMSys,Capital Markets,UK,48,1.07,9.67,66,54,E
+18,Lost,0,GTMSys,Banks,Americas,43,1.07,4.16,61,63,L
+19,Lost,0,GTMSys,Defense,Americas,50,0.96,7.68,55,63,F
+20,Won,1,GTMSys,Banks,Americas,43,0.7,10.8,42,60,V
+21,Won,1,GTMSys,Defense,Other Europe,30,0.98,6.89,47,61,V
+22,Lost,0,GTMSys,Banks,Americas,43,1.29,8.01,61,63,F
+23,Lost,0,Lifesys,Others,Other Europe,64,2.31,9.36,38,66,F
+24,Lost,0,GTMSys,Others,UK,49,1.11,6.71,56,35,E
+25,Won,1,GTMSys,Defense,Africa,25,0.15,9.85,52,68,E
+26,Won,1,LearnSys,Capital Markets,UK,40,0.58,6.82,40,55,V
+27,Lost,0,Lifesys,Consumer goods,UK,46,0.81,5.96,69,63,E
+28,Lost,0,Procsys,Energy,UK,34,1.47,8.36,52,59,E
+29,Won,1,Lifesys,Mobility,Canada,10,1.43,9.43,36,57,V
+30,Lost,0,Finsys,Consumer goods,UK,54,1.25,5.5,56,55,E
+31,Lost,0,GTMSys,Others,Other Europe,69,1.01,6.97,45,56,V
+32,Lost,0,GTMSys,Capital Markets,UK,48,1.29,8.73,49,60,V
+33,Lost,0,Finsys,Capital Markets,UK,60,0.85,6.08,51,60,F
+34,Won,1,GTMSys,Banks,UK,61,0.59,6.53,49,50,F
+35,Lost,0,GTMSys,Airline,UK,56,1.31,5.92,54,67,F
+36,Lost,0,Lifesys,Others,Other Europe,64,1.28,8.72,34,59,V
+37,Lost,0,LearnSys,Defense,UK,51,1.36,7.35,57,63,F
+38,Lost,0,GTMSys,Banks,Africa,52,0.9,6.35,63,66,F
+39,Won,1,Finsys,Consumer goods,UK,54,0.72,8.12,42,69,V
+40,Lost,0,Finsys,Capital Markets,UK,60,1,6.04,59,44,E
+41,Won,1,GTMSys,Others,UK,49,0.72,6.14,50,56,L
+42,Won,1,Lifesys,Others,Other Europe,64,0,9.32,45,56,L
+43,Won,1,GTMSys,Finance,UK,55,0.43,7.32,38,46,L
+44,Won,1,Logissys,Mobility,UK,35,1.1,7.42,56,63,E
+45,Won,1,GTMSys,Defense,Americas,50,1.21,5.69,41,58,E
+46,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.45,10.58,59,57,V
+47,Lost,0,GTMSys,Others,UK,49,2.31,6.07,70,61,E
+48,Lost,0,GTMSys,Airline,UK,56,1.8,5.77,46,48,F
+49,Lost,0,Procsys,Clinical research,UK,70,1.18,10.04,52,41,F
+50,Lost,0,Lifesys,Others,Other Europe,64,1.03,7.19,59,68,F
+51,Won,1,GTMSys,Others,Other Europe,69,0.89,7.18,38,77,F
+52,Lost,0,Procsys,Capital Markets,Americas,28,2.46,8.55,44,76,E
+53,Lost,0,GTMSys,Insurance,UK,58,0.73,8.86,61,55,E
+54,Won,1,GTMSys,Others,UK,49,0.46,9.8,42,49,E
+55,Won,1,GTMSys,Health,UK,67,0.17,7.08,57,55,E
+56,Won,1,GTMSys,Finance,UK,55,0.61,10.62,40,78,V
+57,Lost,0,GTMSys,Defense,Americas,50,1.51,4.09,67,78,V
+58,Lost,0,LearnSys,Defense,UK,51,1.25,10.69,57,60,F
+59,Lost,0,Procsys,Consumer goods,UK,53,1.51,6.39,65,60,F
+60,Won,1,Procsys,Security,Americas,68,-0.45,7.56,57,47,V
+61,Lost,0,Finsys,Capital Markets,UK,60,1.07,4.97,61,57,V
+62,Lost,0,GTMSys,Banks,Africa,52,1.48,10.09,42,65,V
+63,Won,1,GTMSys,Others,UK,49,0.57,8.43,63,58,L
+64,Lost,0,Procsys,Consumer goods,UK,53,0.92,5.85,62,72,E
+65,Won,1,GTMSys,Others,Africa,39,0.6,7.48,58,73,V
+66,Won,1,Procsys,Infrastructure,UK,37,0.74,11.7,47,74,F
+67,Lost,0,Finsys,Capital Markets,Other Europe,57,1.67,10.18,58,57,E
+68,Lost,0,GTMSys,Capital Markets,UK,48,0.96,11.17,62,51,E
+69,Won,1,GTMSys,Finance,UK,55,1.29,6.1,39,62,V
+70,Won,1,Procsys,Mobility,Canada,29,1.43,9.25,34,56,E
+71,Won,1,GTMSys,Capital Markets,UK,48,1.42,10.79,43,69,E
+72,Lost,0,Finsys,Consumer goods,UK,54,1.52,7.38,46,100,E
+73,Lost,0,LearnSys,Defense,UK,51,1.79,7.92,43,44,V
+74,Lost,0,GTMSys,Banks,Africa,52,1.45,8.19,53,67,E
+75,Won,1,Procsys,Consumer goods,UK,53,0.81,9.31,33,70,V
+76,Won,1,GTMSys,Others,UK,49,0.99,6.96,55,68,E
+77,Won,1,Lifesys,Capital Markets,Other Europe,47,1.27,8.5,45,67,V
+78,Lost,0,GTMSys,Airline,UK,56,0.98,9.03,58,35,V
+79,Won,1,Procsys,Security,India,44,1.2,9.39,37,67,V
+80,Lost,0,Procsys,Insurance,UK,75,0.76,4.89,40,58,V
+81,Lost,0,LearnSys,Defense,UK,51,1.15,10.48,64,47,V
+82,Won,1,Finsys,Consumer goods,UK,54,0.59,8.31,51,66,V
+83,Won,1,GTMSys,Insurance,UK,58,0.85,7.5,36,51,E
+84,Won,1,GTMSys,Others,UK,49,0.69,7.64,52,54,V
+85,Won,1,Procsys,Security,India,44,1.14,10.19,36,72,V
+86,Lost,0,GTMSys,Airline,UK,56,2.11,8.2,33,55,F
+87,Lost,0,Finsys,Consumer goods,UK,54,1.41,4.49,57,50,V
+88,Lost,0,Lifesys,Consumer goods,UK,46,1.33,6.76,53,57,E
+89,Lost,0,Finsys,Capital Markets,UK,60,1.54,12.99,47,55,L
+90,Won,1,GTMSys,Banks,Africa,52,0.3,8.96,44,49,L
+91,Won,1,GTMSys,Capital Markets,Other Europe,41,1.63,9.61,35,49,V
+92,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.18,5.96,49,49,E
+93,Lost,0,LearnSys,Capital Markets,UK,40,0.87,7.87,63,52,V
+94,Lost,0,GTMSys,Defense,Japan,63,0.53,11.7,54,52,E
+95,Lost,0,GTMSys,Banks,Singapore,65,0.95,6.69,74,70,E
+96,Lost,0,Finsys,Capital Markets,Other Europe,57,0.91,8.17,77,72,F
+97,Lost,0,Finsys,Capital Markets,Other Europe,57,1.9,9.3,73,100,F
+98,Lost,0,GTMSys,Capital Markets,UK,48,1.5,5.52,69,59,F
+99,Lost,0,Lifesys,Capital Markets,Other Europe,47,0.87,9.44,68,51,V
+100,Lost,0,GTMSys,Banks,UK,61,1.2,7.19,49,63,V
+101,Lost,0,GTMSys,Banks,UK,61,2.11,7.52,39,65,L
+102,Lost,0,GTMSys,Banks,Americas,43,1.22,9.06,51,50,L
+103,Won,1,LearnSys,Capital Markets,UK,40,0.16,8.22,49,38,L
+104,Lost,0,GTMSys,Banks,Singapore,65,1.64,5.78,38,72,E
+105,Lost,0,Procsys,Consumer goods,UK,53,1.03,12.18,66,65,E
+106,Won,1,Logissys,Govt.,UK,36,0.68,10.12,61,67,V
+107,Lost,0,Procsys,Security,India,44,1.39,6.29,61,54,E
+108,Won,1,LearnSys,Capital Markets,UK,40,0.76,6.85,47,47,L
+109,Won,1,Finsys,Insurance,UK,31,0.56,8.06,58,60,F
+110,Lost,0,Lifesys,Others,Other Europe,64,1.05,10.09,57,58,F
+111,Lost,0,LearnSys,Capital Markets,UK,40,1.84,7.28,65,68,F
+112,Won,1,Lifesys,Capital Markets,Other Europe,47,0.99,9.03,39,65,E
+113,Won,1,Procsys,Infrastructure,UK,37,0.38,8.1,47,64,E
+114,Lost,0,Procsys,Security,Americas,68,1.17,7.16,50,45,E
+115,Won,1,Lifesys,Consumer goods,UK,46,1.1,5.89,46,90,E
+116,Won,1,GTMSys,Capital Markets,UK,48,0.31,5.17,41,70,V
+117,Won,1,GTMSys,Others,Americas,38,0.57,10.28,55,61,V
+118,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.26,11.55,55,63,F
+119,Lost,0,GTMSys,Defense,Americas,50,0.96,6.06,65,72,F
+120,Lost,0,Procsys,Security,India,44,1.49,5.67,59,48,V
+121,Lost,0,LearnSys,Energy,UK,42,1.25,4.91,68,69,F
+122,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.65,7.85,46,68,F
+123,Won,1,Lifesys,Defense,UK,20,1.64,9.21,48,75,E
+124,Lost,0,Finsys,Consumer goods,UK,54,1.18,6.15,50,71,V
+125,Lost,0,GTMSys,Finance,UK,55,1.01,3.77,53,59,E
+126,Lost,0,GTMSys,Insurance,UK,58,1.69,8.5,57,59,F
+127,Lost,0,GTMSys,Airline,UK,56,1.73,6.8,43,67,F
+128,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.34,5.54,50,50,F
+129,Lost,0,GTMSys,Banks,UK,61,1.24,9.02,41,56,E
+130,Lost,0,GTMSys,Others,Africa,39,1.54,9.5,64,57,E
+131,Won,1,Procsys,Mobility,Canada,29,1.39,6.88,34,57,V
+132,Lost,0,Finsys,Capital Markets,Other Europe,57,1.2,8.28,53,67,F
+133,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.62,9.31,52,66,F
+134,Lost,0,Finsys,Consumer goods,UK,54,1,8.35,51,52,V
+135,Lost,0,GTMSys,Others,Africa,39,1.33,11.24,50,63,V
+136,Won,1,LearnSys,Capital Markets,UK,40,0.39,7.6,52,58,E
+137,Won,1,LearnSys,Energy,UK,42,-0.33,9.81,57,64,E
+138,Lost,0,GTMSys,Telecom equipments,Spain,66,1.02,6.08,56,73,E
+139,Won,1,GTMSys,Banks,Africa,52,0.54,5.08,62,63,E
+140,Lost,0,GTMSys,Banks,UK,61,1.39,6.21,54,68,V
+141,Won,1,GTMSys,Defense,Americas,50,0.77,4.38,32,65,E
+142,Lost,0,GTMSys,Finance,UK,55,1.42,10.85,46,55,V
+143,Won,1,GTMSys,Airline,UK,56,-0.08,5.39,35,64,V
+144,Lost,0,Procsys,Energy,UK,34,1.58,9.89,45,56,V
+145,Won,1,GTMSys,Others,UK,49,0.79,7.53,41,67,F
+146,Won,1,Procsys,Energy,UK,34,1.2,9.37,58,68,V
+147,Won,1,LearnSys,Banks,Africa,45,0.87,7.02,45,61,E
+148,Lost,0,Finsys,Consumer goods,UK,54,1.38,7.38,44,66,L
+149,Won,1,GTMSys,Capital Markets,Other Europe,41,0.31,9.57,33,51,E
+150,Won,1,GTMSys,Capital Markets,UK,48,1.01,10.42,64,100,V
+151,Lost,0,GTMSys,Capital Markets,UK,48,1.53,8.74,64,60,E
+152,Lost,0,LearnSys,Defense,UK,51,2.11,11.31,54,61,E
+153,Won,1,Finsys,Capital Markets,UK,60,0.36,7.47,55,52,E
+154,Lost,0,GTMSys,Finance,UK,55,1.08,9.6,64,59,L
+155,Lost,0,Procsys,Security,India,44,1.22,8,50,62,E
+156,Won,1,LearnSys,Banks,Africa,45,0.93,7.18,52,53,E
+157,Won,1,GTMSys,Others,Americas,38,0.87,7.73,53,49,E
+158,Lost,0,LearnSys,Banks,Africa,45,0.78,6.2,60,52,V
+159,Won,1,Finsys,Consumer goods,UK,54,-0.13,9.39,37,53,L
+160,Lost,0,LearnSys,Defense,UK,51,0.71,10.58,71,64,E
+161,Won,1,GTMSys,Banks,Americas,43,0.68,4.73,55,63,E
+162,Won,1,Lifesys,Capital Markets,Other Europe,47,0.33,8.49,59,66,V
+163,Won,1,Procsys,Security,India,44,0.53,5.9,65,55,L
+164,Won,1,GTMSys,Others,UK,49,0.69,11.1,41,45,V
+165,Lost,0,LearnSys,Energy,UK,42,1.77,7.38,62,47,F
+166,Lost,0,GTMSys,Others,Other Europe,69,1.33,7.97,51,48,V
+167,Won,1,Procsys,Infrastructure,UK,37,0.12,9.93,32,55,E
+168,Won,1,Procsys,Energy,UK,34,0.06,8.48,40,69,E
+169,Lost,0,Finsys,Capital Markets,Other Europe,57,0.71,9.55,73,68,V
+170,Won,1,GTMSys,Insurance,UK,58,0.75,6.79,40,56,E
+171,Won,1,Procsys,Energy,UK,34,1.43,3.08,37,70,L
+172,Won,1,ContactSys,Banks,UK,59,0.61,8.71,46,45,E
+173,Won,1,Procsys,Infrastructure,UK,37,1.11,8.22,46,48,V
+174,Lost,0,Finsys,Capital Markets,UK,60,0.83,7.52,58,64,E
+175,Won,1,Lifesys,Consumer goods,UK,46,0.68,10.22,58,66,V
+176,Lost,0,Finsys,Infrastructure,UK,62,1.62,7.76,56,63,V
+177,Lost,0,Procsys,Capital Markets,Americas,28,1.68,7.35,52,53,L
+178,Won,1,Procsys,Security,India,44,0.59,8.33,26,70,V
+179,Lost,0,GTMSys,Airline,UK,56,0.98,9.88,70,71,L
+180,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.36,6.33,52,51,L
+181,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.56,8.22,42,38,E
+182,Lost,0,Finsys,Capital Markets,UK,60,1.84,6.54,52,53,E
+183,Won,1,LearnSys,Capital Markets,UK,40,0.56,9.26,46,52,E
+184,Won,1,LearnSys,Energy,UK,42,1.22,6.34,45,54,E
+185,Lost,0,GTMSys,Insurance,UK,58,1.36,6.63,46,56,V
+186,Won,1,GTMSys,Defense,Americas,50,1.05,5.42,53,78,V
+187,Won,1,Procsys,Consumer goods,UK,53,0.17,3.09,38,56,V
+188,Lost,0,LearnSys,Banks,Africa,45,0.91,5.59,63,61,V
+189,Won,1,GTMSys,Defense,Other Europe,30,0.61,8.02,47,46,V
+190,Won,1,LearnSys,Energy,UK,42,1.26,11.14,43,54,E
+191,Lost,0,GTMSys,Others,UK,49,1.73,10.6,57,71,V
+192,Won,1,Finsys,Consumer goods,UK,54,0.65,5.76,55,66,V
+193,Lost,0,GTMSys,Others,UK,49,0.93,7.05,55,50,F
+194,Won,1,GTMSys,Banks,Americas,43,1.15,6.95,52,68,E
+195,Won,1,GTMSys,Defense,Americas,50,0.45,7.05,58,51,E
+196,Won,1,LearnSys,Energy,UK,42,1.07,9.21,45,74,L
+197,Won,1,GTMSys,Airline,UK,56,0.52,10.62,53,57,E
+198,Lost,0,GTMSys,Airline,UK,56,0.84,4.34,52,54,E
+199,Lost,0,Procsys,Security,India,44,1.17,9.1,70,56,E
+200,Won,1,Procsys,Consumer goods,UK,53,0.62,10.44,41,100,V
+201,Lost,0,Finsys,Consumer goods,UK,54,1.9,10.83,46,55,E
+202,Lost,0,Lifesys,Others,Other Europe,64,1.26,6.82,39,70,E
+203,Lost,0,Procsys,Capital Markets,Americas,28,1.59,8.31,77,85,E
+204,Lost,0,GTMSys,Others,UK,49,1.14,4.47,47,54,V
+205,Lost,0,GTMSys,Finance,UK,55,1.77,8.79,68,57,L
+206,Won,1,GTMSys,Capital Markets,Other Europe,41,0.5,8.03,62,77,V
+207,Lost,0,GTMSys,Banks,Americas,43,1.69,3.07,43,76,F
+208,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.89,4.67,59,48,V
+209,Won,1,GTMSys,Banks,Singapore,65,1.16,8.79,34,64,E
+210,Won,1,GTMSys,Capital Markets,Other Europe,41,1.07,8.46,52,68,E
+211,Won,1,Procsys,Security,India,44,0.78,7.95,53,85,V
+212,Lost,0,Finsys,Infrastructure,UK,62,0.8,6.2,63,69,E
+213,Lost,0,LearnSys,Insurance,UK,74,0.88,6.44,55,32,V
+214,Lost,0,ContactSys,Banks,UK,59,0.58,5.55,56,45,V
+215,Won,1,LearnSys,Defense,UK,51,0.6,10.31,44,64,V
+216,Lost,0,Lifesys,Consumer goods,UK,46,1.32,8.07,59,61,E
+217,Won,1,GTMSys,Security,UK,32,0.72,11.06,40,50,V
+218,Won,1,ContactSys,Banks,UK,59,1.26,7.53,34,70,V
+219,Won,1,GTMSys,Other Govt.,Japan,24,1.24,8.73,68,72,L
+220,Won,1,GTMSys,Others,Africa,39,1.9,6.92,30,65,L
+221,Won,1,GTMSys,Airline,UK,56,0.59,11.75,48,49,E
+222,Lost,0,ContactSys,Banks,UK,59,1.83,11.03,50,85,V
+223,Lost,0,GTMSys,Capital Markets,UK,48,1.3,9.66,50,58,L
+224,Lost,0,GTMSys,Insurance,UK,58,1.27,10.15,51,61,E
+225,Won,1,Procsys,Energy,UK,34,-0.06,10.05,36,48,V
+226,Lost,0,GTMSys,Others,UK,49,0.95,7.57,65,66,F
+227,Lost,0,GTMSys,Banks,Africa,52,1.16,8.73,51,35,E
+228,Lost,0,GTMSys,Banks,UK,61,1.62,9.25,48,63,E
+229,Lost,0,LearnSys,Energy,UK,42,1.41,5.03,51,48,E
+230,Lost,0,Procsys,Consumer goods,UK,53,1.24,7.55,49,63,E
+231,Lost,0,Finsys,Capital Markets,Other Europe,57,1.12,7.58,54,60,V
+232,Lost,0,GTMSys,Others,Africa,39,1,7.82,58,52,E
+233,Won,1,LearnSys,Defense,UK,51,0.53,5.95,51,57,V
+234,Lost,0,LearnSys,Energy,UK,42,1.48,8.78,53,58,L
+235,Won,1,GTMSys,Insurance,UK,58,0.54,5.66,55,47,E
+236,Lost,0,GTMSys,Banks,Americas,43,2.31,9.19,63,69,V
+237,Won,1,GTMSys,Others,UK,49,0.29,4.62,44,64,F
+238,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.09,7.18,71,59,V
+239,Lost,0,Finsys,Infrastructure,UK,62,1.54,8.71,53,70,V
+240,Lost,0,GTMSys,Banks,Americas,43,1.74,4.35,42,44,V
+241,Won,1,GTMSys,Capital Markets,Other Europe,41,0.95,8.48,62,100,E
+242,Lost,0,GTMSys,Others,UK,49,1.07,9.85,49,61,E
+243,Won,1,GTMSys,Finance,UK,55,0,4.13,44,57,E
+244,Lost,0,GTMSys,Security,Singapore,73,1.9,6.59,53,30,E
+245,Won,1,GTMSys,Insurance,UK,58,0.13,9.65,56,62,L
+246,Lost,0,LearnSys,Defense,UK,51,2.11,10.32,44,60,E
+247,Lost,0,GTMSys,Defense,Japan,63,1.59,8,45,46,V
+248,Won,1,LearnSys,Banks,Africa,45,0.29,7.31,41,62,L
+249,Won,1,Procsys,Other Govt.,Japan,33,0.57,8.96,45,57,V
+250,Won,1,Finsys,Infrastructure,UK,62,0.31,5.22,61,51,E
+251,Won,1,GTMSys,Banks,Africa,52,0.72,12.51,39,70,E
+252,Lost,0,GTMSys,Defense,Americas,50,1.08,9.53,62,56,E
+253,Won,1,Logissys,Mobility,UK,35,0.75,7.05,47,78,L
+254,Lost,0,LearnSys,Capital Markets,UK,40,1.71,8.25,51,49,E
+255,Lost,0,ContactSys,Banks,UK,59,0.99,5.87,68,65,V
+256,Won,1,Lifesys,Capital Markets,Other Europe,47,0.97,11.62,45,77,V
+257,Lost,0,Procsys,Energy,UK,34,1.26,8.8,56,56,V
+258,Lost,0,GTMSys,Banks,Africa,52,1.24,6.9,49,68,V
+259,Lost,0,GTMSys,Finance,UK,55,1.02,9.78,59,51,V
+260,Won,1,GTMSys,Defense,Japan,63,1.03,8.29,36,63,E
+261,Lost,0,Lifesys,Consumer goods,UK,46,0.93,4.84,61,59,E
+262,Won,1,Procsys,Other Govt.,Japan,33,0.89,9.77,40,65,V
+263,Lost,0,Finsys,Consumer goods,UK,54,1.02,11.83,55,52,V
+264,Lost,0,LearnSys,Banks,Africa,45,1.46,6.02,38,39,V
+265,Won,1,Logissys,Govt.,UK,36,1.13,10.61,37,54,V
+266,Won,1,GTMSys,Others,Americas,38,0.43,7.62,53,65,V
+267,Lost,0,ContactSys,Banks,UK,59,0.54,9.09,69,57,E
+268,Won,1,GTMSys,Banks,Africa,52,0.39,6.22,48,53,E
+269,Won,1,GTMSys,Finance,UK,55,-0.15,7.05,53,73,V
+270,Lost,0,LearnSys,Defense,UK,51,2.31,6.01,41,51,F
+271,Won,1,Procsys,Consumer goods,UK,53,1.24,6.62,41,60,F
+272,Lost,0,GTMSys,Finance,UK,55,1.26,11.07,66,65,E
+273,Lost,0,Lifesys,Consumer goods,UK,46,1.41,3.18,64,64,L
+274,Lost,0,Logissys,Govt.,UK,36,1.22,7.54,64,49,E
+275,Lost,0,GTMSys,Banks,Africa,52,1.51,8.44,63,69,E
+276,Won,1,LearnSys,Defense,UK,51,0.7,10.96,60,60,E
+277,Lost,0,LearnSys,Energy,UK,42,1.52,6.32,44,43,V
+278,Lost,0,Procsys,Security,India,44,1.36,8.24,55,54,E
+279,Lost,0,Procsys,Energy,UK,34,1.66,9.64,45,50,E
+280,Lost,0,Lifesys,Capital Markets,Other Europe,47,0.72,10.76,62,49,E
+281,Lost,0,GTMSys,Defense,Americas,50,1.24,5.95,79,73,V
+282,Won,1,Lifesys,Consumer goods,UK,46,1,8.77,54,78,L
+283,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.45,5.83,50,66,V
+284,Lost,0,GTMSys,Banks,Americas,43,1.56,6.6,46,52,F
+285,Won,1,Procsys,Security,Americas,68,0.78,8.49,44,100,V
+286,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.22,7.33,50,58,E
+287,Won,1,Procsys,Consumer goods,UK,53,1.29,8.3,43,70,E
+288,Won,1,GTMSys,Capital Markets,UK,48,0.32,9.27,34,58,V
+289,Lost,0,GTMSys,Banks,Africa,52,1.47,9.29,42,52,E
+290,Won,1,LearnSys,Banks,Africa,45,0.87,7.6,57,71,V
+291,Lost,0,GTMSys,Finance,UK,55,1.33,3.67,43,68,V
+292,Won,1,GTMSys,Capital Markets,UK,48,0.89,6.48,47,61,V
+293,Lost,0,GTMSys,Telecom equipments,Spain,66,0.85,8.15,50,50,E
+294,Won,1,LearnSys,Banks,Africa,45,1.11,4.17,54,67,V
+295,Lost,0,LearnSys,Capital Markets,UK,40,1.63,10.82,44,55,V
+296,Won,1,Finsys,Capital Markets,UK,60,-0.05,5.28,49,60,L
+297,Won,1,GTMSys,Airline,UK,56,0.32,6.44,62,58,V
+298,Lost,0,Lifesys,Consumer goods,UK,46,0.8,9.91,65,67,E
+299,Lost,0,Lifesys,Others,Other Europe,64,0.73,6.64,59,74,V
+300,Won,1,Procsys,Other Govt.,Japan,33,1.33,5.24,43,64,L
+301,Lost,0,Lifesys,Others,Other Europe,64,1.55,6.9,50,47,E
+302,Won,1,GTMSys,Capital Markets,UK,48,1.22,8.43,43,60,V
+303,Lost,0,Finsys,Capital Markets,Other Europe,57,1.94,6.17,46,69,F
+304,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.6,7.93,49,68,E
+305,Won,1,Lifesys,Capital Markets,Other Europe,47,0.84,5,27,48,E
+306,Lost,0,GTMSys,Insurance,UK,58,0.9,8.85,45,53,E
+307,Won,1,GTMSys,Others,Americas,38,1.54,10.36,38,43,E
+308,Won,1,GTMSys,Others,UK,49,0.46,10.63,53,48,V
+309,Lost,0,GTMSys,Others,Africa,39,1.17,13.18,62,51,E
+310,Won,1,Lifesys,Consumer goods,UK,46,0.92,9.31,46,59,V
+311,Lost,0,GTMSys,Banks,Singapore,65,0.79,7.55,67,66,L
+312,Won,1,GTMSys,Banks,Africa,52,0.46,8.81,62,59,E
+313,Won,1,GTMSys,Defense,Americas,50,1.69,6.89,27,70,E
+314,Won,1,Lifesys,Capital Markets,Other Europe,47,0.65,7.64,49,74,F
+315,Lost,0,Procsys,Security,Americas,68,1.36,5.51,38,52,V
+316,Won,1,Lifesys,Capital Markets,Other Europe,47,0.58,8.85,54,57,V
+317,Won,1,Procsys,Consumer goods,UK,53,0.56,7.81,24,70,V
+318,Lost,0,Procsys,Consumer goods,UK,53,1.29,9.16,45,62,E
+319,Lost,0,GTMSys,Others,UK,49,1.2,10.12,71,49,E
+320,Won,1,LearnSys,Capital Markets,UK,40,-0.17,8.33,49,53,E
+321,Won,1,GTMSys,Finance,UK,55,0.83,5.49,46,68,E
+322,Lost,0,Finsys,Insurance,UK,31,1.51,7,54,61,L
+323,Lost,0,Logissys,Govt.,UK,36,0.84,5.6,68,56,E
+324,Lost,0,GTMSys,Finance,UK,55,1.46,6.89,47,52,V
+325,Won,1,Finsys,Consumer goods,UK,54,1,11.8,42,46,L
+326,Lost,0,ContactSys,Banks,UK,59,1.58,5.29,33,53,V
+327,Lost,0,LearnSys,Defense,UK,51,2.11,10.11,56,64,E
+328,Won,1,Procsys,Security,India,44,1.36,6.69,35,67,E
+329,Lost,0,GTMSys,Banks,Africa,52,1.04,8.48,63,46,E
+330,Won,1,LearnSys,Clinical research,UK,78,0.3,7.37,32,67,L
+331,Won,1,GTMSys,Banks,UK,61,1.01,8.56,44,75,E
+332,Won,1,LearnSys,Defense,UK,51,0.69,7.42,53,55,V
+333,Won,1,Lifesys,Capital Markets,Other Europe,47,0.49,5.79,45,53,E
+334,Lost,0,Procsys,Security,UK,76,0.83,6.9,50,56,V
+335,Won,1,GTMSys,Security,UK,32,0.32,6.71,38,70,E
+336,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.56,7.06,44,73,E
+337,Won,1,Lifesys,Capital Markets,UK,27,0.75,6.78,51,71,V
+338,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.34,7.16,55,69,V
+339,Won,1,LearnSys,Energy,UK,42,0.76,8.37,45,60,V
+340,Lost,0,Finsys,Consumer goods,UK,54,0.26,11.3,71,53,E
+341,Lost,0,GTMSys,Airline,UK,56,1.26,10.78,49,60,V
+342,Lost,0,GTMSys,Banks,Singapore,65,0.85,12.11,58,60,E
+343,Lost,0,GTMSys,Banks,UK,61,1.39,9.55,58,58,E
+344,Lost,0,GTMSys,Other Govt.,Other Europe,72,0.66,5.51,53,62,L
+345,Lost,0,Logissys,Mobility,UK,35,1.71,10.55,46,60,E
+346,Won,1,GTMSys,Banks,Africa,52,1.47,7.69,19,73,V
+347,Lost,0,GTMSys,Defense,Americas,50,1.19,9.39,61,51,V
+348,Lost,0,GTMSys,Finance,UK,55,1.89,5.69,59,59,E
+349,Won,1,Lifesys,Others,Other Europe,64,0.04,7.38,41,73,E
+350,Lost,0,GTMSys,Capital Markets,UK,48,1.5,10.53,56,63,V
+351,Lost,0,Lifesys,Consumer goods,UK,46,1.04,9.29,57,76,V
+352,Won,1,Logissys,Mobility,UK,35,0.99,8.31,47,52,V
+353,Won,1,GTMSys,Others,UK,49,0.3,10.22,42,61,V
+354,Won,1,GTMSys,Banks,Africa,52,0.59,8.07,57,63,L
+355,Won,1,GTMSys,Capital Markets,UK,48,0.9,6.5,54,67,L
+356,Lost,0,GTMSys,Capital Markets,UK,48,1.09,6.81,52,69,E
+357,Won,1,LearnSys,Banks,Africa,45,0.66,7.33,44,54,V
+358,Won,1,GTMSys,Security,UK,32,1.48,6.48,46,61,V
+359,Lost,0,Finsys,Infrastructure,UK,62,1.25,8.71,55,57,E
+360,Lost,0,GTMSys,Insurance,UK,58,1.14,7.83,58,69,F
+361,Won,1,GTMSys,Insurance,UK,58,0.27,7.87,60,74,E
+362,Lost,0,Finsys,Capital Markets,Other Europe,57,1.34,7.81,74,52,E
+363,Won,1,Logissys,Govt.,UK,36,0.34,6.36,64,66,L
+364,Won,1,Procsys,Consumer goods,UK,53,0.67,5.13,45,63,L
+365,Won,1,GTMSys,Finance,UK,55,-0.05,9.7,45,60,V
+366,Lost,0,GTMSys,Banks,Africa,52,1.2,8.65,65,51,E
+367,Won,1,Procsys,Consumer goods,UK,53,1.21,7.46,33,54,E
+368,Lost,0,GTMSys,Others,UK,49,1.82,8.32,42,52,L
+369,Won,1,Procsys,Consumer goods,UK,53,0.37,5.42,37,75,F
+370,Won,1,GTMSys,Others,UK,49,0.82,7.67,49,64,E
+371,Won,1,Lifesys,Capital Markets,Other Europe,47,1.08,11.32,47,65,E
+372,Lost,0,Procsys,Security,Americas,68,1.11,10.94,37,63,V
+373,Won,1,LearnSys,Defense,UK,51,1.01,6.66,35,51,V
+374,Lost,0,GTMSys,Defense,Other Europe,30,1.22,6.14,70,63,V
+375,Won,1,GTMSys,Others,Africa,39,0.86,7.33,56,60,V
+376,Lost,0,GTMSys,Others,Americas,38,1.45,7.12,62,45,V
+377,Lost,0,GTMSys,Others,UK,49,1.05,6.66,53,64,E
+378,Won,1,GTMSys,Others,UK,49,0.69,7.73,50,61,V
+379,Lost,0,GTMSys,Defense,Americas,50,1.07,7.82,57,53,V
+380,Won,1,GTMSys,Banks,Americas,43,0.42,9,51,61,F
+381,Won,1,LearnSys,Banks,Africa,45,1.39,9.43,36,64,V
+382,Won,1,GTMSys,Banks,Africa,52,0.55,10.11,62,78,E
+383,Lost,0,GTMSys,Others,Other Europe,69,0.89,10.12,56,46,L
+384,Lost,0,Lifesys,Others,Other Europe,64,1.66,7.74,44,56,E
+385,Won,1,GTMSys,Banks,Americas,43,0.36,9.2,45,54,E
+386,Won,1,GTMSys,Airline,UK,56,0.92,10.5,41,75,E
+387,Lost,0,LearnSys,Banks,Africa,45,2.46,4.02,49,51,V
+388,Won,1,GTMSys,Finance,UK,55,0.48,6.44,50,70,E
+389,Lost,0,GTMSys,Finance,UK,55,1.41,9.39,53,64,E
+390,Won,1,GTMSys,Others,Africa,39,1.33,5.43,53,71,E
+391,Lost,0,GTMSys,Banks,Americas,43,1.58,9.83,45,57,V
+392,Lost,0,GTMSys,Capital Markets,UK,48,1.72,7.92,45,52,L
+393,Won,1,GTMSys,Capital Markets,UK,48,1.01,9.35,44,72,V
+394,Lost,0,Procsys,Energy,UK,34,1.35,7.21,61,47,F
+395,Won,1,LearnSys,Capital Markets,UK,40,0.03,8.45,45,64,V
+396,Won,1,LearnSys,Banks,Africa,45,0.99,9.56,42,50,E
+397,Lost,0,Finsys,Consumer goods,UK,54,1.61,8.34,39,66,E
+398,Lost,0,Finsys,Infrastructure,UK,62,1.56,9.39,53,63,V
+399,Won,1,Logissys,Govt.,UK,36,1.45,7.69,46,69,E
+400,Lost,0,GTMSys,Finance,UK,55,1.01,8.17,61,61,V
+401,Won,1,GTMSys,Defense,Africa,25,0.31,4.33,38,71,V
+402,Lost,0,Finsys,Consumer goods,UK,54,1.35,7.98,56,100,V
+403,Lost,0,GTMSys,Insurance,UK,58,0.72,9.65,52,52,E
+404,Won,1,Finsys,Capital Markets,Other Europe,57,0.54,8.36,47,54,V
+405,Won,1,Lifesys,Consumer goods,UK,46,1.31,6.79,36,51,V
+406,Won,1,GTMSys,Banks,Americas,43,1.01,9.4,46,69,L
+407,Lost,0,GTMSys,Finance,UK,55,1.13,12.04,69,60,V
+408,Won,1,GTMSys,Defense,Americas,50,0.76,9.43,58,55,E
+409,Lost,0,GTMSys,Banks,Singapore,65,1.1,7.43,54,100,V
+410,Won,1,LearnSys,Capital Markets,UK,40,0.73,9.37,59,60,L
+411,Won,1,GTMSys,Capital Markets,UK,48,1.48,9.37,37,64,E
+412,Lost,0,Finsys,Capital Markets,Other Europe,57,0.86,5.94,62,56,V
+413,Lost,0,Finsys,Consumer goods,UK,54,1.35,9.97,55,70,F
+414,Lost,0,LearnSys,Banks,Africa,45,1.43,6.99,62,63,E
+415,Won,1,Finsys,Capital Markets,Other Europe,57,0.78,5.15,47,56,E
+416,Lost,0,GTMSys,Airline,UK,56,1.11,6.62,66,41,E
+417,Lost,0,Finsys,Consumer goods,UK,54,1.02,7.96,46,43,E
+418,Won,1,Lifesys,Consumer goods,UK,46,1.06,10,41,53,V
+419,Won,1,GTMSys,Capital Markets,Other Europe,41,-0.56,8.01,38,69,E
+420,Lost,0,GTMSys,Others,UK,49,0.93,8.23,59,56,V
+421,Won,1,GTMSys,Others,UK,49,0.73,10.32,50,75,L
+422,Won,1,GTMSys,Finance,UK,55,1.16,10.91,44,73,E
+423,Lost,0,Finsys,Capital Markets,Other Europe,57,1.18,10.07,40,62,V
+424,Lost,0,GTMSys,Insurance,UK,58,1.09,6.58,52,63,F
+425,Lost,0,Lifesys,Consumer goods,UK,46,1.54,8.6,43,57,V
+426,Lost,0,Logissys,Govt.,UK,36,1.15,8.61,53,50,V
+427,Lost,0,Finsys,Capital Markets,Other Europe,57,1.38,6.11,35,51,V
+428,Won,1,GTMSys,Banks,Africa,52,1.18,8.82,33,39,E
+429,Lost,0,GTMSys,Banks,Africa,52,1.19,7.99,65,69,E
+430,Won,1,GTMSys,Banks,Africa,52,1.05,5.81,27,62,E
+431,Won,1,LearnSys,Defense,UK,51,0.92,5.68,38,47,E
+432,Won,1,GTMSys,Finance,UK,55,0.05,10.01,48,67,L
+433,Won,1,GTMSys,Others,Americas,38,1.42,7.42,44,100,E
+434,Won,1,LearnSys,Defense,UK,51,0.42,7.25,23,67,V
+435,Won,1,Logissys,Govt.,UK,36,0.88,9.39,52,69,L
+436,Lost,0,ContactSys,Banks,UK,59,1.16,10.88,46,62,V
+437,Won,1,GTMSys,Others,Americas,38,0.48,7.16,21,61,E
+438,Lost,0,GTMSys,Finance,UK,55,1.48,7.59,53,55,E
+439,Won,1,GTMSys,Defense,Americas,50,0.32,6.83,58,63,E
+440,Lost,0,GTMSys,Defense,Americas,50,0.96,6.42,63,77,L
+441,Lost,0,Procsys,Security,Americas,68,1.39,6.7,49,69,E
+442,Won,1,GTMSys,Banks,Africa,52,1.22,8.43,56,100,V
+443,Lost,0,LearnSys,Defense,UK,51,1.58,5.62,62,79,V
+444,Lost,0,GTMSys,Agriculture,Other Europe,26,1.61,7.45,54,67,V
+445,Won,1,GTMSys,Insurance,UK,58,0.42,8.67,54,68,E
+446,Lost,0,Procsys,Security,India,44,1.42,10.12,68,51,E
+447,Lost,0,Procsys,Capital Markets,UK,71,0.96,7.82,46,44,V
+448,Lost,0,Procsys,Capital Markets,UK,71,0.89,7.68,42,69,V
+449,Lost,0,Finsys,Consumer goods,UK,54,1.44,6.76,61,59,V
+450,Won,1,GTMSys,Banks,Americas,43,0.66,9.66,43,61,E
+451,Lost,0,GTMSys,Insurance,UK,58,1.79,8.03,45,50,V
+452,Lost,0,GTMSys,Finance,UK,55,0.92,7.89,60,53,E
+453,Lost,0,Lifesys,Others,Other Europe,64,0.65,7.57,50,49,E
+454,Won,1,Procsys,Consumer goods,UK,53,0.88,9.35,50,70,L
+455,Won,1,Procsys,Security,India,44,0.86,5.7,51,61,E
+456,Won,1,Finsys,Capital Markets,Other Europe,57,0.51,8.34,32,40,V
+457,Won,1,Procsys,Security,India,44,0.71,11.01,60,73,V
+458,Won,1,GTMSys,Capital Markets,UK,48,0.25,9.51,38,45,E
+459,Lost,0,Finsys,Capital Markets,Other Europe,57,1.66,7.77,66,72,E
+460,Won,1,GTMSys,Banks,Americas,43,0.99,8.73,47,62,V
+461,Won,1,GTMSys,Others,UK,49,0.82,9.13,36,50,V
+462,Won,1,GTMSys,Security,UK,32,0.85,8.26,61,56,V
+463,Won,1,LearnSys,Banks,Africa,45,0.59,6.74,68,71,V
+464,Won,1,GTMSys,Others,Americas,38,0.95,7.53,40,56,L
+465,Won,1,Lifesys,Capital Markets,Other Europe,47,1.09,10.25,39,51,L
+466,Lost,0,ContactSys,Banks,UK,59,1.01,3.44,55,50,E
+467,Lost,0,GTMSys,Airline,UK,56,1.09,8.33,48,67,V
+468,Won,1,Procsys,Other Govt.,Japan,33,0.78,10.71,42,100,V
+469,Won,1,Procsys,Consumer goods,UK,53,0.72,10.09,31,57,E
+470,Lost,0,GTMSys,Insurance,UK,58,1.49,4.87,51,75,F
+471,Won,1,Lifesys,Capital Markets,Other Europe,47,0.34,11,67,43,E
+472,Lost,0,GTMSys,Others,Other Europe,69,0.81,7.61,46,68,E
+473,Won,1,GTMSys,Others,UK,49,1,9.8,48,54,L
+474,Won,1,GTMSys,Finance,UK,55,0.48,7.54,46,68,L
+475,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.26,9.79,55,41,V
+476,Won,1,Lifesys,Capital Markets,UK,27,0.56,6.66,44,59,E
+477,Won,1,GTMSys,Others,Africa,39,0.59,9.75,59,51,E
+478,Lost,0,Finsys,Infrastructure,UK,62,2.11,8.51,44,62,L
+479,Won,1,GTMSys,Capital Markets,UK,48,0.83,4.31,40,78,V
+480,Won,1,Lifesys,Consumer goods,UK,46,0.65,8.55,45,49,E
+481,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.84,8.98,60,54,V
+482,Lost,0,GTMSys,Capital Markets,Other Europe,41,2.6,10.5,58,64,V
+483,Won,1,Finsys,Capital Markets,UK,60,0.55,7.35,40,59,V
+484,Lost,0,ContactSys,Banks,UK,59,1.36,5.83,55,71,E
+485,Won,1,GTMSys,Banks,Singapore,65,0.77,8.52,48,62,V
+486,Lost,0,GTMSys,Banks,Africa,52,1.25,10.34,58,73,F
+487,Won,1,Lifesys,Consumer goods,UK,46,0.01,9.42,46,60,E
+488,Won,1,GTMSys,Capital Markets,UK,48,0.26,8.14,62,51,L
+489,Won,1,GTMSys,Banks,Singapore,65,0.47,4.56,49,56,V
+490,Won,1,LearnSys,Capital Markets,UK,40,-0.15,11.06,36,55,E
+491,Won,1,LearnSys,Energy,UK,42,0.35,8.33,46,64,V
+492,Lost,0,Lifesys,Consumer goods,UK,46,1.26,4.56,58,56,V
+493,Lost,0,GTMSys,Airline,UK,56,1.56,8.02,39,71,V
+494,Lost,0,Lifesys,Others,Other Europe,64,1.48,7.46,52,54,V
+495,Lost,0,Procsys,Consumer goods,UK,53,1.73,8.44,39,48,L
+496,Won,1,LearnSys,Banks,Africa,45,0.95,8.5,45,67,V
+497,Won,1,Procsys,Security,India,44,-0.06,11.1,52,62,L
+498,Lost,0,GTMSys,Banks,Singapore,65,1.13,10.59,49,66,V
+499,Won,1,Procsys,Other Govt.,Japan,33,0.5,6.16,46,40,E
+500,Won,1,Procsys,Infrastructure,UK,37,1.56,6.04,35,71,E
+501,Won,1,LearnSys,Energy,UK,42,0.88,5.55,50,59,V
+502,Lost,0,GTMSys,Telecom equipments,Spain,66,0.95,7.46,38,57,V
+503,Won,1,GTMSys,Security,UK,32,0.94,9.49,45,59,E
+504,Lost,0,GTMSys,Defense,Japan,63,1.34,6.53,43,68,E
+505,Lost,0,GTMSys,Defense,Americas,50,1.29,7.44,55,60,F
+506,Won,1,Finsys,Capital Markets,UK,60,0.12,11.07,43,42,V
+507,Won,1,GTMSys,Others,Other Europe,69,0.57,1.64,43,49,V
+508,Lost,0,Finsys,Infrastructure,UK,62,0.73,5.81,57,67,E
+509,Won,1,Logissys,Mobility,UK,35,0.82,6,46,60,E
+510,Won,1,GTMSys,Others,Americas,38,0.42,7.94,45,50,L
+511,Lost,0,Finsys,Capital Markets,UK,60,0.92,10.97,61,58,E
+512,Won,1,GTMSys,Defense,Americas,50,1.16,9.49,45,78,L
+513,Lost,0,GTMSys,Defense,Americas,50,0.92,7.75,60,48,E
+514,Won,1,GTMSys,Security,UK,32,0.27,7.96,55,75,V
+515,Lost,0,Finsys,Capital Markets,UK,60,1.2,5.95,44,75,E
+516,Won,1,GTMSys,Banks,Africa,52,0.9,5.53,46,60,E
+517,Lost,0,GTMSys,Airline,UK,56,1.01,5.71,58,41,V
+518,Won,1,ContactSys,Banks,UK,59,0.74,9.6,45,54,V
+519,Lost,0,Finsys,Consumer goods,UK,54,1.64,5.49,53,63,V
+520,Won,1,GTMSys,Others,Africa,39,1.51,8.72,35,48,E
+521,Won,1,Procsys,Infrastructure,UK,37,-0.06,6.19,47,58,V
+522,Won,1,Logissys,Mobility,UK,35,1.22,8.94,50,57,V
+523,Won,1,Finsys,Consumer goods,UK,54,1.27,5.72,27,100,L
+524,Lost,0,LearnSys,Defense,UK,51,1.82,9.63,69,75,L
+525,Won,1,Procsys,Security,India,44,1.09,6.5,49,62,V
+526,Won,1,GTMSys,Banks,Africa,52,0.26,7.46,51,65,V
+527,Lost,0,GTMSys,Telecom equipments,Spain,66,0.99,9.99,40,57,E
+528,Lost,0,Procsys,Security,Americas,68,1.16,9.05,49,55,L
+529,Lost,0,LearnSys,Banks,Africa,45,1.58,7.2,54,61,L
+530,Won,1,GTMSys,Defense,Other Europe,30,1.01,6.39,53,44,V
+531,Won,1,Finsys,Consumer goods,UK,54,0.11,7.7,59,61,E
+532,Lost,0,ContactSys,Banks,UK,59,1.08,6.18,47,50,F
+533,Won,1,GTMSys,Airline,UK,56,0.59,6.97,47,54,E
+534,Lost,0,GTMSys,Others,UK,49,0.96,10.16,57,56,E
+535,Lost,0,Finsys,Capital Markets,UK,60,0.79,6.09,57,59,V
+536,Lost,0,GTMSys,Others,Other Europe,69,0.92,9.37,50,56,V
+537,Won,1,LearnSys,Capital Markets,UK,40,1.19,8.48,30,74,V
+538,Won,1,GTMSys,Others,Africa,39,0.65,5.09,61,56,V
+539,Lost,0,Lifesys,Consumer goods,UK,46,1.26,7.22,69,67,V
+540,Lost,0,GTMSys,Banks,Americas,43,1.81,9.98,43,66,E
+541,Won,1,Lifesys,Consumer goods,UK,46,0.66,10.66,36,47,V
+542,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.49,7.34,58,75,V
+543,Won,1,LearnSys,Energy,UK,42,0.9,3.8,49,70,F
+544,Won,1,GTMSys,Capital Markets,Other Europe,41,1.04,7.91,47,52,F
+545,Won,1,GTMSys,Defense,Africa,25,0.54,7.89,69,72,E
+546,Won,1,Logissys,Mobility,UK,35,0.61,9.24,34,48,L
+547,Lost,0,GTMSys,Defense,Americas,50,1.31,12.28,46,54,E
+548,Won,1,GTMSys,Capital Markets,UK,48,1.21,10.62,36,63,E
+549,Lost,0,GTMSys,Capital Markets,UK,48,1.06,10.51,53,68,E
+550,Won,1,Finsys,Consumer goods,UK,54,1.53,6.04,32,73,V
+551,Won,1,LearnSys,Capital Markets,UK,40,0.89,8.99,57,53,E
+552,Lost,0,GTMSys,Banks,UK,61,0.89,12.98,62,100,E
+553,Won,1,Procsys,Consumer goods,UK,53,1.08,9.28,46,73,E
+554,Won,1,GTMSys,Defense,Americas,50,1.07,7.04,36,62,V
+555,Lost,0,Lifesys,Others,Other Europe,64,1.51,6.24,49,43,L
+556,Lost,0,LearnSys,Energy,UK,42,1.56,8.14,66,54,V
+557,Won,1,Lifesys,Consumer goods,UK,46,-0.15,12.51,39,50,F
+558,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.28,7.62,55,53,V
+559,Lost,0,LearnSys,Energy,UK,42,1.33,5.46,45,51,E
+560,Won,1,GTMSys,Banks,Americas,43,0.59,7.98,45,63,E
+561,Lost,0,Lifesys,Consumer goods,UK,46,1.33,3.38,56,66,V
+562,Lost,0,GTMSys,Capital Markets,UK,48,1.58,3.88,57,42,E
+563,Lost,0,Logissys,Govt.,UK,36,1.85,7.1,68,46,V
+564,Lost,0,Finsys,Capital Markets,Other Europe,57,1.13,7.06,78,71,V
+565,Lost,0,Finsys,Capital Markets,UK,60,0.49,8.46,66,78,V
+566,Lost,0,GTMSys,Other Govt.,Other Europe,72,1.12,10.88,52,62,E
+567,Lost,0,Procsys,Security,UK,76,0.62,10.94,50,61,V
+568,Won,1,Lifesys,Consumer goods,UK,46,1.05,11.2,45,56,V
+569,Lost,0,ContactSys,Banks,UK,59,1.9,7.05,40,100,L
+570,Lost,0,Procsys,Security,India,44,1.28,10.81,56,62,V
+571,Lost,0,Procsys,Energy,UK,34,1.3,13.26,62,69,E
+572,Won,1,GTMSys,Insurance,UK,58,0.09,9.27,61,53,V
+573,Lost,0,LearnSys,Banks,Africa,45,1.2,8.64,53,67,L
+574,Won,1,GTMSys,Others,Americas,38,0.34,8.84,52,61,E
+575,Won,1,GTMSys,Security,UK,32,0.5,9.34,34,70,V
+576,Lost,0,GTMSys,Telecom equipments,Spain,66,0.67,6.89,51,49,F
+577,Lost,0,Procsys,Consumer goods,UK,53,2.31,8.86,58,40,E
+578,Won,1,GTMSys,Capital Markets,Other Europe,41,0.89,7.04,48,29,E
+579,Won,1,Lifesys,Consumer goods,UK,46,1.02,8.4,45,100,E
+580,Won,1,Finsys,Consumer goods,UK,54,0.76,8.05,31,73,E
+581,Lost,0,Finsys,Consumer goods,UK,54,1.71,9.41,44,58,V
+582,Won,1,GTMSys,Defense,Other Europe,30,0.14,6.43,54,54,E
+583,Won,1,Lifesys,Others,Other Europe,64,0.05,4.58,66,70,V
+584,Won,1,GTMSys,Insurance,UK,58,0.62,10.28,40,55,L
+585,Lost,0,LearnSys,Banks,Africa,45,1.75,7.38,60,100,E
+586,Won,1,GTMSys,Banks,Africa,52,0.95,8.46,47,65,V
+587,Lost,0,LearnSys,Defense,UK,51,1.15,9.34,55,55,F
+588,Won,1,Procsys,Consumer goods,UK,53,0.53,11.02,58,62,E
+589,Lost,0,GTMSys,Airline,UK,56,1.52,8.28,57,49,V
+590,Won,1,GTMSys,Others,UK,49,0.33,7.14,62,63,V
+591,Won,1,GTMSys,Others,UK,49,0.67,8.3,43,49,E
+592,Won,1,GTMSys,Banks,UK,61,0.48,4.69,50,64,E
+593,Lost,0,LearnSys,Banks,Africa,45,1.09,10.03,64,35,E
+594,Won,1,LearnSys,Capital Markets,UK,40,0.99,9.7,38,77,E
+595,Won,1,GTMSys,Insurance,UK,58,0.44,9.15,35,46,L
+596,Won,1,Logissys,Mobility,UK,35,1.08,7.35,34,61,E
+597,Lost,0,GTMSys,Capital Markets,UK,48,1.13,7.63,51,61,V
+598,Won,1,LearnSys,Energy,UK,42,1.11,8.46,39,40,L
+599,Lost,0,LearnSys,Defense,UK,51,0.65,9.01,73,48,V
+600,Lost,0,GTMSys,Insurance,UK,58,1.03,5.81,44,49,E
+601,Lost,0,GTMSys,Airline,UK,56,1.38,6.35,53,57,E
+602,Lost,0,GTMSys,Others,UK,49,1.22,6.27,58,69,E
+603,Won,1,GTMSys,Airline,UK,56,0.71,10.89,52,55,L
+604,Lost,0,GTMSys,Defense,Americas,50,1.77,10,45,62,E
+605,Won,1,Lifesys,Capital Markets,Other Europe,47,0.77,11.07,24,35,V
+606,Lost,0,Procsys,Infrastructure,UK,37,1.86,8.25,55,46,V
+607,Lost,0,LearnSys,Energy,UK,42,1.11,11.09,52,57,V
+608,Lost,0,Finsys,Capital Markets,Other Europe,57,1.13,10.5,43,47,E
+609,Won,1,LearnSys,Banks,Africa,45,0.25,6.11,69,67,E
+610,Won,1,LearnSys,Capital Markets,UK,40,0.65,7.42,43,57,V
+611,Won,1,Procsys,Consumer goods,UK,53,0.85,11.27,35,70,V
+612,Won,1,LearnSys,Energy,UK,42,0.89,9.89,37,67,V
+613,Won,1,GTMSys,Others,UK,49,-0.07,2.4,58,67,E
+614,Lost,0,GTMSys,Banks,Africa,52,1.43,8.62,43,59,V
+615,Won,1,Procsys,Security,India,44,0.46,14.23,54,55,E
+616,Won,1,GTMSys,Insurance,UK,58,0.65,10.36,38,59,E
+617,Lost,0,GTMSys,Insurance,UK,58,1.74,5.94,42,57,L
+618,Lost,0,Procsys,Consumer goods,UK,53,1.34,7.04,50,66,E
+619,Lost,0,GTMSys,Banks,Singapore,65,0.85,7.66,52,68,V
+620,Won,1,GTMSys,Banks,UK,61,0.32,5.38,56,62,V
+621,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.3,7.26,49,57,E
+622,Lost,0,GTMSys,Health,UK,67,0.95,7.62,55,67,E
+623,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.56,9.29,50,56,V
+624,Lost,0,GTMSys,Defense,Americas,50,1.5,7.35,61,70,V
+625,Lost,0,GTMSys,Insurance,UK,58,0.56,7.67,64,69,V
+626,Lost,0,GTMSys,Airline,UK,56,0.8,5.95,68,63,V
+627,Won,1,GTMSys,Banks,Africa,52,0.75,11.11,46,60,L
+628,Lost,0,Procsys,Security,India,44,1.43,5.32,52,50,L
+629,Lost,0,Finsys,Consumer goods,UK,54,1.7,9.44,67,56,E
+630,Lost,0,Finsys,Capital Markets,Other Europe,57,1.56,6.91,42,56,V
+631,Lost,0,Lifesys,Consumer goods,UK,46,1.28,8.06,55,52,V
+632,Lost,0,GTMSys,Telecom equipments,Spain,66,1.31,10.59,49,68,E
+633,Won,1,GTMSys,Others,Africa,39,1.31,8.63,46,58,F
+634,Lost,0,Finsys,Infrastructure,UK,62,2.11,7.96,37,70,E
+635,Lost,0,GTMSys,Banks,UK,61,1.6,7.82,62,56,E
+636,Lost,0,GTMSys,Defense,Americas,50,0.97,8.22,62,54,L
+637,Lost,0,GTMSys,Others,Americas,38,1.96,7.69,50,61,L
+638,Won,1,Logissys,Mobility,UK,35,0.9,10.55,57,67,V
+639,Won,1,GTMSys,Defense,Africa,25,-0.1,7.28,54,45,E
+640,Lost,0,Logissys,Govt.,UK,36,1.35,10.2,57,44,E
+641,Lost,0,Lifesys,Others,Other Europe,64,1.67,8.33,52,54,L
+642,Lost,0,GTMSys,Banks,Singapore,65,0.53,5.42,64,62,V
+643,Won,1,Procsys,Security,India,44,0.85,6.8,54,55,E
+644,Won,1,GTMSys,Capital Markets,UK,48,0.06,5.16,46,100,V
+645,Won,1,Lifesys,Capital Markets,Other Europe,47,1.1,6.89,37,72,V
+646,Lost,0,Finsys,Consumer goods,UK,54,0.62,8.61,61,67,V
+647,Won,1,Finsys,Capital Markets,Other Europe,57,0.33,8.28,49,55,E
+648,Lost,0,LearnSys,Defense,UK,51,1.72,8,50,66,V
+649,Won,1,GTMSys,Defense,Japan,63,0.42,11,57,63,F
+650,Won,1,GTMSys,Defense,Other Europe,30,0.23,7.3,44,67,E
+651,Lost,0,GTMSys,Defense,Americas,50,1.02,10.05,59,66,L
+652,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.13,5.63,52,56,V
+653,Lost,0,GTMSys,Banks,UK,61,1.01,10.21,54,37,E
+654,Lost,0,ContactSys,Banks,UK,59,1.22,10.19,45,70,V
+655,Lost,0,Finsys,Capital Markets,Other Europe,57,2.11,10.97,45,49,V
+656,Won,1,Procsys,Security,India,44,0.17,7.2,72,57,V
+657,Won,1,Finsys,Capital Markets,Other Europe,57,0.27,5.84,62,50,V
+658,Won,1,Procsys,Infrastructure,UK,37,0.53,9.47,54,44,L
+659,Lost,0,GTMSys,Capital Markets,UK,48,1.58,7.17,47,64,V
+660,Won,1,GTMSys,Defense,Americas,50,1.1,9.27,42,63,L
+661,Won,1,GTMSys,Others,Africa,39,0.69,10.5,63,67,V
+662,Won,1,GTMSys,Telecom equipments,Spain,66,0.55,7.76,55,65,E
+663,Lost,0,Procsys,Consumer goods,UK,53,1.63,8.2,48,100,E
+664,Lost,0,GTMSys,Defense,Japan,63,1.14,10.42,48,58,V
+665,Lost,0,Lifesys,Others,Other Europe,64,1.56,5.79,45,62,V
+666,Lost,0,GTMSys,Banks,Africa,52,1.26,5.67,53,56,E
+667,Won,1,Logissys,Govt.,UK,36,0.82,8.51,61,76,E
+668,Lost,0,GTMSys,Banks,Americas,43,0.88,6.38,65,43,F
+669,Lost,0,Lifesys,Others,Other Europe,64,1.39,7.74,29,45,V
+670,Won,1,Procsys,Defense,Americas,22,1.41,4.61,49,100,V
+671,Lost,0,Procsys,Consumer goods,UK,53,1.05,6.7,41,40,E
+672,Won,1,LearnSys,Banks,Africa,45,0.04,9.72,27,53,E
+673,Lost,0,Finsys,Capital Markets,Other Europe,57,0.82,6.26,61,55,L
+674,Won,1,Logissys,Mobility,UK,35,0.44,7.72,31,58,E
+675,Won,1,Lifesys,Consumer goods,UK,46,0.92,11.59,43,45,L
+676,Won,1,Lifesys,Capital Markets,Other Europe,47,0.76,10.32,44,69,E
+677,Lost,0,Finsys,Capital Markets,UK,60,1.45,4.22,43,66,V
+678,Won,1,LearnSys,Energy,UK,42,0.8,6.7,47,47,E
+679,Won,1,GTMSys,Insurance,UK,58,0.03,8.51,59,64,E
+680,Lost,0,Procsys,Security,India,44,1.26,10.7,56,59,V
+681,Lost,0,Procsys,Consumer goods,UK,53,0.99,8.16,61,42,V
+682,Won,1,Lifesys,Consumer goods,UK,46,0.68,9.93,47,66,V
+683,Won,1,Lifesys,Consumer goods,UK,46,0.33,9.71,66,48,E
+684,Won,1,LearnSys,Capital Markets,UK,40,1.33,8.79,49,100,V
+685,Lost,0,Finsys,Infrastructure,UK,62,0.78,9.64,58,67,V
+686,Won,1,GTMSys,Banks,Americas,43,0.95,7.17,45,56,L
+687,Won,1,GTMSys,Airline,UK,56,1.29,6.44,33,54,L
+688,Won,1,Lifesys,Defense,UK,20,0.9,8.64,46,56,V
+689,Won,1,Procsys,Infrastructure,UK,37,1.54,8.2,35,63,V
+690,Lost,0,Lifesys,Consumer goods,UK,46,1.64,8.42,51,53,E
+691,Lost,0,GTMSys,Banks,Americas,43,1.39,10.33,50,54,L
+692,Lost,0,GTMSys,Others,UK,49,1.41,9.24,44,55,L
+693,Lost,0,LearnSys,Capital Markets,UK,40,1.44,9.6,47,49,V
+694,Lost,0,LearnSys,Clinical research,UK,78,1.2,6.29,41,60,E
+695,Won,1,LearnSys,Banks,Africa,45,0.72,6.3,56,100,F
+696,Lost,0,GTMSys,Capital Markets,UK,48,2.11,7.02,50,50,E
+697,Lost,0,GTMSys,Others,UK,49,1.9,11.8,60,55,E
+698,Lost,0,Finsys,Consumer goods,UK,54,1.58,4.94,56,60,V
+699,Lost,0,GTMSys,Banks,Africa,52,1.2,4.57,55,100,V
+700,Won,1,Logissys,Govt.,UK,36,0.09,11.02,47,67,V
+701,Lost,0,LearnSys,Defense,UK,51,1.81,6.76,58,69,F
+702,Won,1,Finsys,Insurance,UK,31,0.62,5.97,68,56,V
+703,Lost,0,Finsys,Consumer goods,UK,54,0.72,8.03,64,59,E
+704,Lost,0,GTMSys,Others,Other Europe,69,1.06,6.48,51,69,E
+705,Won,1,GTMSys,Security,UK,32,0.21,8.74,46,61,E
+706,Lost,0,GTMSys,Banks,Singapore,65,1.64,8.57,68,68,E
+707,Lost,0,Finsys,Consumer goods,UK,54,0.91,10.74,58,57,E
+708,Won,1,GTMSys,Defense,Americas,50,0.54,10.14,49,62,V
+709,Lost,0,Procsys,Security,India,44,1.43,7.46,47,65,V
+710,Won,1,GTMSys,Defense,Americas,50,0.64,9.14,30,74,E
+711,Lost,0,Procsys,Energy,UK,34,1.51,7.53,59,59,E
+712,Won,1,Logissys,Govt.,UK,36,1.05,9.01,60,73,V
+713,Won,1,LearnSys,Energy,UK,42,0.87,10.91,52,57,V
+714,Won,1,Logissys,Mobility,UK,35,0.98,6.23,42,74,V
+715,Lost,0,Finsys,Consumer goods,UK,54,0.43,10.31,70,62,L
+716,Won,1,Lifesys,Consumer goods,UK,46,0.79,5.49,43,62,E
+717,Won,1,LearnSys,Capital Markets,UK,40,1.2,7.69,49,100,L
+718,Lost,0,GTMSys,Security,Singapore,73,0.82,6.98,47,64,E
+719,Won,1,GTMSys,Banks,Americas,43,0.7,8.02,40,63,E
+720,Lost,0,GTMSys,Others,UK,49,1.08,10.71,54,68,V
+721,Won,1,GTMSys,Airline,UK,56,0.96,7.64,50,72,E
+722,Lost,0,GTMSys,Airline,UK,56,1.71,11.43,65,54,L
+723,Lost,0,GTMSys,Airline,UK,56,0.7,10.01,56,53,E
+724,Lost,0,LearnSys,Banks,Africa,45,0.91,8.6,66,60,E
+725,Won,1,Lifesys,Consumer goods,UK,46,0.7,8.36,38,67,E
+726,Won,1,GTMSys,Capital Markets,UK,48,1.1,10.56,44,67,E
+727,Lost,0,LearnSys,Capital Markets,UK,40,1.11,9.65,64,38,L
+728,Won,1,GTMSys,Capital Markets,Other Europe,41,0.57,6.37,42,59,E
+729,Won,1,Finsys,Capital Markets,Other Europe,57,1.15,7.21,36,55,V
+730,Won,1,GTMSys,Banks,Singapore,65,0.79,7.9,38,61,L
+731,Won,1,GTMSys,Others,Africa,39,1.06,5.51,52,65,E
+732,Lost,0,GTMSys,Banks,UK,61,1.71,10.71,60,53,E
+733,Won,1,Lifesys,Capital Markets,UK,27,0.67,4.53,67,68,V
+734,Lost,0,Finsys,Capital Markets,Other Europe,57,1.44,8.3,57,57,E
+735,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.88,7.43,67,45,E
+736,Lost,0,Procsys,Infrastructure,UK,37,1.63,10.42,42,58,L
+737,Lost,0,GTMSys,Defense,Japan,63,1.87,7.41,38,57,E
+738,Won,1,LearnSys,Defense,UK,51,0.52,7.27,66,60,V
+739,Won,1,GTMSys,Insurance,UK,58,0.48,9.15,37,58,V
+740,Won,1,Lifesys,Capital Markets,UK,27,0.34,14.01,57,60,E
+741,Lost,0,GTMSys,Banks,Africa,52,1.52,5.17,54,58,V
+742,Lost,0,Finsys,Consumer goods,UK,54,1.71,5.16,62,53,V
+743,Lost,0,GTMSys,Airline,UK,56,1.52,10.16,46,64,V
+744,Won,1,GTMSys,Capital Markets,UK,48,1.11,7.35,42,56,V
+745,Won,1,Procsys,Consumer goods,UK,53,0.82,10.36,47,75,L
+746,Won,1,GTMSys,Others,Other Europe,69,0.09,3.2,58,54,L
+747,Won,1,GTMSys,Finance,UK,55,1.28,5.27,28,64,V
+748,Won,1,Procsys,Other Govt.,Japan,33,0.65,12.34,54,53,E
+749,Won,1,GTMSys,Finance,UK,55,0.91,3.91,40,100,E
+750,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.31,9.45,65,55,L
+751,Won,1,GTMSys,Others,Africa,39,0.86,6.1,46,50,L
+752,Won,1,GTMSys,Defense,Africa,25,1.33,10.34,39,59,E
+753,Won,1,ContactSys,Banks,UK,59,0.92,11.89,43,68,E
+754,Won,1,LearnSys,Banks,Africa,45,1.39,6.77,31,50,V
+755,Lost,0,GTMSys,Defense,Japan,63,1.03,8.22,70,49,E
+756,Won,1,GTMSys,Banks,Africa,52,0.7,8.7,30,59,V
+757,Won,1,Lifesys,Capital Markets,Other Europe,47,1.21,8.72,39,73,V
+758,Lost,0,LearnSys,Energy,UK,42,1.96,6.61,54,47,E
+759,Won,1,GTMSys,Banks,Americas,43,0.36,9.5,44,49,L
+760,Lost,0,LearnSys,Banks,Africa,45,0.86,7.56,59,48,V
+761,Lost,0,Procsys,Energy,UK,34,1.15,5.07,70,55,E
+762,Won,1,Finsys,Capital Markets,Other Europe,57,0.55,12.23,46,66,V
+763,Lost,0,GTMSys,Security,Singapore,73,1.03,12.59,67,59,V
+764,Won,1,Procsys,Security,Americas,68,0.28,5.88,48,77,L
+765,Lost,0,Procsys,Clinical research,UK,70,1.31,9.24,58,100,E
+766,Won,1,Procsys,Security,India,44,0.66,9.18,39,58,E
+767,Lost,0,Lifesys,Others,Other Europe,64,1.67,8.87,36,57,V
+768,Lost,0,GTMSys,Banks,Americas,43,1.34,6.17,62,71,E
+769,Won,1,Lifesys,Capital Markets,Other Europe,47,0.98,4.89,40,61,V
+770,Lost,0,GTMSys,Finance,UK,55,1.21,8.3,51,76,V
+771,Won,1,Lifesys,Consumer goods,UK,46,0.77,7.53,53,62,E
+772,Lost,0,GTMSys,Others,Other Europe,69,0.58,10.5,72,68,L
+773,Lost,0,Procsys,Mobility,Canada,29,1.67,9.33,61,74,L
+774,Won,1,GTMSys,Others,Other Europe,69,0.78,4.07,39,56,V
+775,Lost,0,Procsys,Mobility,Canada,29,1.64,7.35,49,56,E
+776,Won,1,Finsys,Others,Other Europe,18,1.76,6.95,38,51,V
+777,Won,1,Finsys,Insurance,UK,31,0.38,9.16,57,63,E
+778,Won,1,LearnSys,Defense,UK,51,0.45,8.76,55,37,V
+779,Lost,0,Finsys,Infrastructure,UK,62,1.74,8.1,60,63,V
+780,Lost,0,Procsys,Security,India,44,1.96,9,49,63,L
+781,Won,1,GTMSys,Others,UK,49,0.39,9.48,34,45,V
+782,Won,1,GTMSys,Capital Markets,Other Europe,41,0.96,7.89,27,59,V
+783,Won,1,GTMSys,Capital Markets,UK,48,0.4,6.74,56,56,V
+784,Lost,0,Procsys,Security,India,44,1.26,8.37,65,63,E
+785,Won,1,GTMSys,Finance,UK,55,0.37,6.78,45,70,E
+786,Lost,0,Lifesys,Capital Markets,UK,27,1.62,7.94,55,55,V
+787,Won,1,GTMSys,Defense,Other Europe,30,1.14,6.27,62,72,E
+788,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.07,11.02,58,57,V
+789,Won,1,LearnSys,Energy,UK,42,0.62,5.14,44,63,V
+790,Lost,0,GTMSys,Capital Markets,UK,48,1.28,9.12,49,54,V
+791,Won,1,LearnSys,Energy,UK,42,0.29,6.77,45,51,E
+792,Lost,0,Finsys,Consumer goods,UK,54,1.01,6.22,50,56,L
+793,Won,1,GTMSys,Capital Markets,Other Europe,41,1.09,6.84,55,74,V
+794,Won,1,LearnSys,Banks,Africa,45,0.74,8.2,31,66,V
+795,Won,1,GTMSys,Banks,Africa,52,0.92,5.2,48,71,E
+796,Lost,0,Finsys,Capital Markets,Other Europe,57,0.79,6.16,59,58,E
+797,Lost,0,GTMSys,Others,UK,49,2.11,9.59,45,48,E
+798,Won,1,GTMSys,Banks,Americas,43,-0.2,4.77,40,62,V
+799,Won,1,GTMSys,Defense,Americas,50,1.25,6.62,37,64,L
+800,Won,1,GTMSys,Agriculture,Other Europe,26,1.05,9.67,36,61,E
+801,Won,1,GTMSys,Finance,UK,55,1.38,9.77,25,69,V
+802,Won,1,GTMSys,Capital Markets,UK,48,-0.16,5.76,58,59,V
+803,Won,1,GTMSys,Capital Markets,UK,48,1.17,8.74,46,56,V
+804,Lost,0,GTMSys,Defense,Americas,50,1.05,5.68,48,52,E
+805,Lost,0,GTMSys,Banks,Americas,43,1.13,10.09,57,64,V
+806,Lost,0,GTMSys,Defense,Americas,50,1.02,7.43,51,56,L
+807,Won,1,GTMSys,Others,Africa,39,1.12,10.98,42,59,L
+808,Won,1,LearnSys,Capital Markets,UK,40,0.6,7.67,57,56,V
+809,Lost,0,LearnSys,Capital Markets,UK,40,1.59,6.65,57,60,E
+810,Won,1,LearnSys,Capital Markets,UK,40,0.27,6.06,59,47,E
+811,Won,1,GTMSys,Capital Markets,UK,48,0.43,6.77,47,58,L
+812,Lost,0,ContactSys,Banks,UK,59,1.31,8.12,45,36,E
+813,Lost,0,GTMSys,Banks,Africa,52,1.38,9.15,43,63,E
+814,Won,1,GTMSys,Banks,Americas,43,0.61,7.2,62,59,V
+815,Won,1,Procsys,Security,Americas,68,0.68,10.36,31,65,V
+816,Won,1,Finsys,Insurance,UK,31,0.46,6.14,57,65,V
+817,Lost,0,GTMSys,Others,Other Europe,69,0.91,10.82,58,54,L
+818,Won,1,GTMSys,Defense,Other Europe,30,1.37,10.41,50,100,V
+819,Lost,0,Finsys,Capital Markets,Other Europe,57,0.9,8.22,55,61,L
+820,Lost,0,Finsys,Infrastructure,UK,62,0.4,4.76,70,61,E
+821,Won,1,Finsys,Insurance,UK,31,1.41,12.5,48,51,F
+822,Lost,0,GTMSys,Telecom equipments,Spain,66,1.11,4.3,58,67,E
+823,Won,1,GTMSys,Capital Markets,Other Europe,41,1.29,7.7,43,61,V
+824,Won,1,GTMSys,Defense,Americas,50,0.3,3.87,53,53,V
+825,Lost,0,LearnSys,Insurance,UK,74,1.22,8.3,50,66,E
+826,Lost,0,GTMSys,Banks,Africa,52,2.31,5.93,39,54,V
+827,Won,1,GTMSys,Banks,Singapore,65,0.23,10.99,59,61,V
+828,Won,1,LearnSys,Energy,UK,42,1.2,9.13,46,69,V
+829,Lost,0,Procsys,Consumer goods,UK,53,0.62,8.73,58,56,V
+830,Lost,0,Logissys,Clinical research,UK,79,1.31,7.8,36,53,E
+831,Won,1,Procsys,Consumer goods,UK,53,1,10.28,47,77,E
+832,Lost,0,Finsys,Infrastructure,UK,62,0.78,8.07,56,66,V
+833,Won,1,GTMSys,Defense,Americas,50,0.85,7.65,43,54,E
+834,Won,1,LearnSys,Defense,UK,51,0.85,6.27,49,59,E
+835,Lost,0,LearnSys,Energy,UK,42,0.75,9.05,63,47,V
+836,Won,1,LearnSys,Energy,UK,42,0.83,7.64,43,56,V
+837,Lost,0,Procsys,Security,India,44,1.33,6.9,60,51,E
+838,Lost,0,GTMSys,Banks,Singapore,65,0.84,6.89,56,75,L
+839,Won,1,GTMSys,Airline,UK,56,0.69,8.09,39,66,E
+840,Won,1,GTMSys,Airline,UK,56,0.92,7.01,38,65,E
+841,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.58,9.32,51,52,E
+842,Won,1,GTMSys,Capital Markets,Other Europe,41,0.81,8.5,34,50,E
+843,Lost,0,GTMSys,Banks,Americas,43,1.31,4.98,45,47,E
+844,Won,1,Lifesys,Capital Markets,UK,27,1.44,6.78,40,77,V
+845,Lost,0,Lifesys,Capital Markets,Other Europe,47,0.93,8.14,68,56,L
+846,Won,1,GTMSys,Banks,Americas,43,0.58,9.8,59,65,E
+847,Won,1,GTMSys,Others,Africa,39,0.43,7.32,56,73,V
+848,Lost,0,Lifesys,Others,Other Europe,64,0.31,7.58,63,68,V
+849,Lost,0,GTMSys,Insurance,UK,58,1.54,6.44,58,65,V
+850,Won,1,Procsys,Infrastructure,UK,37,0.58,9.83,48,57,E
+851,Lost,0,Lifesys,Capital Markets,UK,27,1.92,7.42,63,41,V
+852,Lost,0,GTMSys,Airline,UK,56,1.09,7.14,54,58,L
+853,Won,1,ContactSys,Banks,UK,59,0.38,9.04,48,52,L
+854,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.64,4.78,54,64,V
+855,Won,1,Finsys,Capital Markets,Other Europe,57,0.47,4.55,44,60,E
+856,Lost,0,Procsys,Consumer goods,UK,53,1.17,4.31,49,60,E
+857,Won,1,GTMSys,Defense,Americas,50,0.83,8.79,43,59,L
+858,Won,1,GTMSys,Capital Markets,UK,48,0.45,5.89,56,51,E
+859,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.49,8.41,47,71,E
+860,Lost,0,GTMSys,Banks,Singapore,65,1.84,8.83,65,51,V
+861,Lost,0,Lifesys,Consumer goods,UK,46,1.46,13.15,47,61,V
+862,Won,1,Finsys,Capital Markets,Other Europe,57,0.26,10.56,57,73,V
+863,Lost,0,Procsys,Consumer goods,UK,53,0.72,10.31,61,48,L
+864,Won,1,GTMSys,Security,UK,32,0.8,8.21,60,47,V
+865,Lost,0,LearnSys,Energy,UK,42,1.74,5.79,37,51,L
+866,Won,1,Procsys,Energy,UK,34,-0.56,7.68,38,77,E
+867,Won,1,GTMSys,Banks,Americas,43,1.22,6.65,47,64,V
+868,Lost,0,GTMSys,Security,Singapore,73,0.52,5.1,51,57,E
+869,Won,1,GTMSys,Capital Markets,Other Europe,41,0.54,5.73,40,75,F
+870,Won,1,Procsys,Energy,UK,34,0.19,7.71,33,79,F
+871,Lost,0,GTMSys,Others,UK,49,1.79,7.1,66,42,E
+872,Lost,0,Procsys,Security,India,44,1.22,7.79,56,61,V
+873,Won,1,Procsys,Consumer goods,UK,53,0.97,6.79,46,59,V
+874,Lost,0,Finsys,Capital Markets,UK,60,1.57,8.77,46,68,V
+875,Lost,0,GTMSys,Others,Africa,39,2.11,8.13,61,73,V
+876,Won,1,LearnSys,Banks,Africa,45,0.81,6.75,60,66,E
+877,Lost,0,GTMSys,Insurance,UK,58,1.72,10.49,55,47,V
+878,Won,1,Logissys,Mobility,UK,35,0.59,7.17,58,54,L
+879,Won,1,Logissys,Mobility,UK,35,0.66,7.09,65,40,V
+880,Won,1,Lifesys,Consumer goods,UK,46,0.95,10.73,36,62,V
+881,Lost,0,GTMSys,Defense,Americas,50,0.97,5.94,56,49,V
+882,Won,1,Procsys,Security,India,44,0.98,10.68,50,67,E
+883,Won,1,GTMSys,Others,Americas,38,0.37,8.24,56,68,L
+884,Won,1,LearnSys,Capital Markets,UK,40,0.47,11.38,34,49,E
+885,Lost,0,GTMSys,Airline,UK,56,1.44,9.03,61,49,E
+886,Won,1,Procsys,Other Govt.,Japan,33,0.53,8.93,41,37,L
+887,Won,1,GTMSys,Banks,Africa,52,0.64,6.56,51,54,E
+888,Won,1,Finsys,Capital Markets,Other Europe,57,0.14,6.91,44,50,E
+889,Lost,0,GTMSys,Telecom equipments,Spain,66,1.84,6.62,51,63,V
+890,Lost,0,LearnSys,Capital Markets,UK,40,1.39,9.84,53,26,L
+891,Won,1,GTMSys,Finance,UK,55,0.71,6.74,54,60,E
+892,Won,1,LearnSys,Energy,UK,42,1.05,6.96,47,61,V
+893,Won,1,GTMSys,Others,Africa,39,0.79,6.51,52,66,V
+894,Lost,0,LearnSys,Banks,Africa,45,1.22,10.29,60,57,V
+895,Lost,0,LearnSys,Defense,UK,51,1.02,12.74,67,58,E
+896,Won,1,Procsys,Consumer goods,UK,53,0.78,7.84,35,75,V
+897,Won,1,Lifesys,Consumer goods,UK,46,1.22,12.65,34,70,L
+898,Lost,0,Finsys,Capital Markets,Other Europe,57,1.46,6.47,50,45,L
+899,Won,1,GTMSys,Banks,Americas,43,-0.05,9.86,51,49,V
+900,Won,1,LearnSys,Defense,UK,51,0.78,8.52,48,71,E
+901,Won,1,GTMSys,Security,UK,32,0.51,6.96,74,61,E
+902,Won,1,GTMSys,Banks,Singapore,65,0.51,10.38,50,67,L
+903,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.2,2.38,54,58,E
+904,Lost,0,Procsys,Security,India,44,0.61,11.16,69,39,E
+905,Lost,0,Finsys,Capital Markets,Other Europe,57,1.88,5.7,56,72,V
+906,Lost,0,Logissys,Govt.,UK,36,1.77,10.41,46,68,V
+907,Won,1,Finsys,Capital Markets,Other Europe,57,0.82,6.04,51,59,V
+908,Won,1,GTMSys,Banks,Americas,43,0.79,10.42,50,55,L
+909,Lost,0,Finsys,Capital Markets,Other Europe,57,1.37,7.91,42,56,V
+910,Won,1,LearnSys,Energy,UK,42,0.52,8.9,61,67,L
+911,Lost,0,Lifesys,Capital Markets,Other Europe,47,1.26,5.89,54,56,E
+912,Lost,0,GTMSys,Insurance,UK,58,1.22,7.97,57,100,V
+913,Lost,0,GTMSys,Others,Other Europe,69,1.03,8.48,56,51,E
+914,Lost,0,Procsys,Energy,UK,34,1.67,6.27,45,58,V
+915,Lost,0,GTMSys,Capital Markets,UK,48,1.39,6.77,56,39,V
+916,Lost,0,Finsys,Consumer goods,UK,54,1.74,8.49,54,55,E
+917,Lost,0,Procsys,Consumer goods,UK,53,0.98,9.56,62,62,V
+918,Lost,0,ContactSys,Banks,UK,59,1.22,8.05,77,51,V
+919,Won,1,Finsys,Capital Markets,Other Europe,57,0.48,6.9,50,58,V
+920,Won,1,Finsys,Capital Markets,Other Europe,57,0.9,8.07,39,51,V
+921,Won,1,LearnSys,Capital Markets,UK,40,0.69,5.51,50,55,E
+922,Lost,0,GTMSys,Defense,Americas,50,1.33,8.4,43,50,V
+923,Won,1,LearnSys,Defense,UK,51,0.8,10.45,41,79,E
+924,Lost,0,GTMSys,Telecom equipments,Spain,66,0.52,7.27,65,47,V
+925,Lost,0,Lifesys,Consumer goods,UK,46,1.92,8.05,60,61,V
+926,Won,1,Finsys,Capital Markets,Other Europe,57,0.58,7.69,34,46,V
+927,Won,1,Lifesys,Others,Other Europe,64,0.05,10.2,53,60,E
+928,Lost,0,Procsys,Security,India,44,1.4,5.32,52,54,L
+929,Won,1,LearnSys,Defense,UK,51,0.43,10.04,37,74,E
+930,Lost,0,GTMSys,Banks,Americas,43,1.2,5.98,53,62,E
+931,Lost,0,LearnSys,Clinical research,UK,78,1.65,8.14,50,43,E
+932,Lost,0,GTMSys,Defense,Americas,50,1.29,7.39,52,54,E
+933,Won,1,LearnSys,Defense,UK,51,1.06,6.76,43,64,E
+934,Lost,0,Finsys,Capital Markets,UK,60,1.22,7.22,43,57,V
+935,Won,1,GTMSys,Others,Americas,38,0.4,7.61,60,44,L
+936,Lost,0,GTMSys,Defense,Americas,50,1.22,9.3,61,66,E
+937,Won,1,Procsys,Consumer goods,UK,53,0.06,10.91,49,66,V
+938,Lost,0,GTMSys,Airline,UK,56,2.31,11.07,55,62,V
+939,Won,1,GTMSys,Banks,Americas,43,0.61,7.88,62,48,V
+940,Won,1,GTMSys,Others,UK,49,0.37,6.64,49,52,E
+941,Lost,0,GTMSys,Banks,Americas,43,1.2,6.05,64,60,V
+942,Won,1,Lifesys,Consumer goods,UK,46,1.07,9.05,47,54,L
+943,Won,1,GTMSys,Others,Americas,38,1.2,11.6,47,72,L
+944,Won,1,Lifesys,Capital Markets,Other Europe,47,0.58,10.25,47,69,V
+945,Lost,0,Finsys,Infrastructure,UK,62,1.27,5.38,48,55,E
+946,Won,1,Procsys,Security,India,44,1.06,10.47,46,59,E
+947,Lost,0,Procsys,Consumer goods,UK,53,1.58,7.57,67,71,L
+948,Lost,0,GTMSys,Banks,Singapore,65,0.38,8.17,59,59,E
+949,Won,1,Lifesys,Capital Markets,Other Europe,47,0.24,9.27,51,59,E
+950,Lost,0,GTMSys,Defense,Americas,50,0.8,8.8,56,59,V
+951,Won,1,Lifesys,Consumer goods,UK,46,0.76,7.55,53,68,V
+952,Won,1,GTMSys,Others,Americas,38,1.26,6.75,26,69,V
+953,Lost,0,GTMSys,Banks,UK,61,1.38,12.35,50,55,L
+954,Lost,0,GTMSys,Finance,UK,55,0.76,9.07,64,59,V
+955,Lost,0,GTMSys,Banks,UK,61,1.5,11.13,63,75,L
+956,Lost,0,Lifesys,Others,Other Europe,64,0.86,6.58,59,57,E
+957,Lost,0,GTMSys,Capital Markets,UK,48,0.77,9.15,56,42,V
+958,Lost,0,GTMSys,Telecom equipments,Spain,66,1.38,8.98,62,68,E
+959,Lost,0,LearnSys,Banks,Africa,45,1.18,6.41,50,57,V
+960,Lost,0,Procsys,Energy,UK,34,2.31,7.17,57,58,V
+961,Lost,0,LearnSys,Defense,UK,51,2.11,10.58,56,67,E
+962,Won,1,Procsys,Mobility,Canada,29,0.23,6.87,45,61,V
+963,Lost,0,Finsys,Capital Markets,UK,60,0.94,8.02,61,64,V
+964,Won,1,Procsys,Energy,UK,34,0.1,9.19,67,61,V
+965,Lost,0,GTMSys,Banks,Africa,52,1.52,5.6,56,62,V
+966,Lost,0,Finsys,Infrastructure,UK,62,1.24,8.79,62,64,V
+967,Lost,0,ContactSys,Banks,UK,59,1.08,10.44,50,59,E
+968,Won,1,GTMSys,Capital Markets,Other Europe,41,0.98,6.44,55,61,E
+969,Lost,0,GTMSys,Health,UK,67,1.33,9.75,53,64,F
+970,Lost,0,Finsys,Consumer goods,UK,54,0.97,12.57,50,66,L
+971,Won,1,LearnSys,Defense,UK,51,-0.05,8.29,42,63,E
+972,Won,1,GTMSys,Banks,Africa,52,0.51,9,53,64,E
+973,Won,1,ContactSys,Banks,UK,59,1.17,6.69,39,66,E
+974,Won,1,Procsys,Energy,UK,34,0.95,8.82,66,70,V
+975,Won,1,GTMSys,Banks,UK,61,0.98,9.49,36,62,F
+976,Won,1,GTMSys,Others,Americas,38,0.63,3.74,49,63,V
+977,Lost,0,GTMSys,Insurance,UK,58,1.6,6.87,48,65,E
+978,Lost,0,GTMSys,Banks,Africa,52,1.92,10.75,59,60,L
+979,Won,1,LearnSys,Defense,UK,51,0.31,10.98,44,58,E
+980,Lost,0,Logissys,Clinical research,UK,79,1.19,5.05,51,79,E
+981,Lost,0,Finsys,Consumer goods,UK,54,0.84,7.8,55,63,E
+982,Won,1,Procsys,Security,India,44,0.92,3.75,48,59,E
+983,Lost,0,GTMSys,Banks,Singapore,65,2.31,10.44,56,44,E
+984,Lost,0,Lifesys,Others,Other Europe,64,1.43,10.93,45,48,V
+985,Lost,0,Lifesys,Others,Other Europe,64,1.55,8.49,37,38,L
+986,Won,1,GTMSys,Defense,Americas,50,0.43,7.67,51,53,E
+987,Lost,0,GTMSys,Airline,UK,56,1.19,7.7,66,73,V
+988,Won,1,GTMSys,Finance,UK,55,0.2,10.63,60,65,V
+989,Lost,0,GTMSys,Defense,Americas,50,0.99,8.49,61,45,V
+990,Won,1,Procsys,Consumer goods,UK,53,1.46,6.74,28,67,E
+991,Lost,0,Procsys,Security,India,44,2.31,4.61,51,63,V
+992,Lost,0,Finsys,Consumer goods,UK,54,0.98,7.28,57,72,L
+993,Lost,0,GTMSys,Capital Markets,Other Europe,41,1.42,9.2,54,53,L
+994,Lost,0,Lifesys,Others,Other Europe,64,1.09,6.16,43,54,V
+995,Lost,0,Procsys,Security,India,44,1.03,6.61,70,60,E
+996,Won,1,Lifesys,Consumer goods,UK,46,0.71,3.97,42,72,E
+997,Lost,0,GTMSys,Health,UK,67,1.43,9.31,33,65,L
+998,Lost,0,LearnSys,Energy,UK,42,1.75,8.18,58,68,E
+999,Won,1,GTMSys,Security,UK,32,0.3,9.78,56,55,E
+1000,Won,1,LearnSys,Banks,Africa,45,0.63,5.97,62,45,V
