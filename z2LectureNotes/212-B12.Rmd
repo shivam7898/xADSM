@@ -320,7 +320,7 @@ ggsave(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"), plot = B12P02)
 knitr::include_graphics(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"))
 ```
 
-```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01','B12P02'), fig.cap="Flights: Air Time (min) excluding NA (Histogram and Density)"}
+```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01', 'B12P02'), fig.cap="Flights: Air Time (min) excluding NA (Histogram and Density)"}
 #
 ```
 
@@ -400,8 +400,8 @@ B12P01 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
 ```{r 'B12-Density', eval=FALSE}
 # #Density Curve
 # #Get Quantiles and Ranges of mean +/- sigma 
-q05_hh <- quantile(hh[[1]],.05)
-q95_hh <- quantile(hh[[1]],.95)
+q05_hh <- quantile(hh[[1]], .05)
+q95_hh <- quantile(hh[[1]], .95)
 density_hh <- density(hh[[1]])
 density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
 sig3r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 3 * sd_hh})
@@ -827,9 +827,9 @@ f_getDef("Standard-Normal")
 ```
 
 The simplest case of a normal distribution is known as the standard normal distribution. 
-Given the Population with normal distribution ${\mathcal {N}}_{(\mu,\, \sigma)}$ 
+Given the Population with normal distribution ${\mathcal{N}}_{(\mu, \, \sigma)}$ 
 
-If $\overline {X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is $\sigma/{\sqrt{n}}$ and thus the z-score is \textcolor{pink}{$Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}}$}
+If $\overline{X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is $\sigma/{\sqrt{n}}$ and thus the z-score is \textcolor{pink}{$Z=\frac {\overline{X} - \mu}{\sigma/{\sqrt{n}}}$}
 
 The z-score is the test statistic used in a z-test. The z-test is used to compare the means of two groups, or to compare the mean of a group to a set value. Its null hypothesis typically assumes no difference between groups.
 
@@ -845,10 +845,10 @@ Refer [Outliers](#outliers-c03 "c03")
 f_getDef("Outliers")
 ```
 
-- \textcolor{pink}{Question:} If we include a datapoint which is +4 standard deviations away, would we be able to get the Normal Distribution
+- \textcolor{pink}{Question:} If we include a datapoint which is 4 standard deviations away, would we be able to get the Normal Distribution
   - Shape of the curve will be tilted, thus it will be difficult to keep the datapoint and satify the condition for normality
-  - Generally, only ${{\mu}-3{\sigma} \leq {x} \leq {\mu}+3{\sigma}}$ values are kept and the remaining are treated as outliers
-- \textcolor{pink}{Question:} Is is a bad data if it is +4 standard deviations away
+  - Generally, only ${{\mu} - 3{\sigma} \leq {x} \leq {\mu} + 3{\sigma}}$ values are kept and the remaining are treated as outliers
+- \textcolor{pink}{Question:} Is is a bad data if it is 4 standard deviations away
   - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assuption, parametric methods cannot be applied to the dataset
   - In general, convert to z-value, remove those which have z-value higher than +3 or lower than -3
 - \textcolor{pink}{Question:} But, how many removals are too many removals
@@ -925,7 +925,7 @@ knitr::include_graphics(paste0(.z$PX, "B12P11_Tail_Left.jpg"))
 knitr::include_graphics(paste0(.z$PX, "B12P12_Tail_Right.jpg"))
 ```
 
-```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11','B12P12'), fig.cap="Left Tail vs. Right Tail"}
+```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11', 'B12P12'), fig.cap="Left Tail vs. Right Tail"}
 #
 ```
 

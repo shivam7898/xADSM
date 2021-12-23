@@ -31,7 +31,7 @@ The confidence level expressed as a decimal value is the \textcolor{pink}{confid
 
 In order to develop an interval estimate of a population mean, either the population standard deviation ${\sigma}$ or the sample standard deviation ${s}$ must be used to compute the margin of error. In most applications ${\sigma}$ is not known, and ${s}$ is used to compute the margin of error. 
 
-In some applications, large amounts of relevant historical data are available and can be used to estimate the population standard deviation prior to sampling. Also, in quality control applications where a process is assumed to be operating correctly, or 'in control,' it is appropriate to treat the population standard deviation as known. 
+In some applications, large amounts of relevant historical data are available and can be used to estimate the population standard deviation prior to sampling. Also, in quality control applications where a process is assumed to be operating correctly, or 'in control', it is appropriate to treat the population standard deviation as known. 
 
 \textcolor{pink}{Sampling distribution of ${\overline{x}}$ can be used to compute the probability that ${\overline{x}}$ will be within a given distance of ${\mu}$.}
 
@@ -99,7 +99,7 @@ The t distribution is a family of similar probability distributions, with a spec
 
 Just as $z_{0.025}$ was used to indicate the z value providing a 0.025 area in the upper tail of a standard normal distribution, $t_{0.025}$ indicates a 0.025 area in the upper tail of a t distribution. In general, the notation $t_{\alpha/2}$ represents a t value with an area of $\alpha/2$ in the upper tail of the t distribution.
 
-As the degrees of freedom increase, the t distribution approaches the standard normal distribution. Ex:  $t_{0.025} = 2.262 \,(\text{DOF} = 9)$, $t_{0.025} = 2.200 \,(\text{DOF} = 60)$, and $t_{0.025} = 1.96 \,(\text{DOF} = \infty) = z_{0.025}$
+As the degrees of freedom increase, the t distribution approaches the standard normal distribution. Ex:  $t_{0.025} = 2.262 \, (\text{DOF} = 9)$, $t_{0.025} = 2.200 \, (\text{DOF} = 60)$, and $t_{0.025} = 1.96 \, (\text{DOF} = \infty) = z_{0.025}$
 
 Interval Estimate of a Population Mean: ${\sigma}$ Unknown is given by equation \@ref(eq:interval-nsd)
 

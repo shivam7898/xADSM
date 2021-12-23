@@ -193,7 +193,7 @@ C02P03 <- bb %>% {
   ggplot(data = ., aes(x = aa, fill = ..count..)) + 
   geom_histogram(bins = 50, position = "identity") +	
   k_gglayer_hist +
-  labs(x = "Normal Data", y = "Count", subtitle = paste0("n = ", format(nrow(.), big.mark=",")), 
+  labs(x = "Normal Data", y = "Count", subtitle = paste0("n = ", format(nrow(.), big.mark = ",")), 
        caption = "C02P03", title = "Histogram")
 }
 ```
@@ -612,8 +612,8 @@ n_x <- seq(floor(min(bb$x) / nn) * nn, ceiling(max(bb$x) / nn) * nn, by = 20)
 n_y <- seq(floor(min(bb$y) / nn) * nn, ceiling(max(bb$y) / nn) * nn, by = 20)
 #
 # #Labels in the format of [10-29]
-lab_x <- paste0(n_x, "-", n_x +20 -1) %>% head(-1)
-lab_y <- paste0(n_y, "-", n_y +20 -1) %>% head(-1)
+lab_x <- paste0(n_x, "-", n_x + 20 - 1) %>% head(-1)
+lab_y <- paste0(n_y, "-", n_y + 20 - 1) %>% head(-1)
 
 # #Wider Table without Totals
 ii <- bb %>% 

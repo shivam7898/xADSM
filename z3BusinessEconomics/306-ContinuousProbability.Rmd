@@ -37,7 +37,7 @@ The probability that the continuous random variable ${x}$ takes a value between 
 
 - Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Discrete Probability](#discrete-prob-be05 "be05") )
   1. \textcolor{pink}{$f(x) \geq 0$} 
-  1. \textcolor{pink}{$A = \int _{-\infty}^{\infty}f(x)\ dx =1$}
+  1. \textcolor{pink}{$A = \int _{-\infty}^{\infty}f(x)\ dx = 1$}
 
 - NOTE:
   - For a discrete random variable, the probability function $f(x)$ provides the probability that the random variable assumes a particular value. With continuous random variables, the counterpart of the probability function is the \textcolor{pink}{probability density function $f(x)$}. 
@@ -49,8 +49,8 @@ The probability that the continuous random variable ${x}$ takes a value between 
 
 \begin{equation}
   \begin{align}
-    E(x) &= \frac{a+b}{2} \\
-    \text{Var}(x) &= \frac{(b-a)^2}{12}
+    E(x) &= \frac{a + b}{2} \\
+    \text{Var}(x) &= \frac{(b - a)^2}{12}
   \end{align}
   (\#eq:continuous-var)
 \end{equation}
@@ -58,11 +58,11 @@ The probability that the continuous random variable ${x}$ takes a value between 
 ## Normal Probability Distribution {#normal-d-c06 .tabset .tabset-fade}
 
 ```{definition 'Normal-Distribution'}
-A \textcolor{pink}{normal distribution (${\mathcal {N}}_{(\mu,\, \sigma^2)}$)} is a type of continuous probability distribution for a real-valued random variable.
+A \textcolor{pink}{normal distribution (${\mathcal{N}}_{({\mu}, \, {\sigma}^2)}$)} is a type of continuous probability distribution for a real-valued random variable.
 ```
 
 - The general form of its probability density function is given by equation \@ref(eq:distribution-normal)
-  - Normal distribution ${\mathcal {N}}_{(\mu,\, \sigma)}$ is also known as Gaussian or Gauss or Laplace–Gauss distribution
+  - Normal distribution ${\mathcal{N}}_{({\mu}, \, {\sigma})}$ is also known as Gaussian or Gauss or Laplace–Gauss distribution
   - It is symmetrical
   - The entire family of normal distributions is differentiated by two parameters: the mean ${\mu}$ and the standard deviation ${\sigma}$. They determine the location and shape of the normal distribution.
   - The highest point on the normal curve is at the mean, which is also the median and mode of the distribution. 
@@ -70,10 +70,10 @@ A \textcolor{pink}{normal distribution (${\mathcal {N}}_{(\mu,\, \sigma^2)}$)} i
   - The tails of the normal curve extend to infinity in both directions and theoretically never touch the horizontal axis. 
   - Larger values of the standard deviation result in wider, flatter curves, showing more variability in the data.
   - Probabilities for the normal random variable are given by areas under the normal curve. The total area under the curve for the normal distribution is 1. 
-  - Values of a normal random variable are given as: $68.27\% (\mu \pm \sigma), 95.45\% (\mu \pm 2\sigma), 99.73\% (\mu \pm 3\sigma)$. This is the basis of [Empirical Rule](#empirical-be03 "be03")
+  - Values of a normal random variable are given as: $68.27\% ({\mu} \pm {\sigma}), 95.45\% ({\mu} \pm 2{\sigma}), 99.73\% ({\mu} \pm 3{\sigma})$. This is the basis of [Empirical Rule](#empirical-be03 "be03")
 
 \begin{equation}
-  f(x)={\frac {1}{\sigma {\sqrt {2 \pi}}}} e^{-{\frac {1}{2}}\left( {\frac {x-\mu }{\sigma }}\right) ^{2}}
+  f(x) = {\frac {1}{{\sigma}{\sqrt {2 \pi}}}} e^{-{\frac {1}{2}}\left( {\frac {x-{\mu} }{\sigma}}\right) ^{2}}
   (\#eq:distribution-normal)
 \end{equation}
 
@@ -90,8 +90,8 @@ sd_hh <- round(sd(hh[[1]]), 3)
 len_hh <- nrow(hh)
 #
 # #Get Quantiles and Ranges of mean +/- sigma 
-q05_hh <- quantile(hh[[1]],.05)
-q95_hh <- quantile(hh[[1]],.95)
+q05_hh <- quantile(hh[[1]], .05)
+q95_hh <- quantile(hh[[1]], .95)
 density_hh <- density(hh[[1]])
 density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
 sig3l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 3 * sd_hh)
@@ -213,8 +213,8 @@ xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'),
 ii <- ii + scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh)
 #
 # #Get Quantiles and Ranges of mean +/- sigma 
-q05_hh <- quantile(hh[[1]],.05)
-q95_hh <- quantile(hh[[1]],.95)
+q05_hh <- quantile(hh[[1]], .05)
+q95_hh <- quantile(hh[[1]], .95)
 density_hh <- density(hh[[1]])
 density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
 sig3l_hh <- density_hh_tbl %>% filter(x <= mean_hh - 3 * sd_hh)
@@ -268,7 +268,7 @@ ii <- ii + labs(x = "x", y = "Density",
 
 ### Plot LaTex {.unlisted .unnumbered}
 
-```{r 'C06-PlotLatexEq', eval = FALSE}
+```{r 'C06-PlotLatexEq', eval=FALSE}
 # #Syntax 
 #latex2exp::Tex(r('$\sigma =10$'), output = "character")
 # #Test Equation
@@ -328,7 +328,7 @@ str(ggplot_build(ii)$data[[1]])
 ## Standard Normal  {#standard-normal-c06 .tabset .tabset-fade}
 
 ```{definition 'Standard-Normal'}
-A random variable that has a normal distribution with a mean of zero \textcolor{pink}{$({\mu} = 0)$} and a standard deviation of one \textcolor{pink}{$({\sigma} = 1)$} is said to have a \textcolor{pink}{standard normal probability distribution}. The \textcolor{pink}{z-distribution} is given by \textcolor{pink}{${\mathcal {z}}_{({\mu} = 0,\, {\sigma} = 1)}$}
+A random variable that has a normal distribution with a mean of zero \textcolor{pink}{$({\mu} = 0)$} and a standard deviation of one \textcolor{pink}{$({\sigma} = 1)$} is said to have a \textcolor{pink}{standard normal probability distribution}. The \textcolor{pink}{z-distribution} is given by \textcolor{pink}{${\mathcal{z}}_{({\mu} = 0, \, {\sigma} = 1)}$}
 ```
 
 \begin{equation} 
@@ -346,21 +346,21 @@ A random variable that has a normal distribution with a mean of zero \textcolor{
 f_getDef("z-Scores") #dddd
 ```
 
-- NOTE (R,C) notation denotes Row x Column of a Table
+- NOTE (R, C) notation denotes Row x Column of a Table
   - Because the standard normal random variable is continuous, $P(z \leq 1.00) = P(z < 1.00)$
-  - The cumulative probability corresponding to $z = 1.00$ is the table value located at the intersection of the row labeled \textcolor{pink}{${1.0}$} and the column labeled \textcolor{pink}{${.00}$} i.e. $P_{\left(z\leq 1.00\right)} = P_{\left(1.0, \,.00\right)} = 0.8413$
+  - The cumulative probability corresponding to $z = 1.00$ is the table value located at the intersection of the row labeled \textcolor{pink}{${1.0}$} and the column labeled \textcolor{pink}{${.00}$} i.e. $P_{\left(z\leq 1.00\right)} = P_{\left(1.0, \, .00\right)} = 0.8413$
   - To compute the probability that ${z}$ is in the interval between −.50 and 1.25 
-    - $P_{\left(-0.50 \leq z\leq 1.25\right)} = P_{\left(z\leq 1.25\right)} - P_{\left(z\leq -0.50 \right)} = P_{\left(1.2, \,.05\right)} - P_{\left(-0.50, \,.00\right)} = 0.8944 - 0.3085 = 0.5859$ 
+    - $P_{\left(-0.50 \leq z\leq 1.25\right)} = P_{\left(z\leq 1.25\right)} - P_{\left(z\leq -0.50 \right)} = P_{\left(1.2, \, .05\right)} - P_{\left(-0.50, \, .00\right)} = 0.8944 - 0.3085 = 0.5859$ 
   - To compute the probability of obtaining a z value of at least 1.58
-    - $P_{\left(z\geq 1.58\right)} = 1 - P_{\left(z\leq 1.58\right)} = 1 - P_{\left(1.5, \,.08\right)} = 1 - 0.9429 = 0.0571$ 
+    - $P_{\left(z\geq 1.58\right)} = 1 - P_{\left(z\leq 1.58\right)} = 1 - P_{\left(1.5, \, .08\right)} = 1 - 0.9429 = 0.0571$ 
   - To compute the probability that the standard normal random variable is within one standard deviation of the mean 
-    - $P_{\left(-1.00 \leq z\leq 1.00\right)} = P_{\left(z\leq 1.00\right)} - P_{\left(z\leq -1.00 \right)} = P_{\left(1.0, \,.00\right)} - P_{\left(-1.0, \,.00\right)} = 0.8413 - 0.1587 = 0.6826$ 
+    - $P_{\left(-1.00 \leq z\leq 1.00\right)} = P_{\left(z\leq 1.00\right)} - P_{\left(z\leq -1.00 \right)} = P_{\left(1.0, \, .00\right)} - P_{\left(-1.0, \, .00\right)} = 0.8413 - 0.1587 = 0.6826$ 
 - Reverse i.e. given the probability, find out the z-value
   - Find a z value such that the probability of obtaining a larger z value is .10
-    - The standard normal probability table gives the area under the curve to the left of a particular z value, which would be $P_{\left(z\right)} = 1 - 0.10 = 0.9000 \approx P_{\left(1.2, \,.08\right)} \Rightarrow z = 1.28$
+    - The standard normal probability table gives the area under the curve to the left of a particular z value, which would be $P_{\left(z\right)} = 1 - 0.10 = 0.9000 \approx P_{\left(1.2, \, .08\right)} \to z = 1.28$
 
 
-\textcolor{pink}{${z} \in \mathbb{R} \leftrightarrow P_{(z)} \in (0,1)$}
+\textcolor{pink}{${z} \in \mathbb{R} \iff P_{(z)} \in (0, 1)$}
 
 ### Cal P  {#get-pz-c06 .unlisted .unnumbered}
 
@@ -432,20 +432,20 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
 - Any normal distribution can be standardized by converting the individual values into z-scores. 
   - z-scores tell that how many standard deviations away from the mean each value lies.
 - Probabilities for all normal distributions are computed by using the standard normal distribution. 
-  - A normal distribution \textcolor{pink}{${\mathcal {N}}_{(\mu,\, \sigma)}$} is converted to the standard normal distribution \textcolor{pink}{${\mathcal {z}}_{(\mu=0,\, \sigma=1)}$} by equation \@ref(eq:z-val) (Similar to equation \@ref(eq:z-scores))
-  - If ${x}$ is a random variable from this population, then its z-score is $Z=\frac {X-\mu }{\sigma}$
-  - If $\overline {X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is $\sigma/{\sqrt{n}}$ and thus the z-score is $ Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}}$
-  - If $\sum {X}$ is the total of a sample of size ${n}$ from this population, then the expected total is $n\times\mu$ and the standard error is $\sigma {\sqrt{n}}$. Thus the z-score is $Z={\frac {\sum {X}-n\mu }{\sigma {\sqrt {n}}}}$
+  - A normal distribution \textcolor{pink}{${\mathcal{N}}_{({\mu}, \, {\sigma})}$} is converted to the standard normal distribution \textcolor{pink}{${\mathcal{z}}_{({\mu} = 0, \, {\sigma} = 1)}$} by equation \@ref(eq:z-val) (Similar to equation \@ref(eq:z-scores))
+  - If ${x}$ is a random variable from this population, then its z-score is $Z = \frac {X - {\mu}}{\sigma}$
+  - If $\overline{X}$ is the mean of a sample of size ${n}$ from this population, then the standard error is ${\sigma}/{\sqrt{n}}$ and thus the z-score is $Z = \frac{\overline{X} - {\mu}}{{\sigma}/{\sqrt{n}}}$
+  - If $\sum {X}$ is the total of a sample of size ${n}$ from this population, then the expected total is $n\times{\mu}$ and the standard error is ${\sigma}{\sqrt{n}}$. Thus the z-score is $Z = {\frac{\sum{X}-n{\mu}}{{\sigma}{\sqrt{n}}}}$
 
 - Thus
-  - $x=\mu \Rightarrow z =0$ i.e. A value of ${x}$ equal to its mean ${\mu}$ corresponds to $z = 0$. 
-  - $x=\mu+\sigma \Rightarrow z = 1$ i.e. an ${x}$ value that is one standard deviation above its mean $(\mu+\sigma)$ corresponds to $z = 1$. 
-    - Thus, we can interpret ${z}$ as the number of standard deviations $(\sigma)$ that the normal random variable ${x}$ is from its mean $(\mu)$.
-  - For a normal distribution ${\mathcal {N}}_{(\mu=10,\, \sigma=2)}$, What is the probability that the random variable x is between 10 and 14
-    - At x=10, z = 0 and at x=14, z = 2, Thus
-    - $P_{\left(0 \leq z\leq 2\right)} = P_{\left(z\leq 2\right)} - P_{\left(z\leq 0 \right)} = P_{\left(2.0, \,.00\right)} - P_{\left(0, \,.00\right)} = 0.9772 - 0.5000 = 0.4772$ 
+  - $x = {\mu} \to z = 0$ i.e. A value of ${x}$ equal to its mean ${\mu}$ corresponds to $z = 0$. 
+  - $x = {\mu} + {\sigma} \to z = 1$ i.e. an ${x}$ value that is one standard deviation above its mean $({\mu} + {\sigma})$ corresponds to $z = 1$. 
+    - Thus, we can interpret ${z}$ as the number of standard deviations $({\sigma})$ that the normal random variable ${x}$ is from its mean $({\mu})$.
+  - For a normal distribution ${\mathcal{N}}_{({\mu} = 10, \, {\sigma} = 2)}$, What is the probability that the random variable x is between 10 and 14
+    - At x = 10, z = 0 and at x = 14, z = 2, Thus
+    - $P_{\left(0 \leq z\leq 2\right)} = P_{\left(z\leq 2\right)} - P_{\left(z\leq 0 \right)} = P_{\left(2.0, \, .00\right)} - P_{\left(0, \, .00\right)} = 0.9772 - 0.5000 = 0.4772$ 
   - Grear Tire Company Problem
-    - For a new tire product the milage is a Normal Function ${\mathcal {N}}_{(\mu=36500,\, \sigma=5000)}$. 
+    - For a new tire product the milage is a Normal Function ${\mathcal{N}}_{({\mu} = 36500, \, {\sigma} = 5000)}$. 
     - What percentage of the tires can be expected to last more than 40,000 miles, i.e., what is the probability that the tire mileage, x, will exceed 40,000
       - Solution: \textcolor{black}{24.2\%}
     - Let us now assume that Grear is considering a guarantee that will provide a discount on replacement tires if the original tires do not provide the guaranteed mileage. What should the guarantee mileage be if Grear wants no more than 10% of the tires to be eligible for the discount guarantee
@@ -453,7 +453,7 @@ cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) 
     
 
 \begin{equation}
-  z = \frac{x- \mu}{\sigma} 
+  z = \frac{x- {\mu}}{\sigma} 
   (\#eq:z-val)
 \end{equation}
 
@@ -499,7 +499,7 @@ cat(paste0("P(", x_min_ii, " <= x <= ", x_max_ii, ") = ", format(px_ii, nsmall =
 
 ```{r 'C06-Tire'}
 # #Grear Tire N(mu = 36500, sd =5000)
-# #Probability that the tire mileage, x, will exceed 40,000 # 24.2% Tires
+# #Probability that the tire mileage, x, will exceed 40000 # 24.2% Tires
 mu_ii <- 36500
 sd_ii <- 5000
 x_ii <- 40000

@@ -607,7 +607,7 @@ aa <- bb %>%
   mutate(cSUM = cumsum(Y2010)) %>%
   mutate(PCT = 100 * Y2010 / sum(Y2010)) %>% 
   mutate(cPCT = 100 * cumsum(Y2010) / sum(Y2010)) %>% 
-  mutate(across(Company, factor, levels = unique(Company),ordered = TRUE))
+  mutate(across(Company, factor, levels = unique(Company), ordered = TRUE))
 # #
 pareto_chr <- setNames(c(aa$Y2010), aa$Company)
 stopifnot(identical(pareto_chr, aa %>% pull(Y2010, Company)))

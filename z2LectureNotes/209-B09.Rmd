@@ -528,7 +528,7 @@ mydata_clip <- read.csv("clipboard", sep = '\t', header = TRUE)
 ```{r 'B09-Flights'}
 # #Following Setup allows us to read CSV only once and then create an RDS file
 # #Its advantage is in terms of faster loading time and lower memory requirment
-xx_csv <- paste0("data/", "B09-FLIGHTS",".csv")
+xx_csv <- paste0("data/", "B09-FLIGHTS", ".csv")
 xx_rds <- paste0("data/", "b09_flights", ".rds")
 b09_flights <- NULL
 if(file.exists(xx_rds)) {
@@ -572,7 +572,7 @@ mydata_xl <- read_excel("data/B09-FLIGHTS.xlsx", sheet = "FLIGHTS")
 
 ```{r 'B09-LoadXlRDS'}
 # #library(readxl)
-xx_xl <- paste0("data/", "B09-FLIGHTS",".xlsx")
+xx_xl <- paste0("data/", "B09-FLIGHTS", ".xlsx")
 xx_rds_xl <- paste0("data/", "b09_flights_xls", ".rds")
 b09_flights_xls <- NULL
 if(file.exists(xx_rds_xl)) {
@@ -598,7 +598,7 @@ str(mydata_xl)
 # #Following Setup allows us to read CSV only once and then create an RDS file
 # #Its advantage is in terms of faster loading time and lower memory requirment
 # #library(readr)
-xx_csv <- paste0("data/", "B09-FLIGHTS",".csv")
+xx_csv <- paste0("data/", "B09-FLIGHTS", ".csv")
 xx_rds <- paste0("data/", "xxflights", ".rds")
 xxflights <- NULL
 if(file.exists(xx_rds)) {

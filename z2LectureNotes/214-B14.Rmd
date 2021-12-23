@@ -23,12 +23,15 @@ bb <- xxWSES
 
 \textcolor{pink}{FILENAME:} "B13-WSES.csv"
 
-- Assuming: Average Sales 8-million, Standard Deviation 2-million
+- Assuming: Average Sales 8-million $({\mu}_0 = 8)$, Standard Deviation 2-million $({\sigma} = 2)$
 - Hypothesis test to check whether the average sales value in the population is at least 8-million
 
 ```{r 'B14D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 ```
+
+- test statistic
+  - \@ref(eq:z-2s-sd) $z = \frac{(25.2 - 22.8) - 0}{1.18} = 2.03$
 
 ## Equality in Hypothesis  {#equality-b14 .unlisted .unnumbered}
 

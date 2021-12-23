@@ -42,7 +42,7 @@ As only a relatively small number of symbols can be memorized, basic numerals ar
 ```{r 'C03-Sets-A', include=FALSE}
 # #NOT Working in Bookdown
 # # For Infinity '\u221e'
-cat(paste0(" \u2115 (0,1,2,...) \u2282 \u2124 (-1,0,1) \u2282 \u211a (-0.5,+0.5) \u2282 \u211d (\u221a2, e(\u2091), \u03c0) \u2282 \u2102 (a +i b) "))
+cat(paste0(" \u2115 (0, 1, 2, ...) \u2282 \u2124 (-1, 0, 1) \u2282 \u211a (-0.5, +0.5) \u2282 \u211d (\u221a2, e(\u2091), \u03c0) \u2282 \u2102 (a +i b) "))
 ```
 
 ### Sets {.unlisted .unnumbered}
@@ -70,12 +70,12 @@ The number \textcolor{pink}{Pi $\pi = 3.14159\ldots$} is defined as the ratio of
 \end{equation} 
 
 \begin{equation} 
-  e^{i\varphi}=\cos \varphi +i\sin \varphi 
+  e^{i\varphi}=\cos \varphi + i\sin \varphi 
   (\#eq:euler-formula)
 \end{equation} 
 
 \begin{equation} 
-  e^{i\pi} + 1 =0
+  e^{i\pi} + 1 = 0
   (\#eq:euler-identity)
 \end{equation} 
 
@@ -104,8 +104,8 @@ Euler Number \textcolor{pink}{$e = 2.71828\ldots$}, is the base of the natural l
 Two quantities are in the \textcolor{pink}{golden ratio $\varphi = 1.618\ldots$} if their ratio is the same as the ratio of their sum to the larger of the two quantities.
 
 \begin{equation} 
-  \varphi^2 - \varphi -1 =0 \\
-  \varphi = \frac{1+\sqrt{5}}{2}
+  \varphi^2 - \varphi - 1 = 0 \\
+  \varphi = \frac{1 + \sqrt{5}}{2}
   (\#eq:golden-ratio-phi)
 \end{equation} 
 
@@ -325,7 +325,7 @@ isPrime_a <- function(x) {
 }
 
 isPrime_b <- function(x){
-  # #Comparison of Division and Integer Division by 1,2,...,x
+  # #Comparison of Division and Integer Division by 1, 2, ..., x
   # #Fails for "2147483647L" Error: cannot allocate vector of size 16.0 Gb
   # #Fails for "-ve and zero" Error: missing value where TRUE/FALSE needed
   # vapply(x, function(y) sum(y / 1:y == y %/% 1:y), integer(1L)) == 2L
@@ -386,7 +386,7 @@ getPrimeUpto_a <- function(x){
     if (!any(i %% primes == 0)) {
       j <- j + 1L
       primes[j] <- i
-	  #cat(paste0("i=", i, ", j=", j, ", Primes= ",paste0(head(primes, j), collapse = ", ")))
+	  #cat(paste0("i=", i, ", j=", j, ", Primes= ", paste0(head(primes, j), collapse = ", ")))
     }
 	#cat("\n")
   }
@@ -506,7 +506,7 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
 ### Mean {#mean-c03 .tabset .tabset-fade}
 
 ```{definition 'Mean'}
-Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean ${\overline{x}}$} is the sum of all of the values ${x_1,x_2,\ldots,x_n}$ divided by the count ${n}$.
+Given a data set ${X = \{{x}_1, {x}_2, \ldots, {x}_n\}}$, the \textcolor{pink}{mean ${\overline{x}}$} is the sum of all of the values ${{x}_1, {x}_2, \ldots, {x}_n}$ divided by the count ${n}$.
 ```
 
 - Refer equation \@ref(eq:mean)
@@ -514,11 +514,11 @@ Given a data set ${X=\{x_1,x_2,\ldots,x_n\}}$, the \textcolor{pink}{mean ${\over
   - Mean is the most commonly used measure of central location, even though it is influenced by extreme values.
 
 \begin{equation} 
-  \overline{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}
+  \overline{x} = \frac{1}{n}\left (\sum_{i = 1}^n{{x}_i}\right ) = \frac{{x}_1 + {x}_2 + \cdots + {x}_n}{n}
   (\#eq:mean)
 \end{equation} 
 
-In the mean calculation, normally each ${x_i}$ is given equal importance or weightage of ${1/n}$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
+In the mean calculation, normally each ${{x}_i}$ is given equal importance or weightage of ${1/n}$. However, in some instances the mean is computed by giving each observation a weight that reflects its relative importance. A mean computed in this manner is referred to as the \textcolor{pink}{weighted mean}, as given in equation \@ref(eq:mean-weighted)
 
 \begin{equation} 
   \overline{x} = \frac{\sum_{i=1}^n{w_ix_i}}{\sum_{i=1}^n{w_i}}
@@ -582,8 +582,8 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
 
 \begin{equation} 
   \begin{align} 
-    \text{if n is odd, } median(x) & = x_{(n+1)/2} \\
-    \text{if n is even, } median(x) & = \frac{x_{(n/2)}+x_{(n/2)+1}}{2}
+    \text{if n is odd, } median(x) & = x_{(n + 1)/2} \\
+    \text{if n is even, } median(x) & = \frac{x_{(n/2)} + x_{(n/2) + 1}}{2}
   \end{align}
   (\#eq:median)
 \end{equation} 
@@ -695,7 +695,7 @@ A \textcolor{pink}{percentile} provides information about how the data are sprea
   - \textcolor{orange}{Caution:} Excel "PERCENTILE.EXC" calculations match with `type =6` option of `quantile()`, default is `type =7`
   
 \begin{equation} 
-  L_p = \frac{p}{100}(n+1)
+  L_p = \frac{p}{100}(n + 1)
   (\#eq:percentiles)
 \end{equation}
 
@@ -823,7 +823,7 @@ Refer figure \@ref(fig:C03P060405)
 Skewness is given by the equation \@ref(eq:skewness), which is being shown here because it ~~looked cool~~ has deep meaning
 
 \begin{equation} 
- Skew = \frac{\tfrac {1}{n}\sum_{i=1}^{n}(x_{i}-{\overline {x}})^{3}}{\left[\tfrac {1}{n-1}\sum_{i=1}^{n}(x_{i}-{\overline {x}})^{2} \right]^{3/2}}
+ Skew = \frac{\tfrac {1}{n}\sum_{i=1}^{n}(x_{i}-{\overline{x}})^{3}}{\left[\tfrac {1}{n-1}\sum_{i=1}^{n}(x_{i}-{\overline{x}})^{2} \right]^{3/2}}
   (\#eq:skewness)
 \end{equation} 
 
@@ -892,7 +892,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
 knitr::include_graphics(paste0(.z$PX, "C03P06", "_Beta_Negative", ".png"))
 ```
 
-```{r 'C03P060405', echo=FALSE, ref.label=c('C03P06', 'C03P04', 'C03P05') ,fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)", out.width='33%'}
+```{r 'C03P060405', echo=FALSE, ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)", out.width='33%'}
 #
 ```
 
@@ -1032,7 +1032,7 @@ rm(C03)
 ### Kurtosis {#kurtosis-c03 .tabset .tabset-fade} 
 
 ```{definition 'Kurtosis'}
-\textcolor{pink}{Kurtosis $(\tilde{\mu}_{4})$} is a measure of the "tailedness" of the probability distribution of a real-valued random variable. Like skewness, kurtosis describes the shape of a probability distribution. For ${\mathcal {N}}_{(\mu,\, \sigma)}$, kurtosis is 3 and \textcolor{pink}{excess kurtosis} is 0 (i.e. subtract 3).
+\textcolor{pink}{Kurtosis $(\tilde{\mu}_{4})$} is a measure of the "tailedness" of the probability distribution of a real-valued random variable. Like skewness, kurtosis describes the shape of a probability distribution. For ${\mathcal{N}}_{(\mu, \, \sigma)}$, kurtosis is 3 and \textcolor{pink}{excess kurtosis} is 0 (i.e. subtract 3).
 ```
 
 Distributions with zero excess kurtosis are called \textcolor{pink}{mesokurtic}. The most prominent example of a mesokurtic distribution is the normal distribution. The kurtosis of any univariate normal distribution is 3. 
@@ -1077,7 +1077,7 @@ cat(paste0("(Manual) Kurtosis of Normal: ", round(kurt_man, 4),
 Measures of relative location help us determine how far a particular value is from the mean. By using both the mean and standard deviation, we can determine the relative location of any observation. 
 
 ```{definition 'TheSample'}
-A sample of \textcolor{pink}{${n}$} observations given by ${X=\{x_1,x_2,\ldots,x_n\}}$ have a sample mean \textcolor{pink}{${\overline{x}}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
+A sample of \textcolor{pink}{${n}$} observations given by ${X = \{{x}_1, {x}_2, \ldots, {x}_n\}}$ have a sample mean \textcolor{pink}{${\overline{x}}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
 ```
 
 ```{definition 'z-Scores'}
@@ -1166,7 +1166,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")) #iii
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'C03P0708', echo=FALSE, ref.label=c('C03P07', 'C03P08') ,fig.cap="Before and After Scaling"}
+```{r 'C03P0708', echo=FALSE, ref.label=c('C03P07', 'C03P08'), fig.cap="Before and After Scaling"}
 #
 ```
 

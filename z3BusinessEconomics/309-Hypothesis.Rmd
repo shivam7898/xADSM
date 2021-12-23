@@ -377,7 +377,7 @@ A \textcolor{pink}{acceptance region} (confidence interval), is a set of values 
 ```
 
 \begin{equation} 
-  Z=\frac {\overline {X}-\mu }{\sigma/{\sqrt{n}}} \quad \Leftrightarrow \mu = \overline {X} - Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu = \overline {X} \pm Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu \approx \overline {X} \pm Z \frac{s}{\sqrt{n}}
+  Z=\frac {\overline{X}-\mu }{\sigma/{\sqrt{n}}} \quad \Leftrightarrow \mu = \overline{X} - Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu = \overline{X} \pm Z \frac{\sigma}{\sqrt{n}} \quad \Rightarrow \mu \approx \overline{X} \pm Z \frac{s}{\sqrt{n}}
   (\#eq:z-mu)
 \end{equation} 
 
@@ -447,7 +447,7 @@ Assume ${\alpha} = 0.05$ and if we are conducting a Two Tail Test, $Z_{\alpha/2=
 - Confidence interval is calculated using critical limit ${z}$, and thus are calculated for specific significance level ${\alpha}$
 - Margin of Error $= Z\frac{\sigma}{\sqrt{n}} = 1.96 \times 15 /\sqrt{100} = 2.94$
 
-As shown in the equation \@ref(eq:z-mu), our interval range is $\mu = \overline {X} \pm 2.94 = 42 \pm 2.94 \rightarrow \mu  \in (39.06, 44.94)$
+As shown in the equation \@ref(eq:z-mu), our interval range is $\mu = \overline{X} \pm 2.94 = 42 \pm 2.94 \rightarrow \mu  \in (39.06, 44.94)$
 
 > We are 95% confident that the population mean will be between 39.04 and 44.94
 
@@ -528,7 +528,7 @@ One-Tailed Test
     - Thus, we can reject the ${H_0}$ and can accept the ${H_a}$
 
 Critical Value Approach
-  - $(\text{DOF = 59}), \,t_{{\alpha} = 0.05} = 1.671$
+  - $(\text{DOF = 59}), \, t_{{\alpha} = 0.05} = 1.671$
   - Because $(t = 1.84) > (t_{{\alpha} = 0.05} = 1.671)$, Reject ${H_0}$
 
 ```{r 'C09-PtQt'}

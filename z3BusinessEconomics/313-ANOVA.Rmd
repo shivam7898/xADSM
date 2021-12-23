@@ -78,7 +78,7 @@ If the sample sizes are equal, analysis of variance is not sensitive to departur
 
 ## Conceptual Overview
 
-If the means for the three populations are equal, we would expect the three sample means to be close together. The more the sample means differ, the stronger the evidence we have for the conclusion that the population means differ. In other words, if the variability among the sample means is "small," it supports ${H_0}$; if the variability among the sample means is "large," it supports ${H_a}$.
+If the means for the three populations are equal, we would expect the three sample means to be close together. The more the sample means differ, the stronger the evidence we have for the conclusion that the population means differ. In other words, if the variability among the sample means is "small", it supports ${H_0}$; if the variability among the sample means is "large", it supports ${H_a}$.
 
 If the null hypothesis is true, we can use the variability among the sample means to develop an estimate of ${\sigma}^2$. 
 
@@ -174,7 +174,7 @@ If the size of each sample is {n}, the equation \@ref(eq:n-anv) becomes ${n}_T =
 
 Thus, whenever the sample sizes are the same, the overall sample mean is just the average of the ${k}$ sample means.
 
-Thus, in the example, from \@ref(eq:mean-all-n-anv), ${\bar{\bar{x}}} = \frac{62+66+52}{3} = 60$
+Thus, in the example, from \@ref(eq:mean-all-n-anv), ${\bar{\bar{x}}} = \frac{62 + 66 + 52}{3} = 60$
 
 ## MSTR
 

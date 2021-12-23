@@ -4,7 +4,7 @@
 ```{r '979-Theorems', comment="", echo=FALSE, results='asis', cache=FALSE}
 # #New items will NOT be added immediately if cache=TRUE
 for(x in knitr::all_labels(engine == 'theorem')){
-# # Use (x,"\n\n>") in place of (x,"\n\n") to show definitions as Quotes
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
    cat(paste0("\n\n", "\\@ref(thm:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
 } 
 ```
@@ -14,7 +14,7 @@ for(x in knitr::all_labels(engine == 'theorem')){
 ```{r '979-Definitions', comment="", echo=FALSE, results='asis', cache=FALSE}
 # #New items will NOT be added immediately if cache=TRUE
 for(x in knitr::all_labels(engine == 'definition')){
-# # Use (x,"\n\n>") in place of (x,"\n\n") to show definitions as Quotes
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
    cat(paste0("\n\n", "\\@ref(def:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
 } 
 ```
@@ -24,7 +24,7 @@ for(x in knitr::all_labels(engine == 'definition')){
 ```{r '979-Errors', comment="", echo=FALSE, results='asis', cache=FALSE}
 # #New items will NOT be added immediately if cache=TRUE
 for(x in knitr::all_labels(engine == 'conjecture')){
-# # Use (x,"\n\n>") in place of (x,"\n\n") to show definitions as Quotes
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
    cat(paste0("\n\n", "\\@ref(cnj:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
 } 
 ```

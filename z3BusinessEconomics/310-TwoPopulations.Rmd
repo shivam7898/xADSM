@@ -28,7 +28,7 @@ Example
 \textcolor{pink}{Inferences About the Difference Between Two Population Means}
 
 ```{definition 'Independent-Simple-Random-Samples'}
-Let ${\mathcal{N}}_{({\mu}_1,\, {\sigma}_1)}$ and ${\mathcal{N}}_{({\mu}_2,\, {\sigma}_2)}$ be the two populations. To make an inference about the difference between the means $({\mu}_1 - {\mu}_2)$, we select a simple random sample of ${n}_1$ units from population 1 and a second simple random sample of ${n}_2$ units from population 2. The two samples, taken separately and independently, are referred to as \textcolor{pink}{independent simple random samples}. 
+Let ${\mathcal{N}}_{({\mu}_1, \, {\sigma}_1)}$ and ${\mathcal{N}}_{({\mu}_2, \, {\sigma}_2)}$ be the two populations. To make an inference about the difference between the means $({\mu}_1 - {\mu}_2)$, we select a simple random sample of ${n}_1$ units from population 1 and a second simple random sample of ${n}_2$ units from population 2. The two samples, taken separately and independently, are referred to as \textcolor{pink}{independent simple random samples}. 
 ```
 
 ### Interval Estimation
@@ -490,7 +490,7 @@ bb_testT <- t.test(formula = values ~ sets, data = bb, var.equal = TRUE)
 bb_testT
 #
 cat(paste0("t is the t-test statistic value (t = ", round(bb_testT$statistic, 6), ")\n"))
-cat(paste0("df (n1 +n2 -2) is the degrees of freedom (df = ", bb_testT$parameter, ")\n"))
+cat(paste0("df (n1 + n2 - 2) is the degrees of freedom (df = ", bb_testT$parameter, ")\n"))
 cat(paste0("p-value is the significance level of the t-test (p-value = ", 
            round(bb_testT$p.value, 6), ")\n"))
 cat(paste0("conf.int is the confidence interval of the mean at 95% (conf.int = [",
@@ -697,7 +697,7 @@ str(bb)
 paste0(round(bb[3], 1))
 #
 cat(paste0("- ${n} = ", length(bb$d), ", {\\overline{d}} = ", round(mean(bb$d), 1), 
-           ", {{s}_d} = ", round(sd(bb$d), 3),"$\n"))
+           ", {{s}_d} = ", round(sd(bb$d), 3), "$\n"))
 cat(paste0("t = ", round({mean(bb$d) - 0 } / {sd(bb$d) / sqrt(length(bb$d))}, 3), "\n"))
 #
 # #Paired t-test
@@ -729,7 +729,7 @@ The point estimator of the difference between two population proportions is the 
 
 As with other point estimators, the point estimator $E_{( {\overline{p}}_1 - {\overline{p}}_2 )}$ has a standard error \textcolor{pink}{${\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}$}, that describes the variation in the sampling distribution of the estimator. 
 
-The two population proportions,$({p}_1, {p}_2)$, are unknown. Thus, sample proportions $({\overline{p}}_1, {\overline{p}}_2)$ are being used to estimate them. 
+The two population proportions, $({p}_1, {p}_2)$, are unknown. Thus, sample proportions $({\overline{p}}_1, {\overline{p}}_2)$ are being used to estimate them. 
 
 \textcolor{pink}{Standard Error of $({\overline{p}}_1 - {\overline{p}}_2)$ :} Refer equation \@ref(eq:se-p) like \@ref(eq:se-2s-sd)
 
@@ -820,7 +820,7 @@ f_getDef("Hypo-2Sample-Prop-Two") #dddd
 
 - \@ref(eq:pooled-estm-p) ${\overline{p}} = \frac{{n}_1 {\overline{p}}_1+ {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2} = \frac{250 * 0.14 + 300 * 0.09}{250 + 300} = 0.1127$
   - `{250 * 0.14 + 300 * 0.09} / {250 + 300}` \textcolor{pink}{$\#\mathcal{R}$}
-- \@ref(eq:z-p) $z = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{{\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}} = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{\sqrt{{\overline{p}} (1-{\overline{p}})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)}} $
+- \@ref(eq:z-p) $z = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{{\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)}} = \frac{({\overline{p}}_1 - {\overline{p}}_2)}{\sqrt{{\overline{p}} (1-{\overline{p}})\left(\frac{1}{{n}_1} + \frac{1}{{n}_2}\right)}}$
   - $z = \frac{(0.14 - 0.09)}{\sqrt{0.1127 (1-0.1127)\left(\frac{1}{250} + \frac{1}{300}\right)}}  = \frac{(0.14 - 0.09)}{0.0271} = 1.845$
   - NOTE: The denominator calculated in this manner $(0.0271)$ is very close to the originally calculated ${\sigma}_{({\overline{p}}_1 - {\overline{p}}_2)} = 0.0275$
 - Calculate ${}^2\!P_{(z)}$

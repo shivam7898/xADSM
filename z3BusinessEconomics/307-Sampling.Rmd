@@ -182,7 +182,7 @@ knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 
 "ForLater"
 
-If a statistically independent sample of ${n}$ observations ${x_1,x_2,\ldots,x_n}$ is taken from a statistical population with a standard deviation of $\sigma$, then the mean value calculated from the sample $\overline{x}$ will have an associated \textcolor{pink}{standard error of the mean $\sigma_\overline{x}$} given by
+If a statistically independent sample of ${n}$ observations ${{x}_1, {x}_2, \ldots, {x}_n}$ is taken from a statistical population with a standard deviation of $\sigma$, then the mean value calculated from the sample $\overline{x}$ will have an associated \textcolor{pink}{standard error of the mean $\sigma_\overline{x}$} given by
 
 \begin{equation} 
   \sigma_\overline{x} = \frac{\sigma}{\sqrt{n}}
@@ -261,11 +261,11 @@ Task of developing a profile of 2500 managers. The characteristics to be identif
 - Population 
   - Population Size N = 2500 managers
   - Training: 1500/2500 managers have completed Training 
-  - Salary: ${\mathcal {N}}_{(\mu = 51800,\, \sigma =4000)}$
+  - Salary: ${\mathcal{N}}_{(\mu = 51800, \, \sigma = 4000)}$
   - Proportion of the population that completed the training program $p = \frac{1500}{2500} = 0.60$
 
 - Suppose that a sample of 30 managers will be used. i.e. ${n=30}$ and 19 Yes for Training
-  - Suppose, sample have ${\mathcal {N}}_{(\overline{x} = 51814,\, s =3348)}$
+  - Suppose, sample have ${\mathcal{N}}_{(\overline{x} = 51814, \, s = 3348)}$
   - Also, $\overline{p} = \frac{x}{n} = \frac{19}{30} = 0.63$
 
 - If 500 such samples are taken, where each have their own ${\overline{x}}$

@@ -28,8 +28,8 @@ The \textcolor{pink}{sample space} for a random experiment is the set of all exp
 ```
 
 - Random experiment of tossing a coin has a Sample Space $S = \{\text{Head}, \text{Tail}\}$
-- Random experiment of rolling a die has a Sample Space $S = \{1,2,3,4,5,6\}$
-- Random experiment of tossing Two coins has a Sample Space $S = \{\text{HH},\text{HT},\text{TH},\text{TT}\}$
+- Random experiment of rolling a die has a Sample Space $S = \{1, 2, 3, 4, 5, 6\}$
+- Random experiment of tossing Two coins has a Sample Space $S = \{\text{HH}, \text{HT}, \text{TH}, \text{TT}\}$
 
 ## Counting Rule 
 
@@ -83,7 +83,7 @@ The \textcolor{pink}{factorial} of a non-negative integer ${n}$, denoted by $n!$
 ## Assigning Probabilities {#assign-probability-c04}
 
 - Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuos Probability](#continuous-prob-be06 "be06"))
-  1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let ${E_i}$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0,1]$}
+  1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let ${E_i}$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0, 1]$}
   1. The sum of the probabilities for all the experimental outcomes must equal 1. Thus for ${k}$ experimental outcomes \textcolor{pink}{$\sum _{i=1}^k P(E_i) =1$}
 
 ```{definition 'Event'}
@@ -144,13 +144,13 @@ drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, number
   - What is the probability of obtaining a value of 7
     - Solution: \textcolor{black}{$E_{7} = \{(1,6), (6,1), (2,5), (5,2), (3,4), (4,3)\} \Rightarrow P(E_{7}) = 6/36 = 1/6 $}
   - What is the probability of obtaining a value of 9 or greater
-    - Solution: \textcolor{black}{$P(E_{\geq9}) = P(E_{9}, E_{10}, E_{11}, E_{12}) = \frac{4+3+2+1}{36} = \frac{5}{18}$}
+    - Solution: \textcolor{black}{$P(E_{\geq9}) = P(E_{9}, E_{10}, E_{11}, E_{12}) = \frac{4 + 3 + 2 + 1}{36} = \frac{5}{18}$}
   - Because each roll has six possible even values (2, 4, 6, 8, 10, and 12) and only five possible odd values (3, 5, 7, 9, and 11), the dice should show even values more often than odd values. Do you agree with this statement
     - Solution: \textcolor{black}{$\text{NO: } P(E_{\text{odd}}) = P(E_{\text{even}}) = 1/2 \iff E_{\text{odd}} = E_{\text{even}} = 18$}
 - A survey of magazine subscribers showed that 45.8% rented a car during the past 12 months for business reasons, 54% rented a car during the past 12 months for personal reasons, and 30% rented a car during the past 12 months for both business and personal reasons.
   - Let B denote Business, P denote Personal
   - What is the probability that a subscriber rented a car during the past 12 months for business or personal reasons
-    - Solution: \textcolor{black}{$P(B \cup P) = P(B)+P(P)-P(B \cap P) = 0.458 + 0.540 - 0.3 = 0.698$} 
+    - Solution: \textcolor{black}{$P(B \cup P) = P(B) + P(P) - P(B \cap P) = 0.458 + 0.540 - 0.3 = 0.698$} 
   - What is the probability that a subscriber did not rent a car during the past 12 months for either business or personal reasons
   - Solution: \textcolor{black}{$P(B \cup P)^{c} = 1 - 0.698 = 0.302$} 
 
