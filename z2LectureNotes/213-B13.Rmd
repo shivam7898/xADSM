@@ -145,15 +145,15 @@ Example:
 ## Two Sample t-Test
 
 ```{r 'B13D11', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Lower")
+f_getDef("H-2s-Lower")
 ```
 
 ```{r 'B13D12', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper")
+f_getDef("H-2s-Upper")
 ```
 
 ```{r 'B13D13', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two") #dddd
+f_getDef("H-2s-Two") #dddd
 ```
 
 Example: 

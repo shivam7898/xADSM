@@ -78,7 +78,7 @@ In the case of estimation of the difference between two population means, an int
 Example: Greystone: Difference between the mean 
 
 ```{r 'C10D11', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+f_getDef("H-2s-Two")
 ```
 
 - (1: Inner ) ${n}_1 = 36, {\overline{x}}_1 = 40, {\sigma}_1 = 9$
@@ -94,15 +94,15 @@ f_getDef("Hypo-2Sample-Two")
 
 Using ${D_0}$ to denote the hypothesized difference between ${\mu}_1$ and ${\mu}_2$, the three forms for a hypothesis test are as follows: 
 
-```{definition 'Hypo-2Sample-Lower'}
+```{definition 'H-2s-Lower'}
 \textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {\mu}_1 - {\mu}_2 \geq {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 < {D_0}$}
 ```
 
-```{definition 'Hypo-2Sample-Upper'}
+```{definition 'H-2s-Upper'}
 \textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {\mu}_1 - {\mu}_2 \leq {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 > {D_0}$}
 ```
 
-```{definition 'Hypo-2Sample-Two'}
+```{definition 'H-2s-Two'}
 \textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\mu}_1 - {\mu}_2 = {D_0} \iff {H_a}: {\mu}_1 - {\mu}_2 \neq {D_0}$}
 ```
 
@@ -120,7 +120,7 @@ The test statistic for the difference between two population means when ${\sigma
 Example: Evaluate differences in education quality between two training centers
 
 ```{r 'C10D02', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two") 
+f_getDef("H-2s-Two") 
 ```
 
 - (1: A) ${n}_1 = 30, {\overline{x}}_1 = 82, {\sigma}_1 = 10$
@@ -171,7 +171,7 @@ On the other hand, if the p value is greater than the chosen alpha level, then t
 ### 01 {.unlisted .unnumbered}
 
 ```{r 'C10D03', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+f_getDef("H-2s-Two")
 ```
 
 - (1:) ${n}_1 = 50, {\overline{x}}_1 = 13.6, {\sigma}_1 = 2.2$
@@ -193,7 +193,7 @@ f_getDef("Hypo-2Sample-Two")
 ### 02 {.unlisted .unnumbered}
 
 ```{r 'C10D04', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper")
+f_getDef("H-2s-Upper")
 ```
 
 - (1:) ${n}_1 = 40, {\overline{x}}_1 = 25.2, {\sigma}_1 = 5.2$
@@ -212,7 +212,7 @@ f_getDef("Hypo-2Sample-Upper")
 ### 04 Conde {.unlisted .unnumbered}
 
 ```{r 'C10D05', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+f_getDef("H-2s-Two")
 ```
 
 - (1: small) ${n}_1 = 37, {\overline{x}}_1 = 85.36, {\sigma}_1 = 4.55$
@@ -235,7 +235,7 @@ f_getDef("Hypo-2Sample-Two")
 ### 08 Rite Aid {.unlisted .unnumbered}
 
 ```{r 'C10D06', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Lower")
+f_getDef("H-2s-Lower")
 ```
 
 - Will improving customer service result in higher stock prices 
@@ -252,7 +252,7 @@ f_getDef("Hypo-2Sample-Lower")
     - \textcolor{orange}{Caution:} Using Two-Tail Test will result in different result. The type of test should be considered carefully.
 
 ```{r 'C10D07', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper") 
+f_getDef("H-2s-Upper") 
 ```
 
 - Can you conclude that the year 2 score for Rite Aid is above the national average of 75.7
@@ -264,7 +264,7 @@ f_getDef("Hypo-2Sample-Upper")
     - Cannot conclude that the increase is above the national average
 
 ```{r 'C10D08', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Lower")
+f_getDef("H-2s-Lower")
 ```
 
 - For Expedia, is the increase from year 1 to year 2 statistically significant
@@ -313,7 +313,7 @@ When $({\sigma}_1, {\sigma}_2)$ are estimated by $({s}_1, {s}_2)$, the t distrib
 Example: Clearwater - To estimate the difference between the mean
 
 ```{r 'C10D09', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+f_getDef("H-2s-Two")
 ```
 
 - (1: Cherry) ${n}_1 = 28, {\overline{x}}_1 = 1025, {s}_1 = 150$
@@ -349,7 +349,7 @@ f_getDef("Hypo-2Sample-Two")
 Software: To show that the new software will provide a shorter mean time
 
 ```{r 'C10D10', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Upper")
+f_getDef("H-2s-Upper")
 ```
 
 - (1: Old) ${n}_1 = 12, {\overline{x}}_1 = 325, {s}_1 = 40$
@@ -582,7 +582,7 @@ ii %>% summarise(N = n(), Count = across(value, length),
 ### 10 {.unlisted .unnumbered}
 
 ```{r 'C10D12', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Two")
+f_getDef("H-2s-Two")
 ```
 
 - (1:) ${n}_1 = 35, {\overline{x}}_1 = 13.6, {\sigma}_1 = 5.2$
