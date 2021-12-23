@@ -638,7 +638,7 @@ Sample Mean is given by \@ref(eq:mean-d) like \@ref(eq:mean) and Sample Standard
   (\#eq:sd-d)
 \end{equation} 
 
-\textcolor{pink}{Test Statistic with $(n-1)$ degrees of freedom :} Refer \@ref(eq:t-pair) like \@ref(eq:test-statistic-nsd) 
+\textcolor{pink}{Test Statistic with $(n-1)$ degrees of freedom :} Refer \@ref(eq:t-pair) like \@ref(eq:t-nsd) 
 
 
 \begin{equation}

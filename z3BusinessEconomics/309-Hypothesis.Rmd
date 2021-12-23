@@ -265,22 +265,22 @@ Example: The label on a can of Hilltop Coffee states that the can contains 3 pou
 - Specify the level of significance ${\alpha}$ 
   - FTC is willing to risk a 1% chance of making such an error i.e. $\alpha 0.01$
 - Compute the value of test statistic 
-  - Assume, known $\sigma = 0.18$ and Normal distribution
-  - Refer equation \@ref(eq:sigma-x-bar), standard error of ${\overline{x}}$ is $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{0.18}{\sqrt{36}} = 0.03$
-  - Because the sampling distribution of ${\overline{x}}$ is normally distributed, $z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} = \frac{\overline{x} - 3}{0.03}$
+  - Assume, known ${\sigma} = 0.18$ and Normal distribution
+  - Refer equation \@ref(eq:sigma-x-bar), standard error of ${\overline{x}}$ is ${\sigma}_{\overline{x}} = \frac{{\sigma}}{\sqrt{n}} = \frac{0.18}{\sqrt{36}} = 0.03$
+  - Because the sampling distribution of ${\overline{x}}$ is normally distributed, $z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} = \frac{\overline{x} - 3}{0.03}$
   - Because the sampling distribution of x is normally distributed, the sampling distribution of ${z}$ is a standard normal distribution. 
   - A value of $z = −1$ means that the value of ${\overline{x}}$ is one standard error below the hypothesized value of the mean. For a value of $z = −2$, it would be two standard errors below the mean, and so on. 
   - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Ex: $P_{\left(z = -3\right)} = 0.0013$
-    - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean $\mu_0=3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
+    - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean ${\mu}_0 = 3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
 
 
 ```{definition '1s-known-sd'}
-If ${\sigma}$ is known, the standard normal random variable \textcolor{pink}{${z}$ is used as test statistic} to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. Refer equation \@ref(eq:z-sd) $\to z = \frac{\overline{x} - \mu_0}{\sigma_{\overline{x}}} =  \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}}$
+If ${\sigma}$ is known, the standard normal random variable \textcolor{pink}{${z}$ is used as test statistic} to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. Refer equation \@ref(eq:z-sd) $\to z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} =  \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}}$
 ```
 
 \begin{equation}
-  z = \frac{\overline{x} - {\mu}_0}{\sigma_{\overline{x}}} = \frac{\overline{x} - {\mu}_0}{\sigma/\sqrt{n}}
+  z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}}
   (\#eq:z-sd)
 \end{equation}
 
@@ -309,7 +309,7 @@ For the Hilltop Coffee Example
 - Suppose the sample of 36 Hilltop coffee cans provides a sample mean of ${\overline{x}}$ = 2.92 pounds. 
   - Is $\overline{x} = 2.92$ small enough to cause us to reject ${H_0}$
 - Because this is a lower tail test, the p-value is the area under the standard normal curve for values of ${z}$ less than or equal to the value of the test statistic. 
-  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
+  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
   - Thus, the p-value is the probability that ${z}$ is less than or equal to −2.67 (the lower tail area corresponding to the value of the test statistic).
 - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
   - $P_{\left(\overline{x} = 2.92\right)} = P_{\left(z = -2.67\right)} = 0.0038$
@@ -381,12 +381,12 @@ A \textcolor{pink}{acceptance region} (confidence interval), is a set of values 
 ```
 
 \begin{equation} 
-  Z = \frac {{\overline{x}} - {\mu}}{\sigma/{\sqrt{n}}} \quad \iff {\mu} = {\overline{x}} - Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} = {\overline{x}} \pm Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} \approx {\overline{x}} \pm Z \frac{{s}}{\sqrt{n}}
+  Z = \frac {{\overline{x}} - {\mu}}{{\sigma}/{\sqrt{n}}} \quad \iff {\mu} = {\overline{x}} - Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} = {\overline{x}} \pm Z \frac{{\sigma}}{\sqrt{n}} \quad \to {\mu} \approx {\overline{x}} \pm Z \frac{{s}}{\sqrt{n}}
   (\#eq:z-mu)
 \end{equation} 
 
 ```{definition 'Margin-Error'}
-The \textcolor{pink}{margin of error} tells how far the original population means might be from the sample mean. It is given by $Z\frac{\sigma}{\sqrt{n}}$ 
+The \textcolor{pink}{margin of error} tells how far the original population means might be from the sample mean. It is given by $Z\frac{{\sigma}}{\sqrt{n}}$ 
 ```
 
 ```{definition 'Rejection-Region'}
@@ -406,19 +406,22 @@ f_getDef("Hypothesis-2T-Two-Tail")
 ```
 
 
-Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
+Ex: Golf Company, mean driving distance is 295 yards i.e. $({\mu}_0 = 295)$
 
 - $H_0 : \mu = 295 \iff H_a: \mu \neq 295$
 - The quality control team selected $\alpha = 0.05$ as the level of significance for the test.
-- From previous tests, assume known $\sigma = 12$
+- From previous tests, assume known ${\sigma} = 12$
 - For a sample size $n = 50$
-  - Standard Error of ${\overline{x}}$ is $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{12}{\sqrt{50}} = 1.7$
+  - Standard Error of ${\overline{x}}$ is ${\sigma}_{\overline{x}} = \frac{{\sigma}}{\sqrt{n}} = \frac{12}{\sqrt{50}} = 1.7$
   - [Central Limit Theorem](#clt-c07 "c07"), allows us to conclude that the sampling distribution of ${\overline{x}}$ can be approximated by a normal distribution.
 - Suppose for the sample, $\overline{x} = 297.6$
 
+
+"ForLater" - This part needs to be moved to the Next Chapter.
+
 - p-value approach
   - For a two-tailed test, the p-value is the probability of obtaining a value for the test statistic as unlikely as or more unlikely than that provided by the sample. 
-  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
+  - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
   - Now to compute the p-value we must find the probability of obtaining a value for the test statistic at least as unlikely as $z = 1.53$. 
     - Clearly values of $z \geq 1.53$ are at least as unlikely. 
     - But, because this is a two-tailed test, values of $z \leq −1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 
@@ -440,16 +443,15 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $(\mu_0 = 295)$
 \textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq -z_{\alpha/2}$ or $z \geq z_{\alpha/2}$}
 
 
-
 (Online, might be wrong) Ex: Assume that for a Population with mean ${\mu}$ unknown and standard deviation ${\sigma} = 15$, if we take a sample ${n = 100}$ its sample mean is ${\overline{x}} = 42$.
 
-Assume ${\alpha} = 0.05$ and if we are conducting a Two Tail Test, $Z_{\alpha/2=0.05/2} = 1.960$
+Assume ${\alpha} = 0.05$ and if we are conducting a Two Tail Test, $Z_{\alpha/2 = 0.05/2} = 1.960$
 
 - If we take a different sample of same size or a sample of different size, the sample mean calculated for those would be different.
 - So, our sample mean ${\overline{x}}$ might not be the true population mean ${\mu}$
 - Thus, a range is inferred using the sample size, the sample mean, and the population standard deviation, and it is assumed that the true population means falls under this interval. This interval is called a \textcolor{pink}{confidence interval}.
 - Confidence interval is calculated using critical limit ${z}$, and thus are calculated for specific significance level ${\alpha}$
-- Margin of Error $= Z\frac{\sigma}{\sqrt{n}} = 1.96 \times 15 /\sqrt{100} = 2.94$
+- Margin of Error $= Z\frac{{\sigma}}{\sqrt{n}} = 1.96 \times 15 /\sqrt{100} = 2.94$
 
 As shown in the equation \@ref(eq:z-mu), our interval range is $\mu = \overline{X} \pm 2.94 = 42 \pm 2.94 \rightarrow \mu  \in (39.06, 44.94)$
 
@@ -499,7 +501,7 @@ The level of significance is the probability of rejecting the null hypothesis wh
 
 Ex: Golf company
 
-- For ${\alpha} =0.05$, 95% confidence interval estimate of the population mean is 
+- For ${\alpha} = 0.05$, 95% confidence interval estimate of the population mean is 
   - ${\overline{x}} \pm z_{0.025} \frac{{\sigma}}{\sqrt{n}} = 297.6 \pm 1.96 \frac{12}{\sqrt{50}} = 297.6 \pm 3.3$
   - Interval: $[294.3, 300.9]$
   - We can conclude with 95% confidence that the mean distance for the population of golf balls is between 294.3 and 300.9 yards. 
@@ -510,11 +512,13 @@ Ex: Golf company
 
 ## Unknown SD  {#get-pt-c09}
 
-For the ${\sigma}$ unknown case, the sampling distribution of the test statistic follows the t distribution with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:test-statistic-nsd)
+```{definition '1s-unknown-sd'}
+If ${\sigma}$ is unknown, the sampling distribution of the test statistic follows the \textcolor{pink}{t distribution} with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:t-nsd) $\to t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}$
+```
 
 \begin{equation}
-  t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}}
-  (\#eq:test-statistic-nsd)
+  t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}
+  (\#eq:t-nsd)
 \end{equation}
 
 One-Tailed Test
@@ -523,7 +527,7 @@ One-Tailed Test
   - ${H_0}: {\mu} \leq 7 \iff {H_a} \geq 7$
   - Sample: ${\overline{x}} = 7.25, s = 1.052, n = 60$
   - ${\alpha} = 0.05$
-  - Refer equation \@ref(eq:test-statistic-nsd), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{7.25 - 7}{1.052/\sqrt{60}} = 1.84$
+  - Refer equation \@ref(eq:t-nsd), $t = \frac{\overline{x} - {\mu}_0}{s/\sqrt{n}} = \frac{7.25 - 7}{1.052/\sqrt{60}} = 1.84$
   - $\text{DOF} = n-1 = 60 -1 = 59$
   - Refer [For P(t), find t by qt()](#get-t-c08 "c08") and This is a Right Tail Test
     - ${P_{\left(t \geq 1.84\right)}} = 0.0354$ i.e. between 0.05 and 0.025
@@ -551,7 +555,7 @@ Two Tailed Test
   - ${H_0}: {\mu} = 40 \iff {H_a} \neq 40$
   - Sample: ${\overline{x}} = 37.4, s = 11.79, n = 25$
   - ${\alpha} = 0.05$
-  - Refer equation \@ref(eq:test-statistic-nsd), $t = \frac{\overline{x} - \mu_0}{s/\sqrt{n}} = \frac{37.4 - 40}{11.79/\sqrt{25}} = -1.10$
+  - Refer equation \@ref(eq:t-nsd), $t = \frac{\overline{x} - {\mu}_0}{s/\sqrt{n}} = \frac{37.4 - 40}{11.79/\sqrt{25}} = -1.10$
   - $\text{DOF} = n-1 = 25 -1 = 24$
   - Because we have a two-tailed test, the p-value is two times the area under the curve of the t distribution for $t \leq -1.10$
     - $P_{\left(t\right)} = P_{\left(t \leq -1.10\right)} + P_{\left(z \geq 1.10\right)}$

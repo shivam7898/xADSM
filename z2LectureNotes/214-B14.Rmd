@@ -21,11 +21,13 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 
 ```{r 'B14D02', comment="", echo=FALSE, results='asis'}
-f_getDef("1s-known-sd") #dddd
+f_getDef("1s-known-sd")
 ```
 
-- test statistic
-  - \@ref(eq:z-sd) $z = \frac{{\overline{x}} - {\mu}_0}{{\sigma}}$
+```{r 'B14D03', comment="", echo=FALSE, results='asis'}
+f_getDef("1s-unknown-sd") #dddd
+```
+
 
 ## Example: WSES: Preprocessing
 
@@ -163,20 +165,50 @@ The marketing team of WSES believes that the average sales value of the leads th
 f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
-```{r 'B-'}
-sales_mean <- mean(bb$SVM)
-sales_mean
-z_bb <- {mean(bb$SVM) - 8} / {2 / sqrt(1000)}
-```
-
 - Mean of "Sales Value in Million i.e. SVM"
   - ${\overline{x}} = 8.0442$
     - `mean(bb$SVM)` \textcolor{pink}{$\#\mathcal{R}$}
 - $n = 1000, {\mu} = 8, {\sigma} = 2$
-- $z = \frac{\overline{x} - {\mu}_0}{\sigma/\sqrt{n}} = 0.6988$
+- $z = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}} = 0.6988$
   - `{8.0442 - 8} / {2 / sqrt(1000)}` \textcolor{pink}{$\#\mathcal{R}$}
+  - `{mean(bb$SVM) - 8} / {2 / sqrt(1000)}` \textcolor{pink}{$\#\mathcal{R}$}
 - ${}^U\!P_{z = 0.6988} = 0.2423$
   - `pnorm(q = 0.6988, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - `1 - pnorm(q = 0.6988, lower.tail = TRUE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - `1 - pnorm(q = 0.6988)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - `pnorm(q = -0.6988)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - \textcolor{orange}{Caution:} By default, `pnorm()` provides the probability to the left of z-value
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected 
+  - We cannot claim that the average sales is 'at least' 8-million
+
+### Q2
+
+- Jason McCullagh, senior marketing manager at WSES doubted the value of standard deviation provided by the marketing team. Jason argued that there is no way the marketing team could have known the population standard deviation for the sales value, since the population itself is unknown. Do you agree with Jason McCullagh
+- If yes, perform the test again using an appropriate hypothesis test.
+
+- $t = \frac{\overline{x} - {\mu}_0}{{s}/\sqrt{n}} = 0.7049$
+  - `{mean(bb$SVM) - 8} / {sd(bb$SVM) / sqrt(1000)}` \textcolor{pink}{$\#\mathcal{R}$}
+- ${}^U\!P_{t = 0.7049} = 0.2405$
+  - `pt(q = 0.7049, df = nrow(bb) - 1, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- \textcolor{pink}{t.test()}
+  - `t.test(bb$SVM, mu = 8, alternative = "greater")` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(t)} > {\alpha} \to {H_0}$ cannot be rejected 
+  - We cannot claim that the average sales is 'at least' 8-million (same as earlier)
+- \textcolor{pink}{Question:} "alternative hypothesis: true mean is greater than 8" What is the meaning of this line in the output of t.test
+  - We provided this information.
+  - (Aside) This line is providing the Alternate Hypothesis for reference. ${\mu}_0 = 8$ and we are performing an upper tail test thus the Alternate Hypothesis is "true mean is greater than 8"
+
+
+### Q3
+
+- Prudy Perkins, the Chief Marketing Office (CMO) informed the board that they win at least 50% of the sales leads that they receive. Use an appropriate hypothesis testing procedure to check whether the proportion of leads won by WSES is more than 50%.
+
+- It is a Test of proportion
+
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
