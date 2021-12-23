@@ -1,0 +1,42 @@
+# Statistics (B14, Oct-10) {#b14}
+
+```{r 'B14', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Inferential Statistics: Hypothesis Testing"
+
+
+```{r 'B14-Flights', include=FALSE}
+# #Load Data: Flights
+xxflights <- f_getRDS(xxflights)
+bb <- xxflights
+```
+
+## Definitions
+
+```{r 'B14D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Type-I") #dddd
+```
+
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B14-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+```
+
+```{r 'B14-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
