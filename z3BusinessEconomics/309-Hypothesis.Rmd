@@ -324,6 +324,13 @@ For the Hilltop Coffee Example
 
 Further, in this case, we would reject ${H_0}$ for any value of ${\alpha} \geq (p = 0.0038)$. For this reason, the p-value is also called the \textcolor{pink}{observed level of significance}.
 
+- (Aside)
+  - For the p-value approach, the likelihood (p-value) of the numerical value of the test statistic is compared to the specified significance level (${\alpha}$) of the hypothesis test.
+  - The p-value corresponds to the probability of observing sample data at least as extreme as the actually obtained test statistic. Small p-values provide evidence against the null hypothesis. The smaller (closer to 0) the p-value, the stronger is the evidence against the null hypothesis.
+  - "If the null hypothesis is true, what is the probability that we would observe a more extreme test statistic in the direction of the alternative hypothesis than we did" 
+  - Ex: (criminal trials) "If the defendant is innocent, what is the chance that we would observe such extreme criminal evidence"
+  - pnorm() returns the cumulative probability up to q (i.e. ${\overline{x}}$) for a normal distribution with a given mean ${\mu}$ and standard deviation ${\sigma}$.
+
 #### Critical value approach
 
 ```{definition 'Approach-Critical-Value'}
