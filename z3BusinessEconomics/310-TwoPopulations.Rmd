@@ -551,12 +551,12 @@ ii <- bb %>%
   pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
   group_by(key) 
 str(ii)
-ii %>% summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+ii %>% summarise(across(value, list(N = ~n(), Count = length, Mean = mean, SD = sd), 
+                        .names = "{.fn}"))
 # 
 # #Equivalent (except Column Headers)
-ii %>% summarise(Count = across(value, length), 
-                 Mean = across(value, mean), 
-                 SD = across(value, sd))
+ii %>% summarise(N = n(), Count = across(value, length), 
+                 Mean = across(value, mean), SD = across(value, sd))
 ```
 
 
