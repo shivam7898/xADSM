@@ -771,15 +771,15 @@ Example: Tax Preparation: (Count of Success $({x})$ is Number of Returns with Er
 
 ### Hypothesis
 
-```{definition 'Hypo-2Sample-Prop-Lower'}
+```{definition 'H-2s-p-Lower'}
 \textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {p}_1 - {p}_2 \geq 0 \iff {H_a}: {p}_1 - {p}_2 < 0$}
 ```
 
-```{definition 'Hypo-2Sample-Prop-Upper'}
+```{definition 'H-2s-p-Upper'}
 \textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {p}_1 - {p}_2 \leq 0 \iff {H_a}: {p}_1 - {p}_2 > 0$}
 ```
 
-```{definition 'Hypo-2Sample-Prop-Two'}
+```{definition 'H-2s-p-Two'}
 \textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {p}_1 - {p}_2 = 0 \iff {H_a}: {p}_1 - {p}_2 \neq 0$}
 ```
 
@@ -815,7 +815,7 @@ With ${p}$ unknown, we pool, or combine, the point estimators from the two sampl
 Example: Tax Preparation: Continuation
 
 ```{r 'C10D13', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-2Sample-Prop-Two") #dddd
+f_getDef("H-2s-p-Two") #dddd
 ```
 
 - \@ref(eq:pooled-estm-p) ${\overline{p}} = \frac{{n}_1 {\overline{p}}_1+ {n}_2 {\overline{p}}_2}{{n}_1 + {n}_2} = \frac{250 * 0.14 + 300 * 0.09}{250 + 300} = 0.1127$

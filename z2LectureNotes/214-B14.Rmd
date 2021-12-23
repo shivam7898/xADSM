@@ -25,7 +25,7 @@ f_getDef("1s-known-sd")
 ```
 
 ```{r 'B14D03', comment="", echo=FALSE, results='asis'}
-f_getDef("1s-unknown-sd") #dddd
+f_getDef("1s-unknown-sd")
 ```
 
 
@@ -159,7 +159,7 @@ if(FALSE) {
 
 ### Q1
 
-The marketing team of WSES believes that the average sales value of the leads that they receive is at least 8 million dollars. The marketing team believes that the standard deviation of sale value is about 2 million dollars. Use an appropriate hypothesis test to check whether the average sales value in the population is at least 8 million dollars.
+Assume average sales of 8-million dollars and population standard deviation to be 2-million dollars. Check whether the average sales value in the population is at least 8 million dollars.
 
 ```{r 'B14D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Hypothesis-1T-Upper-Tail")
@@ -184,8 +184,7 @@ f_getDef("Hypothesis-1T-Upper-Tail")
 
 ### Q2
 
-- Jason McCullagh, senior marketing manager at WSES doubted the value of standard deviation provided by the marketing team. Jason argued that there is no way the marketing team could have known the population standard deviation for the sales value, since the population itself is unknown. Do you agree with Jason McCullagh
-- If yes, perform the test again using an appropriate hypothesis test.
+If the population standard deviation is unknown, evaluate the same hypothesis again.
 
 - $t = \frac{\overline{x} - {\mu}_0}{{s}/\sqrt{n}} = 0.7049$
   - `{mean(bb$SVM) - 8} / {sd(bb$SVM) / sqrt(1000)}` \textcolor{pink}{$\#\mathcal{R}$}
@@ -201,13 +200,64 @@ f_getDef("Hypothesis-1T-Upper-Tail")
   - (Aside) This line is providing the Alternate Hypothesis for reference. ${\mu}_0 = 8$ and we are performing an upper tail test thus the Alternate Hypothesis is "true mean is greater than 8"
 
 
-### Q3
+### Q3 {.tabset .tabset-fade}
 
-- Prudy Perkins, the Chief Marketing Office (CMO) informed the board that they win at least 50% of the sales leads that they receive. Use an appropriate hypothesis testing procedure to check whether the proportion of leads won by WSES is more than 50%.
+Check whether the proportion of leads won by WSES is more than 50%.
 
-- It is a Test of proportion
+```{r 'B14D04', comment="", echo=FALSE, results='asis'}
+f_getDef("H-1s-p-Upper")
+```
+
+- Count of Success $({x})$ is Winning leads in the "Sales Outcome i.e. SO"
+- ${p}_0 = 0.50$
+  - \@ref(eq:se-1s-p) ${\sigma}_{\overline{p}} = \sqrt{\frac{{p}_0 (1 - {p}_0)}{n}} = 0.0158$
+    - `sqrt(0.50 * {1 - 0.50} / 1000)` \textcolor{pink}{$\#\mathcal{R}$}
+- $\{n = 1000, x = 481\} \to {\overline{p}} = {n}/{x} = 0.481$ 
+- \@ref(eq:z-1s-p) $z = \frac{{\overline{p}} - {p}_0}{{\sigma}_{\overline{p}}} = -1.2016$
+  - `{0.481 - 0.50}/{sqrt(0.50 * {1 - 0.50} / 1000)}` \textcolor{pink}{$\#\mathcal{R}$} 
+- ${}^U\!P_{z = -1.2016} = 0.8852$
+  - `pnorm(q = -1.2016, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - `1 - pnorm(q = -1.2016)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected 
+  - We cannot claim that we win 'at least' 50% leads
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B-'}
+# #Proportions
+bb %>% group_by(SO) %>% summarise(PCT = n() / nrow(.))
+#
+pnorm(q = -1.2016, lower.tail = FALSE)
+```
+
+#### Percentage {.unlisted .unnumbered}
+
+```{r 'B-'}
+# #Grouped Percentages
+# #table() gives a count
+table(bb$SO)
+#
+# #prop.table() can work only with numbers so it needs table()
+prop.table(table(bb$SO))
+#
+# #Similar
+bb %>% group_by(SO) %>% summarise(N = n()) %>% mutate(PCT = N / sum(N))
+bb %>% group_by(SO) %>% summarise(PCT = n() / nrow(.))
+```
+
+### Q4
+
+Check whether the probability of winning a sales lead for the product "learnsys" is more than that of "Finsys". 
+
+```{r 'B14D05', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-p-Upper") #dddd
+```
 
 
+- Count of Success $({x})$ is Winning leads in the "Sales Outcome i.e. SO"
+- (1: learnsys) $\{{n}_1 = 250, {x}_1 = 35\} \to {\overline{p}}_1 = {n}_1/{x}_1 = 0.14$
+- (2: Finsys) $\{{n}_2 = 300, {x}_2 = 27\} \to {\overline{p}}_2 = {n}_2/{x}_2 = 0.09$
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
