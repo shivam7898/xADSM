@@ -254,10 +254,70 @@ Check whether the probability of winning a sales lead for the product "learnsys"
 f_getDef("H-2s-p-Upper") #dddd
 ```
 
-
 - Count of Success $({x})$ is Winning leads in the "Sales Outcome i.e. SO"
-- (1: learnsys) $\{{n}_1 = 250, {x}_1 = 35\} \to {\overline{p}}_1 = {n}_1/{x}_1 = 0.14$
-- (2: Finsys) $\{{n}_2 = 300, {x}_2 = 27\} \to {\overline{p}}_2 = {n}_2/{x}_2 = 0.09$
+- (1: learnsys) $\{{n}_1 = 55 + 71 = 126, {x}_1 = 71\} \to {\overline{p}}_1 = {n}_1/{x}_1 = 0.563$
+- (2: Finsys) $\{{n}_2 = 83 + 34 = 117, {x}_2 = 34\} \to {\overline{p}}_2 = {n}_2/{x}_2 = 0.29$
+- ${}^U\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. the proportions are different
+  - We can say, with statistical confidence, that the "learnsys" performs better than "Finsys"
+
+
+- \textcolor{pink}{Question:} When we have filtered out the data, why the table shows 0 values
+  - We can filter them out, however these are in memory
+  - (Aside) Factor levels are not dropped, by default, when you filter them. Use factor() again to drop the unused levels. 
+
+```{r 'B-'}
+# #Data | Subset | Filter | Update Factor levels
+ii <- bb %>% select(PDT, SO, SVM) %>% 
+  filter(PDT %in% c("LearnSys", "Finsys")) %>% mutate(across(PDT, factor))
+str(ii)
+#
+# #Count
+table(ii$PDT, ii$SO)
+#
+# #Proportion Table
+round(prop.table(table(ii$PDT, ii$SO), margin = 1), 3)
+#
+prop.test(x = c(71, 34), n = c(126, 117), alternative = "greater")
+```
+
+#### filter() {.unlisted .unnumbered}
+
+```{r 'B-'}
+# #Subset the dataset
+ii <- data.frame(PDT = bb$PDT, SO = bb$SO, SVM = bb$SVM)
+# #Subset only for required type of rows #243 Observations
+jj <-  subset(ii, PDT == "LearnSys" | PDT == "Finsys")
+#
+# #subset() is discouraged. Alternatives are given below
+kk <- ii[ii$PDT %in% c("LearnSys", "Finsys"), ]
+ll <- ii[which(ii$PDT %in% c("LearnSys", "Finsys")), ]
+#
+mm <- bb %>% select(PDT, SO, SVM) %>% filter(PDT == "LearnSys" | PDT == "Finsys")
+nn <- bb %>% select(PDT, SO, SVM) %>% filter(PDT %in% c("LearnSys", "Finsys"))
+#
+stopifnot(all(identical(jj, kk), identical(jj, ll), 
+              identical(as_tibble(jj), mm), identical(mm, nn)))
+str(nn)
+```
+
+#### prop.table() {.unlisted .unnumbered}
+
+```{r 'B-'}
+ii <- bb %>% select(PDT, SO, SVM) %>% 
+  filter(PDT %in% c("LearnSys", "Finsys")) %>% mutate(across(PDT, factor))
+str(ii)
+#
+# #Proportion Table: margin gives the margin to split by i.e. 
+# #1 means rowwise sum, 2 means columnwise
+round(prop.table(table(ii$PDT, ii$SO), margin = 1), 3)
+round(prop.table(table(ii$PDT, ii$SO), margin = 2), 3)
+#
+# #Similar
+ii %>% select(PDT, SO) %>% 
+  count(PDT, SO) %>% pivot_wider(names_from = SO, values_from = n) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1))) 
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
