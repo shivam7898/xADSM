@@ -211,7 +211,7 @@ Table: (\#tab:C09V01) (C09V01) Test Statistic
 ### Tails
 
 ```{r 'C09D08', comment="", echo=FALSE, results='asis'}
-f_getDef("Tails") #dddd
+f_getDef("Tails")
 ```
 
 ```{definition 'Tailed-Test'}
@@ -571,6 +571,64 @@ Critical Value Approach
   - Compare test statistic with z-value
     - Because $(t = -1.10)$ is NOT lower than  $(-z_{\alpha/2 = 0.025} = -2.064)$, we cannot reject ${H_0}$
 
+
+## Population Proportions
+
+### Hypothesis
+
+Using ${p}_0$ to denote the hypothesized value for the population proportion, the three forms for a hypothesis test about a population proportion ${p}$ are : 
+
+```{definition 'H-1s-p-Lower'}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {p} \geq {p}_0 \iff {H_a}: {p} < {p}_0$}
+```
+
+```{definition 'H-1s-p-Upper'}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {p} \leq {p}_0 \iff {H_a}: {p} > {p}_0$}
+```
+
+```{definition 'H-1s-p-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {p} = {p}_0 \iff {H_a}: {p} \neq {p}_0$}
+```
+
+Hypothesis tests about a population proportion are based on the difference between the sample proportion ${\overline{p}}$ and the hypothesized population proportion ${p}_0$
+
+The sampling distribution of ${\overline{p}}$, the point estimator of the population parameter ${p}$, is the basis for developing the test statistic.
+
+When the null hypothesis is true as an equality, the expected value of ${\overline{p}}$ equals the hypothesized value ${p}_0$ i.e. $E_{(\overline{p})} = {p}_0$
+
+The standard error of ${\overline{p}}$ is given in equation \@ref(eq:se-1s-p)
+
+\begin{equation}
+  {\sigma}_{\overline{p}} = \sqrt{\frac{{p}_0 (1 - {p}_0)}{n}}
+  (\#eq:se-1s-p)
+\end{equation}
+
+If $np \geq 5$ and $n(1 − p) \geq 5$, the sampling distribution of ${p}$ can be approximated by a normal distribution. Under these conditions, which usually apply in practice, the quantity ${z}$ as given in equation \@ref(eq:z-1s-p) has a standard normal probability distribution.
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests about a Population Proportion :}
+
+\begin{equation}
+  z = \frac{{\overline{p}} - {p}_0}{{\sigma}_{\overline{p}}} = \frac{{\overline{p}} - {p}_0}{\sqrt{\frac{{p}_0 (1 - {p}_0)}{n}}}
+  (\#eq:z-1s-p)
+\end{equation}
+
+
+Example: Pine Creek: Determine whether the proportion of women golfers increased from $p_0 = 0.20$
+
+```{r 'C09D09', comment="", echo=FALSE, results='asis'}
+f_getDef("H-1s-p-Upper") #dddd
+```
+
+- Count of Success $({x})$ is Number of Women
+- $\{n = 400, x = 100\} \to {\overline{p}} = {n}/{x} = 0.25$ 
+- \@ref(eq:z-1s-p) $z = \frac{{\overline{p}} - {p}_0}{{\sigma}_{\overline{p}}} = \frac{{\overline{p}} - {p}_0}{\sqrt{\frac{{p}_0 (1 - {p}_0)}{n}}}$
+  - $z = \frac{0.25 - 0.20}{\sqrt{\frac{0.20 (1 - 0.20)}{400}}} = 2.50$
+    - `{0.25 - 0.20}/{sqrt(0.20 * {1 - 0.20} / 400)}` \textcolor{pink}{$\#\mathcal{R}$} 
+- ${}^U\!P_{(z = 2.50)} = 0.0062$
+  - `pnorm(q = 2.50, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected i.e. the proportions are different
+  - We can conclude that the proportion of women players has increased.
 
 ## Hypothesis Testing and Decision Making
 
