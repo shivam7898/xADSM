@@ -12,6 +12,7 @@ invisible(lapply(f_getPathR(A07getObject), knitr::read_chunk))
 
 - This chapter covers introductory information and basic definitions.
   - [Statistical Inference](#stat-inference-c01 "c01"), [Population vs Sample](#population-sample-c01 "c01")
+  - [Scales of Measurement](#scales-c01 "c01")
   - [Exercises](#exercises-c01 "c01"): Mean, Percentage, Transpose, Rowwise Calculations
   - Graphs: [Multiple Time Series](#cars-c01 "c01"), [Pareto Chart](#cars-c01 "c01")
 
@@ -39,7 +40,7 @@ Hence, the total number of data items can be determined by multiplying the numbe
 \textcolor{pink}{Statistics} is the art and science of collecting, analysing, presenting, and interpreting data. 
 ```
 
-## Scales of Measurement
+## Scales of Measurement {#scales-c01}
 
 Data collection requires one of the following scales of measurement: nominal, ordinal, interval, or ratio. 
 ```{definition 'Scale-of-Measurement'}

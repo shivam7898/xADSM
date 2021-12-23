@@ -27,7 +27,7 @@ f_getDef("1s-known-sd") #dddd
 - test statistic
   - \@ref(eq:z-sd) $z = \frac{{\overline{x}} - {\mu}_0}{{\sigma}}$
 
-## Example: WSES
+## Example: WSES: Preprocessing
 
 ```{r 'B14-xxWSES', include=FALSE}
 # #Load Data: WSES
@@ -73,19 +73,30 @@ names(bb)
 #
 ```
 
-### Character to Ordered Factor {.unlisted .unnumbered}
+### Conversion to Factor {.unlisted .unnumbered .tabset .tabset-fade}
 
-- From the case study, it can be seen that Client Area is a categorical variable (factor) 
-- And, it is mentioned that it is ordinal in terms of order size (ordered factor)
+- From the case study, it can be seen that multiple columns are categorical (factor) or ordinal (ordered factor)
+
+- \textcolor{pink}{Question:} What is the importance of having this kind of order factor over simple factor
+  - Here order is also important. Also in future, ordered factors will be needed for some analysis
+  - (Aside) Refer [Scales of Measurement](#scales-c01 "c01")
+    - Simple factor (nominal) can provide only Mode whereas Ordered factor (ordinal) can provide Median also. Rank based statistical models can be applied on the ordinal data.
+- \textcolor{pink}{Question:} If 'RS' is already integer 0 & 1, then why convert it to factor
+  - While the data shows them as 0 & 1 but actually they are NOT integers
+  - If we show male and female as 0 & 1, these are still categorical
+- \textcolor{pink}{Question:} Why LCC is NOT ordinal (Aside)
+  - Unknown "ForLater"
+
+#### Data {.unlisted .unnumbered}
 
 ```{r 'B-'}
-# #"Reporting Status i.e. RS": Converting "character" to "factor" and Label them
+# #"Reporting Status i.e. RS" Converting "character" to "factor" and Label them
 bb$RS <- factor(bb$RS, levels = c("Lost", "Won"), labels = c("0", "1"))
 #
-# #"Sales Outcome i.e. SO": Converting "numeric" to "factor" 
+# #"Sales Outcome i.e. SO" Converting "numeric" to "factor" 
 bb$SO <- factor(bb$SO)
 #
-# #"Product i.e. PDT": Case study has provided that it is ordinal based on order size
+# #"Product Vertical i.e. PDT" Ordinal
 # #What are the unique values in this column
 unique(bb$PDT)
 #
@@ -96,27 +107,76 @@ levels(factor(bb$PDT, ordered = TRUE))
 # #Provide ordering of factor levels in Ascending Order.
 bb$PDT <- factor(bb$PDT, ordered = TRUE, 
       levels = c("GTMSys", "Procsys", "LearnSys", "Finsys", "Lifesys", "Logissys", "ContactSys"))
-
-
-# #"Region" Column was renamed to "RG"
-
-
 #
-
-
-# #Convert Character to Ordered Character
-#aa_tbl$RG <- factor(aa_tbl$RG, order = TRUE, levels = c("UK", "Other Europe","Americas","Africa",
-                        #                            "India", "Japan", "Singapore","Spain","Canada"))
+# #"Industry i.e. INT" Ordinal
+bb$INT <- factor(bb$INT, ordered = TRUE, 
+      levels = c("Capital Markets", "Banks", "Defense", "Consumer goods", "Others", "Security", 
+        "Energy", "Insurance", "Airline", "Finance", "Infrastructure", "Mobility", "Other Govt.", 
+        "Govt.", "Telecom equipments", "Health", "Clinical research", "Agriculture"))
+#
+# #"Region i.e. RG" Ordinal
+bb$RG <- factor(bb$RG, ordered = TRUE, levels = c("UK", "Other Europe", "Americas", "Africa",
+                                                "India", "Japan", "Singapore", "Spain", "Canada"))
+#
+# #"Leads Conversion Class i.e. LCC" Ordinal, However we are going with Nominal here.
+bb$LCC <- factor(bb$LCC, levels = c("E", "V", "F", "L"), labels = c(1, 2, 3, 4))
 ```
 
-
+#### Structure after Conversion {.unlisted .unnumbered}
 
 ```{r 'B-'}
-loc_src <- paste0(.z$XL, "B13-WSES.xlsx")
-ii <- read_excel(path = loc_src, sheet = excel_sheets(path = loc_src)[2])
-str(ii)
+str(bb)
 ```
 
+#### factor() {.unlisted .unnumbered}
+
+- \textcolor{pink}{factor()}
+  - If level order is not provided, by default, alphabatical ordering will be assigned.
+  - levels are the input, labels are the output in the factor() function. 
+  - A factor has only a level attribute, which is set by the labels argument in the factor() function.
+  - different levels are coded as ("E", "V", "F", "L")
+    - for which you want the levels to be labeled as c(1, 2, 3, 4).
+    - The factor function will look for the values ("E", "V", "F", "L") convert them to numerical factor classes and add the label values to the 'level' attribute of the factor. 
+    - This attribute is used to convert the internal numerical values to the correct labels. 
+    - Hoever, there is no 'label' attribute. 
+
+### Conversion to Numeric 
+
+```{r 'B-'}
+# #If there are "character" columns which should be "numeric"
+if(FALSE) {
+  bb$RS1 <- as.numeric(bb$RS1)
+  bb$PP <- as.numeric(bb$PP)
+  bb$JB <- as.numeric(bb$JB)
+  # #Equivalent
+  bb <- bb %>% mutate(across(c(RS1, PP, JB), as.numeric))
+}
+```
+
+## WSES: Analysis
+
+### Q1
+
+The marketing team of WSES believes that the average sales value of the leads that they receive is at least 8 million dollars. The marketing team believes that the standard deviation of sale value is about 2 million dollars. Use an appropriate hypothesis test to check whether the average sales value in the population is at least 8 million dollars.
+
+```{r 'B14D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+```{r 'B-'}
+sales_mean <- mean(bb$SVM)
+sales_mean
+z_bb <- {mean(bb$SVM) - 8} / {2 / sqrt(1000)}
+```
+
+- Mean of "Sales Value in Million i.e. SVM"
+  - ${\overline{x}} = 8.0442$
+    - `mean(bb$SVM)` \textcolor{pink}{$\#\mathcal{R}$}
+- $n = 1000, {\mu} = 8, {\sigma} = 2$
+- $z = \frac{\overline{x} - {\mu}_0}{\sigma/\sqrt{n}} = 0.6988$
+  - `{8.0442 - 8} / {2 / sqrt(1000)}` \textcolor{pink}{$\#\mathcal{R}$}
+- ${}^U\!P_{z = 0.6988} = 0.2423$
+  - `pnorm(q = 0.6988, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
