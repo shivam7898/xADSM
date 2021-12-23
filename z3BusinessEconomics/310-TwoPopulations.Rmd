@@ -518,11 +518,11 @@ str(bb)
 #
 # #Applying Multiple Functions with Summarise but Output as Cross-Table
 # #(Original) Columns as Rows, Functions as Columns
-# #NOTE: Do not know how to apply n(), count(), tally() in place of length()
+# #NOTE: n() can be applied as lambda function 
 bb %>% 
   pivot_longer(everything(), names_to = "key", values_to = "value") %>% 
   group_by(key) %>% 
-  summarise(across(value, list(Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
+  summarise(across(value, list(N = ~n(), Count = length, Mean = mean, SD = sd), .names = "{.fn}"))
 ```
 
 ### pivot_longer() {.unlisted .unnumbered}
