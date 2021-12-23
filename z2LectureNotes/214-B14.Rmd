@@ -251,7 +251,7 @@ bb %>% group_by(SO) %>% summarise(PCT = n() / nrow(.))
 Check whether the probability of winning a sales lead for the product "learnsys" is more than that of "Finsys". 
 
 ```{r 'B14D05', comment="", echo=FALSE, results='asis'}
-f_getDef("H-2s-p-Upper") #dddd
+f_getDef("H-2s-p-Upper") 
 ```
 
 - Count of Success $({x})$ is Winning leads in the "Sales Outcome i.e. SO"
@@ -317,6 +317,58 @@ ii %>% select(PDT, SO) %>%
   count(PDT, SO) %>% pivot_wider(names_from = SO, values_from = n) %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
   mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1))) 
+```
+
+
+### Q5
+
+Check whether the average sales value of "learnsys" projects is higher than that of "Finsys" projects. (${\alpha} = 0.05$)
+
+```{r 'B14D06', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Upper") #dddd
+```
+
+- t-test for difference of means can be applied only if the variances are same.
+  - Location of two distributions can be compared only when their spread is similar.
+- ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected 
+  - We cannot say that the "learnsys" has higher average sales than "Finsys"
+
+- \textcolor{pink}{Question:} What is 'SVM ~ PDT'
+  - It is the formula notation for t-test (in R) in the form of 'Continuous ~ Categorical'
+
+```{r 'B-'}
+str(ii)
+ii_var <- var.test(SVM ~ PDT, data = ii)
+if(ii_var$p.value > 0.05) {
+  t.test(formula = SVM ~ PDT, data = ii, alternative = "greater", var.equal = TRUE)
+} else {
+  cat(paste0("Problem: Difference of means can be tested only if the variances are same.\n"))
+}
+
+```
+
+### Q6
+
+Check whether there is a difference in the average profit across the geographical locations: United Kingdom, India and the Americas. 
+
+- We need to conduct ANOVA because there are more than 2 levels we are checking
+- \textcolor{orange}{Caution:} 
+  - "Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...)"
+  - remove 'type' option from aov()
+
+
+
+```{r 'B-'}
+ii <- bb %>% filter(RG %in% c("UK", "India", "Americas")) %>% select(RG, PP)
+#
+# #ANOVA
+ii_aov <- aov(formula = PP ~ RG, data = ii)
+#
+# #Summary
+summary(ii_aov)
+#
+# #
+model.tables(ii_aov, type = "means")
 ```
 
 

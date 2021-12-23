@@ -211,8 +211,6 @@ Assume there are 3 samples A, B, C. We can do $C_2^3 = 3$ number of tests i.e. $
 High value of F-test would indicate that the populations are different.
 
 
-
-
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B13-Cleanup', include=FALSE, cache=FALSE}
