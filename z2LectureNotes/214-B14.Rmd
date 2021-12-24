@@ -46,15 +46,15 @@ if(FALSE) {
 - Assuming: Average Sales 8-million $({\mu}_0 = 8)$, Standard Deviation 2-million $({\sigma} = 2)$
 - Hypothesis test to check whether the average sales value in the population is at least 8-million
 
-```{r 'B14D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypothesis-1T-Upper-Tail")
+```{r 'B14D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 ```
 
 \textcolor{orange}{Caution:} While importing data, for Mac users, probably it will be easier to import CSV file. However, I am not a Mac user so cannot comment on this.
 
 ### Data {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-Data'}
 # #Assign to another variable for easy modification and keeping the original data as backup
 bb <- xxWSES
 str(bb)
@@ -62,7 +62,7 @@ str(bb)
 
 ### Rename Headers {.unlisted .unnumbered}
 
-```{r 'B-Rename'}
+```{r 'B14-Rename'}
 # #List Column Headers
 names(bb)
 #
@@ -91,7 +91,7 @@ names(bb)
 
 #### Data {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-Factors'}
 # #"Reporting Status i.e. RS" Converting "character" to "factor" and Label them
 bb$RS <- factor(bb$RS, levels = c("Lost", "Won"), labels = c("0", "1"))
 #
@@ -126,9 +126,9 @@ bb$LCC <- factor(bb$LCC, levels = c("E", "V", "F", "L"), labels = c(1, 2, 3, 4))
 
 #### Structure after Conversion {.unlisted .unnumbered}
 
-```{r 'B-', echo=c(3)}
-xyWSES <- bb
-f_setRDS(xyWSES)
+```{r 'B14-WorkingData', echo=c(3)}
+#xyWSES <- bb
+#f_setRDS(xyWSES)
 str(bb)
 ```
 
@@ -146,7 +146,7 @@ str(bb)
 
 ### Conversion to Numeric 
 
-```{r 'B-', eval=FALSE}
+```{r 'B14-ChangeType', eval=FALSE}
 # #If there are "character" columns which should be "numeric"
 bb$RS1 <- as.numeric(bb$RS1)
 bb$PP <- as.numeric(bb$PP)
@@ -224,7 +224,7 @@ f_getDef("H-1s-p-Upper")
 
 #### Code {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-Proportions'}
 # #Proportions
 bb %>% group_by(SO) %>% summarise(PCT = n() / nrow(.))
 #
@@ -233,7 +233,7 @@ pnorm(q = -1.2016, lower.tail = FALSE)
 
 #### Percentage {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-GroupPercentage'}
 # #Grouped Percentages
 # #table() gives a count
 table(bb$SO)
@@ -246,7 +246,7 @@ bb %>% group_by(SO) %>% summarise(N = n()) %>% mutate(PCT = N / sum(N))
 bb %>% group_by(SO) %>% summarise(PCT = n() / nrow(.))
 ```
 
-### Q4
+### Q4 {.tabset .tabset-fade}
 
 Check whether the probability of winning a sales lead for the product "learnsys" is more than that of "Finsys". 
 
@@ -265,7 +265,9 @@ f_getDef("H-2s-p-Upper")
   - We can filter them out, however these are in memory
   - (Aside) Factor levels are not dropped, by default, when you filter them. Use factor() again to drop the unused levels. 
 
-```{r 'B-'}
+#### Test {.unlisted .unnumbered}
+
+```{r 'B14-TestProportion'}
 # #Data | Subset | Filter | Update Factor levels
 ii <- bb %>% select(PDT, SO, SVM) %>% 
   filter(PDT %in% c("LearnSys", "Finsys")) %>% mutate(across(PDT, factor))
@@ -282,7 +284,7 @@ prop.test(x = c(71, 34), n = c(126, 117), alternative = "greater")
 
 #### filter() {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-Filter'}
 # #Subset the dataset
 ii <- data.frame(PDT = bb$PDT, SO = bb$SO, SVM = bb$SVM)
 # #Subset only for required type of rows #243 Observations
@@ -302,7 +304,7 @@ str(nn)
 
 #### prop.table() {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B14-MoreProportion'}
 ii <- bb %>% select(PDT, SO, SVM) %>% 
   filter(PDT %in% c("LearnSys", "Finsys")) %>% mutate(across(PDT, factor))
 str(ii)
@@ -325,7 +327,7 @@ ii %>% select(PDT, SO) %>%
 Check whether the average sales value of "learnsys" projects is higher than that of "Finsys" projects. (${\alpha} = 0.05$)
 
 ```{r 'B14D06', comment="", echo=FALSE, results='asis'}
-f_getDef("H-2s-Upper") #dddd
+f_getDef("H-2s-Upper")
 ```
 
 - t-test for difference of means can be applied only if the variances are same.
@@ -336,13 +338,15 @@ f_getDef("H-2s-Upper") #dddd
 - \textcolor{pink}{Question:} What is 'SVM ~ PDT'
   - It is the formula notation for t-test (in R) in the form of 'Continuous ~ Categorical'
 
+"ForLater"
+
 - \textcolor{pink}{Question:} How to decide whether to keep the Lost bids or exclude them
   - Including lost bids: $\text{(DOF)} = 241, t = 0.93503, P_{(t)} = 0.1754 \to {H_0}$ cannot be rejected
   - Excluding lost bids: $\text{(DOF)} = 103, t = 0.62152, P_{(t)} = 0.2678 \to {H_0}$ cannot be rejected
   - Thus, no change in Hypothesis results but which which process should be utilised 
   - Similar, question can be raised for Q6 i.e. should be consider profit of those bids which we lost
 
-```{r 'B-'}
+```{r 'B14-Q5t2s'}
 str(ii)
 ii_var <- var.test(SVM ~ PDT, data = ii)
 if(ii_var$p.value > 0.05) {
@@ -352,7 +356,7 @@ if(ii_var$p.value > 0.05) {
 }
 ```
 
-```{r 'B-'}
+```{r 'B14-NoLost'}
 jj <- ii %>% filter(SO == "1")
 jj_var <- var.test(SVM ~ PDT, data = jj)
 if(jj_var$p.value > 0.05) {
@@ -388,7 +392,7 @@ Check whether there is a difference in the average profit across the geographica
   - "Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...)"
   - remove 'type' option from aov()
     
-```{r 'B-'}
+```{r 'B14-Q6anova'}
 ii <- bb %>% filter(RG %in% c("UK", "India", "Americas")) %>% select(RG, PP, SO)
 str(ii)
 #
@@ -402,7 +406,7 @@ model.tables(ii_aov, type = "means")
 summary(ii_aov)
 ```
 
-```{r 'B-'}
+```{r 'B14-q6noLost'}
 jj <- ii %>% filter(SO == "1")
 str(jj)
 #
@@ -422,14 +426,16 @@ Check whether the sales conversions are different for different geographical loc
 
 - Both (Location and Sales Conversions) are categorical variables, So ChiSq Test is required
 - $P_{\chi^2} < {\alpha} \to {H_0}$ is rejected i.e. proportions are different
+  - It can be claimed that there is an association between these variables.
   - We can conclude that the sales conversions are different for different geographical locations
+  
 
 
 - \textcolor{orange}{Warning:} 
   - "Warning in chisq.test() Chi-squared approximation may be incorrect: 
   - Some of observed frequencies in the Table are too few e.g. Canada
 
-```{r 'B-'}
+```{r 'B14-Q7chisq'}
 ii <- bb %>% select(RG, SO)
 str(ii)
 #
@@ -443,14 +449,40 @@ tryCatch(chisq.test(table(ii$RG, ii$SO)),
            })
 ```
 
+### Q8
+
+- Check whether the sales conversions depend on the sales value. Check this claim by making 3 groups of Sales Value: <6-million, [6-8], >8-million dollar 
+
+- Both are categorical variables, So ChiSq Test is required
+- $P_{\chi^2} > {\alpha} \to {H_0}$ cannot be rejected. 
+  - It cannot be claimed that there is an association between these variables.
+  - The sample results do not provide sufficient evidence to conclude that the sales conversions depend on the sales value. 
+  
+
+  
+```{r 'B14-Q8chisq'}
+ii <- bb %>% select(SO, SVM)
+#
+# #Create 3 Groups with middle group inclusive of both 6 & 8 
+ii$RSVM <- cut(ii$SVM, breaks = c(0, 5.9999, 8, 15), labels = 1:3)
+#
+summary(ii)
+#
+table(ii$RSVM, ii$SO)
+#
+# #Chi-Sq Test
+chisq.test(table(ii$RSVM, ii$SO))
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B14-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_headers, ii_aov, 
+          ii_var, jj_aov, jj_var, xxWSES)
 ```
 
-```{r 'B14-Validation', include=TRUE, cache=FALSE}
+```{r 'B14-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
