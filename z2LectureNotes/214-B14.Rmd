@@ -420,8 +420,28 @@ summary(jj_aov)
 
 Check whether the sales conversions are different for different geographical locations. 
 
-- Both (Location and Sales Conversions) are categorical variables 
+- Both (Location and Sales Conversions) are categorical variables, So ChiSq Test is required
+- $P_{\chi^2} < {\alpha} \to {H_0}$ is rejected i.e. proportions are different
+  - We can conclude that the sales conversions are different for different geographical locations
 
+
+- \textcolor{orange}{Warning:} 
+  - "Warning in chisq.test() Chi-squared approximation may be incorrect: 
+  - Some of observed frequencies in the Table are too few e.g. Canada
+
+```{r 'B-'}
+ii <- bb %>% select(RG, SO)
+str(ii)
+#
+round(prop.table(table(ii$RG, ii$SO), margin = 1), 3)
+#
+# #Chi-Sq Test
+tryCatch(chisq.test(table(ii$RG, ii$SO)), 
+         warning = function(w) {
+           print(paste0(w))
+           suppressWarnings(chisq.test(table(ii$RG, ii$SO)))
+           })
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
