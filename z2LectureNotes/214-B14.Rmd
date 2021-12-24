@@ -31,6 +31,8 @@ f_getDef("1s-unknown-sd")
 
 ## Example: WSES: Preprocessing
 
+\textcolor{pink}{Please import the WSES data in xxWSES object. Due to copyright, it has not been shared.}
+
 ```{r 'B14-xxWSES', include=FALSE, eval=FALSE}
 # #Load Data: WSES
 xxWSES <- f_getObject("xxWSES", "B13-WSES.csv", "772c81252c54a3162f1f8dbd0ceb9aeb")
@@ -40,8 +42,6 @@ if(FALSE) {
   str(aa)
 }
 ```
-
-\textcolor{pink}{FILENAME:} "B13-WSES.csv"
 
 - Assuming: Average Sales 8-million $({\mu}_0 = 8)$, Standard Deviation 2-million $({\sigma} = 2)$
 - Hypothesis test to check whether the average sales value in the population is at least 8-million
@@ -55,7 +55,7 @@ f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 ### Data {.unlisted .unnumbered}
 
 ```{r 'B14-Data'}
-# #Assign to another variable for easy modification and keeping the original data as backup
+# #Import the Data and assign to a temporary variable for ease of use
 xxWSES <- f_getRDS(xxWSES)
 bb <- xxWSES
 str(bb)
