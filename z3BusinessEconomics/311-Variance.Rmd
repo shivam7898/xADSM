@@ -38,7 +38,7 @@ Note:
 
 Interval Estimation
 
-Example: Asample of 20 containers ${n =20}$ has the sample variance ${s^2} = 0.0025$ 
+Example: A sample of 20 containers ${n =20}$ has the sample variance ${s^2} = 0.0025$ 
 
 - DOF = 19
 - For (DOF = 19), ${\chi_{\alpha = 0.025}^2} = 32.852$, indicating that 2.5% of the chi-square values are to the right of 32.852, and ${\chi_{\alpha = 0.975}^2} = 8.907$ indicating that 97.5% of the chi-square values are to the right of 8.907.

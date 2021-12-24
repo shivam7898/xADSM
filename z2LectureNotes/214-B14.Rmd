@@ -126,7 +126,9 @@ bb$LCC <- factor(bb$LCC, levels = c("E", "V", "F", "L"), labels = c(1, 2, 3, 4))
 
 #### Structure after Conversion {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B-', echo=c(3)}
+xyWSES <- bb
+f_setRDS(xyWSES)
 str(bb)
 ```
 
@@ -144,15 +146,13 @@ str(bb)
 
 ### Conversion to Numeric 
 
-```{r 'B-'}
+```{r 'B-', eval=FALSE}
 # #If there are "character" columns which should be "numeric"
-if(FALSE) {
-  bb$RS1 <- as.numeric(bb$RS1)
-  bb$PP <- as.numeric(bb$PP)
-  bb$JB <- as.numeric(bb$JB)
-  # #Equivalent
-  bb <- bb %>% mutate(across(c(RS1, PP, JB), as.numeric))
-}
+bb$RS1 <- as.numeric(bb$RS1)
+bb$PP <- as.numeric(bb$PP)
+bb$JB <- as.numeric(bb$JB)
+# #Equivalent
+bb <- bb %>% mutate(across(c(RS1, PP, JB), as.numeric))
 ```
 
 ## WSES: Analysis
@@ -180,8 +180,8 @@ f_getDef("Hypothesis-1T-Upper-Tail")
   - \textcolor{orange}{Caution:} By default, `pnorm()` provides the probability to the left of z-value
 - Compare with ${\alpha} = 0.05$
   - ${}^U\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected 
-  - We cannot claim that the average sales is 'at least' 8-million
-
+  - The sample results do not provide sufficient evidence to conclude that the average sales is 'at least' 8-million 
+  
 ### Q2
 
 If the population standard deviation is unknown, evaluate the same hypothesis again.
@@ -194,7 +194,7 @@ If the population standard deviation is unknown, evaluate the same hypothesis ag
   - `t.test(bb$SVM, mu = 8, alternative = "greater")` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
   - ${}^U\!P_{(t)} > {\alpha} \to {H_0}$ cannot be rejected 
-  - We cannot claim that the average sales is 'at least' 8-million (same as earlier)
+  - The sample results do not provide sufficient evidence to conclude that the average sales is 'at least' 8-million (same as earlier)
 - \textcolor{pink}{Question:} "alternative hypothesis: true mean is greater than 8" What is the meaning of this line in the output of t.test
   - We provided this information.
   - (Aside) This line is providing the Alternate Hypothesis for reference. ${\mu}_0 = 8$ and we are performing an upper tail test thus the Alternate Hypothesis is "true mean is greater than 8"
@@ -220,7 +220,7 @@ f_getDef("H-1s-p-Upper")
   - `1 - pnorm(q = -1.2016)` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
   - ${}^U\!P_{(z)} > {\alpha} \to {H_0}$ cannot be rejected 
-  - We cannot claim that we win 'at least' 50% leads
+  - The sample results do not provide sufficient evidence to conclude that the company wins 'at least' 50% leads
 
 #### Code {.unlisted .unnumbered}
 
@@ -258,7 +258,7 @@ f_getDef("H-2s-p-Upper")
 - (1: learnsys) $\{{n}_1 = 55 + 71 = 126, {x}_1 = 71\} \to {\overline{p}}_1 = {n}_1/{x}_1 = 0.563$
 - (2: Finsys) $\{{n}_2 = 83 + 34 = 117, {x}_2 = 34\} \to {\overline{p}}_2 = {n}_2/{x}_2 = 0.29$
 - ${}^U\!P_{z} < {\alpha} \to {H_0}$ is rejected i.e. the proportions are different
-  - We can say, with statistical confidence, that the "learnsys" performs better than "Finsys"
+  - We can conclude that the "learnsys" performs better than "Finsys"
 
 
 - \textcolor{pink}{Question:} When we have filtered out the data, why the table shows 0 values
@@ -331,10 +331,16 @@ f_getDef("H-2s-Upper") #dddd
 - t-test for difference of means can be applied only if the variances are same.
   - Location of two distributions can be compared only when their spread is similar.
 - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected 
-  - We cannot say that the "learnsys" has higher average sales than "Finsys"
+  - The sample results do not provide sufficient evidence to conclude that the "learnsys" has higher average sales than "Finsys"
 
 - \textcolor{pink}{Question:} What is 'SVM ~ PDT'
   - It is the formula notation for t-test (in R) in the form of 'Continuous ~ Categorical'
+
+- \textcolor{pink}{Question:} How to decide whether to keep the Lost bids or exclude them
+  - Including lost bids: $\text{(DOF)} = 241, t = 0.93503, P_{(t)} = 0.1754 \to {H_0}$ cannot be rejected
+  - Excluding lost bids: $\text{(DOF)} = 103, t = 0.62152, P_{(t)} = 0.2678 \to {H_0}$ cannot be rejected
+  - Thus, no change in Hypothesis results but which which process should be utilised 
+  - Similar, question can be raised for Q6 i.e. should be consider profit of those bids which we lost
 
 ```{r 'B-'}
 str(ii)
@@ -344,7 +350,16 @@ if(ii_var$p.value > 0.05) {
 } else {
   cat(paste0("Problem: Difference of means can be tested only if the variances are same.\n"))
 }
+```
 
+```{r 'B-'}
+jj <- ii %>% filter(SO == "1")
+jj_var <- var.test(SVM ~ PDT, data = jj)
+if(jj_var$p.value > 0.05) {
+  t.test(formula = SVM ~ PDT, data = jj, alternative = "greater", var.equal = TRUE)
+} else {
+  cat(paste0("Problem: Difference of means can be tested only if the variances are same.\n"))
+}
 ```
 
 ### Q6
@@ -352,24 +367,61 @@ if(ii_var$p.value > 0.05) {
 Check whether there is a difference in the average profit across the geographical locations: United Kingdom, India and the Americas. 
 
 - We need to conduct ANOVA because there are more than 2 levels we are checking
-- \textcolor{orange}{Caution:} 
+
+- \textcolor{pink}{aov()}
+  - Total Variance = Between or MSTR + Within or MSE
+    - Sum Sq provides SSTR & SSE
+    - Mean Sq provides MSTR (Between) & MSE (Within)
+  - First Line (Column): $\text{DOF}_{(k-1)} = 2, \text{SSTR} = 297, \text{MSTR} = 148.7$
+  - Residuals (Within) : $\text{DOF}_{(n-k)} = 689, \text{SSE} = 68075, \text{MSE} = 98.8$
+  - \@ref(eq:f-anv) $F = \frac{\text{MSTR}}{\text{MSE}} = 1.5$
+  - ${}^U\!P_{F = 1.5} = 0.2238$
+    - `pf(q = 1.5, df1 = 2, df2 = 689, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - Compare with ${\alpha} = 0.05$
+    - ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
+    - The sample results do not provide sufficient evidence to conclude that the average profit differs across the 3 geographical locations. 
+
+- \textcolor{pink}{Question:} Sample size of these 3 groups are different (UK 553, Americas 104, India 35). Would this impact our analysis
+  - If the sample size are similar, then the power will be more but otherwise ANOVA is not very sensitive to unequal sample sizes. We can safely use it.
+
+- \textcolor{orange}{Warning:} 
   - "Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...)"
   - remove 'type' option from aov()
-
-
-
+    
 ```{r 'B-'}
-ii <- bb %>% filter(RG %in% c("UK", "India", "Americas")) %>% select(RG, PP)
+ii <- bb %>% filter(RG %in% c("UK", "India", "Americas")) %>% select(RG, PP, SO)
+str(ii)
 #
 # #ANOVA
 ii_aov <- aov(formula = PP ~ RG, data = ii)
 #
-# #Summary
-summary(ii_aov)
-#
 # #
 model.tables(ii_aov, type = "means")
+#
+# #Summary
+summary(ii_aov)
 ```
+
+```{r 'B-'}
+jj <- ii %>% filter(SO == "1")
+str(jj)
+#
+# #ANOVA
+jj_aov <- aov(formula = PP ~ RG, data = jj)
+#
+# #
+model.tables(jj_aov, type = "means")
+#
+# #Summary
+summary(jj_aov)
+```
+
+### Q7
+
+Check whether the sales conversions are different for different geographical locations. 
+
+- Both (Location and Sales Conversions) are categorical variables 
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

@@ -205,7 +205,7 @@ In the example:
 
 \textcolor{pink}{Within-Treatments Estimate of Population Variance}
 
-The within-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{mean square due to error} and is denoted \textcolor{pink}{$\text{MSE}$}.Refer equation \@ref(eq:mse-anv)
+The within-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{mean square due to error} and is denoted \textcolor{pink}{$\text{MSE}$}. Refer equation \@ref(eq:mse-anv)
 
 \begin{equation}
   \text{MSE} = \frac{\text{SSE}}{{n}_T - k} = \frac{\sum_{j=1}^{k}{({n}_j - 1){s}_j^2}}{{n}_T - k}
@@ -247,19 +247,35 @@ Because the decision to reject ${H_0}$ is based on the value of $\frac{\text{MST
   (\#eq:f-anv)
 \end{equation}
 
-In the example:
-
-- \@ref(eq:f-anv) $F = \frac{260}{28.33} = 9.18$
-- Numerator : $\text{DOF} = k - 1 = 3 - 1 = 2$
-- Denominator : $\text{DOF} = {n}_T - k = 15 - 3 = 12$
 
 Because we will only reject the null hypothesis for large values of the test statistic, the p-value is the upper tail area of the F distribution to the right of the test statistic ${F}$.
 
+- \textcolor{pink}{aov()}
+  - Terms
+    - Df degrees of freedom 
+      - for the independent variable (levels - 1)
+      - and for the residuals (total observations - 1 - levels)
+    - Sum Sq shows the sum of squares 
+      - SSTR: total variation between the group means 
+      - SSE: and the overall mean
+    - Mean Sq shows the mean of the sum of squares 
+      - MSTR (Between): sum of squares / degrees of freedom for each parameter
+      - MSE (Within): mean square of the residuals
+    - F-value is the test statistic from the F test. 
+      - Mean square of each independent variable / mean square of the residuals. 
+      - The larger the F value, the more likely it is that the variation caused by the independent variable is real and not due to chance.
+    - Pr(>F) is the p-value of the F-statistic. 
+      - likelihood that the F-value calculated from the test would have occurred if the null hypothesis of no difference among group means were true.
+- In the Example
+  - Total Variance = Between or MSTR + Within or MSE
+  - First Line (Column): $\text{DOF}_{(k-1)} = 2, \text{SSTR} = 520, \text{MSTR} = 260$
+  - Residuals (Within) : $\text{DOF}_{(n-k)} = 12, \text{SSE} = 340, \text{MSE} = 28.33$
+  - \@ref(eq:f-anv) $F = \frac{\text{MSTR}}{\text{MSE}} = 9.18$
 - Calculate ${}^U\!P_{(F)}$
   - ${}^U\!P_{F = 9.18} = 0.0038$
     - `pf(q = 9.18, df1 = 2, df2 = 12, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
 - Compare with ${\alpha} = 0.05$
-  - ${}^U\!P_{(F)} < {\alpha} \to {H_0}$ is rejected i.e. 
+  - ${}^U\!P_{(F)} < {\alpha} \to {H_0}$ is rejected i.e. the means are different
   - The test provides sufficient evidence to conclude that the means of the three populations are not equal.
   - Analysis of variance supports the conclusion that the population mean number of units produced per week for the three assembly methods are not equal
 
@@ -292,20 +308,12 @@ bb <- aa %>% pivot_longer(everything(), names_to = "key", values_to = "value")
 bb_anova <- aov(formula = value ~ key, data = bb)
 #names(bb_anova)
 #bb_anova
-summary(bb_anova)
 #
-# #Df shows the degrees of freedom for the independent variable (levels - 1)
-# #and the degrees of freedom for the residuals (total observations - 1 - levels).
-# #Sum Sq shows the sum of squares (total variation between the group means and the overall mean)
-# #Mean Sq shows the mean of the sum of squares i.e. 
-# #(sum of squares / degrees of freedom for each parameter).
-# #F-value column is the test statistic from the F test. 
-# #i.e. Mean square of each independent variable / mean square of the residuals. 
-# #The larger the F value, the more likely it is that 
-# #the variation caused by the independent variable is real and not due to chance.
-# #The Pr(>F) column is the p-value of the F-statistic. 
-# #i.e. likelihood that the F-value calculated from the test would have occurred 
-# #if the null hypothesis of no difference among group means were true.
+# #
+model.tables(ii_aov, type = "means")
+#
+# #Summary
+summary(bb_anova)
 ```
 
 
