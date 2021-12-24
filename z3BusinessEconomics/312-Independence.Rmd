@@ -12,7 +12,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Comparing Multiple Proportions, Test of Independence and Goodness of Fit"
   - "ForLater" - Everything
 
-## Summary
+## Introduction
 
 Hypothesis-testing procedures that expand our capacity for making statistical inferences about populations
 
@@ -23,6 +23,79 @@ Hypothesis-testing procedures that expand our capacity for making statistical in
     - Testing the independence of two categorical variables 
     - Testing whether a probability distribution for a population follows a specific historical or theoretical probability distribution
 
+## Testing the Equality of Population Proportions for Three or More Populations
+
+```{definition 'H-3p'}
+\textcolor{pink}{$\text{\{Equality of Population Proportions \}} {H_0} : {p}_1 = {p}_2 = \dots = {p}_k \iff {H_a}: \text{Not all population proportions are equal}$}
+```
+
+where ${p}_j$ is population proportion of the $j^{\text{th}}$ population. We assume that a simple random sample of size ${n}_j$ has been selected from each of the ${k}$ populations or treatments. 
+
+Select a random sample from each of the populations and record the observed frequencies, $f_{ij}$, in a table with 2 rows and k columns. 
+
+\textcolor{pink}{Expected Frequencies Under the Assumption ${H_0}$ is true :} Refer equation \@ref(eq:e-freq)
+
+\begin{equation}
+  e_{ij} = \frac{(\text{Row } i \text{ Total})(\text{Column } j \text{ Total})}{\text{Total Sample Size}}
+  (\#eq:e-freq)
+\end{equation}
+
+
+\textcolor{pink}{Chi-Square Test Statistic :} Refer equation \@ref(eq:chi-freq)
+
+
+\begin{equation}
+  {\chi^2} = \sum_{i}{\sum_{j}{\frac{(f_{ij} - e_{ij})^2}{e_{ij}}}}
+  (\#eq:chi-freq)
+\end{equation}
+
+Where: 
+
+\begin{equation}
+  \begin{align}
+  f_{ij} &= \text{observed frequency for the cell in row } i \text{ and column } j \\
+  e_{ij} &= \text{expected frequency for the cell in row } i \text{ and column } j
+  \end{align}
+\end{equation}
+
+Note: In a chi-square test involving the equality of ${k}$ population proportions, the above test statistic has a chi-square distribution with ${k - 1}$ degrees of freedom provided the expected frequency is 5 or more for each cell.
+
+A chi-square test for equal population proportions will always be an upper tail test with rejection of ${H_0}$ occurring when the test statistic is in the upper tail of the chi-squre distribution.
+ 
+In studies such as these, we often use the same sample size for each population. We have chosen different sample sizes in this example to show that the chi-square test is not restricted to equal sample sizes for each of the k populations.
+
+"ForLater" - Creating the ChiSq Table
+
+Example: JD Power: Compare customer loyalty for three automobiles by using the proportion of owners likely to repurchase a particular automobile
+
+- Count of Success $({x})$ is Number of Owners likely to repurchase
+- (1: Impala) $\{{n}_1 = 125, {x}_1 = 69\}$
+- (1: Fusion) $\{{n}_2 = 200, {x}_2 = 120\}$
+- (1: Accord) $\{{n}_2 = 175, {x}_3 = 123\}$
+- \@ref(eq:chi-freq) ${\chi^2} = 7.89$
+- $P_{\chi^2} = 0.0193$
+  - `pchisq(q = 7.89, df = 2,lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$}
+
+"ForLater" - Marascuilo procedure
+
+## Test of Independence
+
+An important application of a chi-square test involves using sample data to test for the independence of two categorical variables. The null hypothesis for this test is that the two categorical variables are independent. Thus, the test is referred to as a test of independence. 
+
+Example: Beer: Preference vs. gender
+
+- Since an objective of the study is to determine if there is difference between the beer preferences for male and female beer drinkers, we consider gender an explanatory variable and follow the usual practice of making the \textcolor{pink}{explanatory variable the column variable} in the data tabulation table. 
+- The beer preference is the categorical response variable and is shown as the row variable.
+- "ForLater" 
+
+
+## Goodness of Fit Test
+
+- "ForLater" 
+
+
+
+## Summary
 
 All tests apply to categorical variables and all tests use a chi-square ${\chi^2}$ test statistic that is based on the differences between observed frequencies and expected frequencies. In each case, expected frequencies are computed under the assumption that the null hypothesis is true. These chi-square tests are upper tailed tests. Large differences between observed and expected frequencies provide a large value for the chi-square test statistic and indicate that the null hypothesis should be rejected. 
 
