@@ -100,7 +100,38 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     a. Neither (a) nor (b)
 	  - Answer: \textcolor{black}{b}
   
-## Case: 
+## Case: JAT
+
+\textcolor{pink}{FILENAME:} "B13-WSES.csv"
+
+
+
+### Q1 
+
+Test the claim that disease 6 (leaf curl) information was accessed at least 60 times every month on average since October 2017 due to this disease outbreak. $({\alpha} = 0.05)$
+
+
+### Q2 
+
+Test the claim that Among the app users for disease information, at least 15% of them access disease information related to disease 6. $({\alpha} = 0.05)$
+
+
+### Q3 
+
+Test the claim that the average number of users in year 2017-2018 is more than average number of users in year 2015-2016. $({\alpha} = 0.05)$
+
+### Q4 
+
+Check whether app usage is same or different across the four weeks of a month. 
+Also, using data from January-2016 – May-2018, test the claim that app usage picked up after January 2016.
+
+### Q5 
+
+A new version of the app was released in August-2016. Which month in the given time frame after the launch of the new version, the mean usage pattern would start to show a statistically significant shift
+
+### Q6
+
+If a disease is likely to spread in particular weather condition (data given in the disease index sheet), then the access of that disease should be more in the months having suitable weather conditions. Help the analyst in coming up with a statistical test to support the claim for two districts for which the sample of weather and disease access data is provided in the data sheet. Identify the diseases for which you can support this claim. Test this claim both for temperature and relative humidity at 95% confidence.
 
 
 
