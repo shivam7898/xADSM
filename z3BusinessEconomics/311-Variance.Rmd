@@ -105,7 +105,7 @@ Note: In general, Upper Tail test is the most frequently observed test because l
 Example: Louis: the company standard specifies an arrival time variance of 4 or less
 
 ```{r 'C11D01', comment="", echo=FALSE, results='asis'}
-f_getDef("H-1s-Var-Upper") #dddd
+f_getDef("H-1s-Var-Upper")
 ```
 
 - (Sample) ${n} = 24, {s}^2 = 4.9$
@@ -116,13 +116,88 @@ f_getDef("H-1s-Var-Upper") #dddd
   - ${}^U\!P_{(\chi^2)} > {\alpha} \to {H_0}$ cannot be rejected
   - The sample results do not provide sufficient evidence to conclude that the variance is high.
 
+Example: bureau of motor vehicles:  Evaluate the variance in the new examination test scores with the historical value ${\sigma}_0^2 = 100$
 
-
-
-```{definition 'Distribution-F'}
-The \textcolor{pink}{F distribution} is based on sampling from two normal populations.
+```{r 'C11D02', comment="", echo=FALSE, results='asis'}
+f_getDef("H-1s-Var-Two")
 ```
 
+- (Sample) ${n} = 30, {s}^2 = 162$
+- \@ref(eq:chi-1s) ${\chi^2} = \frac{(n - 1){s}^2}{{\sigma}_0^2} = \frac{(30 - 1) * 162}{100} = 46.98$
+- ${}^2\!P_{(\chi^2)} = 2 * {}^U\!P_{(\chi^2)} = 2 * 0.0187 = 0.0374$
+  - `2 * pchisq(q = 46.98, df = 29, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^2\!P_{(\chi^2)} < {\alpha} \to {H_0}$ is rejected i.e. the change is significant
+  - The new examination test scores have a population variance different from the historical variance
+
+## Inferences About Two Population Variances
+
+The two sample variances ${s}_1^2$ and ${s}_2^2$ will be the basis for making inferences about the two population variances ${\sigma}_1^2$ and ${\sigma}_2^2$. 
+
+```{definition 'Distribution-F'}
+Whenever independent simple random samples of sizes ${n}_1$ and ${n}_2$ are selected from two normal populations with equal variances $({\sigma}_1^2 = {\sigma}_2^2)$, the sampling distribution of $\frac{{s}_1^2}{{s}_2^2}$ is an \textcolor{pink}{F distribution} with $({n}_1 - 1)$ degrees of freedom for the numerator and $({n}_2 - 1)$ degrees of freedom for the denominator. 
+```
+
+Note:
+
+- The \textcolor{pink}{F distribution} is based on sampling from two normal populations. 
+- The F distribution is not symmetric, and the F values can never be negative.
+  - The shape of any particular F distribution depends on its numerator and denominator degrees of freedom.
+- We refer to the population providing the larger sample variance as population 1.
+  - Because the F test statistic is constructed with the larger sample variance ${s}_1^2$ in the numerator, the value of the test statistic will be in the upper tail of the F distribution. 
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests About Population Variances with $({\sigma}_1^2 = {\sigma}_2^2)$ :} Refer equation \@ref(eq:f-2s)
+
+
+\begin{equation}
+  F = \frac{{s}_1^2}{{s}_2^2}
+  (\#eq:f-2s)
+\end{equation}
+
+\textcolor{pink}{Hypothesis Tests :}
+
+```{definition 'H-2s-Var-Lower'}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace \text{Do not do this.}$}
+```
+
+```{definition 'H-2s-Var-Upper'}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {\sigma}_1^2 \leq {\sigma}_2^2 \iff {H_a}: {\sigma}_1^2 > {\sigma}_2^2$}
+```
+
+```{definition 'H-2s-Var-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\sigma}_1^2 = {\sigma}_2^2 \iff {H_a}: {\sigma}_1^2 \neq {\sigma}_2^2$}
+```
+
+
+Example: Dullus County Schools: 
+
+```{r 'C11D03', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Var-Two")
+```
+
+- (1: Milbank) ${n} = 26, {s}_1^2 = 48$
+- (2: Gulf ) ${n} = 16, {s}_1^2 = 20$
+- \@ref(eq:f-2s) $F = \frac{{s}_1^2}{{s}_2^2} = \frac{48}{20} = 2.4$
+- ${}^2\!P_{(F)} =  2 * {}^U\!P_{(F)} = 2 * 0.0406 = 0.0812$
+  - `2 * pf(q = 2.4, df1 = 25, df2 = 15, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.10$
+  - ${}^2\!P_{(F)} < {\alpha} \to {H_0}$ is rejected i.e. The two populations have difference variances
+  - The sample results provide sufficient evidence to conclude that the variances are different.
+
+Example:  public opinion survey: do women show a greater variation in attitude on political issues than men
+
+```{r 'C11D04', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Var-Upper") #dddd
+```
+
+- (1: Women) ${n} = 41, {s}_1^2 = 120$
+- (2: Men) ${n} = 31, {s}_1^2 = 80$
+- \@ref(eq:f-2s) $F = \frac{{s}_1^2}{{s}_2^2} = \frac{120}{80} = 1.5$
+- ${}^U\!P_{(F)} = 0.1256$
+  - `pf(q = 1.5, df1 = 40, df2 = 30, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected i.e. The two populations have same variances
+  - The sample results does not provide sufficient evidence to conclude that women have higher variance in political opinion compared to men
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
