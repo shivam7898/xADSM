@@ -17,13 +17,12 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 In many manufacturing applications, controlling the process variance is extremely important in maintaining quality.
 
-The sample variance ${s^2}$, given by equation \@ref(eq:variance), is the point estimator of the population variance ${\sigma}^2$.
+The sample variance ${s^2}$, given by equation \@ref(eq:var-1s), is the point estimator of the population variance ${\sigma}^2$.
 
 \begin{equation}
-  s^2 = \frac{\sum {(x_i - {\overline{x}})}^2}{n-1}
-  (\#eq:variance)
+  {s^2} = \frac{\sum {({x}_i - {\overline{x}})}^2}{n-1}
+  (\#eq:var-1s)
 \end{equation}
-
 
 ```{definition 'Distribution-Chi-Square'}
 Whenever a simple random sample of size ${n}$ is selected from a normal population, the sampling distribution of $\frac{(n-1)s^2}{{\sigma}^2}$ is a \textcolor{pink}{chi-square distribution} with ${n − 1}$ degrees of freedom.
@@ -35,18 +34,20 @@ Note:
 - It can be used to develop interval estimates and conduct hypothesis tests about a population variance.
 - The notation \textcolor{pink}{${\chi_{\alpha}^2}$} denotes the value for the chi-square distribution that provides an area or probability of ${\alpha}$ to the \textcolor{pink}{right} of the ${\chi_{\alpha}^2}$ value. 
 
+### Interval Estimation
 
-Interval Estimation
+Example: A sample of 20 containers ${n = 20}$ has the sample variance ${s^2} = 0.0025$ 
 
-Example: A sample of 20 containers ${n =20}$ has the sample variance ${s^2} = 0.0025$ 
-
-- DOF = 19
-- For (DOF = 19), ${\chi_{\alpha = 0.025}^2} = 32.852$, indicating that 2.5% of the chi-square values are to the right of 32.852, and ${\chi_{\alpha = 0.975}^2} = 8.907$ indicating that 97.5% of the chi-square values are to the right of 8.907.
-- For (DOF = 19), 95% of the chi-square values are between ${\chi_{\alpha = 0.975}^2}$ and ${\chi_{\alpha = 0.025}^2}$ 
+- ${\chi_{\alpha = 0.025}^2} = 32.852$
+  - `qchisq(p = 0.025, df = 19, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - It indicates that 2.5% of the chi-square values are to the right of 32.852
+  - Also, ${\chi_{\alpha = 0.975}^2} = 8.907$ indicates that 97.5% of the chi-square values are to the right of 8.907.
+    - `qchisq(p = 0.975, df = 19, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+  - Thus, 95% of the chi-square values are between ${\chi_{\alpha = 0.975}^2}$ and ${\chi_{\alpha = 0.025}^2}$ 
   - There is a .95 probability of obtaining a ${\chi^2}$ value such that ${\chi_{0.975}^2} \leq {\chi^2} \leq{\chi_{0.025}^2}$
 
 ```{r 'C11-ChiSq'}
-# #pnorm() qnorm() | pt() qt() | pchisq() qchisq()
+# #pnorm() qnorm() | pt() qt() | pchisq() qchisq() | pf() qf() 
 #
 # #p-value approach: Find Commulative Probability P corresponding to the given ChiSq & DOF=59
 pchisq(q = 32.852, df = 19, lower.tail = FALSE)
@@ -55,31 +56,68 @@ pchisq(q = 32.852, df = 19, lower.tail = FALSE)
 qchisq(p = 0.025, df = 19, lower.tail = FALSE)
 ```
 
-- Using equation \@ref(eq:variance), we can get \@ref(eq:chi-confidence-95), which provides a 95% confidence interval estimate for the population variance ${\sigma}^2$.
+- Using equation \@ref(eq:var-1s), we can get \@ref(eq:chi-95), which provides a 95% confidence interval estimate for the population variance ${\sigma}^2$.
 
 \begin{equation}
   \frac{(n-1)s^2}{{\chi_{0.025}^2}} \leq {\sigma}^2 \leq \frac{(n-1)s^2}{{\chi_{0.975}^2}}
-  (\#eq:chi-confidence-95)
+  (\#eq:chi-95)
 \end{equation}
 
-- Using values from the example, $0.0014 \leq {\sigma}^2 \leq 0.0053 \Rightarrow 0.0380 \leq {\sigma} \leq 0.0730$
+- In the example, $(n-1)s^2 = 19 * 0.0025 = 0.0475$
+- \@ref(eq:chi-95) $\frac{0.0475}{32.852} \leq {\sigma}^2 \leq \frac{0.0475}{8.907} \to 0.0014 \leq {\sigma}^2 \leq 0.0053 \to 0.0380 \leq {\sigma} \leq 0.0730$
   - which gives the 95% confidence interval for the population standard deviation
 
-Generalising the equation \@ref(eq:chi-confidence-95), the equation \@ref(eq:chi-confidence) is the interval estimate of a population variance.
+Generalising the equation \@ref(eq:chi-95), the equation \@ref(eq:interval-estm-1s-var) is the interval estimate of a population variance.
 
 \begin{equation}
   \frac{(n-1)s^2}{{\chi_{{\alpha}/2}^2}} \leq {\sigma}^2 \leq \frac{(n-1)s^2}{{\chi_{{1-\alpha}/2}^2}}
-  (\#eq:chi-confidence)
+  (\#eq:interval-estm-1s-var)
 \end{equation}
 
 where the ${\chi^2}$ values are based on a chi-square distribution with ${n-1}$ degrees of freedom and where $(1 − {\alpha})$ is the confidence coefficient.
 
+### Hypothesis Tests {.tabset .tabset-fade}
 
 
-"ForLater" 
+Using ${{\sigma}_0^2}$ to denote the hypothesized value for the population variance, the three forms for a hypothesis test are as follows: 
 
-- Hypothesis Testing
-- Inferences About Two Population Variances 
+```{definition 'H-1s-Var-Lower'}
+\textcolor{pink}{$\text{\{Left or Lower \} }\space\thinspace {H_0} : {\sigma}^2 \geq {{\sigma}_0^2} \iff {H_a}: {\sigma}^2 < {{\sigma}_0^2}$}
+```
+
+```{definition 'H-1s-Var-Upper'}
+\textcolor{pink}{$\text{\{Right or Upper\} } {H_0} : {\sigma}^2 \leq {{\sigma}_0^2} \iff {H_a}: {\sigma}^2 > {{\sigma}_0^2}$}
+```
+
+```{definition 'H-1s-Var-Two'}
+\textcolor{pink}{$\text{\{Two Tail Test \} } \thinspace {H_0} : {\sigma}^2 = {{\sigma}_0^2} \iff {H_a}: {\sigma}^2 \neq {{\sigma}_0^2}$}
+```
+
+Note: In general, Upper Tail test is the most frequently observed test because low variances are generally desirable. With a statement about the maximum allowable population variance, we can test the null hypothesis that the population variance is less than or equal to the maximum allowable value against the alternative hypothesis that the population variance is greater than the maximum allowable value. With this test structure, corrective action will be taken whenever rejection of the null hypothesis indicates the presence of an excessive population variance. 
+
+\textcolor{pink}{Test Statistic for Hypothesis Tests About a Population Variance: } Refer \@ref(eq:chi-1s), where ${\chi^2}$ has a chi-square distribution with ${n - 1}$ degrees of freedom.
+
+\begin{equation}
+  {\chi^2} = \frac{(n - 1){s}^2}{{\sigma}_0^2}
+  (\#eq:chi-1s)
+\end{equation}
+
+Example: Louis: the company standard specifies an arrival time variance of 4 or less
+
+```{r 'C11D01', comment="", echo=FALSE, results='asis'}
+f_getDef("H-1s-Var-Upper") #dddd
+```
+
+- (Sample) ${n} = 24, {s}^2 = 4.9$
+- \@ref(eq:chi-1s) ${\chi^2} = \frac{(n - 1){s}^2}{{\sigma}_0^2} = \frac{(24 - 1) * 4.9}{4} = 28.18$
+- ${}^U\!P_{(\chi^2)} = 0.209$
+  - `pchisq(q = 28.18, df = 23, lower.tail = FALSE)` \textcolor{pink}{$\#\mathcal{R}$} 
+- Compare with ${\alpha} = 0.05$
+  - ${}^U\!P_{(\chi^2)} > {\alpha} \to {H_0}$ cannot be rejected
+  - The sample results do not provide sufficient evidence to conclude that the variance is high.
+
+
+
 
 ```{definition 'Distribution-F'}
 The \textcolor{pink}{F distribution} is based on sampling from two normal populations.
