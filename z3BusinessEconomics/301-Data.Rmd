@@ -71,7 +71,7 @@ The scale of measurement for a variable is a \textcolor{pink}{ratio scale} if th
 
 Variables such as distance, height, weight, and time use the ratio scale of measurement. This scale requires that a zero value be included to indicate that nothing exists for the variable at the zero point. \textcolor{pink}{Mean} can be calculated.
 
-For example, consider the cost of an automobile. A zero value for the cost would indicate that the automobile has no cost and is free. In addition, if we compare the cost of \$30,000 for one automobile to the cost of \$15,000 for a second automobile, the ratio property shows that the first automobile is \$30,000/\$15,000 = 2 times, or twice, the cost of the second automobile. 
+For example, consider the cost of an automobile. A zero value for the cost would indicate that the automobile has no cost and is free. In addition, if we compare the cost of 30,000 dollars for one automobile to the cost of 15,000 dollars for a second automobile, the ratio property shows that the first automobile is 30000/15000 = 2 times, or twice, the cost of the second automobile. 
 
 See Table \@ref(tab:C01V01) for more details.
 

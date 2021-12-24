@@ -305,15 +305,15 @@ str(aa)
 bb <- aa %>% pivot_longer(everything(), names_to = "key", values_to = "value")
 # 
 # #ANOVA
-bb_anova <- aov(formula = value ~ key, data = bb)
-#names(bb_anova)
-#bb_anova
+ii_aov <- aov(formula = value ~ key, data = bb)
+#names(ii_aov)
+#ii_aov
 #
 # #
 model.tables(ii_aov, type = "means")
 #
 # #Summary
-summary(bb_anova)
+summary(ii_aov)
 ```
 
 
@@ -340,7 +340,7 @@ Further, Fisher LSD procedure and the Bonferroni adjustment can be used to perfo
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C13-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, ii_aov, xxChemitech)
 ```
 
 ```{r 'C13-Validation', include=FALSE, cache=FALSE}

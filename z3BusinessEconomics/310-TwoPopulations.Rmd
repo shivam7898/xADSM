@@ -862,10 +862,10 @@ cat(paste0("sample estimates is the the estimated probability of success. p: ",
 
 ```{r 'C10-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, alpha, bb_testF, bb_testT, isNormal_A, isNormal_B, setA, setB,
-          xxSoftware, bb_ha, xxMatchedMethods)
+          xxSoftware, bb_ha, xxMatchedMethods, bb_gamma, bb_propT)
 ```
 
-```{r 'C10-Validation', include=TRUE, cache=FALSE}
+```{r 'C10-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

@@ -98,7 +98,7 @@ Refer [Equality in Hypothesis](#equality-b14 "b14")
 
 - The manager of an automobile dealership is considering a new bonus plan designed to increase sales volume. Currently, the mean sales volume is 14 automobiles per month. The manager wants to conduct a research study to see whether the new bonus plan increases sales volume. 
   - Solution: \textcolor{black}{$H_0 : \mu \leq 14 \iff H_a: \mu > 14$}
-- A director of manufacturing must convince management that a proposed manufacturing method reduces costs before the new method can be implemented. The current production method operates with a mean cost of \$220 per hour. 
+- A director of manufacturing must convince management that a proposed manufacturing method reduces costs before the new method can be implemented. The current production method operates with a mean cost of 220 dollars per hour. 
   - Solution: \textcolor{black}{$H_0 : \mu \geq 220 \iff H_a: \mu < 220$}
 
 
