@@ -102,7 +102,48 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   
 ## Case: JAT
 
-\textcolor{pink}{FILENAME:} "B13-WSES.csv"
+\textcolor{pink}{Please import the Jayalaxmi data in xxJAYA object. Due to copyright, it has not been shared.}
+
+
+```{r 'B-Jnames', include=FALSE}
+# #Object Names
+namesJ <- c("xxJdata", "xxJbela", "xxJdhar", "xxJdiseases")
+```
+
+```{r 'B-Jaya', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+xxJaya <- f_getObject("xxJaya", "B15-Jayalaxmi.xlsx", "8be20492c0181d2269754b3232b992aa")
+```
+
+```{r 'B-Jobjects', include=FALSE, eval=FALSE}
+# #Create Separate Tibbles for Each Sheet
+# #Separate Objects
+for(ii in seq_along(namesJ)){
+  assign(namesJ[ii], xxJaya[[ii + 1]])
+}
+#
+# #Modifications
+# #Rename Headers
+names(xxJdiseases) <- c("Type", "Disease", "RH", "Temperature")
+# #Delete First Row
+xxJdiseases <- xxJdiseases[-1, ]
+#
+# #Save Binary Files
+for(ii in seq_along(namesJ)){
+  saveRDS(eval(parse(text = namesJ[ii])), paste0(.z$XL, namesJ[ii], ".rds"))
+}
+```
+
+```{r 'B-ImportData', include=FALSE}
+for(ii in seq_along(namesJ)){
+  assign(namesJ[ii], readRDS(paste0(.z$XL, namesJ[ii], ".rds")))
+}
+```
+
+```{r 'B-List', cache=FALSE}
+# #Dimensions of these datasets
+str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
+```
 
 
 
