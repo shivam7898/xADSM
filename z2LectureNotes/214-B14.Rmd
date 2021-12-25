@@ -127,9 +127,12 @@ bb$LCC <- factor(bb$LCC, levels = c("E", "V", "F", "L"), labels = c(1, 2, 3, 4))
 
 #### Structure after Conversion {.unlisted .unnumbered}
 
-```{r 'B14-WorkingData', echo=c(3)}
-#xyWSES <- bb
-#f_setRDS(xyWSES)
+```{r 'B14-SaveData', include=FALSE, eval=FALSE}
+xyWSES <- bb
+f_setRDS(xyWSES)
+```
+
+```{r 'B14-WorkingData'}
 str(bb)
 ```
 
