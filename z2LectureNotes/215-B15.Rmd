@@ -100,13 +100,13 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     a. Neither (a) nor (b)
 	  - Answer: \textcolor{black}{b}
   
-## Case: JAT
+## Case: JAT 
 
-\textcolor{pink}{Please import the Jayalaxmi data in xxJAYA object. Due to copyright, it has not been shared.}
+\textcolor{pink}{Please import the Jayalaxmi data.}
 
 
 ```{r 'B-Jnames', include=FALSE}
-# #Object Names
+# #Object Names for each sheet
 namesJ <- c("xxJdata", "xxJbela", "xxJdhar", "xxJdiseases")
 ```
 
@@ -140,16 +140,84 @@ for(ii in seq_along(namesJ)){
 }
 ```
 
-```{r 'B-List', cache=FALSE}
+```{r 'B-List', include=FALSE}
 # #Dimensions of these datasets
 str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 ```
 
+```{r 'B-List-A', ref.label=c('B-Jnames', 'B-List')}
+#
+```
 
 
-### Q1 
+### Q1 {.unlisted .unnumbered .tabset .tabset-fade}
 
 Test the claim that disease 6 (leaf curl) information was accessed at least 60 times every month on average since October 2017 due to this disease outbreak. $({\alpha} = 0.05)$
+
+
+```{r 'B-'}
+# #Data | Rename | Sum Months D6 | Change from Date Time to Date
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year") %>% 
+  group_by(Dates) %>% 
+  summarise(D6 = sum(D6)) %>% 
+  mutate(across(Dates, as_date))
+```
+
+#### Code
+
+
+```{r 'B-'}
+# #Create Sequence of Months
+ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
+# #Fill Missing Months 
+kk <- right_join(bb, ii, by = "Dates") %>% arrange(Dates)
+# #Replace NA
+ll <- kk %>% mutate(across(D6, coalesce, 0)) 
+str(ll)
+summary(ll)
+```
+
+
+#### Missing Months
+
+```{r 'B-'}
+str(bb)
+summary(bb)
+#
+# #Assuming each row is one month with no duplicates
+stopifnot(identical(anyDuplicated(bb$Dates), 0L))
+#
+# #Create Sequence of Months
+#ii <- seq(ymd("2015-6-1"), ymd("2018-5-1"), by = "months")
+ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
+#
+diff_len <- nrow(ii) - nrow(bb)
+#
+if(!identical(diff_len, 0L)) {
+  cat(paste0("Number of missing months = ", diff_len,"\n"))
+  #
+  # #Find Values that should be in Complete Sequence but are missing in the data
+  as_date(setdiff(ii$Dates, bb$Dates))
+  # #OR
+  ii %>% anti_join(bb)
+  #
+  # #This does not need a separate Vector of all Months
+  # #Get Months Difference using Integer Division and 
+  # #Filter Rows which are not consecutive and rows above them
+  bb %>% 
+    mutate(diff_months = (interval(lag(Dates), Dates)) %/% months(1)) %>% 
+    filter( (diff_months != 1) | lead(diff_months != 1) )
+}
+```
+
+
+```{r 'B-'}
+# #Fill Missing Months 
+jj <- as_tibble(merge(bb, ii, by = "Dates", all = TRUE)) 
+kk <- right_join(bb, ii, by = "Dates") %>% arrange(Dates)
+stopifnot(identical(jj, kk))
+```
 
 
 ### Q2 
