@@ -154,6 +154,14 @@ str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 
 Test the claim that disease 6 (leaf curl) information was accessed at least 60 times every month on average since October 2017 due to this disease outbreak. $({\alpha} = 0.05)$
 
+```{r 'B15D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail")
+```
+
+- ${}^U\!P_{t = 5.3771} = 0.0005 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
+  - We can conclude that the information on disease 6 was accessed at least 60 times every month on average since October 2017.
+
+#### Code
 
 ```{r 'B-'}
 # #Data | Rename | Sum Months D6 | Change from Date Time to Date
@@ -161,21 +169,17 @@ bb <- xxJdata %>%
   rename(Dates = "Month-Year") %>% 
   group_by(Dates) %>% 
   summarise(D6 = sum(D6)) %>% 
-  mutate(across(Dates, as_date))
-```
-
-#### Code
-
-
-```{r 'B-'}
-# #Create Sequence of Months
-ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
-# #Fill Missing Months 
-kk <- right_join(bb, ii, by = "Dates") %>% arrange(Dates)
-# #Replace NA
-ll <- kk %>% mutate(across(D6, coalesce, 0)) 
-str(ll)
-summary(ll)
+  mutate(across(Dates, as_date)) 
+# 
+# #There are missing months, but those months are not applicable in this question
+ii <- bb %>% filter(Dates >= "2017-10-01")
+#
+t_ii <- {mean(ii$D6) - 60} / {sd(ii$D6) / sqrt(nrow(ii))}
+print(t_ii)
+pt(t_ii, df = nrow(ii) - 1, lower.tail = FALSE)
+#
+# #One Sample t-Test
+t.test(ii$D6, mu = 60, alternative = "greater", conf.level = 0.05)
 ```
 
 
@@ -217,6 +221,8 @@ if(!identical(diff_len, 0L)) {
 jj <- as_tibble(merge(bb, ii, by = "Dates", all = TRUE)) 
 kk <- right_join(bb, ii, by = "Dates") %>% arrange(Dates)
 stopifnot(identical(jj, kk))
+# #Replace NA 
+ll <- kk %>% mutate(across(D6, coalesce, 0)) 
 ```
 
 
@@ -224,6 +230,25 @@ stopifnot(identical(jj, kk))
 
 Test the claim that Among the app users for disease information, at least 15% of them access disease information related to disease 6. $({\alpha} = 0.05)$
 
+```{r 'B15D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Hypothesis-1T-Upper-Tail") #dddd
+```
+
+- ${}^U\!P_{t = 11.295} \approx 0 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
+  - We can conclude that at least 15% of users access D6 related information.
+  - proportion
+
+```{r 'B-'}
+# #Get Percentage Users of D6
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year", Users = "No of users") %>% 
+  select(Dates, Users, D6) %>% 
+  mutate(across(Dates, as_date)) %>% 
+  mutate(PCT = D6/Users)
+#
+# #One Sample t-Test
+t.test(bb$PCT, mu = 0.15, alternative = "greater", conf.level = 0.05)
+```
 
 ### Q3 
 
