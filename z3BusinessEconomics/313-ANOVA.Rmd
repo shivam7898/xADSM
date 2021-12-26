@@ -76,6 +76,10 @@ Three assumptions are required to use analysis of variance.
 
 If the sample sizes are equal, analysis of variance is not sensitive to departures from the assumption of normally distributed populations.
 
+\textcolor{pink}{Normality:}
+
+- In ANOVA, the entire response column is typically nonnormal because the different groups in the data have different means.
+
 ## Conceptual Overview
 
 If the means for the three populations are equal, we would expect the three sample means to be close together. The more the sample means differ, the stronger the evidence we have for the conclusion that the population means differ. In other words, if the variability among the sample means is "small", it supports ${H_0}$; if the variability among the sample means is "large", it supports ${H_a}$.

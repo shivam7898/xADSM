@@ -319,7 +319,7 @@ f_getDef("H-2s-Upper")
 - $({}^L\!P_{t = -7.255} =  {}^U\!P_{t = 7.255}) < {\alpha} \to {H_0}$ is rejected 
   - The sample results provide sufficient evidence to conclude that the average number of users has increased.
 
-```{r 'B-Q3'}
+```{r 'B15-Q3'}
 # #Data
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
@@ -366,11 +366,15 @@ Also, using data from January-2016 – May-2018, test the claim that app usage p
 f_getDef("H-ANOVA") #dddd
 ```
 
-- ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
+- Data groups are not normal and neither the variances are equal
+  - Log transformation failed, Residual Test failed
+  - However, Sqrt transformation passed Normality Test as well as Variances are found to be same
+- Using Sqrt of Data ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
   - The sample results do not provide sufficient evidence to conclude that the app usage is different across the four weeks of a month. 
-- Howeve, only the Week 1 and Week 2 follow Normality, Week 3 and Week 4 data is not normal
 
-```{r 'B-Q4'}
+#### Anova & Kruskal {.unlisted .unnumbered}
+
+```{r 'B15-Q4'}
 # #Data | Missing Months can be ignored as those are missing across all weeks
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
@@ -379,7 +383,7 @@ bb <- xxJdata %>%
 str(bb)
 summary(bb)
 #
-# #ANOVA
+# #ANOVA (on original data : neither normal, nor of equal variance)
 bb_aov <- aov(formula = Usage ~ Week, data = bb)
 #
 # #
@@ -389,26 +393,119 @@ model.tables(bb_aov, type = "means")
 summary(bb_aov)
 #
 bb_aov
+#
+kruskal.test(Usage ~ Week, data = bb)
+#
+# #Poisson Test (ForLater)
+#anova(glm(Usage ~ Week, data = ii, family = poisson), test = "LRT")
+#
+# #Transformation: Square Root Data
+ii <- bb %>% mutate(Week = factor(Week)) %>% mutate(Sqrt = sqrt(Usage))
+str(ii)
+summary(ii)
+#
+# #ANOVA
+ii_aov <- aov(formula = Sqrt ~ Week, data = ii)
+# #
+model.tables(ii_aov, type = "means")
+#
+# #Summary
+summary(ii_aov)
+#
+kruskal.test(Sqrt ~ Week, data = ii)
 ```
 
-#### Normality {.unlisted .unnumbered .tabset .tabset-fade}
+#### Variance {.unlisted .unnumbered}
+
+[(External) Variances in R](http://www.sthda.com/english/wiki/compare-multiple-sample-variances-in-r "http://www.sthda.com")
+
+Statistical tests for comparing the variances of two or more samples. Equal variances across samples is called homogeneity of variances.
+
+- Reason
+  - Two independent samples T-test and ANOVA test, assume that variances are equal across groups. 
+- Statistical tests for comparing variances
+  - F-test: Compare the variances of two samples. The data must be normally distributed.
+  - Bartlett test: Compare the variances of k samples, where k can be more than two samples. 
+    - The data must be normally distributed. 
+    - The Levene test is an alternative to the Bartlett test that is less sensitive to departures from normality.
+  - Levene test: Compare the variances of k samples, where k can be more than two samples. 
+    - It is an alternative to the Bartlett test that is less sensitive to departures from normality.
+  - Fligner-Killeen test: a non-parametric test which is very robust against departures from normality.
+- Hypothesis
+  - For all these tests (Bartlett test, Levene test or Fligner-Killeen test): 
+
+```{definition 'H-Variances'}
+\textcolor{pink}{$\text{\{Variances\}} {H_0} : {\sigma}_1 = {\sigma}_2 = \dots = {\sigma}_k \iff {H_a}: \text{At least two variances differ.}$}
+```
+
+- On this data, all 3 tests have p-value less than 0.05, i.e. Variances are NOT same
+- On the Transformed Data (Sqrt), Levene Test and Fligner Test fail to detect difference in Variances
 
 
-```{r 'B-'}
+```{r 'B15-Variance'}
+# #Data
+str(bb)
+summary(bb)
+#
+# #Bartlett Test
+bartlett.test(Usage ~ Week, data = bb)
+#
+# #Levene Test
+ii <- bb %>% mutate(Week = factor(Week))
+leveneTest(Usage ~ Week, data = ii)
+#
+# #Fligner-Killeen test
+fligner.test(Usage ~ Week, data = bb)
+#
+# #Transformation: Square Root Data
+ii <- bb %>% mutate(Week = factor(Week)) %>% mutate(Sqrt = sqrt(Usage))
+bartlett.test(Sqrt ~ Week, data = ii)
+leveneTest(Sqrt ~ Week, data = ii)
+fligner.test(Sqrt ~ Week, data = ii)
+```
+
+
+#### Normality {.unlisted .unnumbered}
+
+```{r 'B15-Normality'}
 # #Are the data from each of the 4 groups follow a normal distribution
 # #Shapiro-Wilk normality test
-bb %>% group_by(Week) %>% summarise(N = n(), Mean = mean(Usage), SD = sd(Usage),
-                                    p_Shapiro = shapiro.test(Usage)$p.value, 
-                                    isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
-# #Week 3 and 4 are not normal
-#
+bb %>% mutate(Week = factor(Week)) %>% 
+  group_by(Week) %>% 
+  summarise(N = n(), Mean = mean(Usage), SD = sd(Usage),
+            p_Shapiro = shapiro.test(Usage)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
 # #Check Q-Q plot
 #qqnorm(bb[bb$Week == "Week1", ]$Usage)
 #
-# #Converting the data to normal using log (because the lowest value is 1 in the Usage)
-ii <- bb %>% mutate(Log = log(Usage))
-ii %>% group_by(Week) %>% summarise(p = shapiro.test(Log)$p.value)
-# #Week 1 and 4 are not normal now.
+# #Transformation: Log (Did not pass Normality)
+bb %>% mutate(Week = factor(Week)) %>% 
+  mutate(Log = log(Usage)) %>% 
+  group_by(Week) %>% 
+  summarise(p_Shapiro = shapiro.test(Log)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+#
+# #Transformation: Square Root (Success: Passed Normality) - Selected
+bb %>% mutate(Week = factor(Week)) %>% 
+  mutate(Sqrt = sqrt(Usage)) %>% 
+  group_by(Week) %>% 
+  summarise(p_Shapiro = shapiro.test(Sqrt)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+#
+# #Transformation: Cube Root (Success: Passed Normality) Just to check
+bb %>% mutate(Week = factor(Week)) %>% 
+  mutate(CubeRoot = Usage^(1/3)) %>% 
+  group_by(Week) %>% 
+  summarise(p_Shapiro = shapiro.test(CubeRoot)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+#
+# #Testing Residuals i.e. Data - Group Mean (Did not pass Normality)
+bb %>% mutate(Week = factor(Week)) %>% 
+  group_by(Week) %>% 
+  mutate(Residuals = Usage - mean(Usage)) %>% 
+  summarise(p_Shapiro = shapiro.test(Residuals)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+
 ```
 
 
@@ -425,7 +522,9 @@ If a disease is likely to spread in particular weather condition (data given in 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B15-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_aov, bb_prop, 
+          diff_len, ii_aov, isVarEqual, jj_t, jj_var, namesJ, t_ii, xxJbela, xxJdata, xxJdhar,
+          xxJdiseases)
 ```
 
 ```{r 'B15-Validation', include=TRUE, cache=FALSE}
