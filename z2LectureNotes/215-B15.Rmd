@@ -226,7 +226,7 @@ ll <- kk %>% mutate(across(D6, coalesce, 0))
 ```
 
 
-### Q2 
+### Q2 {.tabset .tabset-fade}
 
 Test the claim that Among the app users for disease information, at least 15% of them access disease information related to disease 6. $({\alpha} = 0.05)$
 
@@ -236,10 +236,14 @@ f_getDef("Hypothesis-1T-Upper-Tail") #dddd
 
 - ${}^U\!P_{t = 11.295} \approx 0 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
   - We can conclude that at least 15% of users access D6 related information.
-  - proportion
+  - \textcolor{orange}{Caution:} Professor applied Proportion. I do not know whether the application of One-tail Test here is wrong or not.
+
+
+
+#### One Sample t-Test {.unlisted .unnumbered}
 
 ```{r 'B-'}
-# #Get Percentage Users of D6
+# #Get Percentage Users of D6 
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
   select(Dates, Users, D6) %>% 
