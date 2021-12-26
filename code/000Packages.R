@@ -12,8 +12,11 @@ if (!("conflicted" %in% (.packages()))) {
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
 #
 # #Precedence
+# # dplyr::filter | stats::filter
   invisible(suppressMessages(conflict_prefer("filter", "dplyr")))
   invisible(suppressMessages(conflict_prefer("annotate", "ggplot2")))
+# # dplyr::lag | stats::lag
+  invisible(suppressMessages(conflict_prefer("lag", "dplyr"))) 
 # #Cleanup
   rm(pkg)
 } else print("Packages not loaded again.")
