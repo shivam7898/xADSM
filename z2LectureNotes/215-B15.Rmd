@@ -105,17 +105,17 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 \textcolor{pink}{Please import the Jayalaxmi data.}
 
 
-```{r 'B-Jnames', include=FALSE}
+```{r 'B15-Jnames', include=FALSE}
 # #Object Names for each sheet
 namesJ <- c("xxJdata", "xxJbela", "xxJdhar", "xxJdiseases")
 ```
 
-```{r 'B-Jaya', include=FALSE, eval=FALSE}
+```{r 'B15-Jaya', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
 xxJaya <- f_getObject("xxJaya", "B15-Jayalaxmi.xlsx", "8be20492c0181d2269754b3232b992aa")
 ```
 
-```{r 'B-Jobjects', include=FALSE, eval=FALSE}
+```{r 'B15-Jobjects', include=FALSE, eval=FALSE}
 # #Create Separate Tibbles for Each Sheet
 # #Separate Objects
 for(ii in seq_along(namesJ)){
@@ -134,18 +134,18 @@ for(ii in seq_along(namesJ)){
 }
 ```
 
-```{r 'B-ImportData', include=FALSE}
+```{r 'B15-ImportData', include=FALSE}
 for(ii in seq_along(namesJ)){
   assign(namesJ[ii], readRDS(paste0(.z$XL, namesJ[ii], ".rds")))
 }
 ```
 
-```{r 'B-List', include=FALSE}
+```{r 'B15-List', include=FALSE}
 # #Dimensions of these datasets
 str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 ```
 
-```{r 'B-List-A', ref.label=c('B-Jnames', 'B-List')}
+```{r 'B15-List-A', ref.label=c('B-Jnames', 'B-List')}
 #
 ```
 
@@ -163,7 +163,7 @@ f_getDef("Hypothesis-1T-Upper-Tail")
 
 #### Code
 
-```{r 'B-'}
+```{r 'B15-Q1'}
 # #Data | Rename | Sum Months D6 | Change from Date Time to Date
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year") %>% 
@@ -185,7 +185,7 @@ t.test(ii$D6, mu = 60, alternative = "greater", conf.level = 0.05)
 
 #### Missing Months
 
-```{r 'B-'}
+```{r 'B15-MissingMonths'}
 str(bb)
 summary(bb)
 #
@@ -216,7 +216,7 @@ if(!identical(diff_len, 0L)) {
 ```
 
 
-```{r 'B-'}
+```{r 'B15-FillMissingMonths'}
 # #Fill Missing Months 
 jj <- as_tibble(merge(bb, ii, by = "Dates", all = TRUE)) 
 kk <- right_join(bb, ii, by = "Dates") %>% arrange(Dates)
@@ -231,27 +231,79 @@ ll <- kk %>% mutate(across(D6, coalesce, 0))
 Test the claim that Among the app users for disease information, at least 15% of them access disease information related to disease 6. $({\alpha} = 0.05)$
 
 ```{r 'B15D02', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypothesis-1T-Upper-Tail") #dddd
+f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
-- ${}^U\!P_{t = 11.295} \approx 0 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
-  - We can conclude that at least 15% of users access D6 related information.
-  - \textcolor{orange}{Caution:} Professor applied Proportion. I do not know whether the application of One-tail Test here is wrong or not.
+- One Tail t-Test 
+  - \textcolor{orange}{Caution: Professor applied Proportion Test.}  
+  - Wrong Analysis: 
+    - ~~${}^U\!P_{t} = 0.094 \to {}^U\!P_{(t)} > {\alpha} \to {H_0}$ cannot be rejected.~~
+    - ~~We cannot conclude that at least 15% of users access D6 related information.~~
+  - (Aside) Why using t-test is wrong here 
+    - 15% is NOT the ${\mu}$, it is proportion. Using that as Mean was wrong.
+    - We are NOT looking for percentage of D6 lookup in each row or observation. It does not matter if one day farmers only looked for other diseases and another day farmers searched only D6. We are interested in overall share of D6 searches out of searches for Diseases
 
+- Proportion Test
 
+Determine whether the proportion of farmers searching for D6 is more than $p_0 = 0.15$
+
+```{r 'B15D03', comment="", echo=FALSE, results='asis'}
+f_getDef("H-1s-p-Upper") #dddd
+```
+
+- Count of Success $({x})$ is Searches of D6 
+- $\{n = 26830, x = 4295\} \to {\overline{p}} = {n}/{x} = 0.160082$ 
+- \@ref(eq:z-1s-p) 
+  - ${}^U\!P_{({\chi}^2)} < {\alpha} \to {H_0}$ is rejected i.e. the proportions are different
+  - We can conclude that the proportion of farmers searching for D6 is more than $p_0 = 0.15$ for all searches for Diseases.
+
+#### Proportion Test {.unlisted .unnumbered}
+
+```{r 'B15-PropTest'}
+# #Data | Sum Disease, Variety, Micronutrients 
+aa <- xxJdata %>% 
+  mutate(sumD = rowSums(across(starts_with("D"))), 
+         sumV = rowSums(across(starts_with("V")))) %>% 
+  rename(Dates = "Month-Year", Users = "No of users", Micro = "Micronutrient") %>% 
+  mutate(SUM = rowSums(across(c(sumD, sumV, Micro))),
+         DIFF = Usage - SUM) %>% 
+  select(Dates, Users, Usage, SUM, DIFF, sumD, sumV, Micro, D6) %>% 
+  mutate(across(Dates, as_date)) %>% 
+  mutate(Fraction = D6/sumD)
+#
+# #Confirmed Usage is Sum Total of Disease, Variety, Micronutrients
+unique(aa$DIFF)
+#
+# #Working Set | Exclude 1 NA i.e. where sumD is zero
+bb <- aa %>% drop_na(Fraction) %>% select(Usage, sumD, D6, Fraction)
+#
+# #Check n (Sample Count) and x (Count of Success)
+bb %>% summarise(across(c(sumD, D6), sum))
+#
+# #One Sample Proportion Test with continuity correction
+bb_prop <- prop.test(x = sum(bb$D6), n = sum(bb$sumD), p = 0.15, 
+                     alternative = "greater", conf.level = 0.95)
+bb_prop
+```
+
+#### Proportion Test (Usage) {.unlisted .unnumbered}
+
+```{r 'B15-PropTestALL'}
+# #Impact if we try to evaluate propotion of D6 searches out of ALL Usage (Disease, Variety, Micro)
+# #Check n (Sample Count) and x (Count of Success)
+bb %>% summarise(across(c(Usage, D6), sum))
+#
+# #One Sample Proportion Test with continuity correction
+# #With p-value = 1, we cannot claim that 15% searches are for D6 only out of ALL Usage
+prop.test(x = sum(bb$D6), n = sum(bb$Usage), p = 0.15, 
+                     alternative = "greater", conf.level = 0.95)
+```
 
 #### One Sample t-Test {.unlisted .unnumbered}
 
-```{r 'B-'}
-# #Get Percentage Users of D6 
-bb <- xxJdata %>% 
-  rename(Dates = "Month-Year", Users = "No of users") %>% 
-  select(Dates, Users, D6) %>% 
-  mutate(across(Dates, as_date)) %>% 
-  mutate(PCT = D6/Users)
-#
+```{r 'B15-Q2-Wrong'}
 # #One Sample t-Test
-t.test(bb$PCT, mu = 0.15, alternative = "greater", conf.level = 0.05)
+t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
 ```
 
 ### Q3 
