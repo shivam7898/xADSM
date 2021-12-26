@@ -334,8 +334,9 @@ Check whether the average sales value of "learnsys" projects is higher than that
 f_getDef("H-2s-Upper")
 ```
 
-- t-test for difference of means can be applied only if the variances are same.
+- (Pooled) t-test for difference of means can be applied only if the variances are same.
   - Location of two distributions can be compared only when their spread is similar.
+  - (Aside) if the variances are not same, then Welch Test is applied in place of Pooled Test.
 - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected 
   - The sample results do not provide sufficient evidence to conclude that the "learnsys" has higher average sales than "Finsys"
 
@@ -354,9 +355,11 @@ f_getDef("H-2s-Upper")
 str(ii)
 ii_var <- var.test(SVM ~ PDT, data = ii)
 if(ii_var$p.value > 0.05) {
+  cat(paste0("Variances are same. Pooled Test can be applied. \n"))
   t.test(formula = SVM ~ PDT, data = ii, alternative = "greater", var.equal = TRUE)
 } else {
-  cat(paste0("Problem: Difference of means can be tested only if the variances are same.\n"))
+  cat(paste0("Variances are NOT same. Welch Test should be applied. \n"))
+  t.test(formula = SVM ~ PDT, data = ii, alternative = "greater", var.equal = FALSE)
 }
 ```
 

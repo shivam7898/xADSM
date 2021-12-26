@@ -247,7 +247,7 @@ f_getDef("Hypothesis-1T-Upper-Tail")
 Determine whether the proportion of farmers searching for D6 is more than $p_0 = 0.15$
 
 ```{r 'B15D03', comment="", echo=FALSE, results='asis'}
-f_getDef("H-1s-p-Upper") #dddd
+f_getDef("H-1s-p-Upper")
 ```
 
 - Count of Success $({x})$ is Searches of D6 
@@ -309,8 +309,17 @@ t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
 
 Test the claim that the average number of users in year 2017-2018 is more than average number of users in year 2015-2016. $({\alpha} = 0.05)$
 
+```{r 'B15D04', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Upper") #dddd
+```
 
-```{r 'B-'}
+- If 1 is 2017-2018, 2 is 2015-2016 : Upper Tail Test is required
+- If 1 is 2015-2016, 2 is 2017-2018 : Lower Tail Test is required
+- Because the Variances are NOT same, Welch t-test is required, we cannot use Pooled Test
+- $({}^L\!P_{t = -7.255} =  {}^U\!P_{t = 7.255}) < {\alpha} \to {H_0}$ is rejected 
+  - The sample results provide sufficient evidence to conclude that the average number of users has increased.
+
+```{r 'B-Q3'}
 # #Data
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
@@ -329,7 +338,22 @@ jj$Year <- cut(jj$Dates, breaks = c(min(ii$Dates), as_date("2017-01-01"), Inf),
 jj[!duplicated(jj$Year), ]
 jj %>% filter(Dates %in% ymd(c("2016-12-01", "2017-01-01")))
 #
-
+# #For Two Sample t-test, check if Variances are equal
+jj_var <- var.test(Users ~ Year, data = jj)
+jj_var
+#
+# #If Variances are Equal, Pooled Test otherwise Welch Test
+isVarEqual <- ifelse(jj_var$p.value > 0.05, TRUE, FALSE)
+#
+# #Because 1 is "2015-2016", 2 is "2017-2018", we need to perform Lower Tail Test
+jj_t <- t.test(formula = Users ~ Year, data = jj, alternative = "less", var.equal = isVarEqual)
+jj_t
+#
+# #Alternatively, we can reverse Factor levels to perform Upper Tail Test
+kk <- jj
+kk$Year <- factor(kk$Year, levels = rev(levels(jj$Year)))
+#
+t.test(formula = Users ~ Year, data = kk, alternative = "greater", var.equal = isVarEqual)
 ```
 
 
@@ -337,6 +361,29 @@ jj %>% filter(Dates %in% ymd(c("2016-12-01", "2017-01-01")))
 
 Check whether app usage is same or different across the four weeks of a month. 
 Also, using data from January-2016 – May-2018, test the claim that app usage picked up after January 2016.
+
+
+```{r 'B-Q4'}
+# #Data | Missing Months can be ignored as those are missing across all weeks
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year", Users = "No of users") %>% 
+  select(Week, Usage)
+#
+str(bb)
+summary(bb)
+#
+# #ANOVA
+bb_aov <- aov(formula = Usage ~ Week, data = bb)
+#
+# #
+model.tables(bb_aov, type = "means")
+#
+# #Summary
+summary(bb_aov)
+#
+bb_aov
+```
+
 
 ### Q5 
 
