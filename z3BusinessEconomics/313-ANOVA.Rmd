@@ -58,7 +58,7 @@ aa %>%
   - we want to use the sample means to test the following hypotheses:
   
 ```{r 'C13D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypo-ANOVA") #dddd
+f_getDef("H-ANOVA") #dddd
 ```
 
 If ${H_0}$ is rejected, we cannot conclude that all population means are different. Rejecting ${H_0}$ means that at least two population means have different values.
@@ -121,7 +121,7 @@ If the null hypothesis is false, the between-treatments estimate will be larger 
 \textcolor{pink}{Analysis of Variance and the Completely Randomized Design}
 
 
-```{definition 'Hypo-ANOVA'}
+```{definition 'H-ANOVA'}
 \textcolor{pink}{$\text{\{ANOVA\}} {H_0} : {\mu}_1 = {\mu}_2 = \dots = {\mu}_k \iff {H_a}: \text{Not all population means are equal}$}
 ```
 

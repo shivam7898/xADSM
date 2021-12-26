@@ -310,7 +310,7 @@ t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
 Test the claim that the average number of users in year 2017-2018 is more than average number of users in year 2015-2016. $({\alpha} = 0.05)$
 
 ```{r 'B15D04', comment="", echo=FALSE, results='asis'}
-f_getDef("H-2s-Upper") #dddd
+f_getDef("H-2s-Upper")
 ```
 
 - If 1 is 2017-2018, 2 is 2015-2016 : Upper Tail Test is required
@@ -357,11 +357,18 @@ t.test(formula = Users ~ Year, data = kk, alternative = "greater", var.equal = i
 ```
 
 
-### Q4 
+### Q4 {.tabset .tabset-fade}
 
 Check whether app usage is same or different across the four weeks of a month. 
 Also, using data from January-2016 – May-2018, test the claim that app usage picked up after January 2016.
 
+```{r 'B15D05', comment="", echo=FALSE, results='asis'}
+f_getDef("H-ANOVA") #dddd
+```
+
+- ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
+  - The sample results do not provide sufficient evidence to conclude that the app usage is different across the four weeks of a month. 
+- Howeve, only the Week 1 and Week 2 follow Normality, Week 3 and Week 4 data is not normal
 
 ```{r 'B-Q4'}
 # #Data | Missing Months can be ignored as those are missing across all weeks
@@ -382,6 +389,26 @@ model.tables(bb_aov, type = "means")
 summary(bb_aov)
 #
 bb_aov
+```
+
+#### Normality {.unlisted .unnumbered .tabset .tabset-fade}
+
+
+```{r 'B-'}
+# #Are the data from each of the 4 groups follow a normal distribution
+# #Shapiro-Wilk normality test
+bb %>% group_by(Week) %>% summarise(N = n(), Mean = mean(Usage), SD = sd(Usage),
+                                    p_Shapiro = shapiro.test(Usage)$p.value, 
+                                    isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+# #Week 3 and 4 are not normal
+#
+# #Check Q-Q plot
+#qqnorm(bb[bb$Week == "Week1", ]$Usage)
+#
+# #Converting the data to normal using log (because the lowest value is 1 in the Usage)
+ii <- bb %>% mutate(Log = log(Usage))
+ii %>% group_by(Week) %>% summarise(p = shapiro.test(Log)$p.value)
+# #Week 1 and 4 are not normal now.
 ```
 
 

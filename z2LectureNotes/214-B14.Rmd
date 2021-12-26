@@ -47,7 +47,7 @@ if(FALSE) {
 - Hypothesis test to check whether the average sales value in the population is at least 8-million
 
 ```{r 'B14D07', comment="", echo=FALSE, results='asis'}
-f_getDef("Hypothesis-1T-Upper-Tail") #dddd
+f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
 \textcolor{orange}{Caution:} While importing data, for Mac users, probably it will be easier to import CSV file. However, I am not a Mac user so cannot comment on this.
@@ -377,8 +377,11 @@ if(jj_var$p.value > 0.05) {
 
 Check whether there is a difference in the average profit across the geographical locations: United Kingdom, India and the Americas. 
 
-- We need to conduct ANOVA because there are more than 2 levels we are checking
+```{r 'B14D08', comment="", echo=FALSE, results='asis'}
+f_getDef("H-ANOVA") #dddd
+```
 
+- We need to conduct ANOVA because there are more than 2 levels we are checking
 - \textcolor{pink}{aov()}
   - Total Variance = Between or MSTR + Within or MSE
     - Sum Sq provides SSTR & SSE
