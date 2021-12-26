@@ -234,10 +234,9 @@ Test the claim that Among the app users for disease information, at least 15% of
 f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
-- One Tail t-Test 
-  - \textcolor{orange}{Caution: Professor applied Proportion Test.}  
+- ~~One Tail t-Test~~ \textcolor{orange}{Caution: Proportion Test is needed.} 
   - Wrong Analysis: 
-    - ~~${}^U\!P_{t} = 0.094 \to {}^U\!P_{(t)} > {\alpha} \to {H_0}$ cannot be rejected.~~
+    - ${}^U\!P_{t} = 0.094 \to {}^U\!P_{(t)} > {\alpha} \to {H_0}$ cannot be rejected.
     - ~~We cannot conclude that at least 15% of users access D6 related information.~~
   - (Aside) Why using t-test is wrong here 
     - 15% is NOT the ${\mu}$, it is proportion. Using that as Mean was wrong.
@@ -309,6 +308,30 @@ t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
 ### Q3 
 
 Test the claim that the average number of users in year 2017-2018 is more than average number of users in year 2015-2016. $({\alpha} = 0.05)$
+
+
+```{r 'B-'}
+# #Data
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(across(Dates, as_date)) %>% 
+  select(Dates, Users)
+#
+# #Missing Months
+ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
+jj <- right_join(bb, ii, by = "Dates") %>% arrange(Dates) %>% mutate(across(Users, coalesce, 0)) 
+#
+# #Create 2 Groups
+jj$Year <- cut(jj$Dates, breaks = c(min(ii$Dates), as_date("2017-01-01"), Inf), 
+               labels = c("2015-2016", "2017-2018"))
+#
+# #Verify Changes
+jj[!duplicated(jj$Year), ]
+jj %>% filter(Dates %in% ymd(c("2016-12-01", "2017-01-01")))
+#
+
+```
+
 
 ### Q4 
 
