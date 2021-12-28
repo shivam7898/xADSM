@@ -150,7 +150,7 @@ str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 ```
 
 
-### Q1 {.unlisted .unnumbered .tabset .tabset-fade}
+### Q1 {.tabset .tabset-fade}
 
 Test the claim that disease 6 (leaf curl) information was accessed at least 60 times every month on average since October 2017 due to this disease outbreak. $({\alpha} = 0.05)$
 
@@ -161,7 +161,7 @@ f_getDef("Hypothesis-1T-Upper-Tail")
 - ${}^U\!P_{t = 5.3771} = 0.0005 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
   - We can conclude that the information on disease 6 was accessed at least 60 times every month on average since October 2017.
 
-#### Code
+#### Code {.unlisted .unnumbered}
 
 ```{r 'B15-Q1'}
 # #Data | Rename | Sum Months D6 | Change from Date Time to Date
@@ -183,7 +183,7 @@ t.test(ii$D6, mu = 60, alternative = "greater", conf.level = 0.05)
 ```
 
 
-#### Missing Months
+#### Missing Months {.unlisted .unnumbered}
 
 ```{r 'B15-MissingMonths'}
 str(bb)
@@ -270,7 +270,7 @@ aa <- xxJdata %>%
   mutate(across(Dates, as_date)) %>% 
   mutate(Fraction = D6/sumD)
 #
-# #Confirmed Usage is Sum Total of Disease, Variety, Micronutrients
+# #Confirmed that Usage is Sum Total of Disease, Variety, Micronutrients
 unique(aa$DIFF)
 #
 # #Working Set | Exclude 1 NA i.e. where sumD is zero
@@ -305,7 +305,7 @@ prop.test(x = sum(bb$D6), n = sum(bb$Usage), p = 0.15,
 t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
 ```
 
-### Q3 
+### Q3 {.tabset .tabset-fade}
 
 Test the claim that the average number of users in year 2017-2018 is more than average number of users in year 2015-2016. $({\alpha} = 0.05)$
 
@@ -318,13 +318,20 @@ f_getDef("H-2s-Upper")
 - Because the Variances are NOT same, Welch t-test is required, we cannot use Pooled Test
 - $({}^L\!P_{t = -7.255} =  {}^U\!P_{t = 7.255}) < {\alpha} \to {H_0}$ is rejected 
   - The sample results provide sufficient evidence to conclude that the average number of users has increased.
+- Also, Test the claim that app usage picked up after January 2016. (Moved from Q4)
+  - ${}^U\!P_{t} < {\alpha} \to {H_0}$ is rejected 
+  - The sample results provide sufficient evidence to conclude that the app usage has increased after January 2016.
+
+- NOTE: Ideally, each missing month should have been added 4 times for the 4 weeks. "ForLater"
+
+#### Code {.unlisted .unnumbered}
 
 ```{r 'B15-Q3'}
 # #Data
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
   mutate(across(Dates, as_date)) %>% 
-  select(Dates, Users)
+  select(Dates, Users, Usage)
 #
 # #Missing Months
 ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
@@ -356,14 +363,31 @@ kk$Year <- factor(kk$Year, levels = rev(levels(jj$Year)))
 t.test(formula = Users ~ Year, data = kk, alternative = "greater", var.equal = isVarEqual)
 ```
 
+#### 4b {.unlisted .unnumbered}
+
+```{r 'B15-Q34b'}
+# #Data
+str(jj)
+# #For Two Sample t-test, check if Variances are equal
+jj_var <- var.test(Usage ~ Year, data = jj)
+jj_var
+#
+# #If Variances are Equal, Pooled Test otherwise Welch Test
+isVarEqual <- ifelse(jj_var$p.value > 0.05, TRUE, FALSE)
+#
+# #Because 1 is "2015-2016", 2 is "2017-2018", we need to perform Lower Tail Test
+t.test(formula = Usage ~ Year, data = jj, alternative = "less", var.equal = isVarEqual)
+```
+
+
 
 ### Q4 {.tabset .tabset-fade}
 
 Check whether app usage is same or different across the four weeks of a month. 
-Also, using data from January-2016 – May-2018, test the claim that app usage picked up after January 2016.
+Test the claim that app usage picked up after January 2016. (Answered with Q3)
 
 ```{r 'B15D05', comment="", echo=FALSE, results='asis'}
-f_getDef("H-ANOVA") #dddd
+f_getDef("H-ANOVA")
 ```
 
 - Data groups are not normal and neither the variances are equal
@@ -375,7 +399,7 @@ f_getDef("H-ANOVA") #dddd
 #### Anova & Kruskal {.unlisted .unnumbered}
 
 ```{r 'B15-Q4'}
-# #Data | Missing Months can be ignored as those are missing across all weeks
+# #Data | Missing Months can be ignored because those are missing across all weeks
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year", Users = "No of users") %>% 
   select(Week, Usage)
@@ -509,13 +533,184 @@ bb %>% mutate(Week = factor(Week)) %>%
 ```
 
 
-### Q5 
+### Q5 {.tabset .tabset-fade}
+
+```{r 'B15D06', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Upper") #dddd
+```
 
 A new version of the app was released in August-2016. Which month in the given time frame after the launch of the new version, the mean usage pattern would start to show a statistically significant shift
+
+- (1: OldApp, 2: NewApp) Lower Tail Test is required
+- Because the Variances are NOT same, Welch t-test is required, we cannot use Pooled Test
+- ${}^L\!P_{t} < {\alpha} \to {H_0}$ is rejected 
+  - The sample results provide sufficient evidence to conclude that the mean usage has increased after August-2016.
+  
+#### Basic {.unlisted .unnumbered}
+
+```{r 'B15-Q5'}
+# #Data
+bb <- xxJdata %>% rename(Dates = "Month-Year") %>% mutate(across(Dates, as_date)) %>% 
+  select(Dates, Week, Usage)
+#
+# #Create 2 Groups
+bb$Year <- cut(bb$Dates, breaks = c(min(bb$Dates), as_date("2016-08-01"), Inf), 
+               labels = c("OldApp", "NewApp"))
+#
+# #For Two Sample t-test, check if Variances are equal
+bb_var <- var.test(Usage ~ Year, data = bb)
+bb_var
+#
+# #If Variances are Equal, Pooled Test otherwise Welch Test
+isVarEqual <- ifelse(bb_var$p.value > 0.05, TRUE, FALSE)
+#
+# #Because 1 is "OldApp", 2 is "NewApp", we need to perform Lower Tail Test
+bb_t <- t.test(formula = Usage ~ Year, data = bb, alternative = "less", var.equal = isVarEqual)
+bb_t
+#
+```
+
+#### rollapply() {.unlisted .unnumbered}
+
+```{r 'B15-Q5b'}
+# #Rolling Sums
+old_sd <- sd(bb[bb$Year == "OldApp", ]$Usage)
+old_n <- summary(bb$Year)[1]
+#
+ii <- bb %>% filter(Year == "NewApp", Dates <= '2017-05-01') %>% select(-Year)
+#
+jj <- ii %>% mutate(ID = row_number(), cSUM = cumsum(Usage), cMean = cSUM/ID) %>% 
+  mutate(SD = across(Usage, ~ rollapply(., ID, sd, fill = NA, align = "right"))) %>% 
+  mutate(DOF = floor({SD^2 / ID + old_sd^2 / old_n }^2 / 
+                       {{SD^2 / ID}^2/{ID-1} + {old_sd^2 / old_n}^2/{old_n-1}})) %>% 
+  mutate(Sigma = sqrt({SD^2 /ID + old_sd^2 /old_n}))
+str(jj)
+```
+
 
 ### Q6
 
 If a disease is likely to spread in particular weather condition (data given in the disease index sheet), then the access of that disease should be more in the months having suitable weather conditions. Help the analyst in coming up with a statistical test to support the claim for two districts for which the sample of weather and disease access data is provided in the data sheet. Identify the diseases for which you can support this claim. Test this claim both for temperature and relative humidity at 95% confidence.
+
+### Trends {.tabset .tabset-fade}
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B15-ImageData', include=FALSE}
+bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
+#
+ii <- bb %>% 
+  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
+                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
+  mutate(DIFF = c(1, diff(NewDate)), 
+         TF = ifelse(DIFF > 10, FALSE, TRUE), 
+         grp = cumsum(DIFF > 10) + 1)
+#
+str(ii)
+```
+
+```{r 'B15-UsageTrend', include=FALSE}
+# #Plot
+hh <- ii
+title_hh <- "Usage Pattern"
+caption_hh <- "B15P01"
+#
+B15 <- hh %>% {
+  ggplot(data = ., aes(x = NewDate, y = Usage)) +
+  geom_point() +
+  #geom_smooth(aes(group = grp)) +
+  geom_line(aes(group = grp)) +
+  scale_x_date(date_breaks = "3 months", 
+                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
+                                             paste(month(x, label = TRUE), "\n", year(x)), 
+                                             paste(month(x, label = TRUE)))) +
+  labs(x = "Time", y = "Usage", 
+       caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+```
+
+```{r 'B15P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P01", "_JAT_Usage", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P01)
+```
+
+```{r 'B15P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P01", "_JAT_Usage", ".png"))
+```
+
+```{r 'B15-UserTrend', include=FALSE}
+# #Plot
+hh <- ii
+title_hh <- "User Pattern"
+caption_hh <- "B15P02"
+#
+B15 <- hh %>% {
+  ggplot(data = ., aes(x = NewDate, y = Users)) +
+  geom_point() +
+  #geom_smooth(aes(group = grp)) +
+  geom_line(aes(group = grp)) +
+  scale_x_date(date_breaks = "3 months", 
+                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
+                                             paste(month(x, label = TRUE), "\n", year(x)), 
+                                             paste(month(x, label = TRUE)))) +
+  labs(x = "Time", y = "Users", 
+       caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+```
+
+```{r 'B15P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P02", "_JAT_Users", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P02)
+```
+
+```{r 'B15P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P02", "_JAT_Users", ".png")) #iiii
+```
+
+```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="JAT: Usage and Users over the TimePeriod"}
+#
+```
+
+#### Data {.unlisted .unnumbered}
+
+
+```{r 'B15-ImageData-A', ref.label=c('B15-ImageData')}
+#
+```
+
+#### Trendline {.unlisted .unnumbered}
+
+
+```{r 'B15-UsageTrend-A', ref.label=c('B15-UsageTrend'), eval=FALSE}
+#
+```
+
+#### Skip Missing Data {.unlisted .unnumbered}
+
+```{r 'B15-MissingDataTrendLine'}
+bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
+#
+ii <- bb %>% 
+  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
+                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
+  mutate(DIFF = c(1, diff(NewDate)), 
+         TF = ifelse(DIFF > 10, FALSE, TRUE), 
+         grp = cumsum(DIFF > 10) + 1) %>% 
+  mutate(grp_step = rle(TF)$lengths %>% {rep(seq(length(.)), .)})
+#
+jj <- c(1, which(ii$DIFF > 10), nrow(ii) + 1)
+kk <- rep(1:length(diff(jj)), diff(jj))
+stopifnot(identical(kk, as.integer(ii$grp)))
+#
+# #Where are the missing values
+ii %>% filter( !TF | lead(!TF) | lag(!TF) )
+```
 
 
 
@@ -524,7 +719,7 @@ If a disease is likely to spread in particular weather condition (data given in 
 ```{r 'B15-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_aov, bb_prop, 
           diff_len, ii_aov, isVarEqual, jj_t, jj_var, namesJ, t_ii, xxJbela, xxJdata, xxJdhar,
-          xxJdiseases)
+          xxJdiseases, B15P01, B15P02, bb_t, bb_var, caption_hh, loc_png, title_hh)
 ```
 
 ```{r 'B15-Validation', include=TRUE, cache=FALSE}
