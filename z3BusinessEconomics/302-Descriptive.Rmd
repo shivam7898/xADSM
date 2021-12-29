@@ -513,9 +513,13 @@ aa %>% add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.n
 bb <- aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum)))
 #
 ii <- bb %>% mutate(across(1, ~ replace(., . %in% NA, "Total"))) 
+mm <- bb %>% mutate(across(1, ~ replace(., is.na(.), "Total"))) 
 jj <- bb %>% mutate(Judge_Verdict = replace(Judge_Verdict, is.na(Judge_Verdict), "Total"))
 kk <- bb %>% mutate(across(1, coalesce, "Total")) 
-stopifnot(all(identical(ii, jj), identical(ii, kk)))
+ll <- bb %>% mutate(across(1, ~ replace_na(.x, "Total")))
+nn <- bb %>% mutate(across(1, replace_na, "Total"))
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll), 
+              identical(ii, mm), identical(ii, nn)))
 #
 #	#Replace NA in a Factor
 bb %>% 

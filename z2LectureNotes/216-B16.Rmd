@@ -112,14 +112,16 @@ summary(xxCars)
 
 
 - \textcolor{pink}{package:mice} is used for imputation
+  - "Multivariate Imputation by Chained Equations"
   - It does imputation of a factor vector based on a numeric vector
 - \textcolor{pink}{Question:} What happens if any categorical variable is associated with multiple numeric values. For example, if Car Honda has multiple mileage values
   - It will look at all other columns of data and based on these multiple columns identify a pattern which will be used for imputation.
   - Advantage:
     - During the mean replacement, we are using only one column for imputation. MICE is more robust because it looks for pattern in multiple columns
 
-## Cars
+## Cars 
 
+### NA 
 
 ```{r 'B-'}
 aa <- xxCars #No missing value
@@ -139,9 +141,82 @@ bb_43 <- bb$cylinders[4]  #bb[4, 3] #8
 bb$mpg[2] <- bb$brand[3] <- bb$cylinders[4] <- NA
 #
 # #Identify the Number of Missing Values
-if(anyNA(bb)) {
-  cat(paste0("NA are Present! Total NA = ", sum(is.na(bb)), "\n")) 
-  } else cat(paste0("NA not found.\n"))
+cat(paste0("NA are Present! Total NA = ", sum(is.na(bb)), "\n")) 
+#
+# #Which Columns have NA
+#summary(bb)
+bb_na_col <- colSums(is.na(bb))
+#
+# #Column Names with their Column Index
+which(bb_na_col != 0)
+#
+# #Number of NA in each Column
+bb_na_col[which(bb_na_col != 0)]
+#
+# #How many rows contain NA
+sum(!complete.cases(bb))
+#
+# #Indices of Rows with NA
+head(which(!complete.cases(bb)))
+#
+```
+
+
+### summary() NA {.unlisted .unnumbered}
+
+- \textcolor{orange}{Caution:} 
+  - summary() does not identify NA in character column but shows them in factor
+  - table() does not identify NA by default but shows them by 'useNA'
+
+```{r 'B-'}
+ii <- bb
+summary(ii$brand)
+summary(factor(ii$brand))
+#
+# #table() by default does not show NA even in factor. However it has 'useNA' option
+table(ii$brand)
+table(factor(ii$brand))
+table(ii$brand, useNA = "always")
+```
+
+### Mean and Median Replacement {.unlisted .unnumbered}
+
+- \textcolor{pink}{`na.rm = TRUE`}: All NA values will be ignored for the calculation.
+
+```{r 'B-'}
+ii <- bb
+# #Mean Replacement
+#ii %>% mutate(across(mpg, ~ replace(., is.na(.), round(mean(mpg, na.rm = TRUE), 2))))
+ii$mpg[which(is.na(ii$mpg))] <- round(mean(ii$mpg, na.rm = TRUE), digits = 2)
+jj <- ii
+#
+# #Median Replacement
+ii <- bb
+#ii %>% mutate(across(mpg, replace_na, round(median(mpg, na.rm = TRUE), 2)))
+ii$mpg[which(is.na(ii$mpg))] <- round(median(ii$mpg, na.rm = TRUE), digits = 2)
+```
+
+### Mode Replacement {.unlisted .unnumbered}
+
+```{r 'B-'}
+table(bb$brand, useNA = "always")
+bb %>% group_by(brand) %>% summarise(n()) 
+#
+# #Mode Replacement
+#ii$brand[which(is.na(ii$brand))] <- f_getMode(ii$brand)
+ii$brand[which(is.na(ii$brand))] <- "US"
+```
+
+### MICE {.unlisted .unnumbered}
+
+
+```{r 'B-'}
+# #Convert to Factor before using MICE
+bb$brand <- factor(bb$brand)
+#
+# #md.pattern() gives Number of NA in each column and Those Rows which have missing NA
+# #This is useful when there is correlation in the missing values of two or more columns 
+md.pattern(bb)
 ```
 
 
