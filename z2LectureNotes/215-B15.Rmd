@@ -513,6 +513,62 @@ f_getDef("H-ANOVA")
 - Using Sqrt of Data ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
   - The sample results do not provide sufficient evidence to conclude that the app usage is different across the four weeks of a month. 
 
+#### Images {.unlisted .unnumbered}
+
+
+```{r 'B15-QQPlot', include=FALSE}
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(Week = factor(Week)) %>% 
+  mutate(Sqrt = sqrt(Usage)) %>% 
+  select(Week, Usage, Sqrt)
+#
+hh <- bb
+title_hh <- "QQ Plot of Usage"
+caption_hh <- "B15P04"
+#
+B15 <- hh %>% { ggplot(., aes(sample = Usage, colour = Week)) +
+    stat_qq() +
+    stat_qq_line() +
+    labs(caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+#
+title_hh <- "QQ Plot of Sqrt(Usage)"
+caption_hh <- "B15P05"
+B15 <- hh %>% { ggplot(., aes(sample = Sqrt, colour = Week)) +
+    stat_qq() +
+    stat_qq_line() +
+    labs(caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+```
+
+
+```{r 'B15P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P04", "_JAT_QQ_Usage", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P04)
+```
+
+```{r 'B15P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P04", "_JAT_QQ_Usage", ".png"))
+```
+
+```{r 'B15P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P05", "_JAT_QQ_Usage_Sqrt", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P05)
+```
+
+```{r 'B15P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P05", "_JAT_QQ_Usage_Sqrt", ".png"))  #iiii
+```
+
+```{r 'B15P04P05', echo=FALSE, ref.label=c('B15P04', 'B15P05'), fig.cap="JAT: QQ Plot of Usage and Sqrt(Usage)"}
+#
+```
+
 #### Anova & Kruskal {.unlisted .unnumbered}
 
 ```{r 'B15-Q4'}
@@ -649,6 +705,11 @@ bb %>% mutate(Week = factor(Week)) %>%
 
 ```
 
+#### QQ Plot {.unlisted .unnumbered}
+
+```{r 'B15-QQPlot-A', eval=FALSE, ref.label=c('B15-QQPlot')}
+#
+```
 
 ### Q5 {.tabset .tabset-fade}
 
@@ -713,13 +774,6 @@ If a disease is likely to spread in particular weather condition (data given in 
 f_getDef("H-2s-Upper") #dddd
 ```
 
-- (1: Conditions Favourable for Disease i.e. TRUE, 2: FALSE) Upper Tail Test is required
-- Testing variance and applying Welch t-test (variances not same) or Pooled Test (variances are same)
-- Assuming both districts to be part of same sample
-- Values are given in the \@ref(tab:B15T01)
-  - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected for diseases 4 and 5
-  - ${}^U\!P_{t} < {\alpha} \to {H_0}$ is rejected for diseases 1, 2, 3, and 7
-  - The sample results provide sufficient evidence to conclude that the claim is True for diseases 1, 2, 3, and 7
 
 ```{r 'B15-Q6', include=FALSE}
 # #Merge both dataframes of Two districts
@@ -743,12 +797,14 @@ formulas <- paste0(names(bb)[3:8], " ~ ", names(bb)[11:16])
 #
 # #Appply formulae
 output <- t(sapply(formulas, function(f) {
-  test_var <- var.test(as.formula(f), data = bb)
-  isVarEqual <- ifelse(test_var$p.value > 0.05, TRUE, FALSE) 
-  test_t <- t.test(as.formula(f), data = bb, alternative = "greater", var.equal = isVarEqual)
-  c(var_p = format(test_var$p.value, digits = 5, scientific = FALSE), 
-    test_p = format(test_t$p.value, digits = 5, scientific = FALSE))
-  }))
+    test_var <- var.test(as.formula(f), data = bb)
+    isVarEqual <- ifelse(test_var$p.value > 0.05, TRUE, FALSE) 
+    test_t <- t.test(as.formula(f), data = bb, alternative = "greater", var.equal = isVarEqual)
+    c("p- Var" = format(round(test_var$p.value, 5), scientific = FALSE), 
+      "Equal Var" = ifelse(test_var$p.value > 0.05, TRUE, FALSE), 
+      "p- t-test" = format(round(test_t$p.value, 5), scientific = FALSE), 
+      "Upper H0" = ifelse(test_t$p.value > 0.05, "Not Rejected", "Rejected"))
+}))
 ```
 
 ```{r 'B15T01', echo=FALSE}
@@ -761,13 +817,21 @@ kbl(bb,
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
                 html_font = "Consolas",	font_size = 12,
                 full_width = FALSE,
-                position = "float_left",
+                #position = "float_left",
                 fixed_thead = TRUE
   ) %>%
 	row_spec(0, color = "white", background = "#303030", bold = TRUE,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	)
 ```
+
+- (1: Conditions Favourable for Disease i.e. TRUE, 2: FALSE) Upper Tail Test is required
+- Testing variance and applying Welch t-test (variances not same) or Pooled Test (variances are same)
+- Assuming both districts to be part of same sample
+- Values are given in the \@ref(tab:B15T01)
+  - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected for disease 4
+  - ${}^U\!P_{t} < {\alpha} \to {H_0}$ is rejected for diseases 1, 2, 3, 5, and 7
+  - The sample results provide sufficient evidence to conclude that the claim is True for diseases 1, 2, 3, 5, and 7
 
 #### BoxPlot {.unlisted .unnumbered}
 
@@ -809,7 +873,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P03)
 ```
 
 ```{r 'B15P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png"))  #iiii
+knitr::include_graphics(paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png"))
 ```
 
 ```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}
@@ -856,10 +920,10 @@ stopifnot(identical(ii, jj))
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_aov, bb_prop, 
           diff_len, ii_aov, isVarEqual, jj_t, jj_var, namesJ, t_ii, xxJbela, xxJdata, xxJdhar,
           xxJdiseases, B15P01, B15P02, bb_t, bb_var, caption_hh, loc_png, title_hh, B15P03, 
-          formulas, old_n, old_sd, output, q6_bb)
+          formulas, old_n, old_sd, output, q6_bb, B15P04, B15P05)
 ```
 
-```{r 'B15-Validation', include=TRUE, cache=FALSE}
+```{r 'B15-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
