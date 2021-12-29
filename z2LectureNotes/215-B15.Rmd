@@ -149,6 +149,123 @@ str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 #
 ```
 
+### Trends {.tabset .tabset-fade}
+
+#### Images {.unlisted .unnumbered}
+
+```{r 'B15-ImageData', include=FALSE}
+bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
+#
+ii <- bb %>% 
+  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
+                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
+  mutate(DIFF = c(1, diff(NewDate)), 
+         TF = ifelse(DIFF > 10, FALSE, TRUE), 
+         grp = cumsum(DIFF > 10) + 1)
+#
+str(ii)
+```
+
+```{r 'B15-UsageTrend', include=FALSE}
+# #Plot
+hh <- ii
+title_hh <- "Usage Pattern"
+caption_hh <- "B15P01"
+#
+B15 <- hh %>% {
+  ggplot(data = ., aes(x = NewDate, y = Usage)) +
+  geom_point() +
+  #geom_smooth(aes(group = grp)) +
+  geom_line(aes(group = grp)) +
+  scale_x_date(date_breaks = "3 months", 
+                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
+                                             paste(month(x, label = TRUE), "\n", year(x)), 
+                                             paste(month(x, label = TRUE)))) +
+  labs(x = "Time", y = "Usage", 
+       caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+```
+
+```{r 'B15P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P01", "_JAT_Usage", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P01)
+```
+
+```{r 'B15P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P01", "_JAT_Usage", ".png"))
+```
+
+```{r 'B15-UserTrend', include=FALSE}
+# #Plot
+hh <- ii
+title_hh <- "User Pattern"
+caption_hh <- "B15P02"
+#
+B15 <- hh %>% {
+  ggplot(data = ., aes(x = NewDate, y = Users)) +
+  geom_point() +
+  #geom_smooth(aes(group = grp)) +
+  geom_line(aes(group = grp)) +
+  scale_x_date(date_breaks = "3 months", 
+                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
+                                             paste(month(x, label = TRUE), "\n", year(x)), 
+                                             paste(month(x, label = TRUE)))) +
+  labs(x = "Time", y = "Users", 
+       caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B15)
+rm(B15)
+```
+
+```{r 'B15P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P02", "_JAT_Users", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P02)
+```
+
+```{r 'B15P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P02", "_JAT_Users", ".png"))
+```
+
+```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="JAT: Usage and Users over the TimePeriod"}
+#
+```
+
+#### Data {.unlisted .unnumbered}
+
+```{r 'B15-ImageData-A', ref.label=c('B15-ImageData')}
+#
+```
+
+#### Trendline {.unlisted .unnumbered}
+
+```{r 'B15-UsageTrend-A', ref.label=c('B15-UsageTrend'), eval=FALSE}
+#
+```
+
+#### Skip Missing Data {.unlisted .unnumbered}
+
+```{r 'B15-MissingDataTrendLine'}
+bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
+  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
+#
+ii <- bb %>% 
+  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
+                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
+  mutate(DIFF = c(1, diff(NewDate)), 
+         TF = ifelse(DIFF > 10, FALSE, TRUE), 
+         grp = cumsum(DIFF > 10) + 1) %>% 
+  mutate(grp_step = rle(TF)$lengths %>% {rep(seq(length(.)), .)})
+#
+jj <- c(1, which(ii$DIFF > 10), nrow(ii) + 1)
+kk <- rep(1:length(diff(jj)), diff(jj))
+stopifnot(identical(kk, as.integer(ii$grp)))
+#
+# #Where are the missing values
+ii %>% filter( !TF | lead(!TF) | lag(!TF) )
+```
 
 ### Q1 {.tabset .tabset-fade}
 
@@ -536,7 +653,7 @@ bb %>% mutate(Week = factor(Week)) %>%
 ### Q5 {.tabset .tabset-fade}
 
 ```{r 'B15D06', comment="", echo=FALSE, results='asis'}
-f_getDef("H-2s-Upper") #dddd
+f_getDef("H-2s-Upper") 
 ```
 
 A new version of the app was released in August-2016. Which month in the given time frame after the launch of the new version, the mean usage pattern would start to show a statistically significant shift
@@ -588,130 +705,149 @@ str(jj)
 ```
 
 
-### Q6
+### Q6 {.tabset .tabset-fade}
 
 If a disease is likely to spread in particular weather condition (data given in the disease index sheet), then the access of that disease should be more in the months having suitable weather conditions. Help the analyst in coming up with a statistical test to support the claim for two districts for which the sample of weather and disease access data is provided in the data sheet. Identify the diseases for which you can support this claim. Test this claim both for temperature and relative humidity at 95% confidence.
 
-### Trends {.tabset .tabset-fade}
-
-#### Image {.unlisted .unnumbered}
-
-```{r 'B15-ImageData', include=FALSE}
-bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
-  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
-#
-ii <- bb %>% 
-  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
-                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
-  mutate(DIFF = c(1, diff(NewDate)), 
-         TF = ifelse(DIFF > 10, FALSE, TRUE), 
-         grp = cumsum(DIFF > 10) + 1)
-#
-str(ii)
+```{r 'B15D07', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Upper") #dddd
 ```
 
-```{r 'B15-UsageTrend', include=FALSE}
-# #Plot
-hh <- ii
-title_hh <- "Usage Pattern"
-caption_hh <- "B15P01"
+- (1: Conditions Favourable for Disease i.e. TRUE, 2: FALSE) Upper Tail Test is required
+- Testing variance and applying Welch t-test (variances not same) or Pooled Test (variances are same)
+- Assuming both districts to be part of same sample
+- Values are given in the \@ref(tab:B15T01)
+  - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected for diseases 4 and 5
+  - ${}^U\!P_{t} < {\alpha} \to {H_0}$ is rejected for diseases 1, 2, 3, and 7
+  - The sample results provide sufficient evidence to conclude that the claim is True for diseases 1, 2, 3, and 7
+
+```{r 'B15-Q6', include=FALSE}
+# #Merge both dataframes of Two districts
+aa <- bind_rows(Belagavi = xxJbela, Dharwad = xxJdhar, .id = 'source') %>% 
+  rename(Dates = Months, RH = "Relative Humidity", TMP = "Temperature") %>% 
+  mutate(across(Dates, as_date)) %>% mutate(source = factor(source)) %>% 
+  select(-c(10:13)) %>% select(-D6)
 #
-B15 <- hh %>% {
-  ggplot(data = ., aes(x = NewDate, y = Usage)) +
-  geom_point() +
-  #geom_smooth(aes(group = grp)) +
-  geom_line(aes(group = grp)) +
-  scale_x_date(date_breaks = "3 months", 
-                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
-                                             paste(month(x, label = TRUE), "\n", year(x)), 
-                                             paste(month(x, label = TRUE)))) +
-  labs(x = "Time", y = "Usage", 
-       caption = caption_hh, title = title_hh)
+# #Based on Conditional T & RH, get each disease favourable condition = TRUE
+q6_bb <- aa %>% mutate(iD1 = ifelse(TMP <= 24 & TMP >= 20 & RH > 80, TRUE, FALSE), 
+                    iD2 = ifelse(TMP <= 24.5 & TMP >= 21.5 & RH > 83, TRUE, FALSE), 
+                    iD3 = ifelse(TMP <= 24 & TMP >= 22, TRUE, FALSE), 
+                    iD4 = ifelse(TMP <= 26 & TMP >= 22 & RH > 85, TRUE, FALSE), 
+                    iD5 = ifelse(TMP <= 24.5 & TMP >= 22 & RH <= 85 & RH >= 77, TRUE, FALSE), 
+                    iD7 = ifelse(TMP > 25 & RH > 80, TRUE, FALSE)) %>% 
+  mutate(across(starts_with("i"), factor, levels = c(TRUE, FALSE)))
+bb <- q6_bb
+#
+# #Create all Formulae for variance and t-test
+formulas <- paste0(names(bb)[3:8], " ~ ", names(bb)[11:16])
+#
+# #Appply formulae
+output <- t(sapply(formulas, function(f) {
+  test_var <- var.test(as.formula(f), data = bb)
+  isVarEqual <- ifelse(test_var$p.value > 0.05, TRUE, FALSE) 
+  test_t <- t.test(as.formula(f), data = bb, alternative = "greater", var.equal = isVarEqual)
+  c(var_p = format(test_var$p.value, digits = 5, scientific = FALSE), 
+    test_p = format(test_t$p.value, digits = 5, scientific = FALSE))
+  }))
+```
+
+```{r 'B15T01', echo=FALSE}
+bb <- output
+kbl(bb,
+  caption = "(B15T01) Q6: Diseases p-value (Upper)",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+#### BoxPlot {.unlisted .unnumbered}
+
+```{r 'B15-BoxPlot', include=FALSE}
+bb <- q6_bb
+hh <- q6_bb %>% 
+  rename_with(~gsub("iD", "i", .x)) %>% 
+  select(starts_with(c("D", "i"))) %>% 
+  select(-Dates) %>% 
+  pivot_longer(everything(), names_to = c(".value", "Disease"), names_pattern = "(.)(.)") %>%
+  rename(Values = "D", Favourable = "i")
+#
+title_hh <- "BoxPlot of Searches for Diseases in both districts"
+caption_hh <- "B15P03"
+#
+B15 <- hh %>% { ggplot(data = ., mapping = aes(x = Disease, y = Values, fill = Favourable)) +
+        geom_boxplot(outlier.shape = NA) +
+        #stat_summary(fun = mean, geom = "point", size = 2, color = "steelblue") + 
+        #scale_y_continuous(breaks = seq(0, 110, 10), limits = c(0, 110)) +
+        geom_point(position = position_jitterdodge(jitter.width = 0.1), 
+                   size = 1, alpha = 0.7, colour = "#21908CFF") + 
+        k_gglayer_box +
+        theme(
+            #legend.justification = c("right", "top"),
+            #legend.box.just = "right",
+            #legend.margin = margin(6, 6, 6, 6),
+            legend.position = c(.90, .95)
+        ) +
+        labs(x = "Diseases", y = "Searches per month", fill = "Favourable",
+             caption = caption_hh, title = title_hh)
 }
 assign(caption_hh, B15)
 rm(B15)
 ```
 
-```{r 'B15P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P01", "_JAT_Usage", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P01)
+```{r 'B15P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P03)
 ```
 
-```{r 'B15P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P01", "_JAT_Usage", ".png"))
+```{r 'B15P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png"))  #iiii
 ```
 
-```{r 'B15-UserTrend', include=FALSE}
-# #Plot
-hh <- ii
-title_hh <- "User Pattern"
-caption_hh <- "B15P02"
-#
-B15 <- hh %>% {
-  ggplot(data = ., aes(x = NewDate, y = Users)) +
-  geom_point() +
-  #geom_smooth(aes(group = grp)) +
-  geom_line(aes(group = grp)) +
-  scale_x_date(date_breaks = "3 months", 
-                labels = function(x) if_else(is.na(lag(x)) | !year(lag(x)) == year(x), 
-                                             paste(month(x, label = TRUE), "\n", year(x)), 
-                                             paste(month(x, label = TRUE)))) +
-  labs(x = "Time", y = "Users", 
-       caption = caption_hh, title = title_hh)
-}
-assign(caption_hh, B15)
-rm(B15)
-```
-
-```{r 'B15P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P02", "_JAT_Users", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P02)
-```
-
-```{r 'B15P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P02", "_JAT_Users", ".png")) #iiii
-```
-
-```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="JAT: Usage and Users over the TimePeriod"}
+```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}
 #
 ```
 
-#### Data {.unlisted .unnumbered}
+#### Code {.unlisted .unnumbered}
 
-
-```{r 'B15-ImageData-A', ref.label=c('B15-ImageData')}
+```{r 'B15-Q6-A', ref.label=c('B15-Q6'), eval=FALSE}
 #
 ```
 
-#### Trendline {.unlisted .unnumbered}
+#### BoxPlot More {.unlisted .unnumbered}
 
-
-```{r 'B15-UsageTrend-A', ref.label=c('B15-UsageTrend'), eval=FALSE}
+```{r 'B15-BoxPlot-A', ref.label=c('B15-BoxPlot'), eval=FALSE}
 #
 ```
 
-#### Skip Missing Data {.unlisted .unnumbered}
+#### Pattern Match {.unlisted .unnumbered}
 
-```{r 'B15-MissingDataTrendLine'}
-bb <- xxJdata %>% rename(Dates = "Month-Year", Users = "No of users") %>% 
-  mutate(across(Dates, as_date)) %>% select(Dates, Week, Usage, Users)
+```{r 'B15-Pattern'}
+# #rename_with() uses formula
+# #Selection Helpers like starts_with() can take multiple conditions
+# #pivot_longer() can return multiple groups
+# #Pattern Match: Both First and Second Pattern can contain only 1 character
+ii <- q6_bb %>% 
+  rename_with(~gsub("iD", "i", .x)) %>% 
+  select(starts_with(c("D", "i"))) %>% select(-Dates) %>% 
+  pivot_longer(everything(), names_to = c(".value", "Disease"), names_pattern = "(.)(.)") %>%
+  rename(Values = "D", Favourable = "i")
 #
-ii <- bb %>% 
-  mutate(NewDate = case_when(Week == "Week1" ~ Dates, Week == "Week2" ~ Dates + 7, 
-                             Week == "Week3" ~ Dates + 14, Week == "Week4" ~ Dates + 21)) %>% 
-  mutate(DIFF = c(1, diff(NewDate)), 
-         TF = ifelse(DIFF > 10, FALSE, TRUE), 
-         grp = cumsum(DIFF > 10) + 1) %>% 
-  mutate(grp_step = rle(TF)$lengths %>% {rep(seq(length(.)), .)})
-#
-jj <- c(1, which(ii$DIFF > 10), nrow(ii) + 1)
-kk <- rep(1:length(diff(jj)), diff(jj))
-stopifnot(identical(kk, as.integer(ii$grp)))
-#
-# #Where are the missing values
-ii %>% filter( !TF | lead(!TF) | lag(!TF) )
+# #First Pattern can contain 1 or more characters but the Second can have only 1 character
+jj <- q6_bb %>% 
+  select(starts_with(c("D", "i"))) %>% select(-Dates) %>% 
+  pivot_longer(everything(), names_to = c(".value", "Disease"), names_pattern = "(.*)(.)") %>% 
+  rename(Values = "D", Favourable = iD)
+stopifnot(identical(ii, jj))
 ```
-
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
@@ -719,7 +855,8 @@ ii %>% filter( !TF | lead(!TF) | lag(!TF) )
 ```{r 'B15-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_aov, bb_prop, 
           diff_len, ii_aov, isVarEqual, jj_t, jj_var, namesJ, t_ii, xxJbela, xxJdata, xxJdhar,
-          xxJdiseases, B15P01, B15P02, bb_t, bb_var, caption_hh, loc_png, title_hh)
+          xxJdiseases, B15P01, B15P02, bb_t, bb_var, caption_hh, loc_png, title_hh, B15P03, 
+          formulas, old_n, old_sd, output, q6_bb)
 ```
 
 ```{r 'B15-Validation', include=TRUE, cache=FALSE}
