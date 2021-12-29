@@ -14,7 +14,7 @@ invisible(lapply(f_getPathR(A09isPrime, A10getUtil), knitr::read_chunk))
   - Measures of Location: [Mean](mean-c03 "c03"), Weighted Mean, [Median](#median-c03 "c03"), Geometric Mean, [Mode](#mode-c03 "c03"), [Percentiles](#percentiles-c03 "c03"), Quantiles
   - Measures of Variability: Range, IQR, [Variance](#variance-c03 "c03"), [Standard Deviation](#sd-c03 "c03")
   - Shape [Skewness](#skewness-c03 "c03"), [Kurtosis]({#kurtosis-c03 "c03")
-  - Relative Location: [z-scores](#z-scores-c03 "c03"), Chebyshev Theorem, [Empirical Rule](#empirical-c03 "c03"), [Outliers](#outliers-c03 "c03")
+  - Relative Location: [z-scores](#z-scores-c03 "c03"), Chebyshev Theorem, [Empirical Rule](#empirical-c03 "c03"), [Outliers: C03](#outliers-c03 "c03")
   - Two Variables: [Covariance](#covariance-c03 "c03"), [Correlation Coefficient](#correlation-c03 "c03")
   - Graphs: [BoxPlot](#boxplot-c03 "c03"), [Scatterplot](#covariance-c03 "c03")
   - "ForLater" - Sum Mean Formulae, Skewness

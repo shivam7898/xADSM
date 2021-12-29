@@ -839,9 +839,9 @@ The area under the curve to the right of a z-score is the p-value, and it is the
 
 Usually, a p-value of 0.05 or less means that your results are unlikely to have arisen by chance; it indicates a statistically significant effect.
 
-## Outliers 
+## Outliers {#outliers-b12}
 
-Refer [Outliers](#outliers-c03 "c03")
+Refer [Outliers: C03](#outliers-c03 "c03")
 
 ```{r 'B12D25', comment="", echo=FALSE, results='asis'}
 f_getDef("Outliers")

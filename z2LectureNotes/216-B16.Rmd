@@ -1,0 +1,172 @@
+# Data Preprocessing (B16, Oct-24) {#b16}
+
+```{r 'B16', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Data Pre-processing"
+  -  TextBook : "Data Mining and Predictive Analysis by Larose"
+
+- Additional Packages required for this lecture
+
+
+```{r 'B-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("mice", dependencies = TRUE)
+  install.packages("car", dependencies = TRUE)
+}
+```
+
+## Data {.tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B16-Cars2.csv".}
+
+```{r 'B16-Cars', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+xxCars <- f_getObject("xxCars", "B16-Cars2.csv", "30051fb47f65810f33cb992015b849cc")
+```
+
+```{r 'B16-ImportData', include=FALSE}
+xxCars <- f_getRDS(xxCars)
+```
+
+### Cars {.unlisted .unnumbered}
+
+```{r 'B16T01', echo=FALSE}
+bb <- xxCars
+kbl(head(bb),
+  caption = "(B16T01) Cars Data (Head)",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B-Structure'}
+# #Structure
+str(xxCars)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B-Summary'}
+# #Summary
+summary(xxCars)
+```
+
+## Missing Data
+
+- [Do not miss the missing values i.e. NA](#na-b10 "b10")
+- Relevant functions: \textcolor{pink}{`summary(), anyNA(), is.na(), na.omit(), complete.cases(), drop_na()`}
+
+## Imputation
+
+```{definition 'Imputation'}
+\textcolor{pink}{Imputation} is the process of replacing missing data with substituted values. Imputation preserves all cases by replacing missing data with an estimated value based on other available information.
+```
+
+- Sometimes it is not feasible or desirable to delete all the rows containing missing values
+  - Sometimes the data is deliberately missing
+    - Example: Customers with high value transactions have higher missing income data
+      - This is also a pattern and we cannot simply remove these customers from our analysis
+  - \textcolor{pink}{Question:} What if there are only a small number of missing values in a large dataset
+    - Even then also, we need to look at whether it is a meaningful data or not. Some data points are so critical that they cannot be removed. If you delete them, you might be loosing highly relevant information.
+  - \textcolor{pink}{Question:} Only 15 rows in a 1-lakh dataset
+    - Do the rows belong to a new product which is relevant to our analysis
+    - While these rows maynot have mileage information of a car, other columns would have pricing and other critical information. Deleting these rows may result in loss of this important data.
+
+
+- Mean value replacement 
+  - Refer [Mean](#mean-c03 "c03")
+  - Replace the missing value by 'mean' of the data
+  - However, the 'mean' is affected by presence of extreme values (outliers)
+- Median replacement
+  - Refer [Median](#median-c03 "c03")
+  - Although the mean is the more commonly used measure of central location, whenever a data set contains extreme values, the median is preferred.
+  - Median is always a better measure for replacement compared to mean
+- Mode replacement
+  - Refer [Mode](#mode-c03 "c03")
+  - For Categorical variable, mode is preferred.
+  - However, using mode for NA replacement results in increasing the frequency of most frequent item. 
+- Random value replacement
+  - Replace NA with a random value
+
+- Problems:
+  - These simple approaches usually introduce bias into the data
+    - Ex: applying mean substitution leaves the mean unchanged (desirable) but decreases variance (undesirable)
+
+
+- \textcolor{pink}{package:mice} is used for imputation
+  - It does imputation of a factor vector based on a numeric vector
+- \textcolor{pink}{Question:} What happens if any categorical variable is associated with multiple numeric values. For example, if Car Honda has multiple mileage values
+  - It will look at all other columns of data and based on these multiple columns identify a pattern which will be used for imputation.
+  - Advantage:
+    - During the mean replacement, we are using only one column for imputation. MICE is more robust because it looks for pattern in multiple columns
+
+## Cars
+
+
+```{r 'B-'}
+aa <- xxCars #No missing value
+bb <- aa     #Will have missing value later
+#
+# #Identify the Number of Missing Values
+if(anyNA(bb)) {
+  cat(paste0("NA are Present! Total NA = ", sum(is.na(bb)), "\n")) 
+  } else cat(paste0("NA not found.\n"))
+#
+# #Record Some Values, before deleteting them
+bb_22 <- bb$mpg[2]        #bb[2, 2] #31.9
+bb_39 <- bb$brand[3]      #bb[3, 9] #"US"
+bb_43 <- bb$cylinders[4]  #bb[4, 3] #8
+#
+# #Delete 
+bb$mpg[2] <- bb$brand[3] <- bb$cylinders[4] <- NA
+#
+# #Identify the Number of Missing Values
+if(anyNA(bb)) {
+  cat(paste0("NA are Present! Total NA = ", sum(is.na(bb)), "\n")) 
+  } else cat(paste0("NA not found.\n"))
+```
+
+
+## Outliers
+
+Refer [Outliers: C03](#outliers-c03 "c03") and [Outliers: B12](#outliers-b12 "b12")
+
+- How do we detect and deal with outliers
+
+
+## Data Transformations
+
+- 
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B16-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+```
+
+```{r 'B16-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
