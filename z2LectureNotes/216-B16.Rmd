@@ -15,7 +15,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - Additional Packages required for this lecture
 
 
-```{r 'B-Installations', eval=FALSE}
+```{r 'B16-Installations', eval=FALSE}
 if(FALSE){# #WARNING: Installation may take some time.
   install.packages("mice", dependencies = TRUE)
   install.packages("car", dependencies = TRUE)
@@ -33,6 +33,7 @@ xxCars <- f_getObject("xxCars", "B16-Cars2.csv", "30051fb47f65810f33cb992015b849
 
 ```{r 'B16-ImportData', include=FALSE}
 xxCars <- f_getRDS(xxCars)
+bb <- aa <- xxCars
 ```
 
 ### Cars {.unlisted .unnumbered}
@@ -57,14 +58,14 @@ kbl(head(bb),
 
 ### Structure {.unlisted .unnumbered}
 
-```{r 'B-Structure'}
+```{r 'B16-Structure'}
 # #Structure
 str(xxCars)
 ```
 
 ### Summary {.unlisted .unnumbered}
 
-```{r 'B-Summary'}
+```{r 'B16-Summary'}
 # #Summary
 summary(xxCars)
 ```
@@ -119,11 +120,9 @@ summary(xxCars)
   - Advantage:
     - During the mean replacement, we are using only one column for imputation. MICE is more robust because it looks for pattern in multiple columns
 
-## Cars 
+### Introduce NA 
 
-### NA 
-
-```{r 'B-'}
+```{r 'B16-NA'}
 aa <- xxCars #No missing value
 bb <- aa     #Will have missing value later
 #
@@ -162,13 +161,13 @@ head(which(!complete.cases(bb)))
 ```
 
 
-### summary() NA {.unlisted .unnumbered}
+### summary() NA 
 
 - \textcolor{orange}{Caution:} 
   - summary() does not identify NA in character column but shows them in factor
   - table() does not identify NA by default but shows them by 'useNA'
 
-```{r 'B-'}
+```{r 'B16-SummaryNA'}
 ii <- bb
 summary(ii$brand)
 summary(factor(ii$brand))
@@ -179,11 +178,11 @@ table(factor(ii$brand))
 table(ii$brand, useNA = "always")
 ```
 
-### Mean and Median Replacement {.unlisted .unnumbered}
+### Mean and Median Replacement
 
 - \textcolor{pink}{`na.rm = TRUE`}: All NA values will be ignored for the calculation.
 
-```{r 'B-'}
+```{r 'B16-ReplaceMean'}
 ii <- bb
 # #Mean Replacement
 #ii %>% mutate(across(mpg, ~ replace(., is.na(.), round(mean(mpg, na.rm = TRUE), 2))))
@@ -196,27 +195,172 @@ ii <- bb
 ii$mpg[which(is.na(ii$mpg))] <- round(median(ii$mpg, na.rm = TRUE), digits = 2)
 ```
 
-### Mode Replacement {.unlisted .unnumbered}
+### Mode Replacement 
 
-```{r 'B-'}
+```{r 'B16-ReplaceMode'}
 table(bb$brand, useNA = "always")
 bb %>% group_by(brand) %>% summarise(n()) 
 #
 # #Mode Replacement
 #ii$brand[which(is.na(ii$brand))] <- f_getMode(ii$brand)
 ii$brand[which(is.na(ii$brand))] <- "US"
+#
+# #Caution: Do not use max() on "character" for mode replacement
+# #It will only look for ASCII value of letters
+ii <- c("a", "z", "c", "b", "b", "b", "USA", NA, "a")
+max(ii, na.rm = TRUE) #Wrong Value
+f_getMode(ii) 
 ```
 
-### MICE {.unlisted .unnumbered}
+### md.pattern() 
 
+- \textcolor{pink}{mice::md.pattern()}
+  - It gives Number of NA in each column and those Rows which have missing NA
+  - This is useful when there is correlation in the missing values of two or more columns 
 
-```{r 'B-'}
+```{r 'B16-MICE'}
 # #Convert to Factor before using MICE
 bb$brand <- factor(bb$brand)
 #
-# #md.pattern() gives Number of NA in each column and Those Rows which have missing NA
-# #This is useful when there is correlation in the missing values of two or more columns 
-md.pattern(bb)
+# #mice::md.pattern() 
+na_bb <- md.pattern(bb, plot = FALSE)
+na_bb
+```
+
+```{r 'B16P01-Save', include=FALSE, cache=FALSE}
+loc_png <- paste0(.z$PX, "B16P01","_Cars_NA_Pattern", ".png")
+if(!file.exists(loc_png)) {
+  png(filename = loc_png)
+  md.pattern(bb, plot = TRUE, rotate.names = TRUE)
+  title("Cars: Inserted Missing Value Pattern by md.pattern()", line = 2, adj = 0)
+  title(sub="B16P01", line=4, adj = 1)
+  B16P01 <- recordPlot()
+  dev.off()
+}
+```
+
+```{r 'B16P01', echo=FALSE, fig.cap="Cars: Inserted Missing Value Pattern by md.pattern()"}
+knitr::include_graphics(paste0(.z$PX, "B16P01","_Cars_NA_Pattern", ".png"))
+```
+
+### Seed 
+
+- \textcolor{pink}{set.seed()}
+  - Random Number Generation can be fixed by a Seed for Reproducibility or Replication
+  - The number given as seed '3' is not meaningful. It can be anything. 
+  - However, it is recommended to use same number as seed throughout the calculations to avoid perception of fixing the values.
+
+```{r 'B16-Seed'}
+# #Choose Two Numbers from 1:10, Randomly
+sample(1:10, 2)
+sample(1:10, 2)
+sample(1:10, 2)
+# #All above calls to generate Two random numbers produce different outcomes
+# #Using set.seed() we can regenerate same random numbers everytime
+set.seed(3)
+sample(1:10, 2)
+sample(1:10, 2)
+#
+set.seed(3)
+sample(1:10, 2)
+sample(1:10, 2)
+```
+
+### mice() {.tabset .tabset-fade}
+
+#### MICE {.unlisted .unnumbered}
+
+- \textcolor{pink}{mice()}
+  - m = 2 is number of imputed sets. It shows up as "imp" column 1 2 in the output. It does not mean that only 2 columns have NA.
+  - iter from 1 to 5 is number of iterations
+  - \textcolor{orange}{Caution:} Check if the column is "factor". A "character" column will not be imputed and it will retain its NA.
+- \textcolor{pink}{Question:} For a categorical variable does it always give 'mode'
+  - NO, it looks at the pattern based on other variables
+
+```{r 'B16-Mice'}
+# #Convert to Factor before using MICE
+bb$brand <- factor(bb$brand)
+
+# #mice() for imputation
+# #Including all relevant data i.e. skipping Serial Number only
+impute <- mice(bb[, 2:9], m = 2, seed = 3)
+#
+print(impute)
+#
+# #For each iteration we have a different set of imputed data 
+# #e.g. for 'mpg' in two sets values are
+impute$imp$mpg
+#
+# #NOTE: Original Values that were removed earlier 
+tibble(mpg = bb_22, brand = bb_39, cylinders = bb_43)
+#
+# #Complete First Set
+set1_bb <- complete(impute, 1)
+tibble(mpg = set1_bb$mpg[2], brand = set1_bb$brand[3], cylinders = set1_bb$cylinders[4])
+#
+# #Complete Second Set
+set2_bb <- complete(impute, 2)
+tibble(mpg = set2_bb$mpg[2], brand = set2_bb$brand[3], cylinders = set2_bb$cylinders[4])
+```
+
+
+#### MICE More {.unlisted .unnumbered}
+
+```{r 'B16-SeedMice'}
+set.seed(3)
+ii <- mice(bb[, 2:9], m = 3)
+set.seed(3)
+jj <- mice(bb[, 2:9], m = 3)
+#
+# #identical() is FALSE but all.equal() is TRUE
+identical(ii, jj)
+all.equal(ii, jj)
+#
+# #Similarly
+ii <- mice(bb[, 2:9], m = 3, seed = 3)
+jj <- mice(bb[, 2:9], m = 3, seed = 3)
+identical(ii, jj)
+all.equal(ii, jj)
+```
+
+#### Warning Logged Event {.unlisted .unnumbered}
+
+[(External) MICE Package Author](https://stefvanbuuren.name/fimd/sec-toomany.html "https://stefvanbuuren.name")
+
+- The loggedEvents component of the 'mids' object is a data frame with five columns. 
+  - 'it' 'im' stand for iteration and imputation number
+  - 'dep' contains the name of the target variable, and is left blank at initialization
+  - 'meth' signals the type of problem
+    - 'constant' : oversized representation of a single value
+      - This also comes up if the column is "character" and not converted into "factor"
+    - 'collinear': The column is duplicate of another column
+    - 'pmm'      : "ForLater" Unknown for now
+  - 'out' contains the names of the removed variables. 
+  - In general, strive for zero entries, in which case the loggedEvent component is equal to NULL.
+- Guidance
+  - Inspect all complete variables for forgotten missing data marks. Repair or remove these variables. Even one forgotten mark may ruin the imputation model. Remove outliers with improbable values.
+  - Obtain insight into the strong and weak parts of the data by studying the influx-outflux pattern. Unless they are scientifically important, remove variables with low outflux, or with high fractions of missing data.
+  - Perform a dry run with maxit=0 and inspect the logged events produced by mice(). Remove any constant and collinear variables before imputation.
+  - Find out what will happen after the data have been imputed. Determine a set of variables that are important in subsequent analyses, and include these as predictors in all models. Transform variables to improve predictability and coherence in the complete-data model.
+  - Run quickpred(), and determine values of mincor and minpuc such that the average number of predictors is around 25.
+  - After imputation, determine whether the generated imputations are sensible by comparing them to the observed information, and to knowledge external to the data. Revise the model where needed.
+  - Document your actions and decisions, and obtain feedback from the owner of the data.
+
+
+```{r 'B16-WarningMice'}
+# #Using the "character" to generate the Warning
+ii <- aa
+ii$mpg[2] <- ii$brand[3] <- ii$cylinders[4] <- NA
+#
+tryCatch(expr = {
+  jj <- mice(ii[, 2:9], m = 1, seed = 3)
+  }, warning = function(w) {
+	print(paste0(w))
+  })
+#
+# #Warning message: Number of logged events
+# #It can occur because of variety of issues in the data
+jj$loggedEvents
 ```
 
 
@@ -225,19 +369,399 @@ md.pattern(bb)
 Refer [Outliers: C03](#outliers-c03 "c03") and [Outliers: B12](#outliers-b12 "b12")
 
 - How do we detect and deal with outliers
+  - Use Visualisations for detecting outliers
+
+### Histogram {.tabset .tabset-fade}
 
 
-## Data Transformations
+```{r 'B16-Histogram', include=FALSE}
+# #Histogram
+#bb <- na.omit(xxflights$air_time)
+hh <- tibble(ee = aa$weightlbs)
+title_hh <- "Cars: Histogram of Weight"
+caption_hh <- "B16P02"
+# #Basics
+median_hh <- round(median(hh[[1]]), 1)
+mean_hh <- round(mean(hh[[1]]), 1)
+sd_hh <- round(sd(hh[[1]]), 1)
+len_hh <- nrow(hh)
+#
+B16 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
+  geom_text(data = tibble(x = mean_hh, y = -Inf, 
+                          label = paste0("Mean= ", mean_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90) +
+  geom_vline(aes(xintercept = median_hh), color = '#3B528BFF') +
+  geom_text(data = tibble(x = median_hh, y = -Inf, 
+                          label = paste0("Median= ", median_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#3B528BFF', hjust = -0.5, vjust = -0.7, angle = 90) +
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Frequency", 
+       subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
+                         "; Median= ", median_hh, "; SD= ", sd_hh,
+                         ")"), 
+        caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B16)
+rm(B16)
+```
 
-- 
+```{r 'B16P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B16P02","_Cars_Hist_Weight", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P02)
+```
+
+```{r 'B16P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B16P02","_Cars_Hist_Weight", ".png"))
+```
+
+```{r 'B16-Density', include=FALSE}
+# #Density Curve
+title_hh <- "Cars: Desnsity Plot of Weight"
+caption_hh <- "B16P03"
+# #Get Quantiles and Ranges of mean +/- sigma 
+q05_hh <- quantile(hh[[1]], .05)
+q95_hh <- quantile(hh[[1]], .95)
+density_hh <- density(hh[[1]])
+density_hh_tbl <- tibble(x = density_hh$x, y = density_hh$y)
+sig3r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 3 * sd_hh})
+sig3l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 3 * sd_hh})
+sig2r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + 2 * sd_hh}, {x < mean_hh + 3 * sd_hh})
+sig2l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - 2 * sd_hh}, {x > mean_hh - 3 * sd_hh})
+sig1r_hh <- density_hh_tbl %>% filter(x >= {mean_hh + sd_hh}, {x < mean_hh + 2 * sd_hh})
+sig1l_hh <- density_hh_tbl %>% filter(x <= {mean_hh - sd_hh}, {x > mean_hh - 2 * sd_hh})
+sig0r_hh <- density_hh_tbl %>% filter(x > mean_hh, {x < mean_hh + 1 * sd_hh})
+sig0l_hh <- density_hh_tbl %>% filter(x < mean_hh, {x > mean_hh - 1 * sd_hh})
+#
+# #Change x-Axis Ticks interval
+xbreaks_hh <- seq(-3, 3)
+xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
+# #Arrow
+arr_y <- 0.0005 #mean(density_hh_tbl$y) #
+arr_lst <- list(list("99.7%", xpoints_hh[1], xpoints_hh[7], arr_y),
+                list("95.4%", xpoints_hh[2], xpoints_hh[6], arr_y),
+                list("68.3%", xpoints_hh[3], xpoints_hh[5], arr_y))
+arr_hh <- arr_lst[[1]]
+#
+# # Latex Labels 
+xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
+                TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
+                TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
+#
+B16 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_density(alpha = 0.2, colour = "#21908CFF") + 
+  geom_area(data = sig3l_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig3r_hh, aes(x = x, y = y), fill = '#440154FF') + 
+  geom_area(data = sig2l_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig2r_hh, aes(x = x, y = y), fill = '#3B528BFF') + 
+  geom_area(data = sig1l_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig1r_hh, aes(x = x, y = y), fill = '#21908CFF') + 
+  geom_area(data = sig0l_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  geom_area(data = sig0r_hh, aes(x = x, y = y), fill = '#5DC863FF') + 
+  #scale_y_continuous(limits = c(0, 0.009), breaks = seq(0, 0.009, 0.003)) +
+  scale_y_continuous(labels = function(n){format(n, scientific = FALSE)}) +
+  scale_x_continuous(breaks = xpoints_hh, labels = xlabels_hh) + 
+  annotate("segment", x = xpoints_hh[4] - 0.5 * sd_hh, xend = arr_hh[[2]], y = arr_hh[[4]], 
+            yend = arr_hh[[4]], arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  annotate("segment", x = xpoints_hh[4] + 0.5 * sd_hh, xend = arr_hh[[3]], y = arr_hh[[4]], 
+            yend = arr_hh[[4]], arrow = arrow(type = "closed", length = unit(0.02, "npc"))) + 
+  annotate(geom = "text", x = xpoints_hh[4], y = arr_hh[[4]], label = arr_hh[[1]]) + 
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Density", 
+       subtitle = paste0("(N=", nrow(.), "; ", "Mean= ", round(mean(.[[1]]), 1), 
+                         "; Median= ", round(median(.[[1]]), 1), "; SD= ", round(sd(.[[1]]), 1),
+                         ")"), 
+        caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B16)
+rm(B16)
+```
+
+```{r 'B16P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B16P03","_Cars_Dens_Weight", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P03)
+```
+
+```{r 'B16P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B16P03","_Cars_Dens_Weight", ".png"))
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B16P0203', echo=FALSE, ref.label=c('B16P02', 'B16P03'), fig.cap="Cars: Histogram and Density of Weight (lbs)"}
+#
+```
+
+#### hist() {.unlisted .unnumbered}
+
+```{r 'B16-PlotHist', eval=FALSE}
+# Set up the plot area to visualise multiple 3 plots simultaneously
+par(mfrow = c(1, 3))
+# Create the histogram bars
+hist(aa$weightlbs,
+     breaks = 30,
+     xlim = c(0, 5000),
+     col = "blue",
+     border = "black",
+     ylim = c(0, 40),
+     xlab = "Weight",
+     ylab = "Counts",
+     main = "Histogram of Car Weights")
+# Make a box around # the plot
+box(which = "plot",
+    lty = "solid",
+    col = "black")
+```
+
+#### Code Histogram {.unlisted .unnumbered}
+
+```{r 'B16-Histogram-A', eval=FALSE, ref.label=c('B16-Histogram')}
+#
+```
+
+#### Code Density {.unlisted .unnumbered}
+
+```{r 'B16-Density-A', eval=FALSE, ref.label=c('B16-Density')}
+#
+```
+
+### ScatterPlot {.tabset .tabset-fade}
+
+```{r 'B16-ScatterAll', include=FALSE}
+# #Scatterplot, Trendline Equation, R2, mean x & y
+hh <- tibble(x = aa$weightlbs, y = aa$mpg)
+title_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y)"
+caption_hh <- "B16P04"
+x_hh <- "Weight"
+y_hh <- "MPG"
+```
+
+```{r 'B16-ScatterAll-A', include=FALSE, ref.label=c('B16-ScatterAll', 'B16-ScatterPlot')}
+#
+```
+
+```{r 'B16P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B16P04","_Cars_Scatter_All", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P04)
+```
+
+```{r 'B16P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B16P04","_Cars_Scatter_All", ".png"))
+```
+
+```{r 'B16-ScatterMod', include=FALSE}
+# #Excluded Outliers
+hh <- tibble(x = aa$weightlbs, y = aa$mpg) %>% filter(x > min(x) & y < max(y))
+title_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y) - Excluded 2 outliers"
+caption_hh <- "B16P05"
+x_hh <- "Weight"
+y_hh <- "MPG"
+```
+
+```{r 'B16-ScatterMod-A', include=FALSE, ref.label=c('B16-ScatterMod', 'B16-ScatterPlot')}
+#
+```
+
+```{r 'B16P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B16P05","_Cars_Scatter_Mod", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P05)
+```
+
+```{r 'B16P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B16P05","_Cars_Scatter_Mod", ".png"))
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B16P0405', echo=FALSE, ref.label=c('B16P04', 'B16P05'), fig.cap="Cars: Scatterplot of Weight (x) vs MPG (y) with and without the two outliers"}
+#
+```
+
+#### plot() {.unlisted .unnumbered}
+
+
+```{r 'B16-PlotScatter', eval=FALSE}
+# Create a Scatterplot
+plot(aa$weightlbs,
+     aa$mpg,
+     xlim = c(0, 5000),
+     ylim = c(0, 600),
+     xlab = "Weight",
+     ylab = "MPG",
+     main = "Scatterplot of MPG by Weight",
+     type = "p", #Points
+     pch = 16,
+     col = "blue")
+#Add open black
+# circles
+points(aa$weightlbs,
+       aa$mpg,
+       type = "p",
+       col = "black")
+```
+
+
+#### Code ScatterPlot {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B16-ScatterPlot', eval=FALSE}
+# #IN: hh$x, hh$y, title_hh, caption_hh, x_hh, y_hh
+# #Define the formula for Trendline calculation
+k_gg_formula <- y ~ x
+#
+B16 <- hh %>% { ggplot(data = ., aes(x = x, y = y)) + 
+    geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
+    stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ", \n", ..rr.label.., ")")), 
+                 formula = k_gg_formula, eq.with.lhs = "italic(hat(y))~`=`~",
+                 eq.x.rhs = "~italic(x)", parse = TRUE) +
+    geom_vline(aes(xintercept = round(mean(x), 3)), color = '#440154FF', linetype = "dashed") +
+    geom_hline(aes(yintercept = round(mean(y), 3)), color = '#440154FF', linetype = "dashed") +
+    geom_text(data = tibble(x = mean(.[["x"]]), y = -Inf, 
+                            label = TeX(r'($\bar{x}$)', output = "character")), 
+              aes(x = x, y = y, label = label), 
+              size = 4, color = '#440154FF', hjust = 1.5, vjust = -1, parse = TRUE ) +
+    geom_text(data = tibble(x = 0, y = mean(.[["y"]]), 
+                            label = TeX(r'($\bar{y}$)', output = "character")), 
+              aes(x = x, y = y, label = label), 
+              size = 4, color = '#440154FF', hjust = 1.5, vjust = 1.5, parse = TRUE ) +
+    geom_point() +
+    k_gglayer_scatter +
+    labs(x = x_hh, y = y_hh,
+        #subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)"), 
+        caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B16)
+rm(B16)
+```
+
+### BoxPlot {.tabset .tabset-fade}
+
+- Interquartile (IQR) based approach for identification of Outliers
+  - Refer [Precentiles](#percentiles-c03 "c03") for Percentil, Quartile and IQR
+  - IQR = Q3 - Q1
+  - Any data point not in [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR] is an outlier
+- \textcolor{pink}{Question:} Why sometimes the y-axis shows range of ~500 and sometimes ~50
+  - If the 1 extreme outlier of mpg column is kept then the axis will show upto 500
+  - If the point is deleted from the data, then the axis values are in range of 50 
+
+```{r 'B16-BoxPlot', include=FALSE}
+# #BoxPlot
+hh <- aa %>% select(mpg, cylinders) %>% filter(!cylinders %in% c(3, 5)) %>% 
+  filter(mpg < max(mpg)) %>% mutate(across(cylinders, factor)) 
+#
+title_hh <- "BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"
+caption_hh <- "B16P06"
+x_hh <- "Cylinders"
+y_hh <- "MPG"
+#
+B16 <- hh %>% { ggplot(data = ., mapping = aes(x = cylinders, y = mpg, fill = cylinders)) +
+    geom_boxplot(outlier.shape = NA) +
+    geom_point(position = position_jitterdodge(jitter.width = 0.1), size = 1, alpha = 0.7) + 
+    k_gglayer_box +
+    theme(legend.position = 'none') +
+    labs(x = x_hh, y = y_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B16)
+rm(B16)
+```
+
+```{r 'B16P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B16P06","_Cars_BoxPlot", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P06)
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B16P06', echo=FALSE, fig.cap="Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
+knitr::include_graphics(paste0(.z$PX, "B16P06","_Cars_BoxPlot", ".png")) #iiii
+```
+
+#### boxplot() {.unlisted .unnumbered}
+
+```{r 'B16-PlotBox', eval=FALSE}
+boxplot(mpg ~ cyl, data = aa, xlab = "Number of Cylinders",
+        ylab = "Miles Per Gallon", main = "Mileage Data")
+```
+
+#### Code BoxPlot {.unlisted .unnumbered}
+
+
+```{r 'B16-BoxPlot-A', eval=FALSE, ref.label=c('B16-BoxPlot')}
+#
+```
+
+## Numerical Methods for detecting Outliers 
+
+### IQR Based {.tabset .tabset-fade}
+
+- NOTE:
+  - In 'weightlbs' there is no point outside IQR, thus no data point was eliminated
+  - So specifically Cylinder 6 data points were selected for outlier detection and removal
+
+#### All Values (No Outlier) {.unlisted .unnumbered}
+
+```{r 'B16-IQRAll'}
+bb <- aa 
+dim(bb)
+#
+# #summary() or quantile()
+summary(bb$weightlbs)
+q_bb <- quantile(bb$weightlbs, probs = c(.25, .75), na.rm = TRUE)
+q_bb
+#
+iqr_bb <- IQR(bb$weightlbs)
+iqr_bb
+#
+upp_bb <- q_bb[2] + 1.5 * iqr_bb 
+low_bb <- q_bb[1] - 1.5 * iqr_bb 
+#
+#bb %>% filter(weightlbs >= {summary(weightlbs)[2] - 1.5 * IQR(weightlbs)} & 
+#              weightlbs <= {summary(weightlbs)[5] + 1.5 * IQR(weightlbs)})
+kept_bb <- subset(bb, bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb)
+if(nrow(bb) == nrow(kept_bb)) {
+  cat(paste0("No Point was removed because none was outside the range.\n"))
+  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))
+```
+
+#### Cylinder = 6 (1 Outlier) {.unlisted .unnumbered}
+
+```{r 'B16-IQR6'}
+bb <- aa %>% filter(cylinders == 6)
+dim(bb)
+#
+# #summary() or quantile()
+summary(bb$weightlbs)
+q_bb <- quantile(bb$weightlbs, probs = c(.25, .75), na.rm = TRUE)
+q_bb
+#
+iqr_bb <- IQR(bb$weightlbs)
+iqr_bb
+#
+upp_bb <- q_bb[2] + 1.5 * iqr_bb 
+low_bb <- q_bb[1] - 1.5 * iqr_bb 
+#
+#bb %>% filter(weightlbs >= {summary(weightlbs)[2] - 1.5 * IQR(weightlbs)} & 
+#              weightlbs <= {summary(weightlbs)[5] + 1.5 * IQR(weightlbs)})
+kept_bb <- subset(bb, bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb)
+if(nrow(bb) == nrow(kept_bb)) {
+  cat(paste0("No Point was removed because none was outside the range.\n"))
+  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B16-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, B16P01, bb_22, bb_39, 
+          bb_43, bb_na_col, loc_png, na_bb, xxCars, B16P02, caption_hh, impute, len_hh, mean_hh,
+          median_hh, sd_hh, set1_bb, set2_bb, title_hh, arr_hh, arr_lst, arr_y, B16P03, B16P04, 
+          B16P05, density_hh, density_hh_tbl, q05_hh, q95_hh, sig0l_hh, sig0r_hh, sig1l_hh, 
+          sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, x_hh, xbreaks_hh, xlabels_hh, 
+          xpoints_hh, y_hh, B16P06, iqr_bb, kept_bb, low_bb, q_bb, upp_bb)
 ```
 
-```{r 'B16-Validation', include=TRUE, cache=FALSE}
+```{r 'B16-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

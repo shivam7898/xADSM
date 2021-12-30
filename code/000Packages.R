@@ -14,6 +14,7 @@ if (!("conflicted" %in% (.packages()))) {
 # #Precedence
 # # dplyr::filter | stats::filter
   invisible(suppressMessages(conflict_prefer("filter", "dplyr")))
+# # ggplot2::annotate | ?::  
   invisible(suppressMessages(conflict_prefer("annotate", "ggplot2")))
 # # dplyr::lag | stats::lag
   invisible(suppressMessages(conflict_prefer("lag", "dplyr"))) 

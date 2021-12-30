@@ -739,8 +739,10 @@ In addition to measures of location, it is often desirable to consider measures 
 - Interquartile Range (IQR) `IQR()`
   - The difference between the third quartile, and the first quartile
   - It overcomes the dependency on extreme values
+  - It is assumed that any data point not in [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR] is an outlier
+    - 1.5 multiplication gives us a window of ${\mu} \pm 2.7 {\sigma} \approx {\mu} \pm 3 {\sigma}$ which is quite closer to Normal Plot limit.
 - Mean Absolute Error (MAE)
-  - $MAE = \frac{\sum |x_i - \overline{x}|}{n}$
+  - $\text{MAE} = \frac{\sum |x_i - \overline{x}|}{n}$
 
 ### Variance {#variance-c03 .tabset .tabset-fade}
 
