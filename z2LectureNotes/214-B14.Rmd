@@ -286,26 +286,6 @@ round(prop.table(table(ii$PDT, ii$SO), margin = 1), 3)
 prop.test(x = c(71, 34), n = c(126, 117), alternative = "greater")
 ```
 
-#### filter() {.unlisted .unnumbered}
-
-```{r 'B14-Filter'}
-# #Subset the dataset
-ii <- data.frame(PDT = bb$PDT, SO = bb$SO, SVM = bb$SVM)
-# #Subset only for required type of rows #243 Observations
-jj <-  subset(ii, PDT == "LearnSys" | PDT == "Finsys")
-#
-# #subset() is discouraged. Alternatives are given below
-kk <- ii[ii$PDT %in% c("LearnSys", "Finsys"), ]
-ll <- ii[which(ii$PDT %in% c("LearnSys", "Finsys")), ]
-#
-mm <- bb %>% select(PDT, SO, SVM) %>% filter(PDT == "LearnSys" | PDT == "Finsys")
-nn <- bb %>% select(PDT, SO, SVM) %>% filter(PDT %in% c("LearnSys", "Finsys"))
-#
-stopifnot(all(identical(jj, kk), identical(jj, ll), 
-              identical(as_tibble(jj), mm), identical(mm, nn)))
-str(nn)
-```
-
 #### prop.table() {.unlisted .unnumbered}
 
 ```{r 'B14-MoreProportion'}

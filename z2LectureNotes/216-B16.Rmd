@@ -717,9 +717,7 @@ iqr_bb
 upp_bb <- q_bb[2] + 1.5 * iqr_bb 
 low_bb <- q_bb[1] - 1.5 * iqr_bb 
 #
-#bb %>% filter(weightlbs >= {summary(weightlbs)[2] - 1.5 * IQR(weightlbs)} & 
-#              weightlbs <= {summary(weightlbs)[5] + 1.5 * IQR(weightlbs)})
-kept_bb <- subset(bb, bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb)
+kept_bb <- bb[bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb, ]
 if(nrow(bb) == nrow(kept_bb)) {
   cat(paste0("No Point was removed because none was outside the range.\n"))
   } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))
@@ -742,9 +740,7 @@ iqr_bb
 upp_bb <- q_bb[2] + 1.5 * iqr_bb 
 low_bb <- q_bb[1] - 1.5 * iqr_bb 
 #
-#bb %>% filter(weightlbs >= {summary(weightlbs)[2] - 1.5 * IQR(weightlbs)} & 
-#              weightlbs <= {summary(weightlbs)[5] + 1.5 * IQR(weightlbs)})
-kept_bb <- subset(bb, bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb)
+kept_bb <- bb[bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb, ]
 if(nrow(bb) == nrow(kept_bb)) {
   cat(paste0("No Point was removed because none was outside the range.\n"))
   } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))

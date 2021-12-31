@@ -628,6 +628,8 @@ stopifnot(identical(data6, data7))
 
 \textcolor{orange}{Caution:} Attaching a Dataset should be avoided to prevent unexpected behaviour due to 'masking'. Using full scope resolution i.e. 'data_frame$column_header' would result in fewer bugs. However, if a Dataset has been attached, please ensure that it is detached also.
 
+\textcolor{orange}{Caution:} If a dataset is attached more than once e.g. 4 times, please note that there will be 4 copies attached to the environment. It can be checked with search(). Each needs to be detached.
+
 ```{r 'B09-AttachDataSet', eval=FALSE}
 if(FALSE){
   # #WARNING: Attaching a Dataset is discouraged because of 'masking'

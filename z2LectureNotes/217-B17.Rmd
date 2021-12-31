@@ -16,7 +16,7 @@ xxCars <- f_getRDS(xxCars)
 bb <- aa <- xxCars
 ```
 
-## Z-score Standardisation
+## Z-score Standardisation {.tabset .tabset-fade}
 
 ```{r 'B17D01', comment="", echo=FALSE, results='asis'}
 f_getDef("z-Scores") #dddd
@@ -28,10 +28,32 @@ f_getDef("z-Scores") #dddd
   - While comparing the Eucledean distance between Two Variables like Age and Income, the standardisation allow these to be scaled to a similar range
     - Ex: If Age range is 20-30 but Income range is 10k-30k, directly using these values will ignore any impact of change in Age.
   - Note that Mean itself includes the impact of extreme values thus it is not very robust. IQR is better because it is based on position
+\textcolor{pink}{Question:} Can we use different methods for outlier identification on different variables
+  - Yes, you can remove outliers of one variable usig IQR and of another variable using standardisation
 
 - \textcolor{pink}{scale()}
   - It converts any vector to standard normal
 
+  
+### Normalisation {.unlisted .unnumbered}
+
+```{r 'B-Normalisation'}
+# #Normalising Weight
+bb <- aa %>% select(weightlbs) %>% 
+  mutate(z = as.vector(scale(weightlbs)))
+str(bb)
+#
+# #Excluding Outliers
+kept_bb <- bb[bb$z >= -3 & bb$z <= 3, ]
+str(kept_bb)
+#
+# #Similarly with mpg
+kept_bb <- aa %>% select(mpg) %>% mutate(z = as.vector(scale(mpg))) %>% filter(z >= -3 & z <= 3)
+str(kept_bb)
+summary(kept_bb)
+```
+
+### scale() {.unlisted .unnumbered}
 
 ```{r 'B-Scale'}
 # #scale(x, center = TRUE, scale = TRUE) output is Nx1 Matrix
@@ -40,7 +62,9 @@ ii <- bb %>% mutate(z = as.vector(scale(weightlbs)))
 #bb %>% mutate(z = across(weightlbs, scale)) #matrix
 #bb %>% mutate(z = across(weightlbs, ~ as.vector(scale(.)))) #tibble
 jj <- bb %>% mutate(across(weightlbs, list(z = ~ as.vector(scale(.))), .names = "{.fn}"))
-stopifnot(all(identical(ii, jj)))
+kk <- bb
+kk$z <- as.vector(scale(kk$weightlbs))
+stopifnot(all(identical(ii, jj), identical(ii, kk)))
 ```
 
 

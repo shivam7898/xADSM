@@ -9,8 +9,9 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-  - "Understanding basic data manipulation using R"
-
+- "Understanding basic data manipulation using R"
+  - [Filter Rows](#rowfilter-b11 "b11")
+  
 - Links (Ref)
   - [Transform columns as Factors](#factors-b10 "b10")
   - [Sorting Basics](#sorting-b10 "b10")
@@ -155,14 +156,21 @@ all(character(0))
     - filter preserves the class of the column, subset does not
     - filter works with grouped data, subset ignores them
   - filter is stricter and thus would lead to fewer causes of unexpected outcome
-
+- \textcolor{pink}{which()}
+  - Takes a Boolean vector and returns a shorter vector containing the indices of the elements which were true.
+  - If you want to know 'which' elements of a logical vector are TRUE i.e. their indices.
+    - Ex: Get the position of the maximum or minimum values
+  - If NA are present and you do not want them in the output
+- \textcolor{pink}{with()}
+  - with() is a wrapper for functions with no 'data' argument. It allows usage of function as if it had a data argument.
+  
+  
 ```{conjecture 'Object-Not-Found-01'}
 \textcolor{brown}{Error in match.arg(method) : object 'day' not found}
 ```
 
 - when 'dplyr' package is not loaded, base::filter() throws this error. 
 - Either Load the Package (dplyr etc.) or use scope resolution '::'
-
 
 ### Basics {.unnumbered}
 
@@ -224,6 +232,64 @@ dim(bb_13 <- subset(bb, month == 1 | !(dep_delay >= 120) | carrier == "DL",
 ```
 
 
+### Filter Rows {#rowfilter-b11 .unnumbered}
+
+```{r 'B11-SubsetRow'}
+# #Data: mtcars, 32x11, "mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb"
+bb <- aa <- mtcars
+#str(bb)
+#summary(bb)
+# #
+# #Avoid subset()
+ii <- subset(bb, wt > 2 & wt < 3)
+# #which() 
+jj <- bb[which(bb$wt > 2 & bb$wt <= 3), ]
+#
+# #which() select only TRUE and NOT the NA
+(1:2)[which(c(TRUE, NA))]
+(1:2)[c(TRUE, NA)]
+#
+# #which() is faster than head() 
+ee <- bb[which(bb$wt > 2 & bb$wt <= 3)[1:6], ] 
+ff <- head(bb[bb$wt > 2 & bb$wt <= 3, ], 6)
+stopifnot(identical(ee, ff))
+#
+# #Normal Filter using [] operator
+kk <- bb[bb$wt > 2 & bb$wt <= 3, ]
+#
+# #with()
+ll <- with(bb, bb[wt > 2 & wt <= 3, ])
+#
+# #filter()
+mm <- bb %>% filter(wt > 2 & wt <= 3)
+#
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll), identical(ii, mm)))
+#
+# #Another set of equivalent operations for OR 
+ii <- subset(bb, cyl == 4 | cyl == 6)
+jj <- bb[bb$cyl %in% c(4, 6), ]
+kk <- bb[which(bb$cyl %in% c(4, 6)), ]
+ll <- bb %>% filter(cyl == 4 | cyl == 6)
+mm <- bb %>% filter(cyl %in% c(4, 6))
+#
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll), identical(ii, mm)))
+#
+# #General Conditional Subsetting on Flights data
+bb <- xxflights
+dim(bb)
+#
+dim(bb[which(bb$day == 1 & !(bb$month ==1)), ])
+dim(bb[which(bb$day == 1 | bb$month ==1), ])
+dim(bb[which(bb$day == 1 & bb$month ==1), ])
+dim(bb[which(bb$day == 1, bb$month ==1), ])
+dim(bb[which(bb$day == 1 & !(bb$carrier == "DL")), ])
+dim(bb[which(bb$day == 1 | bb$carrier == "DL"), ])
+dim(bb[which(bb$day == 1 & bb$carrier == "DL"), ])
+dim(bb[which(bb$day == 1, bb$carrier == "DL"), ])
+```
+
+
+
 ## Subsetting {.tabset .tabset-fade}
 
 \textcolor{pink}{$[ \ \ ]$} , \textcolor{pink}{$[[ \ \ ]]$} , \textcolor{pink}{$\$$}
@@ -273,24 +339,6 @@ stopifnot(identical(bb[ , 2:5], bb[ , -c(1, 6:ncol(bb))]))
 bb_14 <- select(bb, year:day, arr_delay, dep_delay, distance, air_time)
 bb_15 <- bb %>% select(year:day, arr_delay, dep_delay, distance, air_time)
 stopifnot(identical(bb_14, bb_15))
-```
-
-
-### Rows {.unnumbered}
-
-```{r 'B11-SubsetRow'}
-dim(bb)
-#
-# #Subset Rows
-dim(bb[which(bb$day == 1 & !(bb$month ==1)), ])
-dim(bb[which(bb$day == 1 | bb$month ==1), ])
-dim(bb[which(bb$day == 1 & bb$month ==1), ])
-dim(bb[which(bb$day == 1, bb$month ==1), ])
-dim(bb[which(bb$day == 1 & !(bb$carrier == "DL")), ])
-dim(bb[which(bb$day == 1 | bb$carrier == "DL"), ])
-dim(bb[which(bb$day == 1 & bb$carrier == "DL"), ])
-dim(bb[which(bb$day == 1, bb$carrier == "DL"), ])
-
 ```
 
 
