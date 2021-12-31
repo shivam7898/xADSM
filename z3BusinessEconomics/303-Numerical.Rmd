@@ -1399,7 +1399,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"))
 ```
 
 ```{r 'C03P03-A', echo=FALSE, fig.cap="Original", include=FALSE}
-# #Reading image of another file
+# #Ref another file chunk
 knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"))
 ```
 

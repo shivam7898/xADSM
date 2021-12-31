@@ -4,7 +4,7 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+invisible(lapply(f_getPathR(A10getUtil), knitr::read_chunk))
 ```
 
 ## Data
@@ -28,19 +28,24 @@ f_getDef("z-Scores") #dddd
   - While comparing the Eucledean distance between Two Variables like Age and Income, the standardisation allow these to be scaled to a similar range
     - Ex: If Age range is 20-30 but Income range is 10k-30k, directly using these values will ignore any impact of change in Age.
   - Note that Mean itself includes the impact of extreme values thus it is not very robust. IQR is better because it is based on position
-\textcolor{pink}{Question:} Can we use different methods for outlier identification on different variables
+  - Standardisation does not convert the non-normal data to normal. It does not change the shape of the data. Outliers remain outliers, Skewness remain in the data. It simply changes the Scale.
+- \textcolor{pink}{Question:} Can we use different methods for outlier identification on different variables
   - Yes, you can remove outliers of one variable usig IQR and of another variable using standardisation
+- \textcolor{pink}{Question:} From the Normalised values, can be convert back to original data
+  - Tiring process
+  - (Aside) The scales() function attaches mean and sd as attributes to the output matrix. That can be used to convert back the data.
 
 - \textcolor{pink}{scale()}
   - It converts any vector to standard normal
+- (Aside) 
+  - Scaling is less effective if the outliers are present. Extremely low value (e.g. 192.5 Weight) or  extremely high value (527 Mileage) are obviously going to impact the scale applied. Probably, it is better to follow: Scaling | Outlier Treatment (Identification, Removal or Imputation) | Scaling of original data with Outlier Treatment
 
-  
+
 ### Normalisation {.unlisted .unnumbered}
 
-```{r 'B-Normalisation'}
+```{r 'B17-Normalisation'}
 # #Normalising Weight
-bb <- aa %>% select(weightlbs) %>% 
-  mutate(z = as.vector(scale(weightlbs)))
+bb <- aa %>% select(weightlbs) %>% mutate(z = as.vector(scale(weightlbs)))
 str(bb)
 #
 # #Excluding Outliers
@@ -55,7 +60,7 @@ summary(kept_bb)
 
 ### scale() {.unlisted .unnumbered}
 
-```{r 'B-Scale'}
+```{r 'B17-Scale'}
 # #scale(x, center = TRUE, scale = TRUE) output is Nx1 Matrix
 bb <- aa %>% select(weightlbs) 
 ii <- bb %>% mutate(z = as.vector(scale(weightlbs)))
@@ -67,6 +72,199 @@ kk$z <- as.vector(scale(kk$weightlbs))
 stopifnot(all(identical(ii, jj), identical(ii, kk)))
 ```
 
+## Min-Max Scaling 
+
+- $x^* = \frac{{x}_i - \text{min}(x)}{\text{range}(x)} = \frac{{x}_i - \text{min}(x)}{\text{max}(x) - \text{min}(x)} \to x^* \in [0, 1]$
+  - This is for scaling only, not for removal of outliers
+
+```{r 'B17-ScalingMinMax'}
+# #Min-Max Scaling
+min_aa <- min(aa$weightlbs)
+max_aa <- max(aa$weightlbs)
+bb <- aa %>% select(weightlbs) %>% mutate(z = {weightlbs - min_aa}/{max_aa - min_aa})
+str(bb)
+```
+
+## Decimal Scaling 
+
+- $x^* = \frac{{x}_i}{10^d} \to x^* \in [-1, 1]$
+  - Where 'd' represents the number of digits in the largest absolute value i.e. if max(abs(x)) is 6997, d will be 4
+
+
+```{r 'B17-ScalingDecimal'}
+# #Count Digits in Maximum (NOTE: Take care of NA, 0, [-1, 1] values)
+d_bb <- 10^{floor(log10(max(abs(aa$weightlbs)))) + 1}
+# #Decimal Scaling
+bb <- aa %>% select(weightlbs) %>% mutate(z = weightlbs/d_bb)
+str(bb)
+```
+
+## Comparison {.tabset .tabset-fade}
+
+### Histogram {.unlisted .unnumbered}
+
+```{r 'B17-Histogram', include=FALSE}
+# #Histogram
+bb <- aa %>% select(weightlbs) %>% mutate(z = as.vector(scale(weightlbs)))
+hh <- tibble(ee = bb$z)
+title_hh <- "Cars: Histogram of Weight (Scaled)"
+caption_hh <- "B17P01"
+# #Basics
+median_hh <- round(median(hh[[1]]), 1)
+mean_hh <- round(mean(hh[[1]]), 1)
+sd_hh <- round(sd(hh[[1]]), 1)
+len_hh <- nrow(hh)
+#
+B17 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
+  geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+  geom_vline(aes(xintercept = mean_hh), color = '#440154FF') +
+  geom_text(data = tibble(x = mean_hh, y = -Inf, 
+                          label = paste0("Mean= ", mean_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90) +
+  geom_vline(aes(xintercept = median_hh), color = '#3B528BFF') +
+  geom_text(data = tibble(x = median_hh, y = -Inf, 
+                          label = paste0("Median= ", median_hh)), 
+            aes(x = x, y = y, label = label), 
+            color = '#3B528BFF', hjust = -0.5, vjust = -0.7, angle = 90) +
+  theme(plot.title.position = "panel") + 
+  labs(x = "x", y = "Frequency", 
+       subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
+                         "; Median= ", median_hh, "; SD= ", sd_hh,
+                         ")"), 
+        caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B17)
+rm(B17)
+```
+
+```{r 'B17P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B17P01","_Cars_Hist_Weight_Scaled", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P01)
+```
+
+```{r 'B17P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B17P01","_Cars_Hist_Weight_Scaled", ".png"))
+```
+
+```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="Cars: Histogram of Weight  (Original vs Scaled)"}
+# #Ref another file chunk #iiii
+```
+
+### hist() {.unlisted .unnumbered}
+
+```{r 'B17-PlotHist', eval=FALSE}
+par(mfrow = c(1,2))
+# Create two histograms
+hist(bb$weightlbs, breaks = 20,
+     xlim = c(1000, 5000),
+     main = "Histogram of Weight",
+     xlab = "Weight",
+     ylab = "Counts")
+box(which = "plot",
+    lty = "solid",
+    col = "black")
+#
+hist(bb$z,
+     breaks = 20,
+     xlim = c(-2, 3),
+     main = "Histogram of Zscore
+of Weight",
+     xlab = "Z-score of Weight",
+     ylab = "Counts")
+box(which = "plot",
+    lty = "solid",
+    col = "black")
+```
+
+## Skewness
+
+- Refer [Skewness](#skewness-c03 "c03")
+- Scaling does not change the skewness
+
+```{r 'B17-Skewness'}
+# #Skewness
+bb <- aa %>% select(weightlbs) %>% mutate(z = as.vector(scale(weightlbs)))
+ii <- bb$weightlbs
+#
+3 * {mean(ii) - median(ii)} / sd(ii)
+#
+ii <- bb$z
+3 * {mean(ii) - median(ii)} / sd(ii)
+```
+
+## Non-linear Transformations {.tabset .tabset-fade}
+
+- It is done for conversion of non-normal data to normal
+  - Note that scaling is linear transformation
+- Transformations
+  - Sqare Root - \textcolor{pink}{sqrt()}
+  - Log - \textcolor{pink}{log(), log10()}
+  - Inverse Sqare Root
+- 
+
+```{r 'B17-Transformations'}
+bb <- aa %>% select(weightlbs) %>% 
+  mutate(z = as.vector(scale(weightlbs)), Sqrt = sqrt(weightlbs),
+         Log = log(weightlbs), InvSqr = 1/Sqrt)
+#
+# #Check Skewness
+vapply(bb, function(x) round(3 * {mean(x) - median(x)} / sd(x), 3), numeric(1))
+```
+
+### Histogram {.unlisted .unnumbered}
+
+```{r 'B17-FacetWrap', include=FALSE}
+# #Histogram
+hh <- aa %>% select(weightlbs) %>% 
+  mutate(z = as.vector(scale(weightlbs)), Sqrt = sqrt(weightlbs), 
+         Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
+    labels = c("Square Root", "Natural Log", "Inverse Square", "Original Weight", "Scaled Weight")))
+#
+mean_hh <- hh %>% group_by(Key) %>% summarize(Mean = mean(Values))
+#
+title_hh <- "Cars: Weight with Transformed values and Mean"
+caption_hh <- "B17P03"
+#
+B17 <- hh %>% { ggplot(data = ., mapping = aes(Values)) + 
+    geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
+    geom_vline(data = mean_hh, aes(xintercept = Mean), color = '#440154FF') +
+	  geom_text(data = mean_hh, aes(x = Mean, y = -Inf, label = paste0("Mean= ", f_pNum(Mean))), 
+            color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90) +
+    facet_wrap(~Key, scales = 'free_x') +
+    theme(plot.title.position = "panel") + 
+    labs(x = "x", y = "Frequency", caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B17)
+rm(B17)
+```
+
+```{r 'B17P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P03, width = 14)
+```
+
+```{r 'B17P03', echo=FALSE, fig.cap="Cars: Weight Transformed with Original & Scaled", out.width = "100%"}
+knitr::include_graphics(paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png"))
+```
+
+### facet_wrap() {.unlisted .unnumbered}
+
+```{r 'B17-FacetWrap-A', ref.label=c('B17-FacetWrap'), eval=FALSE}
+#
+```
+
+### f_pNum() {.unlisted .unnumbered}
+
+```{r 'B17-f_pNum', ref.label=c('A10B-pNum'), eval=FALSE}
+#
+```
+
+## QQ Plot
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -74,7 +272,7 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
 ```
 
-```{r 'B17-Validation', include=FALSE, cache=FALSE}
+```{r 'B17-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

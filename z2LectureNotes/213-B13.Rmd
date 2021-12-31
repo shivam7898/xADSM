@@ -21,7 +21,7 @@ bb <- xxflights
 ## Definitions
 
 ```{r 'B13P01', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
-#knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg")) #iiii
+# #Ref another file chunk #iiii
 ```
 
 Refer [Type I and Type II Errors (B12)](#errors-ab-b12, "b12") & [Type I and Type II Errors](#errors-ab-c09, "c09")

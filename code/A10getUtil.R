@@ -15,3 +15,13 @@ f_getMode <- function(x) {
   # #Match
   ux[which.max(tabulate(match(x, ux)))]
 }
+
+## ---- A10B-pNum ----
+f_pNum <- function(x, digits = 2L) {
+  # #Print Numbers
+  # #round(), rounds to a number of decimal places
+  # #signif() rounds to a specific number of significant places
+  # #if(){} else if(){} else{} is NOT vectorised
+  #ifelse(abs(x) < 0.0000001, 0*sign(x), ifelse(abs(x) > 1, round(x, digits), signif(x, digits + 1L)))
+  floor(x) + signif(x %% 1, digits)
+}

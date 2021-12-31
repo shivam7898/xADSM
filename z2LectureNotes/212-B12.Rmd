@@ -869,7 +869,7 @@ f_getDef("Outliers")
 ## Type I and Type II Errors {#errors-ab-b12}
 
 ```{r 'B12P10', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
-#knitr::include_graphics(paste0(.z$PX, "C09P01_Hypothesis_Errors.jpg"))
+# #Ref another file chunk
 ```
 
 Example
