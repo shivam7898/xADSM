@@ -1,4 +1,4 @@
-# (B26, Jan-02) {#b26 .unlisted .unnumbered}
+# (B26, Jan-02) {#b26}
 
 ```{r 'B26', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -7,7 +7,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
+
 ## Overview
 
 - 
@@ -17,13 +17,12 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
--->
 
-```{r 'B26-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B26-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'B26-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B26-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

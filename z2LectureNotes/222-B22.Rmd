@@ -1,4 +1,4 @@
-# (B22, Dec-05) {#b22 .unlisted .unnumbered}
+# PCA (B22, Dec-05) {#b22 .unlisted .unnumbered}
 
 ```{r 'B22', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 <!-- 
 ## Overview
 
-- 
+- "Principal Component Analysis"
   - "ForLater"
 
 ## Summary

@@ -1,4 +1,4 @@
-# (B19, Nov-14) {#b19 .unlisted .unnumbered}
+# Supervised Learning (B19, Nov-14) {#b19 .unlisted .unnumbered}
 
 ```{r 'B19', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 <!-- 
 ## Overview
 
-- 
+- "Supervised Learning Algorithm: Cluster Analysis"
   - "ForLater"
 
 ## Summary

@@ -1,4 +1,4 @@
-# (B18, Nov-07) {#b18 .unlisted .unnumbered}
+# Unsupervised Learning (B18, Nov-07) {#b18 .unlisted .unnumbered}
 
 ```{r 'B18', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 <!-- 
 ## Overview
 
-- 
+- "Unsupervised Learning Algorithms"
   - "ForLater"
 
 ## Summary
