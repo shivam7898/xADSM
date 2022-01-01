@@ -148,7 +148,7 @@ knitr::include_graphics(paste0(.z$PX, "B17P01","_Cars_Hist_Weight_Scaled", ".png
 ```
 
 ```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="Cars: Histogram of Weight  (Original vs Scaled)"}
-# #Ref another file chunk #iiii
+# #Ref another file chunk
 ```
 
 ### hist() {.unlisted .unnumbered}
@@ -216,13 +216,14 @@ vapply(bb, function(x) round(3 * {mean(x) - median(x)} / sd(x), 3), numeric(1))
 
 ```{r 'B17-FacetWrap', include=FALSE}
 # #Histogram
-hh <- aa %>% select(weightlbs) %>% 
+bb <- aa %>% select(weightlbs) %>% 
   mutate(z = as.vector(scale(weightlbs)), Sqrt = sqrt(weightlbs), 
          Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
   pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
   mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
     labels = c("Square Root", "Natural Log", "Inverse Square", "Original Weight", "Scaled Weight")))
 #
+hh <- bb
 mean_hh <- hh %>% group_by(Key) %>% summarize(Mean = mean(Values))
 #
 title_hh <- "Cars: Weight with Transformed values and Mean"
@@ -246,7 +247,7 @@ loc_png <- paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
 if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P03, width = 14)
 ```
 
-```{r 'B17P03', echo=FALSE, fig.cap="Cars: Weight Transformed with Original & Scaled", out.width = "100%"}
+```{r 'B17P03', echo=FALSE, out.width="100%", fig.cap="Cars: Weight Transformed with Original & Scaled"}
 knitr::include_graphics(paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png"))
 ```
 
@@ -262,7 +263,98 @@ knitr::include_graphics(paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
 #
 ```
 
-## QQ Plot
+### hist() {.unlisted .unnumbered}
+
+```{r 'B-PlotHistInvSqare', eval=FALSE}
+# #Histogram with Normal Distribution Overlay
+par(mfrow=c(1,1))
+hist(bb$InvSqr,
+     breaks = 30,
+     xlim=c(0.0125, 0.0275),
+     col = "lightblue",
+     prob = TRUE,
+     border = "black",
+     xlab="Inverse Square Root of Weight",
+     ylab = "Counts",
+     main = "Histogram of Inverse Square Root of Weight")
+box(which = "plot",
+    lty = "solid",
+    col="black")
+# #Overlay Normal density
+lines(density(bb$InvSqr), col="red")
+```
+
+
+## QQ Plot {.tabset .tabset-fade}
+
+Q–Q (quantile-quantile) plot is a probability plot for comparing two probability distributions by plotting their quantiles against each other. A point $(x, y)$ on the plot corresponds to one of the quantiles of the second distribution (y-coordinate) plotted against the same quantile of the first distribution (x-coordinate). If the two distributions being compared are similar, the points in the Q–Q plot will approximately lie on the line $y = x$.
+
+### Image {.unlisted .unnumbered}
+
+```{r 'B17-WeightQQ'}
+# #QQ Plot
+bb <- aa %>% select(weightlbs) %>% 
+  filter(weightlbs > min(weightlbs)) %>% 
+  mutate(z = as.vector(scale(weightlbs)), Sqrt = sqrt(weightlbs), 
+         Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
+    labels = c("Square Root", "Natural Log", "Inverse Square", "Original Weight", "Scaled Weight")))
+#
+hh <- bb
+#hh %>% group_by(Key) %>% summarize(Max = max(Values), Min = min(Values))
+max_hh <- min_hh <- hh %>% group_by(Key) %>% summarise(Values = 0)
+#
+# #Modify Number of Y-Axis Major Gridlines for Horizontal Comparison
+max_hh$Values  <- c(100, 8.55, 0.0300, 5000, 2.35) #c(72, 8.55, 0.0255, 5000, 2.35)
+min_hh$Values  <- c(20, 7.35, 0.0135, 1500, -1.65) #c(40, 7.35, 0.0135, 1500, -1.65)
+#
+title_hh <- "QQ Plot of Weight (Excluding 1 Outlier) Modified Y-Axis"
+caption_hh <- "B17P04"
+#
+B17 <- hh %>% { ggplot(., aes(sample = Values)) +
+        stat_qq() +
+        stat_qq_line() +
+        geom_blank(data=max_hh, aes(y = Values)) +
+        geom_blank(data=min_hh, aes(y = Values)) +
+        facet_wrap(~Key, scales = 'free_y') +
+        labs(caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B17)
+rm(B17)
+```
+
+```{r 'B17P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P04, width = 14)
+```
+
+```{r 'B17P04', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
+knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")) #iiii
+```
+
+### Code {.unlisted .unnumbered}
+
+
+```{r 'B17-WeightQQ-A', eval=FALSE, ref.label=c('B17-WeightQQ')}
+#
+```
+
+
+### qqnorm() {.unlisted .unnumbered}
+
+```{r 'B-PlotQQ', eval=FALSE}
+# Normal Q-Q Plot
+qqnorm(bb$InvSqr,
+       datax = TRUE,
+       col = "red",
+       ylim = c(0.01, 0.03),
+       main = "Normal
+Q-Q Plot of Inverse Square Root of Weight")
+qqline(bb$InvSqr,
+       col = "blue",
+       datax = TRUE)
+```
 
 
 
