@@ -23,5 +23,5 @@ f_pNum <- function(x, digits = 2L) {
   # #signif() rounds to a specific number of significant places
   # #if(){} else if(){} else{} is NOT vectorised
   #ifelse(abs(x) < 0.0000001, 0*sign(x), ifelse(abs(x) > 1, round(x, digits), signif(x, digits + 1L)))
-  floor(x) + signif(x %% 1, digits)
+  ifelse(abs(x) < 0.0000001, 0*sign(x), floor(x) + signif(x %% 1, digits))
 }

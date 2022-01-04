@@ -149,6 +149,8 @@ str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 #
 ```
 
+> ERROR: THE CHUNK WAS NOT INCLUDED because of B- Names
+
 ### Trends {.tabset .tabset-fade}
 
 #### Images {.unlisted .unnumbered}

@@ -1,6 +1,6 @@
 # (B26, Jan-02) {#b26}
 
-```{r 'B26', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B26', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -13,7 +13,208 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - 
   - "ForLater"
 
-## Summary
+## Data: Hospital
+
+```{r 'B26-namesXL', include=FALSE}
+# #Object Names for each sheet
+namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
+```
+
+```{r 'B26-getXL', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "B26-Hospital.xlsx"))
+xxB26Hospital <- f_getObject("xxB26Hospital", "B26-Hospital.xlsx", "176788c58511ea4e98739a5314a55aab")
+```
+
+```{r 'B26-XLobjects', include=FALSE, eval=FALSE}
+# #Create Separate Tibbles for Each Sheet
+# #Separate Objects, excluding the First Sheet
+for(ii in seq_along(namesXL)){
+  assign(namesXL[ii], xxB26Hospital[[ii + 1]])
+}
+#
+# #Modifications
+# #Rename Headers
+#names(xxJdiseases) <- c("Type", "Disease", "RH", "Temperature")
+# #Delete First Row
+#xxJdiseases <- xxJdiseases[-1, ]
+#
+# #Save Binary Files
+for(ii in seq_along(namesXL)){
+  saveRDS(eval(parse(text = namesXL[ii])), paste0(.z$XL, namesXL[ii], ".rds"))
+}
+```
+
+```{r 'B26-ImportData', include=FALSE}
+for(ii in seq_along(namesXL)){
+  assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
+}
+```
+
+```{r 'B26-List', include=FALSE}
+# #Dimensions of these datasets
+str(lapply(namesXL, function(x) {dim(eval(parse(text = x)))}))
+```
+
+```{r 'B26-List-A', ref.label=c('B26-namesXL', 'B26-List')}
+#
+```
+
+## Data: KC House
+
+```{r 'B26-getCSV', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "B26-KC-House.csv"))
+xxB26KC <- f_getObject("xxB26KC", "B26-KC-House.csv", "13e2be1e90780e7331b6a24ad950799d")
+```
+
+```{r 'B26-getRDS', include=FALSE}
+# #Load Data: KC House
+xxB26KC <- f_getRDS(xxB26KC)
+bb <- aa <- xxB26KC
+```
+
+## Data: Car Dekho
+
+```{r 'B26-getCSV', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "B26-CarDekho.csv"))
+xxB26CarDekho <- f_getObject("xxB26CarDekho", "B26-CarDekho.csv", "92770bca1b81e9339def909673097b97")
+```
+
+```{r 'B26-getRDS', include=FALSE}
+# #Load Data: Cars Dekho
+xxB26CarDekho <- f_getRDS(xxB26CarDekho)
+bb <- aa <- xxB26CarDekho
+```
+
+## Cars
+
+
+```{r 'B-'}
+# #
+bb <- aa <- xxB26CarDekho
+str(bb)
+```
+
+
+
+```{r 'B-'}
+# #To keep only the First Word of NAME Column. Warnings are Present
+bb %>% separate(name, c("Brand", NA), sep = " ",remove = FALSE) 
+```
+
+
+
+```{r 'B-'}
+# Select Relevant | Calculate Age
+ii <- bb %>% select(-1, 4:7) %>% mutate(Age = 2021 - year)
+#unique(ii$owner)
+#anyNA(ii)
+#
+jj <- dummy_cols(ii, select_columns = c("seller_type", "fuel", "seller_type", "transmission", "owner"), remove_first_dummy = TRUE)
+#
+## Calculate AGE
+
+```
+
+
+
+```{r 'B-'}
+## Step 1: Create the training and test data
+# Create Training and Test data
+set.seed(3)
+train_row_ii <- sample(1:nrow(ii), 0.8*nrow(ii))  # row indices for training data: 80:20
+train_ii <- ii[train_row_ii, ]  # model training data
+test_ii  <- ii[-train_row_ii, ]   # test data
+#
+train_row_jj <- sample(1:nrow(jj), 0.8*nrow(jj))  # row indices for training data: 80:20
+train_jj <- jj[train_row_jj, ]  # model training data
+test_jj  <- jj[-train_row_jj, ]   # test data
+```
+
+This is a validation process. Train to Train Mode. Test to check model validity. 
+If there is High Model Overfitting, then if I try another data, I will have discrepencies.
+
+
+```{r 'B-'}
+##Step 2: Fit the model on training data and predict selling_price
+
+# Build the model on training data
+# #Exclude 4th Column because, actually 14th, only 1 observation in original dataset that went to test not to the training test
+
+which(names(train_jj) == "fuel_Electric")
+
+#model1_ii <- lm(selling_price ~ ., data = train_ii[,-4])  # build the model
+model1_jj <- lm(selling_price ~ ., data = train_jj[, -14])  # build the model
+#
+names(model1_jj)[which(!names(model1_jj) %in% c("residuals", "effects", "fitted.values", "qr", "model"))]
+# #
+#[1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr" #[8] "df.residual"   "contrasts"     "xlevels"       "call"          "terms"         "model"  
+#summary(model1_jj)
+summary(model1_jj)$coefficients
+#
+# #We lose the stars doing this and the function needs to show 0 for very low values
+f_pNum(summary(model1_jj)$coefficients)
+#
+#options(scipen=10)
+
+#format(model1_jj$coefficients, scientific = FALSE)
+#format(model1_jj$contrasts, scientific = FALSE)
+#?options
+
+
+```
+
+
+Can we tell the model that at least two of each dummy variables should be included in the training dataset
+would it be considered as Biased model
+- do it in Catgortical Y not in continuos Y
+- if x is gender and out of 1000 observations 999 are male can we do anything with gender. Data itself is telling that gender is male overall
+- look at the significance
+
+## Psych
+
+
+```{r 'B-', eval=FALSE}
+#model1_jj
+
+#library(car)
+# while making the model, please assure that there is no multicollinearity
+# it means the IVs are not correlated in a high fashion.
+#library (psych)
+
+pairs.panels(train_jj[,-1], cex = 4)
+
+vif(model1_jj)
+
+#vif(model1)# vif stands for varience inflation factor, it is a measure of multicollinearity:
+#if any variable carry vif greater than 5, which indicate that there is a multicollinearity issue
+
+```
+
+
+```{r 'B-'}
+# #this does not work because we have dummy variables
+
+#the linearly dependent variables
+ld.vars <- attributes(alias(model1_jj)$Complete)$dimnames[[1]]
+
+#remove the linearly dependent variables variables
+formula.new <- as.formula(
+    paste(
+        paste(deparse(formula), collapse=""), 
+        paste(ld.vars, collapse="-"),
+        sep="-"
+    )
+)
+
+#run model again
+fit.new <-lm(formula.new)
+vif(fit.new)
+```
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -22,7 +223,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'B26-Validation', include=FALSE, cache=FALSE}
+```{r 'B26-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

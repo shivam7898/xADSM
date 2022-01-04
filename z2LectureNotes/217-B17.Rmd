@@ -12,8 +12,8 @@ invisible(lapply(f_getPathR(A10getUtil), knitr::read_chunk))
 \textcolor{pink}{Please import the "B16-Cars2.csv".}
 
 ```{r 'B17-ImportData', include=FALSE}
-xxCars <- f_getRDS(xxCars)
-bb <- aa <- xxCars
+xxB16Cars <- f_getRDS(xxB16Cars)
+bb <- aa <- xxB16Cars
 ```
 
 ## Z-score Standardisation {.tabset .tabset-fade}
@@ -309,16 +309,18 @@ max_hh <- min_hh <- hh %>% group_by(Key) %>% summarise(Values = 0)
 max_hh$Values  <- c(100, 8.55, 0.0300, 5000, 2.35) #c(72, 8.55, 0.0255, 5000, 2.35)
 min_hh$Values  <- c(20, 7.35, 0.0135, 1500, -1.65) #c(40, 7.35, 0.0135, 1500, -1.65)
 #
-title_hh <- "QQ Plot of Weight (Excluding 1 Outlier) Modified Y-Axis"
+title_hh <- "QQ Plots of Transformed Weight"
+subt_hh <- "Excluded 1 Outlier and Modified Y-axis for alignment"
 caption_hh <- "B17P04"
 #
 B17 <- hh %>% { ggplot(., aes(sample = Values)) +
-        stat_qq() +
-        stat_qq_line() +
-        geom_blank(data=max_hh, aes(y = Values)) +
-        geom_blank(data=min_hh, aes(y = Values)) +
-        facet_wrap(~Key, scales = 'free_y') +
-        labs(caption = caption_hh, title = title_hh)
+    stat_qq() +
+    stat_qq_line() +
+    geom_blank(data=max_hh, aes(y = Values)) +
+    geom_blank(data=min_hh, aes(y = Values)) +
+    facet_wrap(~Key, scales = 'free') +
+    scale_x_continuous(limits = c(-3, 3)) + 
+    labs(caption = caption_hh, subtitle = subt_hh, title = title_hh)
 }
 assign(caption_hh, B17)
 rm(B17)
@@ -334,7 +336,6 @@ knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}
-
 
 ```{r 'B17-WeightQQ-A', eval=FALSE, ref.label=c('B17-WeightQQ')}
 #

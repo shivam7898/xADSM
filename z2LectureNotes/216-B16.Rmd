@@ -28,18 +28,18 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 ```{r 'B16-Cars', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
-xxCars <- f_getObject("xxCars", "B16-Cars2.csv", "30051fb47f65810f33cb992015b849cc")
+xxB16Cars <- f_getObject("xxB16Cars", "B16-Cars2.csv", "30051fb47f65810f33cb992015b849cc")
 ```
 
 ```{r 'B16-ImportData', include=FALSE}
-xxCars <- f_getRDS(xxCars)
-bb <- aa <- xxCars
+xxB16Cars <- f_getRDS(xxB16Cars)
+bb <- aa <- xxB16Cars
 ```
 
 ### Cars {.unlisted .unnumbered}
 
 ```{r 'B16T01', echo=FALSE}
-bb <- xxCars
+bb <- xxB16Cars
 kbl(head(bb),
   caption = "(B16T01) Cars Data (Head)",
   #col.names = displ_names,
@@ -60,14 +60,14 @@ kbl(head(bb),
 
 ```{r 'B16-Structure'}
 # #Structure
-str(xxCars)
+str(xxB16Cars)
 ```
 
 ### Summary {.unlisted .unnumbered}
 
 ```{r 'B16-Summary'}
 # #Summary
-summary(xxCars)
+summary(xxB16Cars)
 ```
 
 ## Missing Data
@@ -123,7 +123,7 @@ summary(xxCars)
 ### Introduce NA 
 
 ```{r 'B16-NA'}
-aa <- xxCars #No missing value
+aa <- xxB16Cars #No missing value
 bb <- aa     #Will have missing value later
 #
 # #Identify the Number of Missing Values
@@ -755,7 +755,7 @@ To be continued ...
 
 ```{r 'B16-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, B16P01, bb_22, bb_39, 
-          bb_43, bb_na_col, loc_png, na_bb, xxCars, B16P02, caption_hh, impute, len_hh, mean_hh,
+          bb_43, bb_na_col, loc_png, na_bb, xxB16Cars, B16P02, caption_hh, impute, len_hh, mean_hh,
           median_hh, sd_hh, set1_bb, set2_bb, title_hh, arr_hh, arr_lst, arr_y, B16P03, B16P04, 
           B16P05, density_hh, density_hh_tbl, q05_hh, q95_hh, sig0l_hh, sig0r_hh, sig1l_hh, 
           sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, x_hh, xbreaks_hh, xlabels_hh, 
