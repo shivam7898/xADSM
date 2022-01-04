@@ -1,4 +1,4 @@
-# (B26, Jan-02) {#b26}
+# Linear Regression (B26, Jan-02) {#b26}
 
 ```{r 'B26', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-- 
+- "Machine learning using linear regression"
   - "ForLater"
 
 ## Data: Hospital
@@ -62,13 +62,13 @@ str(lapply(namesXL, function(x) {dim(eval(parse(text = x)))}))
 
 ## Data: KC House
 
-```{r 'B26-getCSV', include=FALSE, eval=FALSE}
+```{r 'B26-KC', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
 #tools::md5sum(paste0(.z$XL, "B26-KC-House.csv"))
 xxB26KC <- f_getObject("xxB26KC", "B26-KC-House.csv", "13e2be1e90780e7331b6a24ad950799d")
 ```
 
-```{r 'B26-getRDS', include=FALSE}
+```{r 'B26-getKC', include=FALSE}
 # #Load Data: KC House
 xxB26KC <- f_getRDS(xxB26KC)
 bb <- aa <- xxB26KC
@@ -76,13 +76,13 @@ bb <- aa <- xxB26KC
 
 ## Data: Car Dekho
 
-```{r 'B26-getCSV', include=FALSE, eval=FALSE}
+```{r 'B26-Car', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
 #tools::md5sum(paste0(.z$XL, "B26-CarDekho.csv"))
 xxB26CarDekho <- f_getObject("xxB26CarDekho", "B26-CarDekho.csv", "92770bca1b81e9339def909673097b97")
 ```
 
-```{r 'B26-getRDS', include=FALSE}
+```{r 'B26-getCar', include=FALSE}
 # #Load Data: Cars Dekho
 xxB26CarDekho <- f_getRDS(xxB26CarDekho)
 bb <- aa <- xxB26CarDekho
@@ -91,7 +91,7 @@ bb <- aa <- xxB26CarDekho
 ## Cars
 
 
-```{r 'B26-Temp1'}
+```{r 'B26-Temp1', eval=FALSE}
 # #
 bb <- aa <- xxB26CarDekho
 str(bb)
@@ -99,14 +99,14 @@ str(bb)
 
 
 
-```{r 'B26-Temp2'}
+```{r 'B26-Temp2', eval=FALSE}
 # #To keep only the First Word of NAME Column. Warnings are Present
 bb %>% separate(name, c("Brand", NA), sep = " ",remove = FALSE) 
 ```
 
 
 
-```{r 'B26-'}
+```{r 'B26-Temp7', eval=FALSE}
 # Select Relevant | Calculate Age
 ii <- bb %>% select(-1, 4:7) %>% mutate(Age = 2021 - year)
 #unique(ii$owner)
@@ -120,7 +120,7 @@ jj <- dummy_cols(ii, select_columns = c("seller_type", "fuel", "seller_type", "t
 
 
 
-```{r 'B26-Temp3'}
+```{r 'B26-Temp3', eval=FALSE}
 ## Step 1: Create the training and test data
 # Create Training and Test data
 set.seed(3)
@@ -137,7 +137,7 @@ This is a validation process. Train to Train Mode. Test to check model validity.
 If there is High Model Overfitting, then if I try another data, I will have discrepencies.
 
 
-```{r 'B26-Temp4'}
+```{r 'B26-Temp4', eval=FALSE}
 ##Step 2: Fit the model on training data and predict selling_price
 
 # Build the model on training data
@@ -194,7 +194,7 @@ vif(model1_jj)
 ```
 
 
-```{r 'B26-Temp6'}
+```{r 'B26-Temp6', eval=FALSE}
 # #this does not work because we have dummy variables
 
 #the linearly dependent variables
@@ -220,10 +220,12 @@ vif(fit.new)
 
 
 ```{r 'B26-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, model1_jj, namesXL, test_ii, test_jj, train_ii, train_jj,
+          train_row_ii, train_row_jj, xxB26CarDekho, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, 
+          xxflights)
 ```
 
-```{r 'B26-Validation', include=TRUE, cache=FALSE}
+```{r 'B26-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

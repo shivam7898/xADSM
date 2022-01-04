@@ -788,7 +788,7 @@ rm(B12)
 
 ## Normal Distribution {#normal-d-b12}
 
-```{r 'B12P09', include=FALSE, fig.cap="Normal Distribution"}
+```{r 'B12P09', echo=FALSE, fig.cap="Normal Distribution"}
 knitr::include_graphics(paste0(.z$PX, "B12P09_Distribution_Normal.jpg"))
 ```
 

@@ -19,7 +19,7 @@ bb <- aa <- xxB16Cars
 ## Z-score Standardisation {.tabset .tabset-fade}
 
 ```{r 'B17D01', comment="", echo=FALSE, results='asis'}
-f_getDef("z-Scores") #dddd
+f_getDef("z-Scores")
 ```
 
 - \@ref(eq:z-scores) $z_i = \frac{{x}_i - {\overline{x}}}{{s}}$
@@ -221,7 +221,8 @@ bb <- aa %>% select(weightlbs) %>%
          Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
   pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
   mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
-    labels = c("Square Root", "Natural Log", "Inverse Square", "Original Weight", "Scaled Weight")))
+    labels = c("Square Root", "Natural Log", "Inverse Square", 
+               "Original Weight", "Scaled Weight")))
 #
 hh <- bb
 mean_hh <- hh %>% group_by(Key) %>% summarize(Mean = mean(Values))
@@ -289,9 +290,12 @@ lines(density(bb$InvSqr), col="red")
 
 Q–Q (quantile-quantile) plot is a probability plot for comparing two probability distributions by plotting their quantiles against each other. A point $(x, y)$ on the plot corresponds to one of the quantiles of the second distribution (y-coordinate) plotted against the same quantile of the first distribution (x-coordinate). If the two distributions being compared are similar, the points in the Q–Q plot will approximately lie on the line $y = x$.
 
+- Refer figure \@ref(fig:B12P09)
+  - The QQ Plot shows whether the values are within the specified limits of Normal Curve
+
 ### Image {.unlisted .unnumbered}
 
-```{r 'B17-WeightQQ'}
+```{r 'B17-WeightQQ', include=FALSE}
 # #QQ Plot
 bb <- aa %>% select(weightlbs) %>% 
   filter(weightlbs > min(weightlbs)) %>% 
@@ -299,7 +303,8 @@ bb <- aa %>% select(weightlbs) %>%
          Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
   pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
   mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
-    labels = c("Square Root", "Natural Log", "Inverse Square", "Original Weight", "Scaled Weight")))
+    labels = c("Square Root", "Natural Log", "Inverse Square", 
+               "Original Weight", "Scaled Weight")))
 #
 hh <- bb
 #hh %>% group_by(Key) %>% summarize(Max = max(Values), Min = min(Values))
@@ -359,7 +364,6 @@ knitr::include_graphics(paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")) 
 #
 ```
 
-
 ### qqnorm() {.unlisted .unnumbered}
 
 ```{r 'B17-PlotQQ', eval=FALSE}
@@ -375,15 +379,121 @@ qqline(bb$InvSqr,
        datax = TRUE)
 ```
 
+## Shapiro
+
+```{r 'B17D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Shapiro-Wilk-Test") #dddd
+```
+
+
+- Refer [Shapiro-Wilk Test for Normality](#shapiro-c10 "c10")
+
+
+### rnorm()
+
+- \textcolor{pink}{rnorm(n, mean = 0, sd = 1)}
+  - Create Vector of Random Numbers with given mean and sd
+
+```{r 'B17-rnorm'}
+set.seed(3)
+ii <- rnorm(n = 100, mean = 50, sd = 5.99)
+#
+# #Check Normality of randomly generated Normal dataset
+shapiro.test(ii)
+#
+# #Check Normality of Weight
+ii <- aa %>% select(weightlbs) %>% 
+  #filter(weightlbs > min(weightlbs)) %>%
+  mutate(z = as.vector(scale(weightlbs)), Sqrt = sqrt(weightlbs), 
+         Log = log(weightlbs), InvSqr = 1/Sqrt) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, factor, levels = c("Sqrt", "Log", "InvSqr", "weightlbs", "z"), 
+    labels = c("Square Root", "Natural Log", "Inverse Square", 
+               "Original Weight", "Scaled Weight")))
+#
+# #No Transformation was able to convert the data to Normality 
+# #Even after excluding 1 outlier (Not shown here)
+ii %>% group_by(Key) %>% 
+  summarise(p_Shapiro = shapiro.test(Values)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+```
+
+### cut()
+
+- Refer [cut() for creating bins](#cut-c02 "c02")
+- \textcolor{pink}{cut()} - It slightly increases the range
+
+```{r 'B17-Cut'}
+# #Continuous to Categorical (Bins)
+cut_ii <- cut(aa$weightlbs, breaks = 3, dig.lab = 4, include.lowest = TRUE, ordered_result = TRUE)
+levels(cut_ii)
+#
+# #ggplot2::cut_interval()
+cut_jj <- cut_interval(aa$weightlbs, n = 3, dig.lab = 4, ordered_result = TRUE)
+levels(cut_jj)
+#
+# #With Labels: NOTE default ordering is ascending
+levels(cut(aa$weightlbs, breaks = 3, dig.lab = 4, include.lowest = TRUE, ordered_result = TRUE, 
+           labels = c("low", "medium", "high")))
+levels(cut_interval(aa$weightlbs, n = 3, dig.lab = 4, ordered_result = TRUE, 
+                    labels = c("low", "medium", "high")))
+```
+
+## Continuos to Categorical Groups
+
+```{r 'B17-ToCategorical'}
+bb <- aa %>% select(weightlbs) %>% rename(Weight = 1)
+#
+# #Subsetting
+# #Create Column explicitly to prevent Warning message: Unknown or uninitialised column: `ii`. 
+bb$ii <- NA
+bb$ii[bb$Weight >= 3000] <- 1
+bb$ii[bb$Weight < 3000] <- 2
+#
+# #Using ifelse() or case_when()
+bb <- bb %>% mutate(jj = ifelse(Weight >= 3000, 1, 2), 
+                    kk = case_when(Weight >= 3000 ~ 1, Weight < 3000 ~ 2))
+stopifnot(all(identical(bb$ii, bb$jj), identical(bb$ii, bb$kk)))
+```
+
+## Index
+
+```{r 'B17-Index'}
+# #Create Data
+set.seed(3)
+bb <- tibble(x = rnorm(n = 10, mean = 5, sd = 0.55), 
+             y = rnorm(n = 10, mean = 4.5, sd = 0.66))
+#
+# #Basic Indexing
+bb$i <- 1:nrow(bb)
+# #Indexcan be started from anywhere. However it is not recommended.
+bb$j <- 5:{nrow(bb) + 5L - 1L}
+# 
+# #Other Methods
+bb$k <- seq_along(bb[[1]])
+bb$l <- seq_len(nrow(bb))
+bb$m <- seq.int(nrow(bb))
+# #Note the placement of column at the beginning i.e. column index modified
+bb <- cbind(n = 1:nrow(bb), bb)
+bb <- rowid_to_column(bb, "o")
+#
+bb <- bb %>% mutate(p = row_number())
+#
+# #Excluding 'j' all other columns are equal. However, 'n' & 'o' modify column index
+stopifnot(all(identical(bb$i, bb$k), identical(bb$i, bb$k), identical(bb$i, bb$l), 
+  identical(bb$i, bb$m), identical(bb$i, bb$n), identical(bb$i, bb$o), identical(bb$i, bb$p)))
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B17-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, B17P01, B17P03, B17P04, 
+          B17P05, caption_hh, cut_ii, cut_jj, d_bb, kept_bb, len_hh, loc_png, max_aa, max_hh, 
+          mean_hh, median_hh, min_aa, min_hh, sd_hh, subt_hh, title_hh, xxB16Cars)
 ```
 
-```{r 'B17-Validation', include=TRUE, cache=FALSE}
+```{r 'B17-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

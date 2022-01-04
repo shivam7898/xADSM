@@ -11,7 +11,7 @@ invisible(lapply(f_getPathR(A05ThemeGG), knitr::read_chunk))
 
 - This chapter covers 
   - [CrossTab](#crosstab-c02 "c02") : Transpose, Attributes, Total Row, Cut, Clipboard, Replace NA
-  - Graphs: [Bar Chart](#bar-pie-c02 "c02"), [Pie Chart](#bar-pie-c02 "c02"), [Histogram](#histogram-c02 "c02"), [Scatterplot](#scatterplot-c02  "c02")
+  - Graphs: [Bar Chart](#bar-pie-c02 "c02"), [Pie Chart](#bar-pie-c02 "c02"), [Histogram](#histogram-c02 "c02"), [Scatterplot](#scatterplot-c02  "c02"), [cut() for creating bins](#cut-c02 "c02")
 
 ## Summarizing Data for a Categorical Variable {.tabset .tabset-fade}
 
@@ -638,7 +638,13 @@ jj <- ii %>%
 print(jj)
 ```
 
-#### Cut {.unlisted .unnumbered}
+#### cut() {#cut-c02 .unlisted .unnumbered}
+
+- \textcolor{pink}{cut()}
+  - It slightly increases the range
+  - \textcolor{pink}{ggplot2::cut_interval(), cut_width()} do not increase the range
+  - dig.lab : Options to exclude scientific notation
+  - ordered_result : Option for ordered factor
 
 ```{r 'C02-M-Cut'}
 # #Group Continuous Data to Categorical Bins by base::cut()
