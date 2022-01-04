@@ -145,7 +145,7 @@ for(ii in seq_along(namesJ)){
 str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 ```
 
-```{r 'B15-List-A', ref.label=c('B-Jnames', 'B-List')}
+```{r 'B15-List-A', ref.label=c('B15-Jnames', 'B15-List')}
 #
 ```
 

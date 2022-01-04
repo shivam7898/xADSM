@@ -265,7 +265,7 @@ knitr::include_graphics(paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
 
 ### hist() {.unlisted .unnumbered}
 
-```{r 'B-PlotHistInvSqare', eval=FALSE}
+```{r 'B17-PlotHistInvSqare', eval=FALSE}
 # #Histogram with Normal Distribution Overlay
 par(mfrow=c(1,1))
 hist(bb$InvSqr,
@@ -320,6 +320,7 @@ B17 <- hh %>% { ggplot(., aes(sample = Values)) +
     geom_blank(data=min_hh, aes(y = Values)) +
     facet_wrap(~Key, scales = 'free') +
     scale_x_continuous(limits = c(-3, 3)) + 
+    #coord_flip() +
     labs(caption = caption_hh, subtitle = subt_hh, title = title_hh)
 }
 assign(caption_hh, B17)
@@ -332,7 +333,24 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P04, width = 14)
 ```
 
 ```{r 'B17P04', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
-knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png"))
+```
+
+### Flipped Axis {.unlisted .unnumbered}
+
+```{r 'B17-WeightQQ-Flip', include=FALSE}
+title_hh <- "QQ Plots of Transformed Weight (Flipped)"
+caption_hh <- "B17P05"
+B17P05 <- B17P04 + coord_flip() + labs(caption = caption_hh, title = title_hh)
+```
+
+```{r 'B17P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P05, width = 14)
+```
+
+```{r 'B17P05', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
+knitr::include_graphics(paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -344,7 +362,7 @@ knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")) #iiii
 
 ### qqnorm() {.unlisted .unnumbered}
 
-```{r 'B-PlotQQ', eval=FALSE}
+```{r 'B17-PlotQQ', eval=FALSE}
 # Normal Q-Q Plot
 qqnorm(bb$InvSqr,
        datax = TRUE,

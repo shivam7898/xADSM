@@ -95,7 +95,7 @@ If the population standard error (SE) is known, apply z-test. If it is unknown, 
 2-T Rule of Thumb - Skipped "09:55"
 
 
-```{r 'B-GetPz', include=TRUE}
+```{r 'B13-GetPz', include=TRUE}
 # #Get P(z)
 z01 <- round(pnorm(3.44), digits = 6)
 z02 <- 1 - round(pnorm(3.44), digits = 6)
@@ -125,7 +125,7 @@ Example:
 
 ### Code {.unlisted .unnumbered}
 
-```{r 'B-GetPz-A', ref.label=c('B-GetPz'), eval=FALSE}
+```{r 'B13-GetPz-A', ref.label=c('B13-GetPz'), eval=FALSE}
 #
 ```
 

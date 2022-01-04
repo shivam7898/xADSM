@@ -349,7 +349,7 @@ kbl(head(bb),
 
 ### Basic Tibble {.unnumbered}
 
-```{r 'B10-BasicTibble-A', ref.label=c('B-BasicTibble'), eval=FALSE}
+```{r 'B10-BasicTibble-A', ref.label=c('B10-BasicTibble'), eval=FALSE}
 #
 ```
 

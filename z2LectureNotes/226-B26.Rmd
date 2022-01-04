@@ -91,7 +91,7 @@ bb <- aa <- xxB26CarDekho
 ## Cars
 
 
-```{r 'B-'}
+```{r 'B26-Temp1'}
 # #
 bb <- aa <- xxB26CarDekho
 str(bb)
@@ -99,14 +99,14 @@ str(bb)
 
 
 
-```{r 'B-'}
+```{r 'B26-Temp2'}
 # #To keep only the First Word of NAME Column. Warnings are Present
 bb %>% separate(name, c("Brand", NA), sep = " ",remove = FALSE) 
 ```
 
 
 
-```{r 'B-'}
+```{r 'B26-'}
 # Select Relevant | Calculate Age
 ii <- bb %>% select(-1, 4:7) %>% mutate(Age = 2021 - year)
 #unique(ii$owner)
@@ -120,7 +120,7 @@ jj <- dummy_cols(ii, select_columns = c("seller_type", "fuel", "seller_type", "t
 
 
 
-```{r 'B-'}
+```{r 'B26-Temp3'}
 ## Step 1: Create the training and test data
 # Create Training and Test data
 set.seed(3)
@@ -137,7 +137,7 @@ This is a validation process. Train to Train Mode. Test to check model validity.
 If there is High Model Overfitting, then if I try another data, I will have discrepencies.
 
 
-```{r 'B-'}
+```{r 'B26-Temp4'}
 ##Step 2: Fit the model on training data and predict selling_price
 
 # Build the model on training data
@@ -176,7 +176,7 @@ would it be considered as Biased model
 ## Psych
 
 
-```{r 'B-', eval=FALSE}
+```{r 'B26-Temp5', eval=FALSE}
 #model1_jj
 
 #library(car)
@@ -194,7 +194,7 @@ vif(model1_jj)
 ```
 
 
-```{r 'B-'}
+```{r 'B26-Temp6'}
 # #this does not work because we have dummy variables
 
 #the linearly dependent variables
