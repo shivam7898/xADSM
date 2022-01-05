@@ -1,29 +1,187 @@
-# Unsupervised Learning (B18, Nov-07) {#b18 .unlisted .unnumbered}
+# Unsupervised Learning (B18, Nov-07) {#b18}
 
-```{r 'B18', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B18', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
+
 ## Overview
 
 - "Unsupervised Learning Algorithms"
   - "ForLater"
+  - Case Analysis of JAT is Merged in notes of [Case Study: JAT](#jat-b15 "b15")
 
-## Summary
+## Data: Churn
+
+```{r 'B18-Churn', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "B18-Churn.xlsx"))
+xxB18ChurnXL <- f_getObject("xxB18ChurnXL", "B18-Churn.xlsx", "d20730cb7050db29691eda7ca536c914")
+xxB18Churn <- xxB18ChurnXL[[1]]
+f_setRDS(xxB18Churn)
+```
+
+```{r 'B18-getChurn', include=FALSE}
+# #Load Data: Churn
+xxB18Churn <- f_getRDS(xxB18Churn)
+bb <- aa <- xxB18Churn
+```
+
+## Q1 {.tabset .tabset-fade}
+
+- Explore whether there are missing values for any of the variables.
+  - There are NO missing values
+
+1. Use useful graphs to visually determine whether there are any outliers in the datasets (Note: check the same for all the numeric variables).
+1.	Also Identify the outliers, using:
+    - The Z-score method (Note: locate the standardized values less than -3 and greater than + 3 as outliers)
+    - The IQR method.
+
+### Transposed Churn {.unlisted .unnumbered}
+
+```{r 'B-Transposed', include=FALSE}
+# #Transposed and Filtered Data
+t_aa <- aa[6, ] %>% 
+  mutate(Row_Col = paste0("Row_", row_number())) %>% 
+  relocate(Row_Col) %>% 
+  mutate(across(!where(is.character), as.character)) %>% 
+  `attr<-`("ColsLost", unlist(strsplit(names(.)[1], "_"))[1]) %>% 
+  `attr<-`("RowsKept", unlist(strsplit(names(.)[1], "_"))[2]) %>% 
+  pivot_longer(c(-1), 
+               names_to = paste0(attributes(.)$RowsKept, "_", attributes(.)$ColsLost), 
+               values_to = "Values") %>% 
+  pivot_wider(names_from = 1, values_from = Values) %>% 
+  `attr<-`("ColsLost", NULL) %>% `attr<-`("RowsKept", NULL)
+```
+
+```{r 'B18T02', echo=FALSE}
+bb <- t_aa
+kbl(bb,
+  caption = "(B18T02) Churn Transposed",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+### Churn Data {.unlisted .unnumbered}
+
+```{r 'B18T01', echo=FALSE}
+bb <- head(aa)
+kbl(bb,
+  caption = "(B18T01) Churn",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	)
+```
+
+### NA {.unlisted .unnumbered}
+
+```{r 'B-NA'}
+anyNA(bb)
+```
+
+## Q2
+
+- Compare the area code and state fields. Discuss any apparent abnormalities.
+
+
+```{r 'B-'}
+# #Select | Rename | To Factor
+ii <- aa %>% select(`Area Code`, State) %>% 
+  rename(Area = "Area Code") %>% 
+  mutate(across(everything(), factor))
+# # Select | Group | Frequency | Descending   
+jj <- ii %>% select(State) %>% group_by(State) %>% summarise(CNT = n()) %>% arrange(desc(CNT))
+#
+if(FALSE){
+# #Rank based grouping of all lower values
+  jj %>% mutate(RANK = rank(CNT, ties.method = "first"), 
+              nState = ifelse(RANK <= 42, "Other", as.character(State))) %>% 
+    group_by(nState) %>% mutate(nCNT = sum(CNT))
+}
+
+
+```
+
+
+
+```{r 'B-'}
+caption_hh <- "Caption"
+title_hh <- "Title"
+
+# #Proper Sorting of Factors for Flipped Axes
+hh <- jj %>% mutate(across(State, factor, levels = rev(unique(State)))) 
+# #Because the CNT have duplicated values ggplot would add them up if used on x-axis
+anyDuplicated(jj$CNT)
+# #So, place it on Y-axis and then flip the axis
+#
+x_sec <- x_prim <- as.character(hh$State)
+# #Set Alternate Labels as blanks on both Primary and Secondary x-axis
+x_prim[1:length(kk) %%2 != 1] <- ""
+x_sec[1:length(kk) %%2 == 1] <- ""
+#
+# #Get Median Location
+#hh %>% filter(CNT == median(CNT)) %>% mutate(as.integer(State))
+median_loc_hh <- ceiling(nrow(hh)/2) 
+#
+hh %>% { ggplot(data = ., aes(x = as.integer(State), y = CNT)) +
+    geom_bar(stat = 'identity', aes(fill = (as.integer(State) %% 2 == 0))) + 
+    geom_vline(aes(xintercept = median_loc_hh), color = '#440154FF') +
+    scale_x_continuous(breaks = 1:nrow(.), labels = x_prim, 
+                       sec.axis = sec_axis(~., breaks = 1:nrow(.), labels = x_sec)) + 
+    k_gglayer_bar + coord_flip() +
+    labs(x = "State", y = "Frequency", subtitle = NULL, 
+         caption = caption_hh, title = title_hh)
+}
+```
+
+
+
+
+```{r 'B-'}
+bb <- aa %>% select(`Area Code`, State) %>% 
+  rename(Area = "Area Code") %>% 
+  mutate(across(everything(), factor))
+#
+# #Unique Values
+bb %>% summarise(across(everything(), ~ length(unique(.))))
+#
+summary(bb)
+#
+str(levels(bb$Area))
+str(levels(bb$State))
+```
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
--->
-
-```{r 'B18-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+```{r 'B18-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, t_aa, xxB18Churn)
 ```
 
-```{r 'B18-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B18-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

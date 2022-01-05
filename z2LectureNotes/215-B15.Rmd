@@ -7,6 +7,12 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
+## Overview
+
+- This covers a short quiz and a case study [Case Study: JAT](#jat-b15 "b15")
+  - Case analysis done on Nov-07 has been merged here.
+
+
 ## Short Quiz
 
 1. In hypothesis testing,
@@ -100,7 +106,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     a. Neither (a) nor (b)
 	  - Answer: \textcolor{black}{b}
   
-## Case: JAT 
+## Case: JAT {#jat-b15}
 
 \textcolor{pink}{Please import the Jayalaxmi data.}
 
@@ -148,8 +154,6 @@ str(lapply(namesJ, function(x) {dim(eval(parse(text = x)))}))
 ```{r 'B15-List-A', ref.label=c('B15-Jnames', 'B15-List')}
 #
 ```
-
-> ERROR: THE CHUNK WAS NOT INCLUDED because of B- Names
 
 ### Trends {.tabset .tabset-fade}
 
