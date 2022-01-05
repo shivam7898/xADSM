@@ -42,7 +42,7 @@ bb <- aa <- xxB18Churn
 
 ### Transposed Churn {.unlisted .unnumbered}
 
-```{r 'B-Transposed', include=FALSE}
+```{r 'B18-Transposed', include=FALSE}
 # #Transposed and Filtered Data
 t_aa <- aa[6, ] %>% 
   mutate(Row_Col = paste0("Row_", row_number())) %>% 
@@ -97,16 +97,18 @@ kbl(bb,
 
 ### NA {.unlisted .unnumbered}
 
-```{r 'B-NA'}
+```{r 'B18-NA'}
 anyNA(bb)
 ```
 
-## Q2
+## Q2 {.tabset .tabset-fade}
 
 - Compare the area code and state fields. Discuss any apparent abnormalities.
 
 
-```{r 'B-'}
+### States Bar Chart {.unlisted .unnumbered}
+
+```{r 'B18-Q2', include=FALSE}
 # #Select | Rename | To Factor
 ii <- aa %>% select(`Area Code`, State) %>% 
   rename(Area = "Area Code") %>% 
@@ -120,16 +122,9 @@ if(FALSE){
               nState = ifelse(RANK <= 42, "Other", as.character(State))) %>% 
     group_by(nState) %>% mutate(nCNT = sum(CNT))
 }
-
-
 ```
 
-
-
-```{r 'B-'}
-caption_hh <- "Caption"
-title_hh <- "Title"
-
+```{r 'B18-StatesBar', include=FALSE}
 # #Proper Sorting of Factors for Flipped Axes
 hh <- jj %>% mutate(across(State, factor, levels = rev(unique(State)))) 
 # #Because the CNT have duplicated values ggplot would add them up if used on x-axis
@@ -138,28 +133,49 @@ anyDuplicated(jj$CNT)
 #
 x_sec <- x_prim <- as.character(hh$State)
 # #Set Alternate Labels as blanks on both Primary and Secondary x-axis
-x_prim[1:length(kk) %%2 != 1] <- ""
-x_sec[1:length(kk) %%2 == 1] <- ""
+x_prim[1:nrow(hh) %%2 != 1] <- ""
+x_sec[1:nrow(hh) %%2 == 1] <- ""
 #
 # #Get Median Location
 #hh %>% filter(CNT == median(CNT)) %>% mutate(as.integer(State))
 median_loc_hh <- ceiling(nrow(hh)/2) 
 #
-hh %>% { ggplot(data = ., aes(x = as.integer(State), y = CNT)) +
+caption_hh <- "B18P01"
+title_hh <- "Churn: Frequency of States"
+subt_hh <- paste0(nrow(hh), " States with Median = ",  median(hh$CNT)) #NULL
+#
+B18 <- hh %>% { ggplot(data = ., aes(x = as.integer(State), y = CNT)) +
     geom_bar(stat = 'identity', aes(fill = (as.integer(State) %% 2 == 0))) + 
     geom_vline(aes(xintercept = median_loc_hh), color = '#440154FF') +
     scale_x_continuous(breaks = 1:nrow(.), labels = x_prim, 
                        sec.axis = sec_axis(~., breaks = 1:nrow(.), labels = x_sec)) + 
     k_gglayer_bar + coord_flip() +
-    labs(x = "State", y = "Frequency", subtitle = NULL, 
+    labs(x = "State", y = "Frequency", subtitle = subt_hh, 
          caption = caption_hh, title = title_hh)
 }
+assign(caption_hh, B18)
+rm(B18)
+```
+
+```{r 'B18P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B18P01","_Churn_States_Bar", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P01)
+```
+
+```{r 'B18P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B18P01","_Churn_States_Bar", ".png"))
+```
+
+### Exploration {.unlisted .unnumbered}
+
+```{r 'B18-Q2-A', ref.label=c('B18-Q2'), eval=FALSE}
+#
 ```
 
 
+### State & Area {.unlisted .unnumbered}
 
-
-```{r 'B-'}
+```{r 'B18-Area'}
 bb <- aa %>% select(`Area Code`, State) %>% 
   rename(Area = "Area Code") %>% 
   mutate(across(everything(), factor))
@@ -171,6 +187,12 @@ summary(bb)
 #
 str(levels(bb$Area))
 str(levels(bb$State))
+```
+
+### Code Bar Chart {.unlisted .unnumbered}
+
+```{r 'B18-StatesBar-A', ref.label=c('B18-StatesBar'), eval=FALSE}
+#
 ```
 
 
