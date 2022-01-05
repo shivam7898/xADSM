@@ -13,6 +13,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Machine learning using linear regression"
   - "ForLater"
 
+> At least one chunk is throwing an error, probably the vif(). But it needs to be checked.
+
 ## Data: Hospital
 
 ```{r 'B26-namesXL', include=FALSE}
