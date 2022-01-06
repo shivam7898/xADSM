@@ -26,6 +26,8 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 ## Data: Churn
 
+\textcolor{pink}{Please import the "B18-Churn.xlsx".}
+
 ```{r 'B18-Churn', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
 #tools::md5sum(paste0(.z$XL, "B18-Churn.xlsx"))
@@ -816,7 +818,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll, t_aa, xxB18Churn, B18P01, B18P02, B18P03, B18P
           B18P11, B18P12, B18P13, B18P14, B18P15, B18P16, B18P17)
 ```
 
-```{r 'B18-Validation', include=TRUE, cache=FALSE}
+```{r 'B18-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

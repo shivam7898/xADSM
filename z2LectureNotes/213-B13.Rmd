@@ -172,7 +172,7 @@ Test Statistic for Independent Sample t-Test Statistic is given by \@ref(eq:t-2s
   t = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{{\sigma}_{({\overline{x}}_1 - {\overline{x}}_2)}} = \frac{({\overline{x}}_1 - {\overline{x}}_2) - {D}_0}{\sqrt{\frac{{s}_1^2}{{n}_1} + \frac{{s}_2^2}{{n}_2}}}
 \end{equation}
 
-The t-test is any statistical hypothesis test in which the test statistic follows a Student's t-distribution under the null hypothesis.
+The t-test is any statistical hypothesis test in which the test statistic follows a Student t-distribution under the null hypothesis.
 
 A t-test is the most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. 
 
@@ -214,7 +214,8 @@ High value of F-test would indicate that the populations are different.
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B13-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, z01, z02, z03, z04, z05, z06, z07)
+f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, z01, z02, z03, z04, z05, 
+          z06, z07, xxflights)
 ```
 
 ```{r 'B13-Validation', include=FALSE, cache=FALSE}

@@ -277,24 +277,33 @@ ii %>% filter( !TF | lead(!TF) | lag(!TF) )
 
 Test the claim that disease 6 (leaf curl) information was accessed at least 60 times every month on average since October 2017 due to this disease outbreak. $({\alpha} = 0.05)$
 
+NOTE: Actually the claim is "at least 60 times every week". ~~Month~~ is a printing error.
+
 ```{r 'B15D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Hypothesis-1T-Upper-Tail")
 ```
 
-- ${}^U\!P_{t = 5.3771} = 0.0005 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
-  - We can conclude that the information on disease 6 was accessed at least 60 times every month on average since October 2017.
 
-#### Code {.unlisted .unnumbered}
+- ${}^U\!P_{t = 2.341} = 0.01329 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
+  - We can conclude that the information on disease 6 was accessed at least 60 times every Week on average since October 2017. The claim is correct.
+  - Originally tested for Monthly Data, which will obviously be True if Weekly rates are at least 60 times
+    - ${}^U\!P_{t = 5.3771} = 0.0005 \to {}^U\!P_{(z)} < {\alpha} \to {H_0}$ is rejected
 
-```{r 'B15-Q1'}
-# #Data | Rename | Sum Months D6 | Change from Date Time to Date
+- R Notes: For ease during subsetting, convert the Date Column to Date Type 
+  - \textcolor{pink}{as.Date(), as_date()} 
+
+#### Code (per Week Claim) {.unlisted .unnumbered}
+
+
+```{r 'B15-Q1week'}
+# #Data | Rename | Change from Date Time to Date
 bb <- xxJdata %>% 
   rename(Dates = "Month-Year") %>% 
-  group_by(Dates) %>% 
-  summarise(D6 = sum(D6)) %>% 
+  #group_by(Dates) %>% 
+  #summarise(D6 = sum(D6)) %>% 
   mutate(across(Dates, as_date)) 
 # 
-# #There are missing months, but those months are not applicable in this question
+# #Get relevant rows using filter() #xxJdata[95:123, ]
 ii <- bb %>% filter(Dates >= "2017-10-01")
 #
 t_ii <- {mean(ii$D6) - 60} / {sd(ii$D6) / sqrt(nrow(ii))}
@@ -305,6 +314,28 @@ pt(t_ii, df = nrow(ii) - 1, lower.tail = FALSE)
 t.test(ii$D6, mu = 60, alternative = "greater", conf.level = 0.05)
 ```
 
+
+#### Code (per Month Claim) {.unlisted .unnumbered}
+
+```{r 'B15-Q1'}
+# #Data | Rename | Sum Months D6 | Change from Date Time to Date
+bb <- xxJdata %>% 
+  rename(Dates = "Month-Year") %>% 
+  group_by(Dates) %>% 
+  summarise(D6 = sum(D6)) %>% 
+  mutate(across(Dates, as_date)) 
+# 
+# #There are missing months, but those months are not applicable in this question
+# #Get relevant rows using filter()
+ii <- bb %>% filter(Dates >= "2017-10-01")
+#
+t_ii <- {mean(ii$D6) - 60} / {sd(ii$D6) / sqrt(nrow(ii))}
+print(t_ii)
+pt(t_ii, df = nrow(ii) - 1, lower.tail = FALSE)
+#
+# #One Sample t-Test
+t.test(ii$D6, mu = 60, alternative = "greater", conf.level = 0.05)
+```
 
 #### Missing Months {.unlisted .unnumbered}
 
@@ -423,9 +454,11 @@ prop.test(x = sum(bb$D6), n = sum(bb$Usage), p = 0.15,
 
 #### One Sample t-Test {.unlisted .unnumbered}
 
-```{r 'B15-Q2-Wrong'}
-# #One Sample t-Test
-t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
+```{r 'B15-Q2-Wrong', eval=FALSE}
+# #One Sample t-Test (Wrong)
+if(FALSE) {
+  t.test(bb$Fraction, mu = 0.15, alternative = "greater", conf.level = 0.05)
+}
 ```
 
 ### Q3 {.tabset .tabset-fade}
@@ -509,15 +542,26 @@ t.test(formula = Usage ~ Year, data = jj, alternative = "less", var.equal = isVa
 Check whether app usage is same or different across the four weeks of a month. 
 Test the claim that app usage picked up after January 2016. (Answered with Q3)
 
+NOTE: Question is 'check whether app usage is same or different across the four weeks of a month, using Jan-2016 - May-2018 data'. However, as seen in the figure \@ref(fig:B15P0102), this time period has 3 months missing data and completely different usage pattern after that, I believe that testing only this data would give biased results. So, this was not done.
+
 ```{r 'B15D05', comment="", echo=FALSE, results='asis'}
 f_getDef("H-ANOVA")
 ```
 
-- Data groups are not normal and neither the variances are equal
+- ANOVA is needed because more than two means are to be compared
+  - Data groups are not normal and neither the variances are equal
   - Log transformation failed, Residual Test failed
+    - NOTE: Data shown in class is subset "Jan-2016 - May-2018" i.e. log transformation of this dataset becomes normal.
   - However, Sqrt transformation passed Normality Test as well as Variances are found to be same
 - Using Sqrt of Data ${}^U\!P_{(F)} > {\alpha} \to {H_0}$ cannot be rejected 
   - The sample results do not provide sufficient evidence to conclude that the app usage is different across the four weeks of a month. 
+
+\textcolor{pink}{Question:} When ANOVA is done on transformed data and a conclusion is reached. Does this imply that the original data would also follow same conclusion
+  - Look at the p-value of Transformed data for accepting or rejecting the Hypothesis. But, look at the mean of original data to apply those conclusions.
+  - ANOVA p-value is NOT trustworthy if the data is NOT Normal.
+
+\textcolor{pink}{Question:} When we are running any test, should we check whether the data is normal
+  - Yes.
 
 #### Images {.unlisted .unnumbered}
 
@@ -720,7 +764,7 @@ bb %>% mutate(Week = factor(Week)) %>%
 ### Q5 {.tabset .tabset-fade}
 
 ```{r 'B15D06', comment="", echo=FALSE, results='asis'}
-f_getDef("H-2s-Upper") 
+f_getDef("H-2s-Lower") 
 ```
 
 A new version of the app was released in August-2016. Which month in the given time frame after the launch of the new version, the mean usage pattern would start to show a statistically significant shift
@@ -838,6 +882,9 @@ kbl(bb,
   - ${}^U\!P_{t} > {\alpha} \to {H_0}$ cannot be rejected for disease 4
   - ${}^U\!P_{t} < {\alpha} \to {H_0}$ is rejected for diseases 1, 2, 3, 5, and 7
   - The sample results provide sufficient evidence to conclude that the claim is True for diseases 1, 2, 3, 5, and 7
+  - Upper Tail Test was performed in place of Two Tail because it is assumed that there is no benefit in thinking that searches for a disease may decrease during the favourable conditions for it.
+  - Both districts were combined with the thinking that political boundaries may not change the behaviour of people based on geographical factors (T & RH).
+    - However, a case can be made when we are interested in observing difference in pattern of behaviour by the people of different districts. In that case, we would be performing a difference of means test between the two districts.
 
 #### BoxPlot {.unlisted .unnumbered}
 
