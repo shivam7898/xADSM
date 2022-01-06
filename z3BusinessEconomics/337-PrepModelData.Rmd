@@ -1,32 +1,24 @@
-# Quality Control {#c19 .unlisted .unnumbered}
+# Model Data {#c37}
 
-```{r 'C19', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C37', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
 ## Overview
 
-- "Statistical Methods for Quality Control"
-  - "ForLater" - Everything
-
-
-## Summary
-
+- "Preparing to Model the Data"
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
--->
-
-```{r 'C19-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C37-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'C19-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C37-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
