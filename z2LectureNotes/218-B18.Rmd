@@ -13,6 +13,16 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Unsupervised Learning Algorithms"
   - "ForLater"
   - Case Analysis of JAT is Merged in notes of [Case Study: JAT](#jat-b15 "b15")
+  - NOTE: Discussion about Jupyter Notebook & Anaconda Navigator "15:45 - 16:05" is NOT covered because I am not working with it.
+  - NOTE: Package 'esquisse' was not used because interactive is difficult to show in document format. "16:15 - 16:30"
+
+## Install
+
+```{r 'B18-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("esquisse", dependencies = TRUE)
+}
+```
 
 ## Data: Churn
 
@@ -447,7 +457,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P10)
 ```
 
 ```{r 'B18P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P10","_Churn_Box_iCharges", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B18P10","_Churn_Box_iCharges", ".png"))
 ```
 
 ```{r 'B18P080910', echo=FALSE, ref.label=c('B18P08', 'B18P09', 'B18P10'), fig.cap="Churn: BoxPlots of International Calls, Minutes, & Charges", out.width='33%'}
@@ -529,7 +539,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P13)
 ```
 
 ```{r 'B18P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P13","_Churn_Box_iCharges", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B18P13","_Churn_Box_iCharges", ".png"))
 ```
 
 ```{r 'B18P111213', echo=FALSE, ref.label=c('B18P11', 'B18P12', 'B18P13'), fig.cap="Churn: BoxPlots of Reamining Three", out.width='33%'}
@@ -597,6 +607,146 @@ knitr::include_graphics(paste0(.z$PX, "B18P02","_Churn_iCalls_Hist", ".png"))
 
 ```{r 'B18-Histogram-A', ref.label=c('B18-Histogram'), eval=FALSE}
 #
+```
+
+### Scale 
+
+```{r 'B-DepCheck01', include=FALSE, eval=FALSE}
+#cat(paste0(names(bb), collapse = ", "), "\n")
+#str(bb)
+#tibble [3,333 x 21] (S3: tbl_df/tbl/data.frame)
+# $ state         : chr [1:3333] "KS" "OH" "NJ" "OH" ...
+# $ account_length: num [1:3333] 128 107 137 84 75 118 121 147 117 141 ...
+# $ area_code     : num [1:3333] 415 415 415 408 415 510 510 415 408 415 ...
+# $ phone         : chr [1:3333] "382-4657" "371-7191" "358-1921" "375-9999" ...
+# $ int_l_plan    : logi [1:3333] FALSE FALSE FALSE TRUE TRUE TRUE ...
+# $ vmail_plan    : logi [1:3333] TRUE TRUE FALSE FALSE FALSE FALSE ...
+# $ vmail_message : num [1:3333] 25 26 0 0 0 0 24 0 0 37 ...
+# $ day_mins      : num [1:3333] 265 162 243 299 167 ...
+# $ day_calls     : int [1:3333] 110 123 114 71 113 98 88 79 97 84 ...
+# $ day_charge    : num [1:3333] 45.1 27.5 41.4 50.9 28.3 ...
+# $ eve_mins      : num [1:3333] 197.4 195.5 121.2 61.9 148.3 ...
+# $ eve_calls     : int [1:3333] 99 103 110 88 122 101 108 94 80 111 ...
+# $ eve_charge    : num [1:3333] 16.78 16.62 10.3 5.26 12.61 ...
+# $ night_mins    : num [1:3333] 245 254 163 197 187 ...
+# $ night_calls   : int [1:3333] 91 103 104 89 121 118 118 96 90 97 ...
+# $ night_charge  : num [1:3333] 11.01 11.45 7.32 8.86 8.41 ...
+# $ intl_mins     : num [1:3333] 10 13.7 12.2 6.6 10.1 6.3 7.5 7.1 8.7 11.2 ...
+# $ intl_calls    : int [1:3333] 3 3 5 7 3 6 7 6 4 5 ...
+# $ intl_charge   : num [1:3333] 2.7 3.7 3.29 1.78 2.73 1.7 2.03 1.92 2.35 3.02 ...
+# $ custserv_calls: int [1:3333] 1 1 0 2 3 0 3 0 1 0 ...
+# $ churn         : logi [1:3333] FALSE FALSE FALSE FALSE FALSE FALSE ...
+```
+
+```{r 'B-Scale', include=FALSE}
+ii <- bb %>% 
+  select(where(is.numeric)) %>% 
+  select(!area_code) %>% 
+  relocate(ends_with("_mins")) %>% 
+  relocate(ends_with("_calls")) %>% 
+  relocate(vmail_message, .after =  last_col()) 
+#
+jj <- ii %>% mutate(across(everything(), ~ as.vector(scale(.)))) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, ~ factor(., levels = unique(Key))))
+```
+
+
+#### Histograms
+
+```{r 'B18-HistScale', include=FALSE}
+# #Histogram 
+hh <- jj
+title_hh <- "Churn: Histograms (Scaled)"
+caption_hh <- "B18P14"
+#
+# #x-axis has been kept free to identify which plots have outliers
+B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) + 
+    geom_histogram(bins = ifelse(length(unique(.[[1]])) > 50, 50, length(unique(.[[1]]))),
+                   alpha = 0.4, fill = '#FDE725FF') + 
+    theme(plot.title.position = "panel", 
+          strip.text.x = element_text(size = 10, colour = "white")) +
+    facet_wrap(~Key, nrow = 3, scales = 'free') +
+    labs(x = "z", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+}
+assign(caption_hh, B18)
+rm(B18)
+```
+
+```{r 'B18P14-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P14, width = 14)
+```
+
+```{r 'B18P14', echo=FALSE, fig.cap="Churn: All Histograms (Scaled)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png"))
+```
+
+#### QQ Plots
+
+```{r 'B18-QQScale', include=FALSE}
+# #QQ Plots
+hh <- jj
+title_hh <- "Churn: QQ Plots (Scaled)"
+caption_hh <- "B18P15"
+#
+B18 <- hh %>% { ggplot(., aes(sample = Values)) +
+    stat_qq() +
+    stat_qq_line() +
+    facet_wrap(~Key, nrow = 3, scales = 'free_y') +
+    #scale_x_continuous(limits = c(-3, 3)) + 
+    #coord_flip() +
+    theme(plot.title.position = "panel", 
+          strip.text.x = element_text(size = 10, colour = "white")) +
+    labs(x = "z", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+}
+assign(caption_hh, B18)
+rm(B18)
+```
+
+```{r 'B18P15-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P15, width = 14)
+```
+
+```{r 'B18P15', echo=FALSE, fig.cap="Churn: All QQ Plots (Scaled)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png"))
+```
+
+#### BoxPlots
+
+```{r 'B18-ScaleBox', include=FALSE}
+# #Box Plots
+kk <- jj %>% mutate(Group = case_when(str_detect(Key, "day_") ~ "Day", 
+                                      str_detect(Key, "night_") ~ "Night", 
+                                      str_detect(Key, "eve_") ~ "Eve", 
+                                      str_detect(Key, "intl_") ~ "Intl", 
+                                      str_detect(Key, "custserv_") ~ "Service", 
+                                      str_detect(Key, "account_") ~ "Account", 
+                                      str_detect(Key, "vmail_") ~ "Vmail"))
+#
+hh <- kk
+title_hh <- "Churn: BoxPlots (Scaled)"
+caption_hh <- "B18P16"
+#
+B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Key, y = Values, fill = Group)) +
+    geom_boxplot() +
+    k_gglayer_box +
+    coord_flip() +
+    theme(legend.position = 'none') +
+    labs(x = NULL, y = NULL, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, B18)
+rm(B18)
+```
+
+```{r 'B18P16-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P16, width = 14)
+```
+
+```{r 'B18P16', echo=FALSE, fig.cap="Churn: All Box Plots (Scaled)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png"))
 ```
 
 ## Q4 
