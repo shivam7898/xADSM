@@ -109,7 +109,7 @@ anyNA(bb)
 ## Q2 {.tabset .tabset-fade}
 
 - Compare the area code and state fields. Discuss any apparent abnormalities.
-  - There are only 3 Area Codes and all of them belonds to California State.
+  - There are only 3 Area Codes and all of them belong to California State.
 
 ### States Bar Chart {.unlisted .unnumbered}
 
@@ -611,7 +611,7 @@ knitr::include_graphics(paste0(.z$PX, "B18P02","_Churn_iCalls_Hist", ".png"))
 
 ### Scale 
 
-```{r 'B-DepCheck01', include=FALSE, eval=FALSE}
+```{r 'B18-DepCheck01', include=FALSE, eval=FALSE}
 #cat(paste0(names(bb), collapse = ", "), "\n")
 #str(bb)
 #tibble [3,333 x 21] (S3: tbl_df/tbl/data.frame)
@@ -638,7 +638,7 @@ knitr::include_graphics(paste0(.z$PX, "B18P02","_Churn_iCalls_Hist", ".png"))
 # $ churn         : logi [1:3333] FALSE FALSE FALSE FALSE FALSE FALSE ...
 ```
 
-```{r 'B-Scale', include=FALSE}
+```{r 'B18-Scale', include=FALSE}
 ii <- bb %>% 
   select(where(is.numeric)) %>% 
   select(!area_code) %>% 
@@ -652,7 +652,7 @@ jj <- ii %>% mutate(across(everything(), ~ as.vector(scale(.)))) %>%
 ```
 
 
-#### Histograms
+#### Histograms {.unlisted .unnumbered}
 
 ```{r 'B18-HistScale', include=FALSE}
 # #Histogram 
@@ -682,7 +682,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P14, width = 14)
 knitr::include_graphics(paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png"))
 ```
 
-#### QQ Plots
+#### QQ Plots {.unlisted .unnumbered}
 
 ```{r 'B18-QQScale', include=FALSE}
 # #QQ Plots
@@ -713,7 +713,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P15, width = 14)
 knitr::include_graphics(paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png"))
 ```
 
-#### BoxPlots
+#### BoxPlots {.unlisted .unnumbered}
 
 ```{r 'B18-ScaleBox', include=FALSE}
 # #Box Plots
@@ -749,11 +749,62 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P16, width = 14)
 knitr::include_graphics(paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png"))
 ```
 
+### Overlaid Histograms
+
+```{r 'B18-Overlaid', include=FALSE}
+# #Scaled Data was NOT useful. Original Data had distinguished features
+ii <- bb %>% select(matches('day_|night_|eve_')) %>% 
+  #mutate(across(everything(), ~ as.vector(scale(.)))) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, ~ factor(., levels = unique(Key)))) %>% 
+  mutate(Group = case_when(str_detect(Key, "day_") ~ "Day", 
+                           str_detect(Key, "night_") ~ "Night", 
+                           str_detect(Key, "eve_") ~ "Eve")) %>% 
+  mutate(Facets = case_when(str_detect(Key, "_mins") ~ "Minutes", 
+                           str_detect(Key, "_calls") ~ "Calls", 
+                           str_detect(Key, "_charge") ~ "Charges"))
+```
+
+```{r 'B18-HistOverlaid', include=FALSE}
+# #Histogram
+hh <- ii
+title_hh <- "Churn: Multi Histograms of Day, Eve, Night"
+caption_hh <- "B18P17"
+#
+B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Group)) + 
+    geom_histogram(position = "identity", bins = 80, alpha = 0.4) + 
+    facet_wrap(~Facets, scales = 'free') +
+    scale_fill_viridis_d() +
+    theme(plot.title.position = "panel", 
+          strip.text.x = element_text(size = 10, colour = "white"), 
+          #legend.justification = c("right", "top"),
+          #legend.box.just = "right",
+          #legend.margin = margin(6, 6, 6, 6),
+          legend.position = c(.5, .95),
+          #legend.position = "bottom", 
+          legend.box = "horizontal", 
+          legend.direction = "horizontal") +
+    labs(x = "x", y = NULL, fill = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+}
+assign(caption_hh, B18)
+rm(B18)
+```
+
+```{r 'B18P17-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P17, width = 14)
+```
+
+```{r 'B18P17', echo=FALSE, fig.cap="Churn: All Histograms", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png"))
+```
+
 ## Q4 
 
 -	Identify the outliers, using:
   - The Z-score method $z \notin [-3, +3] \to \text{Outlier}$
   - The IQR method
+  - Shown Above
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
@@ -762,7 +813,7 @@ knitr::include_graphics(paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png"))
 f_rmExist(aa, bb, ii, jj, kk, ll, t_aa, xxB18Churn, B18P01, B18P02, B18P03, B18P04, B18P05, 
           B18P06, B18P07, bins_hh, caption_hh, hh, jj_calls, jj_charge, jj_mins, len_hh, loc_png, 
           mean_hh, median_hh, median_loc_hh, sd_hh, subt_hh, title_hh, B18P08, B18P09, B18P10, 
-          B18P11, B18P12, B18P13)
+          B18P11, B18P12, B18P13, B18P14, B18P15, B18P16, B18P17)
 ```
 
 ```{r 'B18-Validation', include=TRUE, cache=FALSE}
