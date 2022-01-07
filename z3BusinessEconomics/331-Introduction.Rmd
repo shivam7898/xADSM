@@ -31,7 +31,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     - Evaluate the quality of the data. 
     - if desired, select interesting subsets that may contain actionable patterns. 
   - Data Preparation Phase 
-    - Raw | Select | Filter | Subset | Transform 
+    - Raw | Select | Filter | Subset | Clean | Transform 
   - Modeling Phase
     - Select and apply appropriate modeling techniques
     - Calibrate
