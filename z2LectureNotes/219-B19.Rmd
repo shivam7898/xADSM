@@ -12,16 +12,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Supervised Learning Algorithm: Cluster Analysis"
   - "ForLater"
 
-## Data Mining
-
-- Data mining methods may be categorized as either supervised or unsupervised.
-
-
-```{definition 'Unsupervised-Methods'}
-In \textcolor{pink}{unsupervised methods}, no target variable is identified as such. Instead, the data mining algorithm searches for patterns and structures among all the variables. The most common unsupervised data mining method is clustering. 
-```
-
-Example: Political consultants may analyze congressional districts using clustering methods, to uncover the locations of voter clusters that may be responsive to a particular candidate’s message. In this case, all appropriate variables (e.g., income, race, gender) would be input to the clustering algorithm, with no target variable specified, in order to develop accurate voter profiles for fund-raising and advertising purposes.
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
