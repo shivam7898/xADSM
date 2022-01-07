@@ -1,25 +1,72 @@
-# Introduction {#c31 .unlisted .unnumbered}
+# Introduction to Data Mining {#c31}
 > Definitions and Exercises are from the Book [@Larose]
 
-```{r 'C31', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C31', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
 ## Overview
+
+- "An Introduction to Data Mining and Predictive Analytics"
+
+```{definition 'Data-Mining-331'}
+\textcolor{pink}{Data mining} is the process of discovering useful patterns and trends in large data sets. 
+```
+
+```{definition 'Predictive-Analytics-331'}
+\textcolor{pink}{Predictive analytics} is the process of extracting information from large data sets in order to make predictions and estimates about future outcomes.
+```
+
+- The Cross-Industry Standard Process for Data Mining (CRISP-DM) (Iterative)
+  - Business/Research Understanding Phase
+    - Clearly enunciate the project objectives and requirements in terms of the business or research unit as a whole. 
+    - Translate these goals and restrictions into the formulation of a data mining problem definition.
+    - Prepare a preliminary strategy for achieving these objectives.
+  - Data Understanding Phase 
+    - Collect the data.
+    - Use \textcolor{pink}{Exploratory Data Analysis (EDA)} to familiarize yourself with the data, and discover initial insights. 
+    - Evaluate the quality of the data. 
+    - if desired, select interesting subsets that may contain actionable patterns. 
+  - Data Preparation Phase 
+    - Raw | Select | Filter | Subset | Transform 
+  - Modeling Phase
+    - Select and apply appropriate modeling techniques
+    - Calibrate
+  - Evaluation Phase
+    - Models must be evaluated for quality and effectiveness. 
+    - Also, determine whether the model in fact achieves the objectives set for it
+    - Establish whether some important facet of the business or research problem has not been sufficiently accounted for. 
+  - Deployment Phase / Report / Publish
+
+- Most common data mining tasks
+  - \textcolor{pink}{Descriptions} of patterns and trends often suggest possible explanations for existence of theme within the data.
+  - In \textcolor{pink}{estimation}, we approximate the value of a numeric target variable using a set of numeric and/or categorical predictor variables
+    - Estimation Methods: Point Estimation, Confidence Interval Estimation, Simple Linear Regression, Correlation, Multiple Regression
+  - \textcolor{pink}{Prediction} is similar to classification and estimation, except that for prediction, the results lie in the future.
+    - Estimation Methods given above can also be used for prediction
+    - Methods: k-nearest neighbor methods, decision trees, and neural networks.
+  - \textcolor{pink}{Classification} is similar to estimation, except that the target variable is categorical rather than numeric. 
+  - \textcolor{pink}{Clustering} refers to the grouping of records, observations, or cases into classes of similar objects. 
+    - A \textcolor{pink}{cluster} is a collection of records that are similar to one another, and dissimilar to records in other clusters. 
+    - Clustering differs from classification in that there is no target variable for clustering. The clustering task does not try to classify, estimate, or predict the value of a target variable. Instead, clustering algorithms seek to segment the whole data set into relatively homogeneous subgroups or clusters, where the similarity of the records within the cluster is maximized, and the similarity to records outside of this cluster is minimized.
+    - Example: All zipcodes of a country can be described in terms of distinct lifestyle types (e.g. 66 types). One of them "Upper Crust" might be the wealthiest lifestyle of the country i.e. couples between ages of 45-64 without any dependents (children, parents) living at their home. This segment might be having median earnings of ~1-million and might be possessing a postgraduate degree. No other lifestyle type would have a more opulent standard of living.
+    - Methods: Hierarchical and k-means clustering, Kohonen networks, BIRCH clustering
+  - \textcolor{pink}{Association} seeks to uncover rules for quantifying the relationship between two or more attributes.
+    - Also known as: affinity analysis or market basket analysis
+    - Association rules are of the form "If antecedent then consequent," together with a measure of the support and confidence associated with the rule.
+    - Methods: a priori algorithm, GRI algorithm
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
--->
 
-```{r 'C31-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C31-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'C31-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C31-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

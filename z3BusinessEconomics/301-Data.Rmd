@@ -236,7 +236,7 @@ Analytics is now generally thought to comprise three broad categories of techniq
 
 Examples of these types of techniques are data queries, reports, descriptive statistics, data visualization, data dash boards, and basic what-if spreadsheet models.  
 
-```{definition 'Predictive-Analytics'}
+```{definition 'Predictive-Analytics-301'}
 \textcolor{pink}{Predictive analytics} consists of analytical techniques that use models constructed from past data to predict the future or to assess the impact of one variable on another.
 ```
 
@@ -259,7 +259,7 @@ Larger and more complex data sets are now often referred to as \textcolor{pink}{
 \textcolor{pink}{Volume} refers to the amount of available data; \textcolor{pink}{velocity} refers to the speed at which data is collected and processed; and \textcolor{pink}{variety} refers to the different data types.
 The term \textcolor{pink}{data warehousing} is used to refer to the process of capturing, storing, and maintaining the data.
 
-```{definition 'Data-Mining'}
+```{definition 'Data-Mining-301'}
 \textcolor{pink}{Data Mining} deals with methods for developing useful decision-making information from large databases. It can be defined as the automated extraction of predictive information from (large) databases.
 ```
 
