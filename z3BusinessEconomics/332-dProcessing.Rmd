@@ -9,19 +9,127 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Data
 
+Refer [Lecture: Data Pre-Processing](#b16 "b16")
+Refer [Numerical Measures](#c03 "c03")
+
+
+\textcolor{pink}{Please import the "B18-Churn.xlsx".}
 \textcolor{pink}{Please import the "B16-Cars2.csv".}
+
+- \textcolor{orange}{Caution:} The Cars2 dataset has 263 observations, whereas the Cars dataset has 261.
 
 ```{r 'C32-ImportData', include=FALSE}
 xxB16Cars <- f_getRDS(xxB16Cars)
-bb <- aa <- xxB16Cars
+xxB18Churn <- f_getRDS(xxB18Churn)
+#
+xx32Churn <- xxB18Churn %>% rename_with(make.names) %>% 
+  rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) %>% 
+  mutate(across(c(int_l_plan, vmail_plan), ~case_when(. == "yes" ~ TRUE, . == "no" ~ FALSE))) %>% 
+  mutate(across(churn, ~case_when(. == "True." ~ TRUE, . == "False." ~ FALSE))) %>% 
+  mutate(across(ends_with("_calls"), as.integer))
 ```
 
-```{r 'C32-Structure'}
+```{r 'C32-Mean'}
+bb <- aa <- xx32Churn
+# #Customer Service Calls
+mean(bb$custserv_calls) #Mean
+sd(bb$custserv_calls) #SD
+#
 bb <- aa <- xxB16Cars
-str(bb)
+# #Weight
+bb$weightlbs[1]
+scale(bb$weightlbs)[1] #z-score
 ```
 
-\textcolor{orange}{Caution:} The Cars2 dataset has 263 observations, whereas the Cars dataset has 261.
+
+```{r 'C-'}
+str(xxB16Cars)
+```
+
+## Flag Variables
+
+```{definition 'Variable-Flag-Dummy'}
+A \textcolor{pink}{flag variable} (or dummy variable, or indicator variable) is a categorical variable taking only two values, 0 and 1. Ex: Gender (Male, Female) can be recoded into dummy Gender (Male = 0, Female = 1). 
+```
+
+- When a categorical predictor takes $k \geq 3$ possible values, then define $k - 1$ dummy variables, and use the unassigned category as the \textcolor{pink}{reference category}. 
+  - Ex: Region = North, East, South, West i.e. k = 4 
+    - 3 flags : flag_north, flag_east, flag_south; each will be 1 for their own region; 0 otherwise
+    - The flag variable for the west is not needed, as 'region = west' is already uniquely identified by zero values for each of the three existing flag variables.
+    - Instead, the unassigned category becomes the reference category, meaning that, the interpretation of the value of north_flag is 'region = north' compared to 'region = west'. 
+      - For example, if we are running a regression analysis with income as the target variable, and the regression coefficient for north_flag equals 1000, then the estimated income for 'region=north' is 1000 greater than for 'region=west', when all other predictors are held constant.
+    - Further, inclusion of the fourth flag variable will cause some algorithms to fail, because of the singularity of the $(X^{T}X)^{-1}$ matrix in regression, for instance.
+
+## Transforming Categorical to Numerical
+
+- Ex: Region = North, East, South, West can be assigned numbers 1 to 4
+  - It may result in algorithm treating them as continuous and /or ordered values
+- Generally, categorical varaiables should not be transformed into numerical, except when these are clearly ordered. 
+  - e.g. Survey Response is an ordered categorical variable and can be assigned values 1 to 5
+
+## Binning Continuous to Categorical
+
+- Ex: Income into low, medium, high
+  - \textcolor{pink}{Equal width binning} divides the numerical predictor into k categories of equal width
+    - NOT recommended for most applications because it can be greatly affected by the outliers
+  - \textcolor{pink}{Equal frequency binning} divides the numerical predictor into k categories, each having k/n records, where n is the total number of records. 
+    - Simple. However, it has problem that sometimes same value can be found in two consecutive groups
+    - Equal data values must belong to same category.
+  - \textcolor{pink}{Binning by clustering} uses a clustering algorithm, such as k-means clustering to automatically calculate the "optimal" partitioning. 
+  - \textcolor{pink}{Binning based on predictive value: } Above methods ignore the target variable; binning based on predictive value partitions the numerical predictor based on the effect each partition has on the value of the target variable. 
+
+
+```{conjecture 'Insufficient-Data'}
+\textcolor{brown}{Error: Insufficient data values to produce 28 bins.}
+```
+
+- `summary(cut_number(diamonds$depth, n = 27))` Passed
+- `summary(cut_number(diamonds$depth, n = 28))` Failed (N = 53940)
+- \textcolor{pink}{ggplot2::cut_number()} has some internal logic about size of the bins. It is not as simple as total size, it also has to do with relative size. 
+- It also fails when Bins have overlap. 
+- Use \textcolor{pink}{dplyr::ntile()}
+- OR Pick a bin size that works for your data.
+
+```{r 'C-Bins'}
+# #n = 12
+bb <- c(1, 1, 1, 1, 1, 2, 2, 11, 11, 12, 12, 44)
+#
+# #Fixing Number of Bins: Unequal number of Observations and also Bins with 0 Observations
+summary(cut(bb, breaks = 3))
+summary(cut_interval(bb, n = 3))
+#
+# #For reference, NOT equivalent to above. 
+summary(cut_width(bb, width = 15))
+#
+# #Using Equal Frequency: Same Observation may belong to different consecutive Bins
+if(FALSE) ggplot2::cut_number(bb, n = 3) #ERROR
+if(FALSE) { #Works
+  #ceiling(seq_along(bb)/4)[rank(bb, ties.method = "first")] 
+  tibble(bb = bb, RANK = rank(bb, ties.method = "first"), 
+         ALONG = seq_along(bb), CEIL = ceiling(seq_along(bb)/4)) 
+}
+#
+# #dplyr::ntile() can be used in place of ggplot2::cut_number()
+dplyr::ntile(bb, n = 3)
+#
+```
+
+## Adding an Index Field (ID)
+
+\textcolor{orange}{Caution:} ID fields should be filtered out from the data mining algorithms, but should not be removed from the data. These are for easy identification of records not for correlation.
+
+```{r 'C-ID'}
+mtcars %>% mutate(ID = row_number()) %>% relocate(ID) %>% slice(1:6L)
+```
+
+## Variable that should not be removed (probably)
+
+- Ex: An example of correlated variables may be precipitation and attendance at a state beach. 
+  - As precipitation increases, attendance at the beach tends to decrease, so that the variables are negatively correlated.
+- Inclusion of correlated variables may at best double-count a particular aspect of the analysis, and at worst lead to instability of the model results. 
+- Thus, we may decide to simply remove one of the variables. 
+- However, it should not be done, as important information may thereby be discarded. 
+- Instead, it is suggested that PCA be applied, where the common variability in correlated predictors may be translated into a set of uncorrelated principal components.
 
 
 

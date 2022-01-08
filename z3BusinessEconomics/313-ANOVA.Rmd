@@ -235,7 +235,7 @@ In the example:
 
 If the null hypothesis is true, $\text{MSTR}$ and $\text{MSE}$ provide two independent, unbiased estimates of ${\sigma}^2$. 
 
-Refer [Chapter: Variance](#c11 "c11").
+Refer [Variance](#c11 "c11").
 
 We know that for normal populations, the sampling distribution of the ratio of two independent estimates of ${\sigma}^2$ follows an F distribution. Hence, if the null hypothesis is true and the ANOVA assumptions are valid, the sampling distribution of $\frac{\text{MSTR}}{\text{MSE}}$ is an F distribution with numerator degrees of freedom equal to ${k - 1}$ and denominator degrees of freedom equal to ${{n}_T - k}$. 
 

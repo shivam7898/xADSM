@@ -503,6 +503,15 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
 
 ## Measures of Location
 
+```{definition 'Measures-of-Location'}
+\textcolor{pink}{Measures of location} are numerical summaries that indicate where on a number line a certain characteristic of the variable lies. Examples of the measures of location are percentiles and quantiles.
+```
+
+```{definition 'Measures-of-Center'}
+The \textcolor{pink}{measures of center} are a special case of measures of location. These estimate where the center of a particular variable lies. Most common are Mean, Median, and Mode.
+```
+
+
 ### Mean {#mean-c03 .tabset .tabset-fade}
 
 ```{definition 'Mean'}
@@ -731,16 +740,25 @@ quantile(bb$VAL, seq(0, 1, 0.25), type = 6)
 ```
 
 ## Measures of Variability
+
+```{definition 'Measures-of-Spread'}
+\textcolor{pink}{Measures of spread} (or the measures of variability) describe how spread out the data values are. Examples are Range, SD, mean absolute deviation, and IQR
+```
+
+
 In addition to measures of location, it is often desirable to consider measures of variability, or dispersion.
 
 - Range `range()`
   - (Largest value - Smallest value) i.e. `max() - min()`
   - Range is based on only two of the observations and thus is highly influenced by extreme values.
 - Interquartile Range (IQR) `IQR()`
-  - The difference between the third quartile, and the first quartile
+  - The difference between the third quartile $(Q3, 75\%)$, and the first quartile $(Q1, 25\%)$
+  - IQR is a measure of variability, much more robust than the SD. IQR is less sensitive to the presence of the outliers.
   - It overcomes the dependency on extreme values
+  - $x_i \notin [Q_1 - 1.5 * \text{IQR}, Q_3 + 1.5 * \text{IQR}] \to x_i \in \text{Outlier}$
   - It is assumed that any data point not in [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR] is an outlier
     - 1.5 multiplication gives us a window of ${\mu} \pm 2.7 {\sigma} \approx {\mu} \pm 3 {\sigma}$ which is quite closer to Normal Plot limit.
+
 - Mean Absolute Error (MAE)
   - $\text{MAE} = \frac{\sum |x_i - \overline{x}|}{n}$
 
@@ -755,6 +773,7 @@ The \textcolor{pink}{variance $({\sigma}^2)$} is based on the difference between
   - The variance is a measure of variability that utilizes all the data.
   - The difference between each ${x_i}$ and the mean ($\overline{x}, \mu$) is called a \textcolor{pink}{deviation about the mean} i.e. ($x_i - \overline{x}$). Sum of deviation about the mean is always zero i.e. $\sum (x_i - \overline{x}) =0$
   - In the computation of the variance, the deviations about the mean are squared.
+    - Because of the squaring involved, it is sensitive to the presence of outliers, leading analysts to prefer other measures of spread, such as the mean absolute deviation, in situations involving extreme values.
 
 \begin{equation} 
   \begin{align} 
@@ -772,6 +791,7 @@ The \textcolor{pink}{standard deviation ($s, \sigma$)} is defined to be the posi
 
 - Refer equation \@ref(eq:sd)
   - Standard deviation for sample is denoted by \textcolor{pink}{${s}$} and for Population by \textcolor{pink}{${\sigma}$}
+  - It can be interpreted as the "typical" distance between a field value and the mean
   - The \textcolor{pink}{coefficient of variation} is a relative measure of variability. It measures the standard deviation relative to the mean. It is given in percentage as $100 \times \sigma / \mu$
 
 \begin{equation} 

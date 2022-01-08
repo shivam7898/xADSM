@@ -10,10 +10,9 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Data Pre-processing"
-  -  TextBook : "Data Mining and Predictive Analysis by Larose"
+  - Refer [Data Processing](#c32 "c32")
 
-- Additional Packages required for this lecture
-
+## Packages
 
 ```{r 'B16-Installations', eval=FALSE}
 if(FALSE){# #WARNING: Installation may take some time.
@@ -81,7 +80,13 @@ summary(xxB16Cars)
 \textcolor{pink}{Imputation} is the process of replacing missing data with substituted values. Imputation preserves all cases by replacing missing data with an estimated value based on other available information.
 ```
 
-- Sometimes it is not feasible or desirable to delete all the rows containing missing values
+- Imputation 
+  - What would be the most likely value for this missing value, given all the other attributes for a particular record
+  - "Multivariate Imputation by Chained Equations" (MICE) is used for Imputation.
+  
+
+- A common method of "handling" missing values is simply to omit the records or fields with missing values from the analysis. However, there are issues with this approach.
+  - Sometimes it is not feasible or desirable to delete all the rows containing missing values
   - Sometimes the data is deliberately missing
     - Example: Customers with high value transactions have higher missing income data
       - This is also a pattern and we cannot simply remove these customers from our analysis
@@ -89,7 +94,8 @@ summary(xxB16Cars)
     - Even then also, we need to look at whether it is a meaningful data or not. Some data points are so critical that they cannot be removed. If you delete them, you might be loosing highly relevant information.
   - \textcolor{pink}{Question:} Only 15 rows in a 1-lakh dataset
     - Do the rows belong to a new product which is relevant to our analysis
-    - While these rows maynot have mileage information of a car, other columns would have pricing and other critical information. Deleting these rows may result in loss of this important data.
+    - While these rows may not have mileage information of a car, other columns would have pricing and other critical information. Deleting these rows may result in loss of this important data.
+    - It would be a waste to omit the information in all the other fields, just because one field value is missing.
 
 
 - Mean value replacement 
@@ -105,20 +111,13 @@ summary(xxB16Cars)
   - For Categorical variable, mode is preferred.
   - However, using mode for NA replacement results in increasing the frequency of most frequent item. 
 - Random value replacement
-  - Replace NA with a random value
+  - Replace NA with a random value from the observed distribution of the variable. 
+  - However, the resulting observation (row) might not make sense in terms of grouping of variables (columns). 
+
 
 - Problems:
   - These simple approaches usually introduce bias into the data
-    - Ex: applying mean substitution leaves the mean unchanged (desirable) but decreases variance (undesirable)
-
-
-- \textcolor{pink}{package:mice} is used for imputation
-  - "Multivariate Imputation by Chained Equations"
-  - It does imputation of a factor vector based on a numeric vector
-- \textcolor{pink}{Question:} What happens if any categorical variable is associated with multiple numeric values. For example, if Car Honda has multiple mileage values
-  - It will look at all other columns of data and based on these multiple columns identify a pattern which will be used for imputation.
-  - Advantage:
-    - During the mean replacement, we are using only one column for imputation. MICE is more robust because it looks for pattern in multiple columns
+    - Ex: Applying mean substitution leaves the mean unchanged (desirable) but decreases variance (undesirable). The resulting confidence levels for statistical inference will be overoptimistic, as measures of spread will be artificially reduced.
 
 ### Introduce NA 
 
@@ -159,7 +158,6 @@ sum(!complete.cases(bb))
 head(which(!complete.cases(bb)))
 #
 ```
-
 
 ### summary() NA 
 
@@ -270,12 +268,18 @@ sample(1:10, 2)
 
 #### MICE {.unlisted .unnumbered}
 
-- \textcolor{pink}{mice()}
+- \textcolor{pink}{package:mice} is used for imputation
+  - "Multivariate Imputation by Chained Equations"
+    - It does imputation of a factor vector based on a numeric vector
+  - \textcolor{pink}{Question:} What happens if any categorical variable is associated with multiple numeric values. For example, if Car Honda has multiple mileage values
+    - It will look at all other columns of data and based on these multiple columns identify a pattern which will be used for imputation.
+  - Advantage:
+    - During the mean replacement, we are using only one column for imputation. MICE is more robust because it looks for pattern in multiple columns
   - m = 2 is number of imputed sets. It shows up as "imp" column 1 2 in the output. It does not mean that only 2 columns have NA.
   - iter from 1 to 5 is number of iterations
   - \textcolor{orange}{Caution:} Check if the column is "factor". A "character" column will not be imputed and it will retain its NA.
-- \textcolor{pink}{Question:} For a categorical variable does it always give 'mode'
-  - NO, it looks at the pattern based on other variables
+  - \textcolor{pink}{Question:} For a categorical variable does it always give 'mode'
+    - NO, it looks at the pattern based on other variables
 
 ```{r 'B16-Mice'}
 # #Convert to Factor before using MICE
@@ -372,7 +376,6 @@ Refer [Outliers: C03](#outliers-c03 "c03") and [Outliers: B12](#outliers-b12 "b1
   - Use Visualisations for detecting outliers
 
 ### Histogram {.tabset .tabset-fade}
-
 
 ```{r 'B16-Histogram', include=FALSE}
 # #Histogram

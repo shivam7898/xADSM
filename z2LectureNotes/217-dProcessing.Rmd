@@ -23,10 +23,12 @@ f_getDef("z-Scores")
 ```
 
 - \@ref(eq:z-scores) $z_i = \frac{{x}_i - {\overline{x}}}{{s}}$
-  - $z_i \notin \pm 3 \to \text{Outlier}$ 
+  - $z_i \notin \pm 3 \to z_i \in \text{Outlier}$ 
   - After Standardisation, we can compare values of different orders because these would be scaled into a dimensionless quantity
   - While comparing the Eucledean distance between Two Variables like Age and Income, the standardisation allow these to be scaled to a similar range
     - Ex: If Age range is 20-30 but Income range is 10k-30k, directly using these values will ignore any impact of change in Age.
+  - For some data mining algorithms, large differences in the ranges will lead to a tendency for the variable with greater range to have undue influence on the results. Therefore, these numeric variables should be normalised, in order to standardize the scale of effect each variable has on the results. 
+  - Scaling also benefits Neural networks, and algorithms that make use of distance measures, such as the k-nearest neighbors algorithm. 
   - Note that Mean itself includes the impact of extreme values thus it is not very robust. IQR is better because it is based on position
   - Standardisation does not convert the non-normal data to normal. It does not change the shape of the data. Outliers remain outliers, Skewness remain in the data. It simply changes the Scale.
 - \textcolor{pink}{Question:} Can we use different methods for outlier identification on different variables
