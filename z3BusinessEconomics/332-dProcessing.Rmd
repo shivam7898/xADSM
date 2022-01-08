@@ -29,23 +29,6 @@ xx32Churn <- xxB18Churn %>% rename_with(make.names) %>%
   mutate(across(ends_with("_calls"), as.integer))
 ```
 
-```{r 'C32-Mean'}
-bb <- aa <- xx32Churn
-# #Customer Service Calls
-mean(bb$custserv_calls) #Mean
-sd(bb$custserv_calls) #SD
-#
-bb <- aa <- xxB16Cars
-# #Weight
-bb$weightlbs[1]
-scale(bb$weightlbs)[1] #z-score
-```
-
-
-```{r 'C-'}
-str(xxB16Cars)
-```
-
 ## Flag Variables
 
 ```{definition 'Variable-Flag-Dummy'}
@@ -90,7 +73,7 @@ A \textcolor{pink}{flag variable} (or dummy variable, or indicator variable) is 
 - Use \textcolor{pink}{dplyr::ntile()}
 - OR Pick a bin size that works for your data.
 
-```{r 'C-Bins'}
+```{r 'C32-Bins'}
 # #n = 12
 bb <- c(1, 1, 1, 1, 1, 2, 2, 11, 11, 12, 12, 44)
 #
@@ -118,7 +101,7 @@ dplyr::ntile(bb, n = 3)
 
 \textcolor{orange}{Caution:} ID fields should be filtered out from the data mining algorithms, but should not be removed from the data. These are for easy identification of records not for correlation.
 
-```{r 'C-ID'}
+```{r 'C32-ID'}
 mtcars %>% mutate(ID = row_number()) %>% relocate(ID) %>% slice(1:6L)
 ```
 
@@ -131,12 +114,22 @@ mtcars %>% mutate(ID = row_number()) %>% relocate(ID) %>% slice(1:6L)
 - However, it should not be done, as important information may thereby be discarded. 
 - Instead, it is suggested that PCA be applied, where the common variability in correlated predictors may be translated into a set of uncorrelated principal components.
 
+```{r 'C32-EDA', include=FALSE, eval=FALSE}
+bb <- aa <- xx32Churn
+#str(bb)
+# #CrossTab: There are No users who have the International Plan but did not call
+bb %>% select(c(starts_with("int"))) %>% 
+  mutate(isZero = ifelse(intl_mins == 0, TRUE, FALSE)) %>% 
+  #filter(!int_l_plan) %>% 
+  select(int_l_plan, isZero) %>% count(int_l_plan, isZero) %>% 
+  pivot_wider(names_from = isZero, values_from = n, values_fill = 0)
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C32-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, xx32Churn, xxB16Cars, xxB18Churn)
 ```
 
 ```{r 'C32-Validation', include=FALSE, cache=FALSE}
