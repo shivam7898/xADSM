@@ -1,0 +1,128 @@
+# WIP (B27, Jan-09) {#b27}
+
+```{r 'B27', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+## Overview
+
+- "Machine learning using linear regression"
+  - "ForLater"
+
+```{r 'B27-namesXL', include=FALSE}
+# #Object Names for each sheet
+namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
+```
+
+```{r 'B27-ImportData', include=FALSE}
+for(ii in seq_along(namesXL)){
+  assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
+}
+```
+
+```{r 'B27-getKC', include=FALSE}
+# #Load Data: KC House
+xxB26KC <- f_getRDS(xxB26KC)
+bb <- aa <- xxB26KC
+```
+
+
+## WIP
+
+
+```{r 'B27-Data', eval = FALSE, eval = FALSE}
+#dim(xxB26Hmod)
+bb <- xxB26Hmod %>% select(-c(1, 3, 5, 7, 27, 37, 40, 42, 45, 49))
+names(bb)[36] <- "TC"
+```
+
+
+
+```{r 'B27-Train', eval = FALSE}
+set.seed(3)
+train_row_bb <- sample(1:nrow(bb), 0.8*nrow(bb))  # row indices for training data: 80:20
+train_bb <- bb[train_row_bb, ]  # model training data
+test_bb  <- bb[-train_row_bb, ]   # test data
+```
+
+
+```{r 'B27-NA', eval = FALSE}
+train_ii <- na.omit(train_bb)
+```
+
+
+```{r 'B27-Model', eval = FALSE}
+model1 <-  lm(TC ~ ., data = train_ii)
+summary(model1)
+#
+model2 <- step(model1, direction = "backward", trace = 0)
+summary(model2)
+
+```
+
+
+
+## Normality
+
+Non-Normal
+
+```{r 'B27-NOrmal', eval = FALSE}
+shapiro.test(model2$residuals)
+```
+
+
+
+## Multicollinearity
+
+```{r 'B27-MultiColl', eval = FALSE}
+vif(model2)
+```
+
+
+## Transformation
+
+```{r 'B27-Transform', eval = FALSE}
+model3 <-  lm(log(TC) ~ ., data = train_ii)
+summary(model3)
+#
+model4 <- step(model3, direction = "backward", trace = 0)
+summary(model4)
+```
+
+Normal Now (Prof got p value less than 0.05)
+
+```{r 'B27-IsNormal', eval = FALSE}
+shapiro.test(model4$residuals)
+```
+
+
+
+```{r 'B27-VIF', eval = FALSE}
+vif(model4)
+```
+
+## Glance
+
+
+```{r 'B27-Glance', eval = FALSE}
+lapply(list(model1, model2, model3, model4), glance)
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B27-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, ff)
+```
+
+```{r 'B27-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

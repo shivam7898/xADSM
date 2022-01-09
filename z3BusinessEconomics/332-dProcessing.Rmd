@@ -63,7 +63,7 @@ A \textcolor{pink}{flag variable} (or dummy variable, or indicator variable) is 
 
 
 ```{conjecture 'Insufficient-Data'}
-\textcolor{brown}{Error: Insufficient data values to produce 28 bins.}
+\textcolor{brown}{Error: Insufficient data values to produce ... bins.}
 ```
 
 - `summary(cut_number(diamonds$depth, n = 27))` Passed

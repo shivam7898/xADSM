@@ -101,10 +101,37 @@ kbl(jj,
 
 ## Explore Categorical Variables
 
+- Bar Charts
+  - Grouped 
+    - These are good for comparing between each element in the categories, and comparing elements across categories.
+  - Stacked 
+    - They are great for showing the total because they visually aggregate all of the categories in a group. 
+    - The downside is that it becomes harder to compare the sizes of the individual categories. 
+    - Stacking also indicates a part to whole relationship.
+  - Stacked Percent
+    - The total quantity is hidden by using percentages, but it iss easier to see the relative difference between quantities in each group.
+  - Summary
+    - If there is no part to whole relationship (maybe there is overlap in the categories), then grouped
+    - If there is a part to whole relationship, then the next question to ask is what relationship is the most important to show. 
+      - If the goal is to show sizes between individual categories, use a grouped column or bar chart. 
+      - If the goal is to show the total sizes of groups, use a regular stacked bar chart. 
+      - If the goal is to show relative differences within each group, use a stacked percentage column chart.
+
+```{conjecture 'stat-count-xy'}
+\textcolor{brown}{Error: stat_count() can only have an x or y aesthetic.}
+```
+
+```{conjecture 'stat-count-y'}
+\textcolor{brown}{Error: stat_count() must not be used with a y aesthetic.}
+```
+
+- \textcolor{pink}{stat_count()} Based on the data, choose stat 
+  - stat = 'identity' tells ggplot2 that you will provide the y-values (i.e. Wide Data)
+  - stat = 'count' is the default, which implies that ggplot2 will count the aggregate number of rows for each x value. (i.e. Long Data)
+
 ### International Plan
 
-
-```{r 'C-'}
+```{r 'C-Intl', include=FALSE}
 ii <- bb %>% select(int_l_plan, churn) %>% 
   mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
   count(int_l_plan, churn) 
@@ -115,17 +142,125 @@ jj <- ii %>% rename("isIntl_isChurn" = 1, y = 2) %>%
   add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
   mutate(across(2:3, list(p = ~ round(. /SUM, 3)), .names = "{.fn}{.col}"))
+#
+kk <- ii %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
+  group_by(Group) %>% 
+  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
+```
+
+```{r 'C-BarGroupIplan', include=FALSE}
+# #Grouped Bar Chart
+#str(kk)
+hh <- kk
+#
+caption_hh <- "C33P01"
+title_hh <- "Churn: Grouped Bar: International Plan vs. Churn"
+subt_hh <- NULL 
+x_hh <- "International Plan"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
+    geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
+    geom_text(position = position_dodge(width = 1), aes(label = N), vjust = 1.5, 
+              colour = rep(c("black", "white"), 2)) +
+    scale_fill_viridis_d(direction = -1) +	
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = c(.5, .95), 
+          legend.box = "horizontal", legend.direction = "horizontal") +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P01","_Churn_Bar_Intl", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P01)
+```
+
+```{r 'C33P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P01","_Churn_Bar_Intl", ".png"))
+```
+
+```{r 'C-BarStackIplan', include=FALSE}
+# #Stacked Bar Chart
+#str(kk)
+hh <- kk
+#
+caption_hh <- "C33P02"
+title_hh <- "Churn: Stacked Bar: International Plan vs. Churn"
+subt_hh <- NULL 
+x_hh <- "International Plan"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
+    geom_bar(position = "stack", stat = "identity", alpha = 1) + 
+    geom_text(position = position_stack(vjust = 0.5), aes(label = N), 
+              colour = rep(c("black", "white"), 2)) +
+    scale_fill_viridis_d(direction = -1) +	
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = c(.9, .9)) +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P02","_Churn_Stack_Intl", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P02)
+```
+
+```{r 'C33P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P02","_Churn_Stack_Intl", ".png"))
 ```
 
 
-```{r 'C-'}
-hh <- ii %>% rename(Group = 1, SubGroup = 2, N = 3)
-hh %>% {ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
-    geom_bar(position="dodge", stat="identity") + 
-  k_gglayer_bar +	
-  labs(x = "International Plan", y = "N", subtitle = NULL, 
-         caption = "C02P01", title = "Bar Chart of Categorical Data")
+```{r 'C-BarPStackIplan', include=FALSE}
+# #Percent Stacked Bar Chart
+#str(kk)
+hh <- kk
+#
+caption_hh <- "C33P03"
+title_hh <- "Churn: Percent Stacked Bar: International Plan vs. Churn"
+subt_hh <- NULL 
+x_hh <- "International Plan"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
+    geom_bar(position = "fill", stat = 'identity') + 
+    geom_text(position = position_fill(vjust = 0.5), aes(label = Ratio), 
+              colour = rep(c("black", "white"), 2)) +
+    scale_fill_viridis_d(direction = -1) +	
+    scale_y_continuous(labels = percent_format()) +
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
 }
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P03)
+```
+
+```{r 'C33P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png"))
+```
+
+
+```{r 'C33P010203', echo=FALSE, ref.label=c('C33P01', 'C33P02', 'C33P03'), fig.cap="International Plan holders tend to churn more frequently", out.width='33%'}
+#
 ```
 
 
@@ -133,7 +268,7 @@ hh %>% {ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh)
 ```
 
 ```{r 'C33-Validation', include=TRUE, cache=FALSE}
