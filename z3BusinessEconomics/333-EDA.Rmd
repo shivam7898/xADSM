@@ -1,0 +1,146 @@
+# EDA {#c33}
+
+```{r 'C33', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Exploratory Data Analysis"
+  - Refer [L: Data Pre-Processing](#b16 "b16"), [L: Data Pre-Processing](#b17 "b17"), [L: Unsupervised Learning](#b18 "b18"), and [Numerical Measures](#c03 "c03")
+
+## Churn
+
+\textcolor{pink}{Please import the "B18-Churn.xlsx".}
+
+```{r 'C32-ImportData', include=FALSE}
+xxB16Cars <- f_getRDS(xxB16Cars)
+xxB18Churn <- f_getRDS(xxB18Churn)
+#
+c33churn <- xxB18Churn %>% rename_with(make.names) %>% 
+  rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) %>% 
+  mutate(across(c(int_l_plan, vmail_plan), ~case_when(. == "yes" ~ TRUE, . == "no" ~ FALSE))) %>% 
+  mutate(across(churn, ~case_when(. == "True." ~ TRUE, . == "False." ~ FALSE))) %>% 
+  mutate(across(ends_with("_calls"), as.integer))
+```
+
+- Churn (attrition)
+  - It is a term used to indicate a customer leaving the service of one company in favor of another company. 
+  - The data set contains 20 predictors worth of information about 3333 customers, along with the target variable, churn, an indication of whether that customer churned (left the company) or not.
+- Description [3333, 21]
+  - State: Categorical, for the 50 states and the District of Columbia. 
+  - Account length: Integer-valued, how long account has been active. 
+  - Area code: Categorical 
+  - Phone number: Essentially a surrogate for customer ID. 
+  - International plan: Dichotomous categorical, yes or no. 
+  - Voice mail plan: Dichotomous categorical, yes or no. 
+  - Number of voice mail messages: Integer-valued. 
+  - Total day minutes: Continuous, minutes customer used service during the day. 
+  - Total day calls: Integer-valued. 
+  - Total day charge: Continuous, perhaps based on above two variables. 
+  - Total eve minutes: Continuous, minutes customer used service during the evening. 
+  - Total eve calls: Integer-valued. 
+  - Total eve charge: Continuous, perhaps based on above two variables. 
+  - Total night minutes: Continuous, minutes customer used service during the night. 
+  - Total night calls: Integer-valued. 
+  - Total night charge: Continuous, perhaps based on above two variables. 
+  - Total international minutes: Continuous, minutes customer used service to make international calls. 
+  - Total international calls: Integer-valued. 
+  - Total international charge: Continuous, perhaps based on above two variables. 
+  - Number of calls to customer service: Integer-valued. 
+  - Churn: Target. Indicator of whether the customer has left the company (True or False)
+
+## Basics, Skewness & Normality
+
+```{r 'C33-Normality', include=FALSE}
+bb <- aa <- c33churn
+#str(bb)
+ii <- bb %>% select(2, 7:20) %>% 
+  relocate(vmail_message, .after = last_col()) %>% 
+  relocate(account_length, .after = last_col()) %>% 
+  pivot_longer(everything(), names_to = "Key", values_to = "Values") %>% 
+  mutate(across(Key, factor, levels = unique(Key)))
+#
+#str(ii)
+#levels(ii$Key)
+#
+jj <- ii %>% group_by(Key) %>% 
+  summarise(Min = min(Values), Max = max(Values), SD = sd(Values), 
+            Mean = mean(Values), Median = median(Values), Mode = f_getMode(Values),
+            Unique = length(unique(Values)), isNA = sum(is.na(Values)), 
+            Skewness = skewness(Values), 
+            p_Shapiro = shapiro.test(Values)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE)) %>% 
+  mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, nsmall = 0, 
+                replace.zero = TRUE, zero.print = "0", scientific = FALSE, drop0trailing = TRUE)) 
+```
+
+```{r 'C33T01', echo=FALSE}
+kbl(jj,
+  caption = "(C33T01) Churn: Normality",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	) %>% 
+# #Conditional Row Text Highlight. Background etc. can also be done.
+  row_spec(which(!jj$isNormal), color = "red") # %>% row_spec(which(jj$isNormal), color = "black")
+```
+
+## Explore Categorical Variables
+
+### International Plan
+
+
+```{r 'C-'}
+ii <- bb %>% select(int_l_plan, churn) %>% 
+  mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
+  count(int_l_plan, churn) 
+#
+jj <- ii %>% rename("isIntl_isChurn" = 1, y = 2) %>% 
+  pivot_wider(names_from = y, values_from = n, values_fill = 0, names_sort = TRUE) %>%
+#  mutate(across(1, as.character)) %>% 
+  add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(2:3, list(p = ~ round(. /SUM, 3)), .names = "{.fn}{.col}"))
+```
+
+
+```{r 'C-'}
+hh <- ii %>% rename(Group = 1, SubGroup = 2, N = 3)
+hh %>% {ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
+    geom_bar(position="dodge", stat="identity") + 
+  k_gglayer_bar +	
+  labs(x = "International Plan", y = "N", subtitle = NULL, 
+         caption = "C02P01", title = "Bar Chart of Categorical Data")
+}
+```
+
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C33-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

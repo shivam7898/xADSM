@@ -25,3 +25,6 @@ f_pNum <- function(x, digits = 2L) {
   #ifelse(abs(x) < 0.0000001, 0*sign(x), ifelse(abs(x) > 1, round(x, digits), signif(x, digits + 1L)))
   ifelse(abs(x) < 0.0000001, 0*sign(x), floor(x) + signif(x %% 1, digits))
 }
+
+
+

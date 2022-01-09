@@ -22,7 +22,7 @@ Refer [Numerical Measures](#c03 "c03")
 xxB16Cars <- f_getRDS(xxB16Cars)
 xxB18Churn <- f_getRDS(xxB18Churn)
 #
-xx32Churn <- xxB18Churn %>% rename_with(make.names) %>% 
+c32churn <- xxB18Churn %>% rename_with(make.names) %>% 
   rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) %>% 
   mutate(across(c(int_l_plan, vmail_plan), ~case_when(. == "yes" ~ TRUE, . == "no" ~ FALSE))) %>% 
   mutate(across(churn, ~case_when(. == "True." ~ TRUE, . == "False." ~ FALSE))) %>% 
@@ -115,7 +115,7 @@ mtcars %>% mutate(ID = row_number()) %>% relocate(ID) %>% slice(1:6L)
 - Instead, it is suggested that PCA be applied, where the common variability in correlated predictors may be translated into a set of uncorrelated principal components.
 
 ```{r 'C32-EDA', include=FALSE, eval=FALSE}
-bb <- aa <- xx32Churn
+bb <- aa <- c32churn
 #str(bb)
 # #CrossTab: There are No users who have the International Plan but did not call
 bb %>% select(c(starts_with("int"))) %>% 
@@ -129,7 +129,7 @@ bb %>% select(c(starts_with("int"))) %>%
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C32-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, xx32Churn, xxB16Cars, xxB18Churn)
+f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn)
 ```
 
 ```{r 'C32-Validation', include=FALSE, cache=FALSE}
