@@ -103,26 +103,20 @@ kbl(jj,
 
 ### International Plan
 
-```{r 'C-Intl', include=FALSE}
-ii <- bb %>% select(int_l_plan, churn) %>% 
+```{r 'C33-SetIntl', include=FALSE}
+# #xyw: x (independent), y (dependent), c (column =y), r (row =x)
+# #g (grouped), w (wider), l (longer), 
+r_xyg <- "International"
+c_xyg <- "Churn"
+xyg <- bb %>% select(int_l_plan, churn) %>% rename(x = 1, y = 2) %>% 
   mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
-  count(int_l_plan, churn) 
+  count(x, y) 
 #
-jj <- ii %>% rename("isIntl_isChurn" = 1, y = 2) %>% 
-  pivot_wider(names_from = y, values_from = n, values_fill = 0, names_sort = TRUE) %>%
-  #mutate(across(1, as.character)) %>% 
-  add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
-  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
-  mutate(across(2:3, list(r = ~ round(. /SUM, 3)), .names = "{.fn}{.col}")) %>% 
-  mutate(across(2:3, list(rp = ~ paste0(round(100 * . /SUM, 1), "%")), 
-                .names = "{.fn}{.col}")) %>%
-  mutate(across(2:4, list(c = ~ 2 * ./sum(.)), .names = "{.fn}{.col}")) %>% 
-  mutate(across(2:4, list(cp = ~ paste0(round(100 * 2 * . /sum(.), 1), "%")), 
-                .names = "{.fn}{.col}"))
+str(xyg)
+```
+
+```{r 'C33-CrossIntl', echo=FALSE, ref.label=c('C33-CrossTab')}
 #
-kk <- ii %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
-  group_by(Group) %>% 
-  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 ```
 
 #### Contingency Table (CrossTab) {.unlisted .unnumbered}
@@ -134,30 +128,22 @@ kk <- ii %>% rename(Group = 1, SubGroup = 2, N = 3) %>%
   - We should investigate what is it about our international plan that is inducing our customers to leave
   - We should expect that, the model (in future) will probably include whether or not the customer selected the International Plan.
 
-```{r 'C33T02', echo=FALSE}
-kk <- jj %>% select(-c(5:6, 9:11)) 
-#names(kk) <- paste0(names(kk), "<br/> <br/>")
-displ_names <-c(paste0("Churn ", "$\\rightarrow$", "<br/>", "$\\downarrow$", " International"), 
-                "Row <br/> No", "Row <br/> Yes", "Row <br/> SUM", 
+```{r 'C33-SetCrossIntl', include=FALSE}
+hh <- ctab %>% select(-c(5:6, 9:11)) 
+#names_hh <- names(hh)
+names_hh <-c(paste0(c_xyg, " ", "$\\rightarrow$", "<br/>", "$\\downarrow$", " ", r_xyg), 
+                "No <br/> <br/>", "Yes <br/> <br/>", "Row <br/> SUM", 
                 "Row <br/> No %", "Row <br/> Yes %", 
                 "Col <br/> No %", "Col <br/> Yes %", "Col <br/> Row SUM %") 
-stopifnot(identical(ncol(kk), length(displ_names)))
+stopifnot(identical(ncol(hh), length(names_hh)))
+stopifnot(nrow(hh) < 10)
 #
-kbl(kk,
-  caption = "(C33T02) International Plan vs. Churn",
-  col.names = displ_names,
-  escape = FALSE, align = "c", booktabs = TRUE
-  ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-                html_font = "Consolas",	font_size = 12,
-                full_width = FALSE,
-                #position = "float_left",
-                fixed_thead = TRUE
-  ) %>%
-# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
-	row_spec(0, color = "white", background = "#303030", bold = TRUE,
-	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
-	) %>% row_spec(row = 1:nrow(kk), color = "black")
+cap_hh <- paste0("(C33T02) ", r_xyg, " vs. ", c_xyg)
+```
+
+
+```{r 'C33T02', echo=FALSE, ref.label=c('C33-CrossKbl')}
+#
 ```
 
 #### Bar Charts {.unlisted .unnumbered}
@@ -190,17 +176,18 @@ kbl(kk,
   - stat = 'identity' tells ggplot2 that you will provide the y-values (i.e. Wide Data)
   - stat = 'count' is the default, which implies that ggplot2 will count the aggregate number of rows for each x value. (i.e. Long Data)
 
-```{r 'C-BarGroupIplan', include=FALSE}
+```{r 'C33-BarGroupIplan', include=FALSE}
 # #Grouped Bar Chart
-#str(kk)
-hh <- kk
+hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
+  group_by(Group) %>% 
+  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
 caption_hh <- "C33P01"
 title_hh <- "Churn: Grouped Bar: International Plan vs. Churn"
 subt_hh <- NULL 
-x_hh <- "International Plan"
+x_hh <- "International Plan" #r_xyg
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+legend_hh  <- "Churn" #c_xyg
 #
 C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
     geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
@@ -227,10 +214,11 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P01)
 knitr::include_graphics(paste0(.z$PX, "C33P01","_Churn_Bar_Intl", ".png"))
 ```
 
-```{r 'C-BarStackIplan', include=FALSE}
+```{r 'C33-BarStackIplan', include=FALSE}
 # #Stacked Bar Chart
-#str(kk)
-hh <- kk
+hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
+  group_by(Group) %>% 
+  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
 caption_hh <- "C33P02"
 title_hh <- "Churn: Stacked Bar: International Plan vs. Churn"
@@ -264,10 +252,11 @@ knitr::include_graphics(paste0(.z$PX, "C33P02","_Churn_Stack_Intl", ".png"))
 ```
 
 
-```{r 'C-BarPStackIplan', include=FALSE}
+```{r 'C33-BarPStackIplan', include=FALSE}
 # #Percent Stacked Bar Chart
-#str(kk)
-hh <- kk
+hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
+  group_by(Group) %>% 
+  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
 caption_hh <- "C33P03"
 title_hh <- "Churn: Percent Stacked Bar: International Plan vs. Churn"
@@ -305,34 +294,109 @@ knitr::include_graphics(paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png"))
 #
 ```
 
-### Voice Mail Plan
+#### Code CrossTab
 
-```{r 'C-Voice', include=FALSE}
-ii <- bb %>% select(int_l_plan, churn) %>% 
-  mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
-  count(int_l_plan, churn) 
+```{r 'C33-SetIntl-A', eval=FALSE, ref.label=c('C33-SetIntl')}
 #
-jj <- ii %>% rename("isIntl_isChurn" = 1, y = 2) %>% 
+```
+
+
+```{r 'C33-CrossTab', eval=FALSE}
+# #IN: xyg, r_xyg, c_xyg
+# #Generate Contingency Table (CrossTab)
+ctab <- xyg %>% 
   pivot_wider(names_from = y, values_from = n, values_fill = 0, names_sort = TRUE) %>%
   #mutate(across(1, as.character)) %>% 
   add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
-  mutate(across(2:3, list(r = ~ round(. /SUM, 3)), .names = "{.fn}{.col}")) %>% 
-  mutate(across(2:3, list(rp = ~ paste0(round(100 * . /SUM, 1), "%")), 
-                .names = "{.fn}{.col}")) %>%
-  mutate(across(2:4, list(c = ~ 2 * ./sum(.)), .names = "{.fn}{.col}")) %>% 
-  mutate(across(2:4, list(cp = ~ paste0(round(100 * 2 * . /sum(.), 1), "%")), 
-                .names = "{.fn}{.col}"))
-#
-kk <- ii %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
-  group_by(Group) %>% 
-  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
+  mutate(across(where(is.numeric) & !matches("SUM"), 
+                list(r = ~ round(. /SUM, 3)), .names = "xx_{.fn}{.col}")) %>% 
+  mutate(across(where(is.numeric) & !starts_with("xx_") & !matches("SUM"), 
+                list(rp = ~ paste0(round(100 * . /SUM, 1), "%")), .names = "{.fn}{.col}")) %>%
+  mutate(across(where(is.numeric) & !starts_with("xx_"), 
+                list(c = ~ 2 * ./sum(.)), .names = "yy_{.fn}{.col}")) %>% 
+  mutate(across(where(is.numeric) & !starts_with("xx_") & !starts_with("yy_"), 
+                list(cp = ~ paste0(round(100 * 2 * . /sum(.), 1), "%")), .names = "{.fn}{.col}"))
 ```
+
+#### Code CrossTab Pring
+
+
+```{r 'C33-SetCrossIntl-A', eval=FALSE, ref.label=c('C33-SetCrossIntl')}
+#
+```
+
+
+```{r 'C33-CrossKbl', eval=FALSE}
+#
+kbl(hh,
+  caption = cap_hh,
+  col.names = names_hh,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	) #%>% row_spec(row = 1:nrow(hh), color = "black")
+```
+
+### Voice Mail Plan
+
+```{r 'C33-SetVmail', include=FALSE}
+# #xyw: x (independent), y (dependent), c (column =y), r (row =x)
+# #g (grouped), w (wider), l (longer), 
+r_xyg <- "VoiceMail"
+c_xyg <- "Churn"
+xyg <- bb %>% select(vmail_plan, churn) %>% rename(x = 1, y = 2) %>% 
+  mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
+  count(x, y) 
+#
+str(xyg)
+```
+
+```{r 'C33-CrossVmail', echo=FALSE, ref.label=c('C33-CrossTab')}
+#
+```
+
+
+#### Contingency Table (CrossTab) {.unlisted .unnumbered}
+
+- 16.7% of those without the Voice Mail Plan are churners, as compared to 8.7% of customers who do have the Voice Mail Plan. 
+  - Thus, customers without the Voice Mail Plan are nearly twice as likely to churn as customers with the plan.
+- Summary
+  - Perhaps we should enhance our Voice Mail Plan still further, or make it easier for customers to join it, as an instrument for increasing customer loyalty
+  - We should expect that, the model (in future) will probably include whether or not the customer selected the Voice Mail Plan. Our confidence in this expectation is perhaps not quite as high as for the International Plan
+
+```{r 'C33-SetCrossVmail', include=FALSE}
+hh <- ctab %>% select(-c(5:6, 9:11)) 
+#names_hh <- names(hh)
+names_hh <-c(paste0(c_xyg, " ", "$\\rightarrow$", "<br/>", "$\\downarrow$", " ", r_xyg), 
+                "No <br/> <br/>", "Yes <br/> <br/>", "Row <br/> SUM", 
+                "Row <br/> No %", "Row <br/> Yes %", 
+                "Col <br/> No %", "Col <br/> Yes %", "Col <br/> Row SUM %") 
+stopifnot(identical(ncol(hh), length(names_hh)))
+stopifnot(nrow(hh) < 10)
+#
+cap_hh <- paste0("(C33T03) ", r_xyg, " vs. ", c_xyg)
+```
+
+
+```{r 'C33T03', echo=FALSE, ref.label=c('C33-CrossKbl')}
+#
+```
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh)
+f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, names_hh, r_xyg, xyg)
 ```
 
 ```{r 'C33-Validation', include=TRUE, cache=FALSE}
