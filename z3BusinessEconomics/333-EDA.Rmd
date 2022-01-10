@@ -146,7 +146,7 @@ cap_hh <- paste0("(C33T02) ", r_xyg, " vs. ", c_xyg)
 #
 ```
 
-#### Bar Charts {.unlisted .unnumbered}
+#### Bar Charts {.unlisted .unnumbered .tabset .tabset-fade}
 
 - Bar Charts
   - Grouped 
@@ -289,12 +289,13 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P03)
 knitr::include_graphics(paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png"))
 ```
 
+##### Image {.unlisted .unnumbered}
 
 ```{r 'C33P010203', echo=FALSE, ref.label=c('C33P01', 'C33P02', 'C33P03'), fig.cap="International Plan holders tend to churn more frequently", out.width='33%'}
 #
 ```
 
-#### Code CrossTab
+##### Code CrossTab {.unlisted .unnumbered}
 
 ```{r 'C33-SetIntl-A', eval=FALSE, ref.label=c('C33-SetIntl')}
 #
@@ -319,7 +320,7 @@ ctab <- xyg %>%
                 list(cp = ~ paste0(round(100 * 2 * . /sum(.), 1), "%")), .names = "{.fn}{.col}"))
 ```
 
-#### Code CrossTab Pring
+##### Code CrossTab Print {.unlisted .unnumbered}
 
 
 ```{r 'C33-SetCrossIntl-A', eval=FALSE, ref.label=c('C33-SetCrossIntl')}
@@ -391,12 +392,165 @@ cap_hh <- paste0("(C33T03) ", r_xyg, " vs. ", c_xyg)
 #
 ```
 
+### Three Categorical Variables {.tabset .tabset-fade}
+
+- Two-way interactions among categorical variables with respect to churn. 
+  - Multilayer clustered bar chart of churn, clustered by both International Plan and Voice Mail Plan. 
+    - There are many more customers who have neither plan. 
+    - There are many more customers who have the voice mail plan only than have both plans. 
+    - More importantly, among customers with no voice mail plan, the proportion of churners is greater for those who do have an international plan (43.7%) than for those who do not (13.9%).
+    - Again, however, among customers with the voice mail plan, the proportion of churners is much greater for those who also select the international plan (39.1%) than for those who do not (5.3%).
+    - Note also that there is no interaction among the categorical variables. That is, international plan holders have greater churn regardless of whether they are Voice Mail plan adopters or not.
+
+```{r 'C33-ThreeCat', include=FALSE}
+xsyg <- bb %>% select(int_l_plan, vmail_plan, churn) %>% 
+  rename(Intl = 1, Vmail =2, Churn = 3) %>% 
+  mutate(across(Churn, ~ifelse(., "Yes", "No"))) %>% 
+  mutate(across(Intl, ~ifelse(., "I: Yes", "I: No"))) %>% 
+  mutate(across(Vmail, ~ifelse(., "V: Yes", "V: No"))) %>% 
+  count(Intl, Vmail, Churn) %>% rename(N = n)
+```
+
+```{r 'C33-BarMultiCatMultiFacet', include=FALSE}
+# #Multilayer Clustered Bar Chart
+hh <- xsyg
+#
+caption_hh <- "C33P04"
+title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+subt_hh <- NULL 
+x_hh <- "Churn" #r_xyg
+y_hh <- "Frequency"
+legend_hh  <- "Churn" #c_xyg
+#
+C33 <- hh %>% { ggplot(., aes(x = Churn, y = N, fill = Churn)) + 
+    geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
+    geom_text(position = position_stack(vjust = 0.5), aes(label = N)) +
+    facet_wrap(Intl ~ Vmail, nrow = 1) +
+    scale_fill_manual(values = c('#FFEA46FF', '#787877FF')) +
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = 'top', 
+          legend.box = "horizontal", legend.direction = "horizontal") +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P04","_Churn_MultiClusterBar", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P04)
+```
+
+```{r 'C33P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P04","_Churn_MultiClusterBar", ".png"))
+```
+
+
+```{r 'C33-BarMultiCatSingleFacet', include=FALSE}
+# #Multilayer Clustered Bar Chart
+hh <- xsyg
+#
+caption_hh <- "C33P05"
+title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+subt_hh <- NULL 
+x_hh <- NULL #"Churn" #r_xyg
+y_hh <- "Frequency"
+legend_hh  <- "Churn" #c_xyg
+#
+C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) + 
+    geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
+    geom_text(position = position_dodge(width = 1), aes(label = N), vjust = 1.5) +
+    facet_wrap(~Intl, nrow = 1) +
+    scale_fill_manual(values = c('#FFEA46FF', '#787877FF')) +
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = 'top', 
+          legend.box = "horizontal", legend.direction = "horizontal") +
+    labs(x = NULL, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P05","_Churn_MultiClusterBarSingleFacet", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P05)
+```
+
+```{r 'C33P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P05","_Churn_MultiClusterBarSingleFacet", ".png"))
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C33P0405', echo=FALSE, ref.label=c('C33P04', 'C33P05'), fig.cap="Churn vs. International & Voice Mail Plans (Both are Same Graphs)"}
+#
+```
+
+
+```{r 'C33-BarPStackIplanMulti', include=FALSE}
+# #Percent Stacked Bar Chart
+hh <- xsyg %>% group_by(Vmail, Intl) %>% 
+    mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
+#
+caption_hh <- "C33P06"
+title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+subt_hh <- NULL 
+x_hh <- "Voice Mail"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) + 
+        geom_bar(position = "fill", stat = 'identity') + 
+        facet_wrap(~Intl, nrow = 1) +
+        geom_text(position = position_fill(vjust = 0.5), aes(label = Ratio), 
+              colour = rep(c("black", "white"), 4)) +
+        scale_fill_viridis_d(direction = -1) +	
+        scale_y_continuous(labels = percent_format()) +
+        theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+              panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+        labs(x = x_hh, y = y_hh, fill = legend_hh, 
+            subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P06)
+```
+
+```{r 'C33P06', echo=FALSE, fig.cap="Churn vs. International & Voice Mail Plans (Proportional Stack)"}
+knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))  #iiii
+```
+
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'C33-ThreeCat-A', eval=FALSE, ref.label=c('C33-ThreeCat')}
+#
+```
+
+```{r 'C33-BarMultiCatMultiFacet-A', eval=FALSE, ref.label=c('C33-BarMultiCatMultiFacet')}
+#
+```
+
+```{r 'C33-BarMultiCatSingleFacet-A', eval=FALSE, ref.label=c('C33-BarMultiCatSingleFacet')}
+#
+```
+
+## Exploring Numeric Variables
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, names_hh, r_xyg, xyg)
+f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, names_hh, r_xyg, xyg, C33P04)
 ```
 
 ```{r 'C33-Validation', include=TRUE, cache=FALSE}
