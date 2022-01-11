@@ -73,14 +73,16 @@ jj <- ii %>% group_by(Key) %>%
             Unique = length(unique(Values)), isNA = sum(is.na(Values)), 
             Skewness = skewness(Values), 
             p_Shapiro = shapiro.test(Values)$p.value, 
-            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE)) %>% 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+#
+kk <- jj %>% 
   mutate(across(where(is.numeric), round, digits = 4)) %>% 
   mutate(across(where(is.numeric), format, digits = 3, nsmall = 0, 
                 replace.zero = TRUE, zero.print = "0", scientific = FALSE, drop0trailing = TRUE)) 
 ```
 
 ```{r 'C33T01', echo=FALSE}
-kbl(jj,
+kbl(kk,
   caption = "(C33T01) Churn: Normality",
   #col.names = displ_names,
   escape = FALSE, align = "c", booktabs = TRUE
@@ -96,7 +98,7 @@ kbl(jj,
 	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
 	) %>% 
 # #Conditional Row Text Highlight. Background etc. can also be done.
-  row_spec(which(!jj$isNormal), color = "red") # %>% row_spec(which(jj$isNormal), color = "black")
+  row_spec(which(!kk$isNormal), color = "red") # %>% row_spec(which(kk$isNormal), color = "black")
 ```
 
 ## Explore Categorical Variables
@@ -270,7 +272,7 @@ C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
     geom_text(position = position_fill(vjust = 0.5), aes(label = Ratio), 
               colour = rep(c("black", "white"), 2)) +
     scale_fill_viridis_d(direction = -1) +	
-    scale_y_continuous(labels = percent_format()) +
+    scale_y_continuous(labels = percent) +
     theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
     labs(x = x_hh, y = y_hh, fill = legend_hh, 
@@ -509,7 +511,7 @@ C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) +
         geom_text(position = position_fill(vjust = 0.5), aes(label = Ratio), 
               colour = rep(c("black", "white"), 4)) +
         scale_fill_viridis_d(direction = -1) +	
-        scale_y_continuous(labels = percent_format()) +
+        scale_y_continuous(labels = percent) +
         theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
               panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
         labs(x = x_hh, y = y_hh, fill = legend_hh, 
@@ -525,7 +527,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P06)
 ```
 
 ```{r 'C33P06', echo=FALSE, fig.cap="Churn vs. International & Voice Mail Plans (Proportional Stack)"}
-knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))  #iiii
+knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))
 ```
 
 
@@ -543,14 +545,232 @@ knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))  
 #
 ```
 
+#### Code More {.unlisted .unnumbered}
+
+```{r 'C33-BarPStackIplanMulti-A', eval=FALSE, ref.label=c('C33-BarPStackIplanMulti')}
+#
+```
+
 ## Exploring Numeric Variables
 
+- Refer figure \@ref(fig:C33P07) & Table \@ref(tab:C33T01)
+  - Fields not showing evidence of symmetry include voice mail messages and customer service calls.
+  - Voice Mail Messages: Median = 0 
+    - Indicating that at least half of all customers had no voice mail messages. 
+    - Because fewer than half of the customers select the Voice Mail Plan (27.7%). 
+  - Customer Service Calls: Mean = 1.56 > Median = 1
+    - It indicates some right-skewness
+    - Also indicated by the maximum number of customer service calls (9).
 
+```{r 'C33P07', echo=FALSE, ref.label=c('B18P03'), fig.cap="Churn: All Histograms"}
+# #Ref another file chunk
+```
+
+
+### Overlay Histogram {.tabset .tabset-fade}
+
+- To explore whether a predictor is useful for predicting the target variable
+  - Bars are colored according to the values of the target variable. 
+  
+```{r 'C33-ServCall', include=FALSE}
+ii <- bb %>% select(custserv_calls, churn) %>% 
+  rename(Churn = 2) %>% 
+  mutate(across(Churn, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-HistServCall', include=FALSE}
+# #Histogram Default (Not useful for association of predictor and target)
+hh <- ii
+title_hh <- "Churn: Customer Service Calls"
+caption_hh <- "C33P08"
+subt_hh <- "Predictor Only" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = '#FDE725FF')) + 
+    geom_histogram(bins = length(unique(.[[1]])), alpha = 1) + 
+    #stat_bin(bins = length(unique(.[[1]])), aes(y=..count.., label=..count..), 
+    #         geom="text", position=position_stack(vjust=0.5)) +
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          axis.title.x = element_blank(), 
+          #legend.position = c(0.5, -0.08), legend.direction = 'horizontal', 
+          legend.position = 'none') +
+    labs(x = x_hh, y = y_hh, #fill = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P08-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P08","_Churn_Hist_ServCall", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P08)
+```
+
+```{r 'C33P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P08","_Churn_Hist_ServCall", ".png"))
+```
+
+```{r 'C33-HistServCallChurn', include=FALSE}
+# #Histogram (Predictor and Target Count)
+hh <- ii
+title_hh <- "Churn: Customer Service Calls & Churn"
+caption_hh <- "C33P09"
+subt_hh <- "Count of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)) + 
+    geom_histogram(bins = length(unique(.[[1]])), alpha = 1) + 
+    #stat_bin(bins = length(unique(.[[1]])), aes(y=..count.., label=..count..), 
+    #         geom="text", position=position_stack(vjust=0.5)) +
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P09-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P09","_Churn_Hist_ServCall_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P09)
+```
+
+```{r 'C33P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P09","_Churn_Hist_ServCall_Churn", ".png")) 
+```
+
+
+```{r 'C33-pHistServCallChurn', include=FALSE}
+# #Histogram (Predictor and Target Proportion)
+hh <- ii
+title_hh <- "Churn: Customer Service Calls & Churn"
+caption_hh <- "C33P10"
+subt_hh <- "Proportion of Predictor & Target (Using Histogram)" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+#
+# #NOTES: Group wise Proportion i.e. Yes 1, No 1 (Not Each Bin wise)
+# #Adding Density automatically converts the y-axis to 'frequency density' not to 'percentage'
+# #Both will match when Bin Width =1 but otherwise there will be a mismatch
+# #Using y=..density.. scales the histograms so the area under each is 1, or sum(binwidth*y)=1. 
+# #So use y = binwidth *..density.. to have y represent the fraction of the total in each bin. 
+# #OR aes(y = stat(width*density))
+# #OR aes(y = stat(count / sum(count)))
+# #Clarification
+# # ..count../sum(..count..) each count is divided by the total count
+# # ..density.. it is applied to each group independently
+#
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)) + 
+    geom_histogram(bins = length(unique(.[[1]])), alpha = 1, position = 'fill') + 
+    #stat_bin(bins = length(unique(.[[1]])), 
+    #         aes(y = c(..count..[..group..==1]/sum(..count..[..group..==1]),
+    #                   ..count..[..group..==2]/sum(..count..[..group..==2])), 
+    #             label=round(..density.., 2)), geom="text") +
+    #stat_bin(bins = length(unique(.[[1]])), 
+    #         aes(y=..density.., group = ..group.., 
+    #             label=round(..density.., 2)), geom="text") +
+    scale_x_continuous(breaks = breaks_pretty()) + 
+		#Deprecated : percent_format()
+		scale_y_continuous(labels = percent) +
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P10-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P10","_Churn_pHist_ServCall_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P10)
+```
+
+```{r 'C33P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P10","_Churn_pHist_ServCall_Churn", ".png"))
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C33P080910', echo=FALSE, ref.label=c('C33P08', 'C33P09', 'C33P10'), fig.cap="Service Calls beyond 3 have signficant increase in Churn", out.width='33%'}
+#
+```
+
+
+```{r 'C33-pBarServCallChurn', include=FALSE}
+# #complete() can be used to add the missing combination but not using it for now
+xyg  <- ii %>% count(custserv_calls, Churn) 
+     #%>% complete(custserv_calls, Churn, fill = list(n = 0)) 
+hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
+  group_by(Group) %>% 
+  mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
+#
+title_hh <- "Churn: Customer Service Calls & Churn"
+caption_hh <- "C33P11"
+subt_hh <- "Proportion of Predictor & Target (Using Bar)" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
+    geom_bar(position = "fill", stat = 'identity') + 
+    geom_text(position = position_fill(vjust = 0.5), 
+              aes(label = ifelse(SubGroup == 'No', "", Ratio)), 
+              colour = c(rep(c("black", "white"), 9), "white")) +
+    scale_fill_viridis_d(direction = -1) +
+    scale_x_continuous(breaks = breaks_pretty()) +
+    scale_y_continuous(labels = percent) +
+    theme(plot.title.position = "panel", axis.title.x = element_blank(), 
+          panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P11-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P11)
+```
+
+```{r 'C33P11', echo=FALSE, fig.cap="Churn vs. Service Call Proportions (Bar)"}
+knitr::include_graphics(paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png"))  #iiii
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'C33-ServCall-A', eval=FALSE, ref.label=c('C33-ServCall', 'C33-HistServCall', 'C33-HistServCallChurn', 'C33-pHistServCallChurn')}
+#
+```
+
+#### Code More {.unlisted .unnumbered}
+
+```{r 'C33-pBarServCallChurn-A', eval=FALSE, ref.label=c('C33-pBarServCallChurn')}
+#
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, names_hh, r_xyg, xyg, C33P04)
+f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, 
+          loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, 
+          names_hh, r_xyg, xyg, C33P04, C33P05, C33P06, C33P08, C33P09, C33P10, xsyg)
 ```
 
 ```{r 'C33-Validation', include=TRUE, cache=FALSE}
