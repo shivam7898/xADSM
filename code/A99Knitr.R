@@ -49,7 +49,11 @@ if (!("k_start" %in% ls(envir = .GlobalEnv))) {
 	fig.asp = 0.8, 
 	#fig.topcaption = TRUE, 
 	fig.width = 7))
-
+#
+# #Max Resolution plots for ggsave()
+  k_width <- 14
+  k_height <- {9/16} * k_width
+#
 # #Save Definitions and Theorems for Glossary
   k_def_list = list()
   k_thm_list = list()

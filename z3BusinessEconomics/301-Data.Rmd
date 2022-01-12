@@ -569,7 +569,8 @@ C01P01 <- hh %>% { ggplot(data = ., aes(x = Year, y = Values, colour = Company, 
 
 ```{r 'C01P01-Save', include=TRUE}
 # #Save an Image
-ggsave(paste0(.z$PX, "C01P01_Cars_TimeSeries", ".png"), plot = C01P01)
+loc_png <- paste0(.z$PX, "C01P01", "_Cars_TimeSeries", ".png")
+ggsave(loc_png, plot = C01P01)
 ```
 
 ```{r 'C01P01', echo=TRUE, fig.cap="Multiple Time Series Graph"}

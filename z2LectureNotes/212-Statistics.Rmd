@@ -315,7 +315,8 @@ knitr::include_graphics(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"))
 ```
 
 ```{r 'B12P02-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"), plot = B12P02)
+loc_png <- paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png")
+ggsave(loc_png, plot = B12P02)
 ```
 
 ```{r 'B12P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -497,7 +498,8 @@ caption_hh <- "B12P03"
 ```
 
 ```{r 'B12P03-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png"), plot = B12P03)
+loc_png <- paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png")
+ggsave(loc_png, plot = B12P03)
 ```
 
 ```{r 'B12P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -516,7 +518,8 @@ caption_hh <- "B12P04"
 ```
 
 ```{r 'B12P04-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png"), plot = B12P04)
+loc_png <- paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png")
+ggsave(loc_png, plot = B12P04)
 ```
 
 ```{r 'B12P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -535,7 +538,8 @@ caption_hh <- "B12P05"
 ```
 
 ```{r 'B12P05-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png"), plot = B12P05)
+loc_png <- paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png")
+ggsave(loc_png, plot = B12P05)
 ```
 
 ```{r 'B12P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -666,7 +670,8 @@ caption_hh <- "B12P06"
 ```
 
 ```{r 'B12P06-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P06", "_N10_Rep20", ".png"), plot = B12P06)
+loc_png <- paste0(.z$PX, "B12P06", "_N10_Rep20", ".png")
+ggsave(loc_png, plot = B12P06)
 ```
 
 ```{r 'B12P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -685,7 +690,8 @@ caption_hh <- "B12P07"
 ```
 
 ```{r 'B12P07-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P07", "_N10_Rep20", ".png"), plot = B12P07)
+loc_png <- paste0(.z$PX, "B12P07", "_N10_Rep20", ".png")
+ggsave(loc_png, plot = B12P07)
 ```
 
 ```{r 'B12P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
@@ -704,7 +710,8 @@ caption_hh <- "B12P08"
 ```
 
 ```{r 'B12P08-Save', include=FALSE}
-ggsave(paste0(.z$PX, "B12P08", "_N10_Rep20", ".png"), plot = B12P08)
+loc_png <- paste0(.z$PX, "B12P08", "_N10_Rep20", ".png")
+ggsave(loc_png, plot = B12P08)
 ```
 
 ```{r 'B12P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}

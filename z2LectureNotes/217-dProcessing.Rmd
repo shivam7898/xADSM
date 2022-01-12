@@ -247,7 +247,7 @@ rm(B17)
 
 ```{r 'B17P03-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P03, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P03, width = k_width, height = k_height)
 ```
 
 ```{r 'B17P03', echo=FALSE, out.width="100%", fig.cap="Cars: Weight Transformed with Original & Scaled"}
@@ -336,7 +336,7 @@ rm(B17)
 
 ```{r 'B17P04-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P04, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P04, width = k_width, height = k_height)
 ```
 
 ```{r 'B17P04', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
@@ -353,7 +353,7 @@ B17P05 <- B17P04 + coord_flip() + labs(caption = caption_hh, title = title_hh)
 
 ```{r 'B17P05-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P05, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P05, width = k_width, height = k_height)
 ```
 
 ```{r 'B17P05', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}

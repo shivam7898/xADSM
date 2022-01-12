@@ -25,6 +25,8 @@ c33churn <- xxB18Churn %>% rename_with(make.names) %>%
   mutate(across(c(int_l_plan, vmail_plan), ~case_when(. == "yes" ~ TRUE, . == "no" ~ FALSE))) %>% 
   mutate(across(churn, ~case_when(. == "True." ~ TRUE, . == "False." ~ FALSE))) %>% 
   mutate(across(ends_with("_calls"), as.integer))
+#
+bb <- aa <- c33churn
 ```
 
 - Churn (attrition)
@@ -567,10 +569,19 @@ knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))
 ```
 
 
-### Overlay Histogram {.tabset .tabset-fade}
+### Service Calls {.tabset .tabset-fade}
 
-- To explore whether a predictor is useful for predicting the target variable
+- Overlay Histogram
+  - To explore whether a predictor is useful for predicting the target variable
   - Bars are colored according to the values of the target variable. 
+  - Normalised Histogram
+    - Proportions stretched out to enable better contrast
+      - Normalized histograms are useful for teasing out the relationship between a numerical predictor and the target. However, data analysts should always provide the companion a non-normalized histogram along with the normalized histogram, because the normalized histogram does not provide any information on the frequency distribution of the variable.
+      - Ex: The churn rate for customers logging nine service calls is 100%; but there are only two customers with this number of calls.
+    - Customers who have called customer service three times or less have a markedly lower churn rate  than customers who have called customer service four or more times.
+- Summary
+  - By the third service call, specialized incentives should be offered to retain customer loyalty, because, by the fourth call, the probability of churn increases greatly
+  - We should expect that, the model (in future) will probably include the number of customer service calls made by the customer.
   
 ```{r 'C33-ServCall', include=FALSE}
 ii <- bb %>% select(custserv_calls, churn) %>% 
@@ -712,6 +723,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P10","_Churn_pHist_ServCall_Churn", ".
 
 ```{r 'C33-pBarServCallChurn', include=FALSE}
 # #complete() can be used to add the missing combination but not using it for now
+# #NOTE: Bar is easier to include Labels, However Histogram is easier for large number of bins
 xyg  <- ii %>% count(custserv_calls, Churn) 
      #%>% complete(custserv_calls, Churn, fill = list(n = 0)) 
 hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>% 
@@ -750,7 +762,7 @@ if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P11)
 ```
 
 ```{r 'C33P11', echo=FALSE, fig.cap="Churn vs. Service Call Proportions (Bar)"}
-knitr::include_graphics(paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png"))  #iiii
+knitr::include_graphics(paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -765,12 +777,454 @@ knitr::include_graphics(paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".p
 #
 ```
 
+### Day Minutes 
+
+- Summary: Day Minutes
+  - High day-users tend to churn at a higher rate. 
+  - As the number of day minutes passes 200, we should consider special incentives
+  - We should investigate why heavy day-users are tempted to leave
+  - We should expect that, the model (in future) will probably include 'day minutes'.
+
+```{r 'C33-pHistDayMins', include=FALSE}
+# #Day Minutes
+ii <- bb %>% select(day_mins, churn) %>% 
+  rename(Predictor = 1, Target = 2) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-HistDayMinsChurn', include=FALSE}
+# #Histogram (Predictor and Target Count)
+hh <- ii
+title_hh <- "Churn: Day Minutes & Churn"
+caption_hh <- "C33P12"
+subt_hh <- "Count of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-HistDayMinsChurn-A', include=FALSE, ref.label=c('C33-HistDayMinsChurn', 'C33-Hist')}
+#
+```
+
+```{r 'C33P12-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P12","_Churn_Hist_DayMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P12)
+```
+
+```{r 'C33P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P12","_Churn_Hist_DayMins_Churn", ".png")) 
+```
+
+```{r 'C33-pHistDayMinsChurn', include=FALSE, eval=FALSE}
+# #Histogram (Predictor and Target Proportion)
+hh <- ii
+title_hh <- "Churn: Day Minutes & Churn"
+caption_hh <- "C33P13"
+subt_hh <- "Proportion of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-pHistDayMinsChurn-A', include=FALSE, ref.label=c('C33-pHistDayMinsChurn', 'C33-pHist')}
+#
+```
+
+```{r 'C33P13-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P13","_Churn_pHist_DayMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P13)
+```
+
+```{r 'C33P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P13","_Churn_pHist_DayMins_Churn", ".png"))
+```
+
+```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="Higher Day Minutes (>200) have higher Churn"}
+#
+```
+
+
+```{r 'C33-Hist', include=FALSE, eval=FALSE}
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) + 
+    geom_histogram(bins = ifelse(length(unique(.[[1]])) > 50, 50, length(unique(.[[1]]))), 
+                   alpha = 1) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+
+```{r 'C33-pHist', include=FALSE, eval=FALSE}
+# #Histogram (Predictor and Target Proportion)
+# #Caution: Warning on Removal of Missing Values has been removed
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) + 
+    geom_histogram(bins = ifelse(length(unique(.[[1]])) > 50, 50, length(unique(.[[1]]))), 
+                   alpha = 1, position = 'fill', na.rm = TRUE) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+		scale_y_continuous(labels = percent) +
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+### Evening Minutes 
+
+- Summary : Evening Minutes
+  - It shows a slight tendency for customers with higher evening minutes to churn. 
+  - However, it is inconclusive solely based on graph. 
+
+```{r 'C33-pHistEveMins', include=FALSE}
+# #Evening Minutes
+ii <- bb %>% select(eve_mins, churn) %>% 
+  rename(Predictor = 1, Target = 2) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-HistEveMinsChurn', include=FALSE}
+# #Histogram (Predictor and Target Count)
+hh <- ii
+title_hh <- "Churn: Evening Minutes & Churn"
+caption_hh <- "C33P14"
+subt_hh <- "Count of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-HistEveMinsChurn-A', include=FALSE, ref.label=c('C33-HistEveMinsChurn', 'C33-Hist')}
+#
+```
+
+```{r 'C33P14-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P14","_Churn_Hist_EveMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P14)
+```
+
+```{r 'C33P14', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P14","_Churn_Hist_EveMins_Churn", ".png")) 
+```
+
+```{r 'C33-pHistEveMinsChurn', include=FALSE, eval=FALSE}
+# #Histogram (Predictor and Target Proportion)
+hh <- ii
+title_hh <- "Churn: Evening Minutes & Churn"
+caption_hh <- "C33P15"
+subt_hh <- "Proportion of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-pHistEveMinsChurn-A', include=FALSE, ref.label=c('C33-pHistEveMinsChurn', 'C33-pHist')}
+#
+```
+
+```{r 'C33P15-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P15","_Churn_pHist_EveMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P15)
+```
+
+```{r 'C33P15', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P15","_Churn_pHist_EveMins_Churn", ".png"))
+```
+
+```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
+#
+```
+
+### Night Minutes 
+
+- Summary : Night Minutes
+  - There is no obvious association visible (in graphs) between churn and night minutes 
+  - The lack of obvious association at the EDA stage between a predictor and a target variable is not sufficient reason to omit that predictor from the model. 
+  - Unless there is a good reason for eliminating the variable before modeling, we should keep them and allow the modeling process to identify which variables are predictive and which are not.
+
+```{r 'C33-pHistNightMins', include=FALSE}
+# #Night Minutes
+ii <- bb %>% select(night_mins, churn) %>% 
+  rename(Predictor = 1, Target = 2) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-HistNightMinsChurn', include=FALSE}
+# #Histogram (Predictor and Target Count)
+hh <- ii
+title_hh <- "Churn: Night Minutes & Churn"
+caption_hh <- "C33P16"
+subt_hh <- "Count of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-HistNightMinsChurn-A', include=FALSE, ref.label=c('C33-HistNightMinsChurn', 'C33-Hist')}
+#
+```
+
+```{r 'C33P16-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P16","_Churn_Hist_NightMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P16)
+```
+
+```{r 'C33P16', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P16","_Churn_Hist_NightMins_Churn", ".png")) 
+```
+
+```{r 'C33-pHistNightMinsChurn', include=FALSE, eval=FALSE}
+# #Histogram (Predictor and Target Proportion)
+hh <- ii
+title_hh <- "Churn: Night Minutes & Churn"
+caption_hh <- "C33P17"
+subt_hh <- "Proportion of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-pHistNightMinsChurn-A', include=FALSE, ref.label=c('C33-pHistNightMinsChurn', 'C33-pHist')}
+#
+```
+
+```{r 'C33P17-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P17","_Churn_pHist_NightMins_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P17)
+```
+
+```{r 'C33P17', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P17","_Churn_pHist_NightMins_Churn", ".png"))
+```
+
+```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="No obvious association between Churn and Night Minutes"}
+#
+```
+
+### International Calls {.tabset .tabset-fade}
+
+- Summary : International Calls
+  - There is no obvious association visible (in graphs) between churn and International Calls
+  - However: t-test for the difference in mean number of international calls for churners and  non-churners is statistically significant. i.e. Means are Different.
+  - NOTE: Hypothesis Testing is NOT part of EDA. It is mentioned here to show that statistically significant association may exist without being obviously visible.
+
+```{r 'C33-pHistIcalls', include=FALSE}
+# #International Calls
+ii <- bb %>% select(intl_calls, churn) %>% 
+  rename(Predictor = 1, Target = 2) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-HistIcallsChurn', include=FALSE}
+# #Histogram (Predictor and Target Count)
+hh <- ii
+title_hh <- "Churn: International Calls & Churn"
+caption_hh <- "C33P20"
+subt_hh <- "Count of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-HistIcallsChurn-A', include=FALSE, ref.label=c('C33-HistIcallsChurn', 'C33-Hist')}
+#
+```
+
+```{r 'C33P20-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P20","_Churn_Hist_Icalls_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P20)
+```
+
+```{r 'C33P20', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P20","_Churn_Hist_Icalls_Churn", ".png")) 
+```
+
+```{r 'C33-pHistIcallsChurn', include=FALSE, eval=FALSE}
+# #Histogram (Predictor and Target Proportion)
+hh <- ii
+title_hh <- "Churn: International Calls & Churn"
+caption_hh <- "C33P21"
+subt_hh <- "Proportion of Predictor & Target" 
+x_hh <- "x"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+```
+
+```{r 'C33-pHistIcallsChurn-A', include=FALSE, ref.label=c('C33-pHistIcallsChurn', 'C33-pHist')}
+#
+```
+
+```{r 'C33P21-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P21","_Churn_pHist_Icalls_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P21)
+```
+
+```{r 'C33P21', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P21","_Churn_pHist_Icalls_Churn", ".png"))
+```
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C33P2021', echo=FALSE, ref.label=c('C33P20', 'C33P21'), fig.cap="No obvious association between Churn and International Calls (But t-test)"}
+#
+```
+
+#### t-test {.unlisted .unnumbered}
+
+```{r 'C33-IcallTestT'}
+# #t-test for difference in Mean of Target Values
+str(ii)
+# 
+# #Variance
+var_ii <- var.test(formula = Predictor ~ Target, data = ii)
+var_ii
+#
+isVarEqual <- ifelse(var_ii$p.value > 0.05, TRUE, FALSE)
+if(isVarEqual) print("Variances are Equal.") else print("Variances are Different.")
+#
+# #t-test: Welch 
+ha_ii <- "two.sided" #"two.sided", "less", "greater"
+#tt_ii <- t.test(Predictor ~ Target, data = ii, alternative = ha_ii, var.equal = isVarEqual)
+tt_ii <- t.test(Predictor ~ Target, data = ii, alternative = ha_ii, var.equal = FALSE)
+tt_ii
+#
+alpha <- 0.05
+if(any(all(ha_ii == "two.sided", tt_ii$p.value >= alpha / 2), 
+       all(ha_ii != "two.sided", tt_ii$p.value >= alpha))) {
+    print("Failed to reject H0.")
+} else { 
+    print("H0 Rejected.")
+}
+```
+
+
+
+### All Histograms {.tabset .tabset-fade}
+
+```{r 'C33-AllNumeric', include=FALSE}
+# #All Continuous Predictors and Target (Categorical)
+xsyl <- bb %>% 
+  select(where(is.numeric) | "churn") %>% 
+  select(!area_code) %>% 
+  relocate(ends_with("_mins")) %>% 
+  relocate(ends_with("_calls")) %>% 
+  relocate(vmail_message, .after =  last_col()) %>% 
+  relocate("churn") %>% rename("Target" = 1) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No"))) %>% 
+  pivot_longer(where(is.numeric), names_to = "Predictors", values_to = "Values") %>% 
+  mutate(across(Predictors, ~ factor(., levels = unique(Predictors))))
+#
+#str(ii)
+```
+
+```{r 'C33-AllHistograms', include=FALSE}
+# #Histogram
+hh <- xsyl
+title_hh <- "Churn: Histograms of All Predictors with Target (Count)"
+caption_hh <- "C33P18"
+subt_hh <- NULL #"Count of Predictor & Target" 
+x_hh <- NULL # "x"
+y_hh <- NULL # "Frequency" #"Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) + 
+    geom_histogram(alpha = 1, boundary = 0,
+        bins = ifelse(length(unique(.$Predictors)) > 50, 50, length(unique(.$Predictors)))) + 
+    #geom_histogram(alpha = 1, boundary = 0,
+    #    bins = ifelse(nrow(distinct(.[2])) > 50, 50, nrow(distinct(.[2])))) + 
+    facet_wrap(~Predictors, nrow = 3, scales = 'free') +
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          strip.text.x = element_text(size = 10, colour = "white"), 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P18-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P18","_Churn_Hist_All_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P18, width = k_width, height = k_height)
+```
+
+```{r 'C33-AllpHistograms', include=FALSE}
+# #Histogram
+hh <- xsyl
+title_hh <- "Churn: Histograms of All Predictors with Target (Proportion)"
+caption_hh <- "C33P19"
+subt_hh <- NULL #"Count of Predictor & Target" 
+x_hh <- NULL # "x"
+y_hh <- NULL # "Frequency" #"Grouped Percentage"
+legend_hh  <- "Churn"
+#
+# #Caution: Warning on Removal of Missing Values has been removed
+C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) + 
+    geom_histogram(alpha = 1, boundary = 0, position = 'fill', na.rm = TRUE,
+        bins = ifelse(length(unique(.$Predictors)) > 50, 50, length(unique(.$Predictors)))) + 
+    #geom_histogram(alpha = 1, boundary = 0,
+    #    bins = ifelse(nrow(distinct(.[2])) > 50, 50, nrow(distinct(.[2])))) + 
+    facet_wrap(~Predictors, nrow = 3, scales = 'free_x') +
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    scale_fill_viridis_d(direction = -1) +
+    theme(plot.title.position = "panel", 
+          strip.text.x = element_text(size = 10, colour = "white"), 
+          axis.title.x = element_blank(), 
+          legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P19-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P19, width = k_width, height = k_height)
+```
+
+#### Images {.unlisted .unnumbered}
+
+```{r 'C33P18', echo=FALSE, fig.cap="Histograms of All Predictors with Target (Count)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P18","_Churn_Hist_All_Churn", ".png"))
+```
+
+```{r 'C33P19', echo=FALSE, fig.cap="Histograms of All Predictors with Target (Proportion)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png")) #iiii
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'C33-AllNumeric-A', eval=FALSE, ref.label=c('C33-AllNumeric', 'C33-AllHistograms', 'C33-AllpHistograms')}
+#
+```
+
+## Exploring Multivariate Variables
+
+
+
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, 
           loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, 
-          names_hh, r_xyg, xyg, C33P04, C33P05, C33P06, C33P08, C33P09, C33P10, xsyg)
+          names_hh, r_xyg, xyg, C33P04, C33P05, C33P06, C33P08, C33P09, C33P10, xsyg, C33P11, 
+          C33P12, C33P13, C33P14, C33P15, C33P16, C33P17, C33P18, C33P19, xsyl, alpha, C33P20, 
+          C33P21, ha_ii, isVarEqual, tt_ii, var_ii)
 ```
 
 ```{r 'C33-Validation', include=TRUE, cache=FALSE}

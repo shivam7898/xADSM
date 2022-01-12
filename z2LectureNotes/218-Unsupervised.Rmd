@@ -248,7 +248,7 @@ rm(B18)
 
 ```{r 'B18P03-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P03","_Churn_All_Hist", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P03, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P03, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P03', echo=FALSE, fig.cap="Churn: All Histograms", out.width='100%'}
@@ -288,7 +288,7 @@ rm(B18)
 
 ```{r 'B18P04-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P04","_Churn_All_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P04, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P04, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P04', echo=FALSE, fig.cap="Churn: All QQ Plots", out.width='100%'}
@@ -677,7 +677,7 @@ rm(B18)
 
 ```{r 'B18P14-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P14, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P14, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P14', echo=FALSE, fig.cap="Churn: All Histograms (Scaled)", out.width='100%'}
@@ -708,7 +708,7 @@ rm(B18)
 
 ```{r 'B18P15-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P15, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P15, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P15', echo=FALSE, fig.cap="Churn: All QQ Plots (Scaled)", out.width='100%'}
@@ -744,7 +744,7 @@ rm(B18)
 
 ```{r 'B18P16-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P16, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P16, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P16', echo=FALSE, fig.cap="Churn: All Box Plots (Scaled)", out.width='100%'}
@@ -794,7 +794,7 @@ rm(B18)
 
 ```{r 'B18P17-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P17, width = 14)
+if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P17, width = k_width, height = k_height)
 ```
 
 ```{r 'B18P17', echo=FALSE, fig.cap="Churn: All Histograms", out.width='100%'}

@@ -144,7 +144,8 @@ C06P01 <- ii + geom_density(alpha = 0.2, colour = "#21908CFF") +
 ```
 
 ```{r 'C06P01-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png"), plot = C06P01)
+loc_png <- paste0(.z$PX, "C06P01", "_Distribution_Normal", ".png")
+ggsave(loc_png, plot = C06P01)
 ```
 
 ```{r 'C06P01', echo=FALSE, fig.cap="Normal Distribution"}

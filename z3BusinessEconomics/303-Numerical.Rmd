@@ -867,7 +867,6 @@ caption_hh <- "C03P04"
 ```
 
 ```{r 'C03P04-Save', include=FALSE}
-#ggsave(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"), plot = eval(parse(text = caption_hh)))
 loc_png <- paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png")
 if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
 ```
@@ -1346,7 +1345,8 @@ C03P01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE))
 ```
 
 ```{r 'C03P01-Save', include=FALSE}
-ggsave(paste0(.z$PX,  "C03P01", "_BoxPlot", ".png"), plot = C03P01)
+loc_png <- paste0(.z$PX, "C03P01", "_BoxPlot", ".png")
+ggsave(loc_png, plot = C03P01)
 ```
 
 ```{r 'C03P01', echo=FALSE, fig.cap="geom_boxplot()"}
@@ -1411,7 +1411,8 @@ C03P02 <- bb %>% {
 ```
 
 ```{r 'C03P02-Save', include=FALSE}
-ggsave(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"), plot = C03P02)
+loc_png <- paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png")
+ggsave(loc_png, plot = C03P02)
 ```
 
 ```{r 'C03P02', echo=FALSE, fig.cap="Added Mean", include=FALSE}
