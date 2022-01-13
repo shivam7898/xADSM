@@ -112,9 +112,9 @@ kbl(kk,
 # #g (grouped), w (wider), l (longer), 
 r_xyg <- "International"
 c_xyg <- "Churn"
-xyg <- bb %>% select(int_l_plan, churn) %>% rename(x = 1, y = 2) %>% 
+xyg <- bb %>% select(int_l_plan, churn) %>% rename(Predictor = 1, Target = 2) %>% 
   mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
-  count(x, y) 
+  count(Predictor, Target) 
 #
 str(xyg)
 ```
@@ -307,10 +307,10 @@ knitr::include_graphics(paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png"))
 
 
 ```{r 'C33-CrossTab', eval=FALSE}
-# #IN: xyg, r_xyg, c_xyg
+# #IN: xyg (Predictor, Target), r_xyg, c_xyg 
 # #Generate Contingency Table (CrossTab)
 ctab <- xyg %>% 
-  pivot_wider(names_from = y, values_from = n, values_fill = 0, names_sort = TRUE) %>%
+  pivot_wider(names_from = Target, values_from = n, values_fill = 0, names_sort = TRUE) %>%
   #mutate(across(1, as.character)) %>% 
   add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
@@ -358,9 +358,9 @@ kbl(hh,
 # #g (grouped), w (wider), l (longer), 
 r_xyg <- "VoiceMail"
 c_xyg <- "Churn"
-xyg <- bb %>% select(vmail_plan, churn) %>% rename(x = 1, y = 2) %>% 
+xyg <- bb %>% select(vmail_plan, churn) %>% rename(Predictor = 1, Target = 2) %>% 
   mutate(across(1:2, ~ifelse(., 'Yes', 'No'))) %>% 
-  count(x, y) 
+  count(Predictor, Target) 
 #
 str(xyg)
 ```
@@ -1114,7 +1114,7 @@ if(any(all(ha_ii == "two.sided", tt_ii$p.value >= alpha / 2),
 
 ```{r 'C33-AllNumeric', include=FALSE}
 # #All Continuous Predictors and Target (Categorical)
-xsyl <- bb %>% 
+xsy <- bb %>% 
   select(where(is.numeric) | "churn") %>% 
   select(!area_code) %>% 
   relocate(ends_with("_mins")) %>% 
@@ -1122,7 +1122,9 @@ xsyl <- bb %>%
   relocate(vmail_message, .after =  last_col()) %>% 
   relocate("churn") %>% rename("Target" = 1) %>% 
   mutate(across(Target, ~ifelse(., "Yes", "No"))) %>% 
-  pivot_longer(where(is.numeric), names_to = "Predictors", values_to = "Values") %>% 
+  mutate(across(Target, factor, levels = unique(Target)))
+#
+xsyl <- xsy %>% pivot_longer(where(is.numeric), names_to = "Predictors", values_to = "Values") %>% 
   mutate(across(Predictors, ~ factor(., levels = unique(Predictors))))
 #
 #str(ii)
@@ -1139,7 +1141,7 @@ y_hh <- NULL # "Frequency" #"Grouped Percentage"
 legend_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) + 
-    geom_histogram(alpha = 1, boundary = 0,
+    geom_histogram(alpha = 1, boundary = 0, #position = position_stack(reverse = TRUE),
         bins = ifelse(length(unique(.$Predictors)) > 50, 50, length(unique(.$Predictors)))) + 
     #geom_histogram(alpha = 1, boundary = 0,
     #    bins = ifelse(nrow(distinct(.[2])) > 50, 50, nrow(distinct(.[2])))) + 
@@ -1173,8 +1175,10 @@ y_hh <- NULL # "Frequency" #"Grouped Percentage"
 legend_hh  <- "Churn"
 #
 # #Caution: Warning on Removal of Missing Values has been removed
+# #NOTE: position_fill() normalizes the Bars and is same as 'fill'
+# # 
 C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) + 
-    geom_histogram(alpha = 1, boundary = 0, position = 'fill', na.rm = TRUE,
+    geom_histogram(alpha = 1, boundary = 0, position = position_fill(), na.rm = TRUE, 
         bins = ifelse(length(unique(.$Predictors)) > 50, 50, length(unique(.$Predictors)))) + 
     #geom_histogram(alpha = 1, boundary = 0,
     #    bins = ifelse(nrow(distinct(.[2])) > 50, 50, nrow(distinct(.[2])))) + 
@@ -1204,7 +1208,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P18","_Churn_Hist_All_Churn", ".png"))
 ```
 
 ```{r 'C33P19', echo=FALSE, fig.cap="Histograms of All Predictors with Target (Proportion)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1213,9 +1217,499 @@ knitr::include_graphics(paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png"))
 #
 ```
 
-## Exploring Multivariate Variables
+## Exploring Multivariate Variables : Scatter plots
+
+### Day minutes & Evenings minutes  {.tabset .tabset-fade}
+
+- Summary:
+  - Customers with both high day minutes and high evening minutes, appear to have a higher proportion of churners than records below the line. 
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C33-MinEveDay', include=FALSE}
+ii <- bb %>% select(day_mins, eve_mins, churn)  %>% 
+  rename(Target = churn) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-ScatterMinEveDay', include=FALSE}
+hh <- ii
+title_hh <- "Churn: Scatterplot of Evening Minutes and Day Minutes"
+caption_hh <- "C33P22"
+subt_hh <- NULL #subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)")
+x_hh <- "Evening Minutes" # "x"
+y_hh <- "Day Minutes" # "Frequency" #"Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(data = ., aes(x = eve_mins, y = day_mins)) + 
+    #geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
+    #geom_point(position = "jitter", aes(colour = Target)) +
+    geom_jitter(aes(colour = Target)) +
+		scale_colour_viridis_d(alpha = 0.9, direction = -1) +
+    theme(panel.grid.minor = element_blank(),
+          panel.border = element_blank()) +
+    labs(x = x_hh, y = y_hh, colour = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P22-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P22","_Churn_Scatter_MinEveDay", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P22)
+```
+
+```{r 'C33P22', echo=FALSE, fig.cap="Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
+knitr::include_graphics(paste0(.z$PX, "C33P22","_Churn_Scatter_MinEveDay", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'C33-MinEveDay-A', eval=FALSE, ref.label=c('C33-MinEveDay', 'C33-ScatterMinEveDay')}
+#
+```
+
+### Day minutes & Customer Service Calls  {.tabset .tabset-fade}
+
+- Summary:
+  - It indicates a high-churn area in the upper left section of the graph. These records represent customers who have a combination of a high number of customer service calls and a low number of day minutes used. 
+  - Note that this group of customers could not have been identified had we restricted ourselves to univariate exploration (exploring variable by single variable). This is because of the interaction between the variables. 
+  - In general, customers with higher numbers of customer service calls tend to churn at a higher rate, as we learned earlier in the univariate analysis. However, of these customers with high numbers of customer service calls, those who also have high day minutes are somewhat "protected" from this high churn rate. The customers in the upper right of the scatter plot exhibit a lower churn rate than those in the upper left.
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'C33-ServCallDayMins', include=FALSE}
+ii <- bb %>% select(day_mins, custserv_calls, churn)  %>% 
+  rename(Target = churn) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No")))
+```
+
+```{r 'C33-ScatterServCallDayMins', include=FALSE}
+hh <- ii
+title_hh <- "Churn: Day Minutes and Customer Service Calls"
+caption_hh <- "C33P27"
+subt_hh <- NULL
+x_hh <- "Day Minutes"
+y_hh <- "Customer Service Calls"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(data = ., aes(x = day_mins, y = custserv_calls)) + 
+    geom_jitter(aes(colour = Target), width = 0.1, height = 0.1) +
+    scale_colour_viridis_d(alpha = 0.9, direction = -1) +
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    theme(panel.grid.minor = element_blank(),
+          panel.border = element_blank()) +
+    labs(x = x_hh, y = y_hh, colour = legend_hh,
+         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P27-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P27","_Churn_Scatter_ServCallDayMins", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P27)
+```
+
+```{r 'C33P27', echo=FALSE, fig.cap="Scatterplot of Day Minutes (X) and Customer Service Calls (Y) shows an interaction effect for Churn"}
+knitr::include_graphics(paste0(.z$PX, "C33P27","_Churn_Scatter_ServCallDayMins", ".png")) #iiii
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'C33-ServCallDayMins-A', eval=FALSE, ref.label=c('C33-ServCallDayMins', 'C33-ScatterServCallDayMins')}
+#
+```
 
 
+### package:GGally {.tabset .tabset-fade}
+
+#### SPLOM {.unlisted .unnumbered}
+
+- Scatter Plot of Matrices (SPLOM), with bivariate scatter plots below the diagonal, histograms on the diagonal, and the Pearson correlation above the diagonal.
+
+```{r 'C33-GGally-A7', include=FALSE}
+hh <- xsy %>% select(1:6, 11, 16) 
+title_hh <- "GGally: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
+caption_hh <- "C33P23"
+subt_hh <- NULL #"Count of Predictor & Target" 
+legend_hh  <- "Churn"
+#
+```
+
+```{r 'C33-GGally-A7-A', ref.label=c('C33-GGally-A7', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE}
+#
+```
+
+```{r 'C33P23-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P23","_Churn_SPLOM_Calls_7", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P23, width = k_width, height = k_height)
+```
+
+```{r 'C33P23', echo=FALSE, fig.cap="Bivariate Analysis of Calls showing Churn", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P23","_Churn_SPLOM_Calls_7", ".png"))
+```
+
+
+```{r 'C33-GGally-B9', include=FALSE}
+hh <- xsy %>% select(1, 7:10, 12:15) 
+title_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
+caption_hh <- "C33P24"
+subt_hh <- NULL #"Count of Predictor & Target" 
+legend_hh  <- "Churn"
+#
+```
+
+```{r 'C33-GGally-B9-A', ref.label=c('C33-GGally-B9', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE}
+#
+```
+
+```{r 'C33P24-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P24","_Churn_SPLOM_MinsCharges_8", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P24, width = k_width, height = k_height)
+```
+
+```{r 'C33P24', echo=FALSE, fig.cap="Bivariate Analysis of Minutes & Charges showing Churn", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P24","_Churn_SPLOM_MinsCharges_8", ".png"))
+```
+
+#### GGally Bivariate {.unlisted .unnumbered}
+
+```{r 'C33-GGallyBiVariate', eval=FALSE}
+# #Assumes Column 1 has Target Variable (Factor)
+C33 <- hh %>% { 
+  ggpairs(data = ., mapping = aes(colour = Target, fill = Target, alpha = 0.3), 
+          columns = 2:ncol(.), #7:10, 12:15
+          lower = list(continuous = f_gg_scatter),
+          diag = list(continuous = f_gg_density)) +
+    #theme(panel.grid.minor = element_blank(),
+    #      panel.border = element_blank()) +
+    labs(caption = caption_hh, subtitle = subt_hh, title = title_hh) 
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+#### GGally Manual {.unlisted .unnumbered}
+
+```{r 'C33-GGallyHelpers', eval=FALSE}
+# #For GGally Manual Functions
+f_gg_scatter <- function(data, mapping, ...) {
+  ggplot(data = data, mapping = mapping) +
+    geom_jitter(...) +
+    scale_colour_viridis_d(direction = -1)
+}
+
+f_gg_density  <- function(data, mapping, ...) {
+  ggplot(data = data, mapping = mapping) +
+    geom_density(...) +
+    scale_fill_viridis_d(direction = -1) + 
+	  scale_colour_viridis_d(direction = -1) 
+}
+```
+
+
+### package:psych {.tabset .tabset-fade}
+
+#### SPLOM {.unlisted .unnumbered}
+
+```{r 'C33-Psych-A7', include=FALSE}
+hh <- xsy %>% select(1:6, 11, 16) 
+caption_hh <- "C33P25"
+title_hh <- "Psych: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
+loc_png <- paste0(.z$PX, "C33P25","_Churn_SPLOM_Psych_A7", ".png")
+```
+
+```{r 'C33-Psych-A7-A', include=FALSE, ref.label=c('C33-PsychPair')}
+#
+```
+
+```{r 'C33P25', echo=FALSE, fig.cap="Bivariate Analysis of Calls showing Churn", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P25","_Churn_SPLOM_Psych_A7", ".png"))
+```
+
+```{r 'C33-Psych-B8', include=FALSE}
+hh <- xsy %>% select(1, 7:10, 12:15) 
+caption_hh <- "C33P26"
+title_hh <- "Psych: Churn: SPLOM: SPLOM: Minutes and Charges (8)"
+loc_png <- paste0(.z$PX, "C33P26","_Churn_SPLOM_Psych_B8", ".png")
+```
+
+```{r 'C33-Psych-B8-A', include=FALSE, ref.label=c('C33-PsychPair')}
+#
+```
+
+```{r 'C33P26', echo=FALSE, fig.cap="Bivariate Analysis of Minutes & Charges showing Churn", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P26","_Churn_SPLOM_Psych_B8", ".png"))
+```
+
+#### pairs.panels() {.unlisted .unnumbered}
+
+```{r 'C33-PsychPair', eval=FALSE}
+# #IN: hh, caption_hh, title_hh, loc_png
+if(!file.exists(loc_png)) {
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 300) 
+  pairs.panels(hh[2:ncol(hh)], smooth = FALSE, jiggle = TRUE, rug = FALSE, ellipses = FALSE, 
+               bg = rev(viridis(2))[hh$Target], pch = 21, lwd = 1, cex.cor = 1, cex = 1, 
+               gap = 0, main = title_hh)
+  #title(main = title_hh, line = 2, adj = 0)
+  title(sub = caption_hh, line = 4, adj = 1)
+  C33 <- recordPlot()
+  dev.off()
+  assign(caption_hh, C33)
+  rm(C33)
+}
+```
+
+## Subset Interesting Datapoints
+
+- Those which were identified by EDA
+- Anomalous fields like Area Code which have only 3 values yet it is distributed over all the States
+
+## Binning
+
+- Figure \@ref(fig:C33P11) showed that customers with less than four calls to customer service had a lower churn rate than customers who had four or more calls to customer service. 
+  - We may therefore decide to bin the customer service calls variable into two classes, low (fewer than four) and high (four or more).
+
+```{r 'C33-BinnedServCall', include=FALSE}
+# #xyw: x (Predictor), y (Target), c (column =y), r (row =x)
+# #g (grouped), w (wider), l (longer)
+r_xyg <- "Service Calls"
+c_xyg <- "Churn"
+# #Select Relevant | Binning | Rename & Relocate Target | Select Target & Predictor |
+# #Relabel Target | Factor Levels Each | Count | Rename N | Group | Ratio | Ungroup |
+xyg <- bb %>% select(custserv_calls, churn) %>% 
+  mutate(Predictor = ifelse(custserv_calls < 4, "Low", "High")) %>% 
+  relocate(Target = 2) %>% select(Target, Predictor) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No"))) %>% 
+  mutate(across(Target, factor, levels = c("No", "Yes"))) %>% 
+  mutate(across(Predictor, factor, levels = c("Low", "High"))) %>% 
+  count(Target, Predictor) %>% 
+  rename(N = 3) %>% 
+  group_by(Predictor) %>% 
+  mutate(Ratio = paste0(round(100 * N / sum(N), 1), "%")) %>% 
+  ungroup()
+```
+
+```{r 'C33-CTab', include=FALSE}
+# #IN: xyg (Predictor, Target), r_xyg, c_xyg 
+# #Generate Contingency Table (CrossTab)
+ctab <- xyg %>% select(1:3) %>% 
+  pivot_wider(names_from = Target, values_from = N, values_fill = 0, names_sort = TRUE) %>%
+  #mutate(across(1, as.character)) %>% 
+  add_row(summarise(., across(1, ~ "Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  mutate(across(where(is.numeric) & !matches("SUM"), 
+                list(r = ~ round(. /SUM, 3)), .names = "xx_{.fn}{.col}")) %>% 
+  mutate(across(where(is.numeric) & !starts_with("xx_") & !matches("SUM"), 
+                list(rp = ~ paste0(round(100 * . /SUM, 1), "%")), .names = "{.fn}{.col}")) %>%
+  mutate(across(where(is.numeric) & !starts_with("xx_"), 
+                list(c = ~ 2 * ./sum(.)), .names = "yy_{.fn}{.col}")) %>% 
+  mutate(across(where(is.numeric) & !starts_with("xx_") & !starts_with("yy_"), 
+                list(cp = ~ paste0(round(100 * 2 * . /sum(.), 1), "%")), .names = "{.fn}{.col}"))
+```
+
+```{r 'C33-BarGroupServCall', include=FALSE}
+# #Grouped Bar Chart
+hh <- xyg
+#
+caption_hh <- "C33P28"
+title_hh <- "Churn: Customer Service Calls (Binned)"
+subt_hh <- NULL 
+x_hh <- "Cutomer Service Calls" #r_xyg
+y_hh <- "Frequency"
+legend_hh  <- "Churn" #c_xyg
+#
+C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
+    geom_bar(position = position_dodge(), stat = "identity", alpha = 1) + 
+    geom_text(position = position_dodge(width = 1), aes(label = N), vjust = 1.5, 
+              colour = c(rep("black", 2), rep("white", 2))) +
+    scale_fill_viridis_d(direction = -1) +	
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = c(.5, .95), 
+          legend.box = "horizontal", legend.direction = "horizontal") +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P28-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P28","_Churn_Bar_ServiceCalls", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P28)
+```
+
+```{r 'C33P28', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P28","_Churn_Bar_ServiceCalls", ".png"))
+```
+
+```{r 'C33-BarStackServCall', include=FALSE}
+# #Stacked Bar Chart
+hh <- xyg
+#
+caption_hh <- "C33P29"
+title_hh <- "Churn: Customer Service Calls (Binned)"
+subt_hh <- NULL 
+x_hh <- "Cutomer Service Calls"
+y_hh <- "Frequency"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
+    geom_bar(position = position_stack(), stat = "identity", alpha = 1) + 
+    geom_text(position = position_stack(vjust = 0.5), aes(label = N), 
+              colour = c(rep("black", 2), rep("white", 2))) +
+    scale_fill_viridis_d(direction = -1) +	
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1),
+          legend.position = c(.9, .9)) +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P29-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P29","_Churn_Stack_ServiceCalls", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P29)
+```
+
+```{r 'C33P29', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P29","_Churn_Stack_ServiceCalls", ".png"))
+```
+
+```{r 'C33-BarPStackServCall', include=FALSE}
+# #Percent Stacked Bar Chart
+hh <- xyg 
+#
+caption_hh <- "C33P30"
+title_hh <- "Churn: Customer Service Calls (Binned)"
+subt_hh <- NULL 
+x_hh <- "Cutomer Service Calls"
+y_hh <- "Grouped Percentage"
+legend_hh  <- "Churn"
+#
+C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
+    geom_bar(position = position_fill(), stat = 'identity') + 
+    geom_text(position = position_fill(vjust = 0.5), aes(label = Ratio), 
+              colour = c(rep("black", 2), rep("white", 2))) +
+    scale_fill_viridis_d(direction = -1) +	
+    scale_y_continuous(labels = percent) +
+    theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+    labs(x = x_hh, y = y_hh, fill = legend_hh, 
+         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+}
+assign(caption_hh, C33)
+rm(C33)
+```
+
+```{r 'C33P30-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C33P30","_Churn_pStack_ServiceCalls", ".png")
+if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P30)
+```
+
+```{r 'C33P30', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C33P30","_Churn_pStack_ServiceCalls", ".png"))
+```
+
+```{r 'C33P282930', echo=FALSE, ref.label=c('C33P28', 'C33P29', 'C33P30'), fig.cap="High Customer Service Calls have major Churn", out.width='33%'}
+#
+```
+
+```{r 'C33-SetCrossServCall', include=FALSE}
+hh <- ctab %>% select(-c(5:6, 9:11)) 
+#names_hh <- names(hh)
+names_hh <-c(paste0(c_xyg, " ", "$\\rightarrow$", "<br/>", "$\\downarrow$", " ", r_xyg), 
+                "No <br/> <br/>", "Yes <br/> <br/>", "Row <br/> SUM", 
+                "Row <br/> No %", "Row <br/> Yes %", 
+                "Col <br/> No %", "Col <br/> Yes %", "Col <br/> Row SUM %") 
+stopifnot(identical(ncol(hh), length(names_hh)))
+stopifnot(nrow(hh) < 10)
+#
+cap_hh <- paste0("(C33T04) ", r_xyg, " vs. ", c_xyg)
+```
+
+```{r 'C33T04', echo=FALSE, ref.label=c('C33-CrossKbl')}
+#
+```
+
+
+- Similarly, Evening Minutes can be given flags (Categorical)
+  - Low (<= 160), Medium (160, 240), High (>240)
+  - Recall that the baseline churn rate for all customers is 14.49%. The medium group comes in very close to this baseline rate, 14.1%. 
+  - However, the High evening minutes group has nearly double the churn proportion (19.5%) compared to the low evening minutes group (10%). 
+  - The chi-square test is significant, meaning that these results are most likely real and not due to chance alone. "ForLater"
+
+```{r 'C33-BinnedEveMins', include=FALSE}
+# #xyw: x (Predictor), y (Target), c (column =y), r (row =x)
+# #g (grouped), w (wider), l (longer)
+r_xyg <- "Evening Minutes"
+c_xyg <- "Churn"
+# #Select Relevant | Binning | Rename & Relocate Target | Select Target & Predictor |
+# #Relabel Target | Factor Levels Each | Count | Rename N | Group | Ratio | Ungroup |
+xyg <- bb %>% select(eve_mins, churn) %>% 
+    mutate(Predictor = across(eve_mins, cut, 
+        breaks = c(min(.), 160, 240, max(.)), 
+        include.lowest = TRUE, labels = c("Low", "Medium", "High"))[[1]]) %>% 
+  relocate(Target = 2) %>% select(Target, Predictor) %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No"))) %>% 
+  mutate(across(Target, factor, levels = c("No", "Yes"))) %>% 
+  #mutate(across(Predictor, factor, levels = c("Low", "High"))) %>% 
+  count(Target, Predictor) %>% 
+  rename(N = 3) %>% 
+  group_by(Predictor) %>% 
+  mutate(Ratio = paste0(round(100 * N / sum(N), 1), "%")) %>% 
+  ungroup()
+```
+
+```{r 'C33-CTab-EveMins', include=FALSE, ref.label=c('C33-CTab')}
+#
+```
+
+```{r 'C33-SetCrossEveMins', include=FALSE}
+hh <- ctab %>% select(-c(5:6, 9:11)) 
+#names_hh <- names(hh)
+names_hh <-c(paste0(c_xyg, " ", "$\\rightarrow$", "<br/>", "$\\downarrow$", " ", r_xyg), 
+                "No <br/> <br/>", "Yes <br/> <br/>", "Row <br/> SUM", 
+                "Row <br/> No %", "Row <br/> Yes %", 
+                "Col <br/> No %", "Col <br/> Yes %", "Col <br/> Row SUM %") 
+stopifnot(identical(ncol(hh), length(names_hh)))
+stopifnot(nrow(hh) < 10)
+#
+cap_hh <- paste0("(C33T05) ", r_xyg, " vs. ", c_xyg)
+```
+
+```{r 'C33T05', include=FALSE, ref.label=c('C33-CrossKbl')}
+#
+```
+
+## Correlation
+
+- The threshold for significance of the correlation coefficient $r$ depends not only on the sample size but also on data mining, where there are a large number of records (over 1000), even small values of r, such as −0.1 ≤ r ≤ 0.1 may be statistically significant. 
+  - One should take care to avoid feeding correlated variables to data mining and statistical models. 
+  - At best, using correlated variables will overemphasize one data component; at worst, using correlated variables will cause the model to become unstable and deliver unreliable results. 
+  - However, just because two variables are correlated does not mean that we should omit one of them.
+    - Identify any variables that are perfectly correlated (i.e., r = 1.0 or r = −1.0). Do not retain both variables in the model, but rather omit one. 
+    - Identify groups of variables that are correlated with each other. Then, later, during the modeling phase, apply dimension-reduction methods, such as PCA, to these variables.
+  - Example: Charge is perfectly correlated to Minutes (For each of Day, Eve, Night, International). Thus it can be eliminated. Thus number of predictors has been reduced from 20 to 16.
+  - "ForLater" - Get Pearson Correlation Coefficient
+  - Correlation coefficient 0.038 between account length and day calls has a small p-value of 0.026, telling us that account length and day calls are positively correlated. We should note this, and prepare to apply the PCA during the modeling phase.
+  
+## Insigths
+
+- The four 'charge' fields are linear functions of the 'minute' fields, and should be omitted. 
+- The 'area code' field and/or the 'state' field are anomalous, and should be omitted.
+- Customers with the International Plan tend to churn more frequently. 
+- Customers with the Voice Mail Plan tend to churn less frequently. 
+- Customers with four or more Customer Service Calls churn more than four times as often as the other customers. 
+- Customers with both high Day Minutes and high Evening Minutes tend to churn at a higher rate (6 times) than the other customers. 
+- Customers with low Day Minutes and high Customer Service Calls churn at a higher rate than the other customers. 
+- Customers with lower numbers of International Calls churn at a higher rate than customers with more international calls. 
+  
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -1224,10 +1718,11 @@ f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, 
           loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, 
           names_hh, r_xyg, xyg, C33P04, C33P05, C33P06, C33P08, C33P09, C33P10, xsyg, C33P11, 
           C33P12, C33P13, C33P14, C33P15, C33P16, C33P17, C33P18, C33P19, xsyl, alpha, C33P20, 
-          C33P21, ha_ii, isVarEqual, tt_ii, var_ii)
+          C33P21, ha_ii, isVarEqual, tt_ii, var_ii, C33P22, C33P23, C33P24, xsy, C33P25, C33P26,
+          C33P27, C33P28, C33P29, C33P30)
 ```
 
-```{r 'C33-Validation', include=TRUE, cache=FALSE}
+```{r 'C33-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
