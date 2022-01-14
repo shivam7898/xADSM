@@ -1108,8 +1108,6 @@ if(any(all(ha_ii == "two.sided", tt_ii$p.value >= alpha / 2),
 }
 ```
 
-
-
 ### All Histograms {.tabset .tabset-fade}
 
 ```{r 'C33-AllNumeric', include=FALSE}
@@ -1380,11 +1378,9 @@ knitr::include_graphics(paste0(.z$PX, "C33P24","_Churn_SPLOM_MinsCharges_8", ".p
 # #Assumes Column 1 has Target Variable (Factor)
 C33 <- hh %>% { 
   ggpairs(data = ., mapping = aes(colour = Target, fill = Target, alpha = 0.3), 
-          columns = 2:ncol(.), #7:10, 12:15
+          columns = 2:ncol(.), 
           lower = list(continuous = f_gg_scatter),
           diag = list(continuous = f_gg_density)) +
-    #theme(panel.grid.minor = element_blank(),
-    #      panel.border = element_blank()) +
     labs(caption = caption_hh, subtitle = subt_hh, title = title_hh) 
 }
 assign(caption_hh, C33)
@@ -1687,7 +1683,7 @@ cap_hh <- paste0("(C33T05) ", r_xyg, " vs. ", c_xyg)
 #
 ```
 
-## Correlation
+## Correlation  {.tabset .tabset-fade}
 
 - The threshold for significance of the correlation coefficient $r$ depends not only on the sample size but also on data mining, where there are a large number of records (over 1000), even small values of r, such as −0.1 ≤ r ≤ 0.1 may be statistically significant. 
   - One should take care to avoid feeding correlated variables to data mining and statistical models. 
@@ -1696,10 +1692,88 @@ cap_hh <- paste0("(C33T05) ", r_xyg, " vs. ", c_xyg)
     - Identify any variables that are perfectly correlated (i.e., r = 1.0 or r = −1.0). Do not retain both variables in the model, but rather omit one. 
     - Identify groups of variables that are correlated with each other. Then, later, during the modeling phase, apply dimension-reduction methods, such as PCA, to these variables.
   - Example: Charge is perfectly correlated to Minutes (For each of Day, Eve, Night, International). Thus it can be eliminated. Thus number of predictors has been reduced from 20 to 16.
-  - "ForLater" - Get Pearson Correlation Coefficient
   - Correlation coefficient 0.038 between account length and day calls has a small p-value of 0.026, telling us that account length and day calls are positively correlated. We should note this, and prepare to apply the PCA during the modeling phase.
-  
-## Insigths
+  - "ForLater" - Get Pearson Correlation Coefficient
+
+### ALL Continuos Variables {.unlisted .unnumbered}
+
+```{r 'C33-AllVarNum'}
+# #All Continuous Predictors and Target (Categorical)
+# #Select Relevant | Binning | Rename & Relocate | Relabel & Factor Target|
+xsy <- bb %>% select( (where(is.numeric) & ! "area_code") | "churn") %>% 
+  relocate(ends_with("_mins")) %>% 
+  relocate(ends_with("_calls")) %>% 
+  relocate(vmail_message, .after =  last_col()) %>% 
+  relocate(Target = "churn") %>% 
+  mutate(across(Target, ~ifelse(., "Yes", "No"))) %>% 
+  mutate(across(Target, factor, levels = unique(Target)))
+# #
+xsyl <- xsy %>% pivot_longer(where(is.numeric), names_to = "Predictors", values_to = "Values") %>% 
+  mutate(across(Predictors, ~ factor(., levels = unique(Predictors))))
+# #
+# #Select All Minutes and All Charges (8)
+hh <- xsy %>% select(1, 7:10, 12:15) 
+#
+title_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
+caption_hh <- "C33P31"
+subt_hh <- NULL #"Count of Predictor & Target" 
+legend_hh  <- "Churn"
+```
+
+### GGally {.unlisted .unnumbered}
+
+```{r 'C33-GGallyBiVariate-A', eval=FALSE, ref.label=c('C33-GGallyBiVariate')}
+# 
+```
+
+### Psych {.unlisted .unnumbered}
+
+```{r 'C33-PsychPair-A', eval=FALSE, ref.label=c('C33-PsychPair')}
+# 
+```
+
+### chart.Correlation {.unlisted .unnumbered}
+
+```{r 'C33-PerfAnalytics', eval=FALSE}
+# #For Reference Only. Only add Histogram at the Diagonal to the Base pairs()
+PerformanceAnalytics::chart.Correlation(hh[2:ncol(hh)], histogram = TRUE)
+```
+
+### corrplot() vs. corPlot() {.unlisted .unnumbered}
+
+```{r 'C33-CorrPlots', include=FALSE}
+title_hh <- "corrplot::corrplot (with Clusters) vs. psych::corPlot"
+loc_png <- paste0(.z$PX, "C33P31","_Churn_corrplot_corPlot", ".png")
+#
+if(!file.exists(loc_png)) {
+  # #Two Graphs Side by Side
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 300) 
+  # #Correlation along with Clusters
+  par(mfrow = c(1, 2))
+  corrplot::corrplot(cor(hh[2:ncol(hh)]), method = "circle", type = "full", diag = FALSE, 
+                     cl.pos = 'n', tl.pos = 'l', addCoef.col = "black", 
+                     order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3,
+                     rect.lwd = 3, title = NULL, col = RColorBrewer::brewer.pal(3, "BrBG"))
+  title(main = title_hh, line = 2, adj = 0)
+  #
+  #corPlot(hh[2:ncol(hh)], upper = TRUE, diag = TRUE, gr = viridis)
+  #corPlot(hh[2:ncol(hh)], upper = TRUE, diag = TRUE, gr = cividis)
+  psych::corPlot(hh[2:ncol(hh)], upper = TRUE, diag = FALSE, show.legend = FALSE, keep.par = FALSE, 
+    gr = colorRampPalette(RColorBrewer::brewer.pal(3, "BrBG")), main = "")
+  title(sub = caption_hh, line = 4, adj = 1)
+  C33 <- recordPlot()
+  dev.off()
+  par(mfrow = c(1, 1))
+  assign(caption_hh, C33)
+  rm(C33)
+}
+```
+
+```{r 'C33P31', echo=FALSE, fig.cap="corrplot::corrplot vs. psych::corPlot()", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C33P31","_Churn_corrplot_corPlot", ".png"))
+```
+
+## Insights
 
 - The four 'charge' fields are linear functions of the 'minute' fields, and should be omitted. 
 - The 'area code' field and/or the 'state' field are anomalous, and should be omitted.
@@ -1722,7 +1796,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, 
           C33P27, C33P28, C33P29, C33P30)
 ```
 
-```{r 'C33-Validation', include=FALSE, cache=FALSE}
+```{r 'C33-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
