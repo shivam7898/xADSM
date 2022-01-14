@@ -569,13 +569,13 @@ C01P01 <- hh %>% { ggplot(data = ., aes(x = Year, y = Values, colour = Company, 
 
 ```{r 'C01P01-Save', include=TRUE}
 # #Save an Image
-loc_png <- paste0(.z$PX, "C01P01", "_Cars_TimeSeries", ".png")
-ggsave(loc_png, plot = C01P01)
+loc_png <- paste0(.z$PX, "C01P01", "-Cars-TimeSeries", ".png")
+ggsave(loc_png, plot = C01P01, device = "png", dpi = 144) 
 ```
 
 ```{r 'C01P01', echo=TRUE, fig.cap="Multiple Time Series Graph"}
 # #Load an Image
-knitr::include_graphics(paste0(.z$PX, "C01P01_Cars_TimeSeries", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C01P01", "-Cars-TimeSeries", ".png"))
 ```
 
 #### Rowwise {.unlisted .unnumbered}
@@ -634,13 +634,13 @@ C01P02 <- pareto.chart(pareto_chr,
 
 ```{r 'C01P02-Save', include=FALSE}
 # #Save without using ggsave()
-png(filename = paste0(.z$PX, "C01P02_Cars_Pareto", ".png"))
+png(filename = paste0(.z$PX, "C01P02-Cars-Pareto", ".png"))
 plot(C01P02)
 dev.off()
 ```
 
 ```{r 'C01P02', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
-knitr::include_graphics(paste0(.z$PX, "C01P02_Cars_Pareto", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C01P02-Cars-Pareto", ".png")) #iiii
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

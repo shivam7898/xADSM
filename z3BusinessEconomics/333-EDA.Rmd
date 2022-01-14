@@ -16,7 +16,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 \textcolor{pink}{Please import the "B18-Churn.xlsx".}
 
-```{r 'C32-ImportData', include=FALSE}
+```{r 'C33-ImportData', include=FALSE}
 xxB16Cars <- f_getRDS(xxB16Cars)
 xxB18Churn <- f_getRDS(xxB18Churn)
 #
@@ -186,12 +186,12 @@ hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>%
   group_by(Group) %>% 
   mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
-caption_hh <- "C33P01"
-title_hh <- "Churn: Grouped Bar: International Plan vs. Churn"
-subt_hh <- NULL 
+cap_hh <- "C33P01"
+ttl_hh <- "Churn: Grouped Bar: International Plan vs. Churn"
+sub_hh <- NULL 
 x_hh <- "International Plan" #r_xyg
 y_hh <- "Frequency"
-legend_hh  <- "Churn" #c_xyg
+lgd_hh  <- "Churn" #c_xyg
 #
 C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
     geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
@@ -202,20 +202,22 @@ C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = c(.5, .95), 
           legend.box = "horizontal", legend.direction = "horizontal") +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P01","_Churn_Bar_Intl", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P01)
+loc_png <- paste0(.z$PX, "C33P01","-Churn-Bar-Intl", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P01","_Churn_Bar_Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P01","-Churn-Bar-Intl", ".png"))
 ```
 
 ```{r 'C33-BarStackIplan', include=FALSE}
@@ -224,12 +226,12 @@ hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>%
   group_by(Group) %>% 
   mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
-caption_hh <- "C33P02"
-title_hh <- "Churn: Stacked Bar: International Plan vs. Churn"
-subt_hh <- NULL 
+cap_hh <- "C33P02"
+ttl_hh <- "Churn: Stacked Bar: International Plan vs. Churn"
+sub_hh <- NULL 
 x_hh <- "International Plan"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
     geom_bar(position = "stack", stat = "identity", alpha = 1) + 
@@ -239,20 +241,22 @@ C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
     theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = c(.9, .9)) +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P02","_Churn_Stack_Intl", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P02)
+loc_png <- paste0(.z$PX, "C33P02","-Churn-Stack-Intl", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P02","_Churn_Stack_Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P02","-Churn-Stack-Intl", ".png"))
 ```
 
 
@@ -262,12 +266,12 @@ hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>%
   group_by(Group) %>% 
   mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
-caption_hh <- "C33P03"
-title_hh <- "Churn: Percent Stacked Bar: International Plan vs. Churn"
-subt_hh <- NULL 
+cap_hh <- "C33P03"
+ttl_hh <- "Churn: Percent Stacked Bar: International Plan vs. Churn"
+sub_hh <- NULL 
 x_hh <- "International Plan"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
     geom_bar(position = "fill", stat = 'identity') + 
@@ -277,20 +281,22 @@ C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
     scale_y_continuous(labels = percent) +
     theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P03)
+loc_png <- paste0(.z$PX, "C33P03","-Churn-pStack-Intl", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P03","_Churn_pStack_Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P03","-Churn-pStack-Intl", ".png"))
 ```
 
 ##### Image {.unlisted .unnumbered}
@@ -419,12 +425,12 @@ xsyg <- bb %>% select(int_l_plan, vmail_plan, churn) %>%
 # #Multilayer Clustered Bar Chart
 hh <- xsyg
 #
-caption_hh <- "C33P04"
-title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
-subt_hh <- NULL 
+cap_hh <- "C33P04"
+ttl_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+sub_hh <- NULL 
 x_hh <- "Churn" #r_xyg
 y_hh <- "Frequency"
-legend_hh  <- "Churn" #c_xyg
+lgd_hh  <- "Churn" #c_xyg
 #
 C33 <- hh %>% { ggplot(., aes(x = Churn, y = N, fill = Churn)) + 
     geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
@@ -435,20 +441,22 @@ C33 <- hh %>% { ggplot(., aes(x = Churn, y = N, fill = Churn)) +
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = 'top', 
           legend.box = "horizontal", legend.direction = "horizontal") +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P04","_Churn_MultiClusterBar", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P04)
+loc_png <- paste0(.z$PX, "C33P04","-Churn-MultiClusterBar", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P04, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P04","_Churn_MultiClusterBar", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P04","-Churn-MultiClusterBar", ".png"))
 ```
 
 
@@ -456,12 +464,12 @@ knitr::include_graphics(paste0(.z$PX, "C33P04","_Churn_MultiClusterBar", ".png")
 # #Multilayer Clustered Bar Chart
 hh <- xsyg
 #
-caption_hh <- "C33P05"
-title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
-subt_hh <- NULL 
+cap_hh <- "C33P05"
+ttl_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+sub_hh <- NULL 
 x_hh <- NULL #"Churn" #r_xyg
 y_hh <- "Frequency"
-legend_hh  <- "Churn" #c_xyg
+lgd_hh  <- "Churn" #c_xyg
 #
 C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) + 
     geom_bar(position = "dodge", stat = "identity", alpha = 1) + 
@@ -472,20 +480,22 @@ C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) +
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = 'top', 
           legend.box = "horizontal", legend.direction = "horizontal") +
-    labs(x = NULL, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = NULL, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P05","_Churn_MultiClusterBarSingleFacet", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P05)
+loc_png <- paste0(.z$PX, "C33P05","-Churn-MultiClusterBarSingleFacet", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P05","_Churn_MultiClusterBarSingleFacet", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P05","-Churn-MultiClusterBarSingleFacet", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -500,12 +510,12 @@ knitr::include_graphics(paste0(.z$PX, "C33P05","_Churn_MultiClusterBarSingleFace
 hh <- xsyg %>% group_by(Vmail, Intl) %>% 
     mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
-caption_hh <- "C33P06"
-title_hh <- "Churn: Churn vs. International & Voice Mail Plans"
-subt_hh <- NULL 
+cap_hh <- "C33P06"
+ttl_hh <- "Churn: Churn vs. International & Voice Mail Plans"
+sub_hh <- NULL 
 x_hh <- "Voice Mail"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) + 
         geom_bar(position = "fill", stat = 'identity') + 
@@ -516,20 +526,22 @@ C33 <- hh %>% { ggplot(., aes(x = Vmail, y = N, fill = Churn)) +
         scale_y_continuous(labels = percent) +
         theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
               panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
-        labs(x = x_hh, y = y_hh, fill = legend_hh, 
-            subtitle = subt_hh, caption = caption_hh, title = title_hh)
+        labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+            subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P06)
+loc_png <- paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P06, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P06', echo=FALSE, fig.cap="Churn vs. International & Voice Mail Plans (Proportional Stack)"}
-knitr::include_graphics(paste0(.z$PX, "C33P06","_Churn_pStack_Multi", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png"))
 ```
 
 
@@ -592,12 +604,12 @@ ii <- bb %>% select(custserv_calls, churn) %>%
 ```{r 'C33-HistServCall', include=FALSE}
 # #Histogram Default (Not useful for association of predictor and target)
 hh <- ii
-title_hh <- "Churn: Customer Service Calls"
-caption_hh <- "C33P08"
-subt_hh <- "Predictor Only" 
+ttl_hh <- "Churn: Customer Service Calls"
+cap_hh <- "C33P08"
+sub_hh <- "Predictor Only" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = '#FDE725FF')) + 
     geom_histogram(bins = length(unique(.[[1]])), alpha = 1) + 
@@ -609,31 +621,33 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = '#FDE7
           axis.title.x = element_blank(), 
           #legend.position = c(0.5, -0.08), legend.direction = 'horizontal', 
           legend.position = 'none') +
-    labs(x = x_hh, y = y_hh, #fill = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, #fill = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P08","_Churn_Hist_ServCall", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P08)
+loc_png <- paste0(.z$PX, "C33P08","-Churn-Hist-ServCall", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P08, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P08","_Churn_Hist_ServCall", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P08","-Churn-Hist-ServCall", ".png"))
 ```
 
 ```{r 'C33-HistServCallChurn', include=FALSE}
 # #Histogram (Predictor and Target Count)
 hh <- ii
-title_hh <- "Churn: Customer Service Calls & Churn"
-caption_hh <- "C33P09"
-subt_hh <- "Count of Predictor & Target" 
+ttl_hh <- "Churn: Customer Service Calls & Churn"
+cap_hh <- "C33P09"
+sub_hh <- "Count of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)) + 
     geom_histogram(bins = length(unique(.[[1]])), alpha = 1) + 
@@ -644,32 +658,34 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)
     theme(plot.title.position = "panel", 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P09-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P09","_Churn_Hist_ServCall_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P09)
+loc_png <- paste0(.z$PX, "C33P09","-Churn-Hist-ServCall-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P09, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P09","_Churn_Hist_ServCall_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P09","-Churn-Hist-ServCall-Churn", ".png")) 
 ```
 
 
 ```{r 'C33-pHistServCallChurn', include=FALSE}
 # #Histogram (Predictor and Target Proportion)
 hh <- ii
-title_hh <- "Churn: Customer Service Calls & Churn"
-caption_hh <- "C33P10"
-subt_hh <- "Proportion of Predictor & Target (Using Histogram)" 
+ttl_hh <- "Churn: Customer Service Calls & Churn"
+cap_hh <- "C33P10"
+sub_hh <- "Proportion of Predictor & Target (Using Histogram)" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 # #NOTES: Group wise Proportion i.e. Yes 1, No 1 (Not Each Bin wise)
 # #Adding Density automatically converts the y-axis to 'frequency density' not to 'percentage'
@@ -698,20 +714,22 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)
     theme(plot.title.position = "panel", 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P10-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P10","_Churn_pHist_ServCall_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P10)
+loc_png <- paste0(.z$PX, "C33P10","-Churn-pHist-ServCall-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P10, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P10","_Churn_pHist_ServCall_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P10","-Churn-pHist-ServCall-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -730,12 +748,12 @@ hh <- xyg %>% rename(Group = 1, SubGroup = 2, N = 3) %>%
   group_by(Group) %>% 
   mutate(Ratio = paste0(round(100 * N/sum(N), 1), "%")) %>% ungroup()
 #
-title_hh <- "Churn: Customer Service Calls & Churn"
-caption_hh <- "C33P11"
-subt_hh <- "Proportion of Predictor & Target (Using Bar)" 
+ttl_hh <- "Churn: Customer Service Calls & Churn"
+cap_hh <- "C33P11"
+sub_hh <- "Proportion of Predictor & Target (Using Bar)" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) + 
     geom_bar(position = "fill", stat = 'identity') + 
@@ -749,20 +767,22 @@ C33 <- hh %>% { ggplot(., aes(x = Group, y = N, fill = SubGroup)) +
           panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P11-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P11)
+loc_png <- paste0(.z$PX, "C33P11","-Churn-pBar-ServCall-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P11, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P11', echo=FALSE, fig.cap="Churn vs. Service Call Proportions (Bar)"}
-knitr::include_graphics(paste0(.z$PX, "C33P11","_Churn_pBar_ServCall_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P11","-Churn-pBar-ServCall-Churn", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -795,12 +815,12 @@ ii <- bb %>% select(day_mins, churn) %>%
 ```{r 'C33-HistDayMinsChurn', include=FALSE}
 # #Histogram (Predictor and Target Count)
 hh <- ii
-title_hh <- "Churn: Day Minutes & Churn"
-caption_hh <- "C33P12"
-subt_hh <- "Count of Predictor & Target" 
+ttl_hh <- "Churn: Day Minutes & Churn"
+cap_hh <- "C33P12"
+sub_hh <- "Count of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-HistDayMinsChurn-A', include=FALSE, ref.label=c('C33-HistDayMinsChurn', 'C33-Hist')}
@@ -808,23 +828,25 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P12-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P12","_Churn_Hist_DayMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P12)
+loc_png <- paste0(.z$PX, "C33P12","-Churn-Hist-DayMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P12, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P12","_Churn_Hist_DayMins_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P12","-Churn-Hist-DayMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistDayMinsChurn', include=FALSE, eval=FALSE}
 # #Histogram (Predictor and Target Proportion)
 hh <- ii
-title_hh <- "Churn: Day Minutes & Churn"
-caption_hh <- "C33P13"
-subt_hh <- "Proportion of Predictor & Target" 
+ttl_hh <- "Churn: Day Minutes & Churn"
+cap_hh <- "C33P13"
+sub_hh <- "Proportion of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-pHistDayMinsChurn-A', include=FALSE, ref.label=c('C33-pHistDayMinsChurn', 'C33-pHist')}
@@ -832,12 +854,14 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P13-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P13","_Churn_pHist_DayMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P13)
+loc_png <- paste0(.z$PX, "C33P13","-Churn-pHist-DayMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P13, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P13","_Churn_pHist_DayMins_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P13","-Churn-pHist-DayMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="Higher Day Minutes (>200) have higher Churn"}
@@ -854,10 +878,10 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) +
     theme(plot.title.position = "panel", 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
@@ -874,10 +898,10 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) +
     theme(plot.title.position = "panel", 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
@@ -897,12 +921,12 @@ ii <- bb %>% select(eve_mins, churn) %>%
 ```{r 'C33-HistEveMinsChurn', include=FALSE}
 # #Histogram (Predictor and Target Count)
 hh <- ii
-title_hh <- "Churn: Evening Minutes & Churn"
-caption_hh <- "C33P14"
-subt_hh <- "Count of Predictor & Target" 
+ttl_hh <- "Churn: Evening Minutes & Churn"
+cap_hh <- "C33P14"
+sub_hh <- "Count of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-HistEveMinsChurn-A', include=FALSE, ref.label=c('C33-HistEveMinsChurn', 'C33-Hist')}
@@ -910,23 +934,25 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P14-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P14","_Churn_Hist_EveMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P14)
+loc_png <- paste0(.z$PX, "C33P14","-Churn-Hist-EveMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P14, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P14', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P14","_Churn_Hist_EveMins_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P14","-Churn-Hist-EveMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistEveMinsChurn', include=FALSE, eval=FALSE}
 # #Histogram (Predictor and Target Proportion)
 hh <- ii
-title_hh <- "Churn: Evening Minutes & Churn"
-caption_hh <- "C33P15"
-subt_hh <- "Proportion of Predictor & Target" 
+ttl_hh <- "Churn: Evening Minutes & Churn"
+cap_hh <- "C33P15"
+sub_hh <- "Proportion of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-pHistEveMinsChurn-A', include=FALSE, ref.label=c('C33-pHistEveMinsChurn', 'C33-pHist')}
@@ -934,12 +960,14 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P15-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P15","_Churn_pHist_EveMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P15)
+loc_png <- paste0(.z$PX, "C33P15","-Churn-pHist-EveMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P15, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P15', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P15","_Churn_pHist_EveMins_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P15","-Churn-pHist-EveMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
@@ -963,12 +991,12 @@ ii <- bb %>% select(night_mins, churn) %>%
 ```{r 'C33-HistNightMinsChurn', include=FALSE}
 # #Histogram (Predictor and Target Count)
 hh <- ii
-title_hh <- "Churn: Night Minutes & Churn"
-caption_hh <- "C33P16"
-subt_hh <- "Count of Predictor & Target" 
+ttl_hh <- "Churn: Night Minutes & Churn"
+cap_hh <- "C33P16"
+sub_hh <- "Count of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-HistNightMinsChurn-A', include=FALSE, ref.label=c('C33-HistNightMinsChurn', 'C33-Hist')}
@@ -976,23 +1004,25 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P16-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P16","_Churn_Hist_NightMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P16)
+loc_png <- paste0(.z$PX, "C33P16","-Churn-Hist-NightMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P16, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P16', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P16","_Churn_Hist_NightMins_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P16","-Churn-Hist-NightMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistNightMinsChurn', include=FALSE, eval=FALSE}
 # #Histogram (Predictor and Target Proportion)
 hh <- ii
-title_hh <- "Churn: Night Minutes & Churn"
-caption_hh <- "C33P17"
-subt_hh <- "Proportion of Predictor & Target" 
+ttl_hh <- "Churn: Night Minutes & Churn"
+cap_hh <- "C33P17"
+sub_hh <- "Proportion of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-pHistNightMinsChurn-A', include=FALSE, ref.label=c('C33-pHistNightMinsChurn', 'C33-pHist')}
@@ -1000,12 +1030,14 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P17-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P17","_Churn_pHist_NightMins_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P17)
+loc_png <- paste0(.z$PX, "C33P17","-Churn-pHist-NightMins-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P17, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P17', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P17","_Churn_pHist_NightMins_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P17","-Churn-pHist-NightMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="No obvious association between Churn and Night Minutes"}
@@ -1029,12 +1061,12 @@ ii <- bb %>% select(intl_calls, churn) %>%
 ```{r 'C33-HistIcallsChurn', include=FALSE}
 # #Histogram (Predictor and Target Count)
 hh <- ii
-title_hh <- "Churn: International Calls & Churn"
-caption_hh <- "C33P20"
-subt_hh <- "Count of Predictor & Target" 
+ttl_hh <- "Churn: International Calls & Churn"
+cap_hh <- "C33P20"
+sub_hh <- "Count of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-HistIcallsChurn-A', include=FALSE, ref.label=c('C33-HistIcallsChurn', 'C33-Hist')}
@@ -1042,23 +1074,25 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P20-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P20","_Churn_Hist_Icalls_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P20)
+loc_png <- paste0(.z$PX, "C33P20","-Churn-Hist-Icalls-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P20, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P20', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P20","_Churn_Hist_Icalls_Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P20","-Churn-Hist-Icalls-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistIcallsChurn', include=FALSE, eval=FALSE}
 # #Histogram (Predictor and Target Proportion)
 hh <- ii
-title_hh <- "Churn: International Calls & Churn"
-caption_hh <- "C33P21"
-subt_hh <- "Proportion of Predictor & Target" 
+ttl_hh <- "Churn: International Calls & Churn"
+cap_hh <- "C33P21"
+sub_hh <- "Proportion of Predictor & Target" 
 x_hh <- "x"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33-pHistIcallsChurn-A', include=FALSE, ref.label=c('C33-pHistIcallsChurn', 'C33-pHist')}
@@ -1066,12 +1100,14 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P21-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P21","_Churn_pHist_Icalls_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P21)
+loc_png <- paste0(.z$PX, "C33P21","-Churn-pHist-Icalls-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P21, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P21', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P21","_Churn_pHist_Icalls_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P21","-Churn-pHist-Icalls-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -1131,12 +1167,12 @@ xsyl <- xsy %>% pivot_longer(where(is.numeric), names_to = "Predictors", values_
 ```{r 'C33-AllHistograms', include=FALSE}
 # #Histogram
 hh <- xsyl
-title_hh <- "Churn: Histograms of All Predictors with Target (Count)"
-caption_hh <- "C33P18"
-subt_hh <- NULL #"Count of Predictor & Target" 
+ttl_hh <- "Churn: Histograms of All Predictors with Target (Count)"
+cap_hh <- "C33P18"
+sub_hh <- NULL #"Count of Predictor & Target" 
 x_hh <- NULL # "x"
 y_hh <- NULL # "Frequency" #"Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) + 
     geom_histogram(alpha = 1, boundary = 0, #position = position_stack(reverse = TRUE),
@@ -1150,27 +1186,29 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) +
           strip.text.x = element_text(size = 10, colour = "white"), 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P18-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P18","_Churn_Hist_All_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P18, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "C33P18","-Churn-Hist-All-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P18, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'C33-AllpHistograms', include=FALSE}
 # #Histogram
 hh <- xsyl
-title_hh <- "Churn: Histograms of All Predictors with Target (Proportion)"
-caption_hh <- "C33P19"
-subt_hh <- NULL #"Count of Predictor & Target" 
+ttl_hh <- "Churn: Histograms of All Predictors with Target (Proportion)"
+cap_hh <- "C33P19"
+sub_hh <- NULL #"Count of Predictor & Target" 
 x_hh <- NULL # "x"
 y_hh <- NULL # "Frequency" #"Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 # #Caution: Warning on Removal of Missing Values has been removed
 # #NOTE: position_fill() normalizes the Bars and is same as 'fill'
@@ -1187,26 +1225,28 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) +
           strip.text.x = element_text(size = 10, colour = "white"), 
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P19-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P19, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "C33P19","-Churn-pHist-All-Churn", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P19, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 #### Images {.unlisted .unnumbered}
 
 ```{r 'C33P18', echo=FALSE, fig.cap="Histograms of All Predictors with Target (Count)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P18","_Churn_Hist_All_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P18","-Churn-Hist-All-Churn", ".png"))
 ```
 
 ```{r 'C33P19', echo=FALSE, fig.cap="Histograms of All Predictors with Target (Proportion)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P19","_Churn_Hist_All_Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P19","-Churn-pHist-All-Churn", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1232,12 +1272,12 @@ ii <- bb %>% select(day_mins, eve_mins, churn)  %>%
 
 ```{r 'C33-ScatterMinEveDay', include=FALSE}
 hh <- ii
-title_hh <- "Churn: Scatterplot of Evening Minutes and Day Minutes"
-caption_hh <- "C33P22"
-subt_hh <- NULL #subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)")
+ttl_hh <- "Churn: Scatterplot of Evening Minutes and Day Minutes"
+cap_hh <- "C33P22"
+sub_hh <- NULL #subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)")
 x_hh <- "Evening Minutes" # "x"
 y_hh <- "Day Minutes" # "Frequency" #"Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., aes(x = eve_mins, y = day_mins)) + 
     #geom_smooth(method = 'lm', formula = k_gg_formula, se = FALSE) +
@@ -1246,20 +1286,22 @@ C33 <- hh %>% { ggplot(data = ., aes(x = eve_mins, y = day_mins)) +
 		scale_colour_viridis_d(alpha = 0.9, direction = -1) +
     theme(panel.grid.minor = element_blank(),
           panel.border = element_blank()) +
-    labs(x = x_hh, y = y_hh, colour = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, colour = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P22-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P22","_Churn_Scatter_MinEveDay", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P22)
+loc_png <- paste0(.z$PX, "C33P22","-Churn-Scatter-MinEveDay", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P22, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P22', echo=FALSE, fig.cap="Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
-knitr::include_graphics(paste0(.z$PX, "C33P22","_Churn_Scatter_MinEveDay", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P22","-Churn-Scatter-MinEveDay", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1285,12 +1327,12 @@ ii <- bb %>% select(day_mins, custserv_calls, churn)  %>%
 
 ```{r 'C33-ScatterServCallDayMins', include=FALSE}
 hh <- ii
-title_hh <- "Churn: Day Minutes and Customer Service Calls"
-caption_hh <- "C33P27"
-subt_hh <- NULL
+ttl_hh <- "Churn: Day Minutes and Customer Service Calls"
+cap_hh <- "C33P27"
+sub_hh <- NULL
 x_hh <- "Day Minutes"
 y_hh <- "Customer Service Calls"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(data = ., aes(x = day_mins, y = custserv_calls)) + 
     geom_jitter(aes(colour = Target), width = 0.1, height = 0.1) +
@@ -1298,20 +1340,22 @@ C33 <- hh %>% { ggplot(data = ., aes(x = day_mins, y = custserv_calls)) +
     scale_y_continuous(breaks = breaks_pretty()) + 
     theme(panel.grid.minor = element_blank(),
           panel.border = element_blank()) +
-    labs(x = x_hh, y = y_hh, colour = legend_hh,
-         caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, colour = lgd_hh,
+         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P27-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P27","_Churn_Scatter_ServCallDayMins", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P27)
+loc_png <- paste0(.z$PX, "C33P27", "-Churn-Scatter-ServCallDayMins", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P27, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P27', echo=FALSE, fig.cap="Scatterplot of Day Minutes (X) and Customer Service Calls (Y) shows an interaction effect for Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P27","_Churn_Scatter_ServCallDayMins", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C33P27", "-Churn-Scatter-ServCallDayMins", ".png")) #iiii
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1329,10 +1373,10 @@ knitr::include_graphics(paste0(.z$PX, "C33P27","_Churn_Scatter_ServCallDayMins",
 
 ```{r 'C33-GGally-A7', include=FALSE}
 hh <- xsy %>% select(1:6, 11, 16) 
-title_hh <- "GGally: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
-caption_hh <- "C33P23"
-subt_hh <- NULL #"Count of Predictor & Target" 
-legend_hh  <- "Churn"
+ttl_hh <- "GGally: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
+cap_hh <- "C33P23"
+sub_hh <- NULL #"Count of Predictor & Target" 
+lgd_hh  <- "Churn"
 #
 ```
 
@@ -1341,35 +1385,40 @@ legend_hh  <- "Churn"
 ```
 
 ```{r 'C33P23-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P23","_Churn_SPLOM_Calls_7", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P23, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "C33P23", "-Churn-SPLOM-Calls-7", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P23, device = "png", dpi = 72, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'C33P23', echo=FALSE, fig.cap="Bivariate Analysis of Calls showing Churn", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P23","_Churn_SPLOM_Calls_7", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P23", "-Churn-SPLOM-Calls-7", ".png"))
 ```
 
 
 ```{r 'C33-GGally-B9', include=FALSE}
 hh <- xsy %>% select(1, 7:10, 12:15) 
-title_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
-caption_hh <- "C33P24"
-subt_hh <- NULL #"Count of Predictor & Target" 
-legend_hh  <- "Churn"
+ttl_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
+cap_hh <- "C33P24"
+sub_hh <- NULL #"Count of Predictor & Target" 
+lgd_hh  <- "Churn"
 #
 ```
 
-```{r 'C33-GGally-B9-A', ref.label=c('C33-GGally-B9', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE}
+```{r 'C33-GGally-B9-A', ref.label=c('C33-GGally-B9', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE, cache=FALSE}
 #
 ```
+
 
 ```{r 'C33P24-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P24","_Churn_SPLOM_MinsCharges_8", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P24, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "C33P24", "-Churn-SPLOM-MinsCharges-8", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P24, device = "png", dpi = 72, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'C33P24', echo=FALSE, fig.cap="Bivariate Analysis of Minutes & Charges showing Churn", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P24","_Churn_SPLOM_MinsCharges_8", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P24", "-Churn-SPLOM-MinsCharges-8", ".png"))
 ```
 
 #### GGally Bivariate {.unlisted .unnumbered}
@@ -1381,9 +1430,9 @@ C33 <- hh %>% {
           columns = 2:ncol(.), 
           lower = list(continuous = f_gg_scatter),
           diag = list(continuous = f_gg_density)) +
-    labs(caption = caption_hh, subtitle = subt_hh, title = title_hh) 
+    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh) 
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
@@ -1412,9 +1461,9 @@ f_gg_density  <- function(data, mapping, ...) {
 
 ```{r 'C33-Psych-A7', include=FALSE}
 hh <- xsy %>% select(1:6, 11, 16) 
-caption_hh <- "C33P25"
-title_hh <- "Psych: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
-loc_png <- paste0(.z$PX, "C33P25","_Churn_SPLOM_Psych_A7", ".png")
+cap_hh <- "C33P25"
+ttl_hh <- "Psych: Churn: SPLOM: Calls, Account Length & Voice Mail (7)"
+loc_png <- paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png")
 ```
 
 ```{r 'C33-Psych-A7-A', include=FALSE, ref.label=c('C33-PsychPair')}
@@ -1422,14 +1471,14 @@ loc_png <- paste0(.z$PX, "C33P25","_Churn_SPLOM_Psych_A7", ".png")
 ```
 
 ```{r 'C33P25', echo=FALSE, fig.cap="Bivariate Analysis of Calls showing Churn", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P25","_Churn_SPLOM_Psych_A7", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png"))
 ```
 
 ```{r 'C33-Psych-B8', include=FALSE}
 hh <- xsy %>% select(1, 7:10, 12:15) 
-caption_hh <- "C33P26"
-title_hh <- "Psych: Churn: SPLOM: SPLOM: Minutes and Charges (8)"
-loc_png <- paste0(.z$PX, "C33P26","_Churn_SPLOM_Psych_B8", ".png")
+cap_hh <- "C33P26"
+ttl_hh <- "Psych: Churn: SPLOM: SPLOM: Minutes and Charges (8)"
+loc_png <- paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png")
 ```
 
 ```{r 'C33-Psych-B8-A', include=FALSE, ref.label=c('C33-PsychPair')}
@@ -1437,23 +1486,23 @@ loc_png <- paste0(.z$PX, "C33P26","_Churn_SPLOM_Psych_B8", ".png")
 ```
 
 ```{r 'C33P26', echo=FALSE, fig.cap="Bivariate Analysis of Minutes & Charges showing Churn", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P26","_Churn_SPLOM_Psych_B8", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png"))
 ```
 
 #### pairs.panels() {.unlisted .unnumbered}
 
 ```{r 'C33-PsychPair', eval=FALSE}
-# #IN: hh, caption_hh, title_hh, loc_png
+# #IN: hh, cap_hh, ttl_hh, loc_png
 if(!file.exists(loc_png)) {
-  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 300) 
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
   pairs.panels(hh[2:ncol(hh)], smooth = FALSE, jiggle = TRUE, rug = FALSE, ellipses = FALSE, 
                bg = rev(viridis(2))[hh$Target], pch = 21, lwd = 1, cex.cor = 1, cex = 1, 
-               gap = 0, main = title_hh)
-  #title(main = title_hh, line = 2, adj = 0)
-  title(sub = caption_hh, line = 4, adj = 1)
+               gap = 0, main = ttl_hh)
+  #title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
   C33 <- recordPlot()
   dev.off()
-  assign(caption_hh, C33)
+  assign(cap_hh, C33)
   rm(C33)
 }
 ```
@@ -1510,12 +1559,12 @@ ctab <- xyg %>% select(1:3) %>%
 # #Grouped Bar Chart
 hh <- xyg
 #
-caption_hh <- "C33P28"
-title_hh <- "Churn: Customer Service Calls (Binned)"
-subt_hh <- NULL 
+cap_hh <- "C33P28"
+ttl_hh <- "Churn: Customer Service Calls (Binned)"
+sub_hh <- NULL 
 x_hh <- "Cutomer Service Calls" #r_xyg
 y_hh <- "Frequency"
-legend_hh  <- "Churn" #c_xyg
+lgd_hh  <- "Churn" #c_xyg
 #
 C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
     geom_bar(position = position_dodge(), stat = "identity", alpha = 1) + 
@@ -1526,32 +1575,34 @@ C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) +
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = c(.5, .95), 
           legend.box = "horizontal", legend.direction = "horizontal") +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P28-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P28","_Churn_Bar_ServiceCalls", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P28)
+loc_png <- paste0(.z$PX, "C33P28", "-Churn-Bar-ServiceCalls", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P28, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P28', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P28","_Churn_Bar_ServiceCalls", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P28", "-Churn-Bar-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33-BarStackServCall', include=FALSE}
 # #Stacked Bar Chart
 hh <- xyg
 #
-caption_hh <- "C33P29"
-title_hh <- "Churn: Customer Service Calls (Binned)"
-subt_hh <- NULL 
+cap_hh <- "C33P29"
+ttl_hh <- "Churn: Customer Service Calls (Binned)"
+sub_hh <- NULL 
 x_hh <- "Cutomer Service Calls"
 y_hh <- "Frequency"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
     geom_bar(position = position_stack(), stat = "identity", alpha = 1) + 
@@ -1561,32 +1612,34 @@ C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) +
     theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1),
           legend.position = c(.9, .9)) +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P29-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P29","_Churn_Stack_ServiceCalls", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P29)
+loc_png <- paste0(.z$PX, "C33P29", "-Churn-Stack-ServiceCalls", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P29, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P29', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P29","_Churn_Stack_ServiceCalls", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P29", "-Churn-Stack-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33-BarPStackServCall', include=FALSE}
 # #Percent Stacked Bar Chart
 hh <- xyg 
 #
-caption_hh <- "C33P30"
-title_hh <- "Churn: Customer Service Calls (Binned)"
-subt_hh <- NULL 
+cap_hh <- "C33P30"
+ttl_hh <- "Churn: Customer Service Calls (Binned)"
+sub_hh <- NULL 
 x_hh <- "Cutomer Service Calls"
 y_hh <- "Grouped Percentage"
-legend_hh  <- "Churn"
+lgd_hh  <- "Churn"
 #
 C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) + 
     geom_bar(position = position_fill(), stat = 'identity') + 
@@ -1596,20 +1649,22 @@ C33 <- hh %>% { ggplot(., aes(x = Predictor, y = N, fill = Target)) +
     scale_y_continuous(labels = percent) +
     theme(panel.grid.major.x = element_blank(), axis.line = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
-    labs(x = x_hh, y = y_hh, fill = legend_hh, 
-         subtitle = subt_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, fill = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C33)
+assign(cap_hh, C33)
 rm(C33)
 ```
 
 ```{r 'C33P30-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P30","_Churn_pStack_ServiceCalls", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = C33P30)
+loc_png <- paste0(.z$PX, "C33P30", "-Churn-pStack-ServiceCalls", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C33P30, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C33P30', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P30","_Churn_pStack_ServiceCalls", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P30", "-Churn-pStack-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33P282930', echo=FALSE, ref.label=c('C33P28', 'C33P29', 'C33P30'), fig.cap="High Customer Service Calls have major Churn", out.width='33%'}
@@ -1714,10 +1769,10 @@ xsyl <- xsy %>% pivot_longer(where(is.numeric), names_to = "Predictors", values_
 # #Select All Minutes and All Charges (8)
 hh <- xsy %>% select(1, 7:10, 12:15) 
 #
-title_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
-caption_hh <- "C33P31"
-subt_hh <- NULL #"Count of Predictor & Target" 
-legend_hh  <- "Churn"
+ttl_hh <- "GGally: Churn: SPLOM: Minutes and Charges (8)"
+cap_hh <- "C33P31"
+sub_hh <- NULL #"Count of Predictor & Target" 
+lgd_hh  <- "Churn"
 ```
 
 ### GGally {.unlisted .unnumbered}
@@ -1742,35 +1797,35 @@ PerformanceAnalytics::chart.Correlation(hh[2:ncol(hh)], histogram = TRUE)
 ### corrplot() vs. corPlot() {.unlisted .unnumbered}
 
 ```{r 'C33-CorrPlots', include=FALSE}
-title_hh <- "corrplot::corrplot (with Clusters) vs. psych::corPlot"
-loc_png <- paste0(.z$PX, "C33P31","_Churn_corrplot_corPlot", ".png")
+ttl_hh <- "corrplot::corrplot (with Clusters) vs. psych::corPlot"
+loc_png <- paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png")
 #
 if(!file.exists(loc_png)) {
   # #Two Graphs Side by Side
-  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 300) 
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
   # #Correlation along with Clusters
   par(mfrow = c(1, 2))
   corrplot::corrplot(cor(hh[2:ncol(hh)]), method = "circle", type = "full", diag = FALSE, 
                      cl.pos = 'n', tl.pos = 'l', addCoef.col = "black", 
                      order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3,
                      rect.lwd = 3, title = NULL, col = RColorBrewer::brewer.pal(3, "BrBG"))
-  title(main = title_hh, line = 2, adj = 0)
+  title(main = ttl_hh, line = 2, adj = 0)
   #
   #corPlot(hh[2:ncol(hh)], upper = TRUE, diag = TRUE, gr = viridis)
   #corPlot(hh[2:ncol(hh)], upper = TRUE, diag = TRUE, gr = cividis)
   psych::corPlot(hh[2:ncol(hh)], upper = TRUE, diag = FALSE, show.legend = FALSE, keep.par = FALSE, 
     gr = colorRampPalette(RColorBrewer::brewer.pal(3, "BrBG")), main = "")
-  title(sub = caption_hh, line = 4, adj = 1)
+  title(sub = cap_hh, line = 4, adj = 1)
   C33 <- recordPlot()
   dev.off()
   par(mfrow = c(1, 1))
-  assign(caption_hh, C33)
+  assign(cap_hh, C33)
   rm(C33)
 }
 ```
 
 ```{r 'C33P31', echo=FALSE, fig.cap="corrplot::corrplot vs. psych::corPlot()", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P31","_Churn_corrplot_corPlot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png"))
 ```
 
 ## Insights
@@ -1788,15 +1843,15 @@ knitr::include_graphics(paste0(.z$PX, "C33P31","_Churn_corrplot_corPlot", ".png"
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C33-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, caption_hh, hh, legend_hh, 
-          loc_png, subt_hh, title_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, cap_hh, ctab, 
+f_rmExist(aa, bb, ii, jj, kk, ll, c33churn, C33P01, C33P02, C33P03, cap_hh, hh, lgd_hh, 
+          loc_png, sub_hh, ttl_hh, x_hh, xxB16Cars, xxB18Churn, y_hh, c_xyg, ctab, 
           names_hh, r_xyg, xyg, C33P04, C33P05, C33P06, C33P08, C33P09, C33P10, xsyg, C33P11, 
           C33P12, C33P13, C33P14, C33P15, C33P16, C33P17, C33P18, C33P19, xsyl, alpha, C33P20, 
           C33P21, ha_ii, isVarEqual, tt_ii, var_ii, C33P22, C33P23, C33P24, xsy, C33P25, C33P26,
-          C33P27, C33P28, C33P29, C33P30)
+          C33P27, C33P28, C33P29, C33P30, C33P31)
 ```
 
-```{r 'C33-Validation', include=TRUE, cache=FALSE}
+```{r 'C33-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

@@ -226,7 +226,7 @@ na_bb
 ```
 
 ```{r 'B16P01-Save', include=FALSE, cache=FALSE}
-loc_png <- paste0(.z$PX, "B16P01","_Cars_NA_Pattern", ".png")
+loc_png <- paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png)
   md.pattern(bb, plot = TRUE, rotate.names = TRUE)
@@ -238,7 +238,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P01', echo=FALSE, fig.cap="Cars: Inserted Missing Value Pattern by md.pattern()"}
-knitr::include_graphics(paste0(.z$PX, "B16P01","_Cars_NA_Pattern", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png"))
 ```
 
 ### Seed 
@@ -381,8 +381,8 @@ Refer [Outliers: C03](#outliers-c03 "c03") and [Outliers: B12](#outliers-b12 "b1
 # #Histogram
 #bb <- na.omit(xxflights$air_time)
 hh <- tibble(ee = aa$weightlbs)
-title_hh <- "Cars: Histogram of Weight"
-caption_hh <- "B16P02"
+ttl_hh <- "Cars: Histogram of Weight"
+cap_hh <- "B16P02"
 # #Basics
 median_hh <- round(median(hh[[1]]), 1)
 mean_hh <- round(mean(hh[[1]]), 1)
@@ -406,25 +406,27 @@ B16 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
                          "; Median= ", median_hh, "; SD= ", sd_hh,
                          ")"), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B16)
+assign(cap_hh, B16)
 rm(B16)
 ```
 
 ```{r 'B16P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P02","_Cars_Hist_Weight", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P02)
+loc_png <- paste0(.z$PX, "B16P02","-Cars-Hist-Weight", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B16P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B16P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P02","_Cars_Hist_Weight", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P02","-Cars-Hist-Weight", ".png"))
 ```
 
 ```{r 'B16-Density', include=FALSE}
 # #Density Curve
-title_hh <- "Cars: Desnsity Plot of Weight"
-caption_hh <- "B16P03"
+ttl_hh <- "Cars: Desnsity Plot of Weight"
+cap_hh <- "B16P03"
 # #Get Quantiles and Ranges of mean +/- sigma 
 q05_hh <- quantile(hh[[1]], .05)
 q95_hh <- quantile(hh[[1]], .95)
@@ -477,19 +479,21 @@ B16 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = paste0("(N=", nrow(.), "; ", "Mean= ", round(mean(.[[1]]), 1), 
                          "; Median= ", round(median(.[[1]]), 1), "; SD= ", round(sd(.[[1]]), 1),
                          ")"), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B16)
+assign(cap_hh, B16)
 rm(B16)
 ```
 
 ```{r 'B16P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P03","_Cars_Dens_Weight", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P03)
+loc_png <- paste0(.z$PX, "B16P03","-Cars-Dens-Weight", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B16P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B16P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P03","_Cars_Dens_Weight", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P03","-Cars-Dens-Weight", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -536,8 +540,8 @@ box(which = "plot",
 ```{r 'B16-ScatterAll', include=FALSE}
 # #Scatterplot, Trendline Equation, R2, mean x & y
 hh <- tibble(x = aa$weightlbs, y = aa$mpg)
-title_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y)"
-caption_hh <- "B16P04"
+ttl_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y)"
+cap_hh <- "B16P04"
 x_hh <- "Weight"
 y_hh <- "MPG"
 ```
@@ -547,19 +551,21 @@ y_hh <- "MPG"
 ```
 
 ```{r 'B16P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P04","_Cars_Scatter_All", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P04)
+loc_png <- paste0(.z$PX, "B16P04","-Cars-Scatter-All", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B16P04, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B16P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P04","_Cars_Scatter_All", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P04","-Cars-Scatter-All", ".png"))
 ```
 
 ```{r 'B16-ScatterMod', include=FALSE}
 # #Excluded Outliers
 hh <- tibble(x = aa$weightlbs, y = aa$mpg) %>% filter(x > min(x) & y < max(y))
-title_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y) - Excluded 2 outliers"
-caption_hh <- "B16P05"
+ttl_hh <- "Cars: Scatterplot of Weight (x) vs MPG (y) - Excluded 2 outliers"
+cap_hh <- "B16P05"
 x_hh <- "Weight"
 y_hh <- "MPG"
 ```
@@ -569,12 +575,14 @@ y_hh <- "MPG"
 ```
 
 ```{r 'B16P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P05","_Cars_Scatter_Mod", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P05)
+loc_png <- paste0(.z$PX, "B16P05","-Cars-Scatter-Mod", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B16P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B16P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P05","_Cars_Scatter_Mod", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P05","-Cars-Scatter-Mod", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -610,7 +618,7 @@ points(aa$weightlbs,
 #### Code ScatterPlot {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B16-ScatterPlot', eval=FALSE}
-# #IN: hh$x, hh$y, title_hh, caption_hh, x_hh, y_hh
+# #IN: hh$x, hh$y, ttl_hh, cap_hh, x_hh, y_hh
 # #Define the formula for Trendline calculation
 k_gg_formula <- y ~ x
 #
@@ -633,9 +641,9 @@ B16 <- hh %>% { ggplot(data = ., aes(x = x, y = y)) +
     k_gglayer_scatter +
     labs(x = x_hh, y = y_hh,
         #subtitle = TeX(r"(Trendline Equation, $R^{2}$, $\bar{x}$ and $\bar{y}$)"), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B16)
+assign(cap_hh, B16)
 rm(B16)
 ```
 
@@ -654,8 +662,8 @@ rm(B16)
 hh <- aa %>% select(mpg, cylinders) %>% filter(!cylinders %in% c(3, 5)) %>% 
   filter(mpg < max(mpg)) %>% mutate(across(cylinders, factor)) 
 #
-title_hh <- "BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"
-caption_hh <- "B16P06"
+ttl_hh <- "BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"
+cap_hh <- "B16P06"
 x_hh <- "Cylinders"
 y_hh <- "MPG"
 #
@@ -664,21 +672,23 @@ B16 <- hh %>% { ggplot(data = ., mapping = aes(x = cylinders, y = mpg, fill = cy
     geom_point(position = position_jitterdodge(jitter.width = 0.1), size = 1, alpha = 0.7) + 
     k_gglayer_box +
     theme(legend.position = 'none') +
-    labs(x = x_hh, y = y_hh, caption = caption_hh, title = title_hh)
+    labs(x = x_hh, y = y_hh, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B16)
+assign(cap_hh, B16)
 rm(B16)
 ```
 
 ```{r 'B16P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P06","_Cars_BoxPlot", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B16P06)
+loc_png <- paste0(.z$PX, "B16P06","-Cars-BoxPlot", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B16P06, device = "png", dpi = 144) 
+}
 ```
 
 #### Image {.unlisted .unnumbered}
 
 ```{r 'B16P06', echo=FALSE, fig.cap="Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
-knitr::include_graphics(paste0(.z$PX, "B16P06","_Cars_BoxPlot", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B16P06","-Cars-BoxPlot", ".png")) #iiii
 ```
 
 #### boxplot() {.unlisted .unnumbered}
@@ -758,8 +768,8 @@ To be continued ...
 
 ```{r 'B16-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, B16P01, bb_22, bb_39, 
-          bb_43, bb_na_col, loc_png, na_bb, xxB16Cars, B16P02, caption_hh, impute, len_hh, mean_hh,
-          median_hh, sd_hh, set1_bb, set2_bb, title_hh, arr_hh, arr_lst, arr_y, B16P03, B16P04, 
+          bb_43, bb_na_col, loc_png, na_bb, xxB16Cars, B16P02, cap_hh, impute, len_hh, mean_hh,
+          median_hh, sd_hh, set1_bb, set2_bb, ttl_hh, arr_hh, arr_lst, arr_y, B16P03, B16P04, 
           B16P05, density_hh, density_hh_tbl, q05_hh, q95_hh, sig0l_hh, sig0r_hh, sig1l_hh, 
           sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, x_hh, xbreaks_hh, xlabels_hh, 
           xpoints_hh, y_hh, B16P06, iqr_bb, kept_bb, low_bb, q_bb, upp_bb)

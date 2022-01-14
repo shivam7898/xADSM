@@ -858,8 +858,8 @@ Skewness is given by the equation \@ref(eq:skewness), which is being shown here 
 
 ```{r 'C03-DensityNormal', include=FALSE, eval=FALSE}
 hh <- tibble(ee = xxNormal)
-title_hh <- "Normal Distribution (Symmetrical)"
-caption_hh <- "C03P04"
+ttl_hh <- "Normal Distribution (Symmetrical)"
+cap_hh <- "C03P04"
 ```
 
 ```{r 'C03-DensityNormal-A', ref.label=c('C03-DensityNormal', 'C03-Density'), include=FALSE}
@@ -867,18 +867,20 @@ caption_hh <- "C03P04"
 ```
 
 ```{r 'C03P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P04", "-Normal-Symmetric", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = eval(parse(text = cap_hh)), device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C03P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C03P04", "_Normal_Symmetric", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P04", "-Normal-Symmetric", ".png"))
 ```
 
 ```{r 'C03-DensityExp', include=FALSE, eval=FALSE}
 hh <- tibble(ee = xxExp)
-title_hh <- "Exponential Distribution (Positive Skew, Right Tail)"
-caption_hh <- "C03P05" 
+ttl_hh <- "Exponential Distribution (Positive Skew, Right Tail)"
+cap_hh <- "C03P05" 
 ```
 
 ```{r 'C03-DensityExp-A', ref.label=c('C03-DensityExp', 'C03-Density'), include=FALSE}
@@ -886,18 +888,20 @@ caption_hh <- "C03P05"
 ```
 
 ```{r 'C03P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P05", "-Exponential-Positive", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = eval(parse(text = cap_hh)), device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C03P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C03P05", "_Exponential_Positive", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P05", "-Exponential-Positive", ".png"))
 ```
 
 ```{r 'C03-DensityBeta', include=FALSE, eval=FALSE}
 hh <- tibble(ee = xxBeta)
-title_hh <- "Beta Distribution (Negative Skew, Left Tail)"
-caption_hh <- "C03P06"
+ttl_hh <- "Beta Distribution (Negative Skew, Left Tail)"
+cap_hh <- "C03P06"
 ```
 
 ```{r 'C03-DensityBeta-A', ref.label=c('C03-DensityBeta', 'C03-Density'), include=FALSE}
@@ -905,12 +909,14 @@ caption_hh <- "C03P06"
 ```
 
 ```{r 'C03P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P06", "_Beta_Negative", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = eval(parse(text = caption_hh)))
+loc_png <- paste0(.z$PX, "C03P06", "-Beta-Negative", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = eval(parse(text = cap_hh)), device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C03P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C03P06", "_Beta_Negative", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P06", "-Beta-Negative", ".png"))
 ```
 
 ```{r 'C03P060405', echo=FALSE, ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)", out.width='33%'}
@@ -997,7 +1003,7 @@ xxBeta <- f_getRDS(xxBeta)
 
 ```{r 'C03-Density', eval=FALSE}
 # #Density Curve
-# #Assumes 'hh' has data in 'ee'. In: caption_hh
+# #Assumes 'hh' has data in 'ee'. In: cap_hh
 #Basics
 mean_hh <- mean(hh$ee)
 sd_hh <- sd(hh$ee)
@@ -1044,9 +1050,9 @@ C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
         axis.line.y = element_blank(), axis.title.y = element_blank(), axis.text.y = element_blank()) + 
   labs(x = "x", y = "Density", 
        subtitle = paste0("Mean = ", round(mean_hh, 3), "; SD = ", round(sd_hh, 3), "; Skewness = ", round(skew_hh, 3), "; Kurtosis = ", round(kurt_hh, 3)), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C03)
+assign(cap_hh, C03)
 rm(C03)
 ```
 
@@ -1135,8 +1141,8 @@ Computing a z-score requires knowing the mean ${\mu}$ and standard deviation ${\
 xxflights <- f_getRDS(xxflights)
 bb <- na.omit(xxflights$air_time)
 hh <- tibble(ee = bb)
-title_hh <- "Flights: Air Time (Original)"
-caption_hh <- "C03P07" 
+ttl_hh <- "Flights: Air Time (Original)"
+cap_hh <- "C03P07" 
 ```
 
 ```{r 'C03-Original-A', ref.label=c('C03-Original', 'C03-Histogram'), include=FALSE}
@@ -1144,14 +1150,14 @@ caption_hh <- "C03P07"
 ```
 
 ```{r 'C03P07-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P07", "_Flights_Original", ".png")
-if(!file.exists(loc_png)){
-ggsave(loc_png, plot = C03P07)
+loc_png <- paste0(.z$PX, "C03P07", "-Flights-Original", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C03P07, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C03P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C03P07", "_Flights_Original", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P07", "-Flights-Original", ".png"))
 ```
 
 ```{r 'C03-Scaled'}
@@ -1166,8 +1172,8 @@ str(jj)
 stopifnot(identical(as.vector(ii), as.vector(jj)))
 #
 hh <- tibble(ee = as.vector(jj))
-title_hh <- "Flights: Air Time (Scaled)"
-caption_hh <- "C03P08" #iiii
+ttl_hh <- "Flights: Air Time (Scaled)"
+cap_hh <- "C03P08" #iiii
 ```
 
 ```{r 'C03-Scaled-A', ref.label=c('C03-Scaled', 'C03-Histogram'), include=FALSE}
@@ -1175,14 +1181,14 @@ caption_hh <- "C03P08" #iiii
 ```
 
 ```{r 'C03P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")
-if(!file.exists(loc_png)){
-ggsave(loc_png, plot = C03P08)
+loc_png <- paste0(.z$PX, "C03P08", "-Flights-Scaled", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C03P08, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C03P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C03P08", "-Flights-Scaled", ".png")) #iiii
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -1194,7 +1200,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P08", "_Flights_Scaled", ".png")) #iii
 #### Histogram {.unlisted .unnumbered}
 
 ```{r 'C03-Histogram', eval=FALSE}
-# #hh$ee title_hh caption_hh
+# #hh$ee ttl_hh cap_hh
 #
 C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
   geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
@@ -1208,9 +1214,9 @@ C03 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = paste0("(Mean= ", round(mean(.[[1]]), 3), 
                          "; SD= ", round(sd(.[[1]]), 3),
                          ")"), 
-      caption = caption_hh, title = title_hh)
+      caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, C03)
+assign(cap_hh, C03)
 rm(C03)
 ```
 
@@ -1345,12 +1351,14 @@ C03P01 <- bb %>% drop_na(temp) %>% mutate(month = factor(month, ordered = TRUE))
 ```
 
 ```{r 'C03P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P01", "_BoxPlot", ".png")
-ggsave(loc_png, plot = C03P01)
+loc_png <- paste0(.z$PX, "C03P01", "-BoxPlot", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C03P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C03P01', echo=FALSE, fig.cap="geom_boxplot()"}
-knitr::include_graphics(paste0(.z$PX, "C03P01", "_BoxPlot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P01", "-BoxPlot", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -1411,17 +1419,19 @@ C03P02 <- bb %>% {
 ```
 
 ```{r 'C03P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png")
-ggsave(loc_png, plot = C03P02)
+loc_png <- paste0(.z$PX, "C03P02", "-Scatter-Mean", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C03P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C03P02', echo=FALSE, fig.cap="Added Mean", include=FALSE}
-knitr::include_graphics(paste0(.z$PX, "C03P02", "_Scatter_Mean", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C03P02", "-Scatter-Mean", ".png"))
 ```
 
 ```{r 'C03P03-A', echo=FALSE, fig.cap="Original", include=FALSE}
 # #Ref another file chunk
-knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png"))
 ```
 
 ```{r 'C03P02-A', ref.label=c('C03P03-A', 'C03P02'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
@@ -1531,9 +1541,9 @@ kbl(bb,
 
 ```{r 'C03-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, ii, jj, kk, tbl, xxPI, bb, rxy, sx, sxy, sy, C03P01, C03P02, C03P04, C03P05, C03P06,
-          C03P07, C03P08, caption_hh, dis_lst, ee, even_skew, kurt_e_t1, kurt_e_t2, kurt_e_t3, 
+          C03P07, C03P08, cap_hh, dis_lst, ee, even_skew, kurt_e_t1, kurt_e_t2, kurt_e_t3, 
           kurt_hh, kurt_man, kurt_mmt, neg_skew, pos_skew, q_colors, sig0l_hh, sig0r_hh, 
-          skew_e_t1, skew_e_t2, skew_e_t3, skew_hh, skew_lst, skew_man, skew_mmt, title_hh, 
+          skew_e_t1, skew_e_t2, skew_e_t3, skew_hh, skew_lst, skew_man, skew_mmt, ttl_hh, 
           v_colors, xxalpha, xxBeta, xxExp, xxflights, density_hh, density_hh_tbl, hh, mean_hh, 
           q05_hh, q95_hh, sd_hh, sig1l_hh, sig1r_hh, sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, 
           xbreaks_hh, xlabels_hh, xpoints_hh, xxNormal, loc_png)

@@ -109,8 +109,8 @@ str(bb)
 # #Histogram
 bb <- aa %>% select(weightlbs) %>% mutate(z = as.vector(scale(weightlbs)))
 hh <- tibble(ee = bb$z)
-title_hh <- "Cars: Histogram of Weight (Scaled)"
-caption_hh <- "B17P01"
+ttl_hh <- "Cars: Histogram of Weight (Scaled)"
+cap_hh <- "B17P01"
 # #Basics
 median_hh <- round(median(hh[[1]]), 1)
 mean_hh <- round(mean(hh[[1]]), 1)
@@ -134,19 +134,21 @@ B17 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
                          "; Median= ", median_hh, "; SD= ", sd_hh,
                          ")"), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B17)
+assign(cap_hh, B17)
 rm(B17)
 ```
 
 ```{r 'B17P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P01","_Cars_Hist_Weight_Scaled", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P01)
+loc_png <- paste0(.z$PX, "B17P01","-Cars-Hist-Weight-Scaled", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B17P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B17P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B17P01","_Cars_Hist_Weight_Scaled", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P01","-Cars-Hist-Weight-Scaled", ".png"))
 ```
 
 ```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="Cars: Histogram of Weight  (Original vs Scaled)"}
@@ -229,8 +231,8 @@ bb <- aa %>% select(weightlbs) %>%
 hh <- bb
 mean_hh <- hh %>% group_by(Key) %>% summarize(Mean = mean(Values))
 #
-title_hh <- "Cars: Weight with Transformed values and Mean"
-caption_hh <- "B17P03"
+ttl_hh <- "Cars: Weight with Transformed values and Mean"
+cap_hh <- "B17P03"
 #
 B17 <- hh %>% { ggplot(data = ., mapping = aes(Values)) + 
     geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
@@ -239,19 +241,21 @@ B17 <- hh %>% { ggplot(data = ., mapping = aes(Values)) +
             color = '#440154FF', hjust = -0.5, vjust = 1.3, angle = 90) +
     facet_wrap(~Key, scales = 'free_x') +
     theme(plot.title.position = "panel") + 
-    labs(x = "x", y = "Frequency", caption = caption_hh, title = title_hh)
+    labs(x = "x", y = "Frequency", caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B17)
+assign(cap_hh, B17)
 rm(B17)
 ```
 
 ```{r 'B17P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P03, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B17P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B17P03', echo=FALSE, out.width="100%", fig.cap="Cars: Weight Transformed with Original & Scaled"}
-knitr::include_graphics(paste0(.z$PX, "B17P03","_Cars_Weight_Transform", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png"))
 ```
 
 ### facet_wrap() {.unlisted .unnumbered}
@@ -316,9 +320,9 @@ max_hh <- min_hh <- hh %>% group_by(Key) %>% summarise(Values = 0)
 max_hh$Values  <- c(100, 8.55, 0.0300, 5000, 2.35) #c(72, 8.55, 0.0255, 5000, 2.35)
 min_hh$Values  <- c(20, 7.35, 0.0135, 1500, -1.65) #c(40, 7.35, 0.0135, 1500, -1.65)
 #
-title_hh <- "QQ Plots of Transformed Weight"
-subt_hh <- "Excluded 1 Outlier and Modified Y-axis for alignment"
-caption_hh <- "B17P04"
+ttl_hh <- "QQ Plots of Transformed Weight"
+sub_hh <- "Excluded 1 Outlier and Modified Y-axis for alignment"
+cap_hh <- "B17P04"
 #
 B17 <- hh %>% { ggplot(., aes(sample = Values)) +
     stat_qq() +
@@ -328,36 +332,40 @@ B17 <- hh %>% { ggplot(., aes(sample = Values)) +
     facet_wrap(~Key, scales = 'free') +
     scale_x_continuous(limits = c(-3, 3)) + 
     #coord_flip() +
-    labs(caption = caption_hh, subtitle = subt_hh, title = title_hh)
+    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
 }
-assign(caption_hh, B17)
+assign(cap_hh, B17)
 rm(B17)
 ```
 
 ```{r 'B17P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P04, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B17P04","-Cars-Weight-QQ", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B17P04, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B17P04', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
-knitr::include_graphics(paste0(.z$PX, "B17P04","_Cars_Weight_QQ", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P04","-Cars-Weight-QQ", ".png"))
 ```
 
 ### Flipped Axis {.unlisted .unnumbered}
 
 ```{r 'B17-WeightQQ-Flip', include=FALSE}
-title_hh <- "QQ Plots of Transformed Weight (Flipped)"
-caption_hh <- "B17P05"
-B17P05 <- B17P04 + coord_flip() + labs(caption = caption_hh, title = title_hh)
+ttl_hh <- "QQ Plots of Transformed Weight (Flipped)"
+cap_hh <- "B17P05"
+B17P05 <- B17P04 + coord_flip() + labs(caption = cap_hh, title = ttl_hh)
 ```
 
 ```{r 'B17P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B17P05, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B17P05","-Cars-Weight-QQ-Flip", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B17P05, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B17P05', echo=FALSE, out.width="100%", fig.cap="Cars: QQ Plots of Transformed Weight"}
-knitr::include_graphics(paste0(.z$PX, "B17P05","_Cars_Weight_QQ_Flip", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B17P05","-Cars-Weight-QQ-Flip", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -491,8 +499,8 @@ stopifnot(all(identical(bb$i, bb$k), identical(bb$i, bb$k), identical(bb$i, bb$l
 
 ```{r 'B17-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, B17P01, B17P03, B17P04, 
-          B17P05, caption_hh, cut_ii, cut_jj, d_bb, kept_bb, len_hh, loc_png, max_aa, max_hh, 
-          mean_hh, median_hh, min_aa, min_hh, sd_hh, subt_hh, title_hh, xxB16Cars)
+          B17P05, cap_hh, cut_ii, cut_jj, d_bb, kept_bb, len_hh, loc_png, max_aa, max_hh, 
+          mean_hh, median_hh, min_aa, min_hh, sd_hh, sub_hh, ttl_hh, xxB16Cars)
 ```
 
 ```{r 'B17-Validation', include=FALSE, cache=FALSE}

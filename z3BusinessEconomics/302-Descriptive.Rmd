@@ -82,12 +82,14 @@ C02P01 <- bb %>% mutate(across(softdrink, factor, levels = rev(unique(softdrink)
 ```
 
 ```{r 'C02P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C02P01", "_Drinks_Bar", ".png")
-ggsave(loc_png, plot = C02P01)
+loc_png <- paste0(.z$PX, "C02P01", "-Drinks-Bar", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C02P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C02P01', echo=FALSE, fig.cap="geom_bar(): Frequency Bar Chart", include=FALSE}
-knitr::include_graphics(paste0(.z$PX, "C02P01", "_Drinks_Bar", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P01", "-Drinks-Bar", ".png"))
 ```
 
 ```{r 'C02-I-Pie', include=FALSE}
@@ -105,12 +107,14 @@ C02P02 <- bb %>% mutate(across(softdrink, factor, levels = unique(softdrink))) %
 ```
 
 ```{r 'C02P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C02P02", "_Drinks_Pie", ".png")
-ggsave(loc_png, plot = C02P02)
+loc_png <- paste0(.z$PX, "C02P02", "-Drinks-Pie", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C02P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C02P02', echo=FALSE, fig.cap="Polar geom_bar(): Frequency Pie Chart", include=FALSE}
-knitr::include_graphics(paste0(.z$PX, "C02P02", "_Drinks_Pie", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P02", "-Drinks-Pie", ".png"))
 ```
 
 ```{r 'C02P0102', echo=FALSE, ref.label=c('C02P01', 'C02P02'), fig.cap="Bar Chart and Pie Chart of Frequency"}
@@ -201,12 +205,14 @@ C02P03 <- bb %>% {
 ```
 
 ```{r 'C02P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C02P03", "_Normal_Histogram", ".png")
-ggsave(loc_png, plot = C02P03)
+loc_png <- paste0(.z$PX, "C02P03", "-Normal-Histogram", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C02P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C02P03', echo=FALSE, fig.cap="geom_histogram(): Histogram"}
-knitr::include_graphics(paste0(.z$PX, "C02P03", "_Normal_Histogram", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P03", "-Normal-Histogram", ".png"))
 ```
 
 ### Dot Plot  {.unlisted .unnumbered}
@@ -232,12 +238,14 @@ C02P04 <- bb %>% {
 ```
 
 ```{r 'C02P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C02P04", "_Random_Dot", ".png")
-ggsave(loc_png, plot = C02P04)
+loc_png <- paste0(.z$PX, "C02P04", "-Random-Dot", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C02P04, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C02P04', echo=FALSE, fig.cap="geom_dotplot(): Frequency Dot Chart"}
-knitr::include_graphics(paste0(.z$PX, "C02P04", "_Random_Dot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C02P04", "-Random-Dot", ".png"))
 ```
 
 ### Get Frequency  {.unlisted .unnumbered}
@@ -726,12 +734,14 @@ C02P05 <- bb %>% {
 ```
 
 ```{r 'C02P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C02P05", "_ScatterPlot", ".png")
-ggsave(loc_png, plot = C02P05)
+loc_png <- paste0(.z$PX, "C02P05", "-ScatterPlot", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C02P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C02P05', echo=FALSE, fig.cap="geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
-knitr::include_graphics(paste0(.z$PX, "C02P05", "_ScatterPlot", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png")) #iiii
 ```
 
 ### Trendline {.unlisted .unnumbered}

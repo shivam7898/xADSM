@@ -354,10 +354,11 @@ if(exists("XL", envir = .z)) {
 - Check the path, file name, & file extension for typing mistakes
 - Execute getwd(), just before the command, to confirm that the working directory is as expected
 
-
 ### write.csv() {.unnumbered}
 
 ```{r 'B09-WriteToCSV'}
+str(bb)
+#
 xx_data <- bb
 #
 # #Write a dataframe to a CSV File
@@ -367,6 +368,18 @@ write.csv(xx_data, "data/B09_xx_data.csv")
 yy_data <- read.csv("data/B09_xx_data.csv")
 #
 # #Check if the object being read is same as the obejct that was written 
+identical(xx_data, yy_data)
+```
+
+```{r 'B09-WriteToCSV-Manual', include=FALSE, eval=FALSE}
+# #Above code does not work When 
+# #The Rmd File is inside a Sub-directory and Chunk is Run Manually from the File.
+# #In all other conditions when Chunk is executed by Knitr, it works.
+# #To Enable Debugging, Execute this Chunk, which is equivalent as above 
+# #It is neither executed nor shown in the Finished Document.
+xx_data <- bb
+write.csv(xx_data, paste0(.z$XL, "B09_xx_data", ".csv"))
+yy_data <- paste0(.z$XL, "B09_xx_data", ".csv")
 identical(xx_data, yy_data)
 ```
 
@@ -525,7 +538,7 @@ mydata_clip <- read.csv("clipboard", sep = '\t', header = TRUE)
 
 ### RDS {.unnumbered}
 
-```{r 'B09-Flights'}
+```{r 'B09-Flights', eval=FALSE}
 # #Following Setup allows us to read CSV only once and then create an RDS file
 # #Its advantage is in terms of faster loading time and lower memory requirment
 xx_csv <- paste0("data/", "B09-FLIGHTS", ".csv")
@@ -541,6 +554,11 @@ if(file.exists(xx_rds)) {
 }
 rm(xx_csv, xx_rds)
 mydata <- b09_flights
+```
+
+```{r 'B09-Flights-Manual', include=FALSE, eval=TRUE}
+# #Only for Local Debugging Purpose. Should be : include=FALSE, eval=TRUE
+mydata <- b09_flights <- f_getRDS(b09_flights)
 ```
 
 ### Structure {.unnumbered}
@@ -686,15 +704,9 @@ if(FALSE){
 
 ### Image {.unlisted .unnumbered}
 
-```{r 'B09P01', echo=FALSE, fig.cap="Correlation using psych::pairs.panels()"}
-knitr::include_graphics(paste0(.z$PX, "B09P01_Psych", ".png")) #iiii
-```
-
-### Code {.unlisted .unnumbered}
-
-```{r 'B09-Psych', eval=FALSE, cache=TRUE}
-# # Subset 3 Columns and 1,00,000 rows 
-x_rows <- 100000L
+```{r 'B09-Psych', include=FALSE}
+# # Subset 3 Columns and 10,000 rows 
+x_rows <- 10000L
 data_pairs <- mydata[1:x_rows, c(7, 16, 9)]
 #
 # #Equivalent
@@ -707,14 +719,65 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
   ggplot()
 } else {
   #B09P01
-  pairs.panels(data_pairs)
+  # #IN: hh, cap_hh, ttl_hh, loc_png
+  hh <- data_pairs
+  loc_png <- paste0(.z$PX, "B09P01", "-Psych", ".png")
+  ttl_hh <- "Flight: Correlation using pairs.panels()"
+  cap_hh <- "B09P01"
+#
+  if(!file.exists(loc_png)) {
+    png(filename = loc_png) 
+    pairs.panels(hh, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
+                 cex.cor = 1, cex = 1, gap = 0, main = ttl_hh)
+    #title(main = ttl_hh, line = 2, adj = 0)
+    title(sub = cap_hh, line = 4, adj = 1)
+    B09 <- recordPlot()
+    dev.off()
+    assign(cap_hh, B09)
+    rm(B09)
+  }
 }
 ```
+
+```{r 'B09P01', echo=FALSE, fig.cap="Correlation using psych::pairs.panels()"}
+knitr::include_graphics(paste0(.z$PX, "B09P01", "-Psych", ".png")) #iiii
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'B09-Psych-Code', eval=FALSE}
+# # Subset 3 Columns and 10,000 rows 
+x_rows <- 10000L
+data_pairs <- mydata[1:x_rows, c(7, 16, 9)]
+#
+# #Equivalent
+ii <- mydata %>%
+  select(air_time, distance, arr_delay) %>%
+  slice_head(n = x_rows)
+#
+stopifnot(identical(ii, data_pairs))
+#
+if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
+  print("Please reduce the number of points to a sane number!")
+  ggplot()
+} else {
+  #B09P01
+  pairs.panels(data_pairs)
+  if(FALSE){# Cleaner Graph
+    pairs.panels(data_pairs, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
+                 cex.cor = 1, cex = 1, gap = 0, main = "Title")
+    title(sub = "Caption", line = 4, adj = 1)   
+  }
+}
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B09-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, b09_flights, b09_flights_xls, cc_chr, data6, data7, dd_dbl, gender, ii_int, income, ll_lgl, mydata, mydata_rdr, mydata_xl, nn, path_absolute, path_relative, x_age, xx_data, xxflights, yy_data)
+f_rmExist(aa, bb, ii, jj, kk, ll, b09_flights, b09_flights_xls, cc_chr, data6, data7, dd_dbl, 
+          gender, ii_int, income, ll_lgl, mydata, mydata_rdr, mydata_xl, nn, path_absolute, 
+          path_relative, x_age, xx_data, xxflights, yy_data, B09P01, data_pairs, x_rows, cap_hh)
 ```
 
 ```{r 'B09-Validation', include=FALSE, cache=FALSE}

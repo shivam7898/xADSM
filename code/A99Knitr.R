@@ -12,8 +12,10 @@ if (!("k_start" %in% ls(envir = .GlobalEnv))) {
 						#cache.extra = Sys.Date(), 
                         #dev = "png",
 						dev.args = list(png = list(type = "cairo")),
+						# This does not work. But is being kept for now. ggsave() works.
                         dpi = 300,
                         opts.label='twofig',
+						# Change Here & Rebuild to find Chunk with Warning (If include is TRUE)
                         message = FALSE, warning = FALSE, error = FALSE,
                         progress = FALSE, verbose = FALSE
                         )			

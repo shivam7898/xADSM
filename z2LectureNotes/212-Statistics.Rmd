@@ -302,12 +302,14 @@ Using Dataset Flights : "air_time" -Amount of time spent in the air, in minutes.
 ```
 
 ```{r 'B12P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12P01)
+loc_png <- paste0(.z$PX, "B12P01", "-Flights-Hist-Air", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P01", "-Flights-Hist-Air", ".png"))
 ```
 
 ```{r 'B12-Density-Eval', ref.label=c('B12-Density'), echo=FALSE}
@@ -315,12 +317,14 @@ knitr::include_graphics(paste0(.z$PX, "B12P01", "_Flights_Hist_Air", ".png"))
 ```
 
 ```{r 'B12P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png")
-ggsave(loc_png, plot = B12P02)
+loc_png <- paste0(.z$PX, "B12P02", "-Flights-Dens-Air", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P02", "_Flights_Dens_Air", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P02", "-Flights-Dens-Air", ".png"))
 ```
 
 ```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01', 'B12P02'), fig.cap="Flights: Air Time (min) excluding NA (Histogram and Density)"}
@@ -490,7 +494,7 @@ mu_hh <- round(mean(bb), 1)
 # #Histogram: N = 100
 hh <- tibble(ee = xb100)
 ylim_hh <- 12.5
-caption_hh <- "B12P03"
+cap_hh <- "B12P03"
 ```
 
 ```{r 'B12-Sample-100-A', ref.label=c('B12-Sample100', 'B12-SampleHist'), include=FALSE}
@@ -498,19 +502,21 @@ caption_hh <- "B12P03"
 ```
 
 ```{r 'B12P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png")
-ggsave(loc_png, plot = B12P03)
+loc_png <- paste0(.z$PX, "B12P03", "-Flights-Hist-Air-100", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P03", "_Flights_Hist_Air_100", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P03", "-Flights-Hist-Air-100", ".png"))
 ```
 
 ```{r 'B12-Sample1000', include=FALSE, eval=FALSE}
 # #Histogram: N = 1000
 hh <- tibble(ee = xb1000)
 ylim_hh <- 125
-caption_hh <- "B12P04"
+cap_hh <- "B12P04"
 ```
 
 ```{r 'B12-Sample1000-A', ref.label=c('B12-Sample1000', 'B12-SampleHist'), include=FALSE}
@@ -518,19 +524,21 @@ caption_hh <- "B12P04"
 ```
 
 ```{r 'B12P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png")
-ggsave(loc_png, plot = B12P04)
+loc_png <- paste0(.z$PX, "B12P04", "-Flights-Hist-Air-1000", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P04, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P04", "_Flights_Hist_Air_1000", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P04", "-Flights-Hist-Air-1000", ".png"))
 ```
 
 ```{r 'B12-Sample10000', include=FALSE, eval=FALSE}
 # #Histogram: N = 10000
 hh <- tibble(ee = xb10000)
 ylim_hh <- 1250
-caption_hh <- "B12P05"
+cap_hh <- "B12P05"
 ```
 
 ```{r 'B12-Sample10000-A', ref.label=c('B12-Sample10000', 'B12-SampleHist'), include=FALSE}
@@ -538,12 +546,14 @@ caption_hh <- "B12P05"
 ```
 
 ```{r 'B12P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png")
-ggsave(loc_png, plot = B12P05)
+loc_png <- paste0(.z$PX, "B12P05", "-Flights-Hist-Air-10000", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P05", "_Flights_Hist_Air_10000", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P05", "-Flights-Hist-Air-10000", ".png"))
 ```
 
 #### GIF {.unnumbered}
@@ -565,11 +575,17 @@ B12A_P05$widths[2:5] <- as.list(maxWidth)
 ```{r 'B12-GrobA-Save', include=FALSE}
 # Save Grobs
 loc_png <- paste0(.z$PX, "B12A_P03", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P03)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12A_P03, device = "png", dpi = 144) 
+}
 loc_png <- paste0(.z$PX, "B12A_P04", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P04)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12A_P04, device = "png", dpi = 144) 
+}
 loc_png <- paste0(.z$PX, "B12A_P05", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12A_P05)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12A_P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12-GifSampleSize', include=FALSE}
@@ -597,7 +613,7 @@ knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
 ```
 
 ```{r 'B12-SampleHist', eval=FALSE}
-# #Assumes 'hh' has data in 'ee'. In: mu_hh, caption_hh, ylim_hh
+# #Assumes 'hh' has data in 'ee'. In: mu_hh, cap_hh, ylim_hh
 #
 B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
   geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
@@ -616,9 +632,9 @@ B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
                          #"; Var= ", round(var(.[[1]]), 1),
                          "; SE= ", round(sd(.[[1]]) / sqrt(nrow(.)), 1),
                          ")"), 
-      caption = caption_hh, title = paste0("Sample Size = ", nrow(.)))
+      caption = cap_hh, title = paste0("Sample Size = ", nrow(.)))
 }
-assign(caption_hh, B12)
+assign(cap_hh, B12)
 rm(B12)
 ```
 
@@ -662,7 +678,7 @@ mu_hh <- round(mean(bb), 1)
 # #Histogram: N = 10, Repeat = 20
 hh <- tibble(ee = xr20)
 ylim_hh <- 2
-caption_hh <- "B12P06"
+cap_hh <- "B12P06"
 ```
 
 ```{r 'B12-Sampling20-A', ref.label=c('B12-Sampling20', 'B12-RepeatSampligHist'), include=FALSE}
@@ -670,19 +686,21 @@ caption_hh <- "B12P06"
 ```
 
 ```{r 'B12P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P06", "_N10_Rep20", ".png")
-ggsave(loc_png, plot = B12P06)
+loc_png <- paste0(.z$PX, "B12P06", "-N10-Rep20", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P06, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P06", "_N10_Rep20", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P06", "-N10-Rep20", ".png"))
 ```
 
 ```{r 'B12-Sampling200', include=FALSE, eval=FALSE}
 # #Histogram: N = 10, Repeat = 200
 hh <- tibble(ee = xr200)
 ylim_hh <- 20
-caption_hh <- "B12P07"
+cap_hh <- "B12P07"
 ```
 
 ```{r 'B12-Sampling200-A', ref.label=c('B12-Sampling200', 'B12-RepeatSampligHist'), include=FALSE}
@@ -690,19 +708,21 @@ caption_hh <- "B12P07"
 ```
 
 ```{r 'B12P07-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P07", "_N10_Rep20", ".png")
-ggsave(loc_png, plot = B12P07)
+loc_png <- paste0(.z$PX, "B12P07", "-N10-Rep200", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P07, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P07", "_N10_Rep20", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P07", "-N10-Rep200", ".png"))
 ```
 
 ```{r 'B12-Sampling2000', include=FALSE, eval=FALSE}
 # #Histogram: N = 10, Repeat = 2000
 hh <- tibble(ee = xr2000)
 ylim_hh <- 200
-caption_hh <- "B12P08"
+cap_hh <- "B12P08"
 ```
 
 ```{r 'B12-Sampling2000-A', ref.label=c('B12-Sampling2000', 'B12-RepeatSampligHist'), include=FALSE}
@@ -710,12 +730,14 @@ caption_hh <- "B12P08"
 ```
 
 ```{r 'B12P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B12P08", "_N10_Rep20", ".png")
-ggsave(loc_png, plot = B12P08)
+loc_png <- paste0(.z$PX, "B12P08", "-N10-Rep2000", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12P08, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P08", "_N10_Rep20", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B12P08", "-N10-Rep2000", ".png"))
 ```
 
 #### GIF {.unnumbered}
@@ -737,11 +759,17 @@ B12B_P08$widths[2:5] <- as.list(maxWidth)
 ```{r 'B12-GrobB-Save', include=FALSE}
 # Save Grobs
 loc_png <- paste0(.z$PX, "B12B_P06", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P06)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12B_P06, device = "png", dpi = 144) 
+}
 loc_png <- paste0(.z$PX, "B12B_P07", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P07)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12B_P07, device = "png", dpi = 144) 
+}
 loc_png <- paste0(.z$PX, "B12B_P08", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B12B_P08)
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B12B_P08, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B12-GifSampleRepeat', include=FALSE}
@@ -769,7 +797,7 @@ knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 ```
 
 ```{r 'B12-RepeatSampligHist', eval=FALSE}
-# #Assumes 'hh' has data in 'ee'. In: mu_hh, caption_hh, ylim_hh, nn
+# #Assumes 'hh' has data in 'ee'. In: mu_hh, cap_hh, ylim_hh, nn
 #
 B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
   geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
@@ -786,17 +814,17 @@ B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = TeX(sprintf(
          "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f",
                              mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
-       caption = caption_hh, 
+       caption = cap_hh, 
        title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
 }
-assign(caption_hh, B12)
+assign(cap_hh, B12)
 rm(B12)
 ```
 
 ## Normal Distribution {#normal-d-b12}
 
 ```{r 'B12P09', echo=FALSE, fig.cap="Normal Distribution"}
-knitr::include_graphics(paste0(.z$PX, "B12P09_Distribution_Normal.jpg"))
+knitr::include_graphics(paste0(.z$PX, "B12P09-Distribution-Normal.jpg"))
 ```
 
 Refer [Normal Distribution](#normal-d-c06 "c06") and equation \@ref(eq:distribution-normal)
@@ -927,11 +955,11 @@ Although most applications of hypothesis testing control for the probability of 
 ## Critical Value
 
 ```{r 'B12P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P11_Tail_Left.jpg"))
+knitr::include_graphics(paste0(.z$PX, "B12P11-Tail-Left.jpg"))
 ```
 
 ```{r 'B12P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P12_Tail_Right.jpg"))
+knitr::include_graphics(paste0(.z$PX, "B12P12-Tail-Right.jpg"))
 ```
 
 ```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11', 'B12P12'), fig.cap="Left Tail vs. Right Tail"}
@@ -939,7 +967,7 @@ knitr::include_graphics(paste0(.z$PX, "B12P12_Tail_Right.jpg"))
 ```
 
 ```{r 'B12P13', echo=FALSE, fig.cap="Two Tail"}
-knitr::include_graphics(paste0(.z$PX, "B12P13_Tail_Two.jpg")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B12P13-Tail-Two.jpg")) #iiii
 ```
 
 ```{r 'B12D32', comment="", echo=FALSE, results='asis'}
@@ -1083,7 +1111,7 @@ f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz,
           mu_mean_bb, q05_hh, q95_hh, range_bb, sd_hh, sig0l_hh, sig0r_hh, sig1l_hh, sig1r_hh, 
           sig2l_hh, sig2r_hh, sig3l_hh, sig3r_hh, sigma_sd_bb, variance_bb, xbreaks_hh, 
           xlabels_hh, xpoints_hh, xxflights, B12A_P03, B12A_P04, B12A_P05, B12B_P06, B12B_P07, 
-          B12B_P08, B12P03, B12P04, B12P05, B12P06, B12P07, B12P08, caption_hh, dof, maxWidth, 
+          B12B_P08, B12P03, B12P04, B12P05, B12P06, B12P07, B12P08, cap_hh, dof, maxWidth, 
           mu_hh, png_files, xb100, xb1000, xb10000, xr20, xr200, xr2000, xxalpha, ylim_hh, loc_gif,
           loc_png)
 ```

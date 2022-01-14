@@ -115,7 +115,7 @@ lapply(list(model1, model2, model3, model4), glance)
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B27-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, ff)
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, namesXL)
 ```
 
 ```{r 'B27-Validation', include=FALSE, cache=FALSE}

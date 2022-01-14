@@ -139,9 +139,9 @@ anyDuplicated(ii$CNT)
 #hh %>% filter(CNT == median(CNT)) %>% mutate(as.integer(State))
 median_loc_hh <- ceiling(nrow(hh)/2) 
 #
-caption_hh <- "B18P01"
-title_hh <- "Churn: Frequency of States"
-subt_hh <- paste0(nrow(hh), " States with Median = ",  median(hh$CNT)) #NULL
+cap_hh <- "B18P01"
+ttl_hh <- "Churn: Frequency of States"
+sub_hh <- paste0(nrow(hh), " States with Median = ",  median(hh$CNT)) #NULL
 #
 B18 <- hh %>% { ggplot(data = ., aes(x = nState, y = CNT)) +
     geom_bar(stat = 'identity', aes(fill = (nState %% 2 == 0))) + 
@@ -150,20 +150,22 @@ B18 <- hh %>% { ggplot(data = ., aes(x = nState, y = CNT)) +
       breaks = 1:nrow(.), guide = guide_axis(n.dodge = 2), labels = rev(.$State)) + 
     k_gglayer_bar + 
     coord_flip() +
-    labs(x = "State", y = "Frequency", subtitle = subt_hh, 
-         caption = caption_hh, title = title_hh)
+    labs(x = "State", y = "Frequency", subtitle = sub_hh, 
+         caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P01","_Churn_States_Bar", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P01)
+loc_png <- paste0(.z$PX, "B18P01","-Churn-States-Bar", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P01', echo=FALSE, fig.cap="Churn: States Frequency"}
-knitr::include_graphics(paste0(.z$PX, "B18P01","_Churn_States_Bar", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P01","-Churn-States-Bar", ".png"))
 ```
 
 ### Exploration {.unlisted .unnumbered}
@@ -231,8 +233,8 @@ str(ii)
 ```{r 'B18-AllHistograms', include=FALSE}
 # #Histogram
 hh <- ii
-title_hh <- "Churn: Histograms"
-caption_hh <- "B18P03"
+ttl_hh <- "Churn: Histograms"
+cap_hh <- "B18P03"
 #
 B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) + 
     geom_histogram(bins = ifelse(length(unique(.[[1]])) > 50, 50, length(unique(.[[1]]))),
@@ -240,19 +242,21 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
     facet_wrap(~Key, nrow = 3, scales = 'free') +
-    labs(x = "x", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+    labs(x = "x", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P03","_Churn_All_Hist", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P03, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P03","-Churn-All-Hist", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P03, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P03', echo=FALSE, fig.cap="Churn: All Histograms", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P03","_Churn_All_Hist", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P03","-Churn-All-Hist", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -269,8 +273,8 @@ knitr::include_graphics(paste0(.z$PX, "B18P03","_Churn_All_Hist", ".png"))
 ```{r 'B18-AllQQ', include=FALSE}
 # #QQ Plots
 hh <- ii
-title_hh <- "Churn: QQ Plots"
-caption_hh <- "B18P04"
+ttl_hh <- "Churn: QQ Plots"
+cap_hh <- "B18P04"
 #
 B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     stat_qq() +
@@ -280,19 +284,21 @@ B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     #coord_flip() +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
-    labs(x = "x", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+    labs(x = "x", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P04","_Churn_All_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P04, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P04","-Churn-All-QQ", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P04, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P04', echo=FALSE, fig.cap="Churn: All QQ Plots", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P04","_Churn_All_QQ", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P04","-Churn-All-QQ", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -323,8 +329,8 @@ jj_charge <- bb %>% select(day_charge, eve_charge, night_charge) %>%
 ```{r 'B18-BoxCalls', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- jj_calls
-title_hh <- "Churn: Calls"
-caption_hh <- "B18P05"
+ttl_hh <- "Churn: Calls"
+cap_hh <- "B18P05"
 ```
 
 ```{r 'B18-BoxCalls-A', include=FALSE, ref.label=c('B18-BoxCalls', 'B18-BoxPlot')}
@@ -332,19 +338,21 @@ caption_hh <- "B18P05"
 ```
 
 ```{r 'B18P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P05","_Churn_Box_Calls", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P05)
+loc_png <- paste0(.z$PX, "B18P05","-Churn-Box-Calls", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P05","_Churn_Box_Calls", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P05","-Churn-Box-Calls", ".png"))
 ```
 
 ```{r 'B18-BoxMins', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- jj_mins
-title_hh <- "Churn: Minutes"
-caption_hh <- "B18P06"
+ttl_hh <- "Churn: Minutes"
+cap_hh <- "B18P06"
 ```
 
 ```{r 'B18-BoxMins-A', include=FALSE, ref.label=c('B18-BoxMins', 'B18-BoxPlot')}
@@ -352,19 +360,21 @@ caption_hh <- "B18P06"
 ```
 
 ```{r 'B18P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P06","_Churn_Box_Mins", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P06)
+loc_png <- paste0(.z$PX, "B18P06","-Churn-Box-Mins", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P06, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P06","_Churn_Box_Mins", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P06","-Churn-Box-Mins", ".png"))
 ```
 
 ```{r 'B18-BoxCharges', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- jj_charge
-title_hh <- "Churn: Charges"
-caption_hh <- "B18P07"
+ttl_hh <- "Churn: Charges"
+cap_hh <- "B18P07"
 ```
 
 ```{r 'B18-BoxCharges-A', include=FALSE, ref.label=c('B18-BoxCharges', 'B18-BoxPlot')}
@@ -372,12 +382,14 @@ caption_hh <- "B18P07"
 ```
 
 ```{r 'B18P07-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P07","_Churn_Box_Charges", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P07)
+loc_png <- paste0(.z$PX, "B18P07","-Churn-Box-Charges", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P07, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P07","_Churn_Box_Charges", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P07","-Churn-Box-Charges", ".png"))
 ```
 
 ```{r 'B18P050607', echo=FALSE, ref.label=c('B18P05', 'B18P06', 'B18P07'), fig.cap="Churn: BoxPlots of Calls, Minutes, & Charges", out.width='33%'}
@@ -392,9 +404,9 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Key, y = Values, fill = Key))
     geom_boxplot() +
     k_gglayer_box +
     theme(legend.position = 'none') +
-    labs(x = NULL, y = NULL, caption = caption_hh, title = title_hh)
+    labs(x = NULL, y = NULL, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
@@ -405,8 +417,8 @@ rm(B18)
 ```{r 'B18-BoxiCalls', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$intl_calls)
-title_hh <- "Churn: International Calls"
-caption_hh <- "B18P08"
+ttl_hh <- "Churn: International Calls"
+cap_hh <- "B18P08"
 ```
 
 ```{r 'B18-BoxiCalls-A', include=FALSE, ref.label=c('B18-BoxiCalls', 'B18-SingleBoxPlot')}
@@ -414,19 +426,21 @@ caption_hh <- "B18P08"
 ```
 
 ```{r 'B18P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P08","_Churn_Box_iCalls", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P08)
+loc_png <- paste0(.z$PX, "B18P08","-Churn-Box-iCalls", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P08, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P08","_Churn_Box_iCalls", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P08","-Churn-Box-iCalls", ".png"))
 ```
 
 ```{r 'B18-BoxiMins', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$intl_mins)
-title_hh <- "Churn: International Minutes"
-caption_hh <- "B18P09"
+ttl_hh <- "Churn: International Minutes"
+cap_hh <- "B18P09"
 ```
 
 ```{r 'B18-BoxiMins-A', include=FALSE, ref.label=c('B18-BoxiMins', 'B18-SingleBoxPlot')}
@@ -434,19 +448,21 @@ caption_hh <- "B18P09"
 ```
 
 ```{r 'B18P09-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P09","_Churn_Box_iMins", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P09)
+loc_png <- paste0(.z$PX, "B18P09","-Churn-Box-iMins", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P09, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P09","_Churn_Box_iMins", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P09","-Churn-Box-iMins", ".png"))
 ```
 
 ```{r 'B18-BoxiCharges', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$intl_charge)
-title_hh <- "Churn: International Charges"
-caption_hh <- "B18P10"
+ttl_hh <- "Churn: International Charges"
+cap_hh <- "B18P10"
 ```
 
 ```{r 'B18-BoxiCharges-A', include=FALSE, ref.label=c('B18-BoxiCharges', 'B18-SingleBoxPlot')}
@@ -454,12 +470,14 @@ caption_hh <- "B18P10"
 ```
 
 ```{r 'B18P10-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P10","_Churn_Box_iCharges", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P10)
+loc_png <- paste0(.z$PX, "B18P10","-Churn-Box-iCharges", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P10, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P10","_Churn_Box_iCharges", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P10","-Churn-Box-iCharges", ".png"))
 ```
 
 ```{r 'B18P080910', echo=FALSE, ref.label=c('B18P08', 'B18P09', 'B18P10'), fig.cap="Churn: BoxPlots of International Calls, Minutes, & Charges", out.width='33%'}
@@ -476,9 +494,9 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(y = Values)) +
     geom_boxplot() +
     k_gglayer_box +
     theme(legend.position = 'none') +
-    labs(x = NULL, y = NULL, caption = caption_hh, title = title_hh)
+    labs(x = NULL, y = NULL, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
@@ -487,8 +505,8 @@ rm(B18)
 ```{r 'B18-BoxAcc', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$account_length)
-title_hh <- "Churn: Account Length"
-caption_hh <- "B18P11"
+ttl_hh <- "Churn: Account Length"
+cap_hh <- "B18P11"
 ```
 
 ```{r 'B18-BoxAcc-A', include=FALSE, ref.label=c('B18-BoxAcc', 'B18-SingleBoxPlot')}
@@ -496,19 +514,21 @@ caption_hh <- "B18P11"
 ```
 
 ```{r 'B18P11-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P11","_Churn_Box_ACC", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P11)
+loc_png <- paste0(.z$PX, "B18P11","-Churn-Box-ACC", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P11, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P11","_Churn_Box_ACC", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P11","-Churn-Box-ACC", ".png"))
 ```
 
 ```{r 'B18-BoxVmail', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$vmail_message)
-title_hh <- "Churn: Voice Messages"
-caption_hh <- "B18P12"
+ttl_hh <- "Churn: Voice Messages"
+cap_hh <- "B18P12"
 ```
 
 ```{r 'B18-BoxVmail-A', include=FALSE, ref.label=c('B18-BoxVmail', 'B18-SingleBoxPlot')}
@@ -516,19 +536,21 @@ caption_hh <- "B18P12"
 ```
 
 ```{r 'B18P12-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P12","_Churn_Box_Vmail", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P12)
+loc_png <- paste0(.z$PX, "B18P12","-Churn-Box-Vmail", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P12, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P12","_Churn_Box_Vmail", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P12","-Churn-Box-Vmail", ".png"))
 ```
 
 ```{r 'B18-BoxCustomer', include=FALSE, eval=FALSE}
 # #Box Plots
 hh <- tibble(Values = bb$custserv_calls)
-title_hh <- "Churn: Customer Service Calls"
-caption_hh <- "B18P13"
+ttl_hh <- "Churn: Customer Service Calls"
+cap_hh <- "B18P13"
 ```
 
 ```{r 'B18-BoxCustomer-A', include=FALSE, ref.label=c('B18-BoxCustomer', 'B18-SingleBoxPlot')}
@@ -536,12 +558,14 @@ caption_hh <- "B18P13"
 ```
 
 ```{r 'B18P13-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P13","_Churn_Box_iCharges", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P13)
+loc_png <- paste0(.z$PX, "B18P13","-Churn-Box-iCharges", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P13, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B18P13","_Churn_Box_iCharges", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P13","-Churn-Box-iCharges", ".png"))
 ```
 
 ```{r 'B18P111213', echo=FALSE, ref.label=c('B18P11', 'B18P12', 'B18P13'), fig.cap="Churn: BoxPlots of Reamining Three", out.width='33%'}
@@ -556,8 +580,8 @@ knitr::include_graphics(paste0(.z$PX, "B18P13","_Churn_Box_iCharges", ".png"))
 ```{r 'B18-Histogram', include=FALSE}
 # #Histogram
 hh <- tibble(ee = bb$intl_calls)
-title_hh <- "Churn: Histogram of International Calls"
-caption_hh <- "B18P02"
+ttl_hh <- "Churn: Histogram of International Calls"
+cap_hh <- "B18P02"
 # #Bins
 summary(hh[[1]])
 bins_hh <- ifelse(length(unique(hh[[1]])) > 50, 50, length(unique(hh[[1]])))
@@ -584,19 +608,21 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
        subtitle = paste0("(N=", len_hh, "; ", "Mean= ", mean_hh, 
                          "; Median= ", median_hh, "; SD= ", sd_hh,
                          ")"), 
-        caption = caption_hh, title = title_hh)
+        caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P02","_Churn_iCalls_Hist", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P02)
+loc_png <- paste0(.z$PX, "B18P02","-Churn-iCalls-Hist", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B18P02', echo=FALSE, fig.cap="Churn: International Calls"}
-knitr::include_graphics(paste0(.z$PX, "B18P02","_Churn_iCalls_Hist", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P02","-Churn-iCalls-Hist", ".png"))
 ```
 
 #### Exploration {.unlisted .unnumbered}
@@ -659,8 +685,8 @@ jj <- ii %>% mutate(across(everything(), ~ as.vector(scale(.)))) %>%
 ```{r 'B18-HistScale', include=FALSE}
 # #Histogram 
 hh <- jj
-title_hh <- "Churn: Histograms (Scaled)"
-caption_hh <- "B18P14"
+ttl_hh <- "Churn: Histograms (Scaled)"
+cap_hh <- "B18P14"
 #
 # #x-axis has been kept free to identify which plots have outliers
 B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) + 
@@ -669,19 +695,21 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
     facet_wrap(~Key, nrow = 3, scales = 'free') +
-    labs(x = "z", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+    labs(x = "z", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P14-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P14, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P14","-Churn-Scale-Hist", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P14, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P14', echo=FALSE, fig.cap="Churn: All Histograms (Scaled)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P14","-Churn-Scale-Hist", ".png"))
 ```
 
 #### QQ Plots {.unlisted .unnumbered}
@@ -689,8 +717,8 @@ knitr::include_graphics(paste0(.z$PX, "B18P14","_Churn_Scale_Hist", ".png"))
 ```{r 'B18-QQScale', include=FALSE}
 # #QQ Plots
 hh <- jj
-title_hh <- "Churn: QQ Plots (Scaled)"
-caption_hh <- "B18P15"
+ttl_hh <- "Churn: QQ Plots (Scaled)"
+cap_hh <- "B18P15"
 #
 B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     stat_qq() +
@@ -700,19 +728,21 @@ B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     #coord_flip() +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
-    labs(x = "z", y = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+    labs(x = "z", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P15-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P15, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P15","-Churn-Scale-QQ", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P15, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P15', echo=FALSE, fig.cap="Churn: All QQ Plots (Scaled)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P15","_Churn_Scale_QQ", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P15","-Churn-Scale-QQ", ".png"))
 ```
 
 #### BoxPlots {.unlisted .unnumbered}
@@ -728,27 +758,29 @@ kk <- jj %>% mutate(Group = case_when(str_detect(Key, "day_") ~ "Day",
                                       str_detect(Key, "vmail_") ~ "Vmail"))
 #
 hh <- kk
-title_hh <- "Churn: BoxPlots (Scaled)"
-caption_hh <- "B18P16"
+ttl_hh <- "Churn: BoxPlots (Scaled)"
+cap_hh <- "B18P16"
 #
 B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Key, y = Values, fill = Group)) +
     geom_boxplot() +
     k_gglayer_box +
     coord_flip() +
     theme(legend.position = 'none') +
-    labs(x = NULL, y = NULL, caption = caption_hh, title = title_hh)
+    labs(x = NULL, y = NULL, caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P16-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P16, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P16","-Churn-Scale-Box", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P16, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P16', echo=FALSE, fig.cap="Churn: All Box Plots (Scaled)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P16","_Churn_Scale_Box", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P16","-Churn-Scale-Box", ".png"))
 ```
 
 ### Overlaid Histograms
@@ -770,8 +802,8 @@ ii <- bb %>% select(matches('day_|night_|eve_')) %>%
 ```{r 'B18-HistOverlaid', include=FALSE}
 # #Histogram
 hh <- ii
-title_hh <- "Churn: Multi Histograms of Day, Eve, Night"
-caption_hh <- "B18P17"
+ttl_hh <- "Churn: Multi Histograms of Day, Eve, Night"
+cap_hh <- "B18P17"
 #
 B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Group)) + 
     geom_histogram(position = "identity", bins = 80, alpha = 0.4) + 
@@ -786,19 +818,21 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Group)) +
           #legend.position = "bottom", 
           legend.box = "horizontal", 
           legend.direction = "horizontal") +
-    labs(x = "x", y = NULL, fill = NULL, caption = caption_hh, subtitle = NULL, title = title_hh)
+    labs(x = "x", y = NULL, fill = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
 }
-assign(caption_hh, B18)
+assign(cap_hh, B18)
 rm(B18)
 ```
 
 ```{r 'B18P17-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B18P17, width = k_width, height = k_height)
+loc_png <- paste0(.z$PX, "B18P17","-Churn-mHist-Charges", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B18P17, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
 ```
 
 ```{r 'B18P17', echo=FALSE, fig.cap="Churn: All Histograms", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B18P17","-Churn-mHist-Charges", ".png"))
 ```
 
 ## Q4 
@@ -813,8 +847,8 @@ knitr::include_graphics(paste0(.z$PX, "B18P17","_Churn_mHist_Charges", ".png"))
 
 ```{r 'B18-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, t_aa, xxB18Churn, B18P01, B18P02, B18P03, B18P04, B18P05, 
-          B18P06, B18P07, bins_hh, caption_hh, hh, jj_calls, jj_charge, jj_mins, len_hh, loc_png, 
-          mean_hh, median_hh, median_loc_hh, sd_hh, subt_hh, title_hh, B18P08, B18P09, B18P10, 
+          B18P06, B18P07, bins_hh, cap_hh, hh, jj_calls, jj_charge, jj_mins, len_hh, loc_png, 
+          mean_hh, median_hh, median_loc_hh, sd_hh, sub_hh, ttl_hh, B18P08, B18P09, B18P10, 
           B18P11, B18P12, B18P13, B18P14, B18P15, B18P16, B18P17)
 ```
 

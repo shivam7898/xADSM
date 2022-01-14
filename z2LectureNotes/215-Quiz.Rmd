@@ -176,8 +176,8 @@ str(ii)
 ```{r 'B15-UsageTrend', include=FALSE}
 # #Plot
 hh <- ii
-title_hh <- "Usage Pattern"
-caption_hh <- "B15P01"
+ttl_hh <- "Usage Pattern"
+cap_hh <- "B15P01"
 #
 B15 <- hh %>% {
   ggplot(data = ., aes(x = NewDate, y = Usage)) +
@@ -189,26 +189,28 @@ B15 <- hh %>% {
                                              paste(month(x, label = TRUE), "\n", year(x)), 
                                              paste(month(x, label = TRUE)))) +
   labs(x = "Time", y = "Usage", 
-       caption = caption_hh, title = title_hh)
+       caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B15)
+assign(cap_hh, B15)
 rm(B15)
 ```
 
 ```{r 'B15P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P01", "_JAT_Usage", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P01)
+loc_png <- paste0(.z$PX, "B15P01", "-JAT-Usage", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B15P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B15P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P01", "_JAT_Usage", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B15P01", "-JAT-Usage", ".png"))
 ```
 
 ```{r 'B15-UserTrend', include=FALSE}
 # #Plot
 hh <- ii
-title_hh <- "User Pattern"
-caption_hh <- "B15P02"
+ttl_hh <- "User Pattern"
+cap_hh <- "B15P02"
 #
 B15 <- hh %>% {
   ggplot(data = ., aes(x = NewDate, y = Users)) +
@@ -220,19 +222,21 @@ B15 <- hh %>% {
                                              paste(month(x, label = TRUE), "\n", year(x)), 
                                              paste(month(x, label = TRUE)))) +
   labs(x = "Time", y = "Users", 
-       caption = caption_hh, title = title_hh)
+       caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B15)
+assign(cap_hh, B15)
 rm(B15)
 ```
 
 ```{r 'B15P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P02", "_JAT_Users", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P02)
+loc_png <- paste0(.z$PX, "B15P02", "-JAT-Users", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B15P02, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B15P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P02", "_JAT_Users", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B15P02", "-JAT-Users", ".png"))
 ```
 
 ```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="JAT: Usage and Users over the TimePeriod"}
@@ -574,45 +578,49 @@ bb <- xxJdata %>%
   select(Week, Usage, Sqrt)
 #
 hh <- bb
-title_hh <- "QQ Plot of Usage"
-caption_hh <- "B15P04"
+ttl_hh <- "QQ Plot of Usage"
+cap_hh <- "B15P04"
 #
 B15 <- hh %>% { ggplot(., aes(sample = Usage, colour = Week)) +
     stat_qq() +
     stat_qq_line() +
-    labs(caption = caption_hh, title = title_hh)
+    labs(caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B15)
+assign(cap_hh, B15)
 rm(B15)
 #
-title_hh <- "QQ Plot of Sqrt(Usage)"
-caption_hh <- "B15P05"
+ttl_hh <- "QQ Plot of Sqrt(Usage)"
+cap_hh <- "B15P05"
 B15 <- hh %>% { ggplot(., aes(sample = Sqrt, colour = Week)) +
     stat_qq() +
     stat_qq_line() +
-    labs(caption = caption_hh, title = title_hh)
+    labs(caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B15)
+assign(cap_hh, B15)
 rm(B15)
 ```
 
 
 ```{r 'B15P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P04", "_JAT_QQ_Usage", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P04)
+loc_png <- paste0(.z$PX, "B15P04", "-JAT-QQ-Usage", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B15P04, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B15P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P04", "_JAT_QQ_Usage", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B15P04", "-JAT-QQ-Usage", ".png"))
 ```
 
 ```{r 'B15P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P05", "_JAT_QQ_Usage_Sqrt", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P05)
+loc_png <- paste0(.z$PX, "B15P05", "-JAT-QQ-Usage-Sqrt", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B15P05, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B15P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P05", "_JAT_QQ_Usage_Sqrt", ".png"))  #iiii
+knitr::include_graphics(paste0(.z$PX, "B15P05", "-JAT-QQ-Usage-Sqrt", ".png"))  #iiii
 ```
 
 ```{r 'B15P04P05', echo=FALSE, ref.label=c('B15P04', 'B15P05'), fig.cap="JAT: QQ Plot of Usage and Sqrt(Usage)"}
@@ -897,8 +905,8 @@ hh <- q6_bb %>%
   pivot_longer(everything(), names_to = c(".value", "Disease"), names_pattern = "(.)(.)") %>%
   rename(Values = "D", Favourable = "i")
 #
-title_hh <- "BoxPlot of Searches for Diseases in both districts"
-caption_hh <- "B15P03"
+ttl_hh <- "BoxPlot of Searches for Diseases in both districts"
+cap_hh <- "B15P03"
 #
 B15 <- hh %>% { ggplot(data = ., mapping = aes(x = Disease, y = Values, fill = Favourable)) +
         geom_boxplot(outlier.shape = NA) +
@@ -914,19 +922,21 @@ B15 <- hh %>% { ggplot(data = ., mapping = aes(x = Disease, y = Values, fill = F
             legend.position = c(.90, .95)
         ) +
         labs(x = "Diseases", y = "Searches per month", fill = "Favourable",
-             caption = caption_hh, title = title_hh)
+             caption = cap_hh, title = ttl_hh)
 }
-assign(caption_hh, B15)
+assign(cap_hh, B15)
 rm(B15)
 ```
 
 ```{r 'B15P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png")
-if(!file.exists(loc_png)) ggsave(loc_png, plot = B15P03)
+loc_png <- paste0(.z$PX, "B15P03", "-JAT-Diseases", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B15P03, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'B15P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P03", "_JAT_Diseases", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B15P03", "-JAT-Diseases", ".png"))
 ```
 
 ```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}
@@ -972,7 +982,7 @@ stopifnot(identical(ii, jj))
 ```{r 'B15-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ee, hh, ii, jj, kk, ll, mm, nn, oo, rr, vv, xx, yy, zz, bb_aov, bb_prop, 
           diff_len, ii_aov, isVarEqual, jj_t, jj_var, namesJ, t_ii, xxJbela, xxJdata, xxJdhar,
-          xxJdiseases, B15P01, B15P02, bb_t, bb_var, caption_hh, loc_png, title_hh, B15P03, 
+          xxJdiseases, B15P01, B15P02, bb_t, bb_var, cap_hh, loc_png, ttl_hh, B15P03, 
           formulas, old_n, old_sd, output, q6_bb, B15P04, B15P05)
 ```
 
