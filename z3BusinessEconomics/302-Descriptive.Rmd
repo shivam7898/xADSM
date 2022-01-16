@@ -468,6 +468,13 @@ stopifnot(all(identical(ii, jj), identical(ii, kk)))
 
 ### Attributes {.unlisted .unnumbered}
 
+- Tibble 
+  - 'problems' attribute contains List of All Problems
+    - \textcolor{pink}{problems(bb)} 
+  - 'spec' attribute contains List of Columns and Types
+    - \textcolor{pink}{spec(bb)}
+    - \textcolor{orange}{Caution:} SHOW Snapshot at Import NOT the current Status, Better To Be Removed
+
 ```{r 'C02-K-Attributes'}
 jj <- ii <- bb <- aa
 # #attr() adds or removes an attribute

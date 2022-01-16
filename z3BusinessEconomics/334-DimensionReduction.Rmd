@@ -1,0 +1,237 @@
+# Dimension Reduction {#c34}
+
+```{r 'C34', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+## Dimensions {.tabset .tabset-fade}
+
+> 10 or 11 Dimensionsions are enough for the Universe. How many are needed for your data!
+
+
+### Multicollinearity {.unlisted .unnumbered}
+
+```{definition 'Multicollinearity'}
+\textcolor{pink}{Multicollinearity} is a condition where some of the predictor variables are strongly correlated with each other. 
+```
+
+- Problems: Multicollinearity
+  - Multicollinearity leads to instability in the solution space, leading to possible incoherent results, such as in multiple regression, where a multicollinear set of predictors can result in a regression which is significant overall, even when none of the individual variables is significant. 
+  - Even if such instability is avoided, inclusion of variables which are highly correlated tends to overemphasize a particular component of the model, as the component is essentially being double counted.
+- Problems: Too many variables
+  - The sample size needed to fit a multivariate function grows exponentially with the number of variables.
+  - The use of too many predictor variables to model a relationship with a response variable can unnecessarily complicate the interpretation of the analysis, and violates the principle of parsimony
+    - i.e. keep the number of predictors to such a size that would be easily interpreted. 
+  - Also, retaining too many variables may lead to overfitting
+    - i.e. generality of the findings is hindered because new data do not behave the same as the training data for all the variables.
+
+### Parsimony {.unlisted .unnumbered}
+
+```{definition 'Principle-of-Parsimony'}
+\textcolor{pink}{Principle of parsimony} is the problem-solving principle that "entities should not be multiplied beyond necessity". 
+```
+
+- It is inaccurately paraphrased as "the simplest explanation is usually the best one". 
+- It advocates that when presented with competing hypotheses about the same prediction, one should select the solution with the fewest assumptions, and that this is not meant to be a way of choosing between hypotheses that make different predictions. 
+
+### Overfitting & Underfitting {.unlisted .unnumbered}
+
+```{definition 'Overfitting'}
+\textcolor{pink}{Overfitting} is the production of an analysis that corresponds too closely to a particular set of data, and may therefore fail to fit additional data or predict future observations reliably.
+```
+
+
+```{definition 'Underfitting'}
+\textcolor{pink}{Underfitting} occurs when a statistical model cannot adequately capture the underlying structure of the data. 
+```
+
+- An overfitted model is a statistical model that contains more parameters than can be justified by the data.
+  - The essence of overfitting is to have unknowingly extracted some of the residual variation (i.e., the noise) as if that variation represented underlying model structure.
+  - over-fitting occurs when a model begins to "memorize" training data rather than "learning" to generalize from a trend.
+- Under-fitting would occur, for example, when fitting a linear model to non-linear data. Such a model will tend to have poor predictive performance.
+- Overfitting Example
+  - If the number of parameters is the same as or greater than the number of observations, then a model can perfectly predict the training data simply by memorizing the data in its entirety. Such a model, though, will typically fail severely when making predictions.
+  - A noisy linear dataset can be fitted by a polynomial function also which would give a perfect fit. However, the linear function (in this case) would be better in extrapolating beyond the fitted data.
+- To decrease the chance or amount of overfitting
+  - model comparison, cross-validation, regularization, early stopping, pruning, Bayesian priors, or dropout
+  - To explicitly penalize overly complex models 
+  - To evaluate the model performance on a set of data not used for training, which is assumed to approximate the typical unseen data that a model will encounter. 
+
+## Dimension-reduction methods 
+
+- These use the correlation structure among the predictor variables to accomplish the following: 
+  - To reduce the number of predictor items. 
+  - To help ensure that these predictor items are independent. 
+  - To provide a framework for interpretability of the results. 
+
+- Dimension-reduction methods: 
+  - PCA
+  - Factor analysis 
+  - User-defined composites 
+  
+## PCA
+
+```{definition 'PCA'}
+\textcolor{pink}{Principal components analysis (PCA)} seeks to explain the correlation structure of a set of predictor variables ${m}$, using a smaller set of linear combinations of these variables, called components ${k}$. PCA acts solely on the predictor variables, and ignores the target variable.
+```
+
+
+- Suppose that the original variables ${\{X_1, X_2, \ldots, X_m\}}$ form a coordinate system in m-dimensional space. 
+  - Let each variable ${X_i}$ represent an ${n \times 1}$ vector, where ${n}$ is number of records.
+  - The principal components represent a new coordinate system, found by rotating the original system along the directions of maximum variability.
+- Analysis
+  - Standardize the data, so that the mean for each variable is zero, and the standard deviation is one.
+  - ${X_i \to Z_i = \frac{X_i - {\mu}_i}{{\sigma}_{ii}}}$
+  - The covariance is a measure of the degree to which two variables vary together.
+  - A positive covariance indicates that, when one variable increases, the other tends to increase, while a negative covariance indicates that, when one variable increases, the other tends to decrease. 
+  - ${{\sigma}_{ii}^2}$ denotes the variance of ${X_i}$. 
+    - If ${X_i}$ and ${X_j}$ are independent, then ${{\sigma}_{ij}^2 = 0}$; but reverse may not be TRUE i.e. ${{\sigma}_{ij}^2 = 0}$ does not imply that ${X_i}$ and ${X_j}$ are independent. 
+    - Note that the covariance measure is not scaled, so that changing the units of measure would change the value of the covariance.
+    - The correlation coefficient ${r_{ij}} = \frac{{\sigma}_{ij}^2}{{\sigma}_{ii}{\sigma}_{jj}}$ avoids this difficulty by scaling the covariance by each of the standard deviations.
+    - Then, the correlation matrix is denoted as ${\rho}$
+
+
+```{definition 'Eigenvalues'}
+Let \textcolor{pink}{B} be an $m \times m$ matrix, and let \textcolor{pink}{I} be the $m \times m$ identity matrix. Then the scalars $\{\lambda_1, \lambda_2, \ldots, \lambda_m\}$ are said to be the \textcolor{pink}{eigenvalues of B} if they satisfy $|B - \lambda I| = 0$, where $|Q|$ denotes the determinant of Q.
+```
+
+
+```{definition 'Eigenvector'}
+Let \textcolor{pink}{B} be an $m \times m$ matrix, and let $\lambda$ be an eigenvalue of B. Then nonzero $m \times 1$ vector \textcolor{pink}{e} is said to be an \textcolor{pink}{eigenvector of B}, if $B e = 𝜆e$.
+```
+
+- The total variability in the standardized set of predictors equals the sum of the variances of the Z-vectors, which equals the sum of the variances of the components, which equals the sum of the eigenvalues, which equals the numer of predictors
+  - $\sum_{i=1}^m {\text{Var}({Y_i})} = \sum_{i=1}^m {\text{Var}({Z_i})} = \sum_{i=1}^m {\lambda_i} = m$
+- The partial correlation between a given component and a given predictor variable is a function of an eigenvector and an eigenvalue. Specifically, $\text{Corr}(Y_i, Z_j) = e_{ij}\sqrt{\lambda_i}$, where $\{ (\lambda_1, e_1), (\lambda_2, e_2), \ldots, (\lambda_m, e_m)\}$ are the eigenvalue–eigenvector pairs for the correlation matrix $\rho$, and we note that $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m$. In other words, the eigenvalues are ordered by size. (A partial correlation coefficient is a correlation coefficient that takes into account the effect of all the other variables.)
+- The proportion of the total variability in Z that is explained by the $i^{\text{th}}$ principal component is the ratio of the $i^{\text{th}}$ eigenvalue to the number of variables, that is, the ratio $\frac{\lambda_i}{m}$.
+
+## Data Housing
+
+\textcolor{pink}{Please import the "C34-cadata.txt".} 
+
+- Source: http://lib.stat.cmu.edu/datasets/houses.zip
+- About: [20640, 9]
+  - It provides census information from all the block groups from the 1990 California census. 
+  - For this data set, a block group has an average of 1425.5 people living in an area that is geographically compact. 
+  - Block groups were excluded that contained zero entries for any of the variables. 
+  - Variables: median house value (Target), median income, housing median age, total rooms, total bedrooms, population, households, latitude, and longitude.
+
+
+```{r 'C34-Housing', include=FALSE, eval=FALSE}
+# #read_table() can handle double space delimited file.
+tbl <- read_table(paste0(.z$XL, "C34-cadata.txt"), skip = 27, 
+                col_names = c("median_house_value", "median_income", "housing_median_age", 
+                              "total_rooms", "total_bedrooms", "population", "households", 
+                              "latitude", "longitude"))
+stopifnot(!"problems" %in% names(attributes(tbl)))
+#problems(tbl)
+#attr(tbl, "problems") <- NULL
+attr(tbl, "spec") <- NULL
+xxC34Housing <- tbl
+f_setRDS(xxC34Housing)
+```
+
+```{r 'C34-GetHousing', include=FALSE}
+bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)
+```
+
+## Partition Train & Test Data
+
+```{r 'C34-Partition'}
+set.seed(3)
+# #sample() and its varaints can be used for Partitioning of Dataset
+if(FALSE) {
+  # #This approach is difficult to extend for 3 or more splits
+  # #Further, Using floor() multiple times might result in loss of a row 
+  train_idx <- sample.int(n = nrow(bb), size = floor(0.8 * nrow(bb)), replace = FALSE)
+  train_idx <- sample(seq_len(nrow(bb)), size = floor(0.8 * nrow(bb)), replace = FALSE)  
+  train_bb <- bb[train_idx, ]
+  test_bb <- bb[-train_idx, ]
+}
+#
+# #For 3 or more splits
+#brk_bb = c(train = 0.8, test = 0.1, validate = 0.1)
+brk_bb = c(train = 0.9, test = 0.1)
+idx_bb = sample(cut(seq_len(nrow(bb)), nrow(bb) * cumsum(c(0, brk_bb)), labels = names(brk_bb)))
+#
+# #Splits by Fixed Numbers not Percentages
+if(FALSE) {
+  brk_bb = c(train = 18570, test = nrow(bb))
+  idx_bb = sample(cut(seq_len(nrow(bb)), c(0, brk_bb), labels = names(brk_bb)))
+}
+# #List of Multiple Tibbles
+aa = split(bb, idx_bb)
+#
+# #nrow(), ncol(), dim() can be applied
+vapply(aa, nrow, FUN.VALUE = integer(1))
+stopifnot(identical(nrow(bb), sum(vapply(aa, nrow, FUN.VALUE = integer(1)))))
+```
+
+
+## Basics, Skewness & Normality
+
+
+
+WORKING HERE
+
+
+
+```{r 'C34-Normality', include=FALSE}
+bb <- aa$train
+#str(bb)
+ii <- bb %>%  
+  pivot_longer(everything(), names_to = "Predictors", values_to = "Values") %>% 
+  mutate(across(Predictors, factor, levels = unique(Predictors)))
+#
+jj <- ii %>% group_by(Predictors) %>% 
+  summarise(Min = min(Values), Max = max(Values), SD = sd(Values), 
+            Mean = mean(Values), Median = median(Values), Mode = f_getMode(Values),
+            Unique = length(unique(Values)), isNA = sum(is.na(Values)), 
+            Skewness = skewness(Values), 
+            p_Shapiro = shapiro.test(Values)$p.value, 
+            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
+#
+kk <- jj %>% 
+  mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, nsmall = 0, 
+                replace.zero = TRUE, zero.print = "0", scientific = FALSE, drop0trailing = TRUE)) 
+```
+
+```{r 'C33T01', echo=FALSE}
+kbl(kk,
+  caption = "(C33T01) Churn: Normality",
+  #col.names = displ_names,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	) %>% 
+# #Conditional Row Text Highlight. Background etc. can also be done.
+  row_spec(which(!kk$isNormal), color = "red") # %>% row_spec(which(kk$isNormal), color = "black")
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C34-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn)
+```
+
+```{r 'C34-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
