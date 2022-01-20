@@ -160,12 +160,33 @@ ll
 #### Shapiro-Wilk test {#shapiro-c10 .unlisted .unnumbered}
 
 ```{definition 'Shapiro-Wilk-Test'}
-The \textcolor{pink}{Shapiro-Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. \textcolor{pink}{$P_{\text{shapiro}} > ({\alpha} = 0.05) \to \text{Data is Normal}$}
+The \textcolor{pink}{Shapiro-Wilk test} is a test of normality. It tests the null hypothesis that a sample came from a normally distributed population. \textcolor{pink}{$P_{\text{shapiro}} > ({\alpha} = 0.05) \to \text{Data is Normal}$}. Avoid using sample with more than 5000 observations.
 ```
 
 The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data being tested is not distributed normally. 
 
 On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+
+Shapiro–Wilk test is known not to work well in samples with many identical values. 
+
+```{conjecture 'shapiro-limit'}
+\textcolor{brown}{Error in shapiro.test(...) : sample size must be between 3 and 5000}
+```
+
+- Ideally we should not test for normality of a sample with more than 5000 observations.
+  - However, we can randomly select 5000 observations and test them by Shapiro.
+  - We can use Anderson–Darling test or Kolmogorov-Smirnov test (Nonparametric) (KS is weaker than AD)
+  - Anderson–Darling test is not quite as good as the Shapiro–Wilk test, but is better than other tests.
+- [(SO) Normality Testing](https://stackoverflow.com/questions/7781798 "https://stackoverflow.com")
+  - Normality Tests like Shapiro or Anderson Darling are NULL Hypothesis Tests \textcolor{pink}{against} the assumption of normality.
+    - When the sample size is small, even big departures from normality are not detected
+    - When your sample size is large, even the smallest deviation from normality will lead to a rejected null.
+      - In Shapiro-Wilk test, with more data, the chances of the null hypothesis being rejected becomes larger even though for practical purposes the data is more than normal enough.
+  - Do not worry much about normality. The CLT takes over quickly and if you have all but the smallest sample sizes and an even remotely reasonable looking histogram you are fine.
+  - Worry about unequal variances (heteroskedasticity). Heteroscedasticity-consistent standard errors are checked by HCCM tests. A scale location plot will give some idea of whether this is broken, but not always. 
+  - Also, there is no a priori reason to assume equal variances in most cases.
+  - Further Outliers: A cooks distance of > 1 is reasonable cause for concern.
+
 
 ## Exercises {.tabset .tabset-fade}
 

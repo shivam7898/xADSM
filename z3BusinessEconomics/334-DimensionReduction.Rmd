@@ -4,13 +4,12 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) 
 ```
-
 
 ## Dimensions {.tabset .tabset-fade}
 
-> 10 or 11 Dimensionsions are enough for the Universe. How many are needed for your data!
+> 10 or 11 Dimensions are enough for the Universe. How many are needed for your data!
 
 
 ### Multicollinearity {.unlisted .unnumbered}
@@ -94,18 +93,16 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     - The correlation coefficient ${r_{ij}} = \frac{{\sigma}_{ij}^2}{{\sigma}_{ii}{\sigma}_{jj}}$ avoids this difficulty by scaling the covariance by each of the standard deviations.
     - Then, the correlation matrix is denoted as ${\rho}$
 
-
 ```{definition 'Eigenvalues'}
-Let \textcolor{pink}{B} be an $m \times m$ matrix, and let \textcolor{pink}{I} be the $m \times m$ identity matrix. Then the scalars $\{\lambda_1, \lambda_2, \ldots, \lambda_m\}$ are said to be the \textcolor{pink}{eigenvalues of B} if they satisfy $|B - \lambda I| = 0$, where $|Q|$ denotes the determinant of Q.
+Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let \textcolor{pink}{$\mathbf{I}$} be the $m \times m$ identity matrix. Then the scalars $\{\lambda_1, \lambda_2, \ldots, \lambda_m\}$ are said to be the \textcolor{pink}{eigenvalues of $\mathbf{B}$} if they satisfy $|\mathbf{B} - \lambda \mathbf{I}| = 0$, where $|\mathbf{Q}|$ denotes the determinant of Q.
 ```
 
-
 ```{definition 'Eigenvector'}
-Let \textcolor{pink}{B} be an $m \times m$ matrix, and let $\lambda$ be an eigenvalue of B. Then nonzero $m \times 1$ vector \textcolor{pink}{e} is said to be an \textcolor{pink}{eigenvector of B}, if $B e = 𝜆e$.
+Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let ${\lambda}$ be an eigenvalue of $\mathbf{B}$. Then nonzero $m \times 1$ vector \textcolor{pink}{$\overrightarrow{e}$} is said to be an \textcolor{pink}{eigenvector of B}, if $\mathbf{B} \overrightarrow{e} = 𝜆\overrightarrow{e}$.
 ```
 
 - The total variability in the standardized set of predictors equals the sum of the variances of the Z-vectors, which equals the sum of the variances of the components, which equals the sum of the eigenvalues, which equals the numer of predictors
-  - $\sum_{i=1}^m {\text{Var}({Y_i})} = \sum_{i=1}^m {\text{Var}({Z_i})} = \sum_{i=1}^m {\lambda_i} = m$
+  - i.e. $\sum_{i=1}^m {\text{Var}({Y_i})} = \sum_{i=1}^m {\text{Var}({Z_i})} = \sum_{i=1}^m {\lambda_i} = m$
 - The partial correlation between a given component and a given predictor variable is a function of an eigenvector and an eigenvalue. Specifically, $\text{Corr}(Y_i, Z_j) = e_{ij}\sqrt{\lambda_i}$, where $\{ (\lambda_1, e_1), (\lambda_2, e_2), \ldots, (\lambda_m, e_m)\}$ are the eigenvalue–eigenvector pairs for the correlation matrix $\rho$, and we note that $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m$. In other words, the eigenvalues are ordered by size. (A partial correlation coefficient is a correlation coefficient that takes into account the effect of all the other variables.)
 - The proportion of the total variability in Z that is explained by the $i^{\text{th}}$ principal component is the ratio of the $i^{\text{th}}$ eigenvalue to the number of variables, that is, the ratio $\frac{\lambda_i}{m}$.
 
@@ -164,67 +161,260 @@ if(FALSE) {
   idx_bb = sample(cut(seq_len(nrow(bb)), c(0, brk_bb), labels = names(brk_bb)))
 }
 # #List of Multiple Tibbles
-aa = split(bb, idx_bb)
+part_l = split(bb, idx_bb)
 #
 # #nrow(), ncol(), dim() can be applied
-vapply(aa, nrow, FUN.VALUE = integer(1))
-stopifnot(identical(nrow(bb), sum(vapply(aa, nrow, FUN.VALUE = integer(1)))))
+vapply(part_l, nrow, FUN.VALUE = integer(1))
+stopifnot(identical(nrow(bb), sum(vapply(part_l, nrow, FUN.VALUE = integer(1)))))
 ```
 
+## Basics
 
-## Basics, Skewness & Normality
-
-
-
-WORKING HERE
-
-
-
-```{r 'C34-Normality', include=FALSE}
-bb <- aa$train
-#str(bb)
-ii <- bb %>%  
-  pivot_longer(everything(), names_to = "Predictors", values_to = "Values") %>% 
-  mutate(across(Predictors, factor, levels = unique(Predictors)))
+```{r 'C34-Basic', include=FALSE}
+bb <- part_l$train
+# #Separate Working Names and Display Names
+if(FALSE) paste0(names(bb), collapse = ", ")
+names_bb <- c("h_value", "income", "h_age", "rooms", "bedrooms", 
+               "population", "households", "latitude", "longitude")
+names(names_bb) <- c("House Value (Median)", "Income (Median)", "House Age (Median)", 
+        "Rooms (Total)", "Bedrooms (Total)", "Population", "Households", "Latitude", "Longitude")
+names(bb) <- names_bb
 #
-jj <- ii %>% group_by(Predictors) %>% 
+xsyl <- bb %>%  
+  pivot_longer(everything(), names_to = "Keys", values_to = "Values") %>% 
+  mutate(across(Keys, factor, levels = unique(Keys)))
+#
+# #Summary
+xsyg <- xsyl %>% group_by(Keys) %>% 
   summarise(Min = min(Values), Max = max(Values), SD = sd(Values), 
             Mean = mean(Values), Median = median(Values), Mode = f_getMode(Values),
-            Unique = length(unique(Values)), isNA = sum(is.na(Values)), 
-            Skewness = skewness(Values), 
-            p_Shapiro = shapiro.test(Values)$p.value, 
-            isNormal = ifelse(p_Shapiro > 0.05, TRUE, FALSE))
-#
-kk <- jj %>% 
+            Unique = length(unique(Values)), isNA = sum(is.na(Values)))
+# #Relabel with Verification Before and After
+levels(xsyg$Keys)
+levels(xsyg$Keys) <- names(names_bb)
+levels(xsyg$Keys)
+```
+
+```{r 'C34T01', echo=FALSE}
+# #Print Kable Table
+hh <- xsyg %>% 
   mutate(across(where(is.numeric), round, digits = 4)) %>% 
   mutate(across(where(is.numeric), format, digits = 3, nsmall = 0, 
                 replace.zero = TRUE, zero.print = "0", scientific = FALSE, drop0trailing = TRUE)) 
+#
+cap_hh <- paste0("(C34T01)", "[", nrow(bb), ", ", ncol(bb), "] ", "Houses: Basics") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 ```
 
-```{r 'C33T01', echo=FALSE}
-kbl(kk,
-  caption = "(C33T01) Churn: Normality",
-  #col.names = displ_names,
-  escape = FALSE, align = "c", booktabs = TRUE
-  ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-                html_font = "Consolas",	font_size = 12,
-                full_width = FALSE,
-                #position = "float_left",
-                fixed_thead = TRUE
-  ) %>%
-# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
-	row_spec(0, color = "white", background = "#303030", bold = TRUE,
-	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
-	) %>% 
-# #Conditional Row Text Highlight. Background etc. can also be done.
-  row_spec(which(!kk$isNormal), color = "red") # %>% row_spec(which(kk$isNormal), color = "black")
+## Standardisation
+
+```{r 'C34-Standard'}
+bb <- part_l$train
+#
+zsyl <- bb %>% mutate(across(everything(), ~ as.vector(scale(.)))) %>% 
+  pivot_longer(everything(), names_to = "Keys", values_to = "Values") %>% 
+  mutate(across(Keys, factor, levels = unique(Keys), labels = names(names_bb)))
 ```
+
+## Boxplot
+
+```{r 'C34-BoxScaledHouse', include=FALSE}
+hh <- zsyl 
+#
+ttl_hh <- "Houses: BoxPlots (Scaled)"
+cap_hh <- "C34P01"
+sub_hh <- NULL 
+lgd_hh  <- NULL
+```
+
+```{r 'C34-ScaleBox', include=FALSE}
+# #IN: hh(Keys, Values), 
+C34 <- hh %>% { ggplot(data = ., mapping = aes(x = Keys, y = Values, fill = Keys)) +
+    geom_boxplot() +
+    k_gglayer_box +
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    coord_flip() +
+    theme(legend.position = 'none') +
+    labs(x = NULL, y = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, C34)
+rm(C34)
+```
+
+```{r 'C34P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P01', echo=FALSE, fig.cap="Houses: Boxplot (Scaled)"}
+knitr::include_graphics(paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png"))
+```
+
+## Normality
+
+Note that normality of the data is not strictly required to perform non-inferential PCA but that strong departures from normality may diminish the observed correlations. As data mining applications usually do not involve inference, we will not worry about normality.
+
+## Predictors SPLOM
+
+- Rooms, bedrooms, population, and households all appear to be positively correlated. 
+- Latitude and longitude appear to be negatively correlated. 
+  - Scatter plot between them looks like the State of California
+- House Median Age appears to be correlated the least with the other predictors
+
+
+```{r 'C34-Predictors', include=FALSE}
+# #Wider
+zsyw <- zsyl %>% 
+  group_by(Keys) %>% 
+  mutate(ID = row_number()) %>% 
+  pivot_wider(names_from = Keys, values_from = Values) %>% 
+  select(-1) %>% 
+  rename(Target = 1, Income = "Income (Median)", Age = "House Age (Median)", 
+         Rooms = "Rooms (Total)", Beds = "Bedrooms (Total)", Pop = "Population", 
+         Houses = "Households", Lat = "Latitude", Long = "Longitude") #%>% 
+  #pivot_longer(-c(1), names_to = "Keys", values_to = "Values") %>% 
+  #mutate(across(Keys, factor, levels = unique(Keys), labels = names(names_bb)[-1]))
+#
+hh <- zsyw
+#hh <- hh[1:100, ]
+#
+ttl_hh <- "Houses: SPLOM (8)"
+cap_hh <- "C34P02"
+sub_hh <- NULL #"Count of Predictor & Target" 
+lgd_hh  <- NULL #"Churn"
+```
+
+```{r 'C34-SPLOM', include=FALSE}
+# #Assumes Column 1 has Target Variable (Factor)
+C34 <- hh %>% { 
+  ggpairs(data = ., mapping = aes(alpha = I(0.1)), 
+          columns = 2:ncol(.), 
+          upper = list(continuous = wrap("cor", size = 5, alpha = 1))) +
+    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh) 
+}
+assign(cap_hh, C34)
+rm(C34)
+```
+
+```{r 'C34P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P02, device = "png", dpi = 72, width = k_width, height = k_height) 
+}
+```
+
+```{r 'C34P02', echo=FALSE, fig.cap="Houses: SPLOM (8)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png"))
+```
+
+## Predictors Corplot
+
+```{r 'C34-PredCor', include=FALSE}
+# #Assumes Column 1 has Target Variable (Factor)
+loc_png <- paste0(.z$PX, "C34P03", "-House-Corplot-z", ".png")
+ttl_hh <- "Houses: Corrplot (8)"
+cap_hh <- "C34P03"
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
+  corrplot(cor(hh[2:ncol(hh)]), method = "circle", type = "full", diag = FALSE, 
+                     cl.pos = 'n', tl.pos = 'l', addCoef.col = "black", 
+                     order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3,
+                     rect.lwd = 3, title = NULL, col = RColorBrewer::brewer.pal(3, "BrBG"))
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  C34 <- recordPlot()
+  dev.off()
+  assign(cap_hh, C34)
+  rm(C34)
+}
+```
+
+```{r 'C34P03', echo=FALSE, fig.cap="Houses: Corrplot (8)", out.width='100%'}
+knitr::include_graphics(paste0(.z$PX, "C34P03", "-House-Corplot-z", ".png")) #iiii
+```
+
+## Correlation {.tabset .tabset-fade}
+
+### Correlation Matrix {.unlisted .unnumbered}
+
+```{r 'C34T02', echo=FALSE}
+# #cor() produces a Matrix of Correlations: Redundant Triangle (Upper or Lower) and Diagonal
+# #Print Kable Table
+hh <- cor(zsyw[2:ncol(zsyw)])
+cap_hh <- paste0("(C34T02) ", "Houses: Correlation Matrix") 
+f_pKblM(x = hh, caption = cap_hh)
+```
+
+### Matrices {.unlisted .unnumbered}
+
+- \textcolor{pink}{cor()} : Correlation Function produces a Matrix
+  - Matirces has HUGE number of problems but unfortunately some function output is in that form
+  - names() does NOT work on Matrices but colnames() works, even though names() is superior to colnames() in all other aspects
+  - Symmatrical Matrix. Diagonal and one of the Triangles (Upper or Lower) are redundant
+  - Too many decimal printing
+
+```{r 'C34-Matrices'}
+# #cor() produces a Matrix
+ii <- cor(zsyw[2:ncol(zsyw)])
+str(ii)
+ii
+#
+# #We can eliminate Lower Triangle and Diagonal. However NA does not print well with format()
+# #outcome of upper.tri() is easily compared to as.table(). lower.tri() will need extra step
+#
+# #Take advatage of Matrix Triangle and Set to 0 for later handling by format()
+# #IF we remove the diagonal then dimensions gets haywire i.e. 8 to 7 columns left [28] elements
+# #IF we keep the diagonal then dimensions gets haywire i.e. 8 to 9 columns left [36] elements
+# #So, cannot use NA, has to use ZERO (So that, later, format can replace it.)
+#
+# #However, we finally went ahead with dplyr solution which handled NA separately from format()
+# #Thus eliminating need of assigning 0, NA are being used for redundant triangle and diagonal
+#
+kk <- ii #ii is FULL 8x8 Matrix
+kk[upper.tri(kk, diag = TRUE)] <- NA 
+mm  <- kk %>% as.table() %>% as_tibble(.name_repair = 'unique') %>% drop_na() %>% 
+  filter(n > 0.5 | n < -0.5) %>% arrange(desc(abs(n)))
+#
+kk <- ii #ii is FULL 8x8 Matrix
+nn  <- kk %>% as.table() %>% as_tibble(.name_repair = 'unique') %>% 
+    filter(...1 != ...2) %>% 
+    filter(!duplicated(paste0(pmax(as.character(...1), as.character(...2)), 
+                              pmin(as.character(...1), as.character(...2))))) %>%
+  filter(n > 0.5 | n < -0.5) %>% arrange(desc(abs(n)))
+stopifnot(identical(mm, nn))
+#
+# #However, above are long because of the usage of as.table(). For Wide:
+ll <- kk %>% #as.table() %>% 
+  as_tibble() %>% 
+  mutate(ID = row_number()) 
+# #Get Names
+oo <- names(ll)
+ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% select(-ID)
+```
+
+### f_pKblM() {.unlisted .unnumbered}
+
+```{r 'A12B-pKblM', eval=FALSE}
+#
+```
+
+
+### f_pKbl() {.unlisted .unnumbered}
+
+```{r 'A12A-pKbl', eval=FALSE}
+#
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C34-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn)
+f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn, brk_bb, hh, idx_bb, part_l,
+          xxC34Housing, C34P01, cap_hh, lgd_hh, loc_png, names_bb, sub_hh, ttl_hh, xsyg, xsyl, 
+          zsyl, C34P02, mm, nn, oo, zsyw)
 ```
 
 ```{r 'C34-Validation', include=TRUE, cache=FALSE}

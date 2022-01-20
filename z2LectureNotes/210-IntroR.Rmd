@@ -229,7 +229,7 @@ dim(bb[rowSums(is.na(bb)) <= 4L, ])
 
 ## Apply {#apply-b10}
 
-Sources:  [Grouping Functions and the Apply Family](https://stackoverflow.com/questions/3505701 "https://stackoverflow.com/questions/3505701"), [Why is vapply safer than sapply](https://stackoverflow.com/questions/12339650 "https://stackoverflow.com/questions/12339650"), [Hadley - Advanced R - Functionals](https://adv-r.hadley.nz/functionals.html "https://adv-r.hadley.nz/functionals.html"), 
+Sources:  [(SO) Grouping Functions and the Apply Family](https://stackoverflow.com/questions/3505701 "https://stackoverflow.com"), [(SO) Why is vapply safer than sapply](https://stackoverflow.com/questions/12339650 "https://stackoverflow.com"), [Hadley - Advanced R - Functionals](https://adv-r.hadley.nz/functionals.html "https://adv-r.hadley.nz/functionals.html"), 
 [This](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r "https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r"), 
 [This](https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71 "https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71"), 
 & [This](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family "https://www.datacamp.com/community/tutorials/r-tutorial-apply-family")
@@ -436,11 +436,24 @@ They can store both strings and integers. They are useful in the columns which h
 
 Factor is nothing but the numeric representation of the character vector.
 
-as.factor() vs. factor()
+\textcolor{pink}{as.factor()} vs. \textcolor{pink}{factor()}
 
 - as.factor() is faster than factor() when input is a factor or integer
 - as.factor retains unused or NA levels whereas factor drops them
-  - levels can also be dropped using droplevels()
+  - levels can also be dropped using \textcolor{pink}{droplevels()}
+
+- [(SO) Levels vs. Labels](https://stackoverflow.com/questions/5869539 "https://stackoverflow.com")
+  - Levels are Input, Labels are Output in factor(). 
+  - There is only 'level' attribute, no 'label' attribute.
+  - In R (unlike SPSS) there is NO difference between what is stored and what is displayed. As soon as the levels ("papaya", "banana") are given labels ("pink", "black"), there is NO way to get back the original levels.
+  - (Aside) This misconception persists because generally we change between numerical to factor or binary character to factor. In these situations generally we know which level shows what and edit /sort them immediately.
+
+- \textcolor{orange}{Caution:} It is highly advised to use 'levels' when creating factors to keep a link on their ordering and not to be dependent upon their occurance in the vector.
+  - Further, this helps while relabeling them because the order is known.
+  - By using 'forcats' or 'car' packages (probably) it can be done for default situation. By sorting factor levels by their integer equivalent before assigning new labels to them. However, this is low priority for now.
+    - [(SO) This](https://stackoverflow.com/questions/37715937 "https://stackoverflow.com")
+    - [(SO) This](https://stackoverflow.com/questions/11810605 "https://stackoverflow.com")
+
 
 ### Transformation {.unnumbered} 
 
@@ -481,6 +494,44 @@ bb$month <- as.factor(bb$month)
 str(bb[aa])
 ```
 
+### Re-Label {.unnumbered} 
+
+```{r 'B10-Relabel'}
+# #Unordered Named Vector of Fruits with Names of Colours
+# #NOTE: First letters of each colour and fruit match
+ii <- c("pink" = "papaya", "black" = "banana", "orchid" = "orange", "amber" = "apple")
+ii
+#
+# #Factor Vectors (default is Alphabetical Sorting) using unname() to remove names
+fruit_base <- factor(unname(ii))
+# #sort()
+fruit_sort <- factor(unname(sort(ii)))
+# #unique() provides the values in the sequence of their appearance 
+fruit_uniq <- factor(unname(ii), levels = unique(ii))
+#
+# #Default Levels Match even though the actual Vectors do not Match
+stopifnot(identical(levels(fruit_base), levels(fruit_sort)))
+fruit_base
+fruit_sort
+fruit_uniq
+#
+# #Relabelling: First letters should always match between Fruits and Colours
+color_base <- fruit_base
+color_sort <- fruit_sort
+color_uniq <- fruit_uniq
+#
+levels(color_base) <- names(ii)[match(color_base, ii)] #WRONG
+levels(color_sort) <- names(ii)[match(color_sort, ii)]
+levels(color_uniq) <- names(ii)[match(color_uniq, ii)]
+#
+# #CAUTION: This is WRONG. 
+color_base #WRONG
+#
+color_sort 
+color_uniq 
+```
+
+
 ## Lists {#lists-b10 .tabset .tabset-fade}
 
 ```{definition 'Lists'}
@@ -507,7 +558,7 @@ All this implies that you should use a data frame for any dataset that fits in t
   - lists and dataframes have same typeof 'list' but different class
 - Then what does \textcolor{pink}{typeof()} tell us
   - It tells us the internal 'storage mode' of an object. How the R perceives the object and interacts with it.
-  - An object has one and only one mode [Difference between mode and class](https://stackoverflow.com/questions/35445112 "https://stackoverflow.com/questions/35445112")
+  - An object has one and only one mode [(SO) Difference between mode and class](https://stackoverflow.com/questions/35445112 "https://stackoverflow.com")
   - class is an attribute and thus can be defined/overridden by a user, however, mode (i.e. typeof ) cannot be
 - To define an object, what should be known about it
   - class(), typeof(), is(), attributes(), str(), inherits(), ...

@@ -1257,6 +1257,11 @@ if(FALSE) show_col(viridis_pal()(q_colors))
 # #Get the Viridis i.e. "D" palette Hex Values for N Colours
 v_colors <-  viridis(q_colors, option = "D")
 v_colors
+#
+# #Diverging Colour Palette from 'RColorBrewer'
+# #Hex Values
+brewer.pal(3, "BrBG")
+if(FALSE) display.brewer.pal(3, "BrBG")
 ```
 
 ### Chebyshev Theorem {.tabset .tabset-fade}

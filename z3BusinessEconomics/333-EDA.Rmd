@@ -1825,7 +1825,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P31', echo=FALSE, fig.cap="corrplot::corrplot vs. psych::corPlot()", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png")) #iiii
 ```
 
 ## Insights
