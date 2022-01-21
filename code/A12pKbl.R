@@ -35,11 +35,21 @@ f_pKbl <- function(x, caption, headers = names(x), debug = FALSE, maxrows = 30L)
 }
 
 ## ---- A12B-pKblM ----
-f_pKblM <- function(x, caption, negPos = c(-0.5, 0.5), ...) {
-# #Print Kable Matrix Standard Formats: f_pKblM(hh, cap_hh)
+f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001), ...) {
+# #Description: 
+# Prints Kable Matrix Standard Format: f_pKblM(hh, cap_hh)
+# Calls: f_pKbl()
+# #Arguments: 
+# x: Matrix
+# caption: Table Title with Table Number in "(AXXTYY)" Format
+# isTri: When TRUE (Default) prints complete Matrix otherwise Lower Triangle Only
+# negPos: Vector of 2 values, to apply 3 colours to labels
+# ... : Everything else is passed to f_pKbl()
+#
   stopifnot(identical(length(negPos), 2L))
+#
 # #outcome of upper.tri() is easily compared to as.table(). lower.tri() will need extra step
-  x[upper.tri(x, diag = TRUE)] <- NA
+  if(isTri) x[upper.tri(x, diag = TRUE)] <- NA
 #
 # #Suppress Warnings because 1 column is completely NA on which mutate(across()) is applied
 # #Keeping the column is better to be seen as Matrix in this specific case of Correlation Matrix
@@ -49,7 +59,7 @@ f_pKblM <- function(x, caption, negPos = c(-0.5, 0.5), ...) {
   x <- suppressWarnings(x %>%
 # #Using as.table() gives long, otherwise wide
     #as.table() %>%
-    as_tibble(.name_repair = 'unique') %>%
+    as_tibble(rownames = NA, .name_repair = 'unique') %>%
 # #Value based conditional formatting needs to happen before kbl() is called because 
 # #mutate() does not work on kbl
 # #format() needs to be called inside cell_spec() itself 
@@ -60,10 +70,10 @@ f_pKblM <- function(x, caption, negPos = c(-0.5, 0.5), ...) {
                       format(.x, digits = 1, scientific = FALSE, drop0trailing = TRUE)),
 # #Change na_font_size to 1 or higher number to see bigger visual blobs on NA
                       font_size = spec_font_size(abs(.x), na_font_size = 0),
-                      color = ifelse(.x < 0 | is.na(.x), "white", "white"),
+                      color = ifelse(.x < 0 | is.na(.x), "black", "black"),
                       background = case_when(is.na(.x) ~ "black",
                                        .x < negPos[1] ~ "#D8B365",
-                                       .x > negPos[2] ~ "#5AB4AC",
+                                       .x >= negPos[2] ~ "#5AB4AC",
                                        TRUE ~ "grey")))))
   result <- f_pKbl(x, caption = caption, ...)
   return(result)

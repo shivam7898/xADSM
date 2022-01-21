@@ -4,7 +4,7 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) 
+invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) #wwww
 ```
 
 ## Dimensions {.tabset .tabset-fade}
@@ -133,13 +133,13 @@ f_setRDS(xxC34Housing)
 ```
 
 ```{r 'C34-GetHousing', include=FALSE}
-bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)
+bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)  #wwww
 ```
 
 ## Partition Train & Test Data
 
 ```{r 'C34-Partition'}
-set.seed(3)
+set.seed(3)  #wwww
 # #sample() and its varaints can be used for Partitioning of Dataset
 if(FALSE) {
   # #This approach is difficult to extend for 3 or more splits
@@ -171,18 +171,25 @@ stopifnot(identical(nrow(bb), sum(vapply(part_l, nrow, FUN.VALUE = integer(1))))
 ## Basics
 
 ```{r 'C34-Basic', include=FALSE}
-bb <- part_l$train
+xsyw <- part_l$train  #wwww
 # #Separate Working Names and Display Names
-if(FALSE) paste0(names(bb), collapse = ", ")
-names_bb <- c("h_value", "income", "h_age", "rooms", "bedrooms", 
+if(FALSE) paste0(names(xsyw), collapse = ", ")
+c_xsyw <- c("h_value", "income", "h_age", "rooms", "bedrooms", 
                "population", "households", "latitude", "longitude")
-names(names_bb) <- c("House Value (Median)", "Income (Median)", "House Age (Median)", 
+names(c_xsyw) <- c("House Value (Median)", "Income (Median)", "House Age (Median)", 
         "Rooms (Total)", "Bedrooms (Total)", "Population", "Households", "Latitude", "Longitude")
-names(bb) <- names_bb
+names(xsyw) <- c_xsyw
 #
-xsyl <- bb %>%  
-  pivot_longer(everything(), names_to = "Keys", values_to = "Values") %>% 
-  mutate(across(Keys, factor, levels = unique(Keys)))
+c_zsyw <- c_xsyw
+names(c_zsyw) <- c("Target", "Income", "Age", "Rooms", "Beds", "Pop", "Houses", "Lat", "Long")
+#
+# #Scaling
+zsyw <- xsyw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+# #Predictors Only
+xw <- xsyw %>% select(-1)
+zw <- zsyw %>% select(-1)
+# #Long
+f_wl(xsyw, zsyw, xw, zw)
 #
 # #Summary
 xsyg <- xsyl %>% group_by(Keys) %>% 
@@ -191,35 +198,34 @@ xsyg <- xsyl %>% group_by(Keys) %>%
             Unique = length(unique(Values)), isNA = sum(is.na(Values)))
 # #Relabel with Verification Before and After
 levels(xsyg$Keys)
-levels(xsyg$Keys) <- names(names_bb)
+levels(xsyg$Keys) <- names(c_xsyw)
 levels(xsyg$Keys)
+#
+# #Long to Wide: For Reference Only
+if(FALSE) { zsyw <- zsyl %>% 
+  group_by(Keys) %>% 
+  mutate(ID = row_number()) %>% 
+  pivot_wider(names_from = Keys, values_from = Values)
+}
 ```
 
 ```{r 'C34T01', echo=FALSE}
 # #Print Kable Table
 hh <- xsyg %>% 
-  mutate(across(where(is.numeric), round, digits = 4)) %>% 
-  mutate(across(where(is.numeric), format, digits = 3, nsmall = 0, 
-                replace.zero = TRUE, zero.print = "0", scientific = FALSE, drop0trailing = TRUE)) 
+  #mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, 
+                #nsmall = 0, replace.zero = TRUE, zero.print = "0", 
+                drop0trailing = TRUE, scientific = FALSE)) 
 #
-cap_hh <- paste0("(C34T01)", "[", nrow(bb), ", ", ncol(bb), "] ", "Houses: Basics") 
+cap_hh <- paste0("(C34T01)", "[", nrow(xsyw), ", ", ncol(xsyw), "] ", "Houses: Training Basics") 
 f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
-```
-
-## Standardisation
-
-```{r 'C34-Standard'}
-bb <- part_l$train
-#
-zsyl <- bb %>% mutate(across(everything(), ~ as.vector(scale(.)))) %>% 
-  pivot_longer(everything(), names_to = "Keys", values_to = "Values") %>% 
-  mutate(across(Keys, factor, levels = unique(Keys), labels = names(names_bb)))
 ```
 
 ## Boxplot
 
 ```{r 'C34-BoxScaledHouse', include=FALSE}
-hh <- zsyl 
+hh <- zsyl
+levels(hh$Keys) <- names(c_xsyw)
 #
 ttl_hh <- "Houses: BoxPlots (Scaled)"
 cap_hh <- "C34P01"
@@ -263,34 +269,21 @@ Note that normality of the data is not strictly required to perform non-inferent
   - Scatter plot between them looks like the State of California
 - House Median Age appears to be correlated the least with the other predictors
 
-
 ```{r 'C34-Predictors', include=FALSE}
-# #Wider
-zsyw <- zsyl %>% 
-  group_by(Keys) %>% 
-  mutate(ID = row_number()) %>% 
-  pivot_wider(names_from = Keys, values_from = Values) %>% 
-  select(-1) %>% 
-  rename(Target = 1, Income = "Income (Median)", Age = "House Age (Median)", 
-         Rooms = "Rooms (Total)", Beds = "Bedrooms (Total)", Pop = "Population", 
-         Houses = "Households", Lat = "Latitude", Long = "Longitude") #%>% 
-  #pivot_longer(-c(1), names_to = "Keys", values_to = "Values") %>% 
-  #mutate(across(Keys, factor, levels = unique(Keys), labels = names(names_bb)[-1]))
-#
-hh <- zsyw
+hh <- zw
 #hh <- hh[1:100, ]
+labels_hh <- names(c_zsyw)[-1] #names(hh)
 #
 ttl_hh <- "Houses: SPLOM (8)"
 cap_hh <- "C34P02"
-sub_hh <- NULL #"Count of Predictor & Target" 
-lgd_hh  <- NULL #"Churn"
+sub_hh <- NULL 
+lgd_hh  <- NULL 
 ```
 
 ```{r 'C34-SPLOM', include=FALSE}
 # #Assumes Column 1 has Target Variable (Factor)
 C34 <- hh %>% { 
-  ggpairs(data = ., mapping = aes(alpha = I(0.1)), 
-          columns = 2:ncol(.), 
+  ggpairs(data = ., mapping = aes(alpha = I(0.1)), columnLabels = labels_hh,
           upper = list(continuous = wrap("cor", size = 5, alpha = 1))) +
     labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh) 
 }
@@ -311,41 +304,62 @@ knitr::include_graphics(paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png"))
 
 ## Predictors Corplot
 
-```{r 'C34-PredCor', include=FALSE}
-# #Assumes Column 1 has Target Variable (Factor)
-loc_png <- paste0(.z$PX, "C34P03", "-House-Corplot-z", ".png")
+```{r 'C34-PredCor', include=FALSE, eval=FALSE}
+# #Correlation Matrix | Table (Long) | Tibble
+hh <- cor(zw) %>% as.table() %>% as_tibble(.name_repair = 'unique') %>% 
+  #filter(...1 != ...2) %>% 
+  filter(!duplicated(paste0(pmax(as.character(...1), as.character(...2)), 
+                            pmin(as.character(...1), as.character(...2))))) %>% 
+  mutate(across(where(is.character), factor, levels = c_zsyw[-1], labels = names(c_zsyw)[-1]))
+#
 ttl_hh <- "Houses: Corrplot (8)"
 cap_hh <- "C34P03"
+```
+
+```{r 'C34-CorPlot', include=FALSE, eval=FALSE}
+# #IN: hh (Correlation Tibble Long, Triangle with Diagonal) 
+C34 <- hh %>% {ggplot(., aes(y = ...1, x = ...2, fill = n)) + 
+    geom_tile(color = "white") + 
+    geom_text(aes(label = round(n, 2)), color = "black", size = 4) +
+    coord_fixed() +
+    scale_fill_distiller(palette = "BrBG", direction = 1, limits = c(-1, 1)) +
+    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 15)) +
+    theme(axis.title = element_blank(), 
+          axis.line = element_blank(), 
+          axis.ticks = element_blank(),
+          panel.grid.major = element_blank(), 
+          panel.border = element_blank()) +
+	  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, C34)
+rm(C34)
+```
+
+```{r 'C34-PredCor-A', ref.label=c('C34-PredCor', 'C34-CorPlot'), include=FALSE}
 #
+```
+
+```{r 'C34P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P03","-House-Corplot-z", ".png")
 if(!file.exists(loc_png)) {
-  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
-  corrplot(cor(hh[2:ncol(hh)]), method = "circle", type = "full", diag = FALSE, 
-                     cl.pos = 'n', tl.pos = 'l', addCoef.col = "black", 
-                     order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3,
-                     rect.lwd = 3, title = NULL, col = RColorBrewer::brewer.pal(3, "BrBG"))
-  title(main = ttl_hh, line = 2, adj = 0)
-  title(sub = cap_hh, line = 4, adj = 1)
-  C34 <- recordPlot()
-  dev.off()
-  assign(cap_hh, C34)
-  rm(C34)
+  ggsave(loc_png, plot = C34P03, device = "png", dpi = 144) 
 }
 ```
 
-```{r 'C34P03', echo=FALSE, fig.cap="Houses: Corrplot (8)", out.width='100%'}
-knitr::include_graphics(paste0(.z$PX, "C34P03", "-House-Corplot-z", ".png")) #iiii
+```{r 'C34P03', echo=FALSE, fig.cap="Houses: Corrplot (8)"}
+knitr::include_graphics(paste0(.z$PX, "C34P03","-House-Corplot-z", ".png"))
 ```
 
 ## Correlation {.tabset .tabset-fade}
 
 ### Correlation Matrix {.unlisted .unnumbered}
 
-```{r 'C34T02', echo=FALSE}
+```{r 'C34T02', echo=FALSE, cache=FALSE}
 # #cor() produces a Matrix of Correlations: Redundant Triangle (Upper or Lower) and Diagonal
 # #Print Kable Table
-hh <- cor(zsyw[2:ncol(zsyw)])
+hh <- cor(zw)
 cap_hh <- paste0("(C34T02) ", "Houses: Correlation Matrix") 
-f_pKblM(x = hh, caption = cap_hh)
+f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5))
 ```
 
 ### Matrices {.unlisted .unnumbered}
@@ -358,7 +372,7 @@ f_pKblM(x = hh, caption = cap_hh)
 
 ```{r 'C34-Matrices'}
 # #cor() produces a Matrix
-ii <- cor(zsyw[2:ncol(zsyw)])
+ii <- cor(zw)
 str(ii)
 ii
 #
@@ -401,20 +415,262 @@ ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% 
 #
 ```
 
-
 ### f_pKbl() {.unlisted .unnumbered}
 
 ```{r 'A12A-pKbl', eval=FALSE}
 #
 ```
 
+## PCA {.tabset .tabset-fade}
+
+- There are two general methods to perform PCA in R :
+  - Spectral decomposition which examines the covariances / correlations between variables
+    - \textcolor{pink}{princomp()}
+      -  It uses divisor $N$ for the covariance matrix.
+    - Names: "sdev, loadings, center, scale, n.obs, scores, call"
+  - Singular value decomposition (SVD) which examines the covariances / correlations between individuals
+    - SVD has slightly better numerical accuracy
+    - \textcolor{pink}{prcomp()}
+      - Unlike princomp, variances are computed with the usual divisor $N - 1$.
+      - \textcolor{pink}{cov()} also uses $N - 1$
+    - Names: "sdev, rotation, center, scale, x"
+- Output contains
+  - SD of Principal Components
+  - rotation / loadings: the matrix of variable loadings (columns are eigenvectors)
+  - x / scores: The coordinates of the individuals (observations) on the principal components.
+- Understanding the result
+  - PCA was carried out on the eight predictors in the house data set.
+  - PCA was carried out on the eight predictors in the house data set. The \textcolor{pink}{component matrix} is shown in Table \@ref(tab:C34T03). 
+  - Each of the columns in Table represents one of the compnonents $Y_i = e_i^T\mathbf{Z}$.
+  - The cell entries are called the \textcolor{pink}{component weights}, and represent the partial correlation between the variable and the component.
+    - As the component weights are correlations, they range between one and negative one.
+    - NOTE: Sign may differ from the Book. 
+    - Eigenvalues are given by ${s}^2$ as shown in Table \@ref(tab:C34T04) 
+    - First Eigenvalue is 3.9 and there are 8 predictor variables, thus, first component (PC1) explains $3.9/8 \approx 48\%$ of the variance
+      - i.e. this single component by itself carries about half of the information in all eight predictors.
+      - In general, the first principal component may be viewed as the single best summary of the correlations among the predictors. Specifically, this particular linear combination of the variables accounts for more variability than any other linear combination. 
+      - The second principal component is the second-best linear combination of the variables, on the condition that it is orthogonal to the first principal component. It is derived from the variability that is left over, once the first component has been accounted for.
+
+
+
+```{definition 'Orthogonal'}
+Two vectors are \textcolor{pink}{orthogonal} if they are mathematically independent, have no correlation, and are at right angles to each other. 
+```
+
+
+
+### Component Matrix {.unlisted .unnumbered}
+
+```{r 'C34-PCA', include=FALSE}
+# #Perform PCA #wwww
+ii <- princomp(zw)
+pca_zw <- prcomp(zw)
+#
+# #Focus on prcomp()
+names(pca_zw)
+#pca_zw$rotation
+#summary(pca_zw)
+#names(summary(pca_zw))
+summary(pca_zw)$importance
+#
+str(head(pca_zw$x))
+dim(pca_zw$x)
+```
+
+```{r 'C34T03', echo=FALSE}
+# #Print Kable Table
+hh <- pca_zw$rotation 
+#
+cap_hh <- paste0("(C34T03) ", "Houses: PCA Component Matrix") 
+f_pKblM(x = hh, caption = cap_hh, isTri = FALSE)
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'C34-PCA-A', eval=TRUE, ref.label=c('C34-PCA')}
+#
+```
+
+## Orthogonality of PCA {.tabset .tabset-fade}
+
+### Image {.unlisted .unnumbered}
+
+```{r 'C34-PredCorPCA', include=FALSE}
+# #Correlation Matrix | Table (Long) | Tibble
+hh <- cor(pca_zw$x) %>% as.table() %>% as_tibble(.name_repair = 'unique') %>% 
+  #filter(...1 != ...2) %>% 
+  filter(!duplicated(paste0(pmax(as.character(...1), as.character(...2)), 
+                            pmin(as.character(...1), as.character(...2))))) #%>% 
+  #mutate(across(where(is.character), factor, levels = c_zsyw[-1], labels = names(c_zsyw)[-1]))
+#
+ttl_hh <- "Houses: PCA Corrplot - ALL are ZERO"
+cap_hh <- "C34P04"
+```
+
+```{r 'C34-PredCorPCA-A', ref.label=c('C34-PredCorPCA', 'C34-CorPlot'), include=FALSE}
+#
+```
+
+```{r 'C34P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P04","-House-Corplot-PCA", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P04, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P04', echo=FALSE, fig.cap="Houses: PCA Corrplot - ALL are ZERO"}
+knitr::include_graphics(paste0(.z$PX, "C34P04","-House-Corplot-PCA", ".png"))
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'C34-PredCorPCA-B', eval=FALSE, ref.label=c('C34-PredCorPCA')}
+#
+```
+
+## ScreePlot {.tabset .tabset-fade}
+
+### Image {.unlisted .unnumbered}
+
+```{r 'C34-Scree', include=FALSE}
+pca_eigen <- summary(pca_zw)$importance %>% t() %>% as_tibble(rownames = "PCA") %>% 
+  rename(SD = 2, pVar = 3, pVarCum = 4) %>% 
+  mutate(EigenVal = SD^2, pVarManual = EigenVal/sum(EigenVal), 
+         isOne = ifelse(EigenVal > 1, "Yes", "No"),
+         isNinty = ifelse(pVarCum < 0.9, "Yes", "No"))
+hh <- pca_eigen
+#
+ttl_hh <- "Houses: PCA Eigenvalue ScreePlot"
+cap_hh <- "C34P05"
+y_hh <- "Eigenvalue"
+```
+
+```{r 'C34-ScreePlot', include=FALSE}
+# #IN: hh 
+C34 <- hh %>% {ggplot(., aes(x = PCA, y = EigenVal)) + 
+    geom_point(aes(color = isOne), size = 3) +
+    geom_line(aes(group = 1)) +
+    geom_hline(aes(yintercept = 1), color = '#440154FF', linetype = "dashed") +
+    annotate("segment", x = 3.5, xend = 3.1, y = 1.6, 
+                    yend = 1.2, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    annotate("segment", x = 4.5, xend = 4.1, y = 1.3, 
+                    yend = 0.9, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    annotate("segment", x = 5.5, xend = 5.1, y = 0.6, 
+                    yend = 0.2, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    geom_text(data = tibble(x = c(3.5, 4.5, 5.5), y = c(1.7, 1.4, 0.7), 
+              labels = c("Eigenvalue Criterion", "Screeplot Criterion", "Elbow Point")), 
+              aes(x=x, y=y, label=labels), check_overlap = TRUE) + 
+    scale_fill_distiller(palette = "BrBG") +
+    #coord_fixed() +
+    theme(legend.position = 'none') +
+	  labs(y = y_hh, subtitle = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, C34)
+rm(C34)
+```
+
+```{r 'C34P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P05","-House-PCA-Scree", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P05, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C34P05","-House-PCA-Scree", ".png"))
+```
+
+```{r 'C34-CumVar', include=FALSE}
+ttl_hh <- "Houses: PCA Proportion of Variance Explained"
+cap_hh <- "C34P06"
+y_hh <- NULL
+```
+
+```{r 'C34-CumVarPlot', include=FALSE}
+# #IN: hh 
+C34 <- hh %>% {ggplot(., aes(x = PCA, y = pVarCum)) + 
+    geom_point(aes(color = isNinty), size = 3) +
+    geom_line(aes(group = 1)) +
+    geom_hline(aes(yintercept = 0.9), color = '#440154FF', linetype = "dashed") +
+    scale_fill_distiller(palette = "BrBG") +
+    scale_y_continuous(limits = c(0, 1), labels=percent) + 
+    theme(legend.position = 'none') +
+    labs(y = y_hh,
+         subtitle = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, C34)
+rm(C34)
+```
+
+```{r 'C34P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P06","-House-PCA-Var", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P06, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C34P06","-House-PCA-Var", ".png"))
+```
+
+```{r 'C34P0506', echo=FALSE, ref.label=c('C34P05', 'C34P06'), fig.cap="House: PCA Screeplot with Variance"}
+#
+```
+
+
+```{r 'C34T04', echo=FALSE}
+# #Print Kable Table
+hh <- pca_eigen %>% select(-pVarManual) %>% 
+  rename(exp_Variance = 3, cum_Var = 4, isEigenOne = 6, isVarNinty = 7) %>% 
+  #mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(EigenVal, sum))) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, 
+                #nsmall = 0, replace.zero = TRUE, zero.print = "0", 
+                drop0trailing = TRUE, scientific = FALSE)) 
+#
+cap_hh <- paste0("(C34T04) ", "Houses: PCA Eigenvalues & Variance") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'C34-Scree-A', eval=FALSE, ref.label=c('C34-Scree', 'C34-ScreePlot', 'C34-CumVar', 'C34-CumVarPlot')}
+#
+```
+
+## How many Components 
+
+- In our example Single Component (PC1) can account for approximately half of the variability. But, all 8 accounts for 100% variability. So between 1 and 8 where is the cut-off
+  - Criteria
+    - The Eigenvalue Criterion 
+    - The Proportion of Variance Explained Criterion 
+    - The Minimum Communality Criterion - Deferred by Book
+    - The Scree Plot Criterion
+
+- The Eigenvalue Criterion
+  - Refer Figure \@ref(fig:C34P0506) and Table \@ref(tab:C34T04)
+  - Sum of the eigenvalues represents the number of variables entered into the PCA i.e. 8
+  - An eigenvalue of 1 would then mean that the component would explain about "one variable worth" of the variability. 
+  - Therefore, the eigenvalue criterion states that only components with eigenvalues greater than 1 should be retained. 
+  - Note that, if there are fewer than 20 variables, the eigenvalue criterion tends to recommend extracting too few components, while, if there are more than 50 variables, this criterion may recommend extracting too many.
+  - Thus in example: 3 can be retained. PC4 has value around 0.8 so it may or may not be retained.
+
+- The Proportion of Variance Explained Criterion
+  - We can define how much of the total variability that we would like the principal components to account for and then selects them acccordingly
+  - Thus in example: 3 can be retained. PC4 will be selected if more than 90% should be accounted
+  
+- The Scree Plot Criterion
+  - \textcolor{pink}{Elbow Point:} The maximum number of components that should be extracted is just before where the plot first begins to straighten out into a horizontal line. 
+  - 
+  
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C34-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn, brk_bb, hh, idx_bb, part_l,
           xxC34Housing, C34P01, cap_hh, lgd_hh, loc_png, names_bb, sub_hh, ttl_hh, xsyg, xsyl, 
-          zsyl, C34P02, mm, nn, oo, zsyw)
+          zsyl, C34P02, mm, nn, oo, zsyw, c_xsyw, C34P03, C34P04, xl, xsyw, xw, zl, zw, c_zsyw, 
+          labels_hh, C34P05, C34P06, pca_zw, y_hh)
 ```
 
 ```{r 'C34-Validation', include=TRUE, cache=FALSE}

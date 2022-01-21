@@ -727,7 +727,8 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 #
   if(!file.exists(loc_png)) {
     png(filename = loc_png) 
-    pairs.panels(hh, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
+    #dev.control('enable') 
+	pairs.panels(hh, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
                  cex.cor = 1, cex = 1, gap = 0, main = ttl_hh)
     #title(main = ttl_hh, line = 2, adj = 0)
     title(sub = cap_hh, line = 4, adj = 1)

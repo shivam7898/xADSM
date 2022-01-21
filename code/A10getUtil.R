@@ -26,5 +26,29 @@ f_pNum <- function(x, digits = 2L) {
   ifelse(abs(x) < 0.0000001, 0*sign(x), floor(x) + signif(x %% 1, digits))
 }
 
+## ---- A10C-wl ----
+f_wl  <- function(...) {
+# #Converts a list of multiple Wide Tibbles to list of multiple Long Tibbles
+  w_bb <- f_namedList(...)
+  cw_bb <- names(w_bb)
+  l_bb <- w_bb %>% lapply(f_z_wl) 
+# #Change last character "w" with "l"
+  names(l_bb) <- sub(pattern = "w$", replacement = "l", cw_bb)
+  list2env(l_bb, .GlobalEnv)
+  #invisible(lapply(names(L), function(x) assign(x, L[[x]], .GlobalEnv)))
+  print(names(l_bb))
+}
 
+## ---- A10D-z-wl ----
+f_z_wl <- function(x) { 
+# #Actual Function that apply standardise pipe to all Tibbles for wide to long
+  x %>% 
+    pivot_longer(everything(), names_to = "Keys", values_to = "Values") %>% 
+    mutate(across(Keys, factor, levels = unique(Keys), labels = unique(Keys)))
+}
 
+## ---- A10E-namedList ----
+f_namedList <- function(...) {
+# #Creates Named List by using object names
+  structure(list(...), names = as.list(substitute(list(...)))[-1L])
+}
