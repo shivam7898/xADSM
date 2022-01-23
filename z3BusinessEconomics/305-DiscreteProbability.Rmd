@@ -383,7 +383,7 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
 
 ## Covariance
 
-- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer equation \@ref(eq:covariance-C05)
+- Covariance of random variables x and y is given by \textcolor{pink}{$\sigma_{xy}$}, Refer equation \@ref(eq:covariance-c05)
   - NOTE: It does not look like \@ref(eq:covariance), but for now, I am assuming it is Equivalent
   - Calculated: $\text{Var}(s) = \text{Var}(x + y) =$ `r round(R_dicarlo_var_s_C05, 3)`; $\text{Var}(y) =$ `r R_dicarlo_var_y_C05`; $\text{Var}(x) =$ `r round(R_dicarlo_var_x_C05, 3)`
   - Variance $\sigma_{xy} = \frac{2.3895 - 0.8696 - 1.25}{2} = 0.1350$
@@ -391,7 +391,7 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
 
 \begin{equation} 
      \sigma_{xy} = \frac{\text{Var}(x + y) - \text{Var}(x) - \text{Var}(y)}{2}
-  (\#eq:covariance-C05)
+  (\#eq:covariance-c05)
 \end{equation} 
 
 - Correlation of random variables x and y is given by, Refer equation \@ref(eq:correlation), \textcolor{pink}{$\rho_{xy}  = \frac{\sigma_{xy}}{\sigma_{x}\sigma_{y}}$} 

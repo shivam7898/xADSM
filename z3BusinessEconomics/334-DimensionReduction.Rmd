@@ -140,7 +140,7 @@ bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)  #wwww
 
 ```{r 'C34-Partition'}
 set.seed(3)  #wwww
-# #sample() and its varaints can be used for Partitioning of Dataset
+# #sample() and its variants can be used for Partitioning of Dataset
 if(FALSE) {
   # #This approach is difficult to extend for 3 or more splits
   # #Further, Using floor() multiple times might result in loss of a row 
@@ -280,8 +280,8 @@ sub_hh <- NULL
 lgd_hh  <- NULL 
 ```
 
-```{r 'C34-SPLOM', include=FALSE}
-# #Assumes Column 1 has Target Variable (Factor)
+```{r 'C34-SPLOM', include=FALSE, eval=FALSE}
+# #IN: hh, labels_hh
 C34 <- hh %>% { 
   ggpairs(data = ., mapping = aes(alpha = I(0.1)), columnLabels = labels_hh,
           upper = list(continuous = wrap("cor", size = 5, alpha = 1))) +
@@ -289,6 +289,10 @@ C34 <- hh %>% {
 }
 assign(cap_hh, C34)
 rm(C34)
+```
+
+```{r 'C34-SPLOM-zw', include=FALSE, ref.label=c('C34-SPLOM')}
+#
 ```
 
 ```{r 'C34P02-Save', include=FALSE}
@@ -433,6 +437,7 @@ ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% 
     - \textcolor{pink}{prcomp()}
       - Unlike princomp, variances are computed with the usual divisor $N - 1$.
       - \textcolor{pink}{cov()} also uses $N - 1$
+      - Use sdev or sqrt(Eigenvalues) to convert Eigenvectors into Loadings (For BOOK /psych Comparison)
     - Names: "sdev, rotation, center, scale, x"
 - Output contains
   - SD of Principal Components
@@ -452,37 +457,47 @@ ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% 
       - The second principal component is the second-best linear combination of the variables, on the condition that it is orthogonal to the first principal component. It is derived from the variability that is left over, once the first component has been accounted for.
 
 
-
 ```{definition 'Orthogonal'}
 Two vectors are \textcolor{pink}{orthogonal} if they are mathematically independent, have no correlation, and are at right angles to each other. 
 ```
 
-
-
 ### Component Matrix {.unlisted .unnumbered}
 
-```{r 'C34-PCA', include=FALSE}
-# #Perform PCA #wwww
-ii <- princomp(zw)
+```{r 'C34-PCA'}
+# #Perform PCA by prcomp() #wwww
+#ii <- princomp(zw)
 pca_zw <- prcomp(zw)
 #
-# #Focus on prcomp()
 names(pca_zw)
-#pca_zw$rotation
-#summary(pca_zw)
-#names(summary(pca_zw))
+#
+# #Principal components have "loadings" i.e. $rotation and "scores" i.e. $x
+# #Loadings specify the weight that each variable contributes to the principal component.
+# #Scores show the value each sample has on each principal component.
+#
+dim(pca_zw$rotation)
+dim(pca_zw$x)
+#
+# #Matrix Multiplication i.e. %*% of original variables with loadings gives scores
+bb <- as.matrix(zw) %*% pca_zw$rotation
+all.equal(bb, pca_zw$x)
+identical(round(bb, 5), round(pca_zw$x, 5))
+#
 summary(pca_zw)$importance
 #
-str(head(pca_zw$x))
-dim(pca_zw$x)
+pca_eigen <- summary(pca_zw)$importance %>% t() %>% as_tibble(rownames = "PCA") %>% 
+  rename(SD = 2, pVar = 3, pVarCum = 4) %>% 
+  mutate(EigenVal = SD^2, pVarManual = EigenVal/sum(EigenVal), 
+         isOne = ifelse(EigenVal > 1, "Yes", "No"),
+         isNinty = ifelse(pVarCum < 0.9, "Yes", "No"))
 ```
 
 ```{r 'C34T03', echo=FALSE}
 # #Print Kable Table
 hh <- pca_zw$rotation 
+rownames(hh) <- names(c_xsyw)[-1]
 #
 cap_hh <- paste0("(C34T03) ", "Houses: PCA Component Matrix") 
-f_pKblM(x = hh, caption = cap_hh, isTri = FALSE)
+f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, debug = TRUE)
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -490,6 +505,33 @@ f_pKblM(x = hh, caption = cap_hh, isTri = FALSE)
 ```{r 'C34-PCA-A', eval=TRUE, ref.label=c('C34-PCA')}
 #
 ```
+
+### Loadings and Eigenvectors {.unlisted .unnumbered}
+
+```{r 'C34-Loadings'}
+#wwww
+# #Component Matrix of prcomp() does not match with either BOOK or psych::principal()
+# #prcomp() rotation contains eigenvectors not loadings. 
+# #Loadings = Eigenvectors * sqrt(Eigenvalues) = Eigenvectors * sdev
+#
+# #psych::principal()
+psy_zw <- principal(zw, nfactors = ncol(zw), rotate = 'none', scores = TRUE)
+names(psy_zw)
+#
+#psy_zw$loadings
+#
+# #To Match them Multiply by SD = sqrt(Eigenvalues)
+sd_pca <- summary(pca_zw)$sdev
+eigen_pca <- sd_pca ^ 2
+#
+# #Multiply PC1 column with sqrt(Eigenvalue) of PC1 i.e. SD and so on
+load_pca <- t(t(pca_zw$rotation) * sd_pca)
+#
+round(load_pca, 3)
+round(psy_zw$loadings, 3)
+```
+
+
 
 ## Orthogonality of PCA {.tabset .tabset-fade}
 
@@ -533,11 +575,6 @@ knitr::include_graphics(paste0(.z$PX, "C34P04","-House-Corplot-PCA", ".png"))
 ### Image {.unlisted .unnumbered}
 
 ```{r 'C34-Scree', include=FALSE}
-pca_eigen <- summary(pca_zw)$importance %>% t() %>% as_tibble(rownames = "PCA") %>% 
-  rename(SD = 2, pVar = 3, pVarCum = 4) %>% 
-  mutate(EigenVal = SD^2, pVarManual = EigenVal/sum(EigenVal), 
-         isOne = ifelse(EigenVal > 1, "Yes", "No"),
-         isNinty = ifelse(pVarCum < 0.9, "Yes", "No"))
 hh <- pca_eigen
 #
 ttl_hh <- "Houses: PCA Eigenvalue ScreePlot"
@@ -592,6 +629,10 @@ C34 <- hh %>% {ggplot(., aes(x = PCA, y = pVarCum)) +
     geom_point(aes(color = isNinty), size = 3) +
     geom_line(aes(group = 1)) +
     geom_hline(aes(yintercept = 0.9), color = '#440154FF', linetype = "dashed") +
+    annotate("segment", x = 4, xend = 4, y = 0.83, 
+                    yend = 0.93, arrow = arrow(type = "closed", length = unit(0.02, "npc"))) +
+    geom_text(data = tibble(x = 5.5, y = 0.8, labels = c("Proportion of Variance Covered Criterion")), 
+              aes(x=x, y=y, label=labels), check_overlap = TRUE) + 
     scale_fill_distiller(palette = "BrBG") +
     scale_y_continuous(limits = c(0, 1), labels=percent) + 
     theme(legend.position = 'none') +
@@ -660,9 +701,364 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - Thus in example: 3 can be retained. PC4 will be selected if more than 90% should be accounted
   
 - The Scree Plot Criterion
-  - \textcolor{pink}{Elbow Point:} The maximum number of components that should be extracted is just before where the plot first begins to straighten out into a horizontal line. 
-  - 
+  - \textcolor{pink}{Elbow Point:} The maximum number of components that should be extracted is just before where the plot first begins to straighten out into a horizontal line.
   
+
+## Factor Scores
+
+- Modified Table \@ref(tab:C34T03) as \@ref(tab:C34T05) 
+- To investigate the relationship between PC3 and PC4, and their constituent variables, we next consider \textcolor{pink}{factor scores}. Factor scores are estimated values of the factors for each observation, and are based on factor analysis.
+
+```{r 'C34T05', echo=FALSE}
+# #Print Kable Table
+hh <- pca_zw$rotation[, 1:4] 
+hh[abs(hh) < 0.15] <- NA
+rownames(hh) <- names(c_zsyw)[-1]
+#
+cap_hh <- paste0("(C34T05) ", "Houses: PCA Eigenvectors upto PC4") 
+f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
+```
+
+```{r 'C34-PC3', include=FALSE}
+hh <- zw %>% select(income, h_age) %>% add_column(PC3 = pca_zw$x[, 3]) %>% 
+  rename(Income = 1, Age = 2)
+#hh <- hh[1:100, ]
+labels_hh <- names(hh) #names(c_zsyw)[-1] #names(hh)
+#
+ttl_hh <- "Houses: SPLOM PC3 Factor Scores"
+cap_hh <- "C34P07"
+sub_hh <- NULL 
+lgd_hh  <- NULL 
+```
+
+```{r 'C34-SPLOM-PC3', include=FALSE, ref.label=c('C34-SPLOM')}
+#
+```
+
+```{r 'C34P07-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P07", "-House-SPLOM-PC3", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P07, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C34P07", "-House-SPLOM-PC3", ".png"))
+```
+
+```{r 'C34-PC4', include=FALSE}
+hh <- zw %>% select(income, h_age) %>% add_column(PC4 = pca_zw$x[, 4]) %>% 
+  rename(Income = 1, Age = 2)
+#hh <- hh[1:100, ]
+labels_hh <- names(hh) #names(c_zsyw)[-1] #names(hh)
+#
+ttl_hh <- "Houses: SPLOM PC4 Factor Scores"
+cap_hh <- "C34P08"
+sub_hh <- NULL 
+lgd_hh  <- NULL 
+```
+
+```{r 'C34-SPLOM-PC4', include=FALSE, ref.label=c('C34-SPLOM')}
+#
+```
+
+```{r 'C34P08-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "C34P08", "-House-SPLOM-PC4", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C34P08, device = "png", dpi = 144) 
+}
+```
+
+```{r 'C34P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "C34P08", "-House-SPLOM-PC4", ".png"))
+```
+
+
+```{r 'C34P0708', echo=FALSE, ref.label=c('C34P07', 'C34P08'), fig.cap="Correlation Matrices of Factor Scores of PC3 and PC4"}
+#
+```
+
+- Consider the left side of Figure \@ref(fig:C34P0708)
+  - The strong negative correlation between component 3 and median income is strikingly evident
+  - But the relationship between component 3 and housing median age is rather amorphous. It would be difficult to estimate the correlation between component 3 and housing median age as being 0.413, with only the scatter plot to guide us. 
+- Similarly for the right side of Figure \@ref(fig:C34P0708)
+  - The relationship between component 4 and housing median age is crystal clear
+  - while the relationship between component 4 and median income is not entirely clear, reflecting its lower positive correlation of 0.374. 
+  - We conclude, therefore, that the component weight of 0.413 for housing median age in component 3 is not of practical significance, and similarly for the component weight for median income in component 4.
+- This discussion leads us to the following criterion for assessing the component weights. 
+  - For a component weight to be considered of practical significance, it should exceed $\pm 0.5$ in magnitude. 
+  - Note that the component weight represents the correlation between the component and the variable; thus, the squared component weight represents the amount of the total variability of the variable that is explained by the component. 
+  - Thus, this threshold value of $\pm 0.5$ requires that at least 25% of the variance of the variable be explained by a particular component.
+- Thus, the Table \@ref(tab:C34T03) is modified further as \@ref(tab:C34T06) 
+  - NOTE: Sign differ from the Book but that is OK.
+  - NOTE: Valeus should be matching when eigenvectors are converted to loadings
+    - Note that the partition of the variables among the four components is \textcolor{pink}{mutually exclusive}, meaning that no variable is shared (after suppression) by any two components
+    - and \textcolor{pink}{exhaustive}, meaning that all eight variables are contained in the four components.
+
+```{r 'C34T06', echo=FALSE}
+# #Print Kable Table
+#hh <- pca_zw$rotation[, 1:4] 
+hh <- load_pca[, 1:4] 
+hh[abs(hh) < 0.5] <- NA
+rownames(hh) <- names(c_zsyw)[-1]
+#
+cap_hh <- paste0("(C34T06) ", "Houses: PCA Loadings (not Eigenvectors) upto PC4") 
+f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
+```
+
+## Matrix {.tabset .tabset-fade}
+
+### Create {.unlisted .unnumbered}
+
+```{r 'C34-Matrix'}
+# #Create a Matrix
+# #Default: The Matrix is Filled Column by Column
+matrix(1:9, nrow = 3)
+#
+# #Change Behavour to fill the matrix by Row
+matrix(1:9, nrow = 3, byrow = TRUE)
+```
+
+### Multiply Vector {.unlisted .unnumbered}
+
+```{r 'C34-MultiplyVec'}
+# #names() does not work on Matrix
+mm <- matrix(1:9, ncol = 3, byrow = TRUE)
+rownames(mm) <- tail(letters, 3)
+colnames(mm) <- head(letters, 3)
+mm
+#
+vv <- 1:3
+#
+# #Matrix Multipley (Deprecated)
+# #Multiply the Vector with Matrix Rows i.e. x * 1, y * 2, z * 3
+ii <- diag(vv) %*% mm #loss of rownames because it is taken from Left Side Matrix
+#
+# #Multiply the Vector with Matrix Columns i.e. a * 1, b * 2, c * 3
+jj <- mm %*% diag(vv) #loss of colnames because it is taken from Right Side Matrix
+#
+# #Check Attributes
+attributes(ii)$dimnames
+attributes(jj)$dimnames
+#
+# #Add Missing RowNames or ColNames 
+rownames(ii) <- rownames(mm)
+colnames(jj) <- colnames(mm)
+#
+# #Coercing by as.integer() will produce a vector not matrix. Use eiher mode() or class()
+#ii[] <- as.integer(ii) #Even using [] is NOT coercing to integer
+class(ii) <- "integer"
+mode(jj) <- "integer" 
+#
+# #Print
+ii
+str(ii)
+jj
+str(jj)
+#
+# #Equivalent: sweep() (Deprecated). SLOW, However it keeps the dimnames.  
+swp_ii <- sweep(mm, MARGIN = 1, vv, `*`)
+swp_jj <- sweep(mm, MARGIN = 2, vv, `*`)
+#
+# #Recommended:
+# #Equivalent: R Recycle Vector Column-wise. So double-transpose is needed if multiplying on jj.
+# #Double Transpose is FASTEST & retains dimnames. Bonus: This is Commutative.
+rec_ii <- mm * vv
+com_ii <- vv * mm 
+rec_jj <- t(t(mm) * vv)
+com_jj <- t(vv * t(mm))
+all(identical(rec_ii, com_ii), identical(rec_jj, com_jj)) #Commutative
+#
+all(identical(ii, swp_ii), identical(jj, swp_jj), identical(ii, rec_ii), identical(jj, rec_jj))
+```
+
+### Square Elements {.unlisted .unnumbered}
+
+```{r 'C34-MatSquare'}
+mm <- matrix(1:9, ncol = 3, byrow = TRUE)
+rownames(mm) <- tail(letters, 3)
+colnames(mm) <- head(letters, 3)
+mm
+#
+# #Square Each Element of the Matrix
+mm ** 2 # ** operator is highly obscure and is actually parsed as ^ so use that not this one
+mm ^ 2
+stopifnot(identical(mm ^ 2, mm ** 2))
+```
+
+
+## Communalities
+
+```{definition 'Communality'}
+PCA does not extract all the variance from the variables, but only that proportion of the variance that is shared by several variables. \textcolor{pink}{Communality} represents the proportion of variance of a particular variable that is shared with other variables. Communality values are calculated as the sum of squared component weights, for a given variable.
+```
+
+- The communalities represent the overall importance of each of the variables in the PCA as a whole.
+- Communalities that are very low for a particular variable should be an indication that the particular variable might not participate in the PCA solution (i.e., might not be a member of any of the principal components).
+- Communalities less than 0.5 can be considered to be too low, as this would mean that the variable shares less than half of its variability in common with the other variables. 
+  - Now, if we want to keep the variable housing median age as an active part of the analysis, then, extracting only three components would not be adequate, as housing median age shares only 35% of its variance with the other variables. To keep this variable in the analysis, we would need to extract the fourth component, which lifts the communality for housing median age over the 50% threshold. 
+- Minimum Communality Criterion
+  - Enough components should be extracted so that the communalities for each of these variables exceed a certain threshold (e.g., 50%)
+
+```{r 'C34T07', echo=FALSE}
+# #Print Kable Table
+hh <- load_pca[, 1:4] 
+# #Add New Columns by Squaring and Sum
+hh <- cbind(hh, Comm_PC3 = rowSums(hh[, 1:3]^2), Comm_PC4 = rowSums(hh^2))
+#hh[abs(hh) < 0.4] <- NA
+rownames(hh) <- names(c_zsyw)[-1]
+#
+cap_hh <- paste0("(C34T07) ", "Houses: PCA Loadings with Communalities") 
+f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5), isTri = FALSE, dig = 2, debug = FALSE)
+```
+
+## Decision on How many Components
+
+- The Eigenvalue Criterion recommended 3 components, but did not absolutely reject the 4 component. Also, for small numbers of variables, this criterion can underestimate the best number of components to extract.
+- The Proportion of Variance Explained Criterion stated that we needed to use 4 components if we wanted to account for >90% of the variability. 
+- The Scree Plot Criterion said not to exceed 4 components. 
+- The Minimum Communality Criterion stated that, if we wanted to keep housing median age in the analysis, we had to extract 4 components.
+- Conclusion: PC4 is included.
+
+- Test Dataset
+  - We can perform PCA on Test dataset also and that should provide us similar pattern of PC1 to PC4 in terms of eigenvectors and loadings (not exactly same but similar). This should be taken as the confirmation that PCA of Training Data can be applied on Test Data
+  - If the results differ too much then it should be taken as the indication of traning data being not a representation of test data. 
+
+## Factor Analysis
+
+Factor Analysis (FA) is related to PCA but the two methods have different goals.
+
+Principal components seek to identify orthogonal linear combinations of the variables, to be used either for descriptive purposes or to substitute a smaller number of uncorrelated components for the original variables. 
+
+In contrast, factor analysis represents a model for the data, and as such is more elaborate. 
+
+The \textcolor{pink}{factor analysis model} hypothesizes that the response vector ${\{X_1, X_2, \ldots, X_m\}}$ can be modeled as linear combinations of a smaller set of ${k}$ unobserved, "latent" random variables ${\{F_1, F_2, \ldots, F_k\}}$ called \textcolor{pink}{common factors}, along with an error term $\mathbf{\epsilon} = {\{\epsilon_1, \epsilon_2, \ldots, \epsilon_m\}}$. Specifically, the factor analysis model is :
+
+\begin{equation}
+  \underset{m \times 1}{\mathbf{X - \mu}} = \underset{m \times k}{\mathbf{L}} \, \underset{k \times 1}{\mathbf{F}} + \underset{m \times 1}{\mathbf{\epsilon}}
+  (\#eq:fa)
+\end{equation}
+
+
+Where $\underset{m \times 1}{\mathbf{X - \mu}}$ is the response vector, centered by the mean vector, $\underset{m \times k}{\mathbf{L}}$ is the matrix of factor loadings, with $l_{ij}$ representing the factor loading of the $i^{\text{th}}$ variable on the $j^{\text{th}}$ factor, $\underset{k \times 1}{\mathbf{F}}$ represents the vector of unobservable common factors, and $\underset{m \times 1}{\mathbf{\epsilon}}$ represents the error vector. 
+
+The factor analysis model differs from other models, such as the linear regression model, in that the predictor variables ${\{F_1, F_2, \ldots, F_k\}}$ are unobservable. Because so many terms are unobserved, further assumptions must be made before we may uncover the factors from the observed responses alone. 
+
+These assumptions are that $E(\mathbf{F}) = \mathbf{0}, \text{Cov}(\mathbf{F}) = \mathbf{I}, E(\mathbf{\epsilon}) = \mathbf{0}, \text{Cov}(\mathbf{\epsilon})$ is a diagonal matrix. 
+
+Unfortunately, the factor solutions provided by factor analysis are invariant to transformations. Hence, the factors uncovered by the model are in essence nonunique, without further constraints. This indistinctness provides the motivation for factor rotation.
+
+## UCI Data Repository
+
+- Repository of many standard datasets
+  - Archieved: https://archive.ics.uci.edu/ml/datasets.php
+  - Beta: https://archive-beta.ics.uci.edu/ml/datasets
+  - The data is generally in ".data" format which is a CSV File
+  - Details are generally in ".names" format which is a Text File
+
+## Data Adult
+
+\textcolor{pink}{Please import the "C34-adult.csv".} 
+
+- Source: https://archive-beta.ics.uci.edu/ml/datasets/adult
+- About: [32561, 15]
+  - The intended task is to find the set of demographic characteristics that can best predict whether or not the individual has an income of over 50000 dollars per year. 
+  
+
+```{r 'C34-Adult', include=FALSE, eval=FALSE}
+tbl <- read_csv(paste0(.z$XL, "C34-adult.csv"),
+                col_names = c("age", "workclass", "fnlwgt", "education", "education_num",
+                              "marital_status", "occupation", "relationship", "race", "sex",
+                              "capital_gain", "capital_loss", "hours_per_week", "native_country",
+                              "Income"), 
+                show_col_types = FALSE)
+#stopifnot(!"problems" %in% names(attributes(tbl)))
+#problems(tbl)
+attr(tbl, "problems") <- NULL
+attr(tbl, "spec") <- NULL
+xxC34Adult <- tbl
+f_setRDS(xxC34Adult)
+```
+
+```{r 'C34-GetAdult', include=FALSE}
+bb <- aa <- xxC34Adult <- f_getRDS(xxC34Adult)  #wwww
+```
+
+## Factor Analysis
+
+```{r 'C34-PartAdult'}
+#wwww
+# #Select Specific Variables (BOOK)
+bb <- xxC34Adult %>% 
+  mutate(capnet = capital_gain - capital_loss) %>% 
+  select(age, fnlwgt, education_num, hours_per_week, capnet)
+set.seed(3)  
+brk_bb = c(train = 25000, test = nrow(bb))
+idx_bb = sample(cut(seq_len(nrow(bb)), c(0, brk_bb), labels = names(brk_bb)))
+# #List of Multiple Tibbles
+part_l = split(bb, idx_bb)
+#
+# #nrow(), ncol(), dim() can be applied
+vapply(part_l, nrow, FUN.VALUE = integer(1))
+stopifnot(identical(nrow(bb), sum(vapply(part_l, nrow, FUN.VALUE = integer(1)))))
+#
+# #Training Data
+adl_xw <- part_l$train %>% rename(edu = 3, hours = 4) 
+# #Scaling
+adl_zw <- adl_xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+# #Long
+f_wl(adl_xw, adl_zw)
+```
+
+## Correlation Matrix 
+
+Note that the correlations, although statistically significant in several cases, are overall much weaker than the correlations from the 'houses' data set. A weaker correlation structure should pose more of a challenge for the dimension-reduction method. 
+
+```{r 'C34T02', echo=FALSE, cache=FALSE}
+hh <- cor(adl_zw)
+cap_hh <- paste0("(C34T08) ", "Adult: Correlation Matrix") 
+f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5), dig = 3, debug = TRUE)
+```
+
+Factor analysis requires a certain level of correlation in order to function appropriately. The following tests have been developed to ascertain whether there exists sufficiently high correlation to perform factor analysis.
+
+- Note, however, that statistical tests in the context of huge data sets can be misleading. With huge sample sizes, even the smallest effect sizes become statistically significant. This is why data mining methods rely on cross-validation methodologies, not statistical inference.
+
+- The proportion of variability within the standardized predictor variables which is shared in common, and therefore might be caused by underlying factors, is measured by the \textcolor{pink}{Kaiser–Meyer–Olkin (KMO) Measure of Sampling Adequacy}. 
+  - Values of the KMO statistic less than 0.50 indicate that factor analysis may not be appropriate. 
+-  \textcolor{pink}{Bartlett Test of Sphericity} tests the null hypothesis that the correlation matrix is an identity matrix, that is, that the variables are really uncorrelated. 
+  - The statistic reported is the p-value, so that very small values would indicate evidence against the null hypothesis, that is, the variables really are correlated. 
+  - For p-values much larger than 0.10, there is insufficient evidence that the variables are correlated, and so factor analysis may not be suitable.
+  - It compares an observed correlation matrix to the identity matrix. 
+    - Essentially it checks to see if there is a certain redundancy between the variables that we can summarize with a few number of factors. 
+    - The null hypothesis of the test is that the variables are orthogonal, i.e. not correlated. 
+    - If the numbers in the matrix represent correlation coefficients, like Identity Matrix, it means that each variable is perfectly orthogonal (i.e. "uncorrelated") to every other variable and thus a data reduction technique like PCA or factor analysis would not be able to "compress" the data in any meaningful way. 
+
+## KMO Test
+
+
+```{r 'C34-KMO'}
+# #KMO Test: Measure of Sampling Adequacy (MSA) 
+KMO(cor(adl_zw))
+```
+
+
+## Bartlett Test of Sphericity
+
+- \textcolor{orange}{Caution:} It is NOT same as 'Bartlett Test for Equality of Variances'
+- This tests requires multivariate normality. If this condition is not met, KMO can still be used. 
+
+
+```{r 'C34-BartSphere'}
+# #Bartlett Test of Sphericity
+bartsph <- cortest.bartlett(cor(adl_zw), n = nrow(adl_zw))
+if(bartsph$p.value < 0.05) {
+  cat("Null Rejected. Variables are Correlated. Dimension Reduction can be performed.\n")
+} else {
+  cat("Failed to reject the Null. Uncorrelated Variables. No benefit in Dimension Reduction.\n")
+}
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -670,7 +1066,8 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn, brk_bb, hh, idx_bb, part_l,
           xxC34Housing, C34P01, cap_hh, lgd_hh, loc_png, names_bb, sub_hh, ttl_hh, xsyg, xsyl, 
           zsyl, C34P02, mm, nn, oo, zsyw, c_xsyw, C34P03, C34P04, xl, xsyw, xw, zl, zw, c_zsyw, 
-          labels_hh, C34P05, C34P06, pca_zw, y_hh)
+          labels_hh, C34P05, C34P06, pca_zw, y_hh, C34P07, C34P08, pca_eigen, com_ii, com_jj,
+          eigen_pca, load_pca, psy_zw, rec_ii, rec_jj, sd_pca, swp_ii, swp_jj, vv)
 ```
 
 ```{r 'C34-Validation', include=TRUE, cache=FALSE}

@@ -35,7 +35,7 @@ f_pKbl <- function(x, caption, headers = names(x), debug = FALSE, maxrows = 30L)
 }
 
 ## ---- A12B-pKblM ----
-f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001), ...) {
+f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001), dig = 1L, ...) {
 # #Description: 
 # Prints Kable Matrix Standard Format: f_pKblM(hh, cap_hh)
 # Calls: f_pKbl()
@@ -44,6 +44,7 @@ f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001),
 # caption: Table Title with Table Number in "(AXXTYY)" Format
 # isTri: When TRUE (Default) prints complete Matrix otherwise Lower Triangle Only
 # negPos: Vector of 2 values, to apply 3 colours to labels
+# dig: Number of decimal places
 # ... : Everything else is passed to f_pKbl()
 #
   stopifnot(identical(length(negPos), 2L))
@@ -67,7 +68,7 @@ f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001),
 # #format cannot be applied before because it changes the value to character 
     mutate(across(everything(),
                   ~ cell_spec(ifelse(is.na(.x), "",
-                      format(.x, digits = 1, scientific = FALSE, drop0trailing = TRUE)),
+                      format(.x, digits = dig, scientific = FALSE, drop0trailing = TRUE)),
 # #Change na_font_size to 1 or higher number to see bigger visual blobs on NA
                       font_size = spec_font_size(abs(.x), na_font_size = 0),
                       color = ifelse(.x < 0 | is.na(.x), "black", "black"),
