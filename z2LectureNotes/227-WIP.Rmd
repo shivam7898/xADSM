@@ -13,18 +13,18 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Machine learning using linear regression"
   - "ForLater"
 
-```{r 'B27-namesXL', include=FALSE}
+```{r 'B27-namesXL', include=FALSE, eval=FALSE}
 # #Object Names for each sheet
 namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
 ```
 
-```{r 'B27-ImportData', include=FALSE}
+```{r 'B27-ImportData', include=FALSE, eval=FALSE}
 for(ii in seq_along(namesXL)){
   assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
 }
 ```
 
-```{r 'B27-getKC', include=FALSE}
+```{r 'B27-getKC', include=FALSE, eval=FALSE}
 # #Load Data: KC House
 xxB26KC <- f_getRDS(xxB26KC)
 bb <- aa <- xxB26KC
@@ -34,7 +34,7 @@ bb <- aa <- xxB26KC
 ## WIP
 
 
-```{r 'B27-Data', eval = FALSE, eval = FALSE}
+```{r 'B27-Data', include=FALSE, eval=FALSE}
 #dim(xxB26Hmod)
 bb <- xxB26Hmod %>% select(-c(1, 3, 5, 7, 27, 37, 40, 42, 45, 49))
 names(bb)[36] <- "TC"
@@ -42,7 +42,7 @@ names(bb)[36] <- "TC"
 
 
 
-```{r 'B27-Train', eval = FALSE}
+```{r 'B27-Train', include=FALSE, eval=FALSE}
 set.seed(3)
 train_row_bb <- sample(1:nrow(bb), 0.8*nrow(bb))  # row indices for training data: 80:20
 train_bb <- bb[train_row_bb, ]  # model training data
@@ -50,12 +50,12 @@ test_bb  <- bb[-train_row_bb, ]   # test data
 ```
 
 
-```{r 'B27-NA', eval = FALSE}
+```{r 'B27-NA', include=FALSE, eval=FALSE}
 train_ii <- na.omit(train_bb)
 ```
 
 
-```{r 'B27-Model', eval = FALSE}
+```{r 'B27-Model', include=FALSE, eval=FALSE}
 model1 <-  lm(TC ~ ., data = train_ii)
 summary(model1)
 #
@@ -70,7 +70,7 @@ summary(model2)
 
 Non-Normal
 
-```{r 'B27-NOrmal', eval = FALSE}
+```{r 'B27-NOrmal', include=FALSE, eval=FALSE}
 shapiro.test(model2$residuals)
 ```
 
@@ -78,14 +78,14 @@ shapiro.test(model2$residuals)
 
 ## Multicollinearity
 
-```{r 'B27-MultiColl', eval = FALSE}
+```{r 'B27-MultiColl', include=FALSE, eval=FALSE}
 vif(model2)
 ```
 
 
 ## Transformation
 
-```{r 'B27-Transform', eval = FALSE}
+```{r 'B27-Transform', include=FALSE, eval=FALSE}
 model3 <-  lm(log(TC) ~ ., data = train_ii)
 summary(model3)
 #
@@ -95,20 +95,20 @@ summary(model4)
 
 Normal Now (Prof got p value less than 0.05)
 
-```{r 'B27-IsNormal', eval = FALSE}
+```{r 'B27-IsNormal', include=FALSE, eval=FALSE}
 shapiro.test(model4$residuals)
 ```
 
 
 
-```{r 'B27-VIF', eval = FALSE}
+```{r 'B27-VIF', include=FALSE, eval=FALSE}
 vif(model4)
 ```
 
 ## Glance
 
 
-```{r 'B27-Glance', eval = FALSE}
+```{r 'B27-Glance', include=FALSE, eval=FALSE}
 lapply(list(model1, model2, model3, model4), glance)
 ```
 

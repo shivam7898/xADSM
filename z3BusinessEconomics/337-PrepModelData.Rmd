@@ -59,7 +59,7 @@ An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a res
   - Hypothesis tests for validating the target variable, based on the type of target variable: t-test (for difference in means), z-test (for difference in proportions), test for homogeneity of proportions
 
 
-```{definition 'Overfitting'}
+```{definition 'Overfitting-c37'}
 \textcolor{pink}{Overfitting} results when the provisional model tries to account for every possible trend or structure in the training set, even idiosyncratic ones such as the 'David' example above. 
 ```
 

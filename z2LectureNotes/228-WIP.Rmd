@@ -10,18 +10,18 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-```{r 'B28-namesXL', include=FALSE}
+```{r 'B28-namesXL', include=FALSE, eval=FALSE}
 # #Object Names for each sheet
 namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
 ```
 
-```{r 'B28-ImportData', include=FALSE}
+```{r 'B28-ImportData', include=FALSE, eval=FALSE}
 for(ii in seq_along(namesXL)){
   assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
 }
 ```
 
-```{r 'B28-getKC', include=FALSE}
+```{r 'B28-getKC', include=FALSE, eval=FALSE}
 # #Load Data: KC House
 xxB26KC <- f_getRDS(xxB26KC)
 bb <- aa <- xxB26KC
@@ -31,19 +31,19 @@ bb <- aa <- xxB26KC
 ## WIP
 
 
-```{r 'B28-1'}
+```{r 'B28-1', include=FALSE, eval=FALSE}
 data("BostonHousing")
 bb <- BostonHousing
 #
 ```
 
 
-```{r 'B28-2'}
+```{r 'B28-2', include=FALSE, eval=FALSE}
 pairs.panels(bb[c(-4,-14)], cex = 2)
 ```
 
 
-```{r 'B28-3'}
+```{r 'B28-3', include=FALSE, eval=FALSE}
 set.seed (1234)
 index <- sample(2, nrow(bb), replace = TRUE, prob = c(.70,.30))
 train <- bb[index ==1, ]
@@ -51,14 +51,14 @@ test <- bb[index ==2, ]
 ```
 
 
-```{r 'B28-4'}
+```{r 'B28-4', include=FALSE, eval=FALSE}
 #custom control parameters
 
 custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 ```
 
 
-```{r 'B28-5'}
+```{r 'B28-5', include=FALSE, eval=FALSE}
 # RUNNING A LINEAR REGRESSION MODEL
 set.seed (1234)
 linear <- train(medv~., train, method = "lm", trControl = custom)
@@ -70,7 +70,7 @@ linear1 <- lm(medv~., data = train)# no cross validation
 ```
 
 
-```{r 'B28-6'}
+```{r 'B28-6', include=FALSE, eval=FALSE}
 # RIDGE REGRESSION
 set.seed (1234)
 
@@ -84,7 +84,7 @@ ridge <- train (medv~., train, method = "glmnet",
 ```
 
 
-```{r 'B28-7'}
+```{r 'B28-7', include=FALSE, eval=FALSE}
 #LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
 set.seed(1234)
 
@@ -97,7 +97,7 @@ lasso <- train (medv~., train, method = "glmnet",
 ```
 
 
-```{r 'B28-8'}
+```{r 'B28-8', include=FALSE, eval=FALSE}
 #ELASTIC NET REGRESSION
 set.seed (1234)
 
@@ -116,7 +116,7 @@ elastic <- train (medv~., train, method = "glmnet",
 ```
 
 
-```{r 'B28-9'}
+```{r 'B28-9', include=FALSE, eval=FALSE}
 ## COMPARE THE MODEL
 modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
 compare <- resamples(modellist)
@@ -124,7 +124,7 @@ compare <- resamples(modellist)
 ```
 
 
-```{r 'B28-10'}
+```{r 'B28-10', include=FALSE, eval=FALSE}
 ## BEST MODEL
 ridge$bestTune
 lasso$bestTune
@@ -132,14 +132,14 @@ elastic$bestTune
 ```
 
 
-```{r 'B28-11'}
+```{r 'B28-11', include=FALSE, eval=FALSE}
 ## to examine the coefficients
 best <-elastic$finalModel
 coef(best, s = elastic$bestTune$lambda)
 ```
 
 
-```{r 'B28-12'}
+```{r 'B28-12', include=FALSE, eval=FALSE}
 #saveRDS(elastic, "finalmodel.rds")
 #final <-readRDS("finalmodel.rds")
 #print(final)
@@ -147,7 +147,7 @@ final <- elastic
 ```
 
 
-```{r 'B28-13'}
+```{r 'B28-13', include=FALSE, eval=FALSE}
 ##### PREDICTION
 P1<- predict(final, train)
 sqrt(mean((train$medv-P1)^2))

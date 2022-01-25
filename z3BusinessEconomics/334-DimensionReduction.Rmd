@@ -358,7 +358,7 @@ knitr::include_graphics(paste0(.z$PX, "C34P03","-House-Corplot-z", ".png"))
 
 ### Correlation Matrix {.unlisted .unnumbered}
 
-```{r 'C34T02', echo=FALSE, cache=FALSE}
+```{r 'C34T02', echo=FALSE}
 # #cor() produces a Matrix of Correlations: Redundant Triangle (Upper or Lower) and Diagonal
 # #Print Kable Table
 hh <- cor(zw)
@@ -956,42 +956,170 @@ Unfortunately, the factor solutions provided by factor analysis are invariant to
   - The data is generally in ".data" format which is a CSV File
   - Details are generally in ".names" format which is a Text File
 
-## Data Adult
+## Data Adult {.tabset .tabset-fade}
 
 \textcolor{pink}{Please import the "C34-adult.csv".} 
 
 - Source: https://archive-beta.ics.uci.edu/ml/datasets/adult
-- About: [32561, 15]
+- About: Train [32561, 15] & Test[16281, 15] = Total[48842, 15]
   - The intended task is to find the set of demographic characteristics that can best predict whether or not the individual has an income of over 50000 dollars per year. 
-  
+- Steps [(External) Luke Perich](https://rpubs.com/s3589539/503258 "https://rpubs.com")
+  - Merged Train and Test for easy and simultaneous cleaning. Source Column attached for easy separation later.
+  - 'fnlwgt' (stands for final weight) - Dropped
+    - It has no predictive power since it is a feature aimed to allocate similar weights to people with similar demographic characteristics.
+  - 'income' 
+    - Edited "." in Text and Modified to 0 (<= 50K) and 1 (>50K) as Factor for Summary
+  - 'Education' is dropped 
+    - It is just a label on 'education_num' (number of years of education). (Not Tested "ForLater")
+  - 'marital_status'
+    - Number of Levels reduced by merging 3 types of Married. Two of them have small count.
+  - 'age' - num - Min 17 to Max 90 All Numbers are Present
+  - 'education_num' - num - Min 1 to Max 16 All Numbers are Present
+  - 'hours_per_week' - num - 
+    - 3 Hours are missing but that can happen 
+    - cannot remove 99 hours because 98 hours and other nearby hours are also present in the data
+  - 'capital_gain' & 'capital_loss' - Both removed
+    - After 41310 dollars, There is directly 99999 dollars which cannot be correct. It should be set to Median if it is kept
+    - 44807 observations have 0 capital gain
+    - 46560 observations have 0 capital loss
+  - 'workclass', 'occupation', 'native_country'
+    - These 3 contain Question Mark which have been converted to NA but not removed from dataset to have the possibility of imputation or to keep their other column variable information for analysis
+  - 'native_country'
+    - With huge bias towards US there is no point in having so many countries or regions even.
+    - Changed to Binary Factors of USA and Other
 
-```{r 'C34-Adult', include=FALSE, eval=FALSE}
-tbl <- read_csv(paste0(.z$XL, "C34-adult.csv"),
-                col_names = c("age", "workclass", "fnlwgt", "education", "education_num",
-                              "marital_status", "occupation", "relationship", "race", "sex",
-                              "capital_gain", "capital_loss", "hours_per_week", "native_country",
-                              "Income"), 
-                show_col_types = FALSE)
-#stopifnot(!"problems" %in% names(attributes(tbl)))
-#problems(tbl)
-attr(tbl, "problems") <- NULL
-attr(tbl, "spec") <- NULL
-xxC34Adult <- tbl
-f_setRDS(xxC34Adult)
-```
 
 ```{r 'C34-GetAdult', include=FALSE}
 bb <- aa <- xxC34Adult <- f_getRDS(xxC34Adult)  #wwww
 ```
 
-## Factor Analysis
+### Import {.unlisted .unnumbered}
 
-```{r 'C34-PartAdult'}
+```{r 'C34-Adult', eval=FALSE, include=FALSE}
+tbl <- read_csv(paste0(.z$XL, "C34-adult-train.csv"),
+                col_names = c("age", "workclass", "fnlwgt", "education", "education_num",
+                              "marital_status", "occupation", "relationship", "race", "sex",
+                              "capital_gain", "capital_loss", "hours_per_week", "native_country",
+                              "Income"), 
+                show_col_types = FALSE)
+attr(tbl, "problems") <- NULL
+attr(tbl, "spec") <- NULL
+tbl_aa <- tbl
+# # 1st row needs to be skippe in Test
+tbl <- read_csv(paste0(.z$XL, "C34-adult-test.csv"), skip = 1, 
+                col_names = c("age", "workclass", "fnlwgt", "education", "education_num",
+                              "marital_status", "occupation", "relationship", "race", "sex",
+                              "capital_gain", "capital_loss", "hours_per_week", "native_country",
+                              "Income"), 
+                show_col_types = FALSE)
+attr(tbl, "problems") <- NULL
+attr(tbl, "spec") <- NULL
+tbl_bb <- tbl
+```
+
+### Processing {.unlisted .unnumbered}
+
+```{r 'C34-Process', eval=FALSE}
+# #Merge Tibbles with ID Names in Column
+# #NA Introduced by changing Question Mark to NA
+aa <- bind_rows(Train = tbl_aa, Test = tbl_bb, .id = 'source') 
+#
+bb <- aa %>% 
+  select(-c(fnlwgt, education, capital_gain, capital_loss)) %>% 
+  mutate(Income = ifelse(Income == "<=50K" | Income == "<=50K.", "0", "1")) %>% 
+  mutate(across(c(workclass, occupation, native_country), ~na_if(., "?"))) %>% 
+  mutate(native_country = ifelse(str_detect(native_country, 
+            paste0(c("United-", "Outlying-US"), collapse = "|")), "USA", "Other")) %>% 
+  mutate(across(where(is.character), ~ factor(., levels = unique(.)))) %>% 
+  mutate(marital_status = 
+    fct_collapse(marital_status, 
+      Married = c("Married-civ-spouse", "Married-spouse-absent", "Married-AF-spouse"))) 
+#
+xxC34Adult <- bb
+f_setRDS(xxC34Adult)
+```
+
+### Merge Factor Levels {.unlisted .unnumbered}
+
+```{r 'C34-Merge', eval=FALSE}
+# #Levels of each Factor Variable
+#lapply(aa[, sapply(aa, is.factor)], levels)
+#levels(aa$marital_status)
+summary(aa$marital_status)
+ii <- aa %>% select(marital_status) %>% 
+  mutate(marital_status = 
+    fct_collapse(marital_status, 
+      Married = c("Married-civ-spouse", "Married-spouse-absent", "Married-AF-spouse")))
+#summary(ii$marital_status)
+```
+
+### Check Numeric {.unlisted .unnumbered}
+
+```{r 'C34-Numeric', eval=FALSE}
+# #Check Numeric Columns by summary()
+if(TRUE) aa %>% select(!where(is.numeric)) %>% summary()
+if(TRUE) sort(unique(aa$age))
+if(TRUE) length(sort(unique(aa$age)))
+if(TRUE) aa %>% count(age) %>% mutate(PROP = n/sum(n)) #%>% arrange(desc(n)) %>% head(10)
+#
+# #Find Missing Numbers in a Sequence of Numbers
+#ii <- unique(aa$age) 
+ii <- unique(aa$hours_per_week)
+jj <- min(ii):max(ii)
+jj[!jj %in% ii]
+#
+# #Equivalent
+setdiff(jj, ii)
+```
+
+### Search String {.unlisted .unnumbered}
+
+```{r 'C34-StrSearch', eval=FALSE}
+# #To Search For Question Mark in All Factor Columns, Question Mark needs to be escaped
+# #The Backslash used for escaping itself needs to be escaped using Backslash
+aa %>% rowwise() %>%
+  mutate(find_me = any(str_detect(c_across(where(is.factor)), 
+                                  regex("\\?", ignore_case = TRUE)), na.rm = TRUE)) %>% 
+  filter(find_me)
+#
+# #To Get the Column Names containing a String i.e. '?'
+which(vapply(aa, function(x) any(stri_detect(x, regex = "\\?", max_count = 1)), logical(1)))
+```
+
+### Replace Mutiple Partial Matches {.unlisted .unnumbered}
+
+```{r 'C34-StrReplace', eval=FALSE}
+# #Search and Replace for Multiple Partial Matches 
+# #NOTE: "|" should be used to collpase NOT " | "
+# #NOTE: Question Marks Replaced as Other
+aa %>% mutate(native_country = ifelse(str_detect(native_country, 
+            paste0(c("United-", "Outlying-US"), collapse = "|")), "USA", "Other")) %>% 
+  count(native_country)
+```
+
+### Check Factor {.unlisted .unnumbered}
+
+```{r 'C34-Factor', eval=FALSE}
+# #Check Factor Columns by summary()
+if(TRUE) aa %>% select(!where(is.factor)) %>% summary()
+ii <- factor(aa$native_country)
+if(TRUE) levels(ii)
+if(TRUE) nlevels(ii)
+aa %>% count(native_country) #%>% tail(10) 
+```
+
+## Correlation Matrix 
+
+Note that the correlations, although statistically significant in several cases, are overall much weaker than the correlations from the 'houses' data set. A weaker correlation structure should pose more of a challenge for the dimension-reduction method. 
+
+NOTE: While the Book created 'Net Captial', I have skipped that because Capital Gain and Capital Loss Columns have extremely high number of zeroes. Further, an ID column 'fnlwgt' was also dropped.
+
+
+```{r 'C34-PartAdult', include=FALSE}
 #wwww
-# #Select Specific Variables (BOOK)
-bb <- xxC34Adult %>% 
-  mutate(capnet = capital_gain - capital_loss) %>% 
-  select(age, fnlwgt, education_num, hours_per_week, capnet)
+# #Select Numeric Variables and Break the Original Training Dataset into further Train & Test 
+bb <- xxC34Adult %>% filter(source == "Train") %>% 
+  select(age, edu = education_num, hours = hours_per_week, Income) 
 set.seed(3)  
 brk_bb = c(train = 25000, test = nrow(bb))
 idx_bb = sample(cut(seq_len(nrow(bb)), c(0, brk_bb), labels = names(brk_bb)))
@@ -1003,21 +1131,19 @@ vapply(part_l, nrow, FUN.VALUE = integer(1))
 stopifnot(identical(nrow(bb), sum(vapply(part_l, nrow, FUN.VALUE = integer(1)))))
 #
 # #Training Data
-adl_xw <- part_l$train %>% rename(edu = 3, hours = 4) 
+adl_xsyw <- part_l$train 
+adl_xw <- adl_xsyw %>% select(-Income)
 # #Scaling
-adl_zw <- adl_xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+adl_zsyw <- adl_xsyw %>% mutate(across(where(is.numeric), ~ as.vector(scale(.))))
+adl_zw <- adl_zsyw %>% select(-Income)
 # #Long
 f_wl(adl_xw, adl_zw)
 ```
 
-## Correlation Matrix 
-
-Note that the correlations, although statistically significant in several cases, are overall much weaker than the correlations from the 'houses' data set. A weaker correlation structure should pose more of a challenge for the dimension-reduction method. 
-
-```{r 'C34T02', echo=FALSE, cache=FALSE}
+```{r 'C34T08', echo=FALSE}
 hh <- cor(adl_zw)
 cap_hh <- paste0("(C34T08) ", "Adult: Correlation Matrix") 
-f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5), dig = 3, debug = TRUE)
+f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5), dig = 3, debug = FALSE)
 ```
 
 Factor analysis requires a certain level of correlation in order to function appropriately. The following tests have been developed to ascertain whether there exists sufficiently high correlation to perform factor analysis.
@@ -1034,8 +1160,10 @@ Factor analysis requires a certain level of correlation in order to function app
     - The null hypothesis of the test is that the variables are orthogonal, i.e. not correlated. 
     - If the numbers in the matrix represent correlation coefficients, like Identity Matrix, it means that each variable is perfectly orthogonal (i.e. "uncorrelated") to every other variable and thus a data reduction technique like PCA or factor analysis would not be able to "compress" the data in any meaningful way. 
 
-## KMO Test
+- The KMO statistic has a value of 0.52, which is not less than 0.5, meaning that this test does not find the level of correlation to be too low for factor analysis. 
+- The p-value for Bartlett Test of Sphericity rounds to zero, so that the null hypothesis that no correlation exists among the variables is rejected. We therefore proceed with the factor analysis.
 
+## KMO Test
 
 ```{r 'C34-KMO'}
 # #KMO Test: Measure of Sampling Adequacy (MSA) 
@@ -1059,6 +1187,128 @@ if(bartsph$p.value < 0.05) {
 }
 ```
 
+## FA {.tabset .tabset-fade}
+
+- To allow us to view the results using a scatter plot, we decide a priori to extract only two factors.
+- The following factor analysis is performed using the \textcolor{pink}{principal axis factoring} option. 
+
+  - In principal axis factoring, an iterative procedure is used to estimate the communalities and the factor solution. 
+  - This particular analysis required 152 such iterations before reaching convergence. 
+  - The eigenvalues and the proportions of the variance explained by each factor are shown in Table
+
+- \textcolor{pink}{fa()}
+  - Trying with 'pa' as given in Book, even though 'pa' produces warnings whereas 'minres' does not
+- \textcolor{orange}{Warning:} The estimated weights for the factor scores are probably incorrect.  Try a different factor score estimation method.
+  - It is coming most probably because age and edu might be serially correlated i.e. 
+    - As the Age is increasing, education might also increasing with a lag. Age values might be shifted forward in time with Education values
+- \textcolor{orange}{Warning:} An ultra-Heywood case was detected.  Examine the results carefully
+  - communality > 1
+  - Heywood cases should be treated as invalid. 
+  - Try to reduce the number of factors, try other initial communalities (in PAF method), try to drop variables with low KMO, check multicollinearity
+  - These are encountered typically when there are too few variables to support the requested number of factors.
+    - Both Warnings go away when requested factors were reduced from 3 to 2
+
+```{conjecture 'CorMat'}
+\textcolor{brown}{Error in if (prod(R2) < 0) { : missing value where TRUE/FALSE needed}}
+```
+
+- Add 'SMC = FALSE' in fa()
+
+- NOTE
+  - Cummulative Variance is only 48% i.e. less than half is explained by first two factors extracted.
+    - In contrast, the Housing data had ~76% explained by first two factors because there the correlation was strong
+  
+### pa {.unlisted .unnumbered}
+
+```{r 'C34-FA'}
+adl_fa <- fa(adl_zw, nfactors = 2, #ncol(adl_zw)
+   fm = "pa", rotate = "none", SMC = FALSE)
+# #Loadings
+adl_fa$loadings
+#
+# #Values
+adl_fa$values
+#
+# #Communalities
+adl_fa$communalities
+```
+
+### pa {.unlisted .unnumbered}
+
+```{r 'C34-FA-PA'}
+# #Warnings
+# #The estimated weights for the factor scores are probably incorrect.  
+# #Try a different factor score estimation method.
+# #An ultra-Heywood case was detected.  Examine the results carefully
+fa(adl_zw, nfactors = 2, #ncol(adl_zw)
+   fm = "pa", rotate = "none", SMC = FALSE)
+```
+
+### With cor() {.unlisted .unnumbered}
+
+```{r 'C34-FA-Cor'}
+# #Warnings
+# #The estimated weights for the factor scores are probably incorrect.  
+# #Try a different factor score estimation method.
+# #An ultra-Heywood case was detected.  Examine the results carefully
+fa(cor(adl_zw), nfactors = 2, #ncol(adl_zw)
+   fm = "pa", rotate = "none", n.obs = 25000, SMC = FALSE)
+```
+
+### minres {.unlisted .unnumbered}
+
+```{r 'C34-FA-MinRes'}
+# #No Warning
+fa(adl_zw, nfactors = ncol(adl_zw), fm = "minres", rotate = "none")
+```
+
+## Factor Rotation
+
+To assist in the interpretation of the factors, factor rotation may be performed. Factor rotation corresponds to a transformation (usually orthogonal) of the coordinate axes, leading to a different set of factor loadings.
+
+The sharpest focus occurs when each variable has high factor loadings on a single factor, with low-to-moderate loadings on the other factors.
+
+- "ForLater" Figure 4.6 Page 115 - Biplot
+
+- No significant difference was observed with different Rotations, unlike BOOK.
+
+
+```{r 'C34-BiPlot', include=FALSE, eval=FALSE}
+# #This does not look good
+# #Works but really bad. Limited Options. Arrow Colour is matched with points Not visible
+#hh <- adl_fa$scores#[1:10, ]
+biplot.psych(adl_fa, cex = 1, group = adl_zsyw[["Income"]], 
+             col = viridis(2), 
+             pch=c(21, 24)[adl_zsyw[["Income"]]], main="x")
+#
+```
+
+
+```{r 'C34-Rotation'}
+# #Huge number of Rotations are available including "none", "varimax", "quartimax", "equamax" ...
+# #No significant difference observed
+fa(adl_zw, nfactors = 2, fm = "pa", rotate = "none", SMC = FALSE)$loadings
+#
+fa(adl_zw, nfactors = 2, fm = "pa", rotate = "varimax", SMC = FALSE)$loadings
+#
+fa(adl_zw, nfactors = 2, fm = "pa", rotate = "quartimax", SMC = FALSE)$loadings
+#
+fa(adl_zw, nfactors = 2, fm = "pa", rotate = "equamax", SMC = FALSE)$loadings
+```
+
+## User Defined Composites
+
+
+- User Defined Composites or Summated Scales
+  - A user-defined composite is simply a linear combination of the variables, which combines several variables together into a single composite measure.
+  - The simplest user-defined composite is simply the mean of the variables.
+  - When compared to the use of individual variables, user-defined composites provide a way to diminish the effect of measurement error. 
+    - Measurement error refers to the disparity between the observed variable values, and the "true" variable value. Measurement error contributes to the background error noise, interfering with the ability of models to accurately process the signal provided by the data, with the result that truly significant relationships may be missed. 
+    - User-defined composites reduce measurement error by combining multiple variables into a single measure.
+  - Appropriately constructed user-defined composites allow the analyst to represent the manifold aspects of a particular concept using a single measure. 
+    - Thus, user-defined composites enable the analyst to embrace the range of model characteristics, while retaining the benefits of a parsimonious model.
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -1067,10 +1317,11 @@ f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn, brk_bb, hh, i
           xxC34Housing, C34P01, cap_hh, lgd_hh, loc_png, names_bb, sub_hh, ttl_hh, xsyg, xsyl, 
           zsyl, C34P02, mm, nn, oo, zsyw, c_xsyw, C34P03, C34P04, xl, xsyw, xw, zl, zw, c_zsyw, 
           labels_hh, C34P05, C34P06, pca_zw, y_hh, C34P07, C34P08, pca_eigen, com_ii, com_jj,
-          eigen_pca, load_pca, psy_zw, rec_ii, rec_jj, sd_pca, swp_ii, swp_jj, vv)
+          eigen_pca, load_pca, psy_zw, rec_ii, rec_jj, sd_pca, swp_ii, swp_jj, vv, adl_fa, adl_xl,
+          adl_xsyw, adl_xw, adl_zl, adl_zsyw, adl_zw, bartsph, xxC34Adult)
 ```
 
-```{r 'C34-Validation', include=TRUE, cache=FALSE}
+```{r 'C34-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

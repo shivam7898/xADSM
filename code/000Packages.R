@@ -8,7 +8,7 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "data.table", "gifski", "nycflights13", "gapminder", "Lahman", "nortest")
   pkg <- c(pkg, "mice", "VIM", "qcc", "ggpmisc", "microbenchmark", "GGally", "corrplot")
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
-  pkg <- c(pkg, "caret", "glmnet", "mlbench")
+  pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi")
   #lapply(pkg, FUN = library, character.only = TRUE)
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
 #
