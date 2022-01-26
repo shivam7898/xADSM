@@ -1,0 +1,162 @@
+# Model Data {#c37}
+
+```{r 'C37', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+> "Univariate Statistical Analysis (335)" was a summary view of Hypothesis Testing.
+
+> "Multivariate Statistics (336)" was a summary view of ANOVA, Goodness of Fit etc.
+
+- "Preparing to Model the Data"
+
+## Data Mining
+
+- Data mining methods may be categorized as either supervised or unsupervised.
+  - Most data mining methods are supervised methods.
+  - Unsupervised : Clustering
+  - Supervised : Regression, decision trees, neural networks, k-nearest neighbors
+  - Another data mining method, which may be supervised or unsupervised, is association rule mining. 
+
+```{definition 'Unsupervised-Methods'}
+In \textcolor{pink}{unsupervised methods}, no target variable is identified as such. Instead, the data mining algorithm searches for patterns and structures among all the variables. The most common unsupervised data mining method is clustering. Ex: Voter Profile.
+```
+
+```{definition 'Supervised-Methods'}
+\textcolor{pink}{Supervised methods} are those in which there is a particular prespecified target variable and the algorithm is given many examples where the value of the target variable is provided. This allows the algorithm to learn which values of the target variable are associated with which values of the predictor variables. 
+```
+
+## Statistical Inference vs. Data Mining
+
+- Statistical methodology and data mining methodology differ in the following two ways: 
+  - Applying statistical inference using the huge sample sizes encountered in data mining tends to result in statistical significance, even when the results are not of practical significance. 
+  - In statistical methodology, the data analyst has an a priori hypothesis in mind. Data mining procedures usually do not have an a priori hypothesis.
+
+```{definition 'A-Priori-Hypothesis'}
+An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a research study taking place.
+```
+
+
+## Cross-validation
+
+```{definition 'Cross-Validation'}
+\textcolor{pink}{Cross-validation} is a technique for insuring that the results uncovered in an analysis are generalizable to an independent, unseen, data set. 
+```
+
+- In data mining, the most common methods are \textcolor{pink}{twofold} cross-validation and \textcolor{pink}{k-fold} cross-validation. 
+  - In twofold cross-validation, the data are partitioned, using random assignment, into a training data set and a test data set. The test data set should then have the target variable omitted. Thus, the only systematic difference between the \textcolor{pink}{training data set} and the \textcolor{pink}{test data set} is that the training data includes the target variable and the test data does not. 
+  - A provisional data mining model is then constructed using the training samples provided in the training data set.
+  - However, the algorithm needs to guard against \textcolor{pink}{"memorizing"} the training set and blindly applying all patterns found in the training set to the future data. Ex: Just because all people named 'David' in the training set are in the high income bracket, it may not be True for all people in general.
+  - Therefore, the next step is to examine how the provisional model performs on a test set of data. In the test set the provisional model performs classification according to the patterns and structures it learned from the training set. 
+  - The efficacy of the classifications is then evaluated by comparing them against the true values of the target variable. 
+  - The provisional model is then adjusted to minimize the error rate on the test set.
+- We must insure that the training and test data sets are independent, by \textcolor{pink}{validating the partition}. 
+  - By performing graphical and statistical comparisons between the two sets. 
+  - For example, we may find that, even though the assignment of records was made randomly, a significantly higher proportion of positive values of an important flag variable were assigned to the training set, compared to the test set. This would bias our results.
+  - It is especially important that the characteristics of the target variable be as similar as possible between the training and test data sets. 
+  - Hypothesis tests for validating the target variable, based on the type of target variable: t-test (for difference in means), z-test (for difference in proportions), test for homogeneity of proportions
+- Cross-validation guards against spurious results, as it is highly unlikely that the same random variation would be found to be significant in both the training set and the test set.
+- In k-fold cross validation, the original data is partitioned into k independent and similar subsets. 
+  - The model is then built using the data from k−1 subsets, using the ${k}^{\text{th}}$ subset as the test set. 
+  - This is done iteratively until we have k different models. The results from the k models are then combined using averaging or voting. 
+  - A popular choice for k is 10. 
+  - A benefit of using k-fold cross-validation is that each record appears in the test set exactly once; a drawback is that the requisite validation task is made more difficult.
+
+## Overfitting
+
+```{r 'C37D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Overfitting")
+```
+
+- Increasing the complexity of the model in order to increase the accuracy on the training set eventually and inevitably leads to a degradation in the generalizability of the provisional model to the test set.
+  - As the model complexity increases, the error rate on the training set continues to fall in a monotone manner. 
+  - However, as the model complexity increases, the test set error rate soon begins to flatten out and increase because the provisional model has memorized the training set rather than leaving room for generalizing to unseen data.
+
+
+## Bias-Variance Trade-Off
+
+- The low complexity model suffers from some classification errors. The classification errors can be reduced by a more complex model. 
+  - We might be tempted to adopt the greater complexity in order to reduce the error rate. 
+  - However, we should be careful not to depend on the idiosyncrasies of the training set. 
+  - The low-complexity model need not change very much to accommodate new data points. i.e. low-complexity model has \textcolor{pink}{low variance}. 
+  - However, the high-complexity model must alter considerably if it is to maintain its low error rate.  i.e. high-complexity model has a \textcolor{pink}{high variance}. 
+
+
+```{definition 'Bias–variance-Trade-off'}
+Even though the high-complexity model has low bias (error rate), it has a high variance; and even though the low-complexity model has a high bias, it has a low variance. This is known as the \textcolor{pink}{bias–variance trade-off}. The bias–variance trade-off is another way of describing the overfitting-underfitting dilemma.
+```
+
+- The goal is to construct a model in which neither the bias nor the variance is too high
+  - A common method of evaluating how accurate model estimation is proceeding for a continuous target variable is to use the mean-squared error (MSE). (Target: Low MSE) 
+    - MSE is a good evaluative measure because it combines both bias and variance. i.e. $\text{MSE} = \text{variance} + \text{bias}^2$
+
+```{definition 'MSE'}
+\textcolor{pink}{Mean-Squared error(MSE)} is a good evaluating measure of accuracy of model estimation for a continuous target variable. The MSE is a function of the estimation error (sum of squared errors, SSE) and the model complexity (e.g., degrees of freedom). Between two competing models, the one with lower MSE is preferred.
+```
+
+## Balancing the Training Dataset
+
+- For classification models, in which one of the target variable classes has much lower relative frequency than the other classes, balancing is recommended. 
+  - I guess Adult dataset can be suitable candidate for this because there is 75:25 ratio between the two levels of Target variable (income)
+  - A benefit of balancing the data is to provide the classification algorithms with a rich balance of records for each classification outcome, so that the algorithms have a chance to learn about all types of records, not just those with high target frequency. 
+  - For example, suppose we are running a fraud classification model and our training data set consists of 100000 transactions, of which only 1000 are fraudulent. Then, our classification model could simply predict "non-fraudulent" for all transactions, and achieve 99% classification accuracy. However, clearly this model is useless. Instead, the analyst should balance the training data set so that the relative frequency of fraudulent transactions is increased. 
+
+- There are two ways to accomplish this, which are as follows:
+  - Resample a number of fraudulent (rare) records - Discouraged
+  - Set aside a number of non-fraudulent (non-rare) records
+
+```{definition 'Resampling'}
+\textcolor{pink}{Resampling} refers to the process of sampling at random and with replacement from a data set. It is discouraged.
+```
+
+- Suppose we wished our 1000 fraudulent records to represent 25% of the balanced training set, rather than the 1% represented by these records in the raw training data set. 
+  - $x = \frac{p(\text{records}) - \text{rare}}{1 - p}$
+  - where ${x}$ is the required number of resampled records, ${p}$ represents the desired proportion of rare values in the balanced data set, 'records' represents the number of records in the unbalanced data set, and 'rare' represents the current number of rare target values
+  - Thus $x = \frac{0.25 * 100000 - 1000}{1 - 0.25} = 32000$ more records can be added to achieve 25% proportion of fraudulent records in balanced set.
+  - \textcolor{orange}{Caution:} Some people discourage this practice because they feel this amounts to fabricating data.
+
+- Alternatively, a sufficient number of non-fraudulent transactions would instead be set aside, thereby increasing the proportion of fraudulent transactions. 
+  - To achieve a 25% balance proportion, we would retain only 3000 non-fraudulent records. i.e. discard 96000 of the 99000 non-fraudulent records from the analysis, using random selection.
+  - \textcolor{orange}{Caution:} Data mining models might suffer as a result of starving them of data in this way. 
+  - Thus, it is advised to decrease the desired balance proportion to something like 10%.
+
+- The test data set should never be balanced. 
+  - The test data set represents new data that the models have not seen yet.
+  - Note that all model evaluation will take place using the test data set, so that the evaluative measures will all be applied to unbalanced (real-world-like) data.
+
+- Direct overall comparisons between the original and balanced data sets are futile, as changes in character are inevitable. 
+  - Because some predictor variables have higher correlation with the target variable than do other predictor variables, the character of the balanced data will change. 
+  - For example, suppose we are working with the Churn data set, and suppose that churners have higher levels of 'day minutes' than non-churners. Then, when we balance the data set, the overall mean of 'day minutes' will increase, as we have eliminated so many non-churner records. Such changes cannot be avoided when balancing data sets. 
+  - However, apart from these unavoidable changes, and although the random sampling tends to protect against systematic deviations, data analysts should provide evidence that their balanced data sets do not otherwise differ systematically from the original data set. 
+  - This can be accomplished by examining the graphics and summary statistics from the original and balanced data set, partitioned on the categories of the target variable. 
+  - Hypothesis tests may be applied. 
+  - If deviations are uncovered, the balancing should be reapplied. 
+  - Cross-validation measures can be applied if the analyst is concerned about these deviations. 
+    - Multiple randomly selected balanced data sets can be formed, and the results averaged, for example.
+
+## Baseline Performance
+
+For example, suppose we report that "only" 28.4% of customers adopting our International Plan will churn. That does not sound too bad, until we recall that, among all of our customers, the overall churn rate is only 14.49%. This overall churn rate may be considered our \textcolor{pink}{baseline}, against which any further results can be calibrated. Thus, belonging to the International Plan actually nearly doubles the churn rate, which is clearly not good.
+
+For example, suppose the algorithm your analytics company currently uses succeeds in identifying 90% of all fraudulent online transactions. Then, your company will probably expect your new data mining model to outperform this 90% baseline.
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C37-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C37-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
