@@ -1,26 +1,26 @@
-# K-means (B20, Nov-21) {#b20 .unlisted .unnumbered}
+# (C42) {#c42 .unlisted .unnumbered}
 
-```{r 'B20', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'C42', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
+<!-- 
 ## Overview
 
-- "K-means Cluster Analysis"
-  - "ForLater"
-  - Paused at 40:00 To cover Clustering
-
+- "ForLater"
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r 'B20-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+-->
+
+```{r 'C42-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'B20-Validation', include=TRUE, cache=FALSE, eval=FALSE}
+```{r 'C42-Validation', include=FALSE, cache=FALSE, eval=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

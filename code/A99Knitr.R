@@ -8,7 +8,8 @@ if (!("k_start" %in% ls(envir = .GlobalEnv))) {
                         echo = TRUE,
                         eval = TRUE,
                         collapse = TRUE,
-                        cache = TRUE, autodep = TRUE, cache.comments = FALSE, 
+# #Always Build Book without Cache. Otherwise not only we will lose links but also it will be slow
+                        #cache = TRUE, autodep = TRUE, cache.comments = FALSE, 
 						#cache.extra = Sys.Date(), 
                         #dev = "png",
 						dev.args = list(png = list(type = "cairo")),

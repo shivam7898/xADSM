@@ -214,7 +214,7 @@ Segment rules might look like arbitory however lots of thought goes into this. T
   - We are doing the analysis with some plan of action and it is preferable that we can put them in different and proper buckets so that specific actions can be taken
 
 ```{r 'B19-Segments'}
-# #Developing segments
+# #Developing segments #wwww
 segment_titles <- c("First Grade", "Loyal", "Likely to be Loyal", "New Ones", 
                     "Could be Promising", "Require Assistance", "Getting Less Frequent",
                       "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
@@ -228,6 +228,9 @@ m_high  <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
 #
 stopifnot(all(vapply(list(r_low, r_high, f_low, f_high, m_low, m_high), 
                      FUN = function(x) identical(length(x), length(segment_titles)), logical(1))))
+```
+
+```{r 'B19-DivBySeg'}
 divisions <- rfm_segment(rfm_result, segment_names = segment_titles, 
                        recency_lower = r_low, recency_upper = r_high, 
                        frequency_lower = f_low, frequency_upper = f_high, 
@@ -339,9 +342,13 @@ xxB19Retail <- f_getRDS(xxB19Retail)
 - About: [541909, 8]
   - However the data has NA in Customer ID. We cannot impute Customer ID. Those rows should be eliminated
   - Unit Price 0 or Quantity 0 or negative (Returns) should be removed
+  - InvoiceDate 
+     - (Aside) \textcolor{orange}{Caution:} While the lectures on Nov-14 and Nov-21 showed the dates to be converted by assuming that the data is in "dd-mm-yyyy" format. However, the data actually is "mm-dd-yyyy"
 
 - \textcolor{pink}{Question:} If we eliminate returns, should we not remove this related transaction also because we are keeping the data of that transaction as actual revenue
   - We can keep it for the purpose of this analysis. Some 'unforseen circumstance' led to the return. However, the actual transaction did happen. The customer did buy the product.
+  - Further, currently we are interested in segregating the customers within different labels /types. We are not analysing the profit or growth, we are analysing customer purchase patterns in terms of RFM only.
+  - (Argument) But then we are considering his Monetary Contribution on the higher side. If he has done a single transaction of 1000 dollars but later returned the product, the customer actually did not contribute anything to the company. However we will give him a higher ranking compared to another customer who purchased an item of 500 dollars.
 
 ```{r 'B19-PrepRetail'}
 bb <- aa <- xxB19Retail
@@ -362,7 +369,13 @@ ii <- bb %>%
   mutate(Revenue = UnitPrice * Quantity)
 #
 summary(ii)
+```
+
+```{r 'B19-Segments-A', ref.label=c('B19-Segments'), include=TRUE}
 #
+```
+
+```{r 'B19-RFM-Retail'}
 # #Get Analysis Date as the Next Date after the Max Date in the Data
 analysis_date <- max(ii$InvoiceDate) + 1 #as_date("2011-12-10")
 rfm_ii <- rfm_table_order(ii, customer_id = CustomerID, order_date = InvoiceDate, 
