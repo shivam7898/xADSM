@@ -7,6 +7,9 @@ bookdown::html_document2:
   css: style.css
   toc: yes
   toc_float: yes
+# #Caution: HTML Needs Internet for Maths Rendering.
+#  mathjax: local
+#  self_contained: false
   includes:
     in_header: header.html
   pandoc_args: ['--lua-filter=parse-latex.lua']

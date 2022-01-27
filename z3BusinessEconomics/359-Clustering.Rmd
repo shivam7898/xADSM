@@ -1,0 +1,89 @@
+# Hierarchical and K-means Clustering {#c59}
+
+```{r 'C59', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+```{definition 'Clustering'}
+\textcolor{pink}{Clustering} refers to the grouping of records, observations, or cases into classes of similar objects.
+```
+
+```{definition 'Cluster'}
+A \textcolor{pink}{cluster} is a collection of records that are similar to one another and dissimilar to records in other clusters.
+```
+
+- Cluster vs. Classification
+  - Clustering differs from classification in that there is no target variable for clustering. 
+  - The clustering task does not try to classify, estimate, or predict the value of a target variable.
+  - Instead, clustering algorithms seek to segment the entire data set into relatively homogeneous subgroups or clusters, where the similarity of the records within the cluster is maximized, and the similarity to records outside this cluster is minimized.
+  - For optimal performance, clustering algorithms, just like algorithms for classification, require the data to be normalized so that no particular variable or subset of variables dominates the analysis.
+  - Clustering algorithms seek to construct clusters of records such that the \textcolor{pink}{between-cluster} variation is large compared to the \textcolor{pink}{within-cluster} variation. 
+  - For continuous variables, we can use euclidean distance
+  - For categorical variables, we may again define the "different from" function for comparing the $i^{\text{th}}$ attribute values of a pair as 0 when $x_i = y_i$ and 1 otherwise.
+
+```{definition 'Euclidean-Distance'}
+\textcolor{pink}{Euclidean distance} between records is given by equation, $d_{\text{Euclidean}}(x,y) = \sqrt{\sum_i{\left(x_i - y_i\right)^2}}$, where $x = \{x_1, x_2, \ldots, x_m\}$ and $y = \{y_1, y_2, \ldots, y_m\}$ represent the ${m}$ attribute values of two records.
+```
+
+## Hierarchical Clustering
+
+```{definition 'Hierarchical-Clustering'}
+In \textcolor{pink}{hierarchical clustering}, a treelike cluster structure (\textcolor{pink}{dendrogram}) is created through recursive partitioning (divisive methods) or combining (agglomerative) of existing clusters. 
+```
+
+```{definition 'Agglomerative-Clustering'}
+\textcolor{pink}{Agglomerative clustering} methods initialize each observation to be a tiny cluster of its own. Then, in succeeding steps, the two closest clusters are aggregated into a new combined cluster. In this way, the number of clusters in the data set is reduced by one at each step. Eventually, all records are combined into a single huge cluster. mMost computer programs that apply hierarchical clustering use agglomerative methods.
+```
+
+```{definition 'Divisive-Clustering'}
+\textcolor{pink}{Divisive clustering} methods begin with all the records in one big cluster, with the most dissimilar records being split off recursively, into a separate cluster, until each record represents its own cluster. 
+```
+
+
+## Distance between Clusters
+
+- \textcolor{pink}{Single linkage}, sometimes termed the nearest-neighbor approach, is based on the minimum distance between any record in cluster A and any record in cluster B. 
+  - In other words, cluster similarity is based on the similarity of the most similar members from each cluster. 
+  - Single linkage tends to form long, slender clusters, which may sometimes lead to heterogeneous records being clustered together. 
+- \textcolor{pink}{Complete linkage}, sometimes termed the farthest-neighbor approach, is based on the maximum distance between any record in cluster A and any record in cluster B. 
+  - In other words, cluster similarity is based on the similarity of the most dissimilar members from each cluster. 
+  - Complete linkage tends to form more compact, spherelike clusters. 
+- \textcolor{pink}{Average linkage} is designed to reduce the dependence of the cluster-linkage criterion on extreme values, such as the most similar or dissimilar records. 
+  - In average linkage, the criterion is the average distance of all the records in cluster A from all the records in cluster B. 
+  - The resulting clusters tend to have approximately equal within-cluster variability
+  - In general, average linkage leads to clusters more similar in shape to complete linkage than does single linkage.
+
+## k-means Clustering
+
+1. Ask the user how many clusters ${k}$ the data set should be partitioned into. 
+1. Randomly assign ${k}$ records to be the initial cluster center locations. 
+1. For each record, find the nearest cluster center. 
+    - Thus, in a sense, each cluster center "owns" a subset of the records, thereby representing a partition of the data set. 
+    - We therefore have ${k}$ clusters, $\{C_1, C_2, \ldots, C_k\}$
+    - The "nearest" criterion is usually Euclidean distance
+1. For each of the ${k}$ clusters, find the cluster \textcolor{pink}{centroid}, and update the location of each cluster center to the new value of the centroid. 
+1. Repeat 3-5, until convergence or termination.
+    - The algorithm terminates when the centroids no longer change. 
+      - In other words, the algorithm terminates when for all clusters $\{C_1, C_2, \ldots, C_k\}$, all the records "owned" by each cluster center remain in that cluster. 
+    - Alternatively, the algorithm may terminate when some convergence criterion is met, such as no significant shrinkage in the \textcolor{pink}{mean squared error} $\text{MSE} = \frac{\text{SSE}}{N - k}$, where SSE represents the \textcolor{pink}{sum of squares error}.
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C59-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C59-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
