@@ -10,14 +10,381 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Supervised Learning Algorithm: Cluster Analysis"
-  - "ForLater"
+
+```{r 'B19D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Unsupervised-Methods")
+```
+
+```{r 'B19D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Supervised-Methods") #dddd
+```
+
+- Techniques:
+  - Unsupervised : Clustering, PCA, Factor Analysis, Market Basket Analysis, RFM
+  - Supervised : 
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
+    - Classification (Categorical Target) : Decision Tree, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+
+## RFM Analysis
+
+- RFM - Recency, Frequency, and Monetary value
+  - It is for customer segmentation
+  - Recency -
+    - Freshness of customer activity (purchase /visit)
+  - Frequency - 
+    - Total number of transactions in a given period
+  - Monetary value - 
+    - Total or Average Transaction value
+  - RFM Score is calculated and each parameter is assgined a weightage and based on that all the customers are classified
+    - R /F /M Score - Rank them and then score of [1, 5] is allocated
+    - Then we can define rules like 
+      - 125 Rules
+      - Anyone having R[3, 5], F[4,5], M[4,5] is a very important customer for us
+      
+
+- (Aside) \textcolor{orange}{Caution:} 
+  - RFM ignores other clusters e.g. gender
+  - It ignores seasonal /cyclical trends
+  - It does not look at the duration of customer engagement i.e. A has done 10 transactions in 10 Years, B has done 9 transactions in 10 Months.
+
+- \textcolor{pink}{Question:} Can the scoring be different from [1, 5] in R
+  - ~~Not in R~~
+  - (Aside) Defaults can be modified
+- \textcolor{pink}{Question:} Can we have fewer than 5 ratings in R e.g. [1, 4]
+  - ~~Not in R~~
+  - (Aside) Defaults can be modified
+- \textcolor{pink}{Question:} What if there are outliers. If Max Recency is 100 while all the other values are 1-40, would we still assign same Rank
+  - Yes
+  - This is percentile based segregation which is least affected by the outliers
+- \textcolor{pink}{Question:} Can we delete that outlier
+  - No, we cannot
+  - If all customers are purchasing only upto 5000 and one customer is spending 10000, can we afford to overlook that customer
+- \textcolor{pink}{Question:} Does the score is affected by Business Context. i.e. a recency value of 100 might be outlier for one business but might not be for another
+  - No, 
+  - Business context affects the weights assgined to them. However, that is part of later analysis.
+- \textcolor{pink}{Question:} For Recency, will there be a maximum limit that we can consider
+  - No
+  - Most companies do this analysis every quarter and that can be used as a benchmark for next quarter
+  - Further, a consumer durable company would not look at it every quarter. They would be looking at broader horizon.
+- \textcolor{pink}{Question:} Do we look at the item-wise details
+  - No, that is the limitation of RFM
+  - We are looking at the Store level (total amount) not the item-wise details. For that we need the 'Market Basket' analysis
 
 
+## Packages
+
+```{r 'B19-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("rfm", dependencies = TRUE)
+  install.packages("lubridate", dependencies = TRUE)
+}
+```
+
+## Data RFM
+
+\textcolor{pink}{Please import the "B19-Transaction.csv".}
+
+```{r 'B19-Trasaction', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-Transaction.csv"))
+xxB19Transaction <- f_getObject("xxB19Transaction", "B19-Transaction.csv",
+                                "5d4f8ef941dba7b25a6630daee81c4e3")
+```
+
+```{r 'B16-GetTransaction', include=FALSE}
+# #This is same dataset as rfm_data_orders #wwww
+xxB19Transaction <- f_getRDS(xxB19Transaction)
+bb <- aa <- xxB19Transaction
+```
+
+## Transaction vs Customer Level Data
+
+- In the Transaction level data, customer id can be repeated. It is mainly based on each transaction
+- In the Customer level data, each row represents a unique customer with no duplicates. It is summarised view of all transactions 
+
+## RFM on Transaction {.tabset .tabset-fade}
+
+- \textcolor{pink}{rfm_table_order()}
+  - Transform Transaction level data into Customer level data
+  - If Scores are Recency = 3, Frequency = 4, Monetary = 3. Then it report the RFM Score as '343'
+  - We can supply bins for all 3 of RFM. See Function Example. These bins are available as attributes of outcome for reference
+
+
+### Run RFM {.unlisted .unnumbered}
+
+```{r 'B19-RFM-Transaction'}
+# #character to date using dmy() #wwww
+bb <- aa
+str(bb)
+bb$order_date <- dmy(bb$order_date)
+#
+str(bb)
+anyNA(bb)
+summary(bb)
+#
+# #Get Analysis Date as the Next Date after the Max Date in the Data
+analysis_date <- max(bb$order_date) + 1 #as_date("2006-12-31")
+#
+# #RFM analysis by rfm_table_order()
+rfm_result <- rfm_table_order(bb, customer_id = customer_id, order_date = order_date, 
+                              revenue = revenue, analysis_date = analysis_date)
+# #Output is a Tibble with some other attributes
+loc_src <- paste0(.z$XL, "B19-Transaction-RFM.csv")
+# #Save the Result in a CSV
+if(FALSE) write_csv(rfm_result$rfm, file = loc_src)
+```
+
+### Bins {.unlisted .unnumbered}
+
+```{r 'B19-ResultsBins'}
+# #Bins of RFM
+str(rfm_result$rfm)
+# #Recency: Unlike the other Two its Ranking feels reversed i.e. 5 is assigned to lowest value 
+# #However 5 is assigned to 'Most Recent'
+rfm_result$rfm %>% 
+  group_by(recency_score) %>% 
+  summarise(MIN = min(recency_days), MAX = max(recency_days), N = n()) 
+# #Frequency
+rfm_result$rfm %>% 
+  group_by(frequency_score) %>% 
+  summarise(MIN = min(transaction_count), MAX = max(transaction_count), N = n()) 
+# #Monetrary
+rfm_result$rfm %>% 
+  group_by(monetary_score) %>% 
+  summarise(MIN = min(amount), MAX = max(amount), N = n()) 
+```
+
+
+### Reading Back {.unlisted .unnumbered}
+
+```{r 'B19-ReadBack'}
+# #Read CSV
+jj <- read_csv(loc_src, show_col_types = FALSE) %>% 
+  mutate(across(c(recency_score, frequency_score, monetary_score), as.integer))
+ii <- rfm_result$rfm
+#
+attr(jj, "spec") <- NULL
+attr(jj, "problems") <- NULL
+# #Verification
+all_equal(ii, jj) #TRUE
+#
+attributes(ii)$class
+attributes(jj)$class
+#
+# #Modify Class Attribute i.e. Remove 1st "spec_tbl_df"
+attr(jj, "class") <- attr(jj, "class")[-1]
+#
+all.equal(ii, jj) #TRUE
+identical(ii, jj) #TRUE
+#
+# #NOTE Position of Attributes does not matter
+names(attributes(ii))
+names(attributes(jj))
+```
+
+
+### Date Transformation {.unlisted .unnumbered}
+
+```{r 'B19-Dates'}
+# #character to date using dmy()
+bb <- aa
+str(bb)
+#
+ii <- bb
+ii$order_date <- dmy(ii$order_date)
+#
+# #Equivalent
+jj <- bb %>% mutate(order_date = dmy(order_date))
+stopifnot(identical(ii, jj))
+#
+str(jj)
+anyNA(jj)
+summary(jj)
+```
+
+## Develop Segments
+
+Segment rules might look like arbitory however lots of thought goes into this. This is a tedious task.
+
+- \textcolor{pink}{Question:} What happens with overlap e.g. which label will be assigned to the customer with 444. 
+  - In this dataset, there is no overlap
+  - Further, If some customer score (125 possibilities) is outside the (10) specification, it is classified as 'Others'
+  - (Aside) It remains a concern "ForLater"
+- \textcolor{pink}{Question:} Is it necessary that all the segments need to be covered
+  - No, not necessary but highly recommended
+  - We are doing the analysis with some plan of action and it is preferable that we can put them in different and proper buckets so that specific actions can be taken
+
+```{r 'B19-Segments'}
+# #Developing segments
+segment_titles <- c("First Grade", "Loyal", "Likely to be Loyal", "New Ones", 
+                    "Could be Promising", "Require Assistance", "Getting Less Frequent",
+                      "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
+# #Define Rules of Minimum and Maximum RFM for each group
+r_low <- c(4, 2, 3, 4, 3, 2, 2, 1, 1, 1)
+r_high <- c(5, 5, 5, 5, 4, 3, 3, 2, 1, 2)
+f_low <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+f_high <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
+m_low <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+m_high  <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
+#
+stopifnot(all(vapply(list(r_low, r_high, f_low, f_high, m_low, m_high), 
+                     FUN = function(x) identical(length(x), length(segment_titles)), logical(1))))
+divisions <- rfm_segment(rfm_result, segment_names = segment_titles, 
+                       recency_lower = r_low, recency_upper = r_high, 
+                       frequency_lower = f_low, frequency_upper = f_high, 
+                       monetary_lower = m_low, monetary_upper = m_high)
+# #Output is a Tibble 
+# #Save the Result in a CSV
+loc_src <- paste0(.z$XL, "B19-Transaction-Divisions.csv")
+if(FALSE) write_csv(divisions, file = loc_src)
+#
+# #We defined 10 segments, However only 7 (+1) of them are represented in the data 
+# #and 48 customers were not captured by our classifications and assigned 'Others'
+divisions %>% 
+  count(segment) %>% 
+  mutate(PCT = round(100*n/sum(n), 1)) %>% 
+  rename(SEGMENT = segment, FREQ = n) %>% 
+  arrange(desc(FREQ)) 
+#
+```
+
+## Plots
+
+- (Aside) 
+  - Problem with these plots is that we ourselves have defined bands for each group. 
+  - We can do the if-then-else for complete data and we will get exact values in numbers. 
+  - 'First Grade' have high median Frequency because we have defined this label having rank [4, 5] in recency (and combinations of other two).
+  - 'Do not Show Up at All' has lower median frequency because we have defined this label having rank [1, 2] in recency (and combinations of other two).
+
+- \textcolor{pink}{Question:} Here we have shown Median can we do this with Mean
+  - No, median is more authentic
+  - (Aside) These are Ordered Categorical Values [1, 5]. Thus, Median is meaningful, not the Mean.
+
+```{r 'B19-Plots', eval=FALSE}
+# #Histogram of Median RFM can be plotted. 
+# #These are ggplot graphs so can be improved later by manually plotting
+if(FALSE) {#Histograms of Median RFM for each Segment
+  hh <- divisions
+  rfm_plot_median_recency(hh)
+  rfm_plot_median_frequency(hh)
+  rfm_plot_median_monetary(hh)
+}
+if(FALSE) {
+  hh <- rfm_result
+  rfm_histograms(hh) #Histograms of RFM
+  rfm_order_dist(hh) #Histograms of Customer Orders i.e. Frequency
+  rfm_heatmap(hh)    #Heatmap of Monetary on Axes of Recency and Frequency. Slighly Useful
+  rfm_bar_chart(hh)  #Bar Charts with Facetting of RFM
+  # #Scatter Plots among Recency, Monetary, Frequency
+  rfm_rm_plot(hh)
+  rfm_fm_plot(hh)
+  rfm_rf_plot(hh)
+}
+```
+
+## RFM on Customer
+
+\textcolor{pink}{Please import the "B19-Customer.csv".}
+
+```{r 'B19-Customer', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-Customer.csv"))
+xxB19Customer <- f_getObject("xxB19Customer", "B19-Customer.csv",
+                                "e95251e969400f392be76c867b95d890")
+```
+
+```{r 'B16-GetCustomer', include=FALSE}
+# #This is same dataset as rfm_data_orders #wwww
+xxB19Customer <- f_getRDS(xxB19Customer)
+```
+
+- \textcolor{pink}{rfm_table_customer()}
+  - Use Customer level data 
+
+- \textcolor{pink}{Question:} If we are using Recency Days given in the data then what is the use of providing Analysis Date
+  - ""
+  - (Aside) I am unclear about the answer to this question given at "2021-11-14 18:08" "ForLater"
+
+```{r 'B19-RFM-Customer'}
+# #character to date using dmy() #wwww
+bb <- aa <- xxB19Customer
+str(bb)
+bb$most_recent_visit <- dmy(bb$most_recent_visit)
+#
+# #Get Analysis Date as the Next Date after the Max Date in the Data
+analysis_date <- max(bb$most_recent_visit) + 1 #as_date("2006-12-31")
+#
+# #RFM analysis by rfm_table_customer()
+rfm_customer <- rfm_table_customer(bb, customer_id = customer_id, n_transactions = number_of_orders,
+              recency_days = recency_days, total_revenue = revenue, analysis_date = analysis_date)
+# #Output is a Tibble with some other attributes
+# #Save the Result in a CSV
+loc_src <- paste0(.z$XL, "B19-Customer-RFM.csv")
+if(FALSE) write_csv(rfm_customer$rfm, file = loc_src)
+```
+
+## RFM OnlineRetail
+
+\textcolor{pink}{Please import the "B19-OnlineRetail.csv".}
+
+```{r 'B19-Retail', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-OnlineRetail.csv"))
+xxB19Retail <- f_getObject("xxB19Retail", "B19-OnlineRetail.csv",
+                                "bc6183968b08d4b034e08791eaabcf87")
+```
+
+```{r 'B16-GetRetail', include=FALSE}
+# #This is same dataset as rfm_data_orders #wwww
+xxB19Retail <- f_getRDS(xxB19Retail)
+```
+
+- About: [541909, 8]
+  - However the data has NA in Customer ID. We cannot impute Customer ID. Those rows should be eliminated
+  - Unit Price 0 or Quantity 0 or negative (Returns) should be removed
+
+- \textcolor{pink}{Question:} If we eliminate returns, should we not remove this related transaction also because we are keeping the data of that transaction as actual revenue
+  - We can keep it for the purpose of this analysis. Some 'unforseen circumstance' led to the return. However, the actual transaction did happen. The customer did buy the product.
+
+```{r 'B19-PrepRetail'}
+bb <- aa <- xxB19Retail
+#
+# #NOTE dates are in mmddyyyy format
+bb$InvoiceDate[5000:5010] 
+bb$InvoiceDate <- mdy(bb$InvoiceDate)
+#
+# #Which Columns have NA
+which(vapply(bb, anyNA, logical(1)))
+#
+# #Remove NA | Remove Unit Price with 0 | Quantity 0 or Negative i.e. Returns | Dropped Columns |
+# #Calculate Revenue
+ii <- bb %>% 
+  drop_na(CustomerID) %>% 
+  filter(UnitPrice > 0 & Quantity > 0) %>% 
+  select(-c(1:3, 8)) %>% 
+  mutate(Revenue = UnitPrice * Quantity)
+#
+summary(ii)
+#
+# #Get Analysis Date as the Next Date after the Max Date in the Data
+analysis_date <- max(ii$InvoiceDate) + 1 #as_date("2011-12-10")
+rfm_ii <- rfm_table_order(ii, customer_id = CustomerID, order_date = InvoiceDate, 
+                              revenue = Revenue, analysis_date = analysis_date)
+div_ii <- rfm_segment(rfm_ii, segment_names = segment_titles, 
+                       recency_lower = r_low, recency_upper = r_high, 
+                       frequency_lower = f_low, frequency_upper = f_high, 
+                       monetary_lower = m_low, monetary_upper = m_high)
+# #Sorted Count of Segments
+div_ii %>% 
+  count(segment) %>% 
+  mutate(PCT = round(100*n/sum(n), 1)) %>% 
+  rename(SEGMENT = segment, FREQ = n) %>% 
+  arrange(desc(FREQ)) 
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B19-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, analysis_date, divisions, loc_src, m_high, m_low, r_high, 
+          r_low, rfm_customer, rfm_result, segment_titles, xxB19Customer, xxB19Retail, 
+          xxB19Transaction, div_ii, rfm_ii)
 ```
 
 ```{r 'B19-Validation', include=FALSE, cache=FALSE}

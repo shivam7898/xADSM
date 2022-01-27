@@ -19,7 +19,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - Data mining methods may be categorized as either supervised or unsupervised.
   - Most data mining methods are supervised methods.
-  - Unsupervised : Clustering
+  - Unsupervised : Clustering, PCA, Factor Analysis, Market Basket Analysis, RFM
   - Supervised : Regression, decision trees, neural networks, k-nearest neighbors
   - Another data mining method, which may be supervised or unsupervised, is association rule mining. 
 

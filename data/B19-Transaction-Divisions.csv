@@ -1,0 +1,996 @@
+customer_id,segment,rfm_score,transaction_count,recency_days,amount,recency_score,frequency_score,monetary_score
+Abbey O'Reilly DVM,Loyal,343,6,205,472,3,4,3
+Add Senger,Likely to be Loyal,412,3,140,340,4,1,2
+Aden Lesch Sr.,Likely to be Loyal,323,4,194,405,3,2,3
+Admiral Senger,Loyal,433,5,132,448,4,3,3
+Agness O'Keefe,First Grade,555,9,90,843,5,5,5
+Aileen Barton,First Grade,555,9,84,763,5,5,5
+Ailene Hermann,Loyal,355,8,281,699,3,5,5
+Aiyanna Bruen PhD,Likely to be Loyal,321,4,246,157,3,2,1
+Ala Schmidt DDS,Getting Less Frequent,212,3,349,363,2,1,2
+Alannah Borer,Do not Show Up at All,121,4,619,196,1,2,1
+Alcide Rohan,Loyal,433,5,138,500,4,3,3
+Aleena Berge,Likely to be Loyal,523,4,102,393,5,2,3
+Alessandra Heaney,Likely to be Loyal,411,1,168,28,4,1,1
+Alethea Blanda,Likely to be Loyal,421,4,157,245,4,2,1
+Alex Armstrong,Almost Out,144,6,482,634,1,4,4
+Alex Bergnaum,Likely to be Loyal,311,1,239,175,3,1,1
+Alexis Cormier,First Grade,455,8,150,786,4,5,5
+Alf Lueilwitz,Loyal,344,7,202,596,3,4,4
+Alferd Ziemann,Loyal,335,5,245,697,3,3,5
+Alfred Metz,Loyal,345,7,245,703,3,4,5
+Almedia Yundt,Likely to be Loyal,423,4,146,436,4,2,3
+Alpheus Wilkinson,Loyal,244,6,405,597,2,4,4
+Alphonse Champlin V,Others,342,7,214,367,3,4,2
+Alton Wintheiser,Loyal,233,5,475,392,2,3,3
+Alvah Bogisich,Loyal,354,8,191,598,3,5,4
+Alvera Balistreri,Loyal,434,5,127,539,4,3,4
+Alwina Wilkinson DDS,Loyal,345,6,227,712,3,4,5
+Alyssia Hickle,Loyal,333,5,209,387,3,3,3
+Amina Renner,Loyal,334,5,215,663,3,3,4
+Amit Langworth,Getting Less Frequent,211,2,414,253,2,1,1
+Anabel Jakubowski PhD,Loyal,443,6,164,443,4,4,3
+Anastasia Howe,Require Assistance,223,4,339,425,2,2,3
+Anderson Quitzon,Do not Show Up at All,112,3,676,287,1,1,2
+Andra Bosco,Likely to be Loyal,421,4,156,225,4,2,1
+Andra Goodwin,Likely to be Loyal,521,4,12,202,5,2,1
+Angeles McLaughlin PhD,Do not Show Up at All,112,2,937,316,1,1,2
+Anie Hettinger,Getting Less Frequent,212,3,444,325,2,1,2
+Anjelica Klocko,Almost Out,224,4,458,589,2,2,4
+Antonio Bechtelar V,Do not Show Up at All,112,3,666,336,1,1,2
+Ariane Hansen,Loyal,244,6,455,507,2,4,4
+Ariel Yundt,First Grade,455,10,126,1069,4,5,5
+Arlie Brekke IV,Loyal,233,5,327,434,2,3,3
+Arlyn Dickinson,First Grade,544,7,39,600,5,4,4
+Arnett Waters,Likely to be Loyal,332,5,210,341,3,3,2
+Arno Blick,Likely to be Loyal,523,4,46,388,5,2,3
+Art Hyatt III,Loyal,345,6,274,803,3,4,5
+Aryan Bahringer,Others,324,4,286,527,3,2,4
+Asha Ankunding,Getting Less Frequent,211,3,399,81,2,1,1
+Ashleigh Eichmann,Others,425,4,162,681,4,2,5
+Aubrey Witting,Likely to be Loyal,521,4,53,229,5,2,1
+Aurthur Kirlin II,First Grade,455,9,116,856,4,5,5
+Auther Haley,First Grade,555,9,57,878,5,5,5
+Avah Schneider,First Grade,445,7,122,777,4,4,5
+Avery Bartoletti,Likely to be Loyal,322,4,183,370,3,2,2
+Ayesha Carroll,Loyal,533,5,35,390,5,3,3
+Azariah Lubowitz,Loyal,433,5,179,425,4,3,3
+Azul Wehner,Do not Show Up at All,111,1,932,190,1,1,1
+Barrett Turcotte DVM,Likely to be Loyal,322,4,186,319,3,2,2
+Bartley Collier,Do not Show Up at All,111,2,872,141,1,1,1
+Bascom Prosacco,Likely to be Loyal,311,3,253,211,3,1,1
+Bea Considine,Loyal,234,5,312,527,2,3,4
+Beda Paucek,Do not Show Up at All,111,2,488,198,1,1,1
+Benjamin Barton,Loyal,334,5,181,552,3,3,4
+Benji Jacobson,Do not Show Up at All,111,2,632,94,1,1,1
+Bennett Gleason,Likely to be Loyal,311,1,202,37,3,1,1
+Benson Schulist,Loyal,345,7,217,764,3,4,5
+Berkley Ernser DDS,Loyal,355,9,269,696,3,5,5
+Bernard Bruen,First Grade,555,8,72,875,5,5,5
+Bernetta O'Conner,Likely to be Loyal,522,4,114,276,5,2,2
+Bernhard Lind,Likely to be Loyal,422,4,152,375,4,2,2
+Bertina Renner MD,First Grade,544,6,5,528,5,4,4
+Bessie Kub,Loyal,255,9,457,977,2,5,5
+Bethel Wunsch,Getting Less Frequent,211,3,331,190,2,1,1
+Bilal Hahn,Do not Show Up at All,111,2,588,241,1,1,1
+Blair Cormier,Loyal,335,5,250,733,3,3,5
+Blair Erdman PhD,Loyal,355,8,181,845,3,5,5
+Bobby Corwin,Getting Less Frequent,211,3,365,246,2,1,1
+Bonny Breitenberg,Almost Out,144,6,573,531,1,4,4
+Boyd Cronin,Getting Less Frequent,212,3,298,318,2,1,2
+Bradford Bode,Likely to be Loyal,532,5,13,330,5,3,2
+Braelyn King,Loyal,433,5,170,435,4,3,3
+Braiden Bogan,Loyal,233,5,479,470,2,3,3
+Braulio Haag MD,Likely to be Loyal,312,3,186,381,3,1,2
+Brayan Terry,Almost Out,122,4,601,338,1,2,2
+Braydon Lindgren,Likely to be Loyal,411,1,176,188,4,1,1
+Brionna Miller,Likely to be Loyal,422,4,174,374,4,2,2
+Britany O'Hara,Others,542,7,18,330,5,4,2
+Britni Daugherty,Likely to be Loyal,511,3,62,226,5,1,1
+Britton Brekke,Getting Less Frequent,212,3,363,336,2,1,2
+Bronson Towne,Likely to be Loyal,521,4,89,161,5,2,1
+Brooks Funk,Do not Show Up at All,111,2,497,96,1,1,1
+Bryson Reinger,First Grade,444,6,175,580,4,4,4
+Bud Marquardt,Almost Out,132,5,521,323,1,3,2
+Buddie Terry MD,Loyal,344,7,294,635,3,4,4
+Buford Pollich,Likely to be Loyal,523,4,101,492,5,2,3
+Burke Boehm Sr.,Do not Show Up at All,112,3,578,316,1,1,2
+Burke Connelly,Loyal,543,6,41,465,5,4,3
+Burns Mayer,Loyal,333,5,266,419,3,3,3
+Burr O'Kon,Likely to be Loyal,422,4,172,381,4,2,2
+Burton Kuvalis,Likely to be Loyal,323,4,259,393,3,2,3
+Bush Macejkovic,Likely to be Loyal,313,3,203,442,3,1,3
+Bush Schroeder,Loyal,344,6,236,639,3,4,4
+Butler Schmitt,First Grade,445,7,122,689,4,4,5
+Byrd Abshire,Likely to be Loyal,513,3,59,456,5,1,3
+Byrd Kuhn MD,Loyal,334,5,225,532,3,3,4
+Cali Weimann,Loyal,234,5,473,533,2,3,4
+Cameron Abbott DDS,First Grade,555,8,108,723,5,5,5
+Candido Krajcik,First Grade,554,8,71,613,5,5,4
+Cari Renner PhD,First Grade,455,8,180,787,4,5,5
+Carlton Mante,Loyal,434,5,164,522,4,3,4
+Carlyn Mann,Likely to be Loyal,411,2,172,171,4,1,1
+Carmel Emard,Likely to be Loyal,311,3,182,143,3,1,1
+Carmella Schiller,Loyal,345,6,200,721,3,4,5
+Cary McGlynn,Loyal,334,5,222,520,3,3,4
+Casandra Krajcik,First Grade,455,10,144,968,4,5,5
+Case Weber,First Grade,544,6,77,564,5,4,4
+Casen Blick V,Require Assistance,223,4,391,407,2,2,3
+Casen Kuhlman,Likely to be Loyal,511,2,27,186,5,1,1
+Caswell Anderson,Almost Out,134,5,499,559,1,3,4
+Catalina Ortiz,Loyal,245,7,426,837,2,4,5
+Catharine Pacocha,Do not Show Up at All,112,3,601,346,1,1,2
+Cathey Beatty,Others,342,6,250,343,3,4,2
+Cato Cartwright,Likely to be Loyal,432,5,144,314,4,3,2
+Caylee Carroll,Loyal,344,7,240,636,3,4,4
+Celine Wisozk,First Grade,544,7,95,596,5,4,4
+Chadrick Williamson,Likely to be Loyal,532,5,46,281,5,3,2
+Chantelle Gaylord,Do not Show Up at All,112,3,526,293,1,1,2
+Charity Rodriguez,Loyal,233,5,350,420,2,3,3
+Charls Rempel DDS,Likely to be Loyal,411,2,155,187,4,1,1
+Charolette Klein,Almost Out,224,4,474,602,2,2,4
+Chase Skiles,Almost Out,145,6,525,728,1,4,5
+Chastity Greenfelder PhD,Do not Show Up at All,111,3,506,222,1,1,1
+Cherrelle Bartell,Others,542,6,84,277,5,4,2
+Christal Dooley,Do not Show Up at All,112,3,537,311,1,1,2
+Christal Lakin DDS,Others,213,3,458,491,2,1,3
+Christi Connelly,Likely to be Loyal,512,3,114,295,5,1,2
+Claire Terry,First Grade,445,6,167,775,4,4,5
+Claire Torp,Likely to be Loyal,312,3,280,353,3,1,2
+Claudette Cummings DVM,Others,442,6,140,313,4,4,2
+Claus Bradtke,Almost Out,123,4,676,435,1,2,3
+Clemens Torp,Loyal,345,7,221,950,3,4,5
+Cleveland Fay,First Grade,555,8,88,790,5,5,5
+Clovis Feil I,Likely to be Loyal,312,3,268,312,3,1,2
+Coley Lind Sr.,Others,213,3,307,439,2,1,3
+Collie Greenholt,Likely to be Loyal,312,3,261,342,3,1,2
+Collie Von MD,Loyal,244,6,462,612,2,4,4
+Con Altenwerth,Getting Less Frequent,212,2,463,271,2,1,2
+Corda Towne,Loyal,355,8,183,1018,3,5,5
+Corene Lind,Likely to be Loyal,521,4,59,218,5,2,1
+Corey Bechtelar,Do not Show Up at All,111,2,846,237,1,1,1
+Corrina Little DDS,Others,113,3,592,484,1,1,3
+Corrine Champlin,Loyal,344,6,265,510,3,4,4
+Cristen Hammes,Loyal,233,5,392,402,2,3,3
+Cristine Baumbach,Loyal,344,6,265,620,3,4,4
+Cristofer VonRueden,Loyal,344,6,229,615,3,4,4
+Cristy Ferry,Do not Show Up at All,111,1,559,172,1,1,1
+Curtis Runolfsdottir,Loyal,234,5,431,566,2,3,4
+Daija Legros,Likely to be Loyal,523,4,30,432,5,2,3
+Daisha Torphy,Likely to be Loyal,532,5,82,371,5,3,2
+Damarcus Erdman II,Loyal,234,5,446,589,2,3,4
+Darci Schaefer,Do not Show Up at All,111,2,583,198,1,1,1
+Darrell Heathcote,Likely to be Loyal,422,4,160,316,4,2,2
+Darrian Bartell I,First Grade,555,8,48,819,5,5,5
+Darrion Stoltenberg,First Grade,445,6,176,766,4,4,5
+Darwyn Berge,Getting Less Frequent,211,2,480,62,2,1,1
+Daryn Hickle,Require Assistance,222,4,352,364,2,2,2
+Dashawn Schroeder,Do not Show Up at All,111,2,589,244,1,1,1
+Davian Ledner,Likely to be Loyal,322,4,199,291,3,2,2
+Davian Stokes,Likely to be Loyal,423,4,143,385,4,2,3
+Davie Hintz PhD,Require Assistance,222,4,430,363,2,2,2
+Davion Hudson,Likely to be Loyal,311,2,251,172,3,1,1
+Davy Leuschke,Likely to be Loyal,322,4,295,356,3,2,2
+Deann Dicki,Getting Less Frequent,211,3,430,205,2,1,1
+Deasia Lockman MD,Getting Less Frequent,211,1,392,185,2,1,1
+Deena Ziemann,Likely to be Loyal,423,4,137,422,4,2,3
+Deion Auer,Almost Out,122,4,847,328,1,2,2
+Delfina Watsica MD,First Grade,545,6,10,668,5,4,5
+Delia Witting,Likely to be Loyal,522,4,17,323,5,2,2
+Dell Mitchell,Getting Less Frequent,211,2,359,231,2,1,1
+Dellar Schroeder,Loyal,543,6,39,460,5,4,3
+Dema Beer,Likely to be Loyal,521,4,23,251,5,2,1
+Dennie Powlowski,Loyal,234,5,467,581,2,3,4
+Deontae Effertz,First Grade,444,7,135,544,4,4,4
+Deonte Zemlak,Loyal,534,5,95,586,5,3,4
+Dereck Denesik DDS,Others,524,4,9,633,5,2,4
+Derek Witting,Almost Out,135,5,556,674,1,3,5
+Desi Ortiz,First Grade,444,7,154,626,4,4,4
+Devante Gerhold,Almost Out,135,5,529,713,1,3,5
+Devante O'Hara,Likely to be Loyal,511,3,81,166,5,1,1
+Devaughn Erdman V,Likely to be Loyal,523,4,99,384,5,2,3
+Devon Osinski DVM,Others,114,3,545,579,1,1,4
+Devontae Swaniawski,Almost Out,122,4,508,274,1,2,2
+Diandra Brakus DVM,Do not Show Up at All,111,3,557,211,1,1,1
+Diego Gislason,Likely to be Loyal,331,5,224,198,3,3,1
+Domingo Block,Almost Out,134,5,511,532,1,3,4
+Dominick Jewess IV,Others,324,4,186,575,3,2,4
+Dominik Anderson,First Grade,555,10,20,1249,5,5,5
+Dominique McKenzie,Loyal,234,5,332,615,2,3,4
+Donaciano Corwin,First Grade,555,8,12,892,5,5,5
+Donell Dach,Likely to be Loyal,412,3,146,260,4,1,2
+Donie Stroman PhD,Likely to be Loyal,511,2,92,97,5,1,1
+Donta Veum,Almost Out,145,7,515,792,1,4,5
+Dorathy Nader,Loyal,533,5,101,456,5,3,3
+Dorcas Friesen,Almost Out,134,5,655,648,1,3,4
+Dorr Lindgren,Loyal,334,5,208,583,3,3,4
+Dorris Jast,Almost Out,124,4,629,549,1,2,4
+Doshia Stroman,Likely to be Loyal,511,3,102,123,5,1,1
+Dow Halvorson,Loyal,245,6,317,836,2,4,5
+Dr. Aden Murphy,First Grade,544,7,98,596,5,4,4
+Dr. Alberto Kunze II,Loyal,345,7,210,669,3,4,5
+Dr. Alva Klocko,Loyal,334,5,267,548,3,3,4
+Dr. Arnoldo Grimes PhD,Likely to be Loyal,313,3,282,398,3,1,3
+Dr. Arnoldo Marks,First Grade,444,6,129,567,4,4,4
+Dr. Barrie Bins,Likely to be Loyal,523,4,4,446,5,2,3
+Dr. Bertrand Wolff,Do not Show Up at All,111,1,870,120,1,1,1
+Dr. Bree Stehr DVM,Loyal,244,7,376,607,2,4,4
+Dr. Buffy Williamson,Getting Less Frequent,212,3,298,353,2,1,2
+Dr. Camilo Kiehn,Require Assistance,222,4,445,281,2,2,2
+Dr. Carma Wyman,First Grade,544,7,44,620,5,4,4
+Dr. Charlton Kutch,Likely to be Loyal,422,4,135,360,4,2,2
+Dr. Chas Cummerata Jr.,Do not Show Up at All,111,2,510,169,1,1,1
+Dr. Cheyenne Dach DVM,Loyal,433,5,153,406,4,3,3
+Dr. Christal Wolff PhD,First Grade,455,9,116,1007,4,5,5
+Dr. Collie Krajcik,First Grade,445,7,144,704,4,4,5
+Dr. Crawford Mayert,Do not Show Up at All,121,4,504,222,1,2,1
+Dr. Darl Rice,Require Assistance,223,4,433,392,2,2,3
+Dr. Dell Baumbach III,Likely to be Loyal,512,3,80,270,5,1,2
+Dr. Dillon Pollich DDS,Almost Out,132,5,558,284,1,3,2
+Dr. Donal Auer DDS,Likely to be Loyal,322,4,284,370,3,2,2
+Dr. Dustyn Rodriguez,Almost Out,242,7,439,265,2,4,2
+Dr. Eddie Armstrong DDS,Loyal,543,6,64,433,5,4,3
+Dr. Eliezer Wuckert,First Grade,444,6,130,529,4,4,4
+Dr. Elroy Kirlin Jr.,Likely to be Loyal,532,5,28,363,5,3,2
+Dr. Elzy Anderson,Loyal,443,6,168,448,4,4,3
+Dr. Erving Pagac Sr.,Likely to be Loyal,511,3,62,244,5,1,1
+Dr. Ferd Stroman,Likely to be Loyal,312,3,183,298,3,1,2
+Dr. Fleming Grant IV,Do not Show Up at All,111,2,686,172,1,1,1
+Dr. Flint Zboncak,Require Assistance,222,4,327,277,2,2,2
+Dr. Franco Kemmer II,Loyal,355,12,260,1065,3,5,5
+Dr. Fredrick Klein,Loyal,343,6,199,471,3,4,3
+Dr. Fronnie Kemmer,Do not Show Up at All,112,3,531,363,1,1,2
+Dr. Gerard Bauch,Likely to be Loyal,422,4,173,282,4,2,2
+Dr. Grady Beier DDS,Loyal,234,5,408,542,2,3,4
+Dr. Gussie McLaughlin III,Loyal,433,5,132,471,4,3,3
+Dr. Halley Johnston PhD,Getting Less Frequent,212,3,399,266,2,1,2
+Dr. Hansel Steuber,Require Assistance,222,4,393,333,2,2,2
+Dr. Hildegard Murray,Loyal,345,7,213,672,3,4,5
+Dr. Hjalmar Langworth II,Likely to be Loyal,411,2,119,114,4,1,1
+Dr. Hoke Jacobs,Loyal,435,5,133,708,4,3,5
+Dr. Howard Zulauf V,Do not Show Up at All,111,1,569,113,1,1,1
+Dr. Humphrey Grant,Likely to be Loyal,411,2,164,138,4,1,1
+Dr. Isaak Oberbrunner DVM,Likely to be Loyal,331,5,228,228,3,3,1
+Dr. Ismael Stracke,Almost Out,134,5,491,521,1,3,4
+Dr. Jaheem Pfannerstill III,First Grade,444,6,153,641,4,4,4
+Dr. Jaren Schmeler,Likely to be Loyal,513,3,102,421,5,1,3
+Dr. Jeannie Rutherford,Almost Out,123,4,511,416,1,2,3
+Dr. Jeff Bartoletti,First Grade,555,8,81,771,5,5,5
+Dr. Jeffie Johns,Loyal,354,8,294,665,3,5,4
+Dr. Jerod Berge Jr.,Loyal,243,6,422,392,2,4,3
+Dr. Jesse Schowalter,First Grade,545,6,29,714,5,4,5
+Dr. Jett Schaefer,Do not Show Up at All,112,3,589,366,1,1,2
+Dr. Karissa Kerluke,Do not Show Up at All,111,1,700,57,1,1,1
+Dr. Keenen Parker,First Grade,554,8,57,532,5,5,4
+Dr. Kelcie Yost MD,Loyal,244,7,481,646,2,4,4
+Dr. Kieth Wiegand,Likely to be Loyal,322,4,210,350,3,2,2
+Dr. Kloe Parker DVM,Likely to be Loyal,522,4,113,289,5,2,2
+Dr. Kyle Doyle II,Loyal,355,8,183,889,3,5,5
+Dr. Kyra Littel,Require Assistance,222,4,334,259,2,2,2
+Dr. Letta Daniel MD,First Grade,445,7,161,688,4,4,5
+Dr. Linn Schuppe,Likely to be Loyal,311,3,200,111,3,1,1
+Dr. Lovett Legros DDS,Loyal,433,5,151,420,4,3,3
+Dr. Lucious Langosh,Likely to be Loyal,422,4,116,265,4,2,2
+Dr. Lynn Gleason Jr.,Getting Less Frequent,211,3,476,114,2,1,1
+Dr. Mallory Dooley MD,Getting Less Frequent,211,1,399,33,2,1,1
+Dr. Matteo Little,Likely to be Loyal,522,4,93,311,5,2,2
+Dr. Mazie Predovic MD,Likely to be Loyal,532,5,99,283,5,3,2
+Dr. Mettie Green DVM,Likely to be Loyal,413,3,179,464,4,1,3
+Dr. Micayla Kutch,First Grade,555,10,32,834,5,5,5
+Dr. Mike Legros,Likely to be Loyal,311,1,186,23,3,1,1
+Dr. Myles Stroman,Do not Show Up at All,111,2,485,187,1,1,1
+Dr. Ned Swaniawski,Loyal,343,6,208,457,3,4,3
+Dr. Nehemiah Kassulke,Do not Show Up at All,111,1,534,111,1,1,1
+Dr. Niles Altenwerth II,Loyal,244,7,380,644,2,4,4
+Dr. Patti Rempel,Loyal,244,7,462,625,2,4,4
+Dr. Ras Kshlerin,Loyal,535,5,78,672,5,3,5
+Dr. Rayburn Wilkinson I,Almost Out,143,6,561,489,1,4,3
+Dr. Rene Kuhlman DDS,Do not Show Up at All,112,3,515,355,1,1,2
+Dr. Romeo Sauer PhD,Likely to be Loyal,312,3,276,312,3,1,2
+Dr. Santana Schultz V,Likely to be Loyal,423,4,131,390,4,2,3
+Dr. Shaniece Herzog PhD,Likely to be Loyal,422,4,148,308,4,2,2
+Dr. Shea Buckridge PhD,Loyal,443,6,166,420,4,4,3
+Dr. Sherie Mayer,First Grade,444,7,172,654,4,4,4
+Dr. Shirl Cremin PhD,Likely to be Loyal,322,4,201,326,3,2,2
+Dr. Skyler Windler Sr.,Loyal,543,6,102,472,5,4,3
+Dr. Tyreke DuBuque IV,Loyal,345,7,210,690,3,4,5
+Dr. Valentine Volkman DVM,First Grade,555,8,81,1068,5,5,5
+Dr. Vic Bauch,First Grade,555,9,64,850,5,5,5
+Dr. Wilfredo Wisozk V,Getting Less Frequent,212,3,477,332,2,1,2
+Dr. Willis Bahringer,First Grade,544,6,42,665,5,4,4
+Dr. Woodson Klein,Others,424,4,152,515,4,2,4
+Drew Rohan,Getting Less Frequent,211,2,432,230,2,1,1
+Dudley Franecki,Likely to be Loyal,312,2,222,375,3,1,2
+Dulce Wintheiser,Do not Show Up at All,121,4,490,203,1,2,1
+Dwain Skiles Jr.,Loyal,245,6,481,805,2,4,5
+Dwan Wilderman,Likely to be Loyal,412,3,174,268,4,1,2
+Dyllan Osinski,Likely to be Loyal,511,1,47,155,5,1,1
+Ean Raynor,Do not Show Up at All,111,2,499,77,1,1,1
+Earnest Rolfson,Likely to be Loyal,423,4,148,433,4,2,3
+Ebb Doyle,Likely to be Loyal,432,5,170,307,4,3,2
+Egbert McLaughlin,Loyal,543,6,63,466,5,4,3
+Elaine Emard,Require Assistance,222,4,480,301,2,2,2
+Elam Hirthe DVM,Almost Out,144,6,652,546,1,4,4
+Elenora Trantow,First Grade,455,9,172,826,4,5,5
+Elgie Cole,Loyal,433,5,172,476,4,3,3
+Elgin Abbott,Do not Show Up at All,111,2,575,233,1,1,1
+Elias Huels V,Almost Out,145,7,569,841,1,4,5
+Elinor Howell,Loyal,245,6,320,746,2,4,5
+Elinore Doyle,First Grade,544,7,83,531,5,4,4
+Elizabet Schiller,Likely to be Loyal,511,2,62,194,5,1,1
+Elizah Abbott,Loyal,543,6,102,431,5,4,3
+Elizbeth West,Likely to be Loyal,311,2,187,183,3,1,1
+Eller Marquardt,Almost Out,123,4,488,401,1,2,3
+Elmyra Schaefer,Loyal,255,12,326,1150,2,5,5
+Elon Haag,Do not Show Up at All,111,1,696,32,1,1,1
+Elsie Parker,First Grade,555,8,13,839,5,5,5
+Elza Gleichner,Getting Less Frequent,212,3,457,268,2,1,2
+Emanuel Reichert,Loyal,333,5,269,421,3,3,3
+Emmaline Stark MD,Likely to be Loyal,432,5,129,282,4,3,2
+Enid Reinger,First Grade,555,9,7,792,5,5,5
+Enos VonRueden,Do not Show Up at All,111,3,629,99,1,1,1
+Epifanio Kozey,Do not Show Up at All,111,1,493,43,1,1,1
+Erastus Macejkovic,Loyal,534,5,80,519,5,3,4
+Erla Schulist,Likely to be Loyal,512,3,77,270,5,1,2
+Errol Bogisich,Do not Show Up at All,111,1,684,81,1,1,1
+Esequiel Kirlin I,First Grade,455,12,159,768,4,5,5
+Esker Cormier,Likely to be Loyal,522,4,33,283,5,2,2
+Essence Metz DDS,Loyal,255,8,379,722,2,5,5
+Ethyl Botsford,Loyal,354,8,252,526,3,5,4
+Etta Franecki MD,Loyal,255,8,481,892,2,5,5
+Etta Towne,First Grade,444,6,134,581,4,4,4
+Eugenie Conn PhD,Do not Show Up at All,112,2,548,286,1,1,2
+Evelyn Schinner,Getting Less Frequent,211,2,317,91,2,1,1
+Ewart Haag,First Grade,454,10,168,595,4,5,4
+Ewart Luettgen,Do not Show Up at All,111,2,528,252,1,1,1
+Ewin Torphy,Likely to be Loyal,513,2,98,424,5,1,3
+Exie Gutmann,First Grade,544,7,103,651,5,4,4
+Exie Shields,Likely to be Loyal,311,3,227,251,3,1,1
+Ezzard Bernhard,Almost Out,242,6,423,317,2,4,2
+Fannie Watsica,Loyal,344,7,181,648,3,4,4
+Fidel Kilback,Likely to be Loyal,523,4,94,411,5,2,3
+Finnegan Franecki,Almost Out,142,6,572,263,1,4,2
+Flem Kozey,Others,342,6,182,365,3,4,2
+Flo Gulgowski,Require Assistance,223,4,379,416,2,2,3
+Florine Jones,Almost Out,122,4,509,269,1,2,2
+Floy Krajcik,Loyal,333,5,272,484,3,3,3
+Forest Pouros,Others,113,3,613,455,1,1,3
+Fount Flatley,First Grade,455,11,146,937,4,5,5
+Francisquita Heidenreich,Do not Show Up at All,111,3,734,72,1,1,1
+Franz Mohr,Almost Out,123,4,527,430,1,2,3
+Franz Powlowski,Getting Less Frequent,211,1,427,169,2,1,1
+Friend Stracke,Loyal,244,6,456,571,2,4,4
+Gabriel Schiller,Others,213,3,416,420,2,1,3
+Garfield Hammes,Loyal,234,5,433,644,2,3,4
+Garrison Kling,Likely to be Loyal,512,3,28,294,5,1,2
+Gayle Kuphal,Loyal,533,5,20,460,5,3,3
+Gaylen Kiehn,Almost Out,123,4,652,489,1,2,3
+Gee Nitzsche,Likely to be Loyal,411,2,176,165,4,1,1
+Geoffrey Reichert,Do not Show Up at All,112,3,548,301,1,1,2
+Georgene Aufderhar PhD,Loyal,443,6,122,464,4,4,3
+Geralyn Rosenbaum,Loyal,533,5,80,393,5,3,3
+Geri Wuckert,Do not Show Up at All,111,1,599,86,1,1,1
+Germaine Becker,Require Assistance,223,4,444,400,2,2,3
+Gerold Bernhard Jr.,Likely to be Loyal,411,2,126,149,4,1,1
+Gianna Stiedemann,First Grade,545,7,30,759,5,4,5
+Gilmer Kertzmann,Almost Out,135,5,582,677,1,3,5
+Gilmore Schmitt,Likely to be Loyal,432,5,125,353,4,3,2
+Ginger Stamm,Likely to be Loyal,511,3,34,248,5,1,1
+Ginger Wintheiser,Almost Out,122,4,633,340,1,2,2
+Girtha Douglas,Likely to be Loyal,411,3,165,143,4,1,1
+Giuseppe Tremblay,Do not Show Up at All,111,3,577,162,1,1,1
+Glennis Howe,Likely to be Loyal,511,3,101,188,5,1,1
+Gonzalo Jones,Loyal,533,5,100,450,5,3,3
+Gracia Wunsch,Loyal,344,6,225,662,3,4,4
+Gregg Franecki,Likely to be Loyal,322,4,225,317,3,2,2
+Grisel Reichert MD,Likely to be Loyal,432,5,150,260,4,3,2
+Gunner Wiegand,Likely to be Loyal,521,4,96,234,5,2,1
+Haden Kautzer,Likely to be Loyal,411,2,171,236,4,1,1
+Hakeem Leffler,Likely to be Loyal,332,5,264,332,3,3,2
+Halbert Nolan,Do not Show Up at All,111,2,516,95,1,1,1
+Hampton Rath,First Grade,444,6,127,619,4,4,4
+Handy Walsh,First Grade,445,7,116,758,4,4,5
+Hansel Kiehn,Loyal,443,6,134,416,4,4,3
+Hansford Moen PhD,Loyal,345,7,186,1004,3,4,5
+Hardy Leannon,Likely to be Loyal,411,3,136,236,4,1,1
+Harlon Rolfson,Loyal,244,7,449,603,2,4,4
+Harrie Swaniawski,Almost Out,132,5,636,363,1,3,2
+Hassie Schiller PhD,Likely to be Loyal,311,2,187,119,3,1,1
+Hattie Roberts,Loyal,433,5,122,436,4,3,3
+Helmer Monahan,Getting Less Frequent,212,3,331,264,2,1,2
+Helyn Ondricka,Loyal,333,5,277,384,3,3,3
+Herman Kling I,Loyal,244,6,371,578,2,4,4
+Herschel Flatley,Loyal,244,6,379,518,2,4,4
+Hershel Shields,First Grade,445,6,179,819,4,4,5
+Hilma Little,First Grade,544,7,65,513,5,4,4
+Hiroshi Terry,Loyal,343,6,239,434,3,4,3
+Hobson Barton,Do not Show Up at All,111,1,516,102,1,1,1
+Holland Lynch,Almost Out,143,6,486,499,1,4,3
+Hosteen Jacobi,Almost Out,122,4,545,300,1,2,2
+Howell Blick,Likely to be Loyal,331,5,245,235,3,3,1
+Hughey Bartoletti DDS,First Grade,555,10,73,1036,5,5,5
+Hurley Schiller I,Loyal,245,6,442,687,2,4,5
+Hyman Kemmer,Loyal,333,5,203,455,3,3,3
+Iesha Mraz,Loyal,443,6,131,466,4,4,3
+Iliana Donnelly,Loyal,333,5,251,486,3,3,3
+Imani Swift,Loyal,244,6,443,546,2,4,4
+Imelda Harber,Loyal,243,6,455,474,2,4,3
+Ingrid O'Kon MD,Loyal,255,9,463,922,2,5,5
+Irwin Ritchie,First Grade,445,6,159,694,4,4,5
+Isabela Mertz MD,First Grade,555,13,97,1104,5,5,5
+Isidore Skiles,Likely to be Loyal,323,4,189,410,3,2,3
+Iverson Herman Sr.,First Grade,544,6,106,584,5,4,4
+Iverson Hilpert,Likely to be Loyal,411,2,161,149,4,1,1
+Iverson Robel,First Grade,455,9,160,880,4,5,5
+Ivy Kohler,Loyal,245,7,356,719,2,4,5
+Iyanna Schmeler PhD,Likely to be Loyal,323,4,182,473,3,2,3
+Izetta Stracke,First Grade,544,7,106,523,5,4,4
+Jabbar Dickens,First Grade,455,10,160,1060,4,5,5
+Jacqueline Nikolaus,Loyal,343,7,280,434,3,4,3
+Jacquez Jacobs,Getting Less Frequent,211,2,375,87,2,1,1
+Jadiel Wunsch,Loyal,235,5,343,714,2,3,5
+Jaime Nader,Likely to be Loyal,322,4,191,276,3,2,2
+Jaliyah Purdy,Likely to be Loyal,311,3,241,249,3,1,1
+Jammie Runolfsdottir,Likely to be Loyal,332,5,276,374,3,3,2
+Janeen West,Likely to be Loyal,532,5,66,374,5,3,2
+Janell Heller DVM,Do not Show Up at All,111,3,488,203,1,1,1
+Janiyah Cassin,Getting Less Frequent,211,2,360,75,2,1,1
+Jarred Stiedemann DDS,Require Assistance,222,4,372,291,2,2,2
+Jayden Hayes,Loyal,243,7,478,435,2,4,3
+Jayme Welch,Do not Show Up at All,111,1,760,23,1,1,1
+Jayvion Cummings,First Grade,555,9,53,1090,5,5,5
+Jazlyn Casper PhD,Almost Out,133,5,512,403,1,3,3
+Jazmin Harvey,Loyal,535,5,34,874,5,3,5
+Jeanette Lind,First Grade,555,10,41,1062,5,5,5
+Jeanie Berge,Almost Out,124,4,539,570,1,2,4
+Jensen Cormier Jr.,Loyal,334,5,236,556,3,3,4
+Jerald Gaylord,Likely to be Loyal,422,4,173,275,4,2,2
+Jerald Hintz,Likely to be Loyal,412,3,179,286,4,1,2
+Jeraldine Waelchi,Likely to be Loyal,412,3,146,359,4,1,2
+Jeremie Wehner V,Loyal,553,8,50,488,5,5,3
+Jerold Sporer,Loyal,443,6,135,506,4,4,3
+Jerrell Wisozk I,First Grade,545,7,113,764,5,4,5
+Jessica Connelly,Loyal,243,7,352,438,2,4,3
+Jessica Koepp MD,Loyal,533,5,88,450,5,3,3
+Jessy Emard,Loyal,344,7,281,653,3,4,4
+Jevon Rutherford,Getting Less Frequent,212,2,391,268,2,1,2
+Jimmie Herzog,Loyal,333,5,265,401,3,3,3
+Joana Crist,Others,524,4,67,552,5,2,4
+Joana Kemmer DDS,First Grade,455,8,153,806,4,5,5
+Joann Yundt,Do not Show Up at All,111,2,604,223,1,1,1
+Joe McDermott,Getting Less Frequent,212,3,390,317,2,1,2
+Joelle Deckow,Loyal,533,5,101,479,5,3,3
+Johnathon Schimmel,Require Assistance,223,4,455,436,2,2,3
+Johney Mayer,Likely to be Loyal,311,3,272,101,3,1,1
+Josef Lemke,Loyal,533,5,48,391,5,3,3
+Josephus Bradtke DVM,Almost Out,224,4,374,520,2,2,4
+Josette Bailey,Loyal,234,5,449,663,2,3,4
+Juana Bogan,Almost Out,133,5,505,416,1,3,3
+Judyth Lueilwitz,Almost Out,134,5,662,552,1,3,4
+Jules Harber,Do not Show Up at All,111,2,673,77,1,1,1
+Jules Jacobi,Loyal,255,9,453,935,2,5,5
+Julia Koch,Likely to be Loyal,431,5,171,236,4,3,1
+Juliana Sipes,Likely to be Loyal,322,4,190,314,3,2,2
+Juliet Terry,Getting Less Frequent,211,2,410,218,2,1,1
+Julisa Halvorson,First Grade,455,12,127,987,4,5,5
+Kadence Morissette,First Grade,444,7,144,613,4,4,4
+Kalvin Prosacco,First Grade,445,7,129,751,4,4,5
+Kamren Moen,Getting Less Frequent,212,3,336,274,2,1,2
+Kamron Halvorson,Loyal,255,8,403,829,2,5,5
+Karan Weber DVM,Likely to be Loyal,522,4,67,276,5,2,2
+Karen Harvey,Likely to be Loyal,321,4,249,229,3,2,1
+Karlie Treutel,Likely to be Loyal,532,5,61,318,5,3,2
+Karon Torphy,Loyal,234,5,398,554,2,3,4
+Karren Funk,Getting Less Frequent,212,3,449,353,2,1,2
+Karren Schuppe,Loyal,244,6,381,549,2,4,4
+Katlyn Mann,Loyal,345,7,297,698,3,4,5
+Katy King,Loyal,344,6,246,653,3,4,4
+Kelsey Pollich,Likely to be Loyal,513,3,48,473,5,1,3
+Kem Medhurst II,Likely to be Loyal,322,4,287,275,3,2,2
+Kendal Wiegand,First Grade,445,6,137,712,4,4,5
+Kendrick Boyle,Likely to be Loyal,522,4,8,347,5,2,2
+Kenny Wisozk,Loyal,344,6,182,630,3,4,4
+Kenton Dickens,Almost Out,155,8,575,872,1,5,5
+Keri Schuppe MD,Loyal,334,5,206,528,3,3,4
+Keri Williamson,First Grade,455,9,180,741,4,5,5
+Kingston Hayes,Likely to be Loyal,312,3,190,347,3,1,2
+Kingston Waelchi,Do not Show Up at All,112,3,533,292,1,1,2
+Kittie Dare,Likely to be Loyal,323,4,233,441,3,2,3
+Kizzy Doyle,First Grade,455,13,168,1488,4,5,5
+Kole Crooks,Likely to be Loyal,532,5,92,332,5,3,2
+Kordell Hartmann,Getting Less Frequent,212,2,478,260,2,1,2
+Korey Cronin,Getting Less Frequent,211,2,479,82,2,1,1
+Kraig Hayes DDS,First Grade,445,6,171,781,4,4,5
+Krista Hartmann,Do not Show Up at All,121,4,695,155,1,2,1
+Kristian Heaney,Others,113,3,681,479,1,1,3
+Kristy Kunde MD,Getting Less Frequent,221,4,350,242,2,2,1
+Kyla Orn,Likely to be Loyal,521,4,90,251,5,2,1
+Kylie Kertzmann,Likely to be Loyal,411,2,117,209,4,1,1
+Lacy Connelly MD,Getting Less Frequent,221,4,466,113,2,2,1
+Laddie Donnelly Sr.,Getting Less Frequent,211,3,352,196,2,1,1
+Laisha VonRueden,First Grade,555,9,27,1003,5,5,5
+Lakeshia Harris,Almost Out,142,7,549,309,1,4,2
+Lane Roberts,Loyal,234,5,372,585,2,3,4
+Lani Dicki MD,Others,542,6,112,356,5,4,2
+Lashawn Hoppe,Loyal,233,5,469,437,2,3,3
+Lassie Lindgren,First Grade,555,8,63,775,5,5,5
+Latesha Bernhard,Loyal,355,8,195,724,3,5,5
+Latifah Carter,Others,424,4,146,601,4,2,4
+Latoya Stanton,First Grade,555,10,21,814,5,5,5
+Latrice Stokes,Others,324,4,181,574,3,2,4
+Laurel Morar,Likely to be Loyal,431,5,172,230,4,3,1
+Laurene Considine,Loyal,255,9,311,1008,2,5,5
+Lavern Pfeffer DDS,Almost Out,224,4,426,632,2,2,4
+Leala Schuppe MD,Loyal,344,6,193,512,3,4,4
+Lennon Hilll,Loyal,244,6,431,621,2,4,4
+Leone Fritsch,Require Assistance,222,4,359,375,2,2,2
+Leonel Rippin,Loyal,234,5,307,515,2,3,4
+Lesa Hane,Likely to be Loyal,511,3,77,157,5,1,1
+Lesta Carter,Loyal,255,9,427,773,2,5,5
+Lesta Davis,Likely to be Loyal,311,3,239,152,3,1,1
+Letitia Stokes,First Grade,454,8,175,536,4,5,4
+Lexi Altenwerth,Almost Out,224,4,399,655,2,2,4
+Leyla Dietrich,Loyal,433,5,118,485,4,3,3
+Lidie Gislason,Likely to be Loyal,512,3,94,285,5,1,2
+Lilah Blanda PhD,Others,342,6,202,358,3,4,2
+Lillianna Larkin,First Grade,455,9,148,1011,4,5,5
+Lim Langworth,Loyal,533,5,106,424,5,3,3
+Lindy Pagac,Require Assistance,222,4,446,306,2,2,2
+Link Carroll MD,Almost Out,144,7,494,648,1,4,4
+Link Orn,Do not Show Up at All,111,1,955,61,1,1,1
+Lionel Marquardt,Do not Show Up at All,111,1,976,133,1,1,1
+Lisandro Kassulke,Loyal,235,5,312,730,2,3,5
+Lisandro Swift,Loyal,543,6,97,479,5,4,3
+Lisha Hayes,Likely to be Loyal,522,4,105,340,5,2,2
+Lissa White,Loyal,243,6,417,492,2,4,3
+Livia Pfeffer,Getting Less Frequent,211,2,436,139,2,1,1
+Lockie Fahey,Do not Show Up at All,112,3,509,284,1,1,2
+Lollie Conroy,Do not Show Up at All,111,2,578,94,1,1,1
+Lollie Heaney,Do not Show Up at All,111,1,568,28,1,1,1
+Londyn Reinger,First Grade,555,9,45,782,5,5,5
+Lorean Stokes DVM,First Grade,555,9,82,708,5,5,5
+Lorelai Parisian,Loyal,355,9,186,788,3,5,5
+Loretta Lueilwitz,Do not Show Up at All,111,1,651,79,1,1,1
+Loretto Romaguera,Likely to be Loyal,511,2,84,237,5,1,1
+Lott Larkin,Loyal,243,6,472,437,2,4,3
+Louis Toy I,First Grade,545,6,48,711,5,4,5
+Lovisa Wilkinson,Getting Less Frequent,212,3,471,311,2,1,2
+Loy Olson Sr.,First Grade,444,6,151,560,4,4,4
+Lucia Flatley,Require Assistance,222,4,309,289,2,2,2
+Luciano Kling,First Grade,544,6,101,587,5,4,4
+Luda Kihn,Require Assistance,222,4,304,371,2,2,2
+Luka Langosh,Require Assistance,223,4,412,482,2,2,3
+Lute Batz DVM,Require Assistance,223,4,333,505,2,2,3
+Luverne Rodriguez DDS,Loyal,344,6,279,582,3,4,4
+Lydia Willms,First Grade,455,11,116,713,4,5,5
+Lyn Parker,Loyal,534,5,68,639,5,3,4
+Lyndon McClure,Loyal,334,5,270,575,3,3,4
+Lyndsey Heidenreich,Loyal,255,9,384,1050,2,5,5
+Mabell Lemke,First Grade,444,7,164,583,4,4,4
+Mac Kertzmann,Likely to be Loyal,513,3,43,438,5,1,3
+Madison Koelpin,Likely to be Loyal,313,3,231,388,3,1,3
+Madyson Bergnaum PhD,First Grade,555,8,85,965,5,5,5
+Mae O'Kon,Likely to be Loyal,411,3,168,249,4,1,1
+Maebell Terry,Likely to be Loyal,522,4,107,258,5,2,2
+Magdalen Ward,Do not Show Up at All,111,2,533,184,1,1,1
+Mahlon Pfeffer,Do not Show Up at All,111,3,507,166,1,1,1
+Makenzie Hintz,Do not Show Up at All,111,2,497,252,1,1,1
+Malaya White,First Grade,544,6,86,546,5,4,4
+Malcolm Bogan,Loyal,434,5,140,565,4,3,4
+Malcolm Heathcote,Likely to be Loyal,523,4,9,431,5,2,3
+Malcolm Medhurst,Likely to be Loyal,322,4,275,350,3,2,2
+Manilla Braun,Others,214,3,372,513,2,1,4
+Mansfield Boyle,Loyal,244,6,465,640,2,4,4
+Maralyn Greenfelder,Likely to be Loyal,423,4,162,401,4,2,3
+Marcello Torphy Jr.,Loyal,543,6,4,464,5,4,3
+Marci Nader,Loyal,543,6,48,494,5,4,3
+Margarette Eichmann DVM,Likely to be Loyal,312,3,220,345,3,1,2
+Margarita O'Reilly,Others,424,4,127,649,4,2,4
+Marguerite Heaney,Likely to be Loyal,522,4,114,265,5,2,2
+Mariano Lueilwitz,Loyal,244,6,400,540,2,4,4
+Marissa Goyette,First Grade,445,7,120,693,4,4,5
+Marla Sanford,First Grade,554,9,93,637,5,5,4
+Marlene Runolfsson,Loyal,334,5,230,554,3,3,4
+Marrion Emmerich IV,Loyal,443,7,149,490,4,4,3
+Marty Wisozk,Require Assistance,232,5,354,347,2,3,2
+Marvin Wisozk,Do not Show Up at All,112,3,553,356,1,1,2
+Masao Deckow,Likely to be Loyal,511,3,6,239,5,1,1
+Mason Rodriguez,Getting Less Frequent,212,3,469,270,2,1,2
+Mathilda Farrell,Loyal,345,7,242,736,3,4,5
+Matthew Schmeler,Likely to be Loyal,523,4,110,422,5,2,3
+Maudie Waelchi,Do not Show Up at All,112,2,720,277,1,1,2
+Mauricio VonRueden,Almost Out,132,5,509,371,1,3,2
+Maxie Steuber,Likely to be Loyal,511,2,113,181,5,1,1
+Melbourne Johns,Likely to be Loyal,412,3,173,260,4,1,2
+Melvin Schmidt,First Grade,545,6,73,673,5,4,5
+Mendy Ledner,Others,424,4,142,523,4,2,4
+Mervin Pfeffer V,Loyal,333,5,222,463,3,3,3
+Mervyn Vandervort,Do not Show Up at All,112,3,723,294,1,1,2
+Michell Gerlach,Loyal,344,7,279,654,3,4,4
+Miguelangel Dach,Likely to be Loyal,522,4,16,316,5,2,2
+Mila Gibson,Almost Out,124,4,486,620,1,2,4
+Milissa Batz MD,Others,524,4,75,643,5,2,4
+Mimi Goldner,Require Assistance,223,4,468,404,2,2,3
+Miss Akeelah Walsh PhD,First Grade,445,7,160,779,4,4,5
+Miss Aleen Kunze,Getting Less Frequent,212,2,396,320,2,1,2
+Miss Anaya Kerluke,Do not Show Up at All,111,1,687,104,1,1,1
+Miss Chante Stoltenberg PhD,Loyal,245,6,316,805,2,4,5
+Miss Cristi Quitzon PhD,Loyal,433,5,152,425,4,3,3
+Miss Dorotha Kuvalis PhD,First Grade,545,7,55,958,5,4,5
+Miss Ela Treutel,Getting Less Frequent,212,3,397,336,2,1,2
+Miss Eugenia Barton,Loyal,355,9,218,753,3,5,5
+Miss Evita Howe MD,Almost Out,144,6,632,579,1,4,4
+Miss Fronnie Schaefer DDS,First Grade,544,6,51,573,5,4,4
+Miss Goldie Smitham,Almost Out,134,5,498,631,1,3,4
+Miss Haleigh Wilkinson,Loyal,355,10,198,900,3,5,5
+Miss Halle Davis DDS,First Grade,454,8,132,665,4,5,4
+Miss Jonnie Veum,First Grade,455,8,148,770,4,5,5
+Miss Jovita Reinger,Likely to be Loyal,311,3,200,243,3,1,1
+Miss Kacie Miller DVM,First Grade,455,10,169,1027,4,5,5
+Miss Katelynn Lebsack DVM,Loyal,543,7,99,382,5,4,3
+Miss Katherine Balistreri DDS,Likely to be Loyal,322,4,288,357,3,2,2
+Miss Kesha Daniel,Loyal,543,6,79,447,5,4,3
+Miss Lacey Sanford PhD,Loyal,334,5,284,652,3,3,4
+Miss Latosha O'Keefe,Loyal,345,6,197,854,3,4,5
+Miss Lovie Keeling DVM,Likely to be Loyal,532,5,103,348,5,3,2
+Miss Madison Lehner DVM,Almost Out,143,6,583,475,1,4,3
+Miss Mistie Torp MD,Others,542,6,103,303,5,4,2
+Miss Nealy Stanton,Getting Less Frequent,211,3,441,248,2,1,1
+Miss Tillie Crooks DVM,First Grade,445,7,164,709,4,4,5
+Miss Velma Schulist,Getting Less Frequent,211,3,464,224,2,1,1
+Mittie Jacobs PhD,Likely to be Loyal,422,4,119,292,4,2,2
+Mitzi Bergstrom,Getting Less Frequent,211,3,375,188,2,1,1
+Moe Sawayn,Do not Show Up at All,111,2,522,176,1,1,1
+Mohammad Smith,Loyal,344,6,201,600,3,4,4
+Monique Reichel,Almost Out,122,4,532,360,1,2,2
+Mont Mertz,Likely to be Loyal,412,3,125,261,4,1,2
+Morton O'Connell,Getting Less Frequent,212,3,409,258,2,1,2
+Mozell Greenfelder DDS,Loyal,533,5,37,417,5,3,3
+Mr. Alessandro Weissnat DDS,First Grade,444,7,174,591,4,4,4
+Mr. Almer Osinski,First Grade,455,10,123,862,4,5,5
+Mr. Armin Klocko IV,Almost Out,143,6,482,492,1,4,3
+Mr. Brion Stark Sr.,Loyal,355,8,229,852,3,5,5
+Mr. Cayden Waters,Likely to be Loyal,421,4,120,232,4,2,1
+Mr. Celestino Bosco,First Grade,445,7,133,716,4,4,5
+Mr. Christ Zieme MD,First Grade,544,7,111,510,5,4,4
+Mr. Cletus Corwin,Do not Show Up at All,111,2,558,81,1,1,1
+Mr. Colin Prohaska,Loyal,245,7,479,700,2,4,5
+Mr. Dandre Nolan I,Do not Show Up at All,111,1,951,30,1,1,1
+Mr. Demetric Franecki,Likely to be Loyal,423,4,149,387,4,2,3
+Mr. Edw Frami,First Grade,555,10,44,868,5,5,5
+Mr. Elian Vandervort Jr.,Likely to be Loyal,332,5,195,332,3,3,2
+Mr. Erin Zboncak IV,First Grade,545,6,26,895,5,4,5
+Mr. Fletcher Hudson,Do not Show Up at All,111,2,600,165,1,1,1
+Mr. Fount Towne I,First Grade,544,6,8,540,5,4,4
+Mr. Francisco Kiehn,Do not Show Up at All,111,2,620,133,1,1,1
+Mr. Fredric Funk III,Getting Less Frequent,211,3,439,228,2,1,1
+Mr. Harris Pollich,Loyal,535,5,21,734,5,3,5
+Mr. Hosea Schiller,Loyal,255,9,410,840,2,5,5
+Mr. Hosie Howell PhD,Loyal,233,5,421,496,2,3,3
+Mr. Hunter Botsford Jr.,Do not Show Up at All,112,2,613,267,1,1,2
+Mr. Hurley Brekke,Getting Less Frequent,211,2,444,175,2,1,1
+Mr. Jeff Denesik,Likely to be Loyal,322,4,235,326,3,2,2
+Mr. Jeramiah Cronin,First Grade,544,6,6,547,5,4,4
+Mr. Jimmy Mayert PhD,Almost Out,123,4,512,382,1,2,3
+Mr. Junior Wintheiser II,Others,214,3,429,529,2,1,4
+Mr. Kenji Cormier,Likely to be Loyal,412,3,177,359,4,1,2
+Mr. Kolten Wyman Jr.,Almost Out,135,5,495,668,1,3,5
+Mr. Lary Champlin,First Grade,455,14,124,1074,4,5,5
+Mr. Lillard McGlynn V,Do not Show Up at All,111,2,588,96,1,1,1
+Mr. Lon Witting Jr.,Likely to be Loyal,313,3,295,413,3,1,3
+Mr. Lupe Kohler,Loyal,245,7,299,716,2,4,5
+Mr. Manuel DuBuque,First Grade,455,9,126,927,4,5,5
+Mr. Marcelo Wunsch MD,Getting Less Frequent,211,1,446,52,2,1,1
+Mr. Marcus Langosh,Likely to be Loyal,512,3,98,363,5,1,2
+Mr. Marquise Swaniawski MD,Almost Out,155,8,569,799,1,5,5
+Mr. Mekhi Goyette,Require Assistance,222,4,416,350,2,2,2
+Mr. Michal Murphy,Loyal,434,5,136,548,4,3,4
+Mr. Michale Howe DVM,Loyal,255,8,430,740,2,5,5
+Mr. Mikeal Block,Almost Out,132,5,526,323,1,3,2
+Mr. Owens Gaylord,Likely to be Loyal,411,3,123,172,4,1,1
+Mr. Paulo Stoltenberg,Do not Show Up at All,112,3,487,308,1,1,2
+Mr. Ray Stanton III,First Grade,455,11,144,816,4,5,5
+Mr. Rohan Wolf,Almost Out,145,6,502,820,1,4,5
+Mr. Saverio Weimann II,Loyal,334,5,263,534,3,3,4
+Mr. Semaj Sauer,First Grade,555,8,31,806,5,5,5
+Mr. Tad Johnson,Loyal,355,10,206,1184,3,5,5
+Mr. Tegan Farrell MD,Likely to be Loyal,332,5,295,378,3,3,2
+Mr. Thad Nader Sr.,Loyal,333,5,282,480,3,3,3
+Mr. Torry Bogan I,Likely to be Loyal,511,2,107,195,5,1,1
+Mr. Tripp Batz PhD,Loyal,333,5,291,446,3,3,3
+Mr. Vito Ernser II,Loyal,533,5,13,461,5,3,3
+Mr. Wendel Hintz,First Grade,545,6,87,798,5,4,5
+Mr. Wilkie Moore MD,Do not Show Up at All,111,2,836,244,1,1,1
+Mr. Zackery Armstrong,Require Assistance,223,4,341,490,2,2,3
+Mr. Zakary Gleichner II,First Grade,544,7,43,615,5,4,4
+Mrs. Alysa Cummings,First Grade,555,9,1,876,5,5,5
+Mrs. Anice O'Hara DDS,Loyal,243,7,360,469,2,4,3
+Mrs. Astrid Bayer PhD,First Grade,455,8,141,687,4,5,5
+Mrs. Breann Harris,Loyal,234,5,310,599,2,3,4
+Mrs. Cali Considine,Loyal,233,5,349,416,2,3,3
+Mrs. Carolann Anderson PhD,Do not Show Up at All,111,3,590,217,1,1,1
+Mrs. Charolette McDermott MD,Likely to be Loyal,411,1,139,82,4,1,1
+Mrs. Chiquita Jacobs,Likely to be Loyal,421,4,158,144,4,2,1
+Mrs. Cleone Hagenes DDS,Do not Show Up at All,112,3,537,331,1,1,2
+Mrs. Danika Schulist,Loyal,233,5,443,495,2,3,3
+Mrs. Delisa Kilback,Loyal,333,5,263,476,3,3,3
+Mrs. Hildur Mante,Others,213,3,431,386,2,1,3
+Mrs. Ila Leuschke DVM,Loyal,243,6,392,396,2,4,3
+Mrs. Janel Koepp DVM,Likely to be Loyal,321,4,285,253,3,2,1
+Mrs. Jaquelin Weber DVM,Likely to be Loyal,422,4,147,332,4,2,2
+Mrs. Jerilynn Schulist,First Grade,445,7,116,888,4,4,5
+Mrs. Kelcie Schimmel,First Grade,444,7,142,536,4,4,4
+Mrs. Kyrie Funk,Almost Out,134,5,502,520,1,3,4
+Mrs. Laila Bayer,Others,524,4,72,516,5,2,4
+Mrs. Lois Russel,Do not Show Up at All,111,2,632,166,1,1,1
+Mrs. Lucetta Auer,Likely to be Loyal,311,3,229,128,3,1,1
+Mrs. Madelyn Hermiston,Likely to be Loyal,423,4,122,446,4,2,3
+Mrs. Makenna Bernier PhD,Require Assistance,223,4,410,386,2,2,3
+Mrs. Malaya Russel,Likely to be Loyal,511,3,93,209,5,1,1
+Mrs. Marti Johnston,Loyal,233,5,377,409,2,3,3
+Mrs. Maura Schamberger,Loyal,333,5,266,434,3,3,3
+Mrs. Melany Mitchell DDS,Do not Show Up at All,111,1,681,12,1,1,1
+Mrs. Michal Feil DVM,Loyal,233,5,463,390,2,3,3
+Mrs. Noma Hessel PhD,Loyal,245,7,298,815,2,4,5
+Mrs. Oneta Lebsack,Loyal,345,7,258,777,3,4,5
+Mrs. Trudy Rath,Loyal,244,6,387,547,2,4,4
+Mrs. Vernie Ryan MD,Loyal,443,6,159,422,4,4,3
+Mrs. Vivien Bauch,First Grade,545,7,109,676,5,4,5
+Ms. Amaris Williamson MD,Likely to be Loyal,332,5,241,289,3,3,2
+Ms. Amira Gutkowski DDS,Do not Show Up at All,111,2,576,191,1,1,1
+Ms. Arletta Jast PhD,First Grade,445,7,130,720,4,4,5
+Ms. Brea Nienow DDS,First Grade,544,6,90,580,5,4,4
+Ms. Delpha King,First Grade,555,12,43,1233,5,5,5
+Ms. Elda Schmeler,First Grade,455,8,129,744,4,5,5
+Ms. Erica Gottlieb,Loyal,255,8,340,829,2,5,5
+Ms. Ermine Krajcik,Do not Show Up at All,111,1,595,106,1,1,1
+Ms. Forest Hartmann DVM,Do not Show Up at All,112,3,538,311,1,1,2
+Ms. Giada Weissnat,Others,542,6,102,346,5,4,2
+Ms. Gracelyn Dare,First Grade,544,6,112,548,5,4,4
+Ms. Gracie Willms,Almost Out,124,4,504,556,1,2,4
+Ms. Grecia Schultz,Others,442,6,164,357,4,4,2
+Ms. Gussie Bartoletti,First Grade,455,8,172,885,4,5,5
+Ms. Hayleigh Swaniawski DDS,Likely to be Loyal,323,4,289,489,3,2,3
+Ms. Hessie Gleichner,Almost Out,242,6,414,368,2,4,2
+Ms. Hollie Crooks,Almost Out,133,5,493,400,1,3,3
+Ms. Iliana O'Conner,Loyal,344,6,194,613,3,4,4
+Ms. Jacklyn Casper,Loyal,533,5,105,415,5,3,3
+Ms. Katherine Schroeder,Loyal,244,6,407,566,2,4,4
+Ms. Katrina Barton PhD,First Grade,445,7,136,774,4,4,5
+Ms. Kelis Rau MD,Loyal,534,5,86,537,5,3,4
+Ms. Leaner Jacobs PhD,Almost Out,123,4,647,458,1,2,3
+Ms. Liliana Haley,Loyal,244,7,473,589,2,4,4
+Ms. Maebell Reinger DVM,Loyal,245,6,443,673,2,4,5
+Ms. Marolyn Walsh,Likely to be Loyal,511,3,90,180,5,1,1
+Ms. Merrilee Lueilwitz,Do not Show Up at All,111,1,699,185,1,1,1
+Ms. Nada Barton PhD,First Grade,544,7,114,576,5,4,4
+Ms. Oralia Kilback,Loyal,343,6,182,480,3,4,3
+Ms. Penni Corkery,First Grade,544,6,98,620,5,4,4
+Ms. Peyton Larson DVM,Loyal,244,6,433,664,2,4,4
+Ms. Sarita Heidenreich DVM,Require Assistance,223,4,305,462,2,2,3
+Ms. Starr Corwin DDS,Likely to be Loyal,421,4,171,228,4,2,1
+Ms. Val McKenzie PhD,Likely to be Loyal,422,4,122,380,4,2,2
+Ms. Valorie Kling,Loyal,433,5,155,421,4,3,3
+Ms. Zola Nolan,Likely to be Loyal,322,4,224,375,3,2,2
+Murl Dicki,Likely to be Loyal,411,2,178,233,4,1,1
+Murl Wilkinson II,First Grade,445,7,135,936,4,4,5
+Murray Harvey,Loyal,434,5,145,646,4,3,4
+Myer Stokes,Almost Out,145,7,491,826,1,4,5
+Mykel Johnson,Loyal,353,8,276,453,3,5,3
+Myrle Krajcik,Loyal,245,6,335,937,2,4,5
+Myrtis Larkin DDS,Likely to be Loyal,423,4,132,423,4,2,3
+Naima Treutel,Loyal,434,5,150,613,4,3,4
+Nan O'Connell,Likely to be Loyal,411,2,143,79,4,1,1
+Nathaly Streich,Almost Out,145,6,525,681,1,4,5
+Nathanael Wisozk,Do not Show Up at All,112,3,636,343,1,1,2
+Neppie Armstrong,Do not Show Up at All,111,1,607,219,1,1,1
+Nery Ankunding PhD,Almost Out,123,4,574,425,1,2,3
+Nevin Boehm,First Grade,545,6,86,694,5,4,5
+Nico Dickinson,Almost Out,154,8,616,569,1,5,4
+Nigel Leannon II,Loyal,534,5,63,579,5,3,4
+Nikita Becker,Likely to be Loyal,423,4,140,462,4,2,3
+Nikolai Welch MD,Likely to be Loyal,321,4,192,212,3,2,1
+Nikolas Shanahan,Likely to be Loyal,332,5,264,268,3,3,2
+Nobie Hermann,Almost Out,122,4,597,353,1,2,2
+Noma Dare MD,Almost Out,224,4,475,597,2,2,4
+Nyree Walker,Do not Show Up at All,111,3,550,211,1,1,1
+Odelia Rippin,Almost Out,144,6,488,585,1,4,4
+Odessa Haag,Almost Out,134,5,586,641,1,3,4
+Odie Jacobs,Do not Show Up at All,112,3,484,353,1,1,2
+Odie Lakin,Getting Less Frequent,211,2,442,132,2,1,1
+Odis Schoen,Loyal,434,5,150,512,4,3,4
+Olaf Witting,Likely to be Loyal,311,2,191,143,3,1,1
+Olen Steuber DVM,Do not Show Up at All,111,1,520,39,1,1,1
+Olena Kessler,Likely to be Loyal,311,2,214,163,3,1,1
+Oley Schroeder I,Loyal,244,6,402,632,2,4,4
+Olof Swift,Loyal,533,5,88,453,5,3,3
+Omie Cummerata,Do not Show Up at All,121,4,519,220,1,2,1
+Ophelia Ernser,Loyal,344,6,281,622,3,4,4
+Orpha Bernhard,First Grade,455,9,153,955,4,5,5
+Orville Lemke III,Likely to be Loyal,311,3,215,147,3,1,1
+Ossie Schaden PhD,First Grade,544,7,44,600,5,4,4
+Ottis Wiza,Likely to be Loyal,321,4,244,242,3,2,1
+Pansy Bergstrom,Loyal,533,5,88,394,5,3,3
+Parker Bailey DVM,Almost Out,143,7,852,476,1,4,3
+Pat Nitzsche PhD,Likely to be Loyal,422,4,162,306,4,2,2
+Patience Ferry,Loyal,344,6,249,644,3,4,4
+Paulo Torphy,Do not Show Up at All,111,2,892,219,1,1,1
+Payten Morissette,Likely to be Loyal,313,3,296,466,3,1,3
+Pearl Schmidt,Loyal,234,5,446,536,2,3,4
+Perley Renner,Loyal,243,6,427,406,2,4,3
+Pershing Johnston MD,Likely to be Loyal,311,2,296,108,3,1,1
+Pershing Torp II,Do not Show Up at All,111,2,490,241,1,1,1
+Peyton Koelpin,Do not Show Up at All,111,1,604,89,1,1,1
+Peyton Runolfsson,Likely to be Loyal,422,4,174,335,4,2,2
+Phylis Gaylord,Likely to be Loyal,331,5,210,185,3,3,1
+Pierre Stoltenberg,Do not Show Up at All,111,2,618,82,1,1,1
+Pink Murazik,Getting Less Frequent,211,2,449,225,2,1,1
+Piper Buckridge,Do not Show Up at All,112,3,601,265,1,1,2
+Pleasant Ullrich,Loyal,245,7,319,1089,2,4,5
+Porsche Mayert DDS,Almost Out,144,6,496,515,1,4,4
+Portia Schamberger,First Grade,545,7,49,762,5,4,5
+Posey Metz,Loyal,355,10,183,1060,3,5,5
+Pratt Crooks,Likely to be Loyal,332,5,182,300,3,3,2
+Price Harvey,Getting Less Frequent,211,3,411,137,2,1,1
+Princess Hermann PhD,Do not Show Up at All,111,1,597,55,1,1,1
+Prudie Kertzmann,First Grade,554,8,88,580,5,5,4
+Quintin Tillman,First Grade,555,9,64,960,5,5,5
+Rafael Mitchell,Others,113,3,550,421,1,1,3
+Raheem Bosco,Likely to be Loyal,421,4,124,182,4,2,1
+Rakeem Harvey,Loyal,255,10,454,809,2,5,5
+Rayna Hagenes PhD,Almost Out,124,4,538,587,1,2,4
+Reanna O'Keefe,First Grade,555,8,35,960,5,5,5
+Rebeca Kling,First Grade,455,8,129,956,4,5,5
+Reggie Leffler,Loyal,233,5,455,413,2,3,3
+Regina Collins,Likely to be Loyal,332,5,234,360,3,3,2
+Rexford Greenholt,Loyal,334,5,196,570,3,3,4
+Reynaldo Davis,Do not Show Up at All,112,3,681,358,1,1,2
+Ricci Bins,Do not Show Up at All,121,4,535,210,1,2,1
+Rice Prohaska,Others,542,6,71,319,5,4,2
+Rikki Watsica DVM,First Grade,544,7,43,581,5,4,4
+Riley Heller,Likely to be Loyal,423,4,171,446,4,2,3
+Rob Wilderman Sr.,Do not Show Up at All,111,1,624,34,1,1,1
+Robbin Herzog,Require Assistance,222,4,366,381,2,2,2
+Robert Satterfield,Likely to be Loyal,422,4,135,317,4,2,2
+Robert Schmeler,Likely to be Loyal,311,3,243,254,3,1,1
+Rochelle Johnson,Loyal,344,7,204,652,3,4,4
+Roger Green,Almost Out,123,4,663,468,1,2,3
+Rolla Hodkiewicz,Almost Out,123,4,564,409,1,2,3
+Rollie Yundt DVM,Others,113,3,600,467,1,1,3
+Roma Daniel,Likely to be Loyal,321,4,229,197,3,2,1
+Roma Rath,Almost Out,143,6,490,420,1,4,3
+Romaine McCullough,Loyal,333,5,232,405,3,3,3
+Romie Upton,First Grade,454,8,145,622,4,5,4
+Ronan McLaughlin,Likely to be Loyal,323,4,289,496,3,2,3
+Roni Carter,Likely to be Loyal,422,4,128,365,4,2,2
+Ronin Beatty Jr.,Likely to be Loyal,423,4,146,434,4,2,3
+Rosanne Maggio,First Grade,544,7,67,597,5,4,4
+Rosario Boyle,Loyal,234,5,417,512,2,3,4
+Rose Kuphal,Likely to be Loyal,523,4,69,400,5,2,3
+Rosevelt Murazik DDS,Loyal,433,5,139,447,4,3,3
+Rosina Abbott,Loyal,244,7,339,652,2,4,4
+Ruel Ruecker,Loyal,433,5,176,436,4,3,3
+Russell Boyle,Do not Show Up at All,112,2,614,265,1,1,2
+Ruthe Macejkovic MD,Loyal,255,9,373,805,2,5,5
+Ryland Predovic,Loyal,234,5,436,665,2,3,4
+Sadie Upton,Others,424,4,151,541,4,2,4
+Saint Doyle,Loyal,344,6,190,558,3,4,4
+Samira Medhurst,Loyal,245,7,430,826,2,4,5
+Santana Bradtke,First Grade,455,8,152,732,4,5,5
+Savion Rohan,First Grade,555,10,84,1118,5,5,5
+Schuyler Volkman,First Grade,454,10,160,658,4,5,4
+Scottie Beahan PhD,Others,314,3,275,538,3,1,4
+Seaborn Bogisich III,Likely to be Loyal,413,3,178,459,4,1,3
+Shakira Stokes,Loyal,533,5,75,438,5,3,3
+Shane Haley,Loyal,433,5,157,424,4,3,3
+Shania Stamm DDS,Loyal,355,9,188,997,3,5,5
+Shantel Jenkins,Almost Out,123,4,724,388,1,2,3
+Shari Rowe PhD,Loyal,234,5,426,665,2,3,4
+Sharyn Barrows,Others,442,6,155,292,4,4,2
+Shaun Rempel,Likely to be Loyal,423,4,180,427,4,2,3
+Shea Feil,First Grade,444,6,176,588,4,4,4
+Shea Gerlach,Loyal,345,7,201,760,3,4,5
+Shellie Brekke III,Others,113,3,591,384,1,1,3
+Shelton Hudson,First Grade,455,8,153,867,4,5,5
+Sherlyn Gutmann,First Grade,555,9,19,726,5,5,5
+Shirl Keebler,Likely to be Loyal,522,4,90,377,5,2,2
+Shirl Kuvalis,Loyal,333,5,276,450,3,3,3
+Shirl Wisozk,Almost Out,122,4,630,363,1,2,2
+Shirlie Nikolaus,Loyal,345,7,210,688,3,4,5
+Shoji Wintheiser III,Likely to be Loyal,432,5,140,329,4,3,2
+Skylar Hoeger,Likely to be Loyal,321,4,282,255,3,2,1
+Sol Zboncak,Do not Show Up at All,111,3,508,88,1,1,1
+Somer Turcotte,Loyal,355,10,190,1018,3,5,5
+Sonny Dickens,Others,342,6,250,362,3,4,2
+Soren Gleason,First Grade,555,9,103,1061,5,5,5
+Stafford Willms,Do not Show Up at All,112,3,506,295,1,1,2
+Starling Welch,First Grade,444,7,128,590,4,4,4
+Stefani Kshlerin,Loyal,344,7,186,520,3,4,4
+Stephaine Graham,Others,524,4,105,609,5,2,4
+Stetson Ferry DVM,Do not Show Up at All,111,3,500,237,1,1,1
+Susannah Bernier,First Grade,545,6,33,754,5,4,5
+Suzann Koss,Others,342,6,288,353,3,4,2
+Suzette Hartmann,Loyal,343,6,291,427,3,4,3
+Suzette Pollich,Require Assistance,223,4,335,395,2,2,3
+Sydell West,Loyal,344,6,191,642,3,4,4
+Sylva Littel,First Grade,445,7,178,778,4,4,5
+Symone McClure,Likely to be Loyal,323,4,207,449,3,2,3
+Tallie Gleason,Likely to be Loyal,312,3,227,293,3,1,2
+Tamia Hills,Loyal,235,5,443,694,2,3,5
+Tamia Langworth,Do not Show Up at All,111,1,576,103,1,1,1
+Tamika Labadie,First Grade,445,7,138,839,4,4,5
+Tamisha Crooks,First Grade,544,6,11,627,5,4,4
+Tarik Marvin Jr.,Almost Out,144,6,585,510,1,4,4
+Tate Turcotte,Others,113,3,516,394,1,1,3
+Tawanda Balistreri MD,Likely to be Loyal,523,4,103,393,5,2,3
+Taylor Crist,Loyal,344,6,261,643,3,4,4
+Tegan O'Conner,Likely to be Loyal,411,2,177,199,4,1,1
+Tera Collins,Do not Show Up at All,112,3,546,324,1,1,2
+Texas Keebler,Almost Out,135,5,484,702,1,3,5
+Theo Buckridge,Loyal,543,6,15,446,5,4,3
+Thor Schultz,Likely to be Loyal,512,3,38,274,5,1,2
+Tia Zulauf,First Grade,444,6,149,522,4,4,4
+Tierra Hayes,First Grade,455,8,128,952,4,5,5
+Tilden Hermann,Do not Show Up at All,111,2,545,96,1,1,1
+Tisa Mosciski,Likely to be Loyal,321,4,229,159,3,2,1
+Tobie Carroll,Loyal,255,9,344,870,2,5,5
+Toccara Lebsack,Loyal,343,6,209,433,3,4,3
+Tomika Koepp,Loyal,344,6,249,542,3,4,4
+Toney Marvin,Loyal,334,5,212,558,3,3,4
+Tori Bailey,Likely to be Loyal,411,2,129,121,4,1,1
+Torrance Pollich,Likely to be Loyal,512,3,54,377,5,1,2
+Torry Reynolds,First Grade,444,7,135,650,4,4,4
+Tracy Feest,Do not Show Up at All,121,4,530,253,1,2,1
+Travis Cartwright,First Grade,555,8,45,713,5,5,5
+Tressie Buckridge DDS,Require Assistance,223,4,404,504,2,2,3
+Trina Gaylord DDS,Likely to be Loyal,312,3,198,264,3,1,2
+Triston Mills,Require Assistance,222,4,332,366,2,2,2
+Trudie Mraz,Loyal,533,5,89,474,5,3,3
+Trudy Stokes,Loyal,255,8,472,855,2,5,5
+True Conroy,Loyal,533,5,40,471,5,3,3
+Tyshawn Witting,Do not Show Up at All,111,3,573,208,1,1,1
+Uriah West,Do not Show Up at All,111,3,653,195,1,1,1
+Uriel Kuhn,Almost Out,134,5,542,567,1,3,4
+Valencia Keebler DVM,Require Assistance,232,5,328,369,2,3,2
+Vannie Kunze,Loyal,255,9,397,823,2,5,5
+Velda Goyette,Loyal,443,6,151,473,4,4,3
+Venice Smith,Do not Show Up at All,111,3,484,219,1,1,1
+Verlene Emmerich,Likely to be Loyal,332,5,240,359,3,3,2
+Verlin Christiansen Sr.,Require Assistance,223,4,389,491,2,2,3
+Verna Hudson,Loyal,535,5,106,789,5,3,5
+Vernell Lockman,Likely to be Loyal,311,1,236,153,3,1,1
+Verona Langosh,Almost Out,133,5,539,492,1,3,3
+Vic Volkman,Loyal,543,6,102,492,5,4,3
+Vick Okuneva,Others,524,4,52,569,5,2,4
+Vinson Tillman,Almost Out,123,4,490,454,1,2,3
+Violette O'Kon,Others,324,4,246,565,3,2,4
+Virgel Grimes,Loyal,435,5,173,675,4,3,5
+Vivian McLaughlin MD,Loyal,244,6,416,574,2,4,4
+Vivienne Medhurst,Others,113,3,517,390,1,1,3
+Von Cassin,Require Assistance,232,5,402,350,2,3,2
+Vonda Connelly,Do not Show Up at All,112,2,515,297,1,1,2
+Waldemar Greenholt,Loyal,355,9,267,859,3,5,5
+Wally Nikolaus,Loyal,333,5,181,419,3,3,3
+Warner Kessler,Likely to be Loyal,322,4,290,310,3,2,2
+Warren Osinski,First Grade,455,10,129,1038,4,5,5
+Watt Cremin,Likely to be Loyal,411,1,127,52,4,1,1
+Wellington Runolfsdottir,Likely to be Loyal,311,2,265,39,3,1,1
+Wendi Purdy,Almost Out,134,5,490,560,1,3,4
+Werner Hahn,First Grade,444,6,169,594,4,4,4
+William Sawayn,Loyal,234,5,321,570,2,3,4
+Willian Runte,First Grade,445,7,157,754,4,4,5
+Winifred Hills DDS,Loyal,434,5,180,618,4,3,4
+Winifred Kris,Loyal,243,6,452,459,2,4,3
+Wong Bradtke II,Likely to be Loyal,312,3,287,280,3,1,2
+Woodie Gleichner,Require Assistance,232,5,395,277,2,3,2
+Yaakov Labadie,Do not Show Up at All,111,1,582,91,1,1,1
+Yazmin Borer MD,Almost Out,135,5,549,716,1,3,5
+Yessenia Rempel,Likely to be Loyal,421,4,163,236,4,2,1
+Yetta Gorczany MD,Others,442,6,120,378,4,4,2
+Yoselin Bauch,Loyal,255,8,346,760,2,5,5
+Zackery Spinka,Loyal,243,6,387,406,2,4,3
+Zander Lebsack,Loyal,344,6,204,574,3,4,4
+Zechariah Gislason,Loyal,355,9,207,1196,3,5,5
+Zenas Pacocha,Require Assistance,223,4,405,442,2,2,3
+Zeno Lakin,Do not Show Up at All,111,1,524,38,1,1,1
+Zillah Koch PhD,Almost Out,124,4,548,516,1,2,4

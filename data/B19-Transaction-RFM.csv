@@ -1,0 +1,996 @@
+customer_id,date_most_recent,recency_days,transaction_count,amount,recency_score,frequency_score,monetary_score,rfm_score
+Abbey O'Reilly DVM,2006-06-09,205,6,472,3,4,3,343
+Add Senger,2006-08-13,140,3,340,4,1,2,412
+Aden Lesch Sr.,2006-06-20,194,4,405,3,2,3,323
+Admiral Senger,2006-08-21,132,5,448,4,3,3,433
+Agness O'Keefe,2006-10-02,90,9,843,5,5,5,555
+Aileen Barton,2006-10-08,84,9,763,5,5,5,555
+Ailene Hermann,2006-03-25,281,8,699,3,5,5,355
+Aiyanna Bruen PhD,2006-04-29,246,4,157,3,2,1,321
+Ala Schmidt DDS,2006-01-16,349,3,363,2,1,2,212
+Alannah Borer,2005-04-21,619,4,196,1,2,1,121
+Alcide Rohan,2006-08-15,138,5,500,4,3,3,433
+Aleena Berge,2006-09-20,102,4,393,5,2,3,523
+Alessandra Heaney,2006-07-16,168,1,28,4,1,1,411
+Alethea Blanda,2006-07-27,157,4,245,4,2,1,421
+Alex Armstrong,2005-09-05,482,6,634,1,4,4,144
+Alex Bergnaum,2006-05-06,239,1,175,3,1,1,311
+Alexis Cormier,2006-08-03,150,8,786,4,5,5,455
+Alf Lueilwitz,2006-06-12,202,7,596,3,4,4,344
+Alferd Ziemann,2006-04-30,245,5,697,3,3,5,335
+Alfred Metz,2006-04-30,245,7,703,3,4,5,345
+Almedia Yundt,2006-08-07,146,4,436,4,2,3,423
+Alpheus Wilkinson,2005-11-21,405,6,597,2,4,4,244
+Alphonse Champlin V,2006-05-31,214,7,367,3,4,2,342
+Alton Wintheiser,2005-09-12,475,5,392,2,3,3,233
+Alvah Bogisich,2006-06-23,191,8,598,3,5,4,354
+Alvera Balistreri,2006-08-26,127,5,539,4,3,4,434
+Alwina Wilkinson DDS,2006-05-18,227,6,712,3,4,5,345
+Alyssia Hickle,2006-06-05,209,5,387,3,3,3,333
+Amina Renner,2006-05-30,215,5,663,3,3,4,334
+Amit Langworth,2005-11-12,414,2,253,2,1,1,211
+Anabel Jakubowski PhD,2006-07-20,164,6,443,4,4,3,443
+Anastasia Howe,2006-01-26,339,4,425,2,2,3,223
+Anderson Quitzon,2005-02-23,676,3,287,1,1,2,112
+Andra Bosco,2006-07-28,156,4,225,4,2,1,421
+Andra Goodwin,2006-12-19,12,4,202,5,2,1,521
+Angeles McLaughlin PhD,2004-06-07,937,2,316,1,1,2,112
+Anie Hettinger,2005-10-13,444,3,325,2,1,2,212
+Anjelica Klocko,2005-09-29,458,4,589,2,2,4,224
+Antonio Bechtelar V,2005-03-05,666,3,336,1,1,2,112
+Ariane Hansen,2005-10-02,455,6,507,2,4,4,244
+Ariel Yundt,2006-08-27,126,10,1069,4,5,5,455
+Arlie Brekke IV,2006-02-07,327,5,434,2,3,3,233
+Arlyn Dickinson,2006-11-22,39,7,600,5,4,4,544
+Arnett Waters,2006-06-04,210,5,341,3,3,2,332
+Arno Blick,2006-11-15,46,4,388,5,2,3,523
+Art Hyatt III,2006-04-01,274,6,803,3,4,5,345
+Aryan Bahringer,2006-03-20,286,4,527,3,2,4,324
+Asha Ankunding,2005-11-27,399,3,81,2,1,1,211
+Ashleigh Eichmann,2006-07-22,162,4,681,4,2,5,425
+Aubrey Witting,2006-11-08,53,4,229,5,2,1,521
+Aurthur Kirlin II,2006-09-06,116,9,856,4,5,5,455
+Auther Haley,2006-11-04,57,9,878,5,5,5,555
+Avah Schneider,2006-08-31,122,7,777,4,4,5,445
+Avery Bartoletti,2006-07-01,183,4,370,3,2,2,322
+Ayesha Carroll,2006-11-26,35,5,390,5,3,3,533
+Azariah Lubowitz,2006-07-05,179,5,425,4,3,3,433
+Azul Wehner,2004-06-12,932,1,190,1,1,1,111
+Barrett Turcotte DVM,2006-06-28,186,4,319,3,2,2,322
+Bartley Collier,2004-08-11,872,2,141,1,1,1,111
+Bascom Prosacco,2006-04-22,253,3,211,3,1,1,311
+Bea Considine,2006-02-22,312,5,527,2,3,4,234
+Beda Paucek,2005-08-30,488,2,198,1,1,1,111
+Benjamin Barton,2006-07-03,181,5,552,3,3,4,334
+Benji Jacobson,2005-04-08,632,2,94,1,1,1,111
+Bennett Gleason,2006-06-12,202,1,37,3,1,1,311
+Benson Schulist,2006-05-28,217,7,764,3,4,5,345
+Berkley Ernser DDS,2006-04-06,269,9,696,3,5,5,355
+Bernard Bruen,2006-10-20,72,8,875,5,5,5,555
+Bernetta O'Conner,2006-09-08,114,4,276,5,2,2,522
+Bernhard Lind,2006-08-01,152,4,375,4,2,2,422
+Bertina Renner MD,2006-12-26,5,6,528,5,4,4,544
+Bessie Kub,2005-09-30,457,9,977,2,5,5,255
+Bethel Wunsch,2006-02-03,331,3,190,2,1,1,211
+Bilal Hahn,2005-05-22,588,2,241,1,1,1,111
+Blair Cormier,2006-04-25,250,5,733,3,3,5,335
+Blair Erdman PhD,2006-07-03,181,8,845,3,5,5,355
+Bobby Corwin,2005-12-31,365,3,246,2,1,1,211
+Bonny Breitenberg,2005-06-06,573,6,531,1,4,4,144
+Boyd Cronin,2006-03-08,298,3,318,2,1,2,212
+Bradford Bode,2006-12-18,13,5,330,5,3,2,532
+Braelyn King,2006-07-14,170,5,435,4,3,3,433
+Braiden Bogan,2005-09-08,479,5,470,2,3,3,233
+Braulio Haag MD,2006-06-28,186,3,381,3,1,2,312
+Brayan Terry,2005-05-09,601,4,338,1,2,2,122
+Braydon Lindgren,2006-07-08,176,1,188,4,1,1,411
+Brionna Miller,2006-07-10,174,4,374,4,2,2,422
+Britany O'Hara,2006-12-13,18,7,330,5,4,2,542
+Britni Daugherty,2006-10-30,62,3,226,5,1,1,511
+Britton Brekke,2006-01-02,363,3,336,2,1,2,212
+Bronson Towne,2006-10-03,89,4,161,5,2,1,521
+Brooks Funk,2005-08-21,497,2,96,1,1,1,111
+Bryson Reinger,2006-07-09,175,6,580,4,4,4,444
+Bud Marquardt,2005-07-28,521,5,323,1,3,2,132
+Buddie Terry MD,2006-03-12,294,7,635,3,4,4,344
+Buford Pollich,2006-09-21,101,4,492,5,2,3,523
+Burke Boehm Sr.,2005-06-01,578,3,316,1,1,2,112
+Burke Connelly,2006-11-20,41,6,465,5,4,3,543
+Burns Mayer,2006-04-09,266,5,419,3,3,3,333
+Burr O'Kon,2006-07-12,172,4,381,4,2,2,422
+Burton Kuvalis,2006-04-16,259,4,393,3,2,3,323
+Bush Macejkovic,2006-06-11,203,3,442,3,1,3,313
+Bush Schroeder,2006-05-09,236,6,639,3,4,4,344
+Butler Schmitt,2006-08-31,122,7,689,4,4,5,445
+Byrd Abshire,2006-11-02,59,3,456,5,1,3,513
+Byrd Kuhn MD,2006-05-20,225,5,532,3,3,4,334
+Cali Weimann,2005-09-14,473,5,533,2,3,4,234
+Cameron Abbott DDS,2006-09-14,108,8,723,5,5,5,555
+Candido Krajcik,2006-10-21,71,8,613,5,5,4,554
+Cari Renner PhD,2006-07-04,180,8,787,4,5,5,455
+Carlton Mante,2006-07-20,164,5,522,4,3,4,434
+Carlyn Mann,2006-07-12,172,2,171,4,1,1,411
+Carmel Emard,2006-07-02,182,3,143,3,1,1,311
+Carmella Schiller,2006-06-14,200,6,721,3,4,5,345
+Cary McGlynn,2006-05-23,222,5,520,3,3,4,334
+Casandra Krajcik,2006-08-09,144,10,968,4,5,5,455
+Case Weber,2006-10-15,77,6,564,5,4,4,544
+Casen Blick V,2005-12-05,391,4,407,2,2,3,223
+Casen Kuhlman,2006-12-04,27,2,186,5,1,1,511
+Caswell Anderson,2005-08-19,499,5,559,1,3,4,134
+Catalina Ortiz,2005-10-31,426,7,837,2,4,5,245
+Catharine Pacocha,2005-05-09,601,3,346,1,1,2,112
+Cathey Beatty,2006-04-25,250,6,343,3,4,2,342
+Cato Cartwright,2006-08-09,144,5,314,4,3,2,432
+Caylee Carroll,2006-05-05,240,7,636,3,4,4,344
+Celine Wisozk,2006-09-27,95,7,596,5,4,4,544
+Chadrick Williamson,2006-11-15,46,5,281,5,3,2,532
+Chantelle Gaylord,2005-07-23,526,3,293,1,1,2,112
+Charity Rodriguez,2006-01-15,350,5,420,2,3,3,233
+Charls Rempel DDS,2006-07-29,155,2,187,4,1,1,411
+Charolette Klein,2005-09-13,474,4,602,2,2,4,224
+Chase Skiles,2005-07-24,525,6,728,1,4,5,145
+Chastity Greenfelder PhD,2005-08-12,506,3,222,1,1,1,111
+Cherrelle Bartell,2006-10-08,84,6,277,5,4,2,542
+Christal Dooley,2005-07-12,537,3,311,1,1,2,112
+Christal Lakin DDS,2005-09-29,458,3,491,2,1,3,213
+Christi Connelly,2006-09-08,114,3,295,5,1,2,512
+Claire Terry,2006-07-17,167,6,775,4,4,5,445
+Claire Torp,2006-03-26,280,3,353,3,1,2,312
+Claudette Cummings DVM,2006-08-13,140,6,313,4,4,2,442
+Claus Bradtke,2005-02-23,676,4,435,1,2,3,123
+Clemens Torp,2006-05-24,221,7,950,3,4,5,345
+Cleveland Fay,2006-10-04,88,8,790,5,5,5,555
+Clovis Feil I,2006-04-07,268,3,312,3,1,2,312
+Coley Lind Sr.,2006-02-27,307,3,439,2,1,3,213
+Collie Greenholt,2006-04-14,261,3,342,3,1,2,312
+Collie Von MD,2005-09-25,462,6,612,2,4,4,244
+Con Altenwerth,2005-09-24,463,2,271,2,1,2,212
+Corda Towne,2006-07-01,183,8,1018,3,5,5,355
+Corene Lind,2006-11-02,59,4,218,5,2,1,521
+Corey Bechtelar,2004-09-06,846,2,237,1,1,1,111
+Corrina Little DDS,2005-05-18,592,3,484,1,1,3,113
+Corrine Champlin,2006-04-10,265,6,510,3,4,4,344
+Cristen Hammes,2005-12-04,392,5,402,2,3,3,233
+Cristine Baumbach,2006-04-10,265,6,620,3,4,4,344
+Cristofer VonRueden,2006-05-16,229,6,615,3,4,4,344
+Cristy Ferry,2005-06-20,559,1,172,1,1,1,111
+Curtis Runolfsdottir,2005-10-26,431,5,566,2,3,4,234
+Daija Legros,2006-12-01,30,4,432,5,2,3,523
+Daisha Torphy,2006-10-10,82,5,371,5,3,2,532
+Damarcus Erdman II,2005-10-11,446,5,589,2,3,4,234
+Darci Schaefer,2005-05-27,583,2,198,1,1,1,111
+Darrell Heathcote,2006-07-24,160,4,316,4,2,2,422
+Darrian Bartell I,2006-11-13,48,8,819,5,5,5,555
+Darrion Stoltenberg,2006-07-08,176,6,766,4,4,5,445
+Darwyn Berge,2005-09-07,480,2,62,2,1,1,211
+Daryn Hickle,2006-01-13,352,4,364,2,2,2,222
+Dashawn Schroeder,2005-05-21,589,2,244,1,1,1,111
+Davian Ledner,2006-06-15,199,4,291,3,2,2,322
+Davian Stokes,2006-08-10,143,4,385,4,2,3,423
+Davie Hintz PhD,2005-10-27,430,4,363,2,2,2,222
+Davion Hudson,2006-04-24,251,2,172,3,1,1,311
+Davy Leuschke,2006-03-11,295,4,356,3,2,2,322
+Deann Dicki,2005-10-27,430,3,205,2,1,1,211
+Deasia Lockman MD,2005-12-04,392,1,185,2,1,1,211
+Deena Ziemann,2006-08-16,137,4,422,4,2,3,423
+Deion Auer,2004-09-05,847,4,328,1,2,2,122
+Delfina Watsica MD,2006-12-21,10,6,668,5,4,5,545
+Delia Witting,2006-12-14,17,4,323,5,2,2,522
+Dell Mitchell,2006-01-06,359,2,231,2,1,1,211
+Dellar Schroeder,2006-11-22,39,6,460,5,4,3,543
+Dema Beer,2006-12-08,23,4,251,5,2,1,521
+Dennie Powlowski,2005-09-20,467,5,581,2,3,4,234
+Deontae Effertz,2006-08-18,135,7,544,4,4,4,444
+Deonte Zemlak,2006-09-27,95,5,586,5,3,4,534
+Dereck Denesik DDS,2006-12-22,9,4,633,5,2,4,524
+Derek Witting,2005-06-23,556,5,674,1,3,5,135
+Desi Ortiz,2006-07-30,154,7,626,4,4,4,444
+Devante Gerhold,2005-07-20,529,5,713,1,3,5,135
+Devante O'Hara,2006-10-11,81,3,166,5,1,1,511
+Devaughn Erdman V,2006-09-23,99,4,384,5,2,3,523
+Devon Osinski DVM,2005-07-04,545,3,579,1,1,4,114
+Devontae Swaniawski,2005-08-10,508,4,274,1,2,2,122
+Diandra Brakus DVM,2005-06-22,557,3,211,1,1,1,111
+Diego Gislason,2006-05-21,224,5,198,3,3,1,331
+Domingo Block,2005-08-07,511,5,532,1,3,4,134
+Dominick Jewess IV,2006-06-28,186,4,575,3,2,4,324
+Dominik Anderson,2006-12-11,20,10,1249,5,5,5,555
+Dominique McKenzie,2006-02-02,332,5,615,2,3,4,234
+Donaciano Corwin,2006-12-19,12,8,892,5,5,5,555
+Donell Dach,2006-08-07,146,3,260,4,1,2,412
+Donie Stroman PhD,2006-09-30,92,2,97,5,1,1,511
+Donta Veum,2005-08-03,515,7,792,1,4,5,145
+Dorathy Nader,2006-09-21,101,5,456,5,3,3,533
+Dorcas Friesen,2005-03-16,655,5,648,1,3,4,134
+Dorr Lindgren,2006-06-06,208,5,583,3,3,4,334
+Dorris Jast,2005-04-11,629,4,549,1,2,4,124
+Doshia Stroman,2006-09-20,102,3,123,5,1,1,511
+Dow Halvorson,2006-02-17,317,6,836,2,4,5,245
+Dr. Aden Murphy,2006-09-24,98,7,596,5,4,4,544
+Dr. Alberto Kunze II,2006-06-04,210,7,669,3,4,5,345
+Dr. Alva Klocko,2006-04-08,267,5,548,3,3,4,334
+Dr. Arnoldo Grimes PhD,2006-03-24,282,3,398,3,1,3,313
+Dr. Arnoldo Marks,2006-08-24,129,6,567,4,4,4,444
+Dr. Barrie Bins,2006-12-27,4,4,446,5,2,3,523
+Dr. Bertrand Wolff,2004-08-13,870,1,120,1,1,1,111
+Dr. Bree Stehr DVM,2005-12-20,376,7,607,2,4,4,244
+Dr. Buffy Williamson,2006-03-08,298,3,353,2,1,2,212
+Dr. Camilo Kiehn,2005-10-12,445,4,281,2,2,2,222
+Dr. Carma Wyman,2006-11-17,44,7,620,5,4,4,544
+Dr. Charlton Kutch,2006-08-18,135,4,360,4,2,2,422
+Dr. Chas Cummerata Jr.,2005-08-08,510,2,169,1,1,1,111
+Dr. Cheyenne Dach DVM,2006-07-31,153,5,406,4,3,3,433
+Dr. Christal Wolff PhD,2006-09-06,116,9,1007,4,5,5,455
+Dr. Collie Krajcik,2006-08-09,144,7,704,4,4,5,445
+Dr. Crawford Mayert,2005-08-14,504,4,222,1,2,1,121
+Dr. Darl Rice,2005-10-24,433,4,392,2,2,3,223
+Dr. Dell Baumbach III,2006-10-12,80,3,270,5,1,2,512
+Dr. Dillon Pollich DDS,2005-06-21,558,5,284,1,3,2,132
+Dr. Donal Auer DDS,2006-03-22,284,4,370,3,2,2,322
+Dr. Dustyn Rodriguez,2005-10-18,439,7,265,2,4,2,242
+Dr. Eddie Armstrong DDS,2006-10-28,64,6,433,5,4,3,543
+Dr. Eliezer Wuckert,2006-08-23,130,6,529,4,4,4,444
+Dr. Elroy Kirlin Jr.,2006-12-03,28,5,363,5,3,2,532
+Dr. Elzy Anderson,2006-07-16,168,6,448,4,4,3,443
+Dr. Erving Pagac Sr.,2006-10-30,62,3,244,5,1,1,511
+Dr. Ferd Stroman,2006-07-01,183,3,298,3,1,2,312
+Dr. Fleming Grant IV,2005-02-13,686,2,172,1,1,1,111
+Dr. Flint Zboncak,2006-02-07,327,4,277,2,2,2,222
+Dr. Franco Kemmer II,2006-04-15,260,12,1065,3,5,5,355
+Dr. Fredrick Klein,2006-06-15,199,6,471,3,4,3,343
+Dr. Fronnie Kemmer,2005-07-18,531,3,363,1,1,2,112
+Dr. Gerard Bauch,2006-07-11,173,4,282,4,2,2,422
+Dr. Grady Beier DDS,2005-11-18,408,5,542,2,3,4,234
+Dr. Gussie McLaughlin III,2006-08-21,132,5,471,4,3,3,433
+Dr. Halley Johnston PhD,2005-11-27,399,3,266,2,1,2,212
+Dr. Hansel Steuber,2005-12-03,393,4,333,2,2,2,222
+Dr. Hildegard Murray,2006-06-01,213,7,672,3,4,5,345
+Dr. Hjalmar Langworth II,2006-09-03,119,2,114,4,1,1,411
+Dr. Hoke Jacobs,2006-08-20,133,5,708,4,3,5,435
+Dr. Howard Zulauf V,2005-06-10,569,1,113,1,1,1,111
+Dr. Humphrey Grant,2006-07-20,164,2,138,4,1,1,411
+Dr. Isaak Oberbrunner DVM,2006-05-17,228,5,228,3,3,1,331
+Dr. Ismael Stracke,2005-08-27,491,5,521,1,3,4,134
+Dr. Jaheem Pfannerstill III,2006-07-31,153,6,641,4,4,4,444
+Dr. Jaren Schmeler,2006-09-20,102,3,421,5,1,3,513
+Dr. Jeannie Rutherford,2005-08-07,511,4,416,1,2,3,123
+Dr. Jeff Bartoletti,2006-10-11,81,8,771,5,5,5,555
+Dr. Jeffie Johns,2006-03-12,294,8,665,3,5,4,354
+Dr. Jerod Berge Jr.,2005-11-04,422,6,392,2,4,3,243
+Dr. Jesse Schowalter,2006-12-02,29,6,714,5,4,5,545
+Dr. Jett Schaefer,2005-05-21,589,3,366,1,1,2,112
+Dr. Karissa Kerluke,2005-01-30,700,1,57,1,1,1,111
+Dr. Keenen Parker,2006-11-04,57,8,532,5,5,4,554
+Dr. Kelcie Yost MD,2005-09-06,481,7,646,2,4,4,244
+Dr. Kieth Wiegand,2006-06-04,210,4,350,3,2,2,322
+Dr. Kloe Parker DVM,2006-09-09,113,4,289,5,2,2,522
+Dr. Kyle Doyle II,2006-07-01,183,8,889,3,5,5,355
+Dr. Kyra Littel,2006-01-31,334,4,259,2,2,2,222
+Dr. Letta Daniel MD,2006-07-23,161,7,688,4,4,5,445
+Dr. Linn Schuppe,2006-06-14,200,3,111,3,1,1,311
+Dr. Lovett Legros DDS,2006-08-02,151,5,420,4,3,3,433
+Dr. Lucious Langosh,2006-09-06,116,4,265,4,2,2,422
+Dr. Lynn Gleason Jr.,2005-09-11,476,3,114,2,1,1,211
+Dr. Mallory Dooley MD,2005-11-27,399,1,33,2,1,1,211
+Dr. Matteo Little,2006-09-29,93,4,311,5,2,2,522
+Dr. Mazie Predovic MD,2006-09-23,99,5,283,5,3,2,532
+Dr. Mettie Green DVM,2006-07-05,179,3,464,4,1,3,413
+Dr. Micayla Kutch,2006-11-29,32,10,834,5,5,5,555
+Dr. Mike Legros,2006-06-28,186,1,23,3,1,1,311
+Dr. Myles Stroman,2005-09-02,485,2,187,1,1,1,111
+Dr. Ned Swaniawski,2006-06-06,208,6,457,3,4,3,343
+Dr. Nehemiah Kassulke,2005-07-15,534,1,111,1,1,1,111
+Dr. Niles Altenwerth II,2005-12-16,380,7,644,2,4,4,244
+Dr. Patti Rempel,2005-09-25,462,7,625,2,4,4,244
+Dr. Ras Kshlerin,2006-10-14,78,5,672,5,3,5,535
+Dr. Rayburn Wilkinson I,2005-06-18,561,6,489,1,4,3,143
+Dr. Rene Kuhlman DDS,2005-08-03,515,3,355,1,1,2,112
+Dr. Romeo Sauer PhD,2006-03-30,276,3,312,3,1,2,312
+Dr. Santana Schultz V,2006-08-22,131,4,390,4,2,3,423
+Dr. Shaniece Herzog PhD,2006-08-05,148,4,308,4,2,2,422
+Dr. Shea Buckridge PhD,2006-07-18,166,6,420,4,4,3,443
+Dr. Sherie Mayer,2006-07-12,172,7,654,4,4,4,444
+Dr. Shirl Cremin PhD,2006-06-13,201,4,326,3,2,2,322
+Dr. Skyler Windler Sr.,2006-09-20,102,6,472,5,4,3,543
+Dr. Tyreke DuBuque IV,2006-06-04,210,7,690,3,4,5,345
+Dr. Valentine Volkman DVM,2006-10-11,81,8,1068,5,5,5,555
+Dr. Vic Bauch,2006-10-28,64,9,850,5,5,5,555
+Dr. Wilfredo Wisozk V,2005-09-10,477,3,332,2,1,2,212
+Dr. Willis Bahringer,2006-11-19,42,6,665,5,4,4,544
+Dr. Woodson Klein,2006-08-01,152,4,515,4,2,4,424
+Drew Rohan,2005-10-25,432,2,230,2,1,1,211
+Dudley Franecki,2006-05-23,222,2,375,3,1,2,312
+Dulce Wintheiser,2005-08-28,490,4,203,1,2,1,121
+Dwain Skiles Jr.,2005-09-06,481,6,805,2,4,5,245
+Dwan Wilderman,2006-07-10,174,3,268,4,1,2,412
+Dyllan Osinski,2006-11-14,47,1,155,5,1,1,511
+Ean Raynor,2005-08-19,499,2,77,1,1,1,111
+Earnest Rolfson,2006-08-05,148,4,433,4,2,3,423
+Ebb Doyle,2006-07-14,170,5,307,4,3,2,432
+Egbert McLaughlin,2006-10-29,63,6,466,5,4,3,543
+Elaine Emard,2005-09-07,480,4,301,2,2,2,222
+Elam Hirthe DVM,2005-03-19,652,6,546,1,4,4,144
+Elenora Trantow,2006-07-12,172,9,826,4,5,5,455
+Elgie Cole,2006-07-12,172,5,476,4,3,3,433
+Elgin Abbott,2005-06-04,575,2,233,1,1,1,111
+Elias Huels V,2005-06-10,569,7,841,1,4,5,145
+Elinor Howell,2006-02-14,320,6,746,2,4,5,245
+Elinore Doyle,2006-10-09,83,7,531,5,4,4,544
+Elizabet Schiller,2006-10-30,62,2,194,5,1,1,511
+Elizah Abbott,2006-09-20,102,6,431,5,4,3,543
+Elizbeth West,2006-06-27,187,2,183,3,1,1,311
+Eller Marquardt,2005-08-30,488,4,401,1,2,3,123
+Elmyra Schaefer,2006-02-08,326,12,1150,2,5,5,255
+Elon Haag,2005-02-03,696,1,32,1,1,1,111
+Elsie Parker,2006-12-18,13,8,839,5,5,5,555
+Elza Gleichner,2005-09-30,457,3,268,2,1,2,212
+Emanuel Reichert,2006-04-06,269,5,421,3,3,3,333
+Emmaline Stark MD,2006-08-24,129,5,282,4,3,2,432
+Enid Reinger,2006-12-24,7,9,792,5,5,5,555
+Enos VonRueden,2005-04-11,629,3,99,1,1,1,111
+Epifanio Kozey,2005-08-25,493,1,43,1,1,1,111
+Erastus Macejkovic,2006-10-12,80,5,519,5,3,4,534
+Erla Schulist,2006-10-15,77,3,270,5,1,2,512
+Errol Bogisich,2005-02-15,684,1,81,1,1,1,111
+Esequiel Kirlin I,2006-07-25,159,12,768,4,5,5,455
+Esker Cormier,2006-11-28,33,4,283,5,2,2,522
+Essence Metz DDS,2005-12-17,379,8,722,2,5,5,255
+Ethyl Botsford,2006-04-23,252,8,526,3,5,4,354
+Etta Franecki MD,2005-09-06,481,8,892,2,5,5,255
+Etta Towne,2006-08-19,134,6,581,4,4,4,444
+Eugenie Conn PhD,2005-07-01,548,2,286,1,1,2,112
+Evelyn Schinner,2006-02-17,317,2,91,2,1,1,211
+Ewart Haag,2006-07-16,168,10,595,4,5,4,454
+Ewart Luettgen,2005-07-21,528,2,252,1,1,1,111
+Ewin Torphy,2006-09-24,98,2,424,5,1,3,513
+Exie Gutmann,2006-09-19,103,7,651,5,4,4,544
+Exie Shields,2006-05-18,227,3,251,3,1,1,311
+Ezzard Bernhard,2005-11-03,423,6,317,2,4,2,242
+Fannie Watsica,2006-07-03,181,7,648,3,4,4,344
+Fidel Kilback,2006-09-28,94,4,411,5,2,3,523
+Finnegan Franecki,2005-06-07,572,6,263,1,4,2,142
+Flem Kozey,2006-07-02,182,6,365,3,4,2,342
+Flo Gulgowski,2005-12-17,379,4,416,2,2,3,223
+Florine Jones,2005-08-09,509,4,269,1,2,2,122
+Floy Krajcik,2006-04-03,272,5,484,3,3,3,333
+Forest Pouros,2005-04-27,613,3,455,1,1,3,113
+Fount Flatley,2006-08-07,146,11,937,4,5,5,455
+Francisquita Heidenreich,2004-12-27,734,3,72,1,1,1,111
+Franz Mohr,2005-07-22,527,4,430,1,2,3,123
+Franz Powlowski,2005-10-30,427,1,169,2,1,1,211
+Friend Stracke,2005-10-01,456,6,571,2,4,4,244
+Gabriel Schiller,2005-11-10,416,3,420,2,1,3,213
+Garfield Hammes,2005-10-24,433,5,644,2,3,4,234
+Garrison Kling,2006-12-03,28,3,294,5,1,2,512
+Gayle Kuphal,2006-12-11,20,5,460,5,3,3,533
+Gaylen Kiehn,2005-03-19,652,4,489,1,2,3,123
+Gee Nitzsche,2006-07-08,176,2,165,4,1,1,411
+Geoffrey Reichert,2005-07-01,548,3,301,1,1,2,112
+Georgene Aufderhar PhD,2006-08-31,122,6,464,4,4,3,443
+Geralyn Rosenbaum,2006-10-12,80,5,393,5,3,3,533
+Geri Wuckert,2005-05-11,599,1,86,1,1,1,111
+Germaine Becker,2005-10-13,444,4,400,2,2,3,223
+Gerold Bernhard Jr.,2006-08-27,126,2,149,4,1,1,411
+Gianna Stiedemann,2006-12-01,30,7,759,5,4,5,545
+Gilmer Kertzmann,2005-05-28,582,5,677,1,3,5,135
+Gilmore Schmitt,2006-08-28,125,5,353,4,3,2,432
+Ginger Stamm,2006-11-27,34,3,248,5,1,1,511
+Ginger Wintheiser,2005-04-07,633,4,340,1,2,2,122
+Girtha Douglas,2006-07-19,165,3,143,4,1,1,411
+Giuseppe Tremblay,2005-06-02,577,3,162,1,1,1,111
+Glennis Howe,2006-09-21,101,3,188,5,1,1,511
+Gonzalo Jones,2006-09-22,100,5,450,5,3,3,533
+Gracia Wunsch,2006-05-20,225,6,662,3,4,4,344
+Gregg Franecki,2006-05-20,225,4,317,3,2,2,322
+Grisel Reichert MD,2006-08-03,150,5,260,4,3,2,432
+Gunner Wiegand,2006-09-26,96,4,234,5,2,1,521
+Haden Kautzer,2006-07-13,171,2,236,4,1,1,411
+Hakeem Leffler,2006-04-11,264,5,332,3,3,2,332
+Halbert Nolan,2005-08-02,516,2,95,1,1,1,111
+Hampton Rath,2006-08-26,127,6,619,4,4,4,444
+Handy Walsh,2006-09-06,116,7,758,4,4,5,445
+Hansel Kiehn,2006-08-19,134,6,416,4,4,3,443
+Hansford Moen PhD,2006-06-28,186,7,1004,3,4,5,345
+Hardy Leannon,2006-08-17,136,3,236,4,1,1,411
+Harlon Rolfson,2005-10-08,449,7,603,2,4,4,244
+Harrie Swaniawski,2005-04-04,636,5,363,1,3,2,132
+Hassie Schiller PhD,2006-06-27,187,2,119,3,1,1,311
+Hattie Roberts,2006-08-31,122,5,436,4,3,3,433
+Helmer Monahan,2006-02-03,331,3,264,2,1,2,212
+Helyn Ondricka,2006-03-29,277,5,384,3,3,3,333
+Herman Kling I,2005-12-25,371,6,578,2,4,4,244
+Herschel Flatley,2005-12-17,379,6,518,2,4,4,244
+Hershel Shields,2006-07-05,179,6,819,4,4,5,445
+Hilma Little,2006-10-27,65,7,513,5,4,4,544
+Hiroshi Terry,2006-05-06,239,6,434,3,4,3,343
+Hobson Barton,2005-08-02,516,1,102,1,1,1,111
+Holland Lynch,2005-09-01,486,6,499,1,4,3,143
+Hosteen Jacobi,2005-07-04,545,4,300,1,2,2,122
+Howell Blick,2006-04-30,245,5,235,3,3,1,331
+Hughey Bartoletti DDS,2006-10-19,73,10,1036,5,5,5,555
+Hurley Schiller I,2005-10-15,442,6,687,2,4,5,245
+Hyman Kemmer,2006-06-11,203,5,455,3,3,3,333
+Iesha Mraz,2006-08-22,131,6,466,4,4,3,443
+Iliana Donnelly,2006-04-24,251,5,486,3,3,3,333
+Imani Swift,2005-10-14,443,6,546,2,4,4,244
+Imelda Harber,2005-10-02,455,6,474,2,4,3,243
+Ingrid O'Kon MD,2005-09-24,463,9,922,2,5,5,255
+Irwin Ritchie,2006-07-25,159,6,694,4,4,5,445
+Isabela Mertz MD,2006-09-25,97,13,1104,5,5,5,555
+Isidore Skiles,2006-06-25,189,4,410,3,2,3,323
+Iverson Herman Sr.,2006-09-16,106,6,584,5,4,4,544
+Iverson Hilpert,2006-07-23,161,2,149,4,1,1,411
+Iverson Robel,2006-07-24,160,9,880,4,5,5,455
+Ivy Kohler,2006-01-09,356,7,719,2,4,5,245
+Iyanna Schmeler PhD,2006-07-02,182,4,473,3,2,3,323
+Izetta Stracke,2006-09-16,106,7,523,5,4,4,544
+Jabbar Dickens,2006-07-24,160,10,1060,4,5,5,455
+Jacqueline Nikolaus,2006-03-26,280,7,434,3,4,3,343
+Jacquez Jacobs,2005-12-21,375,2,87,2,1,1,211
+Jadiel Wunsch,2006-01-22,343,5,714,2,3,5,235
+Jaime Nader,2006-06-23,191,4,276,3,2,2,322
+Jaliyah Purdy,2006-05-04,241,3,249,3,1,1,311
+Jammie Runolfsdottir,2006-03-30,276,5,374,3,3,2,332
+Janeen West,2006-10-26,66,5,374,5,3,2,532
+Janell Heller DVM,2005-08-30,488,3,203,1,1,1,111
+Janiyah Cassin,2006-01-05,360,2,75,2,1,1,211
+Jarred Stiedemann DDS,2005-12-24,372,4,291,2,2,2,222
+Jayden Hayes,2005-09-09,478,7,435,2,4,3,243
+Jayme Welch,2004-12-01,760,1,23,1,1,1,111
+Jayvion Cummings,2006-11-08,53,9,1090,5,5,5,555
+Jazlyn Casper PhD,2005-08-06,512,5,403,1,3,3,133
+Jazmin Harvey,2006-11-27,34,5,874,5,3,5,535
+Jeanette Lind,2006-11-20,41,10,1062,5,5,5,555
+Jeanie Berge,2005-07-10,539,4,570,1,2,4,124
+Jensen Cormier Jr.,2006-05-09,236,5,556,3,3,4,334
+Jerald Gaylord,2006-07-11,173,4,275,4,2,2,422
+Jerald Hintz,2006-07-05,179,3,286,4,1,2,412
+Jeraldine Waelchi,2006-08-07,146,3,359,4,1,2,412
+Jeremie Wehner V,2006-11-11,50,8,488,5,5,3,553
+Jerold Sporer,2006-08-18,135,6,506,4,4,3,443
+Jerrell Wisozk I,2006-09-09,113,7,764,5,4,5,545
+Jessica Connelly,2006-01-13,352,7,438,2,4,3,243
+Jessica Koepp MD,2006-10-04,88,5,450,5,3,3,533
+Jessy Emard,2006-03-25,281,7,653,3,4,4,344
+Jevon Rutherford,2005-12-05,391,2,268,2,1,2,212
+Jimmie Herzog,2006-04-10,265,5,401,3,3,3,333
+Joana Crist,2006-10-25,67,4,552,5,2,4,524
+Joana Kemmer DDS,2006-07-31,153,8,806,4,5,5,455
+Joann Yundt,2005-05-06,604,2,223,1,1,1,111
+Joe McDermott,2005-12-06,390,3,317,2,1,2,212
+Joelle Deckow,2006-09-21,101,5,479,5,3,3,533
+Johnathon Schimmel,2005-10-02,455,4,436,2,2,3,223
+Johney Mayer,2006-04-03,272,3,101,3,1,1,311
+Josef Lemke,2006-11-13,48,5,391,5,3,3,533
+Josephus Bradtke DVM,2005-12-22,374,4,520,2,2,4,224
+Josette Bailey,2005-10-08,449,5,663,2,3,4,234
+Juana Bogan,2005-08-13,505,5,416,1,3,3,133
+Judyth Lueilwitz,2005-03-09,662,5,552,1,3,4,134
+Jules Harber,2005-02-26,673,2,77,1,1,1,111
+Jules Jacobi,2005-10-04,453,9,935,2,5,5,255
+Julia Koch,2006-07-13,171,5,236,4,3,1,431
+Juliana Sipes,2006-06-24,190,4,314,3,2,2,322
+Juliet Terry,2005-11-16,410,2,218,2,1,1,211
+Julisa Halvorson,2006-08-26,127,12,987,4,5,5,455
+Kadence Morissette,2006-08-09,144,7,613,4,4,4,444
+Kalvin Prosacco,2006-08-24,129,7,751,4,4,5,445
+Kamren Moen,2006-01-29,336,3,274,2,1,2,212
+Kamron Halvorson,2005-11-23,403,8,829,2,5,5,255
+Karan Weber DVM,2006-10-25,67,4,276,5,2,2,522
+Karen Harvey,2006-04-26,249,4,229,3,2,1,321
+Karlie Treutel,2006-10-31,61,5,318,5,3,2,532
+Karon Torphy,2005-11-28,398,5,554,2,3,4,234
+Karren Funk,2005-10-08,449,3,353,2,1,2,212
+Karren Schuppe,2005-12-15,381,6,549,2,4,4,244
+Katlyn Mann,2006-03-09,297,7,698,3,4,5,345
+Katy King,2006-04-29,246,6,653,3,4,4,344
+Kelsey Pollich,2006-11-13,48,3,473,5,1,3,513
+Kem Medhurst II,2006-03-19,287,4,275,3,2,2,322
+Kendal Wiegand,2006-08-16,137,6,712,4,4,5,445
+Kendrick Boyle,2006-12-23,8,4,347,5,2,2,522
+Kenny Wisozk,2006-07-02,182,6,630,3,4,4,344
+Kenton Dickens,2005-06-04,575,8,872,1,5,5,155
+Keri Schuppe MD,2006-06-08,206,5,528,3,3,4,334
+Keri Williamson,2006-07-04,180,9,741,4,5,5,455
+Kingston Hayes,2006-06-24,190,3,347,3,1,2,312
+Kingston Waelchi,2005-07-16,533,3,292,1,1,2,112
+Kittie Dare,2006-05-12,233,4,441,3,2,3,323
+Kizzy Doyle,2006-07-16,168,13,1488,4,5,5,455
+Kole Crooks,2006-09-30,92,5,332,5,3,2,532
+Kordell Hartmann,2005-09-09,478,2,260,2,1,2,212
+Korey Cronin,2005-09-08,479,2,82,2,1,1,211
+Kraig Hayes DDS,2006-07-13,171,6,781,4,4,5,445
+Krista Hartmann,2005-02-04,695,4,155,1,2,1,121
+Kristian Heaney,2005-02-18,681,3,479,1,1,3,113
+Kristy Kunde MD,2006-01-15,350,4,242,2,2,1,221
+Kyla Orn,2006-10-02,90,4,251,5,2,1,521
+Kylie Kertzmann,2006-09-05,117,2,209,4,1,1,411
+Lacy Connelly MD,2005-09-21,466,4,113,2,2,1,221
+Laddie Donnelly Sr.,2006-01-13,352,3,196,2,1,1,211
+Laisha VonRueden,2006-12-04,27,9,1003,5,5,5,555
+Lakeshia Harris,2005-06-30,549,7,309,1,4,2,142
+Lane Roberts,2005-12-24,372,5,585,2,3,4,234
+Lani Dicki MD,2006-09-10,112,6,356,5,4,2,542
+Lashawn Hoppe,2005-09-18,469,5,437,2,3,3,233
+Lassie Lindgren,2006-10-29,63,8,775,5,5,5,555
+Latesha Bernhard,2006-06-19,195,8,724,3,5,5,355
+Latifah Carter,2006-08-07,146,4,601,4,2,4,424
+Latoya Stanton,2006-12-10,21,10,814,5,5,5,555
+Latrice Stokes,2006-07-03,181,4,574,3,2,4,324
+Laurel Morar,2006-07-12,172,5,230,4,3,1,431
+Laurene Considine,2006-02-23,311,9,1008,2,5,5,255
+Lavern Pfeffer DDS,2005-10-31,426,4,632,2,2,4,224
+Leala Schuppe MD,2006-06-21,193,6,512,3,4,4,344
+Lennon Hilll,2005-10-26,431,6,621,2,4,4,244
+Leone Fritsch,2006-01-06,359,4,375,2,2,2,222
+Leonel Rippin,2006-02-27,307,5,515,2,3,4,234
+Lesa Hane,2006-10-15,77,3,157,5,1,1,511
+Lesta Carter,2005-10-30,427,9,773,2,5,5,255
+Lesta Davis,2006-05-06,239,3,152,3,1,1,311
+Letitia Stokes,2006-07-09,175,8,536,4,5,4,454
+Lexi Altenwerth,2005-11-27,399,4,655,2,2,4,224
+Leyla Dietrich,2006-09-04,118,5,485,4,3,3,433
+Lidie Gislason,2006-09-28,94,3,285,5,1,2,512
+Lilah Blanda PhD,2006-06-12,202,6,358,3,4,2,342
+Lillianna Larkin,2006-08-05,148,9,1011,4,5,5,455
+Lim Langworth,2006-09-16,106,5,424,5,3,3,533
+Lindy Pagac,2005-10-11,446,4,306,2,2,2,222
+Link Carroll MD,2005-08-24,494,7,648,1,4,4,144
+Link Orn,2004-05-20,955,1,61,1,1,1,111
+Lionel Marquardt,2004-04-29,976,1,133,1,1,1,111
+Lisandro Kassulke,2006-02-22,312,5,730,2,3,5,235
+Lisandro Swift,2006-09-25,97,6,479,5,4,3,543
+Lisha Hayes,2006-09-17,105,4,340,5,2,2,522
+Lissa White,2005-11-09,417,6,492,2,4,3,243
+Livia Pfeffer,2005-10-21,436,2,139,2,1,1,211
+Lockie Fahey,2005-08-09,509,3,284,1,1,2,112
+Lollie Conroy,2005-06-01,578,2,94,1,1,1,111
+Lollie Heaney,2005-06-11,568,1,28,1,1,1,111
+Londyn Reinger,2006-11-16,45,9,782,5,5,5,555
+Lorean Stokes DVM,2006-10-10,82,9,708,5,5,5,555
+Lorelai Parisian,2006-06-28,186,9,788,3,5,5,355
+Loretta Lueilwitz,2005-03-20,651,1,79,1,1,1,111
+Loretto Romaguera,2006-10-08,84,2,237,5,1,1,511
+Lott Larkin,2005-09-15,472,6,437,2,4,3,243
+Louis Toy I,2006-11-13,48,6,711,5,4,5,545
+Lovisa Wilkinson,2005-09-16,471,3,311,2,1,2,212
+Loy Olson Sr.,2006-08-02,151,6,560,4,4,4,444
+Lucia Flatley,2006-02-25,309,4,289,2,2,2,222
+Luciano Kling,2006-09-21,101,6,587,5,4,4,544
+Luda Kihn,2006-03-02,304,4,371,2,2,2,222
+Luka Langosh,2005-11-14,412,4,482,2,2,3,223
+Lute Batz DVM,2006-02-01,333,4,505,2,2,3,223
+Luverne Rodriguez DDS,2006-03-27,279,6,582,3,4,4,344
+Lydia Willms,2006-09-06,116,11,713,4,5,5,455
+Lyn Parker,2006-10-24,68,5,639,5,3,4,534
+Lyndon McClure,2006-04-05,270,5,575,3,3,4,334
+Lyndsey Heidenreich,2005-12-12,384,9,1050,2,5,5,255
+Mabell Lemke,2006-07-20,164,7,583,4,4,4,444
+Mac Kertzmann,2006-11-18,43,3,438,5,1,3,513
+Madison Koelpin,2006-05-14,231,3,388,3,1,3,313
+Madyson Bergnaum PhD,2006-10-07,85,8,965,5,5,5,555
+Mae O'Kon,2006-07-16,168,3,249,4,1,1,411
+Maebell Terry,2006-09-15,107,4,258,5,2,2,522
+Magdalen Ward,2005-07-16,533,2,184,1,1,1,111
+Mahlon Pfeffer,2005-08-11,507,3,166,1,1,1,111
+Makenzie Hintz,2005-08-21,497,2,252,1,1,1,111
+Malaya White,2006-10-06,86,6,546,5,4,4,544
+Malcolm Bogan,2006-08-13,140,5,565,4,3,4,434
+Malcolm Heathcote,2006-12-22,9,4,431,5,2,3,523
+Malcolm Medhurst,2006-03-31,275,4,350,3,2,2,322
+Manilla Braun,2005-12-24,372,3,513,2,1,4,214
+Mansfield Boyle,2005-09-22,465,6,640,2,4,4,244
+Maralyn Greenfelder,2006-07-22,162,4,401,4,2,3,423
+Marcello Torphy Jr.,2006-12-27,4,6,464,5,4,3,543
+Marci Nader,2006-11-13,48,6,494,5,4,3,543
+Margarette Eichmann DVM,2006-05-25,220,3,345,3,1,2,312
+Margarita O'Reilly,2006-08-26,127,4,649,4,2,4,424
+Marguerite Heaney,2006-09-08,114,4,265,5,2,2,522
+Mariano Lueilwitz,2005-11-26,400,6,540,2,4,4,244
+Marissa Goyette,2006-09-02,120,7,693,4,4,5,445
+Marla Sanford,2006-09-29,93,9,637,5,5,4,554
+Marlene Runolfsson,2006-05-15,230,5,554,3,3,4,334
+Marrion Emmerich IV,2006-08-04,149,7,490,4,4,3,443
+Marty Wisozk,2006-01-11,354,5,347,2,3,2,232
+Marvin Wisozk,2005-06-26,553,3,356,1,1,2,112
+Masao Deckow,2006-12-25,6,3,239,5,1,1,511
+Mason Rodriguez,2005-09-18,469,3,270,2,1,2,212
+Mathilda Farrell,2006-05-03,242,7,736,3,4,5,345
+Matthew Schmeler,2006-09-12,110,4,422,5,2,3,523
+Maudie Waelchi,2005-01-10,720,2,277,1,1,2,112
+Mauricio VonRueden,2005-08-09,509,5,371,1,3,2,132
+Maxie Steuber,2006-09-09,113,2,181,5,1,1,511
+Melbourne Johns,2006-07-11,173,3,260,4,1,2,412
+Melvin Schmidt,2006-10-19,73,6,673,5,4,5,545
+Mendy Ledner,2006-08-11,142,4,523,4,2,4,424
+Mervin Pfeffer V,2006-05-23,222,5,463,3,3,3,333
+Mervyn Vandervort,2005-01-07,723,3,294,1,1,2,112
+Michell Gerlach,2006-03-27,279,7,654,3,4,4,344
+Miguelangel Dach,2006-12-15,16,4,316,5,2,2,522
+Mila Gibson,2005-09-01,486,4,620,1,2,4,124
+Milissa Batz MD,2006-10-17,75,4,643,5,2,4,524
+Mimi Goldner,2005-09-19,468,4,404,2,2,3,223
+Miss Akeelah Walsh PhD,2006-07-24,160,7,779,4,4,5,445
+Miss Aleen Kunze,2005-11-30,396,2,320,2,1,2,212
+Miss Anaya Kerluke,2005-02-12,687,1,104,1,1,1,111
+Miss Chante Stoltenberg PhD,2006-02-18,316,6,805,2,4,5,245
+Miss Cristi Quitzon PhD,2006-08-01,152,5,425,4,3,3,433
+Miss Dorotha Kuvalis PhD,2006-11-06,55,7,958,5,4,5,545
+Miss Ela Treutel,2005-11-29,397,3,336,2,1,2,212
+Miss Eugenia Barton,2006-05-27,218,9,753,3,5,5,355
+Miss Evita Howe MD,2005-04-08,632,6,579,1,4,4,144
+Miss Fronnie Schaefer DDS,2006-11-10,51,6,573,5,4,4,544
+Miss Goldie Smitham,2005-08-20,498,5,631,1,3,4,134
+Miss Haleigh Wilkinson,2006-06-16,198,10,900,3,5,5,355
+Miss Halle Davis DDS,2006-08-21,132,8,665,4,5,4,454
+Miss Jonnie Veum,2006-08-05,148,8,770,4,5,5,455
+Miss Jovita Reinger,2006-06-14,200,3,243,3,1,1,311
+Miss Kacie Miller DVM,2006-07-15,169,10,1027,4,5,5,455
+Miss Katelynn Lebsack DVM,2006-09-23,99,7,382,5,4,3,543
+Miss Katherine Balistreri DDS,2006-03-18,288,4,357,3,2,2,322
+Miss Kesha Daniel,2006-10-13,79,6,447,5,4,3,543
+Miss Lacey Sanford PhD,2006-03-22,284,5,652,3,3,4,334
+Miss Latosha O'Keefe,2006-06-17,197,6,854,3,4,5,345
+Miss Lovie Keeling DVM,2006-09-19,103,5,348,5,3,2,532
+Miss Madison Lehner DVM,2005-05-27,583,6,475,1,4,3,143
+Miss Mistie Torp MD,2006-09-19,103,6,303,5,4,2,542
+Miss Nealy Stanton,2005-10-16,441,3,248,2,1,1,211
+Miss Tillie Crooks DVM,2006-07-20,164,7,709,4,4,5,445
+Miss Velma Schulist,2005-09-23,464,3,224,2,1,1,211
+Mittie Jacobs PhD,2006-09-03,119,4,292,4,2,2,422
+Mitzi Bergstrom,2005-12-21,375,3,188,2,1,1,211
+Moe Sawayn,2005-07-27,522,2,176,1,1,1,111
+Mohammad Smith,2006-06-13,201,6,600,3,4,4,344
+Monique Reichel,2005-07-17,532,4,360,1,2,2,122
+Mont Mertz,2006-08-28,125,3,261,4,1,2,412
+Morton O'Connell,2005-11-17,409,3,258,2,1,2,212
+Mozell Greenfelder DDS,2006-11-24,37,5,417,5,3,3,533
+Mr. Alessandro Weissnat DDS,2006-07-10,174,7,591,4,4,4,444
+Mr. Almer Osinski,2006-08-30,123,10,862,4,5,5,455
+Mr. Armin Klocko IV,2005-09-05,482,6,492,1,4,3,143
+Mr. Brion Stark Sr.,2006-05-16,229,8,852,3,5,5,355
+Mr. Cayden Waters,2006-09-02,120,4,232,4,2,1,421
+Mr. Celestino Bosco,2006-08-20,133,7,716,4,4,5,445
+Mr. Christ Zieme MD,2006-09-11,111,7,510,5,4,4,544
+Mr. Cletus Corwin,2005-06-21,558,2,81,1,1,1,111
+Mr. Colin Prohaska,2005-09-08,479,7,700,2,4,5,245
+Mr. Dandre Nolan I,2004-05-24,951,1,30,1,1,1,111
+Mr. Demetric Franecki,2006-08-04,149,4,387,4,2,3,423
+Mr. Edw Frami,2006-11-17,44,10,868,5,5,5,555
+Mr. Elian Vandervort Jr.,2006-06-19,195,5,332,3,3,2,332
+Mr. Erin Zboncak IV,2006-12-05,26,6,895,5,4,5,545
+Mr. Fletcher Hudson,2005-05-10,600,2,165,1,1,1,111
+Mr. Fount Towne I,2006-12-23,8,6,540,5,4,4,544
+Mr. Francisco Kiehn,2005-04-20,620,2,133,1,1,1,111
+Mr. Fredric Funk III,2005-10-18,439,3,228,2,1,1,211
+Mr. Harris Pollich,2006-12-10,21,5,734,5,3,5,535
+Mr. Hosea Schiller,2005-11-16,410,9,840,2,5,5,255
+Mr. Hosie Howell PhD,2005-11-05,421,5,496,2,3,3,233
+Mr. Hunter Botsford Jr.,2005-04-27,613,2,267,1,1,2,112
+Mr. Hurley Brekke,2005-10-13,444,2,175,2,1,1,211
+Mr. Jeff Denesik,2006-05-10,235,4,326,3,2,2,322
+Mr. Jeramiah Cronin,2006-12-25,6,6,547,5,4,4,544
+Mr. Jimmy Mayert PhD,2005-08-06,512,4,382,1,2,3,123
+Mr. Junior Wintheiser II,2005-10-28,429,3,529,2,1,4,214
+Mr. Kenji Cormier,2006-07-07,177,3,359,4,1,2,412
+Mr. Kolten Wyman Jr.,2005-08-23,495,5,668,1,3,5,135
+Mr. Lary Champlin,2006-08-29,124,14,1074,4,5,5,455
+Mr. Lillard McGlynn V,2005-05-22,588,2,96,1,1,1,111
+Mr. Lon Witting Jr.,2006-03-11,295,3,413,3,1,3,313
+Mr. Lupe Kohler,2006-03-07,299,7,716,2,4,5,245
+Mr. Manuel DuBuque,2006-08-27,126,9,927,4,5,5,455
+Mr. Marcelo Wunsch MD,2005-10-11,446,1,52,2,1,1,211
+Mr. Marcus Langosh,2006-09-24,98,3,363,5,1,2,512
+Mr. Marquise Swaniawski MD,2005-06-10,569,8,799,1,5,5,155
+Mr. Mekhi Goyette,2005-11-10,416,4,350,2,2,2,222
+Mr. Michal Murphy,2006-08-17,136,5,548,4,3,4,434
+Mr. Michale Howe DVM,2005-10-27,430,8,740,2,5,5,255
+Mr. Mikeal Block,2005-07-23,526,5,323,1,3,2,132
+Mr. Owens Gaylord,2006-08-30,123,3,172,4,1,1,411
+Mr. Paulo Stoltenberg,2005-08-31,487,3,308,1,1,2,112
+Mr. Ray Stanton III,2006-08-09,144,11,816,4,5,5,455
+Mr. Rohan Wolf,2005-08-16,502,6,820,1,4,5,145
+Mr. Saverio Weimann II,2006-04-12,263,5,534,3,3,4,334
+Mr. Semaj Sauer,2006-11-30,31,8,806,5,5,5,555
+Mr. Tad Johnson,2006-06-08,206,10,1184,3,5,5,355
+Mr. Tegan Farrell MD,2006-03-11,295,5,378,3,3,2,332
+Mr. Thad Nader Sr.,2006-03-24,282,5,480,3,3,3,333
+Mr. Torry Bogan I,2006-09-15,107,2,195,5,1,1,511
+Mr. Tripp Batz PhD,2006-03-15,291,5,446,3,3,3,333
+Mr. Vito Ernser II,2006-12-18,13,5,461,5,3,3,533
+Mr. Wendel Hintz,2006-10-05,87,6,798,5,4,5,545
+Mr. Wilkie Moore MD,2004-09-16,836,2,244,1,1,1,111
+Mr. Zackery Armstrong,2006-01-24,341,4,490,2,2,3,223
+Mr. Zakary Gleichner II,2006-11-18,43,7,615,5,4,4,544
+Mrs. Alysa Cummings,2006-12-30,1,9,876,5,5,5,555
+Mrs. Anice O'Hara DDS,2006-01-05,360,7,469,2,4,3,243
+Mrs. Astrid Bayer PhD,2006-08-12,141,8,687,4,5,5,455
+Mrs. Breann Harris,2006-02-24,310,5,599,2,3,4,234
+Mrs. Cali Considine,2006-01-16,349,5,416,2,3,3,233
+Mrs. Carolann Anderson PhD,2005-05-20,590,3,217,1,1,1,111
+Mrs. Charolette McDermott MD,2006-08-14,139,1,82,4,1,1,411
+Mrs. Chiquita Jacobs,2006-07-26,158,4,144,4,2,1,421
+Mrs. Cleone Hagenes DDS,2005-07-12,537,3,331,1,1,2,112
+Mrs. Danika Schulist,2005-10-14,443,5,495,2,3,3,233
+Mrs. Delisa Kilback,2006-04-12,263,5,476,3,3,3,333
+Mrs. Hildur Mante,2005-10-26,431,3,386,2,1,3,213
+Mrs. Ila Leuschke DVM,2005-12-04,392,6,396,2,4,3,243
+Mrs. Janel Koepp DVM,2006-03-21,285,4,253,3,2,1,321
+Mrs. Jaquelin Weber DVM,2006-08-06,147,4,332,4,2,2,422
+Mrs. Jerilynn Schulist,2006-09-06,116,7,888,4,4,5,445
+Mrs. Kelcie Schimmel,2006-08-11,142,7,536,4,4,4,444
+Mrs. Kyrie Funk,2005-08-16,502,5,520,1,3,4,134
+Mrs. Laila Bayer,2006-10-20,72,4,516,5,2,4,524
+Mrs. Lois Russel,2005-04-08,632,2,166,1,1,1,111
+Mrs. Lucetta Auer,2006-05-16,229,3,128,3,1,1,311
+Mrs. Madelyn Hermiston,2006-08-31,122,4,446,4,2,3,423
+Mrs. Makenna Bernier PhD,2005-11-16,410,4,386,2,2,3,223
+Mrs. Malaya Russel,2006-09-29,93,3,209,5,1,1,511
+Mrs. Marti Johnston,2005-12-19,377,5,409,2,3,3,233
+Mrs. Maura Schamberger,2006-04-09,266,5,434,3,3,3,333
+Mrs. Melany Mitchell DDS,2005-02-18,681,1,12,1,1,1,111
+Mrs. Michal Feil DVM,2005-09-24,463,5,390,2,3,3,233
+Mrs. Noma Hessel PhD,2006-03-08,298,7,815,2,4,5,245
+Mrs. Oneta Lebsack,2006-04-17,258,7,777,3,4,5,345
+Mrs. Trudy Rath,2005-12-09,387,6,547,2,4,4,244
+Mrs. Vernie Ryan MD,2006-07-25,159,6,422,4,4,3,443
+Mrs. Vivien Bauch,2006-09-13,109,7,676,5,4,5,545
+Ms. Amaris Williamson MD,2006-05-04,241,5,289,3,3,2,332
+Ms. Amira Gutkowski DDS,2005-06-03,576,2,191,1,1,1,111
+Ms. Arletta Jast PhD,2006-08-23,130,7,720,4,4,5,445
+Ms. Brea Nienow DDS,2006-10-02,90,6,580,5,4,4,544
+Ms. Delpha King,2006-11-18,43,12,1233,5,5,5,555
+Ms. Elda Schmeler,2006-08-24,129,8,744,4,5,5,455
+Ms. Erica Gottlieb,2006-01-25,340,8,829,2,5,5,255
+Ms. Ermine Krajcik,2005-05-15,595,1,106,1,1,1,111
+Ms. Forest Hartmann DVM,2005-07-11,538,3,311,1,1,2,112
+Ms. Giada Weissnat,2006-09-20,102,6,346,5,4,2,542
+Ms. Gracelyn Dare,2006-09-10,112,6,548,5,4,4,544
+Ms. Gracie Willms,2005-08-14,504,4,556,1,2,4,124
+Ms. Grecia Schultz,2006-07-20,164,6,357,4,4,2,442
+Ms. Gussie Bartoletti,2006-07-12,172,8,885,4,5,5,455
+Ms. Hayleigh Swaniawski DDS,2006-03-17,289,4,489,3,2,3,323
+Ms. Hessie Gleichner,2005-11-12,414,6,368,2,4,2,242
+Ms. Hollie Crooks,2005-08-25,493,5,400,1,3,3,133
+Ms. Iliana O'Conner,2006-06-20,194,6,613,3,4,4,344
+Ms. Jacklyn Casper,2006-09-17,105,5,415,5,3,3,533
+Ms. Katherine Schroeder,2005-11-19,407,6,566,2,4,4,244
+Ms. Katrina Barton PhD,2006-08-17,136,7,774,4,4,5,445
+Ms. Kelis Rau MD,2006-10-06,86,5,537,5,3,4,534
+Ms. Leaner Jacobs PhD,2005-03-24,647,4,458,1,2,3,123
+Ms. Liliana Haley,2005-09-14,473,7,589,2,4,4,244
+Ms. Maebell Reinger DVM,2005-10-14,443,6,673,2,4,5,245
+Ms. Marolyn Walsh,2006-10-02,90,3,180,5,1,1,511
+Ms. Merrilee Lueilwitz,2005-01-31,699,1,185,1,1,1,111
+Ms. Nada Barton PhD,2006-09-08,114,7,576,5,4,4,544
+Ms. Oralia Kilback,2006-07-02,182,6,480,3,4,3,343
+Ms. Penni Corkery,2006-09-24,98,6,620,5,4,4,544
+Ms. Peyton Larson DVM,2005-10-24,433,6,664,2,4,4,244
+Ms. Sarita Heidenreich DVM,2006-03-01,305,4,462,2,2,3,223
+Ms. Starr Corwin DDS,2006-07-13,171,4,228,4,2,1,421
+Ms. Val McKenzie PhD,2006-08-31,122,4,380,4,2,2,422
+Ms. Valorie Kling,2006-07-29,155,5,421,4,3,3,433
+Ms. Zola Nolan,2006-05-21,224,4,375,3,2,2,322
+Murl Dicki,2006-07-06,178,2,233,4,1,1,411
+Murl Wilkinson II,2006-08-18,135,7,936,4,4,5,445
+Murray Harvey,2006-08-08,145,5,646,4,3,4,434
+Myer Stokes,2005-08-27,491,7,826,1,4,5,145
+Mykel Johnson,2006-03-30,276,8,453,3,5,3,353
+Myrle Krajcik,2006-01-30,335,6,937,2,4,5,245
+Myrtis Larkin DDS,2006-08-21,132,4,423,4,2,3,423
+Naima Treutel,2006-08-03,150,5,613,4,3,4,434
+Nan O'Connell,2006-08-10,143,2,79,4,1,1,411
+Nathaly Streich,2005-07-24,525,6,681,1,4,5,145
+Nathanael Wisozk,2005-04-04,636,3,343,1,1,2,112
+Neppie Armstrong,2005-05-03,607,1,219,1,1,1,111
+Nery Ankunding PhD,2005-06-05,574,4,425,1,2,3,123
+Nevin Boehm,2006-10-06,86,6,694,5,4,5,545
+Nico Dickinson,2005-04-24,616,8,569,1,5,4,154
+Nigel Leannon II,2006-10-29,63,5,579,5,3,4,534
+Nikita Becker,2006-08-13,140,4,462,4,2,3,423
+Nikolai Welch MD,2006-06-22,192,4,212,3,2,1,321
+Nikolas Shanahan,2006-04-11,264,5,268,3,3,2,332
+Nobie Hermann,2005-05-13,597,4,353,1,2,2,122
+Noma Dare MD,2005-09-12,475,4,597,2,2,4,224
+Nyree Walker,2005-06-29,550,3,211,1,1,1,111
+Odelia Rippin,2005-08-30,488,6,585,1,4,4,144
+Odessa Haag,2005-05-24,586,5,641,1,3,4,134
+Odie Jacobs,2005-09-03,484,3,353,1,1,2,112
+Odie Lakin,2005-10-15,442,2,132,2,1,1,211
+Odis Schoen,2006-08-03,150,5,512,4,3,4,434
+Olaf Witting,2006-06-23,191,2,143,3,1,1,311
+Olen Steuber DVM,2005-07-29,520,1,39,1,1,1,111
+Olena Kessler,2006-05-31,214,2,163,3,1,1,311
+Oley Schroeder I,2005-11-24,402,6,632,2,4,4,244
+Olof Swift,2006-10-04,88,5,453,5,3,3,533
+Omie Cummerata,2005-07-30,519,4,220,1,2,1,121
+Ophelia Ernser,2006-03-25,281,6,622,3,4,4,344
+Orpha Bernhard,2006-07-31,153,9,955,4,5,5,455
+Orville Lemke III,2006-05-30,215,3,147,3,1,1,311
+Ossie Schaden PhD,2006-11-17,44,7,600,5,4,4,544
+Ottis Wiza,2006-05-01,244,4,242,3,2,1,321
+Pansy Bergstrom,2006-10-04,88,5,394,5,3,3,533
+Parker Bailey DVM,2004-08-31,852,7,476,1,4,3,143
+Pat Nitzsche PhD,2006-07-22,162,4,306,4,2,2,422
+Patience Ferry,2006-04-26,249,6,644,3,4,4,344
+Paulo Torphy,2004-07-22,892,2,219,1,1,1,111
+Payten Morissette,2006-03-10,296,3,466,3,1,3,313
+Pearl Schmidt,2005-10-11,446,5,536,2,3,4,234
+Perley Renner,2005-10-30,427,6,406,2,4,3,243
+Pershing Johnston MD,2006-03-10,296,2,108,3,1,1,311
+Pershing Torp II,2005-08-28,490,2,241,1,1,1,111
+Peyton Koelpin,2005-05-06,604,1,89,1,1,1,111
+Peyton Runolfsson,2006-07-10,174,4,335,4,2,2,422
+Phylis Gaylord,2006-06-04,210,5,185,3,3,1,331
+Pierre Stoltenberg,2005-04-22,618,2,82,1,1,1,111
+Pink Murazik,2005-10-08,449,2,225,2,1,1,211
+Piper Buckridge,2005-05-09,601,3,265,1,1,2,112
+Pleasant Ullrich,2006-02-15,319,7,1089,2,4,5,245
+Porsche Mayert DDS,2005-08-22,496,6,515,1,4,4,144
+Portia Schamberger,2006-11-12,49,7,762,5,4,5,545
+Posey Metz,2006-07-01,183,10,1060,3,5,5,355
+Pratt Crooks,2006-07-02,182,5,300,3,3,2,332
+Price Harvey,2005-11-15,411,3,137,2,1,1,211
+Princess Hermann PhD,2005-05-13,597,1,55,1,1,1,111
+Prudie Kertzmann,2006-10-04,88,8,580,5,5,4,554
+Quintin Tillman,2006-10-28,64,9,960,5,5,5,555
+Rafael Mitchell,2005-06-29,550,3,421,1,1,3,113
+Raheem Bosco,2006-08-29,124,4,182,4,2,1,421
+Rakeem Harvey,2005-10-03,454,10,809,2,5,5,255
+Rayna Hagenes PhD,2005-07-11,538,4,587,1,2,4,124
+Reanna O'Keefe,2006-11-26,35,8,960,5,5,5,555
+Rebeca Kling,2006-08-24,129,8,956,4,5,5,455
+Reggie Leffler,2005-10-02,455,5,413,2,3,3,233
+Regina Collins,2006-05-11,234,5,360,3,3,2,332
+Rexford Greenholt,2006-06-18,196,5,570,3,3,4,334
+Reynaldo Davis,2005-02-18,681,3,358,1,1,2,112
+Ricci Bins,2005-07-14,535,4,210,1,2,1,121
+Rice Prohaska,2006-10-21,71,6,319,5,4,2,542
+Rikki Watsica DVM,2006-11-18,43,7,581,5,4,4,544
+Riley Heller,2006-07-13,171,4,446,4,2,3,423
+Rob Wilderman Sr.,2005-04-16,624,1,34,1,1,1,111
+Robbin Herzog,2005-12-30,366,4,381,2,2,2,222
+Robert Satterfield,2006-08-18,135,4,317,4,2,2,422
+Robert Schmeler,2006-05-02,243,3,254,3,1,1,311
+Rochelle Johnson,2006-06-10,204,7,652,3,4,4,344
+Roger Green,2005-03-08,663,4,468,1,2,3,123
+Rolla Hodkiewicz,2005-06-15,564,4,409,1,2,3,123
+Rollie Yundt DVM,2005-05-10,600,3,467,1,1,3,113
+Roma Daniel,2006-05-16,229,4,197,3,2,1,321
+Roma Rath,2005-08-28,490,6,420,1,4,3,143
+Romaine McCullough,2006-05-13,232,5,405,3,3,3,333
+Romie Upton,2006-08-08,145,8,622,4,5,4,454
+Ronan McLaughlin,2006-03-17,289,4,496,3,2,3,323
+Roni Carter,2006-08-25,128,4,365,4,2,2,422
+Ronin Beatty Jr.,2006-08-07,146,4,434,4,2,3,423
+Rosanne Maggio,2006-10-25,67,7,597,5,4,4,544
+Rosario Boyle,2005-11-09,417,5,512,2,3,4,234
+Rose Kuphal,2006-10-23,69,4,400,5,2,3,523
+Rosevelt Murazik DDS,2006-08-14,139,5,447,4,3,3,433
+Rosina Abbott,2006-01-26,339,7,652,2,4,4,244
+Ruel Ruecker,2006-07-08,176,5,436,4,3,3,433
+Russell Boyle,2005-04-26,614,2,265,1,1,2,112
+Ruthe Macejkovic MD,2005-12-23,373,9,805,2,5,5,255
+Ryland Predovic,2005-10-21,436,5,665,2,3,4,234
+Sadie Upton,2006-08-02,151,4,541,4,2,4,424
+Saint Doyle,2006-06-24,190,6,558,3,4,4,344
+Samira Medhurst,2005-10-27,430,7,826,2,4,5,245
+Santana Bradtke,2006-08-01,152,8,732,4,5,5,455
+Savion Rohan,2006-10-08,84,10,1118,5,5,5,555
+Schuyler Volkman,2006-07-24,160,10,658,4,5,4,454
+Scottie Beahan PhD,2006-03-31,275,3,538,3,1,4,314
+Seaborn Bogisich III,2006-07-06,178,3,459,4,1,3,413
+Shakira Stokes,2006-10-17,75,5,438,5,3,3,533
+Shane Haley,2006-07-27,157,5,424,4,3,3,433
+Shania Stamm DDS,2006-06-26,188,9,997,3,5,5,355
+Shantel Jenkins,2005-01-06,724,4,388,1,2,3,123
+Shari Rowe PhD,2005-10-31,426,5,665,2,3,4,234
+Sharyn Barrows,2006-07-29,155,6,292,4,4,2,442
+Shaun Rempel,2006-07-04,180,4,427,4,2,3,423
+Shea Feil,2006-07-08,176,6,588,4,4,4,444
+Shea Gerlach,2006-06-13,201,7,760,3,4,5,345
+Shellie Brekke III,2005-05-19,591,3,384,1,1,3,113
+Shelton Hudson,2006-07-31,153,8,867,4,5,5,455
+Sherlyn Gutmann,2006-12-12,19,9,726,5,5,5,555
+Shirl Keebler,2006-10-02,90,4,377,5,2,2,522
+Shirl Kuvalis,2006-03-30,276,5,450,3,3,3,333
+Shirl Wisozk,2005-04-10,630,4,363,1,2,2,122
+Shirlie Nikolaus,2006-06-04,210,7,688,3,4,5,345
+Shoji Wintheiser III,2006-08-13,140,5,329,4,3,2,432
+Skylar Hoeger,2006-03-24,282,4,255,3,2,1,321
+Sol Zboncak,2005-08-10,508,3,88,1,1,1,111
+Somer Turcotte,2006-06-24,190,10,1018,3,5,5,355
+Sonny Dickens,2006-04-25,250,6,362,3,4,2,342
+Soren Gleason,2006-09-19,103,9,1061,5,5,5,555
+Stafford Willms,2005-08-12,506,3,295,1,1,2,112
+Starling Welch,2006-08-25,128,7,590,4,4,4,444
+Stefani Kshlerin,2006-06-28,186,7,520,3,4,4,344
+Stephaine Graham,2006-09-17,105,4,609,5,2,4,524
+Stetson Ferry DVM,2005-08-18,500,3,237,1,1,1,111
+Susannah Bernier,2006-11-28,33,6,754,5,4,5,545
+Suzann Koss,2006-03-18,288,6,353,3,4,2,342
+Suzette Hartmann,2006-03-15,291,6,427,3,4,3,343
+Suzette Pollich,2006-01-30,335,4,395,2,2,3,223
+Sydell West,2006-06-23,191,6,642,3,4,4,344
+Sylva Littel,2006-07-06,178,7,778,4,4,5,445
+Symone McClure,2006-06-07,207,4,449,3,2,3,323
+Tallie Gleason,2006-05-18,227,3,293,3,1,2,312
+Tamia Hills,2005-10-14,443,5,694,2,3,5,235
+Tamia Langworth,2005-06-03,576,1,103,1,1,1,111
+Tamika Labadie,2006-08-15,138,7,839,4,4,5,445
+Tamisha Crooks,2006-12-20,11,6,627,5,4,4,544
+Tarik Marvin Jr.,2005-05-25,585,6,510,1,4,4,144
+Tate Turcotte,2005-08-02,516,3,394,1,1,3,113
+Tawanda Balistreri MD,2006-09-19,103,4,393,5,2,3,523
+Taylor Crist,2006-04-14,261,6,643,3,4,4,344
+Tegan O'Conner,2006-07-07,177,2,199,4,1,1,411
+Tera Collins,2005-07-03,546,3,324,1,1,2,112
+Texas Keebler,2005-09-03,484,5,702,1,3,5,135
+Theo Buckridge,2006-12-16,15,6,446,5,4,3,543
+Thor Schultz,2006-11-23,38,3,274,5,1,2,512
+Tia Zulauf,2006-08-04,149,6,522,4,4,4,444
+Tierra Hayes,2006-08-25,128,8,952,4,5,5,455
+Tilden Hermann,2005-07-04,545,2,96,1,1,1,111
+Tisa Mosciski,2006-05-16,229,4,159,3,2,1,321
+Tobie Carroll,2006-01-21,344,9,870,2,5,5,255
+Toccara Lebsack,2006-06-05,209,6,433,3,4,3,343
+Tomika Koepp,2006-04-26,249,6,542,3,4,4,344
+Toney Marvin,2006-06-02,212,5,558,3,3,4,334
+Tori Bailey,2006-08-24,129,2,121,4,1,1,411
+Torrance Pollich,2006-11-07,54,3,377,5,1,2,512
+Torry Reynolds,2006-08-18,135,7,650,4,4,4,444
+Tracy Feest,2005-07-19,530,4,253,1,2,1,121
+Travis Cartwright,2006-11-16,45,8,713,5,5,5,555
+Tressie Buckridge DDS,2005-11-22,404,4,504,2,2,3,223
+Trina Gaylord DDS,2006-06-16,198,3,264,3,1,2,312
+Triston Mills,2006-02-02,332,4,366,2,2,2,222
+Trudie Mraz,2006-10-03,89,5,474,5,3,3,533
+Trudy Stokes,2005-09-15,472,8,855,2,5,5,255
+True Conroy,2006-11-21,40,5,471,5,3,3,533
+Tyshawn Witting,2005-06-06,573,3,208,1,1,1,111
+Uriah West,2005-03-18,653,3,195,1,1,1,111
+Uriel Kuhn,2005-07-07,542,5,567,1,3,4,134
+Valencia Keebler DVM,2006-02-06,328,5,369,2,3,2,232
+Vannie Kunze,2005-11-29,397,9,823,2,5,5,255
+Velda Goyette,2006-08-02,151,6,473,4,4,3,443
+Venice Smith,2005-09-03,484,3,219,1,1,1,111
+Verlene Emmerich,2006-05-05,240,5,359,3,3,2,332
+Verlin Christiansen Sr.,2005-12-07,389,4,491,2,2,3,223
+Verna Hudson,2006-09-16,106,5,789,5,3,5,535
+Vernell Lockman,2006-05-09,236,1,153,3,1,1,311
+Verona Langosh,2005-07-10,539,5,492,1,3,3,133
+Vic Volkman,2006-09-20,102,6,492,5,4,3,543
+Vick Okuneva,2006-11-09,52,4,569,5,2,4,524
+Vinson Tillman,2005-08-28,490,4,454,1,2,3,123
+Violette O'Kon,2006-04-29,246,4,565,3,2,4,324
+Virgel Grimes,2006-07-11,173,5,675,4,3,5,435
+Vivian McLaughlin MD,2005-11-10,416,6,574,2,4,4,244
+Vivienne Medhurst,2005-08-01,517,3,390,1,1,3,113
+Von Cassin,2005-11-24,402,5,350,2,3,2,232
+Vonda Connelly,2005-08-03,515,2,297,1,1,2,112
+Waldemar Greenholt,2006-04-08,267,9,859,3,5,5,355
+Wally Nikolaus,2006-07-03,181,5,419,3,3,3,333
+Warner Kessler,2006-03-16,290,4,310,3,2,2,322
+Warren Osinski,2006-08-24,129,10,1038,4,5,5,455
+Watt Cremin,2006-08-26,127,1,52,4,1,1,411
+Wellington Runolfsdottir,2006-04-10,265,2,39,3,1,1,311
+Wendi Purdy,2005-08-28,490,5,560,1,3,4,134
+Werner Hahn,2006-07-15,169,6,594,4,4,4,444
+William Sawayn,2006-02-13,321,5,570,2,3,4,234
+Willian Runte,2006-07-27,157,7,754,4,4,5,445
+Winifred Hills DDS,2006-07-04,180,5,618,4,3,4,434
+Winifred Kris,2005-10-05,452,6,459,2,4,3,243
+Wong Bradtke II,2006-03-19,287,3,280,3,1,2,312
+Woodie Gleichner,2005-12-01,395,5,277,2,3,2,232
+Yaakov Labadie,2005-05-28,582,1,91,1,1,1,111
+Yazmin Borer MD,2005-06-30,549,5,716,1,3,5,135
+Yessenia Rempel,2006-07-21,163,4,236,4,2,1,421
+Yetta Gorczany MD,2006-09-02,120,6,378,4,4,2,442
+Yoselin Bauch,2006-01-19,346,8,760,2,5,5,255
+Zackery Spinka,2005-12-09,387,6,406,2,4,3,243
+Zander Lebsack,2006-06-10,204,6,574,3,4,4,344
+Zechariah Gislason,2006-06-07,207,9,1196,3,5,5,355
+Zenas Pacocha,2005-11-21,405,4,442,2,2,3,223
+Zeno Lakin,2005-07-25,524,1,38,1,1,1,111
+Zillah Koch PhD,2005-07-01,548,4,516,1,2,4,124
