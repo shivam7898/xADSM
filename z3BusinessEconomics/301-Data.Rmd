@@ -567,10 +567,12 @@ C01P01 <- hh %>% { ggplot(data = ., aes(x = Year, y = Values, colour = Company, 
   }
 ```
 
-```{r 'C01P01-Save', include=TRUE}
+```{r 'C01P01-Save', echo=c(2,4), include=TRUE}
 # #Save an Image
 loc_png <- paste0(.z$PX, "C01P01", "-Cars-TimeSeries", ".png")
-ggsave(loc_png, plot = C01P01, device = "png", dpi = 144) 
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = C01P01, device = "png", dpi = 144) 
+}
 ```
 
 ```{r 'C01P01', echo=TRUE, fig.cap="Multiple Time Series Graph"}
@@ -600,7 +602,7 @@ ii %>%
 
 #### Pareto {.unlisted .unnumbered}
 
-```{r 'C01-K-Pareto', include=FALSE}
+```{r 'C01-K-Pareto'}
 # #Bar Plot
 aa <- bb %>% 
   select(Company, `2010`) %>% 
@@ -614,43 +616,38 @@ aa <- bb %>%
 pareto_chr <- setNames(c(aa$Y2010), aa$Company)
 stopifnot(identical(pareto_chr, aa %>% pull(Y2010, Company)))
 stopifnot(identical(pareto_chr, aa %>% select(1:2) %>% deframe()))
-# #Plot Pareto
-C01P02 <- pareto.chart(pareto_chr, 
-             xlab = "Company", ylab = "Cars",
-             # colors of the chart             
-             #col=heat.colors(length(pareto_chr)), 
-             # ranges of the percentages at the right
-             cumperc = seq(0, 100, by = 20),  
-             # label y right
-             ylab2 = "Cumulative Percentage", 
-             # title of the chart
-             main = "Pareto Chart"
-)
 ```
 
-```{r 'C01-K-Pareto-A', ref.label=c('C01-K-Pareto'), eval=FALSE}
-# #Display Code without showing the associated Graph
-```
-
-```{r 'C01P02-Save', include=FALSE}
+```{r 'C01P02-Save'}
 # #Save without using ggsave()
-png(filename = paste0(.z$PX, "C01P02-Cars-Pareto", ".png"))
-plot(C01P02)
-dev.off()
+hh <- pareto_chr
+loc_png <- paste0(.z$PX, "C01P02", "-Cars-Pareto", ".png")
+cap_hh <- "C01P02"
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  pareto.chart(hh, xlab = "Company", ylab = "Cars", cumperc = seq(0, 100, by = 20),  
+               ylab2 = "Cumulative Percentage", main = "Pareto Chart")  
+  #title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  C01P02 <- recordPlot()
+  dev.off()
+}
 ```
 
 ```{r 'C01P02', echo=FALSE, fig.cap="Pareto of Cars in 2010"}
-knitr::include_graphics(paste0(.z$PX, "C01P02-Cars-Pareto", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C01P02", "-Cars-Pareto", ".png")) #iiii
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'C01-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr, C01P01, C01P02, 
-          xxComputers, xxCordless)
+          xxComputers, xxCordless, cap_hh, loc_png)
 ```
 
-```{r 'C01-Validation', include=FALSE, cache=FALSE}
+```{r 'C01-Validation', include=TRUE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

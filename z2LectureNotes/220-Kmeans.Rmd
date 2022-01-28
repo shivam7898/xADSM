@@ -11,7 +11,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - "K-means Cluster Analysis"
   - "ForLater" - The PPT shared in the class was corrupted, need a working file.
-  - Refer [Book Merged Here](#c59 "c59")
+  - Refer [Book Merged Here](#c49 "c49")
 
 ## Clustering
 
@@ -206,12 +206,16 @@ paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 round(ii$centers, 3)
 ```
 
-## Elbow Plot
+## Elbow Plot of WSS
 
-```{r 'B-Elbow'}
+- \textcolor{pink}{fviz_nbclust()} :
+  - Note that it performs the clustering on the original data. It does not take the already created clusters as input.
+
+
+```{r 'B20-Elbow'}
 hh <- bb
 cap_hh <- "B20P01"
-ttl_hh <- "Movie: Elbow Curve"
+ttl_hh <- "Movie: Elbow Curve (WSS)"
 loc_png <- paste0(.z$PX, cap_hh, "-Movie-Elbow-Wss", ".png")
 #
 # #factoextra::fviz_nbclust() generates ggplot
@@ -227,7 +231,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B20P01', echo=FALSE, fig.cap="Movie: Elbow Curve of k vs. WSS"}
+```{r 'B20P01', echo=FALSE, fig.cap="Movie: Elbow Curve of k (WSS)"}
 knitr::include_graphics(paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png"))
 ```
 
