@@ -46,21 +46,24 @@ In \textcolor{pink}{hierarchical clustering}, a treelike cluster structure (\tex
 
 ## Distance between Clusters
 
-- \textcolor{pink}{Single linkage}, sometimes termed the nearest-neighbor approach, is based on the minimum distance between any record in cluster A and any record in cluster B. 
-  - In other words, cluster similarity is based on the similarity of the most similar members from each cluster. 
-  - Single linkage tends to form long, slender clusters, which may sometimes lead to heterogeneous records being clustered together. 
-- \textcolor{pink}{Complete linkage}, sometimes termed the farthest-neighbor approach, is based on the maximum distance between any record in cluster A and any record in cluster B. 
-  - In other words, cluster similarity is based on the similarity of the most dissimilar members from each cluster. 
-  - Complete linkage tends to form more compact, spherelike clusters. 
-- \textcolor{pink}{Average linkage} is designed to reduce the dependence of the cluster-linkage criterion on extreme values, such as the most similar or dissimilar records. 
-  - In average linkage, the criterion is the average distance of all the records in cluster A from all the records in cluster B. 
-  - The resulting clusters tend to have approximately equal within-cluster variability
-  - In general, average linkage leads to clusters more similar in shape to complete linkage than does single linkage.
+```{definition 'Single-Linkage'}
+\textcolor{pink}{Single linkage}, the nearest-neighbor approach, is based on the minimum distance between any record in cluster A and any record in cluster B. Cluster similarity is based on the similarity of the most similar members from each cluster. It tends to form long, slender clusters, which may sometimes lead to heterogeneous records being clustered together. 
+```
+
+```{definition 'Complete-Linkage'}
+\textcolor{pink}{Complete linkage}, the farthest-neighbor approach, is based on the maximum distance between any record in cluster A and any record in cluster B. Cluster similarity is based on the similarity of the most dissimilar members from each cluster. It tends to form more compact, spherelike clusters. 
+```
+
+```{definition 'Average-Linkage'}
+\textcolor{pink}{Average linkage} is designed to reduce the dependence of the cluster-linkage criterion on extreme values, such as the most similar or dissimilar records. The criterion is the average distance of all the records in cluster A from all the records in cluster B. The resulting clusters tend to have approximately equal within-cluster variability. In general, average linkage leads to clusters more similar in shape to complete linkage than does single linkage.
+```
+
+
 
 ## k-means Clustering
 
 - Refer [k-means Algorithm](#k-means-b20 "b20")
-- Refer [Pseudo F-Statistic](#f-stat-b20 "b20")
+- Refer [Pseudo F-Statistic](#f-stat-c49 "c49")
 
 - One potential problem for applying the k-means algorithm is: Who decides how many clusters to search for i.e. who decides k
   - Unless the analyst has a priori knowledge of the number of underlying clusters; therefore, an "outer loop" should be added to the algorithm, which cycles through various promising values of k. 

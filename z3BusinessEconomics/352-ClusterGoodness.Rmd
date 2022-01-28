@@ -1,0 +1,74 @@
+# Cluster Goodness {#c52}
+
+```{r 'C52', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Measuring Cluster Goodness"
+
+```{definition 'Cluster-Separation'}
+\textcolor{pink}{Cluster separation} represents how distant the clusters are from each other.
+```
+
+```{definition 'Cluster-Cohesion'}
+\textcolor{pink}{Cluster cohesion} refers to how tightly related the records within the individual clusters are. SSE accounts only for cluster cohesion.
+```
+
+## Silhouette Method {#sil-c52}
+
+```{definition 'Silhouette'}
+The \textcolor{pink}{silhouette} is a characteristic of each data value. For each data value i,
+$\text{Silhouette}_i = s_i = \frac{b_i - a_i}{\text{max}(b_i, a_i)} \to s_i \in [-1, 1]$, where $a_i$ is the distance between the data value (Cohesion) and its cluster center, and $b_i$ is the distance between the data value and the next closest cluster center (Separation).
+```
+
+- The silhouette value is used to gauge how good the cluster assignment is for that particular point. 
+  - A positive value indicates that the assignment is good, with higher values being better than lower values. 
+  - A value that is close to zero is considered to be a weak assignment, as the observation could have been assigned to the next closest cluster with limited negative consequence. 
+  - A negative silhouette value is considered to be misclassified, as assignment to the next closest cluster would have been better. 
+  - It accounts for both separation and cohesion. 
+    - $a_i$ represents cohesion, as it measures the distance between the data value and its cluster center
+    - $b_i$ represents separation, as it measures the distance between the data value and a different cluster. 
+  - Taking the average silhouette value over all records yields a useful measure of how well the cluster solution fits the data.
+
+## Silhouette on Iris Data
+
+"ForLater" - Nothing groundbreaking there for now.
+
+## Pseudo F-Statistic {#f-stat-c49}
+
+```{definition 'pseudo-F'}
+The \textcolor{pink}{pseudo-F statistic} is measures the ratio of (i) the separation between the clusters, as measured by the \textcolor{pink}{mean square between the clusters (MSB)}, to (ii) the spread of the data within the clusters as measured by the \textcolor{pink}{mean square error (MSE)}. i.e. $F_{k-1, N-k} = \frac{\text{MSB}}{\text{MSE}} = \frac{\text{SSB}/{k-1}}{\text{SSE}/{N-k}}$
+```
+
+- Pseudo F-Statistic
+  - Clustering algorithms seek to construct clusters of records such that the between-cluster variation is large compared to the within-cluster variation. Because this concept is analogous to the analysis of variance, we may define a pseudo-F statistic
+  - MSB represents the between-cluster variation and MSE represents the within-cluster variation. 
+  - Thus, a "good" cluster would have a large value of the pseudo-F statistic, representing a situation where the between-cluster variation is large compared to the within-cluster variation. 
+  - Hence, as the k-means algorithm proceeds, and the quality of the clusters increases, we would expect MSB to increase, MSE to decrease, and F to increase.
+  - \textcolor{orange}{Caution:} 
+    - pseudo-F statistic should not be used to test for the presence of clusters in data.
+    - However, if we have reason to believe that clusters do exist in the data, but we do not know how many clusters there are, then pseudo-F can be helpful.
+
+## Silhouette on Iris Data
+
+"ForLater" - NOTE that Pseudo F-Statistic prefer k=3 in contrast to the Silhouette which preferred k=2.
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C52-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C52-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

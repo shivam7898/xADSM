@@ -10,7 +10,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Hierarchical Clustering"
-  - "ForLater"
 
 ## Data Movie
 
@@ -27,10 +26,27 @@ bb <- aa %>%
 
 ## Elbow Plot of Silhouette
 
-- Silhouette
+```{r 'B21D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Silhouette")
+```
+
+- Refer [Silhouette](#sil-c52 "c52")
   - Range [-1, 1]
   - A good solution has Silhouette value approaching 1
-  - Paused at 15:40 to Cover the Book Chapter 22
+
+- \textcolor{pink}{Question:} Does the value of 0.2 (positive but near zero) is a good value
+  - It is comparitive i.e. at what k you are getting max. silhouette value
+  - Further, it might be considered as an indication that the dataset might not be ready for clustering
+  - (Aside) a value close to zero is considered a weak assignment
+- \textcolor{pink}{Question:} If the value is 0.2, can we claim that no clustering is required
+  - No, sometimes the data has inherent heterogeneity. If the value is negative that implies some bad clustering. However small positive value does not imply anything.
+- \textcolor{pink}{Question:} wss recommended 3, silhouette is recommending 2, now what
+  - Use your own judgement
+  - (Aside) \textcolor{pink}{"All models are wrong, but some are useful." - By Someone} 
+- \textcolor{pink}{Question:} What is the purpose of this 'Optimal Number of Clusters' when we are using our own judgement anyway e.g. in Crime data, silhouette recommends 2 but we are leaning more towards 3
+  - We are doing the k-means clustering when we have some idea about number of clusters. However the data might show something different. It is more about validation of our assumption.
+  - However, if we do not have any idea about number of clusters, we should NOT use k-means clustering. Rather the Hierarchical Clustering should be used.
+  - (Aside) \textcolor{pink}{"An approximate answer to the right problem is worth a good deal more than an exact answer to an approximate problem." - By Someone}
 
 ```{r 'B21-ElbowSil'}
 hh <- bb
@@ -43,7 +59,7 @@ B21P01 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "silhouette") +
 ```
 
 ```{r 'B21P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, cap_hh, "-Movie-Elbow-Sil", ".png")
+loc_png <- paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B21P01, device = "png", dpi = 144) 
 }
@@ -53,15 +69,183 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 ```
 
+## Data Crime
 
+\textcolor{pink}{Please import the "B21-state-crime.csv".}
+
+```{r 'B21-Crime', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B21-state-crime.csv"))
+xxB21Crime <- f_getObject("xxB21Crime", "B21-state-crime.csv",
+                                "e68f26d9efd2807ad7ed43c29391e191")
+```
+
+```{r 'B21-GetCrime', include=FALSE}
+#wwww
+xxB21Crime <- f_getRDS(xxB21Crime)
+```
+
+- About: [3115, 21]
+  - Source: https://corgis-edu.github.io/corgis/csv/state_crime
+  - Either keep Rates Columns or Total Columns
+  - We want recent year data i.e. 2019 
+  - Also USA Overall Needs to be removed
+
+```{r 'B21-PrepCrime'}
+aa <- xxB21Crime
+# #Only Year 2019 | Exculte USA Total | Only Rates Variables NOT Total | Scale | 
+bb <- aa %>% 
+  filter(Year == "2019", State != "United States") %>% 
+  select(State, Data.Population, starts_with("Data.Rates") & !ends_with("All")) %>% 
+  select(-State) %>% 
+  mutate(across(everything(), ~ as.vector(scale(.))))
+# #Rename Columns for ease of use
+ii <- names(bb)
+ii <- str_replace(ii, pattern = paste0(c("Data.Rates.", "Data."), collapse = "|"), "")
+ii <- str_replace_all(ii, c("Violent." = "v_", "Property." = "p_"))
+names(bb) <- ii
+#
+str(bb)
+```
+
+```{r 'B21-CrimeElbow', include=FALSE}
+# #Elbow Plots
+hh <- bb
+cap_hh <- "B21P02"
+ttl_hh <- "Crime: Elbow Curve (Silhouette)"
+#
+B21P02 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "silhouette") +
+  labs(caption = cap_hh, title = ttl_hh)
+#
+cap_hh <- "B21P03"
+ttl_hh <- "Crime: Elbow Curve (WSS)"
+B21P03 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "wss") +
+  labs(caption = cap_hh, title = ttl_hh)
+```
+
+```{r 'B21P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B21P02", "-Crime-Elbow-Sil", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B21P02, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B21P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B21P03", "-Crime-Elbow-WSS", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B21P03, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B21P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B21P02", "-Crime-Elbow-Sil", ".png"))
+```
+
+```{r 'B21P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B21P03", "-Crime-Elbow-WSS", ".png"))
+```
+
+```{r 'B21P0203', echo=FALSE, ref.label=c('B21P02', 'B21P03'), fig.cap="Crime: Elbow Curve of k Silhouette and WSS"}
+knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
+```
+
+```{r 'B21-kmeans'}
+# #Cluster analysis with different k = {3, 4}
+set.seed(3)
+k3_bb <- kmeans(bb, centers = 3)
+k4_bb <- kmeans(bb, centers = 4)
+# #Save cluster membership of each point back into the dataset
+res_crime <- cbind(bb, list(k3 = k3_bb$cluster, k4 = k4_bb$cluster)) %>% as_tibble()
+#
+# #Three Clusters
+ii <- k3_bb
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+#
+# #Four Clusters
+ii <- k4_bb
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+```
+
+## Hierarchical Clustering
+
+```{r 'B21D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Hierarchical-Clustering")
+```
+
+```{r 'B21D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Agglomerative-Clustering")
+```
+
+```{r 'B21D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Divisive-Clustering")
+```
+
+- Ex: Flipkart
+  - We would do Agglomerative Clustering i.e. start with 1000 customers and then get 10 clusters as final rather than starting with 1 cluster
+- \textcolor{pink}{Question:} Are not the B2C companies trying for hyper localised individual level targetting of customers
+  - No, they are creating higher number of groups based on wider characteristics. Noone is profiling a single customer rather the groups now are highly specific yet contain high number of customers.
+
+- Hierarchical
+  - Distance Matrix is used to decide which clusters to merge or split
+  - At least quadratic in number of data points
+  - Not usable for large datasets
+
+- Notes on Divisive (Because Agglomerative will be in focus mainly)
+  - Monothetic or Polythetic Methods
+  - intercluster distance can be measured
+  - Computationally intensive
+
+## Linkages
+
+```{r 'B21D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Single-Linkage")
+```
+
+```{r 'B21D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Complete-Linkage")
+```
+
+```{r 'B21D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Average-Linkage")
+```
+
+- How the distance matrix is calculated is the main difference between these Methods
+  - Some more methods are Centroid Method, Ward Method etc.
+- Single Linkage
+  - Positives
+    - Can handle non-elliptical shapes
+  - Negatives
+    - Sensitive to Noise and Outliers
+    - It produces long, elongated clusters
+- Complete Linkage
+  - Positives
+    - More balanced clusters (with equal diameters)
+    - Less susceptible to noise
+  - Negatives
+    - Tends to break large clusters
+    - All clusters tend to have the same diameter - small clusters are merged with larger ones
+- Average Linkage
+  - Positives  
+    - Less susceptible to noise and outliers
+  - Negatives
+    - Biased towards globular clusters
+- Ward
+  - Similar to average and centroid
+  - Less susceptible to noise and outliers
+  - Biased towards globular clusters
+  - Hierarchical analgoue of k-means i.e. can be used to initialise k-means
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B21-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, B21P01, B21P02, B21P03, cap_hh, hh, k3_bb, k4_bb, loc_png, 
+          res_crime, ttl_hh, xxB20Movies, xxB21Crime)
 ```
 
-```{r 'B21-Validation', include=TRUE, cache=FALSE}
+```{r 'B21-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

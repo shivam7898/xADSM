@@ -82,15 +82,6 @@ f_getDef("Euclidean-Distance")
 - The iterative process is stopped when two consecutive 'k' values produce more or less identical results in terms of cluster within and between variances
   - However, it is possible that this 'k' value represents a local minima and not the global minima.
 
-## F-Statistic {#f-stat-b20}
-
-- F-Statistic
-  - Clustering algorithms seek to construct clusters of records such that the between-cluster variation is large compared to the within-cluster variation. Because this concept is analogous to the analysis of variance, we may define a pseudo-F statistic as follows: $F_{k-1, N-k} = \frac{\text{MSB}}{\text{MSE}} = \frac{\text{SSB}/{k-1}}{\text{SSE}/{N-k}}$
-  - where, MSB is the \textcolor{pink}{mean square between}, and SSB is the \textcolor{pink}{sum of squares between} clusters
-  - MSB represents the between-cluster variation and MSE represents the within-cluster variation. 
-  - Thus, a "good" cluster would have a large value of the pseudo-F statistic, representing a situation where the between-cluster variation is large compared to the within-cluster variation. 
-  - Hence, as the k-means algorithm proceeds, and the quality of the clusters increases, we would expect MSB to increase, MSE to decrease, and F to increase.
-
 ## Packages
 
 ```{r 'B20-Installations', eval=FALSE}
@@ -216,7 +207,7 @@ round(ii$centers, 3)
 hh <- bb
 cap_hh <- "B20P01"
 ttl_hh <- "Movie: Elbow Curve (WSS)"
-loc_png <- paste0(.z$PX, cap_hh, "-Movie-Elbow-Wss", ".png")
+loc_png <- paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png")
 #
 # #factoextra::fviz_nbclust() generates ggplot
 # #method = "wss" (for total within sum of square)
