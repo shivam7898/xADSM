@@ -478,7 +478,7 @@ A.  Effect of increasing the Sampling, Refer figure \@ref(fig:B12P060708G)
 
 ```{r 'B12-Sample', include=FALSE}
 bb <- na.omit(xxflights$air_time)
-# #Pseudo Random Number Generation by set.seed() 
+# #Fix Seed
 set.seed(3)
 # #Set Sample Size
 #nn <- 100L
@@ -657,7 +657,7 @@ geom_text(aes(label = paste0("mu=", round(xxstore[1], 1)), x = xxstore[1], y = -
 
 ```{r 'B12-RepeatSampling', include=FALSE}
 bb <- na.omit(xxflights$air_time)
-# #Pseudo Random Number Generation by set.seed() 
+# #Fix Seed
 set.seed(3)
 # #Set Sample Size
 nn <- 10L

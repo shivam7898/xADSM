@@ -141,7 +141,7 @@ knitr::include_graphics(paste0(.z$PX, "C02P02", "-Drinks-Pie", ".png"))
 
 ### f_theme_gg() {.unlisted .unnumbered}
 
-```{r 'C02F-f_theme_gg', ref.label=c('A05-ThemeGG'), eval=FALSE}
+```{r 'C02F-theme-gg', ref.label=c('A05-ThemeGG'), eval=FALSE}
 # #
 ```
 

@@ -60,18 +60,16 @@ In \textcolor{pink}{hierarchical clustering}, a treelike cluster structure (\tex
 
 ## k-means Clustering
 
-1. Ask the user how many clusters ${k}$ the data set should be partitioned into. 
-1. Randomly assign ${k}$ records to be the initial cluster center locations. 
-1. For each record, find the nearest cluster center. 
-    - Thus, in a sense, each cluster center "owns" a subset of the records, thereby representing a partition of the data set. 
-    - We therefore have ${k}$ clusters, $\{C_1, C_2, \ldots, C_k\}$
-    - The "nearest" criterion is usually Euclidean distance
-1. For each of the ${k}$ clusters, find the cluster \textcolor{pink}{centroid}, and update the location of each cluster center to the new value of the centroid. 
-1. Repeat 3-5, until convergence or termination.
-    - The algorithm terminates when the centroids no longer change. 
-      - In other words, the algorithm terminates when for all clusters $\{C_1, C_2, \ldots, C_k\}$, all the records "owned" by each cluster center remain in that cluster. 
-    - Alternatively, the algorithm may terminate when some convergence criterion is met, such as no significant shrinkage in the \textcolor{pink}{mean squared error} $\text{MSE} = \frac{\text{SSE}}{N - k}$, where SSE represents the \textcolor{pink}{sum of squares error}.
+- Refer [k-means Algorithm](#k-means-b20 "b20")
+- Refer [Pseudo F-Statistic](#f-stat-b20 "b20")
 
+- One potential problem for applying the k-means algorithm is: Who decides how many clusters to search for i.e. who decides k
+  - Unless the analyst has a priori knowledge of the number of underlying clusters; therefore, an "outer loop" should be added to the algorithm, which cycles through various promising values of k. 
+  - Clustering solutions for each value of k can therefore be compared, with the value of k resulting in the largest F statistic being selected. 
+  - Alternatively, some clustering algorithms, such as the \textcolor{pink}{BIRCH} clustering algorithm, can select the optimal number of clusters.
+
+- What if some attributes are more relevant than others to the problem formulation
+  - As cluster membership is determined by distance, we may apply the axis-stretching methods for quantifying attribute relevance.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

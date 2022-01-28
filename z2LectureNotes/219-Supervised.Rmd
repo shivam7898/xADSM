@@ -90,7 +90,7 @@ xxB19Transaction <- f_getObject("xxB19Transaction", "B19-Transaction.csv",
                                 "5d4f8ef941dba7b25a6630daee81c4e3")
 ```
 
-```{r 'B16-GetTransaction', include=FALSE}
+```{r 'B19-GetTransaction', include=FALSE}
 # #This is same dataset as rfm_data_orders #wwww
 xxB19Transaction <- f_getRDS(xxB19Transaction)
 bb <- aa <- xxB19Transaction
@@ -294,7 +294,7 @@ xxB19Customer <- f_getObject("xxB19Customer", "B19-Customer.csv",
                                 "e95251e969400f392be76c867b95d890")
 ```
 
-```{r 'B16-GetCustomer', include=FALSE}
+```{r 'B19-GetCustomer', include=FALSE}
 # #This is same dataset as rfm_data_orders #wwww
 xxB19Customer <- f_getRDS(xxB19Customer)
 ```
@@ -334,7 +334,7 @@ xxB19Retail <- f_getObject("xxB19Retail", "B19-OnlineRetail.csv",
                                 "bc6183968b08d4b034e08791eaabcf87")
 ```
 
-```{r 'B16-GetRetail', include=FALSE}
+```{r 'B19-GetRetail', include=FALSE}
 # #This is same dataset as rfm_data_orders #wwww
 xxB19Retail <- f_getRDS(xxB19Retail)
 ```

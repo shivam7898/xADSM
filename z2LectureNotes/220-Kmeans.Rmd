@@ -1,6 +1,6 @@
-# K-means (B20, Nov-21) {#b20 .unlisted .unnumbered}
+# K-means (B20, Nov-21) {#b20}
 
-```{r 'B20', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B20', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
@@ -10,17 +10,235 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "K-means Cluster Analysis"
-  - "ForLater"
-  - Paused at 40:00 To cover Clustering
+  - "ForLater" - The PPT shared in the class was corrupted, need a working file.
+  - Refer [Book Merged Here](#c59 "c59")
 
+## Clustering
+
+```{r 'B20D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Clustering")
+```
+
+```{r 'B20D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Cluster")
+```
+
+- Clustering is an unsupervised learning technique.
+
+## k-means Clustering
+
+- \textcolor{pink}{Question:} Is it same as k-nearest neighbour
+  - No, knn is a classification technique and is supervised. k-means is clustering method and is unsupervised.
+
+- Clustering algorithms seek to construct clusters of records such that the between-cluster variation is large compared to the within-cluster variation.
+- The variables needs to be scaled before the eculidean distance can be calculated to identify clusters
+- Outliers are also a problem. Normalisation does not help with outliers
+- The k-means algorithm can be applied only when the mean of cluster is defined.
+  - Thus, the limitation is that we cannot apply k-means to categorical values
+
+
+```{r 'B20D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Euclidean-Distance")
+```
+
+- \textcolor{pink}{Question:} Should we need to ensure that in each cluster number of datapoints remain same
+  - No
+
+## Algorithm {#k-means-b20}
+
+1. Ask the user how many clusters ${k}$ the data set should be partitioned into. 
+    - Ex: $k = 3$
+1. Randomly assign ${k}$ records to be the initial cluster center locations. 
+1. For each record, find the nearest cluster center. 
+    - Thus, in a sense, each cluster center "owns" a subset of the records, thereby representing a partition of the data set. 
+    - We therefore have ${k}$ clusters, $\{C_1, C_2, \ldots, C_k\}$
+      - Ex: ${C_1 = (3, 9), C_2 = (7, 12), C_3 = (6, 18)}$
+    - The "nearest" criterion is usually Euclidean distance
+1. For each of the ${k}$ clusters, find the cluster \textcolor{pink}{centroid}, and update the location of each cluster center to the new value of the centroid. 
+    - Obviously, centroid location need not to be an actual point within data like mean of a set of values need not to exist within that set itself.
+1. Repeat 3-5, until convergence or termination.
+    - The algorithm terminates when the centroids no longer change. 
+      - In other words, the algorithm terminates when for all clusters $\{C_1, C_2, \ldots, C_k\}$, all the records "owned" by each cluster center remain in that cluster. 
+    - Alternatively, the algorithm may terminate when some convergence criterion is met, such as no significant shrinkage in the \textcolor{pink}{mean squared error} $\text{MSE} = \frac{\text{SSE}}{N - k}$, where SSE represents the \textcolor{pink}{sum of squares error}.
+
+- \textcolor{pink}{Question:} Does the number of iterations is a function of initial random number
+  - Yes
+- \textcolor{pink}{Question:} Would we all, with different initial random number, reach the same cluster solutions
+  - Yes
+
+## How many k
+
+- What is the number which would be practically feasible and statistically feasible too
+  - 'k' should be the 'best guess' on the number of clusters present in the given data.
+    - However, we may not have any idea about the possible number of clusters for high dimensional data and for data that is not scatterplotted 
+    - There is NO principled way to know what the value of 'k' ought to be.
+    - We may try with successive values of 'k' starting with 2.
+  - Within Cluster Sum of Squares \textcolor{pink}{(WSQ)} represents within cluster variation i.e. inside cluster homogeneity.
+    - we are expecting low value of WSQ (or MSE or SSE)
+  - Between Cluster Sum of Sqares \textcolor{pink}{(BSQ)} represents between cluster variation i.e. between cluster heterogeneity
+    - we are expection high value of BSQ (or MSB or SSB)
+  - SSE vs. k- looks like Scree Plot and Elbow method can be used to identify the optimum number of k
+
+- The iterative process is stopped when two consecutive 'k' values produce more or less identical results in terms of cluster within and between variances
+  - However, it is possible that this 'k' value represents a local minima and not the global minima.
+
+## F-Statistic {#f-stat-b20}
+
+- F-Statistic
+  - Clustering algorithms seek to construct clusters of records such that the between-cluster variation is large compared to the within-cluster variation. Because this concept is analogous to the analysis of variance, we may define a pseudo-F statistic as follows: $F_{k-1, N-k} = \frac{\text{MSB}}{\text{MSE}} = \frac{\text{SSB}/{k-1}}{\text{SSE}/{N-k}}$
+  - where, MSB is the \textcolor{pink}{mean square between}, and SSB is the \textcolor{pink}{sum of squares between} clusters
+  - MSB represents the between-cluster variation and MSE represents the within-cluster variation. 
+  - Thus, a "good" cluster would have a large value of the pseudo-F statistic, representing a situation where the between-cluster variation is large compared to the within-cluster variation. 
+  - Hence, as the k-means algorithm proceeds, and the quality of the clusters increases, we would expect MSB to increase, MSE to decrease, and F to increase.
+
+## Packages
+
+```{r 'B20-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("factoextra", dependencies = TRUE)
+}
+```
+
+## Data Movie {.tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B20-movie.csv".}
+
+```{r 'B20-Movies', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B20-movie.csv"))
+xxB20Movies <- f_getObject("xxB20Movies", "B20-movie.csv",
+                                "b59d4b0487ce4820ef0893e21b34b417")
+```
+
+```{r 'B20-GetMovies', include=FALSE}
+#wwww
+xxB20Movies <- f_getRDS(xxB20Movies)
+```
+
+- About: [291, 6]
+  - Each Row represents a unique customer and the average scores they have given to different movie genres
+  - Normalisation
+    - (Aside) Normalisation has been done here. However, this data is average rating on a 1-100 scale. So, it actually does not need the normalisation.
+
+### EDA {.unlisted .unnumbered}
+
+- Refer [Seed for Random Number Generation](#seed-b16 "b16")
+
+```{r 'B20-PrepMovie'}
+aa <- xxB20Movies
+str(aa)
+#
+# #Drop ID | Scale | 
+bb <- aa %>% 
+  select(-1) %>% 
+  mutate(across(everything(), ~ as.vector(scale(.))))
+#
+summary(bb)
+```
+
+## k-means 
+
+- Because I have chosen a different seed than the professor, my algorithm converged through different iterations but to the same clusters. However cluster 1 and cluster 2 got interchanged in the process.
+  - In lecture the cluster 1 is cluster 2 here (size 218) and vice-versa.
+
+```{r 'B20-kmeans'}
+# #Fix Seed
+set.seed(3)
+# #Cluster analysis with different k = {2, 3, 4}
+k2_bb <- kmeans(bb, centers = 2)
+k3_bb <- kmeans(bb, centers = 3)
+k4_bb <- kmeans(bb, centers = 4)
+#
+names(k2_bb)
+#
+# #Two Clusters
+ii <- k2_bb
+# #within-cluster sum of squares (Preferred lower value i.e. Homogeneity within cluster)
+ii$withinss  
+identical(ii$tot.withinss, sum(ii$withinss))
+# #between-cluster sum of squares
+ii$betweenss 
+# #The total sum of squares
+ii$totss 
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+#
+# #Members within Clusters
+ii$size
+#
+# #Matrix of cluster centres
+round(ii$centers, 3)
+#
+# #Cluster Membership of each point
+str(ii$cluster)
+#
+# #Save cluster membership of each point back into the dataset
+res_movies <- cbind(aa, 
+  list(k2 = k2_bb$cluster, k3 = k3_bb$cluster, k4 = k4_bb$cluster)) %>% as_tibble()
+```
+
+- Explanation: 
+  - In normalised data, average is 0
+    - Thus, positive values are above average, negative values are below average
+- Two Clusters: Cluster 2 (Size 218) and Cluster 1 (Size 73)
+  - Cluster 2 gave Horror & Action movies above average ratings (Favourable)
+  - Cluster 2 gave lower than average ratings for Romcom, Comedy, Fantasy (Unfavourable)
+  - Behavour of Cluster 1 is completely opposite to Cluster 2
+  - However, we cannot make a conclusion here because Between / Total is 47%
+    - i.e. Too much heterogeneity within Cluster 2
+- Three Clusters: of Sizes 72, 105, 114 with Between /Total = 62% (improved i.e. within reduced)
+  - We can analyse these clusters similar to above 
+- Four Clusters: of Sizes 73, 51, 69, 98 with Between /Total = 64% 
+  - improved i.e. within reduced but not by much 
+  - NOTE: Here my cluster sizes are NOT matching with the lecture and the Between /Total is similar but not exactly same.
+    - There are 2 reasons for that :
+      - I fixed the seed once and then run the commands i.e. (Seed | k=2 | k=3 | k=4). Professor is fixing the seed each time i.e. (Seed | k=2 | Seed | k=3 | Seed | k=4)
+      - I used different seed. Effect of starting from different seed is more pronounced as 'k' is increasing
+
+```{r 'B20-kmeans3n4'}
+# #Three Clusters
+ii <- k3_bb
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+# #Four Clusters
+ii <- k4_bb
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+```
+
+## Elbow Plot
+
+```{r 'B-Elbow'}
+hh <- bb
+cap_hh <- "B20P01"
+ttl_hh <- "Movie: Elbow Curve"
+loc_png <- paste0(.z$PX, cap_hh, "-Movie-Elbow-Wss", ".png")
+#
+# #factoextra::fviz_nbclust() generates ggplot
+# #method = "wss" (for total within sum of square)
+B20P01 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "wss") +
+  labs(caption = cap_hh, title = ttl_hh)
+```
+
+```{r 'B20P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B20P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B20P01', echo=FALSE, fig.cap="Movie: Elbow Curve of k vs. WSS"}
+knitr::include_graphics(paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png"))
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r 'B20-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+```{r 'B20-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, B20P01, cap_hh, hh, k2_bb, k3_bb, k4_bb, loc_png, res_movies, 
+          ttl_hh, xxB20Movies)
 ```
 
-```{r 'B20-Validation', include=TRUE, cache=FALSE, eval=FALSE}
+```{r 'B20-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

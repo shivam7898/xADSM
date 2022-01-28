@@ -163,9 +163,6 @@ f_pNum(summary(model1_jj)$coefficients)
 
 #format(model1_jj$coefficients, scientific = FALSE)
 #format(model1_jj$contrasts, scientific = FALSE)
-#?options
-
-
 ```
 
 

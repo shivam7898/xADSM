@@ -415,13 +415,13 @@ ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% 
 
 ### f_pKblM() {.unlisted .unnumbered}
 
-```{r 'A12B-pKblM', eval=FALSE}
+```{r 'C34F-pKblM', eval=FALSE, ref.label=c('A12B-pKblM')}
 #
 ```
 
 ### f_pKbl() {.unlisted .unnumbered}
 
-```{r 'A12A-pKbl', eval=FALSE}
+```{r 'C34F-pKbl', eval=FALSE, ref.label=c('A12A-pKbl')}
 #
 ```
 

@@ -225,7 +225,7 @@ na_bb <- md.pattern(bb, plot = FALSE)
 na_bb
 ```
 
-```{r 'B16P01-Save', include=FALSE, cache=FALSE}
+```{r 'B16P01-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png)
@@ -241,12 +241,16 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png"))
 ```
 
-### Seed 
+### Seed {#seed-b16}
 
 - \textcolor{pink}{set.seed()}
   - Random Number Generation can be fixed by a Seed for Reproducibility or Replication
   - The number given as seed '3' is not meaningful. It can be anything. 
   - However, it is recommended to use same number as seed throughout the calculations to avoid perception of fixing the values.
+  
+- \textcolor{pink}{Question:} Is it for learning purpose and not for real world data
+  - No, it is required for reproducibility 
+
 
 ```{r 'B16-Seed'}
 # #Choose Two Numbers from 1:10, Randomly
@@ -256,9 +260,10 @@ sample(1:10, 2)
 # #All above calls to generate Two random numbers produce different outcomes
 # #Using set.seed() we can regenerate same random numbers everytime
 set.seed(3)
-sample(1:10, 2)
+sample(1:10, 2) 
 sample(1:10, 2)
 #
+# #If we re-fix the seed, the counter works along same pathway and re-generate numbers
 set.seed(3)
 sample(1:10, 2)
 sample(1:10, 2)

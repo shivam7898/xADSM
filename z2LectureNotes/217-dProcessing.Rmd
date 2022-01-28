@@ -266,7 +266,7 @@ knitr::include_graphics(paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png")
 
 ### f_pNum() {.unlisted .unnumbered}
 
-```{r 'B17-f_pNum', ref.label=c('A10B-pNum'), eval=FALSE}
+```{r 'B17F-pNum', ref.label=c('A10B-pNum'), eval=FALSE}
 #
 ```
 

@@ -1405,7 +1405,7 @@ lgd_hh  <- "Churn"
 #
 ```
 
-```{r 'C33-GGally-B9-A', ref.label=c('C33-GGally-B9', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE, cache=FALSE}
+```{r 'C33-GGally-B9-A', ref.label=c('C33-GGally-B9', 'C33-GGallyHelpers', 'C33-GGallyBiVariate'), include=FALSE}
 #
 ```
 

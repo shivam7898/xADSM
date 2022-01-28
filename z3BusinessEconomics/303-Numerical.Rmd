@@ -925,7 +925,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P06", "-Beta-Negative", ".png"))
 
 #### skewness() {.unlisted .unnumbered}
 
-```{r 'C03-Skewness_Gen'}
+```{r 'C03-Skewness-Gen'}
 # #Skewness Calculation: Package "e1071" (Package "moments" deprecated)
 even_skew <- c(49, 50, 51)
 pos_skew <- c(even_skew, 60)
