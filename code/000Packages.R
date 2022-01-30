@@ -8,7 +8,8 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "data.table", "gifski", "nycflights13", "gapminder", "Lahman", "nortest")
   pkg <- c(pkg, "mice", "VIM", "qcc", "ggpmisc", "microbenchmark", "GGally", "corrplot")
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
-  pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "rfm", "factoextra")
+  pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "rfm", "factoextra", "cluster")
+  pkg <- c(pkg, "arules", "arulesViz")
   #lapply(pkg, FUN = library, character.only = TRUE)
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
 #
@@ -25,6 +26,8 @@ if (!("conflicted" %in% (.packages()))) {
   invisible(suppressMessages(conflict_prefer("year", "lubridate")))  
 # # lubridate::month | data.table::month
   invisible(suppressMessages(conflict_prefer("month", "lubridate")))  
+# # dplyr::between | data.table::between
+  invisible(suppressMessages(conflict_prefer("between", "dplyr")))  
 # #Cleanup
   rm(pkg)
 } else print("Packages not loaded again.")

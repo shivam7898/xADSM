@@ -10,18 +10,17 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Hierarchical Clustering"
+- [Import Data Movies - B20](#set-movies-b20 "b20")
 
-## Data Movie
+```{r 'B21-GetMovies', ref.label=c('B20-GetMovies', 'B20-PrepMovie')}
+# #xxB20Movies, aa, bb, xw, zw
+```
 
-\textcolor{pink}{Please import the "B20-movie.csv".}
-
-```{r 'B21-GetMovies', include=FALSE}
-#wwww
-aa <- xxB20Movies <- f_getRDS(xxB20Movies)
-bb <- aa %>% 
-  select(-1) %>% 
-  mutate(across(everything(), ~ as.vector(scale(.))))
-#
+```{r 'B21-GetMoviesKnit', include=FALSE, eval=FALSE}
+xxB20Movies <- f_getRDS(xxB20Movies)
+bb <- aa <- xxB20Movies
+xw <- aa %>% select(-1) 
+zw <- xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
 ```
 
 ## Elbow Plot of Silhouette
@@ -49,7 +48,7 @@ f_getDef("Silhouette")
   - (Aside) \textcolor{pink}{"An approximate answer to the right problem is worth a good deal more than an exact answer to an approximate problem." - By Someone}
 
 ```{r 'B21-ElbowSil'}
-hh <- bb
+hh <- zw
 cap_hh <- "B21P01"
 ttl_hh <- "Movie: Elbow Curve (Silhouette)"
 #
@@ -69,7 +68,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 ```
 
-## Data Crime
+## Data Crime {#set-crime-b21}
 
 \textcolor{pink}{Please import the "B21-state-crime.csv".}
 
@@ -80,7 +79,6 @@ xxB21Crime <- f_getObject("xxB21Crime", "B21-state-crime.csv",
 ```
 
 ```{r 'B21-GetCrime', include=FALSE}
-#wwww
 xxB21Crime <- f_getRDS(xxB21Crime)
 ```
 
@@ -93,23 +91,25 @@ xxB21Crime <- f_getRDS(xxB21Crime)
 ```{r 'B21-PrepCrime'}
 aa <- xxB21Crime
 # #Only Year 2019 | Exculte USA Total | Only Rates Variables NOT Total | Scale | 
-bb <- aa %>% 
+xw <- aa %>% 
   filter(Year == "2019", State != "United States") %>% 
-  select(State, Data.Population, starts_with("Data.Rates") & !ends_with("All")) %>% 
-  select(-State) %>% 
-  mutate(across(everything(), ~ as.vector(scale(.))))
+  select(Data.Population, starts_with("Data.Rates") & !ends_with("All"))
+#
 # #Rename Columns for ease of use
-ii <- names(bb)
+ii <- names(xw)
 ii <- str_replace(ii, pattern = paste0(c("Data.Rates.", "Data."), collapse = "|"), "")
 ii <- str_replace_all(ii, c("Violent." = "v_", "Property." = "p_"))
-names(bb) <- ii
+names(xw) <- ii
 #
-str(bb)
+zw <- xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+#
+dim(xw)
+summary(xw)
 ```
 
 ```{r 'B21-CrimeElbow', include=FALSE}
 # #Elbow Plots
-hh <- bb
+hh <- zw
 cap_hh <- "B21P02"
 ttl_hh <- "Crime: Elbow Curve (Silhouette)"
 #
@@ -151,19 +151,19 @@ knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 ```{r 'B21-kmeans'}
 # #Cluster analysis with different k = {3, 4}
 set.seed(3)
-k3_bb <- kmeans(bb, centers = 3)
-k4_bb <- kmeans(bb, centers = 4)
+k3_zw <- kmeans(zw, centers = 3)
+k4_zw <- kmeans(zw, centers = 4)
 # #Save cluster membership of each point back into the dataset
-res_crime <- cbind(bb, list(k3 = k3_bb$cluster, k4 = k4_bb$cluster)) %>% as_tibble()
+res_crime <- cbind(xw, list(k3 = k3_zw$cluster, k4 = k4_zw$cluster)) %>% as_tibble()
 #
 # #Three Clusters
-ii <- k3_bb
+ii <- k3_zw
 ii$size
 paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 round(ii$centers, 3)
 #
 # #Four Clusters
-ii <- k4_bb
+ii <- k4_zw
 ii$size
 paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 round(ii$centers, 3)
@@ -241,8 +241,8 @@ f_getDef("Average-Linkage")
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B21-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, B21P01, B21P02, B21P03, cap_hh, hh, k3_bb, k4_bb, loc_png, 
-          res_crime, ttl_hh, xxB20Movies, xxB21Crime)
+f_rmExist(aa, bb, ii, jj, kk, ll, B21P01, B21P02, B21P03, cap_hh, hh, k3_zw, k4_zw, loc_png, 
+          res_crime, ttl_hh, xxB20Movies, xxB21Crime, xw, zw)
 ```
 
 ```{r 'B21-Validation', include=FALSE, cache=FALSE}

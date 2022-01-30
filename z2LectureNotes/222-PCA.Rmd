@@ -1,29 +1,593 @@
-# PCA (B22, Dec-05) {#b22 .unlisted .unnumbered}
+# PCA (B22, Dec-05) {#b22}
 
-```{r 'B22', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B22', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
 ## Overview
 
 - "Principal Component Analysis"
-  - "ForLater"
+- [Import Data Movies - B20](#set-movies-b20 "b20")
 
-## Summary
+```{r 'B22-GetMovies', ref.label=c('B20-GetMovies', 'B20-PrepMovie')}
+# #xxB20Movies, aa, bb, xw, zw
+```
+
+```{r 'B22-GetMoviesKnit', include=FALSE, eval=FALSE}
+xxB20Movies <- f_getRDS(xxB20Movies)
+bb <- aa <- xxB20Movies
+xw <- aa %>% select(-1) 
+zw <- xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+```
+
+## Packages
+
+```{r 'B22-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("cluster", dependencies = TRUE)
+  install.packages("arules", dependencies = TRUE)
+  install.packages("arulesViz", dependencies = TRUE)
+}
+```
+
+## Hierarchical 
+
+- Agglomerative Clustering is also known as 'Bottom-up' and Devisive Clustering is also known as 'Top-down'
+- Upto 16:18 Mathematical Formulation of Linkages which are NOT included here.
+
+- \textcolor{pink}{Question:} Nothing much can be inferred from Cluster 2, even though it has high number of data points (136). Does it call for further split
+  - In other words, though the Action & Comedy does not show strong preference and other are negative. Thus there is a high possibility that it is heterogeneous in nature. 
+  - Probably Yes
+  - So we looked at k=4 also, but the average silhouette value got reduced in Figure \@ref(fig:B22P0304)
+- \textcolor{pink}{Question:} When k=2 the average silhouette value improved, so should we accept this as optimum number of clusters
+  - The value has improved but one of these two clusters has large size (N =233) which is not that good a solution in terms of clustering
+- \textcolor{pink}{Question:} Is it ok to mix and match k-means and hierarchical clustering
+  - It does happen but we should not mix them. In one case we assume that we have some idea about cluster numbers, in the other one we do not place any assumption.
+  
+
+```{r 'B22-dMat'}
+str(zw)
+#
+# #Create distance matrix
+dist_zw <- dist(zw)
+#
+hclust_com_zw <- hclust(dist_zw, method = "complete")
+hclust_avg_zw <- hclust(dist_zw, method = "average")
+hclust_sng_zw <- hclust(dist_zw, method = "single")
+#
+# #Cut Tree by Cluster membership
+k2_com_zw <- cutree(hclust_com_zw, 2)
+k3_com_zw <- cutree(hclust_com_zw, 3)
+k4_com_zw <- cutree(hclust_com_zw, 4)
+table(k3_com_zw)
+str(k3_com_zw)
+# #Save cluster membership of each point back into the dataset
+res_movies <- cbind(xw, list(k3 = k3_com_zw, k4 = k4_com_zw)) %>% as_tibble()
+#
+# #Cluster Mean
+if(FALSE) aggregate(zw, by = list(k3_com_zw), FUN = function(x) round(mean(x), 3))
+# #Equivalent
+res_movies %>% select(-k4) %>% group_by(k3) %>% summarise(N = n(), across(everything(), mean))
+```
+
+## Dendrogram
+
+```{r 'B22-Ddg', include=FALSE}
+# #Only the Complete Linkage has been plotted
+hh <- hclust_com_zw #hclust_sng_zw hclust_avg_zw
+ttl_hh <- "Movie: Dendrogram (Complete Linkage) with k =3 G, 4 B, 6 R"
+cap_hh <- "B22P01"
+loc_png <- paste0(.z$PX, "B22P01", "-Movie-Dendrogram", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
+  #dev.control('enable') 
+# #hang places the values to below the axis. Otherwise the labels show at the end of dendrogram
+  plot(hh, hang = -3, main = ttl_hh)
+  # #Add a Rectangle on it based on k clusters
+  rect.hclust(hh, k = 3, border = "green")
+  rect.hclust(hh, k = 4, border = "blue")
+  rect.hclust(hh, k = 6, border = "red")
+  #title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B22 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B22)
+  rm(B22)
+}
+```
+
+```{r 'B22P01', echo=FALSE, out.width='100%', fig.cap="Movie: Dendrogram (Complete Linkage) with k =3 G, 4 B, 6 R"}
+knitr::include_graphics(paste0(.z$PX, "B22P01", "-Movie-Dendrogram", ".png"))
+```
+
+## Silhouette
+
+```{r 'B22-SilDistK2', include=FALSE}
+# Silhouette Plot of K2
+hh <- k2_com_zw
+dist_hh <- dist_zw
+ttl_hh <- "Movie: Silhouette with Distance for k=2"
+cap_hh <- "B22P02"
+loc_png <- paste0(.z$PX, "B22P02", "-Movie-Sil-Dist-k2", ".png")
+```
+
+```{r 'B22-SilDist', include=FALSE, eval=FALSE}
+# #Silhouette Plot with Distance
+# #IN: hh, dist_hh, ttl_hh, cap_hh, loc_png
+if(!file.exists(loc_png)) {
+  # #If PNG file looks different than the one Plotted in R, Increase Resolution
+  png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
+  #dev.control('enable') 
+  plot(silhouette(hh, dist = dist_hh), main = ttl_hh, col = viridis(max(hh)))
+  title(sub = cap_hh, line = 4, adj = 1)
+  B22 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B22)
+  rm(B22)
+}
+```
+
+```{r 'B22P02-Save', include=FALSE, ref.label=c('B22-SilDist')}
+#
+```
+
+```{r 'B22P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B22P02", "-Movie-Sil-Dist-k2", ".png"))
+```
+
+```{r 'B22-SilDistK3', include=FALSE}
+# Silhouette Plot of K3
+hh <- k3_com_zw
+dist_hh <- dist_zw
+ttl_hh <- "Movie: Silhouette with Distance for k=3"
+cap_hh <- "B22P03"
+loc_png <- paste0(.z$PX, "B22P03", "-Movie-Sil-Dist-k3", ".png")
+```
+
+```{r 'B22P03-Save', include=FALSE, ref.label=c('B22-SilDist')}
+#
+```
+
+```{r 'B22P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B22P03", "-Movie-Sil-Dist-k3", ".png"))
+```
+
+```{r 'B22-SilDistK4', include=FALSE}
+# Silhouette Plot of K4
+hh <- k4_com_zw
+dist_hh <- dist_zw
+ttl_hh <- "Movie: Silhouette with Distance for k=4"
+cap_hh <- "B22P04"
+loc_png <- paste0(.z$PX, "B22P04", "-Movie-Sil-Dist-k4", ".png")
+```
+
+```{r 'B22P04-Save', include=FALSE, ref.label=c('B22-SilDist')}
+#
+```
+
+```{r 'B22P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B22P04", "-Movie-Sil-Dist-k4", ".png"))
+```
+
+```{r 'B22P0304', echo=FALSE, ref.label=c('B22P03', 'B22P04'), fig.cap="Movie: Silhouette with Distance for k={3, 4}"}
+#
+```
+
+```{r 'B22P0302', echo=FALSE, ref.label=c('B22P03', 'B22P02'), fig.cap="Movie: Silhouette with Distance for k={3, 2}"}
+#
+```
+
+## Association Rule Mining {#arules-b22}
+
+```{r 'B22D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Affinity-Analysis")
+```
+
+- It is unsupervised learning
+- Ex: People who purchased Milk, also purchased Bread.
+
+- \textcolor{pink}{Question:} Is it similar to Conjoint Analysis
+  - No
+  - (Aside) 
+    - Conjoint analysis is a survey-based statistical technique used in market research that helps determine how people value different attributes (feature, function, benefits) that make up an individual product or service. 
+    - In Conjoint analysis, individual customer /user is distinguished whereas in Affinity analysis or the Market Basket analysis, individuals are not identified.
+
+- Problem: Dimensionality
+  - The number of possible association rules grows exponentially in the number of attributes.
+  - We can focus on relevant products i.e. high margin or low expiration range etc.
+  - Further we can use the a priori algorithm
+    - The a priori algorithm for mining association rules takes advantage of structure within the rules themselves to reduce the search problem to a more manageable size. 
+
+- Refer [Association Rules](#arules-c53 "c53")
+
+```{r 'B22D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Support")
+```
+
+```{r 'B22D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Confidence")
+```
+
+```{r 'B22D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Lift")
+```
+
+- We generally try to find rules which have high Support, high Confidence and high Lift.
+
+## Data Makeup {#set-makeup-b22 .tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B22-Makeup.csv".}
+
+```{r 'B22-Makeup', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B22-Makeup.csv"))
+xxB22Makeup <- f_getObject("xxB22Makeup", "B22-Makeup.csv",
+                                "2c55ec694648cfdd1a8dc40fcf37bf96")
+```
+
+```{r 'B22-GetMakeup', include=FALSE}
+xxB22Makeup <- f_getRDS(xxB22Makeup)
+```
+
+- About: [1000, 14]
+  - Each Column represents purchase decisions for each of the 1000 transactions
+  - We need to have them as 'factor'
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'B22-PrepMakeup'}
+bb <- aa <- xxB22Makeup
+#
+xw <- aa %>% mutate(across(everything(), factor, levels = c("No", "Yes")))
+#str(xw)
+dim(xw)
+summary(xw)
+```
+
+## apriori()
+
+- \textcolor{pink}{arules::apriori()} :
+  - The default behavior is to mine rules with minimum support of 0.1, minimum confidence of 0.8, maximum of 10 items (maxlen), and a maximal time for subset checking of 5 seconds (maxtime).
+  - 'parameter' : These are Support and Confidence
+    - help(`` `ASparameter-class` ``)
+  - 'appearance' : These are Antecedents and Consequents
+    - It can restrict item appearance
+  - \textcolor{orange}{Caution:} Never use \textcolor{pink}{inspect()} without filtering out rows otherwise R may hang.
+    - `attributes(summary(rules))$length`
+
+- \textcolor{orange}{Warning:} 
+  - "Warning in apriori(xw) : Mining stopped (maxlen reached). Only patterns up to a length of 10 returned!"
+  - Increase the 'maxlen' parameter value
+
+```{r 'B22-apriori-basic'}
+# #Caution is advised on running inspect() without prior subsetting /filtering the rules
+# #Find association rules
+#rules <- apriori(xw, maxlen = ncol(xw))
+rules <- apriori(xw, parameter = list(maxlen = ncol(xw)))
+#
+# #More Information
+names(attributes(rules))
+#
+str(attributes(rules)$quality)
+str(attributes(rules)$info)
+attributes(rules)$lhs
+attributes(rules)$rhs
+#
+summary(rules)
+#
+names(attributes(summary(rules)))
+attributes(summary(rules))$length #Check Number of Rules Here.
+attributes(summary(rules))$lengths
+#
+# #inspect() Do not execute without knowing how many rows will be printed.
+#inspect(rules[1:6]) 
+#inspect(head(rules, 6))
+inspect(head(rules, min(5, attributes(summary(rules))$length)))
+```
+
+## Analysis {.tabset .tabset-fade}
+
+### Create {.unlisted .unnumbered}
+
+```{r 'B22-apriori', results='hide'}
+# #Rules with more control and oversight.
+rr_sup <- 0.7
+rr_conf <- 0.8
+rules <- apriori(xw, parameter = list(
+  minlen = 2, maxlen = ncol(xw), support = rr_sup, confidence = rr_conf))
+```
+
+```{r 'B22-pRules', include=FALSE, eval=FALSE}
+# #Printable Kable Table from Rules
+hh <- inspect(head(rules, min(50, attributes(summary(rules))$length))) %>% 
+  as_tibble(.name_repair = 'unique') %>% 
+  rename(x = '...2', LHS_Antecedent = lhs, RHS_Consequent = rhs) %>% 
+  rename_with(str_to_title, .cols = where(is.numeric)) %>% 
+  mutate(SN = row_number()) %>% relocate(SN) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, drop0trailing = TRUE, scientific = FALSE)) 
+```
+
+```{r 'B22-phh-1', include=FALSE, ref.label=c('B22-pRules')}
+#
+```
+
+```{r 'B22-SetpRules-1', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B22T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " gives Rules = ", attributes(summary(rules))$length)
+```
+
+```{r 'B22-RulesKbl', include=FALSE, eval=FALSE}
+# #IN: hh, cap_hh, names_hh
+kbltbl <- kbl(hh,
+  caption = cap_hh,
+  col.names = names_hh,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	) #%>% row_spec(row = 1:nrow(hh), color = "black")
+# #Print kk separtely when referencing 
+# #so that we will have Table object which can be printed in RMD
+kbltbl
+```
+
+```{r 'B22T01', echo=FALSE, ref.label=c('B22-RulesKbl')}
+#
+```
+
+### Inspect {.unlisted .unnumbered}
+
+```{r 'B22-Inspect'}
+# #Do not print more than 50 Rules at at time.
+inspect(head(rules, min(50, attributes(summary(rules))$length)))
+```
+
+### Tibble {.unlisted .unnumbered}
+
+```{r 'B22-Tibble'}
+# # Limit Max Rows | To Tibble | Rename | Add Row Numbers | Relocate | Format decimals |
+inspect(head(rules, min(50, attributes(summary(rules))$length))) %>% 
+  as_tibble(.name_repair = 'unique') %>% 
+  rename(x = '...2', LHS_Antecedent = lhs, RHS_Consequent = rhs) %>% 
+  rename_with(str_to_title, .cols = where(is.numeric)) %>% 
+  mutate(SN = row_number()) %>% relocate(SN) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, drop0trailing = TRUE, scientific = FALSE)) 
+```
+
+### Summarise Count Binary Columns {.unlisted .unnumbered}
+
+```{r 'B22-YesNo'}
+# #If Data has TRUE /FALSE in place of Yes /No, Then more options are available: sum() which()
+# #Last Option 'mm' does not use table() and remain as tibble() so fewer steps are required
+summary(xw)
+# #Count Binary Columns | Transpose | Tibble | Integer | Sort |
+ii <- t(vapply(xw, table, numeric(2))) %>% 
+  as_tibble(rownames = 'Items') %>% 
+  mutate(across(where(is.numeric), as.integer)) %>% 
+  arrange(desc(Yes))
+# #Match One of the Values | Transpose | Tibble | Rename | Wide | Rename | Sort |
+jj <- t(table(xw == 'Yes', names(xw)[col(xw)])) %>% 
+  as_tibble(.name_repair = 'unique') %>% 
+  rename(Items = 1, Key = 2) %>% 
+  pivot_wider(names_from = Key, values_from = n) %>% 
+  rename(No = 2, Yes = 3) %>% 
+  arrange(desc(Yes))
+# #Unlist | Remove Appended Numbers | Count | Transpose | Tibble | Rename | Wide | Rename | Sort |
+kk <- t(table(unlist(xw), sub('\\d+', '', names(unlist(xw))))) %>% 
+  as_tibble(.name_repair = 'unique') %>% 
+  rename(Items = 1, Key = 2) %>% 
+  pivot_wider(names_from = Key, values_from = n) %>% 
+  rename(No = 2, Yes = 3) %>% 
+  arrange(desc(Yes))
+# #Long | Table | Tibble | Wide | Rename | Sort | 
+ll <- xw %>% 
+  pivot_longer(cols = everything(), names_to = 'Items', values_to = 'Key') %>% 
+  table() %>% 
+  as_tibble() %>% 
+  pivot_wider(names_from = Key, values_from = n) %>% 
+  rename(No = 2, Yes = 3) %>% 
+  arrange(desc(Yes))
+# #Long | Count | Wide | Sort | 
+mm <- xw %>% 
+  pivot_longer(cols = everything(), names_to = 'Items', values_to = 'Key') %>% 
+  count(Items, Key) %>% 
+  pivot_wider(names_from = Key, values_from = n) %>% 
+  arrange(desc(Yes))
+stopifnot(all(vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), logical(1))))
+#
+# #Option 'mm' is preferable
+xw %>% 
+  pivot_longer(cols = everything()) %>% 
+  count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) %>% 
+  arrange(desc(Yes))
+```
+
+### Multiple identical {.unlisted .unnumbered}
+
+```{r 'B22-MultiIdentical'}
+mm <- ll <- kk <- jj <- ii <- 1:5
+# #Pairwise Identical Check
+all(identical(ii, jj), identical(ii, kk), identical(ii, ll), identical(ii, mm))
+#
+# #Pairwise Identical Check using vapply()
+# #It can provide info on which pair does not match OR can be passed to all()
+vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), logical(1))
+#
+stopifnot(all(vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), logical(1))))
+```
+
+## inspect() {.tabset .tabset-fade}
+
+- 'Foundation' has maximum Yes. It is the highest frequency item in the purchase.
+  - So taking it as Consequent, we want to look at what are its antecedents
+
+- \textcolor{pink}{Question:} Why have we reduced the support cutoff
+  - If support is high then we will not get many rules because we have already restricted RHS to "Foundation" only
+- \textcolor{pink}{Question:} Why have we reduced maxlen to 3, Can we not keep the original higher value
+  - We can do that. But rules with too many products are not going to help us much. 
+  - (Aside) In general, Beyond 3 items the combination add complexity without enough benefits.
+- \textcolor{pink}{Question:} Should not we consider the "Foundation" as LHS
+  - OR Why Foundation is taken as Consequent (RHS) and not as Antecedent (LHS)
+  - We can do that. For now we have chosen "Foundation" as Consequent (RHS)
+
+- \textcolor{pink}{inspect()}
+  - Ex: SN = 1: LHS_Antecedent_A {Lip Gloss=Yes} RHS_Consequent_B {Foundation=Yes}
+    - 490 'Lip Gloss' purchased in 1000 Total 
+    - 536 'Foundation' purchased in 1000 Total
+    - 356 'Foundation' purchased within 490 'Lip Gloss' purchases
+    - $\text{Prior Proportion} = \text{Support} = P(A \cap B) = \frac{\text{Number of transactions containing both A and B}}{\text{Total Number of Transactions}} = \frac{356}{1000} = 0.356$
+    - $\text{Confidence} = P(B|A) = \frac{P(A \cap B)}{P(A)} = \frac{\text{Number of transactions containing both A and B}}{\text{Total Number of Transactions containing A}} = \frac{356}{490} = 0.727$
+      - An item set with higher confidence i.e. value near 1 means that this item set has higher likelihood of purchase
+      - (Aside) Confidence however overestimates sometimes and is Asymmetric. So using Lift is the better option.
+    - $\text{Coverage} = \text{LHS Support} = P(A) = \frac{\text{Number of transactions containing A}}{\text{Total Number of Transactions}} = \frac{490}{1000} = 0.490$
+    - Count = Number of transactions containing both A and B = 356
+  - \textcolor{orange}{Caution:} Mismatch in theoretical understanding from the Book and the package result. For now assumed that Package is Correct. "ForLater"
+    - Book $\text{Lift} = \frac{\text{Confidence}}{\text{Support}} = \frac{0.727}{0.356} = 2.04$
+    - Package $\text{Lift} = \frac{\text{Coverage}}{\text{Support}} = \frac{0.490}{0.356} = 1.37$
+
+- \textcolor{pink}{Question:} There are some Redundant rules. Infact out of total 16 Rules, except SN {2, 3, 4}, Rule 1 is basically duplicated with other items being "No".
+  - We need to purify the rules
+  - "ForLater"
+- \textcolor{pink}{Question:} When restricting the "LHS" to Bag and Blush Yes only, their No rules are still present.
+  - Reduce the support and confidence cutoff and use default="none"
+
+- A rule is \textcolor{pink}{redundant} if a more general rules with the same or a higher confidence exists. 
+  - That is, a more specific rule is redundant if it is only equally or even less predictive than a more general rule. 
+  - A rule is more \textcolor{pink}{general} if it has the same RHS but one or more items removed from the LHS.
+
+### Specify RHS {.unlisted .unnumbered}
+
+```{r 'B22-Rules-2', results='hide'}
+# #Rules with more control and oversight. RHS: "Foundation=Yes"
+rr_sup <- 0.1
+rr_conf <- 0.7
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf),
+  appearance = list(rhs = paste0(names(xw)[11], "=", levels(xw[[11]])[2]), 
+                    default = "lhs")))
+```
+
+```{r 'B22-phh-2', include=FALSE, ref.label=c('B22-pRules')}
+#
+```
+
+```{r 'B22-SetpRules-2', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B22T02) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " gives Rules = ", attributes(summary(rules))$length)
+```
+
+```{r 'B22T02', echo=FALSE, ref.label=c('B22-RulesKbl')}
+#
+```
+
+### Verify a Rule {.unlisted .unnumbered}
+
+```{r 'B22-SingleRule'}
+# #Specific Rule: SN = 1: LHS_Antecedent {Lip Gloss=Yes} RHS_Consequent {Foundation=Yes}
+ii <- xw %>% select(11, 12) %>% rename(Lip_Gloss = 2) %>% count(Foundation, Lip_Gloss)
+# #490 'Lip Gloss' purchased in 1000 Total
+ii %>% group_by(Lip_Gloss) %>% summarise(SUM = sum(n)) %>% mutate(PROP = SUM/sum(SUM))
+# #536 'Foundation' purchased in 1000 Total
+ii %>% group_by(Foundation) %>% summarise(SUM = sum(n)) %>% mutate(PROP = SUM/sum(SUM))
+# #356 'Foundation' purchased within 490 'Lip Gloss' purchases
+ii %>% filter(Lip_Gloss == 'Yes') %>% mutate(PROP = n/sum(n))
+```
+
+### Focus Specific LHS {.unlisted .unnumbered}
+
+```{r 'B22-Rules-3', results='hide'}
+# #RHS: "Foundation=Yes"
+# #LHS: Only Bag Yes, Blush Yes | To identify these Rules supply lower support and confidence
+# #default = "both", "lhs", "rhs", "none". Specified the default appearance for all items ...
+# #...not explicitly mentioned in the other elements of the list.
+# #If default = "lhs" is supplied then redundant rules come up.
+rr_sup <- 0.01
+rr_conf <- 0.1
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf),
+  appearance = list(rhs = paste0(names(xw)[11], "=", levels(xw[[11]])[2]), 
+                    lhs = c("Bag=Yes", "Blush=Yes"), 
+                    default = "none")))
+```
+
+```{r 'B22-phh-3', include=FALSE, ref.label=c('B22-pRules')}
+#
+```
+
+```{r 'B22-SetpRules-3', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B22T03) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " gives Rules = ", attributes(summary(rules))$length)
+```
+
+```{r 'B22T03', echo=FALSE, ref.label=c('B22-RulesKbl')}
+#
+```
+
+### Yes LHS Only {.unlisted .unnumbered}
+
+```{r 'B22-Rules-4', results='hide'}
+# #RHS: "Foundation=Yes"
+# #LHS: All Yes Only 
+rr_sup <- 0.01
+rr_conf <- 0.1
+rr_rhs <- 11L #index of "Foundation"
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf),
+  appearance = list(rhs = paste0(names(xw)[rr_rhs], "=", levels(xw[[rr_rhs]])[2]), 
+                    lhs = paste0(names(xw)[-rr_rhs], "=", levels(xw[[rr_rhs]])[2]), 
+                    default = "none")))
+```
+
+```{r 'B22-phh-4', include=FALSE, ref.label=c('B22-pRules')}
+#
+```
+
+```{r 'B22-SetpRules-4', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B22T04) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " gives Rules = ", attributes(summary(rules))$length)
+```
+
+```{r 'B22T04', echo=FALSE, ref.label=c('B22-RulesKbl')}
+#
+```
+
+### Paste String to each element {.unlisted .unnumbered}
+
+```{r 'B22-PasteStr'}
+# #Paste String "=Yes" to each element of a Vector except "Foundation"
+names(xw)
+paste0(names(xw)[-11], "=", levels(xw[[11]])[2])
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
--->
-
-```{r 'B22-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+```{r 'B22-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, dist_hh, dist_zw, hclust_avg_zw, hclust_com_zw, 
+          hclust_sng_zw, hh, k2_com_zw, k3_com_zw, k4_com_zw, kbltbl, loc_png, mm, names_hh, 
+          res_movies, rr_conf, rr_rhs, rr_sup, rules, ttl_hh, xw, xxB20Movies, xxB22Makeup, zw)
 ```
 
-```{r 'B22-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B22-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

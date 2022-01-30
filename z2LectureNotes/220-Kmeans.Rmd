@@ -13,6 +13,14 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - "ForLater" - The PPT shared in the class was corrupted, need a working file.
   - Refer [Book Merged Here](#c49 "c49")
 
+## Packages
+
+```{r 'B20-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("factoextra", dependencies = TRUE)
+}
+```
+
 ## Clustering
 
 ```{r 'B20D01', comment="", echo=FALSE, results='asis'}
@@ -82,15 +90,7 @@ f_getDef("Euclidean-Distance")
 - The iterative process is stopped when two consecutive 'k' values produce more or less identical results in terms of cluster within and between variances
   - However, it is possible that this 'k' value represents a local minima and not the global minima.
 
-## Packages
-
-```{r 'B20-Installations', eval=FALSE}
-if(FALSE){# #WARNING: Installation may take some time.
-  install.packages("factoextra", dependencies = TRUE)
-}
-```
-
-## Data Movie {.tabset .tabset-fade}
+## Data Movies {#set-movies-b20 .tabset .tabset-fade}
 
 \textcolor{pink}{Please import the "B20-movie.csv".}
 
@@ -101,29 +101,25 @@ xxB20Movies <- f_getObject("xxB20Movies", "B20-movie.csv",
 ```
 
 ```{r 'B20-GetMovies', include=FALSE}
-#wwww
 xxB20Movies <- f_getRDS(xxB20Movies)
 ```
 
 - About: [291, 6]
   - Each Row represents a unique customer and the average scores they have given to different movie genres
   - Normalisation
-    - (Aside) Normalisation has been done here. However, this data is average rating on a 1-100 scale. So, it actually does not need the normalisation.
+    - (Aside) Normalisation has been done here. However, this data is average rating on a 1-100 scale. So, (probably) it actually does not need the normalisation. "ForLater"
 
 ### EDA {.unlisted .unnumbered}
 
 - Refer [Seed for Random Number Generation](#seed-b16 "b16")
 
 ```{r 'B20-PrepMovie'}
-aa <- xxB20Movies
-str(aa)
-#
+bb <- aa <- xxB20Movies
 # #Drop ID | Scale | 
-bb <- aa %>% 
-  select(-1) %>% 
-  mutate(across(everything(), ~ as.vector(scale(.))))
+xw <- aa %>% select(-1) 
+zw <- xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
 #
-summary(bb)
+summary(xw)
 ```
 
 ## k-means 
@@ -135,14 +131,14 @@ summary(bb)
 # #Fix Seed
 set.seed(3)
 # #Cluster analysis with different k = {2, 3, 4}
-k2_bb <- kmeans(bb, centers = 2)
-k3_bb <- kmeans(bb, centers = 3)
-k4_bb <- kmeans(bb, centers = 4)
+k2_zw <- kmeans(zw, centers = 2)
+k3_zw <- kmeans(zw, centers = 3)
+k4_zw <- kmeans(zw, centers = 4)
 #
-names(k2_bb)
+names(k2_zw)
 #
 # #Two Clusters
-ii <- k2_bb
+ii <- k2_zw
 # #within-cluster sum of squares (Preferred lower value i.e. Homogeneity within cluster)
 ii$withinss  
 identical(ii$tot.withinss, sum(ii$withinss))
@@ -162,8 +158,8 @@ round(ii$centers, 3)
 str(ii$cluster)
 #
 # #Save cluster membership of each point back into the dataset
-res_movies <- cbind(aa, 
-  list(k2 = k2_bb$cluster, k3 = k3_bb$cluster, k4 = k4_bb$cluster)) %>% as_tibble()
+res_movies <- cbind(xw, 
+  list(k2 = k2_zw$cluster, k3 = k3_zw$cluster, k4 = k4_zw$cluster)) %>% as_tibble()
 ```
 
 - Explanation: 
@@ -184,14 +180,17 @@ res_movies <- cbind(aa,
       - I fixed the seed once and then run the commands i.e. (Seed | k=2 | k=3 | k=4). Professor is fixing the seed each time i.e. (Seed | k=2 | Seed | k=3 | Seed | k=4)
       - I used different seed. Effect of starting from different seed is more pronounced as 'k' is increasing
 
-```{r 'B20-kmeans3n4'}
+```{r 'B20-kmeans3'}
 # #Three Clusters
-ii <- k3_bb
+ii <- k3_zw
 ii$size
 paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 round(ii$centers, 3)
+```
+
+```{r 'B20-kmeans4'}
 # #Four Clusters
-ii <- k4_bb
+ii <- k4_zw
 ii$size
 paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 round(ii$centers, 3)
@@ -202,9 +201,8 @@ round(ii$centers, 3)
 - \textcolor{pink}{fviz_nbclust()} :
   - Note that it performs the clustering on the original data. It does not take the already created clusters as input.
 
-
 ```{r 'B20-Elbow'}
-hh <- bb
+hh <- zw
 cap_hh <- "B20P01"
 ttl_hh <- "Movie: Elbow Curve (WSS)"
 loc_png <- paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png")
@@ -222,15 +220,83 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B20P01', echo=FALSE, fig.cap="Movie: Elbow Curve of k (WSS)"}
+```{r 'B20P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
 knitr::include_graphics(paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png"))
+```
+
+```{r 'B20-ElbowBase', include=FALSE}
+# Total within-groups sum of squares for k = [1, 10]
+maxK <- 10L
+within_zw <- numeric(maxK)
+#
+for (ii in seq_along(within_zw)){
+  within_zw[ii] <- kmeans(zw, ii)$tot.withinss
+}
+#
+# Plot total within-groups sum of squares
+hh <- tibble(xx = seq_along(within_zw), yy = within_zw)
+ttl_hh <- "Movie: ElbowPlot for k=[1, 10]"
+cap_hh <- "B20P03"
+x_hh <- "Number of clusters k"
+y_hh <- "Total Within Sum of Square"
+#
+B20 <- hh %>% { ggplot(., aes(x = xx, y = yy)) + 
+    geom_point() +
+    geom_line() + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    theme(panel.grid.major = element_blank()) +
+    labs(x = x_hh, y = y_hh, 
+         subtitle = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B20)
+rm(B20)
+```
+
+```{r 'B20P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B20P03", "-Movie-Elbow-WSS-Base", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B20P03, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B20P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B20P03", "-Movie-Elbow-WSS-Base", ".png")) #iiii
+```
+
+```{r 'B20P0103', echo=FALSE, ref.label=c('B20P01', 'B20P03'), fig.cap="Movie: Elbow Curve (WSS) in FactoExtra and Base R"}
+#
+```
+
+## Plot Clusters
+
+```{r 'B20-PlotClust', include=FALSE}
+# #
+hh <- res_movies %>% select(2:6, Clusters = k3) %>% relocate(Clusters)
+ttl_hh <- "Movie: Genres with k=3"
+cap_hh <- "B20P02"
+loc_png <- paste0(.z$PX, "B20P02", "-Movie-k3", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B20 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B20)
+  rm(B20)
+}
+```
+
+```{r 'B20P02', echo=FALSE, fig.cap="Movie: Genres with k=3"}
+knitr::include_graphics(paste0(.z$PX, "B20P02", "-Movie-k3", ".png"))
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B20-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, B20P01, cap_hh, hh, k2_bb, k3_bb, k4_bb, loc_png, res_movies, 
-          ttl_hh, xxB20Movies)
+f_rmExist(aa, bb, ii, jj, kk, ll, B20P01, B20P02, B20P03, cap_hh, hh, k2_zw, k3_zw, k4_zw, loc_png,
+          res_movies, ttl_hh, xxB20Movies, within_zw, maxK, x_hh, y_hh, xw, zw)
 ```
 
 ```{r 'B20-Validation', include=FALSE, cache=FALSE}

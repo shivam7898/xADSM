@@ -1,0 +1,154 @@
+# Association Rules {#c53}
+
+```{r 'C53', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+```{definition 'Affinity-Analysis'}
+\textcolor{pink}{Affinity analysis} is the study of attributes or characteristics that "go together". It seeks to uncover rules for quantifying the relationship between two or more attributes. Association rules take the form \textcolor{pink}{"If antecedent, then consequent"}, along with a measure of the support and confidence associated with the rule.
+```
+
+- Example Beer-Diaper: 
+  - If out of 1000 customers, 200 bought diapers and of the 200 who bought diapers, 50 bought beer.
+  - Then Association Rule: "If buy diapers, then buy beer."
+  - Prior Proportion = Support = Consequent / Total = 50/1000 = 5%
+  - Confidence = Consequent / Antecedent = 50 / 200 = 25%
+- Problem: Dimensionality
+  - The number of possible association rules grows exponentially in the number of attributes.
+  - Ex: Suppose that a store has 100 items and any combination of them can be purchased by a customer. i.e. a customer can buy or not buy each of the items. Then there are $2^{100}$ association rules
+  - The a priori algorithm for mining association rules, however, takes advantage of structure within the rules themselves to reduce the search problem to a more manageable size. 
+
+## Data Representation for Market Basket Analysis
+
+- Assuming we ignore quantity purchased. Currently, we are trying to identify which items go together.
+- Transaction data: Each row represents a transaction. Two variables ID & Items ("Apple, Banana, Orange")
+  - It can be converted to long format where Two variables ID & Items and Items contain only 1 unique item and ID is not unique any more.
+- Tabular Data: (Wider) ID Column and each item has its own unique column. ID is unique. Columns are Binary with 1 as Yes /Purchased and 0 representing No /did not buy.
+  - Note: For simplicity, the variable here is Flag (Categorical, Binary). However, the a priori algorithm can take Categorical data with more than 2 levels without any issue.
+
+## Set Theory {#arules-c53}
+
+- Refer [Association Rules](#arules-b22 "b22")
+- Let $I$ represent set of items. 
+- Let $D$ be the set of transactions represented where each Transaction 'T' in D represents a set of items contained in I.
+- Suppose that we have a particular set of items A (e.g., potato and tomato), and another set of items B (e.g., onion). 
+- Then an \textcolor{pink}{association rule} takes the form if A, then B (i.e., $A \Rightarrow B$), where the \textcolor{pink}{antecedent A} and the \textcolor{pink}{consequent B} are proper subsets of I, and A and B are mutually exclusive. 
+  - This definition would exclude, for example, trivial rules such as if potato and tomato, then potato.
+
+```{definition 'Support'}
+The \textcolor{pink}{support (s)} for a particular association rule $A \Rightarrow B$ is the proportion of transactions in the set of transactions D that contain both \textcolor{pink}{antecedent A} and \textcolor{pink}{consequent B}. Support is Symmetric. $\text{Support} = P(A \cap B) = \frac{\text{Number of transactions containing both A and B}}{\text{Total Number of Transactions}}$
+```
+
+```{definition 'Confidence'}
+The \textcolor{pink}{confidence (c)} of the association rule $A \Rightarrow B$ is a measure of the accuracy of the rule, as determined by the percentage of transactions in the set of transactions D containing \textcolor{pink}{antecedent A} that also contain \textcolor{pink}{consequent B}. Confidence is Asymmetric $\text{Confidence} = P(B|A) = \frac{P(A \cap B)}{P(A)} = \frac{\text{Number of transactions containing both A and B}}{\text{Total Number of Transactions containing A}}$
+```
+
+- Analysts may prefer rules that have either high support or high confidence, and usually both. 
+  - Strong rules are those that meet or surpass certain minimum support and confidence criteria. 
+  - For example, an analyst interested in finding which supermarket items are purchased together may set a minimum support level of 20% and a minimum confidence level of 70%. 
+  - However, a fraud detection analyst or a terrorism detection analyst would need to reduce the minimum support level to 1% or less, because comparatively few transactions are either fraudulent or terror-related. 
+  - To provide an overall measure of usefulness for an association rule, analysts sometimes multiply the support with confidence. This allows the analyst to rank the rules according to a combination of prevalence and accuracy.
+
+```{definition 'Itemset'}
+An \textcolor{pink}{itemset} is a set of items contained in I, and a k-itemset is an itemset containing k items. For example, {Potato, Tomato} is a 2-itemset, and {Potato, Tomato, Onion} is a 3-itemset, each from the vegetable stand set I. 
+```
+
+```{definition 'Itemset-Frequency'}
+The \textcolor{pink}{itemset frequency} is simply the number of transactions that contain the particular itemset. 
+```
+
+```{definition 'Frequent-Itemset'}
+A \textcolor{pink}{frequent itemset} is an itemset that occurs at least a certain minimum number of times, having itemset frequency $\geq \phi$. We denote the set of frequent k-itemsets as $F_k$.
+```
+
+## Mining Association Rules
+
+- It is a Two-step Process
+  - Find all frequent itemsets; that is, find all itemsets with frequency $\geq \phi$. 
+  - From the frequent itemsets, generate association rules satisfying the minimum support and confidence conditions. 
+  
+```{definition 'A-Priori-Property'}
+\textcolor{pink}{a priori property}: If an itemset Z is not frequent, then for any item A, $Z \cup A$ will not be frequent. In fact, no superset of Z (itemset containing Z) will be frequent. 
+```
+
+- The \textcolor{pink}{a priori algorithm} takes advantage of the a priori property to shrink the search space. 
+  - This property reduces significantly the search space for the a priori algorithm. 
+  - DataType:
+    - It can handle Categorical data without any issue.
+    - Numerical attributes need to be supplied after discretisation. However, this will result in loss of information. 
+      - Alternative method for mining association rules is \textcolor{pink}{generalised rule induction (GRI)} which can handle either categorical or numerical variables as inputs, but still requires categorical variables as outputs.
+
+
+- "ForLater" - Apply a priori on Adult Dataset
+
+- "ForLater" - "Association Rules are easy to do badly" - Example: Adult Dataset
+  - If 'workclass is Private' then 'Sex is Male' with Support 69.5% and Confidence 65.6%
+    - One needs to take into account the raw (prior) proportion of males in the data set, which in this case is 66.8%. In other words, applying this association rule actually reduces the probability of randomly selecting a male from 0.6684 to 0.6563. 
+  - Why, then, if the rule is so useless, did the software report it 
+    - The quick answer is that the default ranking mechanism is confidence.
+  - (Aside), So maybe we can drop those rules which have lower confidence than the proportion in the dataset
+  - We can provide a priori association rules using the \textcolor{pink}{confidence difference} as the evaluative measure.
+    - Here, rules are favored that provide the greatest increase in confidence from the prior to the posterior. 
+    - Ex: If 'Marital status= Divorced' then 'Sex=Female', Support 13.%, Confidence 60%
+      - The data set contains 33.16% females, so an association rule that can identify females with 60% confidence is useful. 
+      - The confidence difference for this association rule is 0.60029−0.3316=0.26869 between the prior and posterior confidences.
+  - Alternatively, analysts may prefer to use the \textcolor{pink}{confidence ratio} to evaluate potential rules
+    - Confidence Ratio of above rule is 0.4476
+
+## Usefulness of Association Rules
+
+```{definition 'Lift'}
+\textcolor{pink}{Lift} is a measure that can quantify the usefulness of an association rule. Lift is Symmetric. $\text{Lift} = \frac{\text{Rule Confidence}}{\text{Prior proportion of Consequent}}$
+```
+
+Not all association rules are equally useful. Thus Lift can be used to quantify its usefulness.
+
+- Example Beer-Diaper: 
+  - If out of 1000 customers, 200 bought diapers and of the 200 who bought diapers, 50 bought beer.
+  - Then Association Rule: "If buy diapers, then buy beer."
+  - Prior Proportion = Support = Consequent / Total = 50/1000 = 5%
+  - Confidence = Consequent / Antecedent = 50 / 200 = 25%
+  - Lift = Confidence / Support = 25/5 = 5
+  - "Customers who buy diapers are five times as likely to buy beer as customers from the entire data set."
+
+- \textcolor{pink}{Question:} We know 50 beer out of 200 diaper. But we do not know how many beer overall out of total 1000. 
+  - See the next example of diaper-makeup. Here we have separate proportions available. 40 makeup in 1000, 5 makeup in 200.
+  - The above diaper-beer woule be valid if the missing information is added in the form that 50 beer in 1000 and 50 beer in 200 diaper. In that case it is obvious that people who buy diapers are definitely 5 times as likely to buy beer.
+  - In fact we can say that people who are not buying diapers are 'somehow' not buying beer at all. ~~Extrapolate from Diapers to Babies and from Beer to Alchoholism and we can say with full judgemental eyes that "Babies are the cause of Alchocholism". Hence Proved!~~
+
+
+- Diaper-Makeup Situation:
+  - "40 of the 1000 customers bought expensive makeup, whereas, of the 200 customers who bought diapers, only 5 bought expensive makeup."
+  - Then Association Rule: "If buy diapers, then buy expensive makeup"
+  - Prior Proportion = Support = Consequent / Total = 40/1000 = 4%
+  - Confidence = Consequent / Antecedent = 5 / 200 = 2.5%
+  - Lift = Confidence / Support = 2.5/4 = 0.625
+  - So, customers who buy diapers are only 62.5% as likely to buy expensive makeup as customers in the entire data set.
+
+- Lift
+  - Lift value of 1 implies that A and B are independent events, meaning that knowledge of the occurrence of A does not alter the probability of the occurrence of B. Such relationships are not useful from a data mining perspective, and thus we prefer our association rules to have a lift value different from 1.
+
+- Association Rules are Supervised or Unsupervised
+  - most data mining methods represent supervised learning
+  - Association rule mining, however, can be applied in either a supervised or an unsupervised manner. 
+  - Analysis of purchase patterns would be unsupervised because we are interested in which items go together. However, analysis of voter profile can be supervised because voting preference, naturally, acts as a Target and fulfill the role of consequent not antecedent.
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'C53-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'C53-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

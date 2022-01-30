@@ -297,7 +297,7 @@ Using Dataset Flights : "air_time" -Amount of time spent in the air, in minutes.
 
 ### Graphs {.unnumbered}
 
-```{r 'B12-Histogram-Eval', ref.label=c('B12-Histogram'), eval=TRUE, echo=FALSE}
+```{r 'B12-Histogram-Eval', echo=FALSE, eval=TRUE, ref.label=c('B12-Histogram')}
 #
 ```
 
@@ -312,7 +312,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B12P01", "-Flights-Hist-Air", ".png"))
 ```
 
-```{r 'B12-Density-Eval', ref.label=c('B12-Density'), echo=FALSE}
+```{r 'B12-Density-Eval', echo=FALSE, ref.label=c('B12-Density')}
 #
 ```
 
@@ -602,7 +602,7 @@ knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
 
 #### Images {.unnumbered}
 
-```{r 'B12P030405', echo=FALSE, ref.label=c('B12P03', 'B12P04', 'B12P05'), fig.cap="Effect of Increasing Sample Size", out.width='33%'}
+```{r 'B12P030405', echo=FALSE, out.width='33%', ref.label=c('B12P03', 'B12P04', 'B12P05'), fig.cap="Effect of Increasing Sample Size"}
 #
 ```
 
@@ -786,7 +786,7 @@ knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 
 #### Images {.unnumbered}
 
-```{r 'B12P060708', echo=FALSE, ref.label=c('B12P06', 'B12P07', 'B12P08'), fig.cap="Effect of Increasing Sampling", out.width='33%'}
+```{r 'B12P060708', echo=FALSE, out.width='33%', ref.label=c('B12P06', 'B12P07', 'B12P08'), fig.cap="Effect of Increasing Sampling"}
 #
 ```
 

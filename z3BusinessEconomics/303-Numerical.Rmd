@@ -919,7 +919,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C03P06", "-Beta-Negative", ".png"))
 ```
 
-```{r 'C03P060405', echo=FALSE, ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)", out.width='33%'}
+```{r 'C03P060405', echo=FALSE, out.width='33%', ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)"}
 #
 ```
 
@@ -1439,7 +1439,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P02", "-Scatter-Mean", ".png"))
 knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png"))
 ```
 
-```{r 'C03P02-A', ref.label=c('C03P03-A', 'C03P02'), echo=FALSE, fig.cap="Scatter Plot Quadrants for Covariance"}
+```{r 'C03P02-A', echo=FALSE, ref.label=c('C03P03-A', 'C03P02'), fig.cap="Scatter Plot Quadrants for Covariance"}
 #
 ```
 

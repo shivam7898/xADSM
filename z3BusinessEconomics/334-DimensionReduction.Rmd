@@ -302,7 +302,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C34P02', echo=FALSE, fig.cap="Houses: SPLOM (8)", out.width='100%'}
+```{r 'C34P02', echo=FALSE, out.width='100%', fig.cap="Houses: SPLOM (8)"}
 knitr::include_graphics(paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png"))
 ```
 
