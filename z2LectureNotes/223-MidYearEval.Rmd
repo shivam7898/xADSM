@@ -1,0 +1,243 @@
+# Mid Year Evaluation (B23, Dec-12) {#b23}
+
+```{r 'B23', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Data Champo Carpets {#set-champo-b23 .tabset .tabset-fade}
+
+### Data {.unlisted .unnumbered}
+
+\textcolor{pink}{Please import the "B23-Champo.csv".}
+
+```{r 'B23-ChampoList'}
+xxB23Champo <- c("xxB23Champo_2_Both", "xxB23Champo_3_Order", "xxB23Champo_4_Sample",
+              "xxB23Champo_6_Cluster", "xxB23Champo_5_Reco", "xxB23Champo_7_Colours", 
+              "xxB23Champo_8_SKU", "xxB23Champo_9_RecoTrans")
+```
+
+```{r 'B23-ChampoRDS', include=FALSE}
+# #Read data from Binary Files
+#lst <- lapply(xxChampo, function(x) {readRDS(paste0(XL, x, ".rds"))})
+xxB23Champo_2_Both       <- readRDS(paste0(.z$XL, xxB23Champo[1], ".rds"))
+xxB23Champo_3_Order      <- readRDS(paste0(.z$XL, xxB23Champo[2], ".rds")) #Subset of All
+xxB23Champo_4_Sample     <- readRDS(paste0(.z$XL, xxB23Champo[3], ".rds"))
+xxB23Champo_5_Reco       <- readRDS(paste0(.z$XL, xxB23Champo[4], ".rds"))
+xxB23Champo_6_Cluster    <- readRDS(paste0(.z$XL, xxB23Champo[5], ".rds"))
+xxB23Champo_7_Colours    <- readRDS(paste0(.z$XL, xxB23Champo[6], ".rds"))
+xxB23Champo_8_SKU        <- readRDS(paste0(.z$XL, xxB23Champo[7], ".rds"))
+xxB23Champo_9_RecoTrans  <- readRDS(paste0(.z$XL, xxB23Champo[8], ".rds"))
+```
+
+```{r 'B23-ChampoDim'}
+# #Dimensions of all of these datasets
+str(lapply(xxB23Champo, function(x) {dim(eval(parse(text = x)))}))
+```
+
+### Import Excel {.unlisted .unnumbered}
+
+```{r 'B23-ChampoXL', eval=FALSE}
+# #Path to the Excel File #read_delim(clipboard())
+loc_src <- paste0(.z$XL, "B23-Champo.xlsx")
+#excel_sheets(loc_src)
+# #Read Sheets
+xxB23Champo_2_Both      <- read_excel(path = loc_src, sheet = 2)
+xxB23Champo_3_Order     <- read_excel(path = loc_src, sheet = 3)
+xxB23Champo_4_Sample    <- read_excel(path = loc_src, sheet = 4)
+xxB23Champo_6_Cluster   <- read_excel(path = loc_src, sheet = 6)
+xxB23Champo_5_Reco      <- read_excel(path = loc_src, sheet = 5, range = "A1:U21")
+xxB23Champo_7_Colours   <- read_excel(path = loc_src, sheet = 7, range = "A1:H12")
+xxB23Champo_8_SKU       <- read_excel(path = loc_src, sheet = 7, range = "J1:Q12")
+xxB23Champo_9_RecoTrans <- read_excel(path = loc_src, sheet = 5, range = "X1:AR21")
+```
+
+```{r 'B23-ChampoSave', eval=FALSE}
+# #Save the Loaded data as Binary Files
+for(ii in xxB23Champo){
+  saveRDS(eval(parse(text = ii)), paste0(.z$XL, ii, ".rds"))
+}
+```
+
+### General Information {.unlisted .unnumbered}
+
+Process (3 weeks to 3 months) : Design $\Rightarrow$ CAD (Visual, Material) $\Rightarrow$ Procurement $\Rightarrow$ Warehousing $\Rightarrow$ Dying $\Rightarrow$ Storage of Dyed Yarn $\Rightarrow$ Preparation for Weaving or Hand-Tufting $\Rightarrow$ Wounding $\Rightarrow$ Finishing (edges etc.) $\Rightarrow$ inspection $\Rightarrow$ Dispatch.
+
+Product categories (4 major) - hand-tufted carpets (least effort, most popular), hand knotted carpets (skilled, most expensive), Kilims (woolen, expensive) and Durries (Indian variant)
+
+Company sent samples to the client as per ...
+
+- the latest fiber and color trends
+- color and design attributes of their past purchases
+- raw material availability in the inventory (preferred, focused effort)
+- reproduced the swatches as sent by the client into samples
+
+\textcolor{pink}{Cost-efficient way of selecting appropriate sample designs that could generate maximum revenue.}
+
+Belief: 
+carpet attributes could be used for creating customer segments, which in turn could be used for developing models such as classification to identify customer preferences and recommendation systems
+
+\textcolor{pink}{to identify the most important customers and the most important products and find a way to connect the two using suitable attributes from data and appropriate analytics models}
+
+## Data Fanatasy Sports {#set-fantasy-b23 .tabset .tabset-fade}
+
+### Data {.unlisted .unnumbered}
+
+\textcolor{pink}{Please import the "B23-FantasySports.csv".}
+
+```{r 'B23-SportsList'}
+xxB23Sports <- c("xxB23Sports_Q3_2T_Paid", "xxB23Sports_Q3_2T_Free", "xxB23Sports_Q4_2T",
+  "xxB23Sports_Q5_Chi_Player", "xxB23Sports_Q5_Chi_Captain", "xxB23Sports_Q6_2T_119_Select",
+  "xxB23Sports_Q6_2T_119_NotSelect", "xxB23Sports_Q6_2T_6_Select", "xxB23Sports_Q6_2T_6_NotSelect",
+  "xxB23Sports_Q7_Anova_NotSelect", "xxB23Sports_Q7_Anova_Captain", "xxB23Sports_Q7_Anova_VC",
+  "xxB23Sports_Q8_Regression")
+```
+
+```{r 'B23-SportsRDS', include=FALSE}
+# #Read data from Binary Files
+xxB23Sports_Q3_2T_Paid           <- readRDS(paste0(.z$XL, xxB23Sports[1], ".rds"))
+xxB23Sports_Q3_2T_Free           <- readRDS(paste0(.z$XL, xxB23Sports[2], ".rds"))
+xxB23Sports_Q4_2T                <- readRDS(paste0(.z$XL, xxB23Sports[3], ".rds"))
+xxB23Sports_Q5_Chi_Player        <- readRDS(paste0(.z$XL, xxB23Sports[4], ".rds"))
+xxB23Sports_Q5_Chi_Captain       <- readRDS(paste0(.z$XL, xxB23Sports[5], ".rds"))
+xxB23Sports_Q6_2T_119_Select     <- readRDS(paste0(.z$XL, xxB23Sports[6], ".rds"))
+xxB23Sports_Q6_2T_119_NotSelect  <- readRDS(paste0(.z$XL, xxB23Sports[7], ".rds"))
+xxB23Sports_Q6_2T_6_Select       <- readRDS(paste0(.z$XL, xxB23Sports[8], ".rds"))
+xxB23Sports_Q6_2T_6_NotSelect    <- readRDS(paste0(.z$XL, xxB23Sports[9], ".rds"))
+xxB23Sports_Q7_Anova_NotSelect   <- readRDS(paste0(.z$XL, xxB23Sports[10], ".rds"))
+xxB23Sports_Q7_Anova_Captain     <- readRDS(paste0(.z$XL, xxB23Sports[11], ".rds"))
+xxB23Sports_Q7_Anova_VC          <- readRDS(paste0(.z$XL, xxB23Sports[12], ".rds"))
+xxB23Sports_Q8_Regression        <- readRDS(paste0(.z$XL, xxB23Sports[13], ".rds"))
+```
+
+```{r 'B23-SportsDim'}
+# #Dimensions of all of these datasets.
+#sapply(lapply(xxChampo, function(x) {dim(eval(parse(text = x)))}), "[[", 1)
+str(lapply(xxB23Sports, function(x) {dim(eval(parse(text = x)))}))
+```
+
+### Import Excel {.unlisted .unnumbered}
+
+```{r 'B23-SportsXL', eval=FALSE}
+# #Path to the Excel File
+loc_src <- paste0(.z$XL, "B23-FantasySports.xlsx")
+# #Read Sheets
+xxB23Sports_Q3_2T_Paid     <- read_excel(path = loc_src, sheet = 2, range = "A8:C5188")
+xxB23Sports_Q3_2T_Free     <- read_excel(path = loc_src, sheet = 2, range = "E8:G8296")
+xxB23Sports_Q4_2T          <- read_excel(path = loc_src, sheet = 3, range = "A8:O80")
+xxB23Sports_Q5_Chi_Player  <- read_excel(path = loc_src, sheet = 4, range = "A15:P25")
+xxB23Sports_Q5_Chi_Captain <- read_excel(path = loc_src, sheet = 4, range = "A31:P41")
+xxB23Sports_Q8_Regression  <- read_excel(path = loc_src, sheet = 7, range = "A7:E55279")
+#
+# #Create CSV Files because of package failure in reading large excel data
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q6-2T-119-Select", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q6_2T_119_Select <- tbl
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q6-2T-119-NotSelect", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q6_2T_119_NotSelect <- tbl
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q6-2T-6-Select", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q6_2T_6_Select <- tbl
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q6-2T-6-NotSelect", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q6_2T_6_NotSelect <- tbl
+#
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q7-Anova-NotSelect", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q7_Anova_NotSelect <- tbl
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q7-Anova-Captain", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q7_Anova_Captain <- tbl
+tbl <- read_csv(paste0(.z$XL, "B23-Sports-Q7-Anova-VC", ".csv"), show_col_types = FALSE)
+attr(tbl, "spec") <- NULL
+attr(tbl, "problems") <- NULL
+xxB23Sports_Q7_Anova_VC <- tbl
+```
+
+```{r 'B23-SportsSave', eval=FALSE}
+# #Save the Loaded data as Binary Files
+for(ii in xxB23Sports){
+  saveRDS(eval(parse(text = ii)), paste0(.z$XL, ii, ".rds"))
+}
+```
+
+### General Information {.unlisted .unnumbered}
+
+whether fantasy sports was a game of chance or skill, especially whether skill is a dominant factor in winning fantasy sports competition.
+
+(Legal) The decision between skill and chance was to be decided based on whether the skill-based element was dominant over chance in determining the outcome of the game.
+
+If a fantasy sports is chance based, then every user should have an equal probability of winning.
+
+understand the key difference between skill and chance and how to test it using the data. 
+
+To prove that it is skill dominant, we have to prove that users who are scoring high in fantasy sports are playing a strategic game, their selection of players and captain and vice-captain is more knowledge based than random selection. 
+
+If fantasy games involve skill, then we can expect consistency in the performance of the users both low as well as high. Alternatively, we can also check whether a selection specific player increases probability of winning fantasy sports. 
+
+
+I think our approach should be to identify and test several possible hypotheses to establish whether fantasy sports is skill dominant or chance dominant. 
+
+- Various rounds/match were played. For example, one IPL match would be one round. 
+- There were players who were available to be picked up for a round or match. (This number is more than the number of players who would actually play in that match, so it was possible that a player selected by a user in his team may not actually play.) 
+- For every round, multiple contests were opened. The contests were of different categories, from free to paid, and various types of playing and winning options (public, private, special). 
+- User selected a team for a round and for a contest. 
+- There was a player round performance table which indicated how the player performed in the specific round. 
+- Teams selected by users were scored on the basis of the selected performance of player in a contest and those team level scores were provided in the contest user table
+
+
+Few possible hypotheses are listed below: 
+
+1. Users playing free contests are scoring lower than users playing paid contests. This can prove that when users play paid contests, they play more cautiously and strategically, and do not select teams at random. 
+2. Scores of randomly selected players can be tested against scores of the teams based on a specific strategy such as selecting players who have performed well in the recent matches. 
+3. Is the selection of captains and vice captains of the team random (equal probability)? 
+4. Selection of players and winning or getting high scores are dependent on each other. 
+5. As the user plays more games, his chance of winning increases (learning effect). 
+
+
+11 Players, 100 credits, Captain 2x, VC 1.5x, Max. players from a Team =7 (C1 ... C7)
+
+## Data RFM {#set-rfm-b23}
+
+\textcolor{pink}{Please import the "B23-RFM.csv".}
+
+```{r 'B23-RFM', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B23-RFM.csv"))
+xxB23RFM <- f_getObject("xxB23RFM", "B23-RFM.csv",
+                                "6bff05ba4e507d3f0cc6e2dec2f7a3c0")
+```
+
+```{r 'B23-GetRFM', include=FALSE}
+xxB23RFM <- f_getRDS(xxB23RFM)
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B23-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, xxB23Champo, xxB23Champo_2_Both, xxB23Champo_3_Order,
+  xxB23Champo_4_Sample, xxB23Champo_5_Reco, xxB23Champo_6_Cluster, xxB23Champo_7_Colours,
+  xxB23Champo_8_SKU, xxB23Champo_9_RecoTrans, xxB23RFM, xxB23Sports, xxB23Sports_Q3_2T_Free,
+  xxB23Sports_Q3_2T_Paid, xxB23Sports_Q4_2T, xxB23Sports_Q5_Chi_Captain, xxB23Sports_Q5_Chi_Player,
+  xxB23Sports_Q6_2T_119_NotSelect, xxB23Sports_Q6_2T_119_Select, xxB23Sports_Q6_2T_6_NotSelect,
+  xxB23Sports_Q6_2T_6_Select, xxB23Sports_Q7_Anova_Captain, xxB23Sports_Q7_Anova_NotSelect,
+  xxB23Sports_Q7_Anova_VC, xxB23Sports_Q8_Regression)
+```
+
+```{r 'B23-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
