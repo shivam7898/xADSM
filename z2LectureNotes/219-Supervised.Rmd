@@ -214,17 +214,17 @@ Segment rules might look like arbitory however lots of thought goes into this. T
   - We are doing the analysis with some plan of action and it is preferable that we can put them in different and proper buckets so that specific actions can be taken
 
 ```{r 'B19-Segments'}
-# #Developing segments #wwww
+# #Developing segments
 segment_titles <- c("First Grade", "Loyal", "Likely to be Loyal", "New Ones", 
                     "Could be Promising", "Require Assistance", "Getting Less Frequent",
-                      "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
+                    "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
 # #Define Rules of Minimum and Maximum RFM for each group
-r_low <- c(4, 2, 3, 4, 3, 2, 2, 1, 1, 1)
+r_low  <- c(4, 2, 3, 4, 3, 2, 2, 1, 1, 1)
 r_high <- c(5, 5, 5, 5, 4, 3, 3, 2, 1, 2)
-f_low <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+f_low  <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
 f_high <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
-m_low <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
-m_high  <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
+m_low  <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+m_high <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
 #
 stopifnot(all(vapply(list(r_low, r_high, f_low, f_high, m_low, m_high), 
                      FUN = function(x) identical(length(x), length(segment_titles)), logical(1))))
@@ -241,10 +241,10 @@ loc_src <- paste0(.z$XL, "B19-Transaction-Divisions.csv")
 if(FALSE) write_csv(divisions, file = loc_src)
 #
 # #We defined 10 segments, However only 7 (+1) of them are represented in the data 
-# #and 48 customers were not captured by our classifications and assigned 'Others'
+# #and 48 customers were not captured by our classifications. These were assigned to 'Others'
 divisions %>% 
   count(segment) %>% 
-  mutate(PCT = round(100*n/sum(n), 1)) %>% 
+  mutate(PCT = round(100 * n / sum(n), 1)) %>% 
   rename(SEGMENT = segment, FREQ = n) %>% 
   arrange(desc(FREQ)) 
 #
@@ -387,7 +387,7 @@ div_ii <- rfm_segment(rfm_ii, segment_names = segment_titles,
 # #Sorted Count of Segments
 div_ii %>% 
   count(segment) %>% 
-  mutate(PCT = round(100*n/sum(n), 1)) %>% 
+  mutate(PCT = round(100 *n / sum(n), 1)) %>% 
   rename(SEGMENT = segment, FREQ = n) %>% 
   arrange(desc(FREQ)) 
 ```

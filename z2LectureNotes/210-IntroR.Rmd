@@ -181,6 +181,11 @@ if(anyNA(bb)) print("NA are Present!") else print("NA not found")
 #
 # #Columnwise NA Count
 bb_na_col <- colSums(is.na(bb))
+# #
+bb %>% summarise(across(everything(), ~ sum(is.na(.)))) %>% 
+  pivot_longer(everything()) %>% filter(value > 0)
+#
+colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
 #
 # #Vector of Columns having NA
 which(bb_na_col != 0)

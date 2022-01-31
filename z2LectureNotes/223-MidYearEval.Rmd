@@ -199,7 +199,7 @@ Few possible hypotheses are listed below:
 
 1. Users playing free contests are scoring lower than users playing paid contests. This can prove that when users play paid contests, they play more cautiously and strategically, and do not select teams at random. 
 2. Scores of randomly selected players can be tested against scores of the teams based on a specific strategy such as selecting players who have performed well in the recent matches. 
-3. Is the selection of captains and vice captains of the team random (equal probability)? 
+3. Is the selection of captains and vice captains of the team random (equal probability)
 4. Selection of players and winning or getting high scores are dependent on each other. 
 5. As the user plays more games, his chance of winning increases (learning effect). 
 
@@ -220,6 +220,469 @@ xxB23RFM <- f_getObject("xxB23RFM", "B23-RFM.csv",
 xxB23RFM <- f_getRDS(xxB23RFM)
 ```
 
+## Q1 RFM {.tabset .tabset-fade}
+
+As a data scientist, you would like to analyse recency, frequency, and monetary value of an online store. Based on the same, you would like to suggest suitable market segments so that the online store can implement marketing actions efficiently and effectively. In this attempt, use the data (See "B23-RFM.csv"), perform the RFM analysis, provide practical /managerial recommendations. 
+
+- About: [2823, 25]
+  - There are NA in 4 Columns, However none of these columns are required for RFM so are being kept.
+  - Convert ORDERDATE to Date
+- Conclusion
+  - We are loosing customers and we need to provide incentives for more frequent visits. It is clearly visible that higher frequency have direct positive correlation with higher monetary purchase.
+
+### RFM & Segments {.unlisted .unnumbered}
+
+```{r 'B23-Q1-RFM'}
+bb <- aa <- xxB23RFM 
+# #Convert to Date
+bb$ORDERDATE <- dmy(bb$ORDERDATE)
+# #Get Analysis Date as the Next Date after the Max Date in the Data
+analysis_date <- max(bb$ORDERDATE) + 1 #as_date("2005-12-02")
+#
+# #RFM analysis by rfm_table_order()
+rfm_result <- rfm_table_order(bb, customer_id = CUSTOMERNAME, order_date = ORDERDATE, 
+                              revenue = SALES, analysis_date = analysis_date)
+# #Output is a Tibble with some other attributes
+loc_src <- paste0(.z$XL, "B23-Results-RFM.csv")
+# #Save the Result in a CSV
+if(FALSE) write_csv(rfm_result$rfm, file = loc_src)
+```
+
+```{r 'B23-Segments'}
+# #Developing segments
+segment_titles <- c("First Grade", "Loyal", "Likely to be Loyal", "New Ones", 
+                    "Could be Promising", "Require Assistance", "Getting Less Frequent",
+                    "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
+# #Define Rules of Minimum and Maximum RFM for each group
+r_low  <- c(4, 2, 3, 4, 3, 2, 2, 1, 1, 1)
+r_high <- c(5, 5, 5, 5, 4, 3, 3, 2, 1, 2)
+f_low  <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+f_high <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
+m_low  <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)
+m_high <- c(5, 5, 3, 1, 1, 3, 2, 5, 5, 2)
+#
+stopifnot(all(vapply(list(r_low, r_high, f_low, f_high, m_low, m_high), 
+                     FUN = function(x) identical(length(x), length(segment_titles)), logical(1))))
+```
+
+```{r 'B23-DivBySeg'}
+divisions <- rfm_segment(rfm_result, segment_names = segment_titles, 
+                       recency_lower = r_low, recency_upper = r_high, 
+                       frequency_lower = f_low, frequency_upper = f_high, 
+                       monetary_lower = m_low, monetary_upper = m_high)
+# #Output is a Tibble 
+# #Save the Result in a CSV
+loc_src <- paste0(.z$XL, "B23-Results-Divisions.csv")
+if(FALSE) write_csv(divisions, file = loc_src)
+#
+# #We defined 10 segments, However only 7 (+1) of them are represented in the data 
+# #and 48 customers were not captured by our classifications. These were assigned to 'Others'
+divisions %>% 
+  count(segment) %>% 
+  mutate(PCT = round(100 * n / sum(n), 1)) %>% 
+  rename(SEGMENT = segment, FREQ = n) %>% 
+  arrange(desc(FREQ)) 
+#
+```
+
+### Plots Not Plotted {.unlisted .unnumbered}
+
+```{r 'B23-Plots', eval=FALSE}
+if(FALSE) {#Histograms of Median RFM for each Segment
+  hh <- divisions
+  rfm_plot_median_recency(hh)
+  rfm_plot_median_frequency(hh)
+  rfm_plot_median_monetary(hh)
+}
+if(FALSE) {
+  hh <- rfm_result
+  rfm_histograms(hh) #Histograms of RFM
+  rfm_order_dist(hh) #Histograms of Customer Orders i.e. Frequency
+  rfm_heatmap(hh)    #Heatmap of Monetary on Axes of Recency and Frequency. Slighly Useful
+  rfm_bar_chart(hh)  #Bar Charts with Facetting of RFM
+  # #Scatter Plots among Recency, Monetary, Frequency
+  rfm_rm_plot(hh)
+  rfm_fm_plot(hh)
+  rfm_rf_plot(hh)
+}
+```
+
+
+### NA {.unlisted .unnumbered}
+
+```{r 'B-'}
+colSums(is.na(aa)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+```
+
+## Q2 Sports P1 {.tabset .tabset-fade}
+
+Dream 11 platform has both free and paid users, that is, users who play games for free with no return and users who pay a fee and obtain returns at the end of the game based on their relative performance. Can the average scores of paid and free users can help Dream 11 in testing skill- based game. (See Sheet "Qns_3_2SampleTTest" of "B23-FantasySports.xlsx")
+
+```{r 'B23D01', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Lower")
+```
+
+- (1: Free) ${n}_1 = 8288, {\overline{x}}_1 = 289.5, {\sigma}_1 = 91.6$
+- (2: Paid) ${n}_2 = 5180, {\overline{x}}_2 = 301.2, {\sigma}_2 = 74.9$
+- Compare with ${\alpha} = 0.05$
+  - $\{{}^L\!P_{(t = -8.0797)} = 0 \} < {\alpha} \to {H_0}$ is rejected. Alternative is accepted.
+- Conclusion
+  - It is a Skill based game because performance of Free users is lower than that of Paid users. 
+
+- \textcolor{pink}{Question:} ContestType was ignored in above analysis. However, the Means are different between public vs. private in case of Free and are same in case of Paid. How should we proceed
+  - "ForLater"
+
+### Free vs. Paid {.unlisted .unnumbered}
+
+```{r 'B23-Q2P1-FreePaid'}
+# #Data
+free <- xxB23Sports_Q3_2T_Free$userpoints
+paid <- xxB23Sports_Q3_2T_Paid$userpoints
+#
+# #Sample Information
+round(vapply(f_namedList(free, paid), 
+             FUN = function(x) {c(N = length(x), Mean = mean(x), SD = sd(x))}, 
+             FUN.VALUE = numeric(3)), 1)
+#
+# #Welch Two Sample t-test
+ha_bb <- "less" #"two.sided" (Default), "less", "greater"
+testT_bb <- t.test(x = free, y = paid, alternative = ha_bb)
+testT_bb
+```
+
+```{r 'B23-Q2P1-Out-1', echo=FALSE, ref.label=c('B23-tTest-Outcome')}
+#
+```
+
+
+### Free: Public vs. Private {.unlisted .unnumbered}
+
+```{r 'B23-Q2P1-Free'}
+# #Contest Type Comparison for Free
+bb <- xxB23Sports_Q3_2T_Free %>% 
+  select(key = 2, value = 3) %>% 
+  filter(key == "public" | key == "private") %>%
+  mutate(across(key, factor))
+#
+# #Sample Information
+bb %>% group_by(key) %>% summarise(N = n(), Mean = round(mean(value), 1), SD = round(sd(value), 1))
+#
+# #Welch Two Sample t-test
+ha_bb <- "two.sided" #"two.sided" (Default), "less", "greater"
+testT_bb <- t.test(formula = value ~ key, data = bb, alternative = ha_bb)
+testT_bb
+```
+
+```{r 'B23-Q2P1-Out-2', echo=FALSE, ref.label=c('B23-tTest-Outcome')}
+#
+```
+
+### Paid: Public vs. Private {.unlisted .unnumbered}
+
+```{r 'B23-Q2P1-Paid'}
+# #Contest Type Comparison for Paid
+bb <- xxB23Sports_Q3_2T_Paid %>% 
+  select(key = 2, value = 3) %>% 
+  filter(key == "public" | key == "private") %>%
+  mutate(across(key, factor))
+#
+# #Sample Information
+bb %>% group_by(key) %>% summarise(N = n(), Mean = round(mean(value), 1), SD = round(sd(value), 1))
+#
+# #Welch Two Sample t-test
+ha_bb <- "two.sided" #"two.sided" (Default), "less", "greater"
+testT_bb <- t.test(formula = value ~ key, data = bb, alternative = ha_bb)
+testT_bb
+```
+
+```{r 'B23-Q2P1-Out-3', echo=FALSE, ref.label=c('B23-tTest-Outcome')}
+#
+```
+
+### Outcome {.unlisted .unnumbered}
+
+```{r 'B23-tTest-Outcome', eval=FALSE}
+# #Compare p-value with alpha = 0.05
+alpha <- 0.05
+if(any(all(ha_bb == "two.sided", testT_bb$p.value >= alpha / 2), 
+       all(ha_bb != "two.sided", testT_bb$p.value >= alpha))) {
+  cat(paste0("p-value (", round(testT_bb$p.value, 6), ") is greater than alpha (", alpha, 
+      "). We failed to reject H0. We cannot conclude that the populations are different.\n")) 
+} else {
+    cat(paste0("p-value (", round(testT_bb$p.value, 6), ") is less than alpha (", alpha, 
+      ").\nWe can reject the H0 with 95% confidence. The populations are different.\n"))
+}
+```
+
+## Q2 Sports P2 
+
+Scores of users who use some strategy to select players such as recent performance of players are higher than users who select players randomly. (See Sheet "Qns_4_2SampleTTest" of "B23-FantasySports.xlsx")
+
+```{r 'B23D02', comment="", echo=FALSE, results='asis'}
+f_getDef("H-2s-Lower")
+```
+
+- (1: Random) ${n}_1 = 36, {\overline{x}}_1 = 249.2, {\sigma}_1 = 55.1$
+- (2: Strategy) ${n}_2 = 36, {\overline{x}}_2 = 372.8, {\sigma}_2 = 42.2$
+- Compare with ${\alpha} = 0.05$
+  - $\{{}^L\!P_{(t = -10.69)} = 0 \} < {\alpha} \to {H_0}$ is rejected. Alternative is accepted.
+- Conclusion
+  - It is a Skill based game because performance of users with Random strategy is lower than that of  users with some strategy.
+
+```{r 'B23-Q2P2-Strategy'}
+# #Team Type Comparison with correction of Typo
+bb <- xxB23Sports_Q4_2T %>% 
+  select(key = "TeamType", value = "totalpoints") %>% 
+  mutate(across(key, str_replace, "Stratergy", "Strategy")) %>% 
+  mutate(across(key, factor)) 
+#
+# #Sample Information
+bb %>% group_by(key) %>% summarise(N = n(), Mean = round(mean(value), 1), SD = round(sd(value), 1))
+#
+# #Welch Two Sample t-test
+ha_bb <- "less" #"two.sided" (Default), "less", "greater"
+testT_bb <- t.test(formula = value ~ key, data = bb, alternative = ha_bb)
+testT_bb
+```
+
+```{r 'B23-Q2P2', echo=FALSE, ref.label=c('B23-tTest-Outcome')}
+#
+```
+
+## Q2 Sports P3
+
+If fantasy-sports is a game of skill, then player performance has a major role in the player getting selected to a team as well as selection of captain or vice-captain. Using the data, can we test if selection of players in a team and getting high scores are dependent on each other. (See Sheet "Qns_5_2SampleTTest" of "B23-FantasySports.xlsx")
+
+- User Category (Top Quartile or Not in Top Quartile) is Categorical 
+- Player Selected (Yes or No) is Categorical
+- Since both the variables are categorical, we would need to perform Chi-square test
+- $P_{\chi^2} < {\alpha} \to {H_0}$ is rejected. Alternative is accepted.
+  - Population Proportions are different.
+  - The sample results provide sufficient evidence that 'selection of a plyer in the team' and 'user high scores' are dependent on each other.
+  
+```{r 'B23-Q2P3-ChiSq'}
+# #Select | Sum | Long | Separate String | Wide | Relocate | Column To RowNames |
+bb <- xxB23Sports_Q5_Chi_Player %>% 
+  select(nTop_nSelect = 3, Top_nSelect = 4, nTop_Select = 5, Top_Select = 6) %>% 
+  summarise(across(everything(), sum)) %>% 
+  pivot_longer(everything()) %>% 
+  separate(name, c("isTop", "isSelect")) %>% 
+  pivot_wider(names_from = isSelect, values_from = value) %>% 
+  relocate(nSelect, .after = last_col()) %>% 
+  column_to_rownames('isTop')
+bb
+# #Chi-squared Test
+chisq.test(bb)
+```
+
+## Q2 Sports P4
+
+In the data supplied, a few users have selected one of the top three high performing players as captain or vice-captain. There are also users who have not used any of these players as captain or vice-captain. Ramsu claims that choosing high performing players as captain and/or vice-captain has an impact on the scores of the users. Test this claim made by Ramsu and link it to the business problem to make an inference. (See Sheet "Qns_7_Anova" of "B23-FantasySports.xlsx")
+
+- ANOVA Conclusion:
+  - Choosing high performing players as captain and/or vice- captain has an impact on the scores of the users.
+
+- \textcolor{pink}{Question:} Coefficients of ANOVA show only "NoSelect" and "ViceCap". "Captain" is missing. What does it mean
+  - "ForLater"
+
+```{r 'B23-Q2P4-ANOVA'}
+# #NOTE: Because of High number of rows, data was exported to CSV and then Imported
+NoSelect <- xxB23Sports_Q7_Anova_NotSelect %>% drop_na(userpoints) %>% select(userpoints)
+Captain <- xxB23Sports_Q7_Anova_Captain %>% drop_na(userpoints) %>% select(userpoints)
+ViceCap <- xxB23Sports_Q7_Anova_VC %>% drop_na(userpoints) %>% select(userpoints)
+#
+# #Merge Datasets by Rows
+q2p4 <- bind_rows(NoSelect = NoSelect, Captain = Captain, ViceCap = ViceCap, .id = 'Type') 
+# ANOVA
+anv_q2p4 <- aov(userpoints ~ Type, data = q2p4)
+anv_q2p4
+#
+summary(anv_q2p4)
+#
+# #Coefficients
+anv_q2p4$coefficients
+```
+
+## Q3 Champo 
+
+Discuss clustering algorithms that can be used for segmenting customers of Champo Carpets. Apply both k-means and hierarchical clustering techniques and provide insights on the segments we can extract out these data.
+
+Note: Use Sheet "Data Order ONLY" of "B23-Champo.xlsx". It has 13,135 records. Use only the numerical variables (e.g., quantity required, total area, and amount) for performing cluster anlaysis.
+
+- k-means : 3 Clusters looks optimum or we should go with 6
+  - Outliers are present and it looks like 6 is better number of clusters
+- Hierarchical : Dendrogram was not plotted because of noise
+- Conclusion
+  - Country USA and Customer TGT have large share on revenue and these should be the focus area.
+  - Orders: USA 86% UK 6% by Revenue
+  - CustomerCode: "TGT 36%, H-2 12%"
+  - Notes:
+    - There are Orders having 0 Amount i.e. NO Revenue!
+    - 6 Rows are 100% duplicated and some are almost duplicated i.e. DesignName, ColourName changed but no impact on Amount
+    - There is a 1-1 Relationship between Country and Customer i.e. a Customer belongs to a specific country only
+
+```{r 'B23-Prep-kMeans'}
+xw <- xxB23Champo_3_Order %>% select(Quantity = QtyRequired, Area = TotalArea, Amount)
+zw <- xw %>% mutate(across(everything(), ~ as.vector(scale(.))))
+str(xw)
+```
+
+```{r 'B23-Elbow', eval=FALSE}
+# #This is Slow.
+hh <- zw
+cap_hh <- "B23P01"
+ttl_hh <- "Champo: Elbow Curve (WSS)"
+#
+# #factoextra::fviz_nbclust() generates ggplot
+# #method = "wss" (for total within sum of square)
+B23P01 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "wss") +
+  labs(caption = cap_hh, title = ttl_hh)
+```
+
+```{r 'B23P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B23P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B23P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss", ".png"))
+```
+
+```{r 'B23-ElbowSil', eval=FALSE}
+hh <- zw
+cap_hh <- "B23P02"
+ttl_hh <- "Champo: Elbow Curve (Silhouette)"
+#
+# #method = "silhouette" (for average silhouette width)
+B23P02 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "silhouette") +
+  labs(caption = cap_hh, title = ttl_hh)
+```
+
+```{r 'B23P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B23P02, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B23P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil", ".png"))
+```
+
+### WSS vs. Silhouette {.unlisted .unnumbered}
+
+```{r 'B23P0102', echo=FALSE, ref.label=c('B23P01', 'B23P02'), fig.cap="Champo: WSS and Silhouette"}
+#
+```
+
+### k-means {.unlisted .unnumbered}
+
+```{r 'B23-kmeans'}
+# #Fix Seed
+set.seed(3)
+# #Cluster analysis with k = {3, 6}
+k3_zw <- kmeans(zw, centers = 3)
+k6_zw <- kmeans(zw, centers = 6)
+#
+# #Save cluster membership of each point back into the dataset
+res_champo <- cbind(xw, 
+  list(k3 = k3_zw$cluster, k6 = k6_zw$cluster)) %>% as_tibble()
+```
+
+```{r 'B23-k3'}
+# #Three Clusters
+ii <- k3_zw
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+```
+
+```{r 'B23-k6'}
+# #Six Clusters
+ii <- k6_zw
+ii$size
+paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
+round(ii$centers, 3)
+```
+
+### Plot k=3 {.unlisted .unnumbered}
+
+```{r 'B23-PlotClust3', include=FALSE}
+# #
+hh <- res_champo %>% select(1:3, Clusters = k3) %>% relocate(Clusters)
+ttl_hh <- "Champo: Genres with k=3"
+cap_hh <- "B23P03"
+loc_png <- paste0(.z$PX, "B23P03", "-Champo-k3", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B23 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B23)
+  rm(B23)
+}
+```
+
+```{r 'B23P03', echo=FALSE, fig.cap="Champo: k-means with k=3"}
+knitr::include_graphics(paste0(.z$PX, "B23P03", "-Champo-k3", ".png"))
+```
+
+### Plot k=6 {.unlisted .unnumbered}
+
+```{r 'B23-PlotClust6', include=FALSE}
+# #
+hh <- res_champo %>% select(1:3, Clusters = k6) %>% relocate(Clusters)
+ttl_hh <- "Champo: Genres with k=6"
+cap_hh <- "B23P04"
+loc_png <- paste0(.z$PX, "B23P04", "-Champo-k6", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B23 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B23)
+  rm(B23)
+}
+```
+
+```{r 'B23P04', echo=FALSE, fig.cap="Champo: k-means with k=6"}
+knitr::include_graphics(paste0(.z$PX, "B23P04", "-Champo-k6", ".png"))
+```
+
+### Hierarchical {.unlisted .unnumbered}
+
+```{r 'B23-dMat'}
+str(zw)
+#
+# #Create distance matrix
+dist_zw <- dist(zw)
+#
+hclust_com_zw <- hclust(dist_zw, method = "complete")
+#hclust_avg_zw <- hclust(dist_zw, method = "average")
+#hclust_sng_zw <- hclust(dist_zw, method = "single")
+#
+# #Cut Tree by Cluster membership
+k3_com_zw <- cutree(hclust_com_zw, 3)
+k4_com_zw <- cutree(hclust_com_zw, 4)
+k6_com_zw <- cutree(hclust_com_zw, 6)
+#
+# #Save cluster membership of each point back into the dataset
+hrc_champo <- cbind(xw, list(k3 = k3_com_zw, k4 = k4_com_zw, k6 = k6_com_zw)) %>% as_tibble()
+#
+# #Cluster Mean
+if(FALSE) aggregate(zw, by = list(k3_com_zw), FUN = function(x) round(mean(x), 3))
+# #Equivalent
+hrc_champo %>% select(-c(k4, k6)) %>% group_by(k3) %>% 
+  summarise(N = n(), across(everything(), mean))
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
@@ -230,10 +693,11 @@ f_rmExist(aa, bb, ii, jj, kk, ll, xxB23Champo, xxB23Champo_2_Both, xxB23Champo_3
   xxB23Sports_Q3_2T_Paid, xxB23Sports_Q4_2T, xxB23Sports_Q5_Chi_Captain, xxB23Sports_Q5_Chi_Player,
   xxB23Sports_Q6_2T_119_NotSelect, xxB23Sports_Q6_2T_119_Select, xxB23Sports_Q6_2T_6_NotSelect,
   xxB23Sports_Q6_2T_6_Select, xxB23Sports_Q7_Anova_Captain, xxB23Sports_Q7_Anova_NotSelect,
-  xxB23Sports_Q7_Anova_VC, xxB23Sports_Q8_Regression)
+  xxB23Sports_Q7_Anova_VC, xxB23Sports_Q8_Regression, alpha, analysis_date, divisions, free, 
+  ha_bb, loc_src, m_high, m_low, paid, r_high, r_low, rfm_result, segment_titles, testT_bb, anv_q2p4, cap_hh, Captain, dist_zw, hclust_com_zw, hh, hrc_champo, k3_com_zw, k3_zw, k4_com_zw, k6_com_zw, k6_zw, loc_png, NoSelect, q2p4, res_champo, ttl_hh, ViceCap, xw, zw)
 ```
 
-```{r 'B23-Validation', include=TRUE, cache=FALSE}
+```{r 'B23-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
