@@ -17,11 +17,13 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Data Mining
 
-- Data mining methods may be categorized as either supervised or unsupervised.
+- [Data Mining Methods](#mining-b19 "b19") and [Definitions](#mining-def-c31 "c31")
+  - Data mining methods may be categorized as either supervised or unsupervised.
   - Most data mining methods are supervised methods.
-  - Unsupervised : Clustering, PCA, Factor Analysis, Market Basket Analysis, RFM
-  - Supervised : Regression, decision trees, neural networks, k-nearest neighbors
-  - Another data mining method, which may be supervised or unsupervised, is association rule mining. 
+  - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
+  - Supervised : 
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
+    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
 
 ```{definition 'Unsupervised-Methods'}
 In \textcolor{pink}{unsupervised methods}, no target variable is identified as such. Instead, the data mining algorithm searches for patterns and structures among all the variables. The most common unsupervised data mining method is clustering. Ex: Voter Profile.
@@ -40,7 +42,6 @@ In \textcolor{pink}{unsupervised methods}, no target variable is identified as s
 ```{definition 'A-Priori-Hypothesis'}
 An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a research study taking place.
 ```
-
 
 ## Cross-validation
 
@@ -76,7 +77,6 @@ f_getDef("Overfitting")
 - Increasing the complexity of the model in order to increase the accuracy on the training set eventually and inevitably leads to a degradation in the generalizability of the provisional model to the test set.
   - As the model complexity increases, the error rate on the training set continues to fall in a monotone manner. 
   - However, as the model complexity increases, the test set error rate soon begins to flatten out and increase because the provisional model has memorized the training set rather than leaving room for generalizing to unseen data.
-
 
 ## Bias-Variance Trade-Off
 

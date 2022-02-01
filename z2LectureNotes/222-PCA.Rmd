@@ -455,8 +455,8 @@ stopifnot(all(vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), l
       - (Aside) Confidence however overestimates sometimes and is Asymmetric. So using Lift is the better option.
     - $\text{Coverage} = \text{LHS Support} = P(A) = \frac{\text{Number of transactions containing A}}{\text{Total Number of Transactions}} = \frac{490}{1000} = 0.490$
     - Count = Number of transactions containing both A and B = 356
-  - \textcolor{orange}{Caution:} Mismatch in theoretical understanding from the Book and the package result. For now assumed that Package is Correct. "ForLater"
-    - Book $\text{Lift} = \frac{\text{Confidence}}{\text{Support}} = \frac{0.727}{0.356} = 2.04$
+  - Lift
+    - Book $\text{Lift} = \frac{\text{Confidence}}{\text{Prior Proportion of Consequent}} = \frac{\text{Confidence}}{\text{RHS Support}} = \frac{0.727}{0.536} = 1.36$
     - Package $\text{Lift} = \frac{\text{Coverage}}{\text{Support}} = \frac{0.490}{0.356} = 1.37$
 
 - \textcolor{pink}{Question:} There are some Redundant rules. Infact out of total 16 Rules, except SN {2, 3, 4}, Rule 1 is basically duplicated with other items being "No".

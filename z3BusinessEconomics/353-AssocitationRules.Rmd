@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 ```{definition 'Affinity-Analysis'}
-\textcolor{pink}{Affinity analysis} is the study of attributes or characteristics that "go together". It seeks to uncover rules for quantifying the relationship between two or more attributes. Association rules take the form \textcolor{pink}{"If antecedent, then consequent"}, along with a measure of the support and confidence associated with the rule.
+\textcolor{pink}{Affinity analysis}, (or Association Rules or Market Basket Analysis), is the study of attributes or characteristics that "go together". It seeks to uncover rules for quantifying the relationship between two or more attributes. Association rules take the form \textcolor{pink}{"If antecedent, then consequent"}, along with a measure of the support and confidence associated with the rule.
 ```
 
 - Example Beer-Diaper: 

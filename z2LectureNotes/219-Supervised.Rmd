@@ -7,7 +7,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-## Overview
+## Overview {#mining-b19}
 
 - "Supervised Learning Algorithm: Cluster Analysis"
 
@@ -16,14 +16,16 @@ f_getDef("Unsupervised-Methods")
 ```
 
 ```{r 'B19D02', comment="", echo=FALSE, results='asis'}
-f_getDef("Supervised-Methods") #dddd
+f_getDef("Supervised-Methods")
 ```
 
-- Techniques:
-  - Unsupervised : Clustering, PCA, Factor Analysis, Market Basket Analysis, RFM
+- [Data Mining Methods](#mining-b19 "b19") and [Definitions](#mining-def-c31 "c31")
+  - Data mining methods may be categorized as either supervised or unsupervised.
+  - Most data mining methods are supervised methods.
+  - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
   - Supervised : 
     - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
-    - Classification (Categorical Target) : Decision Tree, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
 
 ## RFM Analysis
 

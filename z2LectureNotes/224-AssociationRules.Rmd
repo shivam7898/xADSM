@@ -1,4 +1,4 @@
-# Association Rule (B24, Dec-19) {#b24 .unlisted .unnumbered}
+# Association Rule (B24, Dec-19) {#b24}
 
 ```{r 'B24', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,16 +10,406 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Association Rule Mining"
-  - "ForLater"
+- [Import Data Makeup - B22](#set-makeup-b22 "b22")
+- Discussion on R Markdown / R Notebook from 16:45 - 17:20 has not been included.
+- "ForLater" Professor will cover "Attribution Model" later.
+- Paused at 17:57 to complete regression chapter 8
+
+```{r 'B24-GetMakeup', ref.label=c('B22-GetMakeup', 'B22-PrepMakeup')}
+# #xxB22Makeup, aa, bb, xw
+```
+
+```{r 'B24-GetMakeupKnit', include=FALSE, eval=TRUE}
+xxB22Makeup <- f_getRDS(xxB22Makeup)
+bb <- aa <- xxB22Makeup
+xw <- aa %>% mutate(across(everything(), factor, levels = c("No", "Yes")))
+```
+
+```{r 'B24-AddRed', include=FALSE, eval=FALSE}
+# #Tibble excluding Redundant Rules #IN: rules Out: hh, pruned_tbl
+# #Rules | DataFrame | Tibble | Rename | TitleCase | Add Columns | Filter | Drop | SN | Relocate |
+pruned_tbl <- DATAFRAME(rules) %>% as_tibble() %>% 
+  rename(LHS_Antecedent = LHS, RHS_Consequent = RHS) %>% 
+  rename_with(str_to_title, .cols = where(is.numeric)) %>% 
+  mutate(isRedConf = isRedConf, isRedLift = isRedLift) %>% 
+  filter(!isRedLift) %>% 
+  select(-c(isRedConf, isRedLift)) %>% 
+  arrange(desc(Lift)) %>% 
+  mutate(SN = row_number()) %>% 
+  relocate(SN) 
+#
+hh <- pruned_tbl
+```
+
+```{r 'B24-RulesKbl', include=FALSE, eval=FALSE}
+# #IN: hh, cap_hh, names_hh
+# #Printable Kable Table from Rules
+hh <- hh %>% slice(1:10) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, drop0trailing = TRUE, scientific = FALSE)) 
+#
+kbltbl <- kbl(hh,
+  caption = cap_hh,
+  col.names = names_hh,
+  escape = FALSE, align = "c", booktabs = TRUE
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                html_font = "Consolas",	font_size = 12,
+                full_width = FALSE,
+                #position = "float_left",
+                fixed_thead = TRUE
+  ) %>%
+# #Header Row Dark & Bold: RGB (48, 48, 48) =HEX (#303030)
+	row_spec(0, color = "white", background = "#303030", bold = TRUE,
+	         extra_css = "border-bottom: 1px solid; border-top: 1px solid"
+	) #%>% row_spec(row = 1:nrow(hh), color = "black")
+# #Print kk separtely when referencing 
+# #so that we will have Table object which can be printed in RMD
+kbltbl
+```
+
+## Packages
+
+```{r 'B24-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("arules", dependencies = TRUE)
+  install.packages("arulesViz", dependencies = TRUE)
+}
+```
+
+## Redundant Rules {.tabset .tabset-fade}
+
+- \textcolor{pink}{Question:} What is the meaning of maxlen = 10. Will there be 10 Rules or 10 items
+  - Default is 10. We will look at upto combination of 10 items
+  - (Aside) The algorithm will search upto a set of maximum 10 unique items i.e. for maxlen = 2, Rules will be considered upto item pairs {AB, AC, BC} but for maxlen = 3, triplets will also be considered i.e. {ABC} & so on
+- \textcolor{pink}{Question:} What is the meaning of minlen = 2
+  - Number of items in the Basket
+  - (Aside) If minlen is 2 then Antecedent of single item with Consequent of same item would also be considered a rule. i.e. People who bought Potato, also bought Potato. minlen = 2 ensures that at least two unique items would be present in the combination set of Antecedent and Consequent.
+
+- \textcolor{pink}{is.redundant()}
+  - It returns a logical vector
+  - Rule $\{A, B\} \Rightarrow \{Z\}$ is a more general rule compared to the specific rule $\{A, B, C\} \Rightarrow \{Z\}$. In other words, First one is the superset of second one.
+  - If the general rule has higher confidence than the specific rule, we do not need to look at the specific rule. Specific rule is redundant.
+- \textcolor{pink}{Question:} What happens if the specific rule $\{A, B, C\} \Rightarrow \{Z\}$ has higher confidence than general rule $\{A, B\} \Rightarrow \{Z\}$
+  - Then we cannot delete
+  - Refer Table \@ref(tab:B24T01)
+    - SN = 1 is Specific {Lip Gloss=Yes, Lipstick=Yes} whereas SN = 2 is General {Lip Gloss=Yes}. Yet, the specific rule is not categorised as redundant because it has higher confidence (0.734) than that of general rule (0.727)
+
+
+```{definition 'Redundant'}
+A rule can be defined as \textcolor{pink}{redundant} if a more general rules with the same or a higher confidence exists.
+```
+
+```{r 'B24D01', comment="", echo=FALSE, results='asis'}
+f_getDef("A-Priori-Property")
+```
+
+- \textcolor{pink}{Question:} What happens if we put minlen = 0 or (minlen = 2 and maxlen = 2) because triplets are causing a lot of redundancy
+  - There is no meaning of Set of items with 0 items
+  - We can filter out the rules which are redundant
+  - (Aside) Rather than the outright exclusion of set of items with 3 or more items, it is better to get more rules and then filter based on the criteria.
+
+- \textcolor{pink}{Question:} What is the meaning of Lift < 1
+  - It means that Antecedent should not be linked with the Consequent. That rule should not be considered.
+  - You can also locate the item based on your own margin and other considerations. 
+  - Seasonal data would be different. Storewise data would be different. 
+
+### Yes LHS Only {.unlisted .unnumbered}
+
+```{r 'B24-Rules-1', results='hide'}
+# #RHS: "Foundation=Yes"
+# #LHS: All Yes Only 
+rr_sup <- 0.1
+rr_conf <- 0.5
+rr_rhs <- 11L #index of "Foundation"
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf),
+  appearance = list(rhs = paste0(names(xw)[rr_rhs], "=", levels(xw[[rr_rhs]])[2]), 
+                    lhs = paste0(names(xw)[-rr_rhs], "=", levels(xw[[rr_rhs]])[2]), 
+                    default = "none")))
+# #Check Redundancy of Rules beased on measure = {"confidence", "oddsRatio", "lift"}
+# #Note these are columns names in rules, if these do not exist then creeate them
+isRedConf <- is.redundant(rules, measure = "confidence")
+isRedLift <- is.redundant(rules, measure = "lift")
+#which(isRedConf)
+hh <- rules
+```
+
+```{r 'B24-AddRed-1', include=FALSE, ref.label=c('B24-AddRed')}
+#
+```
+
+```{r 'B24-SetpRules-1', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B24T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " Excluding Redundant (Lift) & Sorted (Lift) gives Rules = ", nrow(hh))
+```
+
+```{r 'B24T01', echo=FALSE, ref.label=c('B24-RulesKbl')}
+#
+```
+
+### Prune {.unlisted .unnumbered}
+
+```{r 'B24-AddRed-A', eval=FALSE, ref.label=c('B24-AddRed')}
+#
+```
+
+```{r 'B24-Prune'}
+# #Sort and Subset are available for Rules (Similar to above)
+ii <- rules[!isRedLift]
+pruned <- sort(ii, by = "lift")
+inspect(pruned)
+#
+# #Qualtity of Rules (Dataframe of Numerics i.e. Support, Confidence, Coverage, Lift, Count) 
+# #However it is sorted by confidence only and is of limited use only
+quality(pruned)
+```
+
+## Support vs Confidence  {.tabset .tabset-fade}
+
+### ScatterPlot {.unlisted .unnumbered}
+
+```{r 'B24-SupConf', include=FALSE}
+if(FALSE) inspect(pruned)
+if(FALSE) pruned_tbl
+if(FALSE) plot(pruned)
+# #
+hh <- pruned_tbl
+#
+ttl_hh <- "Makeup: Rules Excluding Redundant"
+cap_hh <- "B24P01"
+sub_hh <- "Note: To stretch the difference, X-axis is only upto 0.5 not 1"
+#
+if(FALSE) { #To Remove the lowest contrast white from the Palette. This Works.
+  #Drop Lowest Two Colours in Palatte which has Max 9 Colours and get a continour function
+  k_Palette_B24_O <- colorRampPalette(brewer.pal(9, "Oranges")[-c(1:2)]) 
+  # #Use the Function to Rescale the gradients
+  k_Scale_B24_O <- scale_colour_gradientn(colours = k_Palette_B24_O(10), 
+                                          limits=c(min(hh$Lift), max(hh$Lift)))
+}
+#
+B24 <- hh %>% { 
+  ggplot(., aes(x = Support, y = Confidence, colour = Lift, label = LHS_Antecedent)) +
+  geom_point() +
+  geom_text_repel(max.overlaps = 20) +
+  scale_colour_viridis_c(direction = -1) +
+  #scale_colour_distiller(palette = "Oranges", direction = 1) +
+  #k_Scale_B24_O + 
+  scale_y_continuous(breaks = breaks_pretty(), limits = c(0, 1)) + 
+  scale_x_continuous(breaks = breaks_pretty(), limits = c(0, 0.5)) + 
+  #coord_fixed() +
+  theme(plot.title.position = "panel", legend.position = c(0.9, 0.3)) +
+  labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P01', echo=FALSE, fig.cap="Makeup: Support vs. Confidence with Lift as Gradient"}
+knitr::include_graphics(paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")) 
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'B24-SupConf-A', eval=FALSE, ref.label=c('B24-SupConf')}
+#
+```
+
+## Data Basket {#set-basket-b24 .tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B24-Basket.csv".}
+
+```{r 'B22-GetBasket', include=FALSE}
+xxB24Basket <- f_getRDS(xxB24Basket)
+```
+
+- \textcolor{pink}{Question:} What about other type of data like Orderwise or Customerwise
+  - We will look at that also.
+
+- \textcolor{pink}{arules::read.transactions()}
+  - For reading Transaction Data
+- \textcolor{orange}{Warning:} 
+  - "In asMethod(object) : removing duplicated items in transactions"
+  - The problem is not with duplicated transactions (the same row appearing twice) but duplicated items (the same item appearing more than once in the same transaction)
+  - Add `rm.duplicates = TRUE` to remove these objects
+  - \textcolor{pink}{Question:} What if you want to show that double the normal amount has been bought in a transaction by showing the items twice in the same tranaction
+    - Then it is not the kind of information that 'apriori' handles
+    - Further, 'arules' require transactions without duplicated items
+      - It stores 'sparse matrix' which can store exist/not-exist for each item and cannot store quantity
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'B24-PrepBasket'}
+bb <- aa <- xxB24Basket
+#
+# #It is a sparse matrix
+names(attributes(aa))
+#
+str(attributes(aa)$itemInfo$labels)
+#
+names(attributes(summary(aa)))
+#
+attributes(summary(aa))$Dim
+#
+attributes(summary(aa))$itemSummary
+#
+attributes(summary(aa))$lengths
+#
+#summary(aa)
+```
+
+### Import Transactions {.unlisted .unnumbered}
+
+```{r 'B24-Basket', include=FALSE, eval=FALSE}
+xxB24Basket <- read.transactions(paste0(.z$XL, "B24-Basket.csv"), 
+                                 sep = ',', rm.duplicates = TRUE)
+saveRDS(xxB24Basket, paste0(.z$XL, "xxB24Basket", ".rds"))
+```
+
+
+## Item Frequency {.tabset .tabset-fade}
+
+### Bar Plot {.unlisted .unnumbered}
+
+```{r 'B24-ItemFreqAbs', include=FALSE}
+# #Absolute Item Frequency Plot using sparse matrix from arules
+hh <- aa 
+nn_hh <- 15L
+type_hh <-  "absolute" # "relative"
+ttl_hh <- paste0("Basket: Absolute Item Frequency Plot of Items for Top N = ", nn_hh)
+cap_hh <- "B24P02"
+x_hh <- NULL
+y_hh <- "Item Frequency (Absolute)"
+loc_png <- paste0(.z$PX, "B24P02", "-Basket-Freq-Abs", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  itemFrequencyPlot(hh, topN = nn_hh, type = type_hh, 
+                    col = viridis(nn_hh), xlab = x_hh, ylab = y_hh, main = ttl_hh)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B24 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B24)
+  rm(B24)
+}
+```
+
+```{r 'B24P02', echo=FALSE, fig.cap="Basket: Absolute Item Frequency Plot of Items"}
+knitr::include_graphics(paste0(.z$PX, "B24P02", "-Basket-Freq-Abs", ".png"))
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'B24-ItemFreqAbs-A', eval=FALSE, ref.label=c('B24-ItemFreqAbs')}
+#
+```
+
+## Rules for Basket
+
+- This did not provide any good result because Count is 2 for most of the rules which is of no use. It is totally random.
+
+```{r 'B24-BasketRules', results='hide'}
+# #RHS: "Foundation=Yes"
+# #LHS: All Yes Only 
+xw <- aa
+rr_sup <- 0.0001 #extremely low value used
+rr_conf <- 0.5
+#rr_rhs <- 11L #index of "Foundation"
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf)))
+# #Check Redundancy of Rules beased on measure = {"confidence", "oddsRatio", "lift"}
+isRedConf <- is.redundant(rules, measure = "confidence")
+isRedLift <- is.redundant(rules, measure = "lift")
+#
+#which(isRedConf)
+hh <- rules
+```
+
+```{r 'B24-AddRed-2', include=FALSE, ref.label=c('B24-AddRed')}
+#
+```
+
+```{r 'B24-SetpRules-2', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B24T02) ", "Basket: Not Useful (Count is 2 mostly)")
+```
+
+```{r 'B24T02', echo=FALSE, ref.label=c('B24-RulesKbl')}
+#
+```
+
+## Data Groceries {#set-groceries-b24 .tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B24-Basket.csv".}
+
+```{r 'B22-GetGroceries', include=FALSE}
+xxB24Groceries <- f_getRDS(xxB24Groceries)
+```
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'B24-PrepGroceries'}
+bb <- aa <- xxB24Groceries
+#
+str(attributes(aa)$itemInfo$labels)
+#
+attributes(summary(aa))$Dim
+#
+attributes(summary(aa))$itemSummary
+#
+attributes(summary(aa))$lengths
+#
+#summary(aa)
+```
+
+### Import {.unlisted .unnumbered}
+
+```{r 'B24-Groceries', include=FALSE, eval=FALSE}
+xxB24Groceries <- read.transactions(paste0(.z$XL, "B24-Groceries.csv"), 
+                                    sep = ',', rm.duplicates = TRUE)
+saveRDS(xxB24Groceries, paste0(.z$XL, "xxB24Groceries", ".rds"))
+```
+
+
+## Data Mining Methods
+
+```{r 'B24D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Unsupervised-Methods")
+```
+
+```{r 'B24D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Supervised-Methods")
+```
+
+- [Data Mining Methods](#mining-b19 "b19") and [Definitions](#mining-def-c31 "c31")
+  - Data mining methods may be categorized as either supervised or unsupervised.
+  - Most data mining methods are supervised methods.
+  - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
+  - Supervised : 
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
+    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B24-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, hh, isRedConf, isRedLift, kbltbl, names_hh, rr_conf, 
+          rr_rhs, rr_sup, rules, rules_tbl, xw, xxB22Makeup, pruned, B24P01, loc_png, pruned_tbl, 
+          sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh)
 ```
 
-```{r 'B24-Validation', include=FALSE, cache=FALSE}
+```{r 'B24-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

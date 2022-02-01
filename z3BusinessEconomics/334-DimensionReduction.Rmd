@@ -322,7 +322,7 @@ cap_hh <- "C34P03"
 
 ```{r 'C34-CorPlot', include=FALSE, eval=FALSE}
 # #IN: hh (Correlation Tibble Long, Triangle with Diagonal) 
-C34 <- hh %>% {ggplot(., aes(y = ...1, x = ...2, fill = n)) + 
+C34 <- hh %>% { ggplot(., aes(y = ...1, x = ...2, fill = n)) + 
     geom_tile(color = "white") + 
     geom_text(aes(label = round(n, 2)), color = "black", size = 4) +
     coord_fixed() +
@@ -584,7 +584,7 @@ y_hh <- "Eigenvalue"
 
 ```{r 'C34-ScreePlot', include=FALSE}
 # #IN: hh 
-C34 <- hh %>% {ggplot(., aes(x = PCA, y = EigenVal)) + 
+C34 <- hh %>% { ggplot(., aes(x = PCA, y = EigenVal)) + 
     geom_point(aes(color = isOne), size = 3) +
     geom_line(aes(group = 1)) +
     geom_hline(aes(yintercept = 1), color = '#440154FF', linetype = "dashed") +
@@ -625,7 +625,7 @@ y_hh <- NULL
 
 ```{r 'C34-CumVarPlot', include=FALSE}
 # #IN: hh 
-C34 <- hh %>% {ggplot(., aes(x = PCA, y = pVarCum)) + 
+C34 <- hh %>% { ggplot(., aes(x = PCA, y = pVarCum)) + 
     geom_point(aes(color = isNinty), size = 3) +
     geom_line(aes(group = 1)) +
     geom_hline(aes(yintercept = 0.9), color = '#440154FF', linetype = "dashed") +
@@ -634,7 +634,7 @@ C34 <- hh %>% {ggplot(., aes(x = PCA, y = pVarCum)) +
     geom_text(data = tibble(x = 5.5, y = 0.8, labels = c("Proportion of Variance Covered Criterion")), 
               aes(x=x, y=y, label=labels), check_overlap = TRUE) + 
     scale_fill_distiller(palette = "BrBG") +
-    scale_y_continuous(limits = c(0, 1), labels=percent) + 
+    scale_y_continuous(limits = c(0, 1), labels = percent) + 
     theme(legend.position = 'none') +
     labs(y = y_hh,
          subtitle = NULL, caption = cap_hh, title = ttl_hh)
