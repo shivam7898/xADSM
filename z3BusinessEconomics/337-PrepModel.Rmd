@@ -13,6 +13,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 > "Multivariate Statistics (336)" was a summary view of ANOVA, Goodness of Fit etc.
 
+> "Simple Linear Regression (338)" has been merged in [Anderson C14](#c14 "c14").
+
 - "Preparing to Model the Data"
 
 ## Data Mining
@@ -22,8 +24,11 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - Most data mining methods are supervised methods.
   - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
   - Supervised : 
-    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
-    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision trees, Ensemble learning 
+      - Linear Regression : Ridge, Lasso and Elastic Regression
+      - Ensemble learning : Bagging, Boosting (AdaBoost, XGBoost), Random forests
+    - Classification (Categorical Target) : Decision trees, Ensemble learning, Logistic Regression, k-nearest neighbor (k-NN), Naive-Bayes 
+    - Deep Learning : Neural Networks
 
 ```{definition 'Unsupervised-Methods'}
 In \textcolor{pink}{unsupervised methods}, no target variable is identified as such. Instead, the data mining algorithm searches for patterns and structures among all the variables. The most common unsupervised data mining method is clustering. Ex: Voter Profile.
@@ -95,8 +100,8 @@ Even though the high-complexity model has low bias (error rate), it has a high v
   - A common method of evaluating how accurate model estimation is proceeding for a continuous target variable is to use the mean-squared error (MSE). (Target: Low MSE) 
     - MSE is a good evaluative measure because it combines both bias and variance. i.e. $\text{MSE} = \text{variance} + \text{bias}^2$
 
-```{definition 'MSE'}
-\textcolor{pink}{Mean-Squared error(MSE)} is a good evaluating measure of accuracy of model estimation for a continuous target variable. The MSE is a function of the estimation error (sum of squared errors, SSE) and the model complexity (e.g., degrees of freedom). Between two competing models, the one with lower MSE is preferred.
+```{r 'C37D02', comment="", echo=FALSE, results='asis'}
+f_getDef("MSE") #dddd
 ```
 
 ## Balancing the Training Dataset

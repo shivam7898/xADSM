@@ -1300,15 +1300,18 @@ if(FALSE) display.brewer.pal(3, "BrBG")
 
 ## Outliers {#outliers-c03}
 
-
 ```{definition 'Outliers'}
-Sometimes unusually large or unusually small values are called \textcolor{pink}{outliers}. It is a data point that differs significantly from other observations.
+\textcolor{pink}{Outliers} are data points or observations that does not fit the trend shown by the remaining data. These differ significantly from other observations. Unusually large or small values are commonly found to be outliers.
 ```
 
 - Reasons
   - Outliers can occur by chance in any distribution, but they often indicate either measurement error or that the population has a heavy-tailed distribution. A frequent cause of outliers is a mixture of two distributions, which may be two distinct sub-populations.
   - In most larger samplings of data, some data points will be further away from the sample mean than what is deemed reasonable. However, a small number of outliers is to be expected (and not due to any anomalous condition). 
   - Estimators capable of coping with outliers are said to be \textcolor{pink}{robust}: the median is a robust statistic of central tendency, while the mean is not. However, the mean is generally a more precise estimator.
+- Outliers represent observations that are suspect and warrant careful examination. 
+  - They may represent erroneous data; if so, the data should be corrected. 
+  - They may signal a violation of model assumptions; if so, another model should be considered. 
+  - Finally, they may simply be unusual values that occurred by chance. In this case, they should be retained.
 - Keeping vs. Removing Outliers
   - data value that has been incorrectly recorded /included - should be removed
   - unusual data value that has been recorded correctly and belongs in the data set - should be kept

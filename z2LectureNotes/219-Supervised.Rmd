@@ -24,8 +24,11 @@ f_getDef("Supervised-Methods")
   - Most data mining methods are supervised methods.
   - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
   - Supervised : 
-    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
-    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision trees, Ensemble learning 
+      - Linear Regression : Ridge, Lasso and Elastic Regression
+      - Ensemble learning : Bagging, Boosting (AdaBoost, XGBoost), Random forests
+    - Classification (Categorical Target) : Decision trees, Ensemble learning, Logistic Regression, k-nearest neighbor (k-NN), Naive-Bayes 
+    - Deep Learning : Neural Networks
 
 ## RFM Analysis
 

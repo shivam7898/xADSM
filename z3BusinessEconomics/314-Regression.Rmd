@@ -9,21 +9,17 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-- 
-  - "ForLater" - Everything
+- Larose Chapter 8 (338) : "Simple Linear Regression" has been merged here. 
 
-
-## Simple Linear Regression Model {.unlisted .unnumbered .tabset .tabset-fade}
+## Simple Linear Regression Model 
 
 ```{definition 'Regression-Analysis'}
-\textcolor{pink}{Regression analysis} can be used to develop an equation showing how two or more variables variables are related.
+\textcolor{pink}{Regression analysis} can be used to develop an equation showing how two or more variables are related.
 ```
-
 
 ```{definition 'Variable-Dependent'}
 The variable being predicted is called the \textcolor{pink}{dependent variable $({y})$}.
 ```
-
 
 ```{definition 'Variable-Independent'}
 The variable or variables being used to predict the value of the dependent variable are called the \textcolor{pink}{independent variables $({x})$}.
@@ -34,9 +30,8 @@ The variable or variables being used to predict the value of the dependent varia
 The simplest type of regression analysis involving one independent variable and one dependent variable in which the relationship between the variables is approximated by a straight line, is called \textcolor{pink}{simple linear regression}.
 ```
 
-
 ```{definition 'Regression-Model'}
-The equation that describes how ${y}$ is related to ${x}$ and an error term is called the \textcolor{pink}{regression model}. For example, simple linear regression model is given by equation \@ref(eq:simple-linear) 
+The equation that describes how ${y}$ is related to ${x}$ and an error term $\epsilon$ is called the \textcolor{pink}{regression model}. For example, simple linear regression model is given by equation ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$
 ```
 
 \begin{equation}
@@ -50,9 +45,294 @@ Note
 - The random variable, \textcolor{pink}{error term $({\epsilon})$}, accounts for the variability in ${y}$ that cannot be explained by the linear relationship between ${x}$ and ${y}$.
 
 
+```{definition 'Regression-Equation'}
+The equation that describes how the mean or expected value of ${y}$, denoted $E(y)$, is related to ${x}$ is called the \textcolor{pink}{regression equation}. Simple Linear Regression Equation is: $E(y) = {\beta}_0 + {\beta}_1 {x}$. The graph of the simple linear regression equation is a straight line; ${\beta}_0$ is the y-intercept of the regression line, ${\beta}_1$ is the slope.
+```
+
+## Least Squares Method
+
+```{definition 'Estimated-Regression-Equation'}
+Sample statistics (denoted $b_0$ and $b_1$) are computed as estimates of the population parameters ${\beta}_0$ and ${\beta}_1$. Thus \textcolor{pink}{Estimated Simple Linear Regression Equation} is: $\hat{y} = b_0 + b_1 {x}$. The value of $\hat{y}$ provides both a point estimate of $E(y)$ for a given value of 'x' and a prediction of an individual value of 'y' for a given value of 'x'. 
+```
 
 
-## Summary
+```{definition 'Least-Squares'}
+The \textcolor{pink}{least squares method} is a procedure for using sample data to find the estimated regression equation. It uses the sample data to provide the values of $b_0$ and $b_1$ that minimize the \textcolor{pink}{sum of the squares of the deviations} between the observed values of the dependent variable $y_i$ and the predicted values of the dependent variable $\hat{y}_i$. i.e. min$\Sigma(y_i - \hat{y}_i)^2 or min(SSE)$
+```
+
+
+- Scatter diagrams for regression analysis are constructed with the independent variable 'x' on the horizontal axis and the dependent variable 'y' on the vertical axis.
+
+"ForLater" - Equation and calculation for $b_0$ and $b_1$
+
+## Coefficient of Determination
+
+```{definition 'Residuals'}
+The deviations of the y values about the estimated regression line are called \textcolor{pink}{residuals}. The $i^{\text{th}}$ residual represents the error in using (predicted) $\hat{y}_i$ to estimate (observed) $y_i$.
+```
+
+- For the $i^{\text{th}}$ observation, the difference between the observed value of the dependent variable, $y_i$, and the predicted value of the dependent variable, $\hat{y}_i$, is called the \textcolor{pink}{$i^{\text{th}}$ residual}. 
+
+```{definition 'SSE'}
+The sum of squares of residuals or errors is the quantity that is minimized by the least squares method. This quantity, also known as the \textcolor{pink}{sum of squares due to error}, is denoted by \textcolor{pink}{SSE}. i.e. $\text{SSE} = \Sigma(y_i - \hat{y}_i)^2$
+```
+
+- The value of SSE is a measure of the error in using the estimated regression equation to predict the values of the dependent variable in the sample.
+
+```{definition 'SSR'}
+To measure how much the $\hat{y}$ values on the estimated regression line deviate from $\overline{y}$, another sum of squares is computed. This sum of squares, called the \textcolor{pink}{sum of squares due to regression}, is denoted \textcolor{pink}{SSR}. i.e. $\text{SSR} = \Sigma(\hat{y}_i - \overline{y})^2$
+```
+
+
+```{definition 'SST'}
+For the $i^{\text{th}}$ observation in the sample, the difference $y_i - \overline{y}$ provides a measure of the error involved in using $\overline{y}$ for prediction. The corresponding sum of squares, called the \textcolor{pink}{total sum of squares}, is denoted \textcolor{pink}{SST}. i.e. $\text{SST} = \Sigma(y_i - \overline{y})^2 \to \text{SST} = \text{SSE} + \text{SSR}$. SST is a measure of the total variability in the values of the response variable alone, without reference to the predictor.
+```
+
+- We can think of SST as a measure of how well the observations cluster about the $\overline{y}$ line and SSE as a measure of how well the observations cluster about the $\hat{y}$ line.
+- The estimated regression equation would provide a perfect fit if every value of the dependent variable $y_i$ happened to lie on the estimated regression line. 
+  - In this case, $y_i - \hat{y}_i$ would be zero for each observation, resulting in SSE = 0. 
+  - Thus for a perfect fit SSR must equal SST, and the ratio (SSR/SST) must equal one.
+
+```{definition 'Coefficient-of-Determination'}
+The ratio $r^2 =\frac{\text{SSR}}{\text{SST}} \in [0, 1]$, is used to evaluate the goodness of fit for the estimated regression equation. This ratio is called the \textcolor{pink}{coefficient of determination ($r^2$)}.  It can be interpreted as the proportion of the variability in the dependent variable y that is explained by the estimated regression equation.
+```
+
+- $r^2$ can be interpreted as the percentage of the total sum of squares that can be explained by using the estimated regression equation. 
+- Larger values of $r^2$ imply that the least squares line provides a better fit to the data; that is, the observations are more closely grouped about the least squares line. But, using only $r^2$, we can draw no conclusion about whether the relationship between x and y is statistically significant. 
+
+## Correlation Coefficient
+
+- Refer [Correlation Coefficient](#correlation-c03 "c03")
+
+```{r 'C14D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Correlation-Coefficient")
+```
+
+- If a regression analysis has already been performed and the coefficient of determination $r^2$ computed, the sample correlation coefficient $r_{xy} = (\text{sign of } b_1)\sqrt{r^2}$
+- In the case of a linear relationship between two variables, both the coefficient of determination $(r^2)$ and the sample correlation coefficient $(r_{xy})$ provide measures of the strength of the relationship. 
+  - $(r^2) \in [0, 1]$ : The coefficient of determination provides a measure between zero and one
+  - $(r_{xy}) \in [-1, 1]$ : The sample correlation coefficient provides a measure between −1 and +1.
+  - Although $r_{xy}$ is restricted to a linear relationship between two variables, $r^2$ can be used for nonlinear relationships and for relationships that have two or more independent variables. 
+  - Thus, the coefficient of determination provides a wider range of applicability.
+
+## Model Assumptions
+
+- Value of the coefficient of determination $(r^2)$ is a measure of the goodness of fit of the estimated regression equation. However, even with a large value of $r^2$, the estimated regression equation should not be used until further analysis of the appropriateness of the assumed model has been conducted. 
+- An important step in determining whether the assumed model is appropriate involves testing for the significance of the relationship. 
+- The tests of significance in regression analysis are based on the following assumptions about the error term $\epsilon$.
+
+
+```{definition 'Simple-Linear-Regression-Assumption-1'}
+\textcolor{pink}{Regression Assumption 1/4 (Zero-Mean):} For Regression Model ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$ : The error term $\epsilon$ is a random variable with a mean or expected value of zero; $E(\epsilon) = 0$. (Implication) $\beta_0$ and $\beta_1$ are constants, therefore $E(\beta_0) = \beta_0$ and $E(\beta_1) = \beta_1$; thus, for a given value of x, the expected value of y is given by \textcolor{pink}{Regression equation $E(y) = {\beta}_0 + {\beta}_1 {x}$}
+```
+
+
+```{definition 'Simple-Linear-Regression-Assumption-2'}
+\textcolor{pink}{Regression Assumption 2/4 (Constant Variance):} For Regression Model ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$ and Regression equation $E(y) = {\beta}_0 + {\beta}_1 {x}$ : The variance of $\epsilon$, denoted by ${\sigma}^2$, is the same for all values of x. (Implication) The variance of y about the regression line equals ${\sigma}^2$ and is the same for all values of x.
+```
+
+
+```{definition 'Simple-Linear-Regression-Assumption-3'}
+\textcolor{pink}{Regression Assumption 3/4 (Independence):} For Regression Model ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$ and Regression equation $E(y) = {\beta}_0 + {\beta}_1 {x}$ : The values of $\epsilon$ are independent. (Implication) The value of $\epsilon$ for a particular value of x is not related to the value of $\epsilon$ for any other value of x; thus, the value of y for a particular value of x is not related to the value of y for any other value of x.
+```
+
+
+```{definition 'Simple-Linear-Regression-Assumption-4'}
+\textcolor{pink}{Regression Assumption 4/4 (Normality):} For Regression Model ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$ and Regression equation $E(y) = {\beta}_0 + {\beta}_1 {x}$ : The error term $\epsilon$ is a normally distributed random variable for all values of x. (Implication) Because y is a linear function of $\epsilon$, y is also a normally distributed random variable for all values of x.
+```
+
+```{definition 'Simple-Linear-Regression-Assumption-Summary'}
+\textcolor{pink}{Four Regression Assumptions}: (1) Zero-Mean: $E(\epsilon) = 0$. (2) Constant Variance: The variance of $\epsilon$ (${\sigma}^2$) is the same for all values of x. (3) Independence: The values of $\epsilon$ are independent. (4) Normality: The error term  $\epsilon$ has a normal distribution.
+```
+
+- \textcolor{orange}{Caution:} We are also making an assumption or hypothesis about the form of the relationship between x and y. That is, we assume that a straight line represented by ${\beta}_0 + {\beta}_1 {x}$ is the basis for the relationship between the variables. We must not lose sight of the fact that some other model, for instance ${y} = {\beta}_0 + {\beta}_1 {x}^2 + {\epsilon}$, may turn out to be a better model for the underlying relationship.
+
+## Testing for Significance
+
+```{r 'C14D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression-Assumption-1")
+```
+
+- If ${\beta}_1 = 0 \to E(y) = {\beta}_0$ : In this case, the mean value of y does not depend on the value of x and hence we would conclude that x and y are not linearly related. 
+- Alternatively, if ${\beta}_1 \neq 0$, we would conclude that the two variables are related. 
+- Thus, to test for a significant regression relationship, we must conduct a hypothesis test to determine whether the value of ${\beta}_1$ is zero. i.e. \textcolor{pink}{${H_0} : {\beta}_1 = 0$}
+- Two tests are commonly used. Both require an estimate of ${\sigma}^2$, the variance of $\epsilon$ in the regression model.
+
+```{r 'C14D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression-Assumption-2")
+```
+
+- Estimate of ${\sigma}^2$
+  - ${\sigma}^2$, the variance of $\epsilon$, also represents the variance of the y values about the regression line. 
+
+```{r 'C14D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Residuals")
+```
+
+  - Thus, SSE, the sum of squared residuals, is a measure of the variability of the actual observations about the estimated regression line. 
+    - SSE has $(n − 2)$ degrees of freedom because two parameters (${\beta}_0$ and ${\beta}_1$) must be estimated to compute SSE. 
+
+```{definition 'MSE'}
+\textcolor{pink}{Mean-Squared error (MSE)} is an evaluating measure of accuracy of model estimation for a continuous target variable. It provides the estimate of ${\sigma}^2$. It is given by SSE divided by its degrees of freedom $(n - 2)$. i.e. $s^2 = \text{MSE} = \frac{\text{SSE}}{n - 2}$. Where 's' is the \textcolor{pink}{standard error of the estimate}. Lower MSE is preferred.
+```
+
+## Inference in Regression
+
+### t-Test
+
+If we use a different random sample for the same regression study the resultant regression would be obviously different from the earlier. Indeed, $b_0$ and $b_1$, the least squares estimators, are sample statistics with their own sampling distributions. 
+
+Standard deviation of $b_1$ is ${\sigma}_{b_1}$. Its estimate, estimated standard deviation of $b_1$, is given by $s_{b_1} = \frac{s}{\sqrt{\Sigma (x_i - {\overline{x}})^2}}$
+
+The standard deviation of $b_1$ is also referred to as the standard error of $b_1$. Thus, $s_{b_1}$ provides an estimate of the standard error of $b_1$.
+
+- The t test for a significant relationship is based on the fact that the test statistic $\frac{b_1 - \beta_1}{s_{b_1}}$ follows a t distribution with $(n − 2)$ degrees of freedom. If the null hypothesis is true, then $\beta_1 = 0$ and $t = \frac{b_1}{s_{b_1}}$
+  - If ${}^2\!P_{(t)} \leq {\alpha} \to {H_0}$ Rejected.
+  - The form of a confidence interval for $\beta_1$ is as follows: $b_1 \pm t_{{\alpha}/2} s_{b_1}$
+  - Large values of $s_{b_1}$ indicate that the estimate of the slope $b_1$ is unstable, while small values of $s_{b_1}$ indicate that the estimate of the slope $b_1$ is precise. 
+
+```{definition 'H-SimpleRegression'}
+\textcolor{pink}{$\text{\{Test for Significance in Simple Linear Regression\} } {H_0} : {\beta}_1 = 0 \iff {H_a}: {\beta}_1 \neq 0$}
+```
+
+### F-Test
+
+An F test, based on the F probability distribution, can also be used to test for significance in regression. With only one independent variable, the F test will provide the same conclusion as the t test; that is, if the t test indicates $b_1 \neq 0$ and hence a significant relationship, the F test will also indicate a significant relationship. But with more than one independent variable, only the F test can be used to test for an overall significant relationship. 
+
+As shown earlier, MSE provides an estimate of ${\sigma}^2$. If the null hypothesis ${H_0} : {\beta}_1 = 0$ is true, the sum of squares due to regression, \textcolor{pink}{SSR}, divided by its degrees of freedom provides another independent estimate of ${\sigma}^2$. 
+
+```{definition 'MSR'}
+The \textcolor{pink}{mean square due to regression (MSR)} provides the estimate of ${\sigma}^2$. It is given by SSR divided by its degrees of freedom. If the \textcolor{pink}{standard error of the estimate} is denoted by 's' then $s^2 = \text{MSR} = \frac{\text{SSR}}{\text{Regression degrees of freedom}} = \frac{\text{SSR}}{\text{Number of independent variables}}$
+```
+
+- If the null hypothesis ${H_0} : {\beta}_1 = 0$ is true, MSR and MSE are two independent estimates of ${\sigma}^2$ and the sampling distribution of MSR/MSE follows an F distribution with numerator degrees of freedom equal to one and denominator degrees of freedom equal to $(n − 2)$. 
+  - Therefore, when ${\beta}_1 = 0$, the value of MSR/MSE should be close to one. 
+    - Both MSE and MSR provide unbiased estimates of ${\sigma}^2$
+  - However, if the null hypothesis is false ${\beta}_1 \neq 0$, MSR will overestimate ${\sigma}^2$ and the value of MSR/MSE will be inflated; thus, large values of MSR/MSE lead to the rejection of ${H_0}$ and the conclusion that the relationship between x and y is statistically significant.
+    - MSE still provides an unbiased estimate of ${\sigma}^2$ 
+  - Test Statistic $F = \frac{\text{MSR}}{\text{MSE}}$
+  - If $P_{(F)} \leq {\alpha} \to {H_0}$ Rejected.
+
+```{r 'C14D05', comment="", echo=FALSE, results='asis'}
+f_getDef("H-SimpleRegression") 
+```
+
+## Cautions About the Interpretation of Significance Tests
+
+Regression analysis, which can be used to identify how variables are associated with one another, cannot be used as evidence of a cause-and-effect relationship.
+
+Rejecting the null hypothesis ${H_0} : {\beta}_1 = 0$ and concluding that the relationship between x and y is significant does not enable us to conclude that a cause-and-effect relationship is present between x and y. 
+
+Concluding a cause-and-effect relationship is warranted only if the analyst can provide some type of theoretical justification that the relationship is in fact causal. 
+
+In addition, just because we are able to reject ${H_0} : {\beta}_1 = 0$ and demonstrate statistical significance does not enable us to conclude that the relationship between x and y is linear. 
+
+We can state only that x and y are related and that a linear relationship explains a significant portion of the variability in y over the range of values for x observed in the sample.
+
+Given a significant relationship, we should feel confident in using the estimated regression equation for predictions corresponding to x values within the range of the x values observed in the sample. Unless other reasons indicate that the model is valid beyond this range, predictions outside the range of the independent variable should be made with caution. 
+
+i.e. if sample has x-value 2 to 26, we can use it to estimate for a value of x = 20 but it should not be extrapolated to x = 40.
+
+## Using the Estimated Regression Equation for Estimation and Prediction
+
+"ForLater" - Interval Estimation, Confidence Interval, Prediction Interval
+
+## Residual Analysis
+
+Residual analysis is the primary tool for determining whether the assumed regression model is appropriate.
+
+```{r 'C14D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression-Assumption-Summary")
+```
+
+- Common Plots
+  - Residual Plot Against x (Scatterplot of $x_i$ and $\{y_i - \hat{y}_i\}$)
+  - Residual Plot Against the fits (predicted values) $\hat{y}$ (Scatterplot of $\hat{y}_i$ and $\{y_i - \hat{y}_i\}$)
+    - It is more widely used in multiple regression analysis, because of the presence of more than one independent variable.
+    - There should be no deviant pattern observed for model to remain valid
+      - No Curvature - violates the independence assumption
+      - No Funnel - violates the constant variance assumption
+      - No directional change - violates the zero-mean assumption
+    - "Rorschach effect" : Do not see pattern in randomness
+      - The null hypothesis when examining these plots is that the assumptions are intact; only systematic and clearly identifiable patterns in the residuals plots offer evidence to the contrary.
+  - Standardized Residuals (Scaled) Plot Against x 
+  - Normal Probability Plot (QQ plot) - Standardised Residuals vs. Normal Scores
+
+
+```{definition 'QQ-Plot'}
+A \textcolor{pink}{normal probability plot} is a quantile–quantile plot of the quantiles of a particular distribution against the quantiles of the standard normal distribution, for the purposes of determining whether the specified distribution deviates from normality.
+```
+
+- Normal Probability Plot (QQ plot)
+  -  In a normality plot, the observed values of the distribution of interest are compared against the same number of values that would be expected from the normal distribution. 
+  - If the distribution is normal, then the bulk of the points in the plot should fall on a straight line; systematic deviations from linearity in this plot indicate non-normality.
+
+- Tests
+  - \textcolor{pink}{Anderson–Darling Test} for Normality
+    - The null hypothesis is that the normal distribution fits, so that small p-values will indicate lack of fit.
+  - For assessing whether the constant variance assumption has been violated, either \textcolor{pink}{Bartlett test} or \textcolor{pink}{Levene test} may be used.
+  - For determining whether the independence assumption has been violated, either the \textcolor{pink}{Durban–Watson test} or the \textcolor{pink}{runs test} may be applied.
+
+## Outliers
+
+```{r 'C14D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Outliers") #dddd
+```
+
+- Refer [Outliers: C03](#outliers-c03 "c03")
+  - An outlier is an observation that has a very large standardized residual (scaled) in absolute value. 
+  
+
+```{definition 'High-Leverage-Points'}
+\textcolor{pink}{High leverage points} are observations with extreme values for the independent variables. The leverage of an observation is determined by how far the values of the independent variables are from their mean values.
+```
+
+
+- A high leverage point is an observation that is extreme in the predictor space.
+  - For leverage only the x is considered not the y.
+  - Example: we have Distance Travelled (y) vs. Time Taken (x) information of 10 people with max(x) is 9 hours. If another person travel 39 km in 16 hours, it automatically becomes a high leverage point solely based on 16 hours (x).
+    - If the point lies on the regression line i.e. its standardised residual is low then it is not an outlier. The decision for designating it as outlier conside the distance travelled (y) 
+
+
+```{definition 'Influential-Observations'}
+\textcolor{pink}{Influential observations} are those observations which have a strong influence or effect on the regression results. Influential observations can be identified from a scatter diagram when only one independent variable is present. 
+```
+
+- An observation is influential if the regression parameters alter significantly based on the presence or absence of the observation in the data set.
+  - An outlier may or may not be influential. Similarly, a high leverage point may or may not be influential.
+  - Usually, influential observations combine both the characteristics of large residual and high leverage
+  - It is possible for an observation to be not-quite flagged as an outlier, and not-quite flagged as a high leverage point, but still be influential through the combination of the two characteristics.
+    - Influential observations that are caused by an interaction of large residuals and high leverage can be difficult to detect. One of the diagnostic procedure is called 'Cook D statistic'.
+  - Example: Suppose another person travels 20 km in 5 hours when the mean(x) is 5 hours. i.e. it is situated exactly at the mean of independent variable
+    - Altohugh this would be an outlier because it has large standardised residual
+    - It is not influential because it has very low leverage (placed at exactly the mean of x)
+      - Its presence or absence are going to change parameters of regression equation only by a small value.
+
+
+```{definition 'Cook-Distance'}
+\textcolor{pink}{Cook distance ($D_i$)} is the most common measure of the influence of an observation. It works by taking into account both the size of the residual and the amount of leverage for that observation. Generally an observation is influential is if $D_i > 1$
+```
+
+- $D_i$ can be compared against the percentiles of the F-distribution with (m, n − m − 1) degrees of freedom. 
+  - 'n' is the total number of observations
+  - 'm' indicates the number of predictor variables
+  - If the observed value lies within the first quartile of this distribution (lower than the $25^{\text{th}}$ percentile), then the observation has little influence on the regression; 
+  - However, if $D_i$ is greater than the median of this distribution, then the observation is influential. 
+  - The hiker in the earlier example (39 km in 16 hours), was that observation influential
+    - This observatio has high leverage however it is not an outlier because the observation lies near the regression line
+    - It has low $D_i$ and thus the observation is not influential
+  - What if the hiker travelled 23 km in 10 hours
+    - It lacks high leverage or high residual
+    - However, it is influential because $D_i$ is beyond $50^{\text{th}}$ percentile
+    - The influence of this observation stems from the combination of its moderately large residual with its moderately large leverage. 
+
+## Transformations to achieve Linearity
+
+- Ladder of Re-expressions - "ForLater"
+  - The ladder of re-expressions consists of the following ordered set of transformations for any continuous variable t: $t^{-3}, t^{-2}, t^{-1}, t^{-1/2}, \ln(t), \sqrt{t}, t^1, t^2, t^3$
+
+- Box-Cox Transformations
+  - This method involves first choosing a set of candidate values for $\lambda$, and finding SSE for regressions performed using each value of $\lambda$. Then, plotting $\text{SSE}_\lambda$ versus $\lambda$, find the lowest point of a curve through the points in the plot. This represents the maximum-likelihood estimate of $\lambda$.
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

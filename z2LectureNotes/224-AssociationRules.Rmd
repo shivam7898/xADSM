@@ -13,7 +13,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [Import Data Makeup - B22](#set-makeup-b22 "b22")
 - Discussion on R Markdown / R Notebook from 16:45 - 17:20 has not been included.
 - "ForLater" Professor will cover "Attribution Model" later.
-- Paused at 17:57 to complete regression chapter 8
+- "ForLater" Book for Ridge, Lasso and Elastic Regression
 
 ```{r 'B24-GetMakeup', ref.label=c('B22-GetMakeup', 'B22-PrepMakeup')}
 # #xxB22Makeup, aa, bb, xw
@@ -99,8 +99,8 @@ if(FALSE){# #WARNING: Installation may take some time.
 A rule can be defined as \textcolor{pink}{redundant} if a more general rules with the same or a higher confidence exists.
 ```
 
-```{r 'B24D01', comment="", echo=FALSE, results='asis'}
-f_getDef("A-Priori-Property")
+```{r 'B24D05', comment="", echo=FALSE, results='asis'}
+f_getDef("A-Priori-Property") #dddd
 ```
 
 - \textcolor{pink}{Question:} What happens if we put minlen = 0 or (minlen = 2 and maxlen = 2) because triplets are causing a lot of redundancy
@@ -380,14 +380,88 @@ xxB24Groceries <- read.transactions(paste0(.z$XL, "B24-Groceries.csv"),
 saveRDS(xxB24Groceries, paste0(.z$XL, "xxB24Groceries", ".rds"))
 ```
 
+## Rules for Groceries
 
-## Data Mining Methods
+- This did not provide any good result because Count is 2 for most of the rules which is of no use. It is totally random.
+
+```{r 'B24-GroceriesRules', results='hide'}
+# #RHS: "Foundation=Yes"
+# #LHS: All Yes Only 
+xw <- aa
+rr_sup <- 0.01 #extremely low value used
+rr_conf <- 0.5
+#rr_rhs <- 11L #index of "Foundation"
+rules <- suppressWarnings(apriori(xw, 
+  parameter = list(minlen = 2, maxlen = 3, support = rr_sup, confidence = rr_conf)))
+# #Check Redundancy of Rules beased on measure = {"confidence", "oddsRatio", "lift"}
+isRedConf <- is.redundant(rules, measure = "confidence")
+isRedLift <- is.redundant(rules, measure = "lift")
+#
+#which(isRedConf)
+hh <- rules
+```
+
+```{r 'B24-AddRed-3', include=FALSE, ref.label=c('B24-AddRed')}
+#
+```
+
+```{r 'B24-SetpRules-3', include=FALSE}
+#hh <- hh #Printable Kable Table from Rules
+names_hh <- names(hh)
+cap_hh <- paste0("(B24T03) ", "Groceries: ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
+                  " Excluding Redundant (Lift) & Sorted (Lift) gives Rules = ", nrow(hh))
+```
+
+```{r 'B24T03', echo=FALSE, ref.label=c('B24-RulesKbl')}
+#
+```
+
+
+### ScatterPlot {.unlisted .unnumbered}
+
+```{r 'B24-SupConf-Gro', include=FALSE}
+# #
+hh <- pruned_tbl
+#
+ttl_hh <- "Groceries: Rules Excluding Redundant"
+cap_hh <- "B24P03"
+sub_hh <- NULL #"Note: To stretch the difference, X-axis is only upto 0.5 not 1"
+#
+B24 <- hh %>% { 
+  ggplot(., aes(x = Support, y = Confidence, colour = Lift, label = LHS_Antecedent)) +
+  geom_point(aes(shape = RHS_Consequent), size =  2) + 
+  geom_text_repel(max.overlaps = 20) +
+  scale_colour_viridis_c(direction = -1) +
+  scale_shape_manual(values=c(1, 4)) +
+  scale_y_continuous(breaks = breaks_pretty(), limits = c(0, 1)) + 
+  scale_x_continuous(breaks = breaks_pretty(), limits = c(0, 0.025)) + 
+  theme(plot.title.position = "panel", legend.position = c(0.8, 0.85), 
+        legend.key.size = unit(0.4, 'cm'), legend.box = "horizontal") +
+  labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P03","-Groceries-SupConf", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P03, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P03', echo=FALSE, fig.cap="Groceries: Support vs. Confidence with Lift as Gradient and Two RHS"}
+knitr::include_graphics(paste0(.z$PX, "B24P03","-Groceries-SupConf", ".png")) 
+```
+
+
+## Regression and Classification Framework
 
 ```{r 'B24D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Unsupervised-Methods")
 ```
 
-```{r 'B24D01', comment="", echo=FALSE, results='asis'}
+```{r 'B24D02', comment="", echo=FALSE, results='asis'}
 f_getDef("Supervised-Methods")
 ```
 
@@ -396,20 +470,41 @@ f_getDef("Supervised-Methods")
   - Most data mining methods are supervised methods.
   - Unsupervised : Clustering, PCA, Factor Analysis, Association Rules, RFM
   - Supervised : 
-    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision Tree, Random Forest
-    - Classification (Categorical Target) : Decision Trees, Random Forest, Logistic Regression, k-nearest neighbors, Bagging and Boosting, Neural Networks
+    - Regression (Continuous Target) : Linear Regression, Regularised Regression, Decision trees, Ensemble learning 
+      - Linear Regression : Ridge, Lasso and Elastic Regression
+      - Ensemble learning : Bagging, Boosting (AdaBoost, XGBoost), Random forests
+    - Classification (Categorical Target) : Decision trees, Ensemble learning, Logistic Regression, k-nearest neighbor (k-NN), Naive-Bayes 
+    - Deep Learning : Neural Networks
 
+```{r 'B24D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Estimation")
+```
 
+```{r 'B24D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Classification")
+```
+
+- \textcolor{pink}{Question:} Why so many different types of algorithms
+  - We would need to apply all of them one by one on our dataset and would need to analyse which of them provide better performance measure on our specific dataset 
+- \textcolor{pink}{Question:} What is the performance measure
+  - We calculate the predictive power /accuracy of various algorithms
+  - Example: Cross-validation (Train & Test)
+- \textcolor{pink}{Question:} AutoML functionality provided by various tools apply various algorithms on the dataset and suggest the best possible Algorithm. Are there any drawbacks or limitations of that
+  - Mostly Proprietary, EDA and Pre-processing is difficult, limitations of what they allow
+  - R, Python : No restriction, Noone else has access to your data
+  - Longterm availability and applicability of past learnings based on your specific datasets
+  - Automated R Package: rattle: Easy but many restrictions
+  - Kaggle : Many competitions happen based on different algorithms
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B24-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, hh, isRedConf, isRedLift, kbltbl, names_hh, rr_conf, 
           rr_rhs, rr_sup, rules, rules_tbl, xw, xxB22Makeup, pruned, B24P01, loc_png, pruned_tbl, 
-          sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh)
+          sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh, B24P03, xxB24Groceries)
 ```
 
-```{r 'B24-Validation', include=TRUE, cache=FALSE}
+```{r 'B24-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
