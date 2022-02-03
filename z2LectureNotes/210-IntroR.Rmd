@@ -699,7 +699,8 @@ stopifnot(identical(bb_2, arrange(bb, ll, -dd)))
 ```{r 'B10-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, B10P01, bb_1, bb_2, bb_3, bb_4, bb_a, bb_b, bb_dft, bb_lst, 
           bb_lst_c, bb_lst_l, bb_mat, bb_na_col, bb_new, data_1, data_2, data_3, data_4, data_5, 
-          data_6, data_7, data_8, data_9, mydata, n_rows, nn, xxbasic10, xxflights, loc_png)
+          data_6, data_7, data_8, data_9, mydata, n_rows, nn, xxbasic10, xxflights, loc_png, 
+          color_base, color_sort, color_uniq, fruit_base, fruit_sort, fruit_uniq)
 ```
 
 ```{r 'B10-Validation', include=FALSE, cache=FALSE}

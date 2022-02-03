@@ -19,14 +19,14 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 # #xxB22Makeup, aa, bb, xw
 ```
 
-```{r 'B24-GetMakeupKnit', include=FALSE, eval=TRUE}
+```{r 'B24-GetMakeupKnit', include=FALSE, eval=FALSE}
 xxB22Makeup <- f_getRDS(xxB22Makeup)
 bb <- aa <- xxB22Makeup
 xw <- aa %>% mutate(across(everything(), factor, levels = c("No", "Yes")))
 ```
 
 ```{r 'B24-AddRed', include=FALSE, eval=FALSE}
-# #Tibble excluding Redundant Rules #IN: rules Out: hh, pruned_tbl
+# #Tibble excluding Redundant Rules #IN: rules Out: hh, pruned_tbl #xxx2
 # #Rules | DataFrame | Tibble | Rename | TitleCase | Add Columns | Filter | Drop | SN | Relocate |
 pruned_tbl <- DATAFRAME(rules) %>% as_tibble() %>% 
   rename(LHS_Antecedent = LHS, RHS_Consequent = RHS) %>% 
@@ -116,7 +116,7 @@ f_getDef("A-Priori-Property") #dddd
 ### Yes LHS Only {.unlisted .unnumbered}
 
 ```{r 'B24-Rules-1', results='hide'}
-# #RHS: "Foundation=Yes"
+# #RHS: "Foundation=Yes" #xxx1
 # #LHS: All Yes Only 
 rr_sup <- 0.1
 rr_conf <- 0.5
@@ -139,7 +139,7 @@ hh <- rules
 ```
 
 ```{r 'B24-SetpRules-1', include=FALSE}
-#hh <- hh #Printable Kable Table from Rules
+#hh <- hh #Printable Kable Table from Rules #xxx3
 names_hh <- names(hh)
 cap_hh <- paste0("(B24T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
                   " Excluding Redundant (Lift) & Sorted (Lift) gives Rules = ", nrow(hh))
@@ -156,7 +156,7 @@ cap_hh <- paste0("(B24T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf,
 ```
 
 ```{r 'B24-Prune'}
-# #Sort and Subset are available for Rules (Similar to above)
+# #Sort and Subset are available for Rules (Similar to above) #xxx4
 ii <- rules[!isRedLift]
 pruned <- sort(ii, by = "lift")
 inspect(pruned)
@@ -166,15 +166,27 @@ inspect(pruned)
 quality(pruned)
 ```
 
-## Support vs Confidence  {.tabset .tabset-fade}
+## Support vs Confidence {.tabset .tabset-fade}
+
+```{conjecture 'plot-new'}
+\textcolor{brown}{Error in ... : plot.new has not been called yet}
+```
+
+- If the error occurs while using plot() or if the resultant png is blank, it might be a ggplot object rather than Base R. 
+- Try to use ggplot commands including ggsave() on it.
+- OR if it is actually a base R plot, add \textcolor{pink}{plot.new()} before calling plot()
+
+```{conjecture 'non-numeric-argument'}
+\textcolor{brown}{Error in plot(...) : non-numeric argument to binary operator}
+```
+
+- If the error occurs while using ggplot2 syntax, the object might be Base R plot. 
+
 
 ### ScatterPlot {.unlisted .unnumbered}
 
 ```{r 'B24-SupConf', include=FALSE}
-if(FALSE) inspect(pruned)
 if(FALSE) pruned_tbl
-if(FALSE) plot(pruned)
-# #
 hh <- pruned_tbl
 #
 ttl_hh <- "Makeup: Rules Excluding Redundant"
@@ -213,9 +225,10 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P01', echo=FALSE, fig.cap="Makeup: Support vs. Confidence with Lift as Gradient"}
+```{r 'B24P01', echo=FALSE, fig.cap="Makeup: Support and Confidence with Lift as Gradient"}
 knitr::include_graphics(paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")) 
 ```
+
 
 ### Code {.unlisted .unnumbered}
 
@@ -496,12 +509,515 @@ f_getDef("Classification")
   - Automated R Package: rattle: Easy but many restrictions
   - Kaggle : Many competitions happen based on different algorithms
 
+## Groceries (Visualisations)
+
+```{r 'B24-GroceriesViz'}
+set.seed(3)
+data(Groceries)
+xw <- Groceries
+#
+rr_sup <- 0.001
+rr_conf <- 0.5
+rules <- apriori(xw, parameter=list(support = rr_sup, confidence = rr_conf))
+#
+# #Number of Rules
+attributes(summary(rules))$length
+#
+# #Filter Rules with low confidence score.
+subrules <- rules[quality(rules)$confidence > 0.8]
+attributes(summary(subrules))$length
+#
+# #Top10 for Graph Based visualisation
+t10rules <- head(rules, n = 10, by = "lift")
+```
+
+
+```{conjecture 'Not-Exported-Object'}
+\textcolor{brown}{Error: 'plot' is not an exported object from 'namespace:arulesViz'}
+```
+
+- Package 'arulesViz' provides S3 method for plot(). To avoid this overloading we can explicitly call the function like \textcolor{pink}{arulesViz::plot()}. However, this is NOT an exported function.
+- So, we can use the \textcolor{pink}{:::} operator. For a package 'pkg' :
+  - \textcolor{pink}{pkg::name} returns the value of the exported variable 'name' in namespace 'pkg'
+  - \textcolor{pink}{pkg:::name} returns the value of the internal variable 'name'. 
+  - The package namespace will be loaded if it was not loaded before the call, but the package will not be attached to the search path. 
+  - i.e. \textcolor{pink}{arulesViz:::plot.rules()} - Note the intenal function name is NOT plot().
+
+
+### ScatterPlot {.tabset .tabset-fade}
+
+A straight-forward visualization of association rules is to use a scatter plot with two interest measures on the axes. We can see that rules with high lift have typically a relatively low support. It has been argued that the most interesting rules reside on the support /confidence border.
+
+- All 5 quality measures are available for scatterplot i.e. support, confidence, coverage, lift, count.
+- Other measures can be added by \textcolor{pink}{interestMeasure()} and then plotted
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-SuppConfLift', include=FALSE}
+hh <- rules
+cap_hh <- "B24P04"
+ttl_hh <- "Groceries: Support vs Confidence with Shading by Lift"
+#
+if(FALSE) {# #Accessing Internal Plotting Method plot.rules()
+  B24 <- suppressMessages(
+  arulesViz:::plot.rules(hh, measure = c("support", "confidence"), shading = "lift")) +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+}
+if(FALSE){# #Help for different methods 
+  plot(hh, method = "paracoord", control = "help")  
+}
+#
+B24 <- suppressMessages(
+  plot(hh, measure = c("support", "confidence"), shading = "lift")) +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+#
+# #S3 Method Used by arulesViz::plot()
+#Registered S3 methods overwritten by 'registry':
+#  method               from 
+#  print.registry_field proxy
+#  print.registry_entry proxy
+```
+
+```{r 'B24P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P04","-Groceries-SuppConfLift", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P04, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P04","-Groceries-SuppConfLift", ".png"))
+```
+
+```{r 'B24-SuppLiftConf', include=FALSE}
+hh <- rules
+cap_hh <- "B24P05"
+ttl_hh <- "Groceries: Support vs Lift with Shading by Confidence"
+#
+B24 <- suppressMessages(
+  plot(hh, measure = c("support", "lift"), shading = "confidence")) +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P05, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png")) 
+```
+
+
+```{r 'B24P0405', echo=FALSE, ref.label=c('B24P04', 'B24P05'), fig.cap="Groceries: Support, Confidence and Lift"}
+#
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-SuppConfLift-A', eval=FALSE, ref.label=c('B24-SuppConfLift')}
+#
+```
+
+```{r 'B24-SuppLiftConf-A', eval=FALSE, ref.label=c('B24-SuppLiftConf')}
+#
+```
+
+
+### Two-key Plot {.tabset .tabset-fade}
+
+Here support and confidence are used for the x and y-axes and the color of the points is used to indicate "order," i.e., the number of items contained in the rule (Both LHS and RHS).
+
+It would be better to plot this with all rules.
+
+From the plot it is clear that order and support have a very strong inverse relationship, which is a known fact for association rules.
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-TwoKey', include=FALSE}
+hh <- rules
+cap_hh <- "B24P06"
+ttl_hh <- "Groceries: Two-key Plot"
+#
+B24 <- suppressMessages(
+  plot(hh, method = "two-key plot")) +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P06","-Groceries-Two-key", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P06, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P06', echo=FALSE, fig.cap="Groceries: Two-key Plot: Support and Confidence with Items"}
+knitr::include_graphics(paste0(.z$PX, "B24P06","-Groceries-Two-key", ".png")) 
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-TwoKey-A', eval=FALSE, ref.label=c('B24-TwoKey')}
+#
+```
+
+
+### Matrix Plot {.tabset .tabset-fade}
+
+2D matrix is used and the interest measure is represented by color shading of squares at the intersection.
+For this type of visualization the number of rows/columns depends on the number of unique itemsets in the consequent/antecedent in the set of rules.
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-Matrix', include=FALSE}
+hh <- subrules #rules
+cap_hh <- "B24P07"
+ttl_hh <- "Groceries: Matrix"
+#
+B24 <- plot(hh, method = "matrix", measure = "lift") +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P07-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P07","-Groceries-Matrix", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P07, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P07', echo=FALSE, fig.cap="Groceries: Matrix"}
+knitr::include_graphics(paste0(.z$PX, "B24P07","-Groceries-Matrix", ".png")) 
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-Matrix-A', eval=FALSE, ref.label=c('B24-Matrix')}
+#
+```
+
+
+### Grouped Matrix {.tabset .tabset-fade}
+
+Matrix-based visualization is limited in the number of rules it can visualize effectively since
+large sets of rules typically also have large sets of unique antecedents /consequents. We can enhance matrix-based visualization using grouping of rules via clustering to handle a larger number of rules. 
+
+Grouped rules are presented as an aggregate in the matrix and can be explored interactively by zooming into and out of groups.
+
+- To group the column vectors fast and efficient into k groups we use k-means clustering. 
+- The default interest measure used is lift. 
+- The idea is that antecedents that are statistically dependent on the same consequents are similar and thus can be grouped together. 
+  - Compared to other clustering approaches for itemsets, this method enables us to even group antecedents containing substitutes (e.g., butter and margarine) which are rarely purchased together since they will have similar dependence to the same consequents.
+
+- To visualize the grouped matrix we use a balloon plot with antecedent groups as columns and consequents as rows.
+  - The color of the balloons represent the aggregated interest measure in the group with a certain consequent and the size of the balloon shows the aggregated support. 
+  - The default aggregation function is the median value in the group. 
+  - The number of antecedents and the most important (frequent) items in the group are displayed as the labels for the columns. 
+  - Furthermore, the columns and rows in the plot are reordered such that the aggregated interest measure is decreasing from top down and from left to right, placing the most interesting group in the top left corner.
+  
+- The group of most interesting rules according to lift (the default measure) are shown in the top-left corner of the plot. 
+  - There are 3 rules which contain "Instant food products" and up to 2 other items in the antecedent and the consequent is "hamburger meat."
+  - To increase the number of groups we can change k which defaults to 20.
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-GroupMatrix', include=FALSE}
+hh <- rules #rules #subrules 
+cap_hh <- "B24P08"
+ttl_hh <- "Groceries: Grouped Matrix"
+#
+B24 <- plot(hh, method = "grouped") +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P08-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P08","-Groceries-GroupMat", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P08, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P08","-Groceries-GroupMat", ".png")) 
+```
+
+```{r 'B24-GroupMatrixK', include=FALSE}
+hh <- rules #rules #subrules 
+cap_hh <- "B24P09"
+ttl_hh <- "Groceries: Grouped Matrix with k = 50"
+#
+B24 <- plot(hh, method = "grouped", control = list(k = 50)) +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P09-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P09","-Groceries-GroupMat-50k", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P09, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P09","-Groceries-GroupMat-50k", ".png")) 
+```
+
+
+```{r 'B24P0809', echo=FALSE, ref.label=c('B24P08', 'B24P09'), fig.cap="Groceries: Grouped Matrix with default k = 20 and 50"}
+#
+```
+
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-GroupMatrixK-A', eval=FALSE, ref.label=c('B24-GroupMatrixK')}
+#
+```
+
+
+### Graph Based {.tabset .tabset-fade}
+
+- Graph-based techniques visualize association rules using vertices and edges where vertices annodated with item labels represent items, and itemsets or rules are reptesented as a second set of vertices. 
+  - Items are connected with itemsets/rules using arrows. 
+  - For rules arrows pointing from items to rule vertices indicate LHS items and an arrow from a rule to an item indicates the RHS. 
+  - Interest measures are typically added to the plot by using color or size of the vertices representing the itemsets/rules. 
+  - Graph-based visualization offers a very clear representation of rules but they tend to easily become cluttered and thus are only viable for very small sets of rules. 
+  - For the following plots we select the 10 rules with the highest lift.
+  -  The following plot represents items and rules as vertices connecting them with directed edges. 
+  - This representation focuses on how the rules are composed of individual items and shows which rules share items.
+  - By default 'igraph' is being used by 'arulesViz'.
+
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-Graph', include=FALSE}
+hh <- t10rules #subrules #rules
+cap_hh <- "B24P10"
+ttl_hh <- "Groceries: Graph of Top 10 Rules by Lift"
+#
+B24 <- plot(hh, method = "graph") +
+  labs(subtitle = NULL, caption = cap_hh, title = ttl_hh)
+assign(cap_hh, B24)
+rm(B24)
+```
+
+```{r 'B24P10-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B24P10","-Groceries-Graph", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B24P10, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B24P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P10","-Groceries-Graph", ".png")) 
+```
+
+```{r 'B24-GraphCircle', include=FALSE}
+hh <- t10rules #subrules #rules
+cap_hh <- "B24P11"
+ttl_hh <- "Groceries: Circle Graph of Top 10 Rules by Lift"
+loc_png <- paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh, method = "graph", engine = "igraph", 
+       control = list(layout = igraph::in_circle()), main = NULL) 
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B24 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B24)
+  rm(B24)
+}
+```
+
+```{r 'B24P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png")) 
+```
+
+
+```{r 'B24P1011', echo=FALSE, ref.label=c('B24P10', 'B24P11'), fig.cap="Groceries: Graph of Top 1o Rules by Lift"}
+#
+```
+
+
+#### Code Graph {.unlisted .unnumbered}
+
+```{r 'B24-Graph-A', eval=FALSE, ref.label=c('B24-Graph')}
+#
+```
+
+#### Code Circle {.unlisted .unnumbered}
+
+```{r 'B24-GraphCircle-A', eval=FALSE, ref.label=c('B24-GraphCircle')}
+#
+```
+
+
+### Parallel coordinates plot {.tabset .tabset-fade}
+
+- Parallel coordinates plots are designed to visualize multidimensional data where each dimension is displayed separately on the x-axis and the y-axis is shared. 
+  - Each data point is represented by a line connecting the values for each dimension. 
+  - Items are on the y-axis as nominal values and the x-axis represents the positions in a rule, i.e., first item, second item, etc. 
+  - Instead of a simple line an arrow is used where the head points to the consequent item. 
+  - Arrows only span enough positions on the x-axis to represent all the items in the rule, i.e., rules with less items are shorter arrows.
+  - The width of the arrows represents support and the intensity of the color represent confidence.
+  - The number of crossovers can be significantly reduced by reordering the items on the y-axis.
+  
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-ParaCoord', include=FALSE}
+hh <- t10rules #subrules #rules
+cap_hh <- "B24P12"
+ttl_hh <- "Groceries: Parallel Coordinates Plot"
+loc_png <- paste0(.z$PX, "B24P12","-Groceries-Paracoord", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot.new()
+  plot(hh, method = "paracoord", main = ttl_hh) 
+  title(sub = cap_hh, line = 4, adj = 1)
+  B24 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B24)
+  rm(B24)
+}
+```
+
+```{r 'B24P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P12","-Groceries-Paracoord", ".png")) 
+```
+
+```{r 'B24-ParaCoordReorder', include=FALSE}
+hh <- t10rules #subrules #rules
+cap_hh <- "B24P13"
+ttl_hh <- "Groceries: Parallel Coordinates Plot"
+loc_png <- paste0(.z$PX, "B24P13","-Groceries-Paracoord-Reorder", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot.new()
+  plot(hh, method = "paracoord", control = list(reorder = TRUE), main = ttl_hh) 
+  title(sub = cap_hh, line = 4, adj = 1)
+  B24 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B24)
+  rm(B24)
+}
+```
+
+```{r 'B24P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B24P13","-Groceries-Paracoord-Reorder", ".png")) 
+```
+
+```{r 'B24P1213', echo=FALSE, ref.label=c('B24P12', 'B24P13'), fig.cap="Groceries: Parallel Coordinates Plots (Default and Reordered)"}
+#
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-ParaCoordReorder-A', eval=FALSE, ref.label=c('B24-ParaCoordReorder')}
+#
+```
+
+
+### Double Decker plots {.tabset .tabset-fade}
+
+- A double decker plot is a variant of a mosaic plot. 
+  - A mosaic plot displays a contingency table using tiles on a rectangle created by recursive vertical and horizontal splits. 
+    - The size of each tile is proportional to the value in the contingency table. 
+  - Double decker plots use only a single horizontal split.
+    - To visualize a single association rule. 
+    - Here the displayed contingency table is computed for a rule by counting the occurrence frequency for each subset of items in the antecedent and consequent from the original data set. 
+    - The items in the antecedent are used for the vertical splits and the consequent item is used for horizontal highlighting.
+- The area of blocks gives the support and the height of the "yes" blocks is proportional to the confidence for the rules consisting of the antecedent items marked as "yes". 
+- Items that show a significant jump in confidence when changed from "no" to "yes" are interesting. 
+
+
+#### Image {.unlisted .unnumbered}
+
+```{r 'B24-DoubleDeck', include=FALSE}
+# #Double Decker Plots need original dataset also (xw)
+# #Select One of the Rule
+set.seed(3)
+hh <- sample(rules, 1) 
+inspect(hh)
+#
+cap_hh <- "B24P14"
+ttl_hh <- "Groceries: Double Decker Plot of Single Rule"
+loc_png <- paste0(.z$PX, "B24P14","-Groceries-Double-Decker", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot.new()
+  plot(hh, method = "doubledecker", data = xw, main = ttl_hh)
+  title(sub = cap_hh, line = 0, adj = 1)
+  B24 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B24)
+  rm(B24)
+}
+```
+
+
+```{r 'B24P14', echo=FALSE, fig.cap="Groceries: Double Decker Plot of Single Rule"}
+knitr::include_graphics(paste0(.z$PX, "B24P14","-Groceries-Double-Decker", ".png")) 
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'B24-DoubleDeck-A', eval=FALSE, ref.label=c('B24-DoubleDeck')}
+#
+```
+
+### From Rules to Graph
+
+```{r 'B24-RuleGraph', eval=FALSE}
+# #convert rules into a graph with rules as nodes
+hh <- associations2igraph(rules)
+if(FALSE) plot(hh)
+#
+# #convert the graph into a tidygraph
+if(FALSE) {
+  #library("tidygraph")
+  as_tbl_graph(hh)
+  #Error: `trunc_mat()` was deprecated in tibble 3.1.0. 
+  #Printing has moved to the pillar package.
+}
+# #convert the generating itemsets of the rules into a graph with itemsets as edges
+itemsets <- generatingItemsets(rules)
+hh <- associations2igraph(itemsets, associationsAsNodes = FALSE)
+if(FALSE) plot(hh, layout = igraph::layout_in_circle)
+#
+# #save rules as a graph so they can be visualized using external tools
+if(FALSE) saveAsGraph(rules, "rules.graphml")
+```
+
+
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B24-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, hh, isRedConf, isRedLift, kbltbl, names_hh, rr_conf, 
           rr_rhs, rr_sup, rules, rules_tbl, xw, xxB22Makeup, pruned, B24P01, loc_png, pruned_tbl, 
-          sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh, B24P03, xxB24Groceries)
+          sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh, B24P03, xxB24Groceries, B24P04,
+          B24P05, B24P06, B24P07, B24P08, B24P09, B24P10, Groceries, subrules, t10rules)
 ```
 
 ```{r 'B24-Validation', include=FALSE, cache=FALSE}

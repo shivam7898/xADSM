@@ -8,8 +8,9 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "data.table", "gifski", "nycflights13", "gapminder", "Lahman", "nortest")
   pkg <- c(pkg, "mice", "VIM", "qcc", "ggpmisc", "microbenchmark", "GGally", "corrplot")
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
-  pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "rfm", "factoextra", "cluster")
+  pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "factoextra", "cluster")
   pkg <- c(pkg, "arules", "arulesViz", "ggrepel")
+  pkg <- c(pkg, "rfm") #Threw error on Feb-03. Keep it separate for now.
   #lapply(pkg, FUN = library, character.only = TRUE)
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
 #

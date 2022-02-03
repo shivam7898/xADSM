@@ -9,10 +9,10 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-  - "Introduction to Statistics"
-    - [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
-    - [Normal Distribution](#normal-d-b12 "b12")
-    - [Type I and Type II Errors (B12)](#errors-ab-b12, "b12")
+- "Introduction to Statistics"
+  - [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
+  - [Normal Distribution](#normal-d-b12 "b12")
+  - [Type I and Type II Errors (B12)](#errors-ab-b12, "b12")
 
 - Links (Ref)
   - [Population vs Sample](#population-sample-c01 "c01")
@@ -803,13 +803,15 @@ knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 ```{r 'B12-RepeatSampligHist', eval=FALSE}
 # #Assumes 'hh' has data in 'ee'. In: mu_hh, cap_hh, ylim_hh, nn
 #
-if(FALSE) {#xxxx
-    labs(x = TeX(r'($\bar{x} \, (\neq x)$)'), y = TeX(r'(Frequency of $\, \bar{x}$)'), 
+if(FALSE) { #xxxx Error in latex2exp_0.9.3 (After Patched)
+  # #Test Case: library("latex2exp"); packageVersion("latex2exp"); TeX(r'($\bar{x} \, (\neq x)$)')
+  labs(x = TeX(r'($\bar{x} \, (\neq x)$)'), y = TeX(r'(Frequency of $\, \bar{x}$)'), 
        subtitle = TeX(sprintf(
          "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f",
                              mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
        caption = cap_hh, 
        title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
+  
 }
 
 B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
@@ -829,6 +831,10 @@ B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
                              mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
        caption = cap_hh, 
        title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
+  #labs(x = "xx", y = "yy", 
+  #     subtitle = NULL,
+  #     caption = cap_hh, 
+  #     title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
 }
 assign(cap_hh, B12)
 rm(B12)

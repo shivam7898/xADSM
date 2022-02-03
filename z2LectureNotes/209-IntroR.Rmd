@@ -527,6 +527,19 @@ if(FALSE) {# #WARNING: Installation may take some time.
 
 ```{r 'B09-PackageVersion'}
 packageVersion("dplyr")
+packageVersion("latex2exp")
+```
+
+### Rtools4 on Windows {.unnumbered}
+
+\textcolor{orange}{Caution:} It is NOT recommeded. However the instructions are available at [Rtools4](https://cran.r-project.org/bin/windows/Rtools/rtools40.html "https://cran.r-project.org")
+
+```{r 'B09-RTools', eval=FALSE}
+# #Only for the debugging purposes, install from GitHub.
+if(FALSE) {# #WARNING: Installation may take some time.
+  Sys.which("make") #"D:\\Installations\\rtools40\\usr\\bin\\make.exe"
+  devtools::install_github("stefano-meschiari/latex2exp", ref = "0.9.3") 
+}
 ```
 
 

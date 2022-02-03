@@ -1,4 +1,4 @@
-# Regresssion (B25, Dec-26) {#b25 .unlisted .unnumbered}
+# Regresssion (B25, Dec-26) {#b25}
 
 ```{r 'B25', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Supervised Learning Algorithm: Regression"
-  - "ForLater"
+
 
 ## Linear Regression
 
@@ -38,7 +38,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'B25-Validation', include=FALSE, cache=FALSE}
+```{r 'B25-Validation', include=TRUE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #
