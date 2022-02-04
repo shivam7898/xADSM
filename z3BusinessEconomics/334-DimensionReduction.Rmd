@@ -254,7 +254,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C34P01', echo=FALSE, fig.cap="Houses: Boxplot (Scaled)"}
+```{r 'C34P01', echo=FALSE, fig.cap="(C34P01) Houses: Boxplot (Scaled)"}
 knitr::include_graphics(paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png"))
 ```
 
@@ -302,7 +302,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C34P02', echo=FALSE, out.width='100%', fig.cap="Houses: SPLOM (8)"}
+```{r 'C34P02', echo=FALSE, out.width='100%', fig.cap="(C34P02) Houses: SPLOM (8)"}
 knitr::include_graphics(paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png"))
 ```
 
@@ -350,7 +350,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C34P03', echo=FALSE, fig.cap="Houses: Corrplot (8)"}
+```{r 'C34P03', echo=FALSE, fig.cap="(C34P03) Houses: Corrplot (8)"}
 knitr::include_graphics(paste0(.z$PX, "C34P03","-House-Corplot-z", ".png"))
 ```
 
@@ -560,7 +560,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C34P04', echo=FALSE, fig.cap="Houses: PCA Corrplot - ALL are ZERO"}
+```{r 'C34P04', echo=FALSE, fig.cap="(C34P04) Houses: PCA Corrplot - ALL are ZERO"}
 knitr::include_graphics(paste0(.z$PX, "C34P04","-House-Corplot-PCA", ".png"))
 ```
 
@@ -654,7 +654,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C34P06","-House-PCA-Var", ".png"))
 ```
 
-```{r 'C34P0506', echo=FALSE, ref.label=c('C34P05', 'C34P06'), fig.cap="House: PCA Screeplot with Variance"}
+```{r 'C34P0506', echo=FALSE, ref.label=c('C34P05', 'C34P06'), fig.cap="(C34P05 C34P06) House: PCA Screeplot with Variance"}
 #
 ```
 
@@ -774,7 +774,7 @@ knitr::include_graphics(paste0(.z$PX, "C34P08", "-House-SPLOM-PC4", ".png"))
 ```
 
 
-```{r 'C34P0708', echo=FALSE, ref.label=c('C34P07', 'C34P08'), fig.cap="Correlation Matrices of Factor Scores of PC3 and PC4"}
+```{r 'C34P0708', echo=FALSE, ref.label=c('C34P07', 'C34P08'), fig.cap="(C34P07 C34P08) Correlation Matrices of Factor Scores of PC3 and PC4"}
 #
 ```
 

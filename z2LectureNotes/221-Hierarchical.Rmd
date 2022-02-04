@@ -64,7 +64,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B21P01', echo=FALSE, fig.cap="Movie: Elbow Curve of k (Silhouette)"}
+```{r 'B21P01', echo=FALSE, fig.cap="(B21P01) Movie: Elbow Curve of k (Silhouette)"}
 knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 ```
 
@@ -144,7 +144,7 @@ knitr::include_graphics(paste0(.z$PX, "B21P02", "-Crime-Elbow-Sil", ".png"))
 knitr::include_graphics(paste0(.z$PX, "B21P03", "-Crime-Elbow-WSS", ".png"))
 ```
 
-```{r 'B21P0203', echo=FALSE, ref.label=c('B21P02', 'B21P03'), fig.cap="Crime: Elbow Curve of k Silhouette and WSS"}
+```{r 'B21P0203', echo=FALSE, ref.label=c('B21P02', 'B21P03'), fig.cap="(B21P02 B21P03) Crime: Elbow Curve of k Silhouette and WSS"}
 knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 ```
 

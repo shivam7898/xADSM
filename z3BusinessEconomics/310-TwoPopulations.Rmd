@@ -873,7 +873,7 @@ cat(paste0("X-squared is the number of Successes (X-squared = ", round(bb_propT$
 # #i.e. To make the test mathematically equivalent to the uncorrected z-test of a proportion.
 cat(paste0("p-value is the significance level of the t-test (p-value = ", 
            round(bb_propT$p.value, 6), ")\n"))
-cat(paste0("conf.int is the confidence interval for the probability of success at", bb_gamma,
+cat(paste0("conf.int is the confidence interval for the probability of success at ", bb_gamma,
            " level (conf.int = [", paste0(round(bb_propT$conf.int, 3), collapse = ", "), "])\n"))
 cat(paste0("sample estimates is the the estimated probability of success. p: ", 
            paste0(round(bb_propT$estimate, 2), collapse = ", "), "\n"))

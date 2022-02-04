@@ -327,7 +327,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B12P02", "-Flights-Dens-Air", ".png"))
 ```
 
-```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01', 'B12P02'), fig.cap="Flights: Air Time (min) excluding NA (Histogram and Density)"}
+```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01', 'B12P02'), fig.cap="(B12P01 B12P02) Flights: Air Time (min) excluding NA (Histogram and Density)"}
 #
 ```
 
@@ -596,13 +596,13 @@ gifski(png_files, gif_file = loc_gif, delay = 2)
 }
 ```
 
-```{r 'B12P030405G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
+```{r 'B12P030405G', echo=FALSE, fig.cap="(B12P03 B12P04 B12P05) Effect of Increasing Sample Size"}
 knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
 ```
 
 #### Images {.unnumbered}
 
-```{r 'B12P030405', echo=FALSE, out.width='33%', ref.label=c('B12P03', 'B12P04', 'B12P05'), fig.cap="Effect of Increasing Sample Size"}
+```{r 'B12P030405', echo=FALSE, out.width='33%', ref.label=c('B12P03', 'B12P04', 'B12P05'), fig.cap="(B12P03 B12P04 B12P05) Effect of Increasing Sample Size"}
 #
 ```
 
@@ -780,13 +780,13 @@ gifski(png_files, gif_file = loc_gif, delay = 2)
 }
 ```
 
-```{r 'B12P060708G', echo=FALSE, fig.cap="Effect of Increasing Sample Size"}
+```{r 'B12P060708G', echo=FALSE, fig.cap="(B12P06 B12P07 B12P08) Effect of Increasing Sample Size"}
 knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 ```
 
 #### Images {.unnumbered}
 
-```{r 'B12P060708', echo=FALSE, out.width='33%', ref.label=c('B12P06', 'B12P07', 'B12P08'), fig.cap="Effect of Increasing Sampling"}
+```{r 'B12P060708', echo=FALSE, out.width='33%', ref.label=c('B12P06', 'B12P07', 'B12P08'), fig.cap="(B12P06 B12P07 B12P08) Effect of Increasing Sampling"}
 #
 ```
 
@@ -823,7 +823,7 @@ rm(B12)
 
 ## Normal Distribution {#normal-d-b12}
 
-```{r 'B12P09', echo=FALSE, fig.cap="Normal Distribution"}
+```{r 'B12P09', echo=FALSE, fig.cap="(B12P09) Normal Distribution"}
 knitr::include_graphics(paste0(.z$PX, "B12P09-Distribution-Normal.jpg"))
 ```
 
@@ -903,7 +903,7 @@ f_getDef("Outliers")
 
 ## Type I and Type II Errors {#errors-ab-b12}
 
-```{r 'B12P10', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+```{r 'B12P10', echo=FALSE, ref.label=c('C09P01'), fig.cap="(C09P01) Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
 # #Ref another file chunk
 ```
 
@@ -962,11 +962,11 @@ knitr::include_graphics(paste0(.z$PX, "B12P11-Tail-Left.jpg"))
 knitr::include_graphics(paste0(.z$PX, "B12P12-Tail-Right.jpg"))
 ```
 
-```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11', 'B12P12'), fig.cap="Left Tail vs. Right Tail"}
+```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11', 'B12P12'), fig.cap="(B12P11 B12P12) Left Tail vs. Right Tail"}
 #
 ```
 
-```{r 'B12P13', echo=FALSE, fig.cap="Two Tail"}
+```{r 'B12P13', echo=FALSE, fig.cap="(B12P13) Two Tail"}
 knitr::include_graphics(paste0(.z$PX, "B12P13-Tail-Two.jpg")) #iiii
 ```
 

@@ -150,7 +150,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C06P01', echo=FALSE, fig.cap="Normal Distribution"}
+```{r 'C06P01', echo=FALSE, fig.cap="(C06P01) Normal Distribution"}
 knitr::include_graphics(paste0(.z$PX, "C06P01", "-Distribution-Normal", ".png")) #iiii
 ```
 
@@ -470,7 +470,7 @@ Each z-score is associated with a probability, or p-value, that gives the likeli
 
 The z-score is the test statistic used in a z-test. The z-test is used to compare the means of two groups, or to compare the mean of a group to a set value. Its null hypothesis typically assumes no difference between groups.
 
-The area under the curve to the right of a z-score is the p-value, and it’s the likelihood of your observation occurring if the null hypothesis is true.
+The area under the curve to the right of a z-score is the p-value, and it is the likelihood of your observation occurring if the null hypothesis is true.
 
 Usually, a p-value of 0.05 or less means that your results are unlikely to have arisen by chance; it indicates a statistically significant effect.
 

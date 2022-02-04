@@ -115,7 +115,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B30P01', echo=FALSE, eval=FALSE, fig.cap="Houses: Boxplot (Scaled)"}
+```{r 'B30P01', echo=FALSE, eval=FALSE, fig.cap="(B30P01) Houses: Boxplot (Scaled)"}
 knitr::include_graphics(paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png"))
 ```
 

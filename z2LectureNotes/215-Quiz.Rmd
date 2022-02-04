@@ -239,7 +239,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B15P02", "-JAT-Users", ".png"))
 ```
 
-```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="JAT: Usage and Users over the TimePeriod"}
+```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="(B15P01 B15P02) JAT: Usage and Users over the TimePeriod"}
 #
 ```
 
@@ -623,7 +623,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B15P05", "-JAT-QQ-Usage-Sqrt", ".png"))  #iiii
 ```
 
-```{r 'B15P04P05', echo=FALSE, ref.label=c('B15P04', 'B15P05'), fig.cap="JAT: QQ Plot of Usage and Sqrt(Usage)"}
+```{r 'B15P04P05', echo=FALSE, ref.label=c('B15P04', 'B15P05'), fig.cap="(B15P04 B15P05) JAT: QQ Plot of Usage and Sqrt(Usage)"}
 #
 ```
 
@@ -939,7 +939,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B15P03", "-JAT-Diseases", ".png"))
 ```
 
-```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}
+```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="(B15P03) JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}
 #
 ```
 

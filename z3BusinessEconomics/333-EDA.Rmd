@@ -301,7 +301,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P03","-Churn-pStack-Intl", ".png"))
 
 ##### Image {.unlisted .unnumbered}
 
-```{r 'C33P010203', echo=FALSE, out.width='33%', ref.label=c('C33P01', 'C33P02', 'C33P03'), fig.cap="International Plan holders tend to churn more frequently"}
+```{r 'C33P010203', echo=FALSE, out.width='33%', ref.label=c('C33P01', 'C33P02', 'C33P03'), fig.cap="(C33P01 C33P02 C33P03) International Plan holders tend to churn more frequently"}
 #
 ```
 
@@ -500,7 +500,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P05","-Churn-MultiClusterBarSingleFace
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'C33P0405', echo=FALSE, ref.label=c('C33P04', 'C33P05'), fig.cap="Churn vs. International & Voice Mail Plans (Both are Same Graphs)"}
+```{r 'C33P0405', echo=FALSE, ref.label=c('C33P04', 'C33P05'), fig.cap="(C33P04 C33P05) Churn vs. International & Voice Mail Plans (Both are Same Graphs)"}
 #
 ```
 
@@ -540,7 +540,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P06', echo=FALSE, fig.cap="Churn vs. International & Voice Mail Plans (Proportional Stack)"}
+```{r 'C33P06', echo=FALSE, fig.cap="(C33P06) Churn vs. International & Voice Mail Plans (Proportional Stack)"}
 knitr::include_graphics(paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png"))
 ```
 
@@ -576,7 +576,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png"))
     - It indicates some right-skewness
     - Also indicated by the maximum number of customer service calls (9).
 
-```{r 'C33P07', echo=FALSE, ref.label=c('B18P03'), fig.cap="Churn: All Histograms"}
+```{r 'C33P07', echo=FALSE, ref.label=c('B18P03'), fig.cap="(B18P03) Churn: All Histograms"}
 # #Ref another file chunk
 ```
 
@@ -734,7 +734,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P10","-Churn-pHist-ServCall-Churn", ".
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'C33P080910', echo=FALSE, out.width='33%', ref.label=c('C33P08', 'C33P09', 'C33P10'), fig.cap="Service Calls beyond 3 have signficant increase in Churn"}
+```{r 'C33P080910', echo=FALSE, out.width='33%', ref.label=c('C33P08', 'C33P09', 'C33P10'), fig.cap="(C33P08 C33P09 C33P10) Service Calls beyond 3 have signficant increase in Churn"}
 #
 ```
 
@@ -781,7 +781,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P11', echo=FALSE, fig.cap="Churn vs. Service Call Proportions (Bar)"}
+```{r 'C33P11', echo=FALSE, fig.cap="(C33P11) Churn vs. Service Call Proportions (Bar)"}
 knitr::include_graphics(paste0(.z$PX, "C33P11","-Churn-pBar-ServCall-Churn", ".png")) 
 ```
 
@@ -864,7 +864,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C33P13","-Churn-pHist-DayMins-Churn", ".png"))
 ```
 
-```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="Higher Day Minutes (>200) have higher Churn"}
+```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="(C33P12 C33P13) Higher Day Minutes (>200) have higher Churn"}
 #
 ```
 
@@ -970,7 +970,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C33P15","-Churn-pHist-EveMins-Churn", ".png"))
 ```
 
-```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
+```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(C33P14 C33P15) (Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
 #
 ```
 
@@ -1040,7 +1040,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C33P17","-Churn-pHist-NightMins-Churn", ".png"))
 ```
 
-```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="No obvious association between Churn and Night Minutes"}
+```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="(C33P16 C33P17) No obvious association between Churn and Night Minutes"}
 #
 ```
 
@@ -1112,7 +1112,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P21","-Churn-pHist-Icalls-Churn", ".pn
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'C33P2021', echo=FALSE, ref.label=c('C33P20', 'C33P21'), fig.cap="No obvious association between Churn and International Calls (But t-test)"}
+```{r 'C33P2021', echo=FALSE, ref.label=c('C33P20', 'C33P21'), fig.cap="(C33P20 C33P21) No obvious association between Churn and International Calls (But t-test)"}
 #
 ```
 
@@ -1241,11 +1241,11 @@ if(!file.exists(loc_png)) {
 
 #### Images {.unlisted .unnumbered}
 
-```{r 'C33P18', echo=FALSE, out.width='100%', fig.cap="Histograms of All Predictors with Target (Count)"}
+```{r 'C33P18', echo=FALSE, out.width='100%', fig.cap="(C33P18) Histograms of All Predictors with Target (Count)"}
 knitr::include_graphics(paste0(.z$PX, "C33P18","-Churn-Hist-All-Churn", ".png"))
 ```
 
-```{r 'C33P19', echo=FALSE, out.width='100%', fig.cap="Histograms of All Predictors with Target (Proportion)"}
+```{r 'C33P19', echo=FALSE, out.width='100%', fig.cap="(C33P19) Histograms of All Predictors with Target (Proportion)"}
 knitr::include_graphics(paste0(.z$PX, "C33P19","-Churn-pHist-All-Churn", ".png"))
 ```
 
@@ -1300,7 +1300,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P22', echo=FALSE, fig.cap="Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
+```{r 'C33P22', echo=FALSE, fig.cap="(C33P22) Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
 knitr::include_graphics(paste0(.z$PX, "C33P22","-Churn-Scatter-MinEveDay", ".png"))
 ```
 
@@ -1354,7 +1354,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P27', echo=FALSE, fig.cap="Scatterplot of Day Minutes (X) and Customer Service Calls (Y) shows an interaction effect for Churn"}
+```{r 'C33P27', echo=FALSE, fig.cap="(C33P27) Scatterplot of Day Minutes (X) and Customer Service Calls (Y) shows an interaction effect for Churn"}
 knitr::include_graphics(paste0(.z$PX, "C33P27", "-Churn-Scatter-ServCallDayMins", ".png")) #iiii
 ```
 
@@ -1391,7 +1391,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P23', echo=FALSE, out.width='100%', fig.cap="Bivariate Analysis of Calls showing Churn"}
+```{r 'C33P23', echo=FALSE, out.width='100%', fig.cap="(C33P23) Bivariate Analysis of Calls showing Churn"}
 knitr::include_graphics(paste0(.z$PX, "C33P23", "-Churn-SPLOM-Calls-7", ".png"))
 ```
 
@@ -1417,7 +1417,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P24', echo=FALSE, out.width='100%', fig.cap="Bivariate Analysis of Minutes & Charges showing Churn"}
+```{r 'C33P24', echo=FALSE, out.width='100%', fig.cap="(C33P24) Bivariate Analysis of Minutes & Charges showing Churn"}
 knitr::include_graphics(paste0(.z$PX, "C33P24", "-Churn-SPLOM-MinsCharges-8", ".png"))
 ```
 
@@ -1470,7 +1470,7 @@ loc_png <- paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png")
 #
 ```
 
-```{r 'C33P25', echo=FALSE, out.width='100%', fig.cap="Bivariate Analysis of Calls showing Churn"}
+```{r 'C33P25', echo=FALSE, out.width='100%', fig.cap="(C33P25) Bivariate Analysis of Calls showing Churn"}
 knitr::include_graphics(paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png"))
 ```
 
@@ -1485,7 +1485,7 @@ loc_png <- paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png")
 #
 ```
 
-```{r 'C33P26', echo=FALSE, out.width='100%', fig.cap="Bivariate Analysis of Minutes & Charges showing Churn"}
+```{r 'C33P26', echo=FALSE, out.width='100%', fig.cap="(C33P26) Bivariate Analysis of Minutes & Charges showing Churn"}
 knitr::include_graphics(paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png"))
 ```
 
@@ -1667,7 +1667,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C33P30", "-Churn-pStack-ServiceCalls", ".png"))
 ```
 
-```{r 'C33P282930', echo=FALSE, out.width='33%', ref.label=c('C33P28', 'C33P29', 'C33P30'), fig.cap="High Customer Service Calls have major Churn"}
+```{r 'C33P282930', echo=FALSE, out.width='33%', ref.label=c('C33P28', 'C33P29', 'C33P30'), fig.cap="(C33P28 C33P29 C33P30) High Customer Service Calls have major Churn"}
 #
 ```
 
@@ -1824,7 +1824,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C33P31', echo=FALSE, out.width='100%', fig.cap="corrplot::corrplot vs. psych::corPlot()"}
+```{r 'C33P31', echo=FALSE, out.width='100%', fig.cap="(C33P31) corrplot::corrplot vs. psych::corPlot()"}
 knitr::include_graphics(paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png")) #iiii
 ```
 

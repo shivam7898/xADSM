@@ -919,7 +919,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "C03P06", "-Beta-Negative", ".png"))
 ```
 
-```{r 'C03P060405', echo=FALSE, out.width='33%', ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)"}
+```{r 'C03P060405', echo=FALSE, out.width='33%', ref.label=c('C03P06', 'C03P04', 'C03P05'), fig.cap="(C03P06 C03P04 C03P05) (Left Tail, Negative) Beta, Normal Distribution, Exponential (Positive, Right Tail)"}
 #
 ```
 
@@ -1193,7 +1193,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P08", "-Flights-Scaled", ".png")) #iii
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'C03P0708', echo=FALSE, ref.label=c('C03P07', 'C03P08'), fig.cap="Before and After Scaling"}
+```{r 'C03P0708', echo=FALSE, ref.label=c('C03P07', 'C03P08'), fig.cap="(C03P07 C03P08) Before and After Scaling"}
 #
 ```
 
@@ -1365,7 +1365,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C03P01', echo=FALSE, fig.cap="geom_boxplot()"}
+```{r 'C03P01', echo=FALSE, fig.cap="(C03P01) geom_boxplot()"}
 knitr::include_graphics(paste0(.z$PX, "C03P01", "-BoxPlot", ".png"))
 ```
 
@@ -1433,16 +1433,16 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C03P02', echo=FALSE, fig.cap="Added Mean", include=FALSE}
+```{r 'C03P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
 knitr::include_graphics(paste0(.z$PX, "C03P02", "-Scatter-Mean", ".png"))
 ```
 
-```{r 'C03P03-A', echo=FALSE, fig.cap="Original", include=FALSE}
+```{r 'C03P03-A', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
 # #Ref another file chunk
 knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png"))
 ```
 
-```{r 'C03P02-A', echo=FALSE, ref.label=c('C03P03-A', 'C03P02'), fig.cap="Scatter Plot Quadrants for Covariance"}
+```{r 'C03P02-A', echo=FALSE, ref.label=c('C03P03-A', 'C03P02'), fig.cap="(C02P05 C03P02) Scatter Plot Quadrants for Covariance"}
 #
 ```
 

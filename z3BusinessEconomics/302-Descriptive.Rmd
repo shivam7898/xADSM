@@ -88,7 +88,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P01', echo=FALSE, fig.cap="geom_bar(): Frequency Bar Chart", include=FALSE}
+```{r 'C02P01', echo=FALSE, fig.cap="(C02P01) geom_bar(): Frequency Bar Chart", include=FALSE}
 knitr::include_graphics(paste0(.z$PX, "C02P01", "-Drinks-Bar", ".png"))
 ```
 
@@ -113,11 +113,11 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P02', echo=FALSE, fig.cap="Polar geom_bar(): Frequency Pie Chart", include=FALSE}
+```{r 'C02P02', echo=FALSE, fig.cap="(C02P02) Polar geom_bar(): Frequency Pie Chart", include=FALSE}
 knitr::include_graphics(paste0(.z$PX, "C02P02", "-Drinks-Pie", ".png"))
 ```
 
-```{r 'C02P0102', echo=FALSE, ref.label=c('C02P01', 'C02P02'), fig.cap="Bar Chart and Pie Chart of Frequency"}
+```{r 'C02P0102', echo=FALSE, ref.label=c('C02P01', 'C02P02'), fig.cap="(C02P01 C02P02) Bar Chart and Pie Chart of Frequency"}
 #
 ```
 
@@ -211,7 +211,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P03', echo=FALSE, fig.cap="geom_histogram(): Histogram"}
+```{r 'C02P03', echo=FALSE, fig.cap="(C02P03) geom_histogram(): Histogram"}
 knitr::include_graphics(paste0(.z$PX, "C02P03", "-Normal-Histogram", ".png"))
 ```
 
@@ -244,7 +244,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P04', echo=FALSE, fig.cap="geom_dotplot(): Frequency Dot Chart"}
+```{r 'C02P04', echo=FALSE, fig.cap="(C02P04) geom_dotplot(): Frequency Dot Chart"}
 knitr::include_graphics(paste0(.z$PX, "C02P04", "-Random-Dot", ".png"))
 ```
 
@@ -747,7 +747,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P05', echo=FALSE, fig.cap="geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
+```{r 'C02P05', echo=FALSE, fig.cap="(C02P05) geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
 knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png")) #iiii
 ```
 

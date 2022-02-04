@@ -21,6 +21,14 @@ f_pNum <- function(x, digits = 2L) {
   # #Print Numbers
   # #round(), rounds to a number of decimal places
   # #signif() rounds to a specific number of significant places
+  if(FALSE){#Test Case: Why this function is needed
+     round(0.001, 2) #0
+    f_pNum(0.001, 2) #0.001
+	# #Problem is signif converts to SCientific and no way to disable it
+	signif(0.000000198, 2) #2e-07
+	# #Same problem with round
+	round(0.000000198, 7) #2e-07
+  }
   # #if(){} else if(){} else{} is NOT vectorised
   #ifelse(abs(x) < 0.0000001, 0*sign(x), ifelse(abs(x) > 1, round(x, digits), signif(x, digits + 1L)))
   ifelse(abs(x) < 0.0000001, 0*sign(x), floor(x) + signif(x %% 1, digits))

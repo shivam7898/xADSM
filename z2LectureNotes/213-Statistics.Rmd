@@ -20,7 +20,7 @@ bb <- xxflights
 
 ## Definitions
 
-```{r 'B13P01', echo=FALSE, ref.label=c('C09P01'), fig.cap="Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
+```{r 'B13P01', echo=FALSE, ref.label=c('C09P01'), fig.cap="(C09P01) Type-I $(\\alpha)$ and Type-II $(\\beta)$ Errors"}
 # #Ref another file chunk #iiii
 ```
 

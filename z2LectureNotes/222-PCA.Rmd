@@ -101,7 +101,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B22P01', echo=FALSE, out.width='100%', fig.cap="Movie: Dendrogram (Complete Linkage) with k =3 G, 4 B, 6 R"}
+```{r 'B22P01', echo=FALSE, out.width='100%', fig.cap="(B22P01) Movie: Dendrogram (Complete Linkage) with k =3 G, 4 B, 6 R"}
 knitr::include_graphics(paste0(.z$PX, "B22P01", "-Movie-Dendrogram", ".png"))
 ```
 
@@ -174,11 +174,11 @@ loc_png <- paste0(.z$PX, "B22P04", "-Movie-Sil-Dist-k4", ".png")
 knitr::include_graphics(paste0(.z$PX, "B22P04", "-Movie-Sil-Dist-k4", ".png"))
 ```
 
-```{r 'B22P0304', echo=FALSE, ref.label=c('B22P03', 'B22P04'), fig.cap="Movie: Silhouette with Distance for k={3, 4}"}
+```{r 'B22P0304', echo=FALSE, ref.label=c('B22P03', 'B22P04'), fig.cap="(B22P03 B22P04) Movie: Silhouette with Distance for k={3, 4}"}
 #
 ```
 
-```{r 'B22P0302', echo=FALSE, ref.label=c('B22P03', 'B22P02'), fig.cap="Movie: Silhouette with Distance for k={3, 2}"}
+```{r 'B22P0302', echo=FALSE, ref.label=c('B22P03', 'B22P02'), fig.cap="(B22P03 B22P02) Movie: Silhouette with Distance for k={3, 2}"}
 #
 ```
 

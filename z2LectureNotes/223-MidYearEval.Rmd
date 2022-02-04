@@ -573,7 +573,7 @@ knitr::include_graphics(paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil", ".png"))
 
 ### WSS vs. Silhouette {.unlisted .unnumbered}
 
-```{r 'B23P0102', echo=FALSE, ref.label=c('B23P01', 'B23P02'), fig.cap="Champo: WSS and Silhouette"}
+```{r 'B23P0102', echo=FALSE, ref.label=c('B23P01', 'B23P02'), fig.cap="(B23P01 B23P02) Champo: WSS and Silhouette"}
 #
 ```
 
@@ -628,7 +628,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B23P03', echo=FALSE, fig.cap="Champo: k-means with k=3"}
+```{r 'B23P03', echo=FALSE, fig.cap="(B23P03) Champo: k-means with k=3"}
 knitr::include_graphics(paste0(.z$PX, "B23P03", "-Champo-k3", ".png"))
 ```
 
@@ -653,7 +653,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B23P04', echo=FALSE, fig.cap="Champo: k-means with k=6"}
+```{r 'B23P04', echo=FALSE, fig.cap="(B23P04) Champo: k-means with k=6"}
 knitr::include_graphics(paste0(.z$PX, "B23P04", "-Champo-k6", ".png"))
 ```
 

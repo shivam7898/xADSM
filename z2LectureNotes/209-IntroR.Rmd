@@ -781,7 +781,7 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 }
 ```
 
-```{r 'B09P01', echo=FALSE, fig.cap="Correlation using psych::pairs.panels()"}
+```{r 'B09P01', echo=FALSE, fig.cap="(B09P01) Correlation using psych::pairs.panels()"}
 knitr::include_graphics(paste0(.z$PX, "B09P01", "-Psych", ".png")) #iiii
 ```
 
@@ -823,6 +823,83 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 - \textcolor{pink}{%x%} performs the Kronecker product of arrays.
 - Magritter Pipe is given by \textcolor{pink}{%>%}
 - There are other pipes and other packages also but this is general summary.
+
+## Printing Decimal Numbers in R {.tabset .tabset-fade}
+
+- By default, R gives numbers in Scientic Notation. 
+  - Personally, it is irritating to read p-values, residuals etc. of model output and to convert them everywhere.
+  - Defaults can be changed, so that Scientific Notation is disabled
+  - Functions \textcolor{pink}{round()}, \textcolor{pink}{signif()} does not have 'E' option
+  - Functions \textcolor{pink}{sprintf()}, \textcolor{pink}{prettyNum()}, \textcolor{pink}{format()} converts to 'character'
+    - And there is a \textcolor{pink}{formatC()} which does not get affected by global options()
+
+
+```{definition 'Rounding'}
+\textcolor{pink}{Rounding} means replacing a number with an approximate value that has a shorter, simpler, or more explicit representation.
+```
+
+```{definition 'Significant-Digits'}
+\textcolor{pink}{Significant digits}, (or significant figures, or precision or resolution), of a number in positional notation are digits in the number that are reliable and necessary to indicate the quantity of something. 
+```
+
+- Significant digits
+  - Even when some of the digits are not certain, as long as they are reliable, they are considered significant because they indicate the actual volume within the acceptable degree of uncertainty. 
+  - Not Significant digits
+    - Leading Zeroes e.g. 013 kg or 0.056 m (= 56 mm) both have 2 significant digits
+    - Trailing zeros when they are merely placeholders 
+    
+### Change Defaults {.unlisted .unnumbered}
+
+```{r 'B09-SciFi', eval=FALSE}
+if(FALSE) {# #Disable Scientific Notation 'E' in R. Run Once for current session. 
+# #Put it in .Rprofile File to always execute this.  
+  options(scipen = 999)
+}
+#
+if(FALSE) {# #To revert back to original defaults
+  options(scipen = 0, digits = 7)
+}
+```
+
+### Numerical Printing {.unlisted .unnumbered}
+
+```{r 'B09-Rounding', eval=FALSE}
+# #These change in options have NOT been executed to prevent any uninteded consequences
+if(FALSE) options(scipen = 0, digits = 7) #From the Disbled 'E' to Default for testing
+# #Sequence of Powers of 10
+ii <- 10^(2:-4) 
+jj <- abs(ii - 1L)
+#
+round(ii, 2)  #1e+02 1e+01 1e+00 1e-02 0e+00 0e+00
+signif(ii, 2) #1e+02 1e+01 1e+00 1e-02 1e-03 1e-04
+#
+# #Follwoing are better BUT print "character" not "numeric" i.s. suitable for final printing only
+#"100"    "10"     "1"      "0.1"    "0.01"   "0.001"  "0.0001"
+prettyNum(ii, scientific = FALSE)
+format(ii, scientific = FALSE, drop0trailing = TRUE, trim = TRUE)
+#
+if(FALSE) options(scipen = 999) #From Default to the Disabled 'E'
+#
+# #round() does not distinguish between 0.001 & 0.0001 and always prints specified decimal places
+round(ii, 2)  #100.00  10.00   1.00   0.10   0.01   0.00   0.00
+# #signif() handles significant digits but prints trailing zeroes depending upon lowest value
+signif(ii, 2) #100.0000  10.0000   1.0000   0.1000   0.0100   0.0010   0.0001
+#
+round(jj, 2)
+signif(jj, 2) #Rounds 0.999 to 1
+#
+# #Printing "character" and digits option is for rounding
+#"100"    "10"     "1"      "0.1"    "0.01"   "0.001"  "0.0001"
+prettyNum(ii)
+format(ii, drop0trailing = TRUE, trim = TRUE)
+#
+prettyNum(jj)
+format(jj, drop0trailing = TRUE, trim = TRUE, digits = 2) #Rounds 0.999 to 1
+#
+# #formatC() does not get affected by change in options(). This is undesirable.
+formatC(ii, digits = 2)
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

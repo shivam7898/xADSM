@@ -151,7 +151,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B17P01","-Cars-Hist-Weight-Scaled", ".png"))
 ```
 
-```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="Cars: Histogram of Weight (Original vs Scaled)"}
+```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="(B16P02 B17P01) Cars: Histogram of Weight (Original vs Scaled)"}
 # #Ref another file chunk
 ```
 
@@ -254,7 +254,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B17P03', echo=FALSE, out.width='100%', fig.cap="Cars: Weight Transformed with Original & Scaled"}
+```{r 'B17P03', echo=FALSE, out.width='100%', fig.cap="(B17P03) Cars: Weight Transformed with Original & Scaled"}
 knitr::include_graphics(paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png"))
 ```
 
@@ -345,7 +345,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B17P04', echo=FALSE, out.width='100%', fig.cap="Cars: QQ Plots of Transformed Weight"}
+```{r 'B17P04', echo=FALSE, out.width='100%', fig.cap="(B17P04) Cars: QQ Plots of Transformed Weight"}
 knitr::include_graphics(paste0(.z$PX, "B17P04","-Cars-Weight-QQ", ".png"))
 ```
 
@@ -364,7 +364,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B17P05', echo=FALSE, out.width='100%', fig.cap="Cars: QQ Plots of Transformed Weight"}
+```{r 'B17P05', echo=FALSE, out.width='100%', fig.cap="(B17P05) Cars: QQ Plots of Transformed Weight"}
 knitr::include_graphics(paste0(.z$PX, "B17P05","-Cars-Weight-QQ-Flip", ".png")) #iiii
 ```
 

@@ -42,7 +42,11 @@ The equation that describes how ${y}$ is related to ${x}$ and an error term $\ep
 Note
 
 - ${\beta}_0$ and ${\beta}_1$ are referred to as the \textcolor{pink}{parameters of the model}
-- The random variable, \textcolor{pink}{error term $({\epsilon})$}, accounts for the variability in ${y}$ that cannot be explained by the linear relationship between ${x}$ and ${y}$.
+
+
+```{definition 'Error-Term'}
+The random variable, \textcolor{pink}{error term $({\epsilon})$}, accounts for the variability in ${y}$ that cannot be explained by the linear relationship between ${x}$ and ${y}$.
+```
 
 
 ```{definition 'Regression-Equation'}
@@ -182,9 +186,10 @@ f_getDef("Residuals")
 
 If we use a different random sample for the same regression study the resultant regression would be obviously different from the earlier. Indeed, $b_0$ and $b_1$, the least squares estimators, are sample statistics with their own sampling distributions. 
 
-Standard deviation of $b_1$ is ${\sigma}_{b_1}$. Its estimate, estimated standard deviation of $b_1$, is given by $s_{b_1} = \frac{s}{\sqrt{\Sigma (x_i - {\overline{x}})^2}}$
+```{definition 'Standard-Error-B1'}
+Standard deviation of $b_1$ is ${\sigma}_{b_1}$. Its estimate, estimated standard deviation of $b_1$, is given by $s_{b_1} = \frac{s}{\sqrt{\Sigma (x_i - {\overline{x}})^2}}$. The standard deviation of $b_1$ is also referred to as the \textcolor{pink}{standard error of $b_1$}. Thus, $s_{b_1}$ provides an estimate of the standard error of $b_1$.
+```
 
-The standard deviation of $b_1$ is also referred to as the standard error of $b_1$. Thus, $s_{b_1}$ provides an estimate of the standard error of $b_1$.
 
 - The t test for a significant relationship is based on the fact that the test statistic $\frac{b_1 - \beta_1}{s_{b_1}}$ follows a t distribution with $(n − 2)$ degrees of freedom. If the null hypothesis is true, then $\beta_1 = 0$ and $t = \frac{b_1}{s_{b_1}}$
   - If ${}^2\!P_{(t)} \leq {\alpha} \to {H_0}$ Rejected.

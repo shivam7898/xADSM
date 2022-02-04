@@ -26,12 +26,10 @@ if (!identical(.libPaths()[1], "C:/Softwares/R/LibFiles")) {
 # #To only download binaries and avoid 'latest code' type Errors in Windows.
 options(pkgType = "binary")
 
-# #scipen =999 can be used to disable the scientific notation
-# #But, I am worried that it will cause to show unnecessary trailing 0s in Numbers
-# #So, for now keeping it disabled and more 'irritatingly'...
-# #I was unable to find original code where I decided not to use scipen
-# #Alternatives: sprintf(), format(), formatC(), round(), prettyNum()
-#options(scipen=0, digits=7) #Default
+# #Disable Scientific Notation because p-values, residuals etc. are irritating to convert
+# #It might show many trailing zeroes but that can be handled separately.
+#options(scipen = 0, digits = 7) #Default
+options(scipen = 999)
 
 # #Maximum Print Limit (Not lines, Characters. So, higher number is used.)
 options(max.print=1000)

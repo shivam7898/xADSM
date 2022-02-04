@@ -225,7 +225,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P01', echo=FALSE, fig.cap="Makeup: Support and Confidence with Lift as Gradient"}
+```{r 'B24P01', echo=FALSE, fig.cap="(B24P01) Makeup: Support and Confidence with Lift as Gradient"}
 knitr::include_graphics(paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")) 
 ```
 
@@ -316,7 +316,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P02', echo=FALSE, fig.cap="Basket: Absolute Item Frequency Plot of Items"}
+```{r 'B24P02', echo=FALSE, fig.cap="(B24P02) Basket: Absolute Item Frequency Plot of Items"}
 knitr::include_graphics(paste0(.z$PX, "B24P02", "-Basket-Freq-Abs", ".png"))
 ```
 
@@ -463,7 +463,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P03', echo=FALSE, fig.cap="Groceries: Support vs. Confidence with Lift as Gradient and Two RHS"}
+```{r 'B24P03', echo=FALSE, fig.cap="(B24P03) Groceries: Support vs. Confidence with Lift as Gradient and Two RHS"}
 knitr::include_graphics(paste0(.z$PX, "B24P03","-Groceries-SupConf", ".png")) 
 ```
 
@@ -615,7 +615,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png"
 ```
 
 
-```{r 'B24P0405', echo=FALSE, ref.label=c('B24P04', 'B24P05'), fig.cap="Groceries: Support, Confidence and Lift"}
+```{r 'B24P0405', echo=FALSE, ref.label=c('B24P04', 'B24P05'), fig.cap="(B24P04 B24P05) Groceries: Support, Confidence and Lift"}
 #
 ```
 
@@ -659,7 +659,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P06', echo=FALSE, fig.cap="Groceries: Two-key Plot: Support and Confidence with Items"}
+```{r 'B24P06', echo=FALSE, fig.cap="(B24P06) Groceries: Two-key Plot: Support and Confidence with Items"}
 knitr::include_graphics(paste0(.z$PX, "B24P06","-Groceries-Two-key", ".png")) 
 ```
 
@@ -695,7 +695,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B24P07', echo=FALSE, fig.cap="Groceries: Matrix"}
+```{r 'B24P07', echo=FALSE, fig.cap="(B24P07) Groceries: Matrix"}
 knitr::include_graphics(paste0(.z$PX, "B24P07","-Groceries-Matrix", ".png")) 
 ```
 
@@ -775,7 +775,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P09","-Groceries-GroupMat-50k", ".png"
 ```
 
 
-```{r 'B24P0809', echo=FALSE, ref.label=c('B24P08', 'B24P09'), fig.cap="Groceries: Grouped Matrix with default k = 20 and 50"}
+```{r 'B24P0809', echo=FALSE, ref.label=c('B24P08', 'B24P09'), fig.cap="(B24P08 B24P09) Groceries: Grouped Matrix with default k = 20 and 50"}
 #
 ```
 
@@ -849,7 +849,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png"
 ```
 
 
-```{r 'B24P1011', echo=FALSE, ref.label=c('B24P10', 'B24P11'), fig.cap="Groceries: Graph of Top 1o Rules by Lift"}
+```{r 'B24P1011', echo=FALSE, ref.label=c('B24P10', 'B24P11'), fig.cap="(B24P10 B24P11) Groceries: Graph of Top 1o Rules by Lift"}
 #
 ```
 
@@ -926,7 +926,7 @@ if(!file.exists(loc_png)) {
 knitr::include_graphics(paste0(.z$PX, "B24P13","-Groceries-Paracoord-Reorder", ".png")) 
 ```
 
-```{r 'B24P1213', echo=FALSE, ref.label=c('B24P12', 'B24P13'), fig.cap="Groceries: Parallel Coordinates Plots (Default and Reordered)"}
+```{r 'B24P1213', echo=FALSE, ref.label=c('B24P12', 'B24P13'), fig.cap="(B24P12 B24P13) Groceries: Parallel Coordinates Plots (Default and Reordered)"}
 #
 ```
 
@@ -977,7 +977,7 @@ if(!file.exists(loc_png)) {
 ```
 
 
-```{r 'B24P14', echo=FALSE, fig.cap="Groceries: Double Decker Plot of Single Rule"}
+```{r 'B24P14', echo=FALSE, fig.cap="(B24P14) Groceries: Double Decker Plot of Single Rule"}
 knitr::include_graphics(paste0(.z$PX, "B24P14","-Groceries-Double-Decker", ".png")) 
 ```
 

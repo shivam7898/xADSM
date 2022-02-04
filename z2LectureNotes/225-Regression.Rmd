@@ -12,10 +12,10 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Supervised Learning Algorithm: Regression"
 
 
-## Linear Regression
+## Linear Regression {.tabset .tabset-fade}
 
 ```{r 'B25D01', comment="", echo=FALSE, results='asis'}
-f_getDef("Simple-Linear-Regression") #dddd
+f_getDef("Simple-Linear-Regression")
 ```
 
 - ${Y}$: Scalar response, Dependent variable, Outcome variable, Target, Predicted
@@ -33,10 +33,232 @@ f_getDef("Simple-Linear-Regression") #dddd
 - \textcolor{pink}{Question:} ${\alpha}$ is constant for a given set of data
   - Yes
 
-- Refer [Why Slope is more important than the intercept](#beta1-c14 "c14")
+- Refer [Slope is tested for Significance](#beta1-c14 "c14")
 - Simple Linear Regression is also known as \textcolor{pink}{Bivariate Regression}. i.e. Single Y, Single X
 - When there are Single Y and Multiple X, it is called \textcolor{pink}{Multiple Linear Regression}
   - Equation: ${y} = {\beta}_0 + {\beta}_1 {x}_1 + {\beta}_2 {x}_2 + \ldots + {\epsilon}$
+
+- \textcolor{pink}{lm()}
+  - Models for lm are specified symbolically. A typical model has the form \textcolor{pink}{response ~ terms} where \textcolor{pink}{response} is the (numeric) response vector and \textcolor{pink}{terms} is a series of terms which specifies a linear predictor for response. 
+  - \textcolor{pink}{summary()}
+    - The standard error is variability to expect in coefficient which captures sampling variability so the variation in intercept can be up 0 and variation in IncomeX will be 0 not more than that
+    - t-value: t value is Coefficient divided by standard error.
+      - It is basically how big is estimated relative to error.
+      - Bigger the coefficient relative to Std. error the bigger the t score and t score comes with a p-value because it is a distribution.
+    - p-value is how statistically significant the variable is to the model for a confidence level of 95%
+      - If the p-value is less than alpha (0.05) for both intercept and X then it implies that both are statistically significant to our model.
+    - Residual standard error or the standard error of the model is basically the average error for the model. It means the average value by which our model can deviate while predicting the Y. 
+      - Lesser the error the better the model while predicting.
+    - Multiple R-squared is the ratio of (1-(sum of squared error/sum of squared total))
+    - Adjusted R-squared:
+      - If we add variables no matter if its significant in prediction or not the value of R-squared will increase which the reason Adjusted R-squared is used because if the variable added is not significant for the prediction of the model the value of Adjusted R-squared will reduce, it is one of the most helpful tools to avoid overfitting of the model.
+   - F-statistic is the ratio of the mean square of the model and mean square of the error, in other words, it is the ratio of how well the model is doing and what the error is doing, and the higher the F value is the better the model is doing as compared to the error.
+   
+### lm() {.unlisted .unnumbered}
+
+```{r 'B25-Model'}
+bb <- tibble(ConsumptionY = seq.int(80, by = 20, length.out = 5),
+             IncomeX = seq.int(100, by = 100, length.out = 5))
+#
+# #Build the model
+mod_bb <- lm(formula = ConsumptionY ~ ., data = bb)
+#
+# #Model
+suppressWarnings(mod_bb)
+#
+# #Summarise the model
+if(FALSE) suppressWarnings(summary(mod_bb))
+#
+# #ANOVA Table
+if(FALSE) suppressWarnings(anova(mod_bb))
+```
+
+### Model {.unlisted .unnumbered}
+
+```{r 'B25-lmModel'}
+names(mod_bb)
+#
+# #Coefficients (Model Parameters): Different headers than summary(mod_bb)$coefficients 
+mod_bb$coefficients #coefficients(mod_bb)
+#
+# #Residuals
+mod_bb$df.residual
+#
+f_pNum(mod_bb$residuals) #residuals(mod_bb) #summary(mod_bb)$residuals 
+#
+# #What is Effects
+f_pNum(mod_bb$effects) #effects(mod_bb)
+#
+# #Rank
+mod_bb$rank
+#
+# #Fitted Values
+mod_bb$fitted.values #fitted.values(mod_bb)
+#
+# #Assign
+mod_bb$assign
+#
+# #qr
+mod_bb$qr[[1]] %>% as_tibble()
+#
+# #Others
+if(FALSE) mod_bb$xlevels
+if(FALSE) mod_bb$call #summary(mod_bb)$call
+if(FALSE) mod_bb$terms
+#
+mod_bb$model
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B25-lmSummary'}
+#summary(mod_bb)
+names(suppressWarnings(summary(mod_bb)))
+# [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+# [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled" 
+#
+# #Coefficients: Different headers than mod_bb$coefficients
+f_pNum(suppressWarnings(summary(mod_bb))$coefficients) %>% as_tibble()
+#
+# #R^2 and Adjusted R^2
+suppressWarnings(summary(mod_bb))$r.squared
+suppressWarnings(summary(mod_bb))$adj.r.squared
+#
+# #F-Statistic
+suppressWarnings(summary(mod_bb))$fstatistic 
+#
+# #Covariance
+suppressWarnings(summary(mod_bb))$cov.unscaled
+#
+# #Sigma
+f_pNum(suppressWarnings(summary(mod_bb))$sigma)
+```
+
+## Prediction
+
+- \textcolor{pink}{Question:} After generating the equation can we calculate what would be the Consuption if the Income is 600
+  - The model can be used to predict the dependent variable
+  - (Aside) \textcolor{orange}{Caution:} Prediction beyond the values of min(x) and max(x) of original dataset is inference and it is discouraged. i.e. Y for X= 150 can be predicted but Y for X >500 should be avoided.
+
+```{r 'B25-lmPredict'}
+# #Predict the Outcome variable using the Model
+test_bb <- tibble(IncomeX = c(150, 600, 700))
+#res_bb <- predict(mod_bb, test_bb)
+res_bb <- test_bb %>% mutate(ConsumptionY = predict(mod_bb, .))
+res_bb
+```
+
+## MS Excel: Regression Analysis
+
+- We need Data Analysis AddIn.
+- In Windows 10 & Microsoft Excel 2016 
+  - Menu | File | Options | Add-ins | Manage = Excel Add-ins | Go | Add-ins Popup 
+    - Tick the Analysis ToolPak | Go
+    - As shown by Professr, the Sequence might be Menu | File | More | Options | ...
+  - Confirmation
+    - Menu | Data | 
+      - Right Most section would have been added called "Analysis" and it will have one button "Data Analysis"
+
+- Regression Analysis
+  - Enter the data
+    - Menu | Data | Analysis | Data Analysis | Popup | Regression | OK
+    - Select Input Y Range | Select Input X Range | Tick Labels | OK 
+
+```{r 'B25P01', echo=FALSE, out.width='100%', fig.cap="(B25P01) Regression in MS Excel"}
+knitr::include_graphics(paste0(.z$PX, "B25P01-Excel-Analysis.jpg"))
+```
+
+```{r 'B25P02', echo=FALSE, out.width='100%', fig.cap="(B25P02) Regression Result in MS Excel"}
+knitr::include_graphics(paste0(.z$PX, "B25P02-Excel-Regression-Result.jpg"))
+```
+
+## Explanation of Terms
+
+
+```{r 'B25D02', comment="", echo=FALSE, results='asis'}
+f_getDef("H-SimpleRegression")
+```
+
+- t-value:
+  - The slope model parameter $(\beta_1)$ needs to be tested for significance.
+  - Refer [Slope is tested for Significance](#beta1-c14 "c14")
+  - $t = \frac{b_1}{s_{b_1}}$
+  - If ${}^2\!P_{(t)} \leq {\alpha} \to {H_0}$ Rejected.
+
+```{r 'B25D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Standard-Error-B1")
+```
+
+- \textcolor{pink}{Question:} In case of multiple variables, do we need to do this for all variables
+  - No, we will not do it individually. We will do multi-regression. We will incorporate all the variables simultaneously.
+  - In multiple regression, we get $\{\beta_1, \beta_2, \beta_3, \ldots \}$ and each will have its own standard error i.e. $\{s_{b_1}, s_{b_2}, s_{b_3}, \ldots \}$.
+  - If a variable is NOT signifact, it means that it is not contributing to the model in a meaningful manner.
+
+- F-Statistic:
+  - If we have a multi-regression model F-test checks Null Hypothesis that all $\beta_1 = \beta_2 =  \beta_3 = \ldots = 0$
+  - Alternative is "Atleast one of the $\beta$ is not zero"
+  - (Aside) For simple linear regression i.e. single X, single Y; the F-test and t-test provide same result. However, F-test is applied in multi-regression model
+
+"ForLater" : Include Multi-regression Hypothesis 
+
+- \textcolor{pink}{Question:} Which one should come first Joint Significance or Individual Significance
+  - In multi-regression analysis, the joint significance needs to be looked at first.
+  - i.e. First the variables jointly able to predict the outcome variable then later on we can check contribution of individual variable
+  - If the model is not good then there is no point in looking at individual variables
+  - F should be greater than 0.05 for us to consider that model is valid.
+
+- \textcolor{pink}{Question:} Can we drop the variables which are not contributing much to the model
+  - We may find that out of 4 independent variable A, B, C, D; C & D are not contributing much to the model. We can drop C & D. However, there is a possibility that A & B are performing well because of the presence of C & D. Though C & D contribution, by itself, is insignificant, it makes A & B contribution significant. C or D might be influencing A or B.
+  - If there are high number of variables e.g. 20 or 30, then we will drop the insignificant variables because the model complexity becomes an issue.
+    - Practically how many independent variable we can handle in our business case is also a consideration
+  
+- \textcolor{pink}{Question:} Here we have single $\beta_1$ then how the F-test is applied
+  - We are only checking $\beta_1 = 0$
+
+- Any model is a good model if it has minimum number of predictors and maximum predictive power.
+
+
+```{r 'B25D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Coefficient-of-Determination") 
+```
+
+- $r^2$ is the 'Coefficient of Determination' or 'Goodness of Fit'
+  - $r^2 = 1$ means model is able to explain 100% relationship between independent and dependent variables.
+  - $r^2 = 0$ means model is not able to explain anything
+  
+
+
+```{r 'B25D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Error-Term")
+```
+
+- Error Term $\epsilon$ denotes unexplained variance
+  
+- \textcolor{pink}{Question:} What would be the acceptable value of $r^2$
+  - No rule, context dependent
+  - In general, we want $r^2$ to be as high as possible
+  - (Aside) Further, there is a 'model overfitting' concern also with very high $r^2$
+
+- Total = Explained (by independent variables) + Unexplained ($\epsilon$)
+  - Join Significance is about all the independent variables
+
+
+- \textcolor{pink}{Question:} Is there a possibility of situation where independent variables are not performing jointly but $r^2$ is high
+  - It is possible
+  - There might be some internal issue which results in high $r^2$ but low model performance
+  - If the predictors are highly correlated (Multicollinearity)
+    - Individual performance gets reduced, however, the $r^2$ value might increase
+    - Multicollinearity reduces the robustness of model
+    - Individually the either variable can explain the dependent variable very well. However, due to multicollinearity, together they fail to perform at same level.
+  - Regression analysis require that the variables should be non-overlapping (high correlation should not be there)
+
+```{r 'B25D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Multicollinearity") #dddd
+```
+
+- \textcolor{pink}{Question:} How do we deal with Multicollinearity and other such problems
+  - First of all, you need to select those independent variables which are not correlated to each other
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

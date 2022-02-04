@@ -237,7 +237,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'B16P01', echo=FALSE, fig.cap="Cars: Inserted Missing Value Pattern by md.pattern()"}
+```{r 'B16P01', echo=FALSE, fig.cap="(B16P01) Cars: Inserted Missing Value Pattern by md.pattern()"}
 knitr::include_graphics(paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png"))
 ```
 
@@ -430,7 +430,7 @@ knitr::include_graphics(paste0(.z$PX, "B16P02","-Cars-Hist-Weight", ".png"))
 
 ```{r 'B16-Density', include=FALSE}
 # #Density Curve
-ttl_hh <- "Cars: Desnsity Plot of Weight"
+ttl_hh <- "Cars: Density Plot of Weight"
 cap_hh <- "B16P03"
 # #Get Quantiles and Ranges of mean +/- sigma 
 q05_hh <- quantile(hh[[1]], .05)
@@ -503,7 +503,7 @@ knitr::include_graphics(paste0(.z$PX, "B16P03","-Cars-Dens-Weight", ".png"))
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'B16P0203', echo=FALSE, ref.label=c('B16P02', 'B16P03'), fig.cap="Cars: Histogram and Density of Weight (lbs)"}
+```{r 'B16P0203', echo=FALSE, ref.label=c('B16P02', 'B16P03'), fig.cap="(B16P02 B16P03) Cars: Histogram and Density of Weight (lbs)"}
 #
 ```
 
@@ -592,7 +592,7 @@ knitr::include_graphics(paste0(.z$PX, "B16P05","-Cars-Scatter-Mod", ".png"))
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'B16P0405', echo=FALSE, ref.label=c('B16P04', 'B16P05'), fig.cap="Cars: Scatterplot of Weight (x) vs MPG (y) with and without the two outliers"}
+```{r 'B16P0405', echo=FALSE, ref.label=c('B16P04', 'B16P05'), fig.cap="(B16P04 B16P05) Cars: Scatterplot of Weight (x) vs MPG (y) with and without the two outliers"}
 #
 ```
 
@@ -692,7 +692,7 @@ if(!file.exists(loc_png)) {
 
 #### Image {.unlisted .unnumbered}
 
-```{r 'B16P06', echo=FALSE, fig.cap="Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
+```{r 'B16P06', echo=FALSE, fig.cap="(B16P06) Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
 knitr::include_graphics(paste0(.z$PX, "B16P06","-Cars-BoxPlot", ".png")) #iiii
 ```
 
