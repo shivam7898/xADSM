@@ -11,7 +11,12 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "factoextra", "cluster")
   pkg <- c(pkg, "arules", "arulesViz", "ggrepel")
   pkg <- c(pkg, "rfm") #Threw error on Feb-03. Keep it separate for now.
-  #lapply(pkg, FUN = library, character.only = TRUE)
+  if(FALSE) {# #Test Case: Sometimes the loading is failing. However it is not reproducible currently.
+    pkg <- c("conflicted", "ggplot2", "tibble", "tidyr", "readr", "dplyr", "kableExtra") #7
+	#lapply(pkg, FUN = library, character.only = TRUE, verbose = FALSE, logical.return = TRUE)
+	vapply(pkg, 
+	FUN = library, character.only = TRUE, logical.return = TRUE, FUN.VALUE = logical(1))
+  }
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
 #
 # #Precedence

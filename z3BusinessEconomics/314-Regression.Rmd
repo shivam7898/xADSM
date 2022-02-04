@@ -147,7 +147,7 @@ f_getDef("Correlation-Coefficient")
 
 - \textcolor{orange}{Caution:} We are also making an assumption or hypothesis about the form of the relationship between x and y. That is, we assume that a straight line represented by ${\beta}_0 + {\beta}_1 {x}$ is the basis for the relationship between the variables. We must not lose sight of the fact that some other model, for instance ${y} = {\beta}_0 + {\beta}_1 {x}^2 + {\epsilon}$, may turn out to be a better model for the underlying relationship.
 
-## Testing for Significance
+## Testing for Significance {#beta1-c14}
 
 ```{r 'C14D02', comment="", echo=FALSE, results='asis'}
 f_getDef("Simple-Linear-Regression-Assumption-1")

@@ -14,22 +14,29 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Linear Regression
 
-```{definition 'Linear-Regression'}
-\textcolor{pink}{Linear regression} is a linear approach for modelling the relationship between a scalar response and one or more explanatory variables. 
+```{r 'B25D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression") #dddd
 ```
 
 - ${Y}$: Scalar response, Dependent variable, Outcome variable, Target, Predicted
 - ${X}$: Explanatory variables, Independent variables, Antecendent variables, Predictors
 
 - It is applied when the objective is to predict the outcome variable based on the antecendent variables
-- Predicted can be continuous, but Predictors can be either continuous or categorical 
+- Predicted (Y) should be continuous, but Predictors (X) can be either continuous or categorical 
   - Ex: Salary (Y) is a function of Age, Gender, Education, Years of Experience
   - Ex: Consumption (Y) is a function of Income (X)
   - We are interested in $Y = mX + C$ where ${m}$ is the slope of the line and C is the y-intercept
+    - Slope: What is the change in Y for unit change in X
   - Because there will be some error ${\epsilon}$, thus the equation is given by $y = {\alpha} + {\beta}x + {\epsilon}$ where ${\alpha}$ is the average Y when X are zero.
+  - NOTE Equation can also be given by ${y} = {\beta}_0 + {\beta}_1 {x} + {\epsilon}$. In that case assume ${\alpha} = {\beta}_0$ and ${\beta} = {\beta}_1$.
 
+- \textcolor{pink}{Question:} ${\alpha}$ is constant for a given set of data
+  - Yes
 
-
+- Refer [Why Slope is more important than the intercept](#beta1-c14 "c14")
+- Simple Linear Regression is also known as \textcolor{pink}{Bivariate Regression}. i.e. Single Y, Single X
+- When there are Single Y and Multiple X, it is called \textcolor{pink}{Multiple Linear Regression}
+  - Equation: ${y} = {\beta}_0 + {\beta}_1 {x}_1 + {\beta}_2 {x}_2 + \ldots + {\epsilon}$
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

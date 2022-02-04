@@ -542,6 +542,15 @@ if(FALSE) {# #WARNING: Installation may take some time.
 }
 ```
 
+### Update Packages {.unnumbered}
+
+- Update Packages from RStudio in general
+- However there are Packages that come together with R. Those needs to be updated with each R update
+  - Run R as an administrator.
+  - Packages | Updaate Packages
+    - If it asks for "Do you want to use Personal Directory" - Decline. It is another headache.
+    - If Some Packages fail to update in Administrator Mode, Rerun the update one by one. It works.
+
 
 ## Import Flights Data {#flights-b09 .tabset .tabset-fade}
 

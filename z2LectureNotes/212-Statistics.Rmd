@@ -425,10 +425,6 @@ xbreaks_hh <- seq(-3, 3)
 xpoints_hh <- mean_hh + xbreaks_hh * sd_hh
 #
 # # Latex Labels 
-if(FALSE) { #xxxx Two consecutive spaces by \, are throwing error in latex2exp_0.9.0
-  # #Test Case: library("latex2exp"); c(TeX(r'($\,\,\mu - 3 \sigma$)'))
-
-}
 xlabels_hh <- c(TeX(r'($\,\,\mu - 3 \sigma$)'), TeX(r'($\,\,\mu - 2 \sigma$)'), 
                 TeX(r'($\,\,\mu - 1 \sigma$)'), TeX(r'($\mu$)'), TeX(r'($\,\,\mu + 1 \sigma$)'), 
                 TeX(r'($\,\,\mu + 2 \sigma$)'), TeX(r'($\,\,\mu + 3\sigma$)'))
@@ -803,17 +799,6 @@ knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
 ```{r 'B12-RepeatSampligHist', eval=FALSE}
 # #Assumes 'hh' has data in 'ee'. In: mu_hh, cap_hh, ylim_hh, nn
 #
-if(FALSE) { #xxxx Error in latex2exp_0.9.3 (After Patched)
-  # #Test Case: library("latex2exp"); packageVersion("latex2exp"); TeX(r'($\bar{x} \, (\neq x)$)')
-  labs(x = TeX(r'($\bar{x} \, (\neq x)$)'), y = TeX(r'(Frequency of $\, \bar{x}$)'), 
-       subtitle = TeX(sprintf(
-         "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f",
-                             mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
-       caption = cap_hh, 
-       title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
-  
-}
-
 B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) + 
   geom_histogram(bins = 50, alpha = 0.4, fill = '#FDE725FF') + 
   geom_vline(aes(xintercept = mean(.data[["ee"]])), color = '#440154FF') +
@@ -827,14 +812,10 @@ B12 <- hh %>% { ggplot(data = ., mapping = aes(x = ee)) +
   theme(plot.title.position = "panel") + 
   labs(x = TeX(r'($\bar{x} \, (\neq x)$)'), y = TeX(r'(Frequency of $\, \bar{x}$)'), 
        subtitle = TeX(sprintf(
-         "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f; $\\sigma_{\\bar{x}} \\, =$%.0f",
+         "($\\mu$=%.0f) $E(\\bar{x}) \\, =$%.0f $\\sigma_{\\bar{x}} \\, =$%.0f",
                              mu_hh, round(mean(.[[1]]), 1), round(sd(.[[1]])))),
        caption = cap_hh, 
        title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
-  #labs(x = "xx", y = "yy", 
-  #     subtitle = NULL,
-  #     caption = cap_hh, 
-  #     title = paste0("Sampling Distribution (N = ", nn, ") & Repeat Sampling = ", nrow(.)))
 }
 assign(cap_hh, B12)
 rm(B12)
