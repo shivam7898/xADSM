@@ -265,7 +265,7 @@ f_getDef("Simple-Linear-Regression-Assumption-Summary")
 
 
 ```{definition 'QQ-Plot'}
-A \textcolor{pink}{normal probability plot} is a quantile–quantile plot of the quantiles of a particular distribution against the quantiles of the standard normal distribution, for the purposes of determining whether the specified distribution deviates from normality.
+A \textcolor{pink}{normal probability plot} is a quantile-quantile plot of the quantiles of a particular distribution against the quantiles of the standard normal distribution, for the purposes of determining whether the specified distribution deviates from normality.
 ```
 
 - Normal Probability Plot (QQ plot)
@@ -273,10 +273,10 @@ A \textcolor{pink}{normal probability plot} is a quantile–quantile plot of the
   - If the distribution is normal, then the bulk of the points in the plot should fall on a straight line; systematic deviations from linearity in this plot indicate non-normality.
 
 - Tests
-  - \textcolor{pink}{Anderson–Darling Test} for Normality
+  - \textcolor{pink}{Anderson-Darling Test} for Normality
     - The null hypothesis is that the normal distribution fits, so that small p-values will indicate lack of fit.
   - For assessing whether the constant variance assumption has been violated, either \textcolor{pink}{Bartlett test} or \textcolor{pink}{Levene test} may be used.
-  - For determining whether the independence assumption has been violated, either the \textcolor{pink}{Durban–Watson test} or the \textcolor{pink}{runs test} may be applied.
+  - For determining whether the independence assumption has been violated, either the \textcolor{pink}{Durban-Watson test} or the \textcolor{pink}{runs test} may be applied.
 
 ## Outliers
 

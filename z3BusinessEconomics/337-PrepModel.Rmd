@@ -15,6 +15,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 > "Simple Linear Regression (338)" has been merged in [Anderson C14](#c14 "c14").
 
+> "Multiple Regression and Model Building (339)" has been merged in [Anderson C15](#c15 "c15").
+
 - "Preparing to Model the Data"
 
 ## Data Mining
@@ -83,7 +85,7 @@ f_getDef("Overfitting")
   - As the model complexity increases, the error rate on the training set continues to fall in a monotone manner. 
   - However, as the model complexity increases, the test set error rate soon begins to flatten out and increase because the provisional model has memorized the training set rather than leaving room for generalizing to unseen data.
 
-## Bias-Variance Trade-Off
+## Bias-Variance Trade-Off {#bias-var-c37}
 
 - The low complexity model suffers from some classification errors. The classification errors can be reduced by a more complex model. 
   - We might be tempted to adopt the greater complexity in order to reduce the error rate. 
@@ -91,10 +93,10 @@ f_getDef("Overfitting")
   - The low-complexity model need not change very much to accommodate new data points. i.e. low-complexity model has \textcolor{pink}{low variance}. 
   - However, the high-complexity model must alter considerably if it is to maintain its low error rate.  i.e. high-complexity model has a \textcolor{pink}{high variance}. 
 
-
-```{definition 'Bias–variance-Trade-off'}
-Even though the high-complexity model has low bias (error rate), it has a high variance; and even though the low-complexity model has a high bias, it has a low variance. This is known as the \textcolor{pink}{bias–variance trade-off}. The bias–variance trade-off is another way of describing the overfitting-underfitting dilemma.
+```{definition 'Bias-variance-Trade-off'}
+Even though the high-complexity model has low bias (error rate), it has a high variance; and even though the low-complexity model has a high bias, it has a low variance. This is known as the \textcolor{pink}{bias-variance trade-off}. It is another way of describing the overfitting-underfitting dilemma.
 ```
+
 
 - The goal is to construct a model in which neither the bias nor the variance is too high
   - A common method of evaluating how accurate model estimation is proceeding for a continuous target variable is to use the mean-squared error (MSE). (Target: Low MSE) 

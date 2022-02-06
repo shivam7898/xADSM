@@ -624,7 +624,7 @@ points(aa$weightlbs,
 
 ```{r 'B16-ScatterPlot', eval=FALSE}
 # #IN: hh$x, hh$y, ttl_hh, cap_hh, x_hh, y_hh
-# #Define the formula for Trendline calculation
+# #Formula for Trendline calculation
 k_gg_formula <- y ~ x
 #
 B16 <- hh %>% { ggplot(data = ., aes(x = x, y = y)) + 

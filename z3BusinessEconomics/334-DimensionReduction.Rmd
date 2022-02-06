@@ -103,7 +103,7 @@ Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let ${\lambda}
 
 - The total variability in the standardized set of predictors equals the sum of the variances of the Z-vectors, which equals the sum of the variances of the components, which equals the sum of the eigenvalues, which equals the numer of predictors
   - i.e. $\sum_{i=1}^m {\text{Var}({Y_i})} = \sum_{i=1}^m {\text{Var}({Z_i})} = \sum_{i=1}^m {\lambda_i} = m$
-- The partial correlation between a given component and a given predictor variable is a function of an eigenvector and an eigenvalue. Specifically, $\text{Corr}(Y_i, Z_j) = e_{ij}\sqrt{\lambda_i}$, where $\{ (\lambda_1, e_1), (\lambda_2, e_2), \ldots, (\lambda_m, e_m)\}$ are the eigenvalue–eigenvector pairs for the correlation matrix $\rho$, and we note that $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m$. In other words, the eigenvalues are ordered by size. (A partial correlation coefficient is a correlation coefficient that takes into account the effect of all the other variables.)
+- The partial correlation between a given component and a given predictor variable is a function of an eigenvector and an eigenvalue. Specifically, $\text{Corr}(Y_i, Z_j) = e_{ij}\sqrt{\lambda_i}$, where $\{ (\lambda_1, e_1), (\lambda_2, e_2), \ldots, (\lambda_m, e_m)\}$ are the eigenvalue-eigenvector pairs for the correlation matrix $\rho$, and we note that $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m$. In other words, the eigenvalues are ordered by size. (A partial correlation coefficient is a correlation coefficient that takes into account the effect of all the other variables.)
 - The proportion of the total variability in Z that is explained by the $i^{\text{th}}$ principal component is the ratio of the $i^{\text{th}}$ eigenvalue to the number of variables, that is, the ratio $\frac{\lambda_i}{m}$.
 
 ## Data Housing
@@ -812,7 +812,7 @@ f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
 
 ```{r 'C34-Matrix'}
 # #Create a Matrix
-# #Default: The Matrix is Filled Column by Column
+# #(Default) The Matrix is Filled Column by Column
 matrix(1:9, nrow = 3)
 #
 # #Change Behavour to fill the matrix by Row
@@ -1150,7 +1150,7 @@ Factor analysis requires a certain level of correlation in order to function app
 
 - Note, however, that statistical tests in the context of huge data sets can be misleading. With huge sample sizes, even the smallest effect sizes become statistically significant. This is why data mining methods rely on cross-validation methodologies, not statistical inference.
 
-- The proportion of variability within the standardized predictor variables which is shared in common, and therefore might be caused by underlying factors, is measured by the \textcolor{pink}{Kaiser–Meyer–Olkin (KMO) Measure of Sampling Adequacy}. 
+- The proportion of variability within the standardized predictor variables which is shared in common, and therefore might be caused by underlying factors, is measured by the \textcolor{pink}{Kaiser-Meyer-Olkin (KMO) Measure of Sampling Adequacy}. 
   - Values of the KMO statistic less than 0.50 indicate that factor analysis may not be appropriate. 
 -  \textcolor{pink}{Bartlett Test of Sphericity} tests the null hypothesis that the correlation matrix is an identity matrix, that is, that the variables are really uncorrelated. 
   - The statistic reported is the p-value, so that very small values would indicate evidence against the null hypothesis, that is, the variables really are correlated. 

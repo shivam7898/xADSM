@@ -723,7 +723,7 @@ f_setRDS(xxCommercials)
 ```{r 'C02-N-Trendline', include=FALSE}
 bb <- xxCommercials 
 
-# #Define the formula for Trendline calculation
+# #Formula for Trendline calculation
 k_gg_formula <- y ~ x
 #
 # #Scatterplot, Trendline alongwith its equation and R2 value

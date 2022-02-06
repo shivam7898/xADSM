@@ -294,7 +294,7 @@ lines(density(bb$InvSqr), col="red")
 
 ## QQ Plot {.tabset .tabset-fade}
 
-Q–Q (quantile-quantile) plot is a probability plot for comparing two probability distributions by plotting their quantiles against each other. A point $(x, y)$ on the plot corresponds to one of the quantiles of the second distribution (y-coordinate) plotted against the same quantile of the first distribution (x-coordinate). If the two distributions being compared are similar, the points in the Q–Q plot will approximately lie on the line $y = x$.
+QQ (quantile-quantile) plot is a probability plot for comparing two probability distributions by plotting their quantiles against each other. A point $(x, y)$ on the plot corresponds to one of the quantiles of the second distribution (y-coordinate) plotted against the same quantile of the first distribution (x-coordinate). If the two distributions being compared are similar, the points in the QQ plot will approximately lie on the line $y = x$.
 
 - Refer figure \@ref(fig:B12P09)
   - The QQ Plot shows whether the values are within the specified limits of Normal Curve

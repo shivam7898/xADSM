@@ -263,7 +263,7 @@ print(hh_sqdev <- hh_dev^2)
 # #Get Sum of the squared deviations
 print(hh_sqdev_sum <- sum(hh_sqdev))
 #
-# #Divide it by the 'sample size (N) – 1' for the Variance or use var()
+# #Divide it by the 'sample size (N) - 1' for the Variance or use var()
 hh_var <- round(var(hh), 3)
 hh_var_cal <- hh_sqdev_sum / (hh_len -1)
 stopifnot(identical(hh_var, hh_var_cal))

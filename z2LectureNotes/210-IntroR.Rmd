@@ -514,7 +514,7 @@ fruit_sort <- factor(unname(sort(ii)))
 # #unique() provides the values in the sequence of their appearance 
 fruit_uniq <- factor(unname(ii), levels = unique(ii))
 #
-# #Default Levels Match even though the actual Vectors do not Match
+# #By Default Levels Match even though the actual Vectors do not Match
 stopifnot(identical(levels(fruit_base), levels(fruit_sort)))
 fruit_base
 fruit_sort

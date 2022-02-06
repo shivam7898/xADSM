@@ -514,7 +514,7 @@ ii %>% filter(Lip_Gloss == 'Yes') %>% mutate(PROP = n/sum(n))
 ```{r 'B22-Rules-3', results='hide'}
 # #RHS: "Foundation=Yes"
 # #LHS: Only Bag Yes, Blush Yes | To identify these Rules supply lower support and confidence
-# #default = "both", "lhs", "rhs", "none". Specified the default appearance for all items ...
+# #(Default) = "both", "lhs", "rhs", "none". Specified the default appearance for all items ...
 # #...not explicitly mentioned in the other elements of the list.
 # #If default = "lhs" is supplied then redundant rules come up.
 rr_sup <- 0.01

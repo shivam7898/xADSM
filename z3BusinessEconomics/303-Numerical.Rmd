@@ -33,7 +33,7 @@ A \textcolor{pink}{number} is a mathematical object used to count, measure, and 
 
 Individual numbers can be represented by symbols, called \textcolor{pink}{numerals}; for example, "5" is a numeral that represents the 'number five'. 
 
-As only a relatively small number of symbols can be memorized, basic numerals are commonly organized in a \textcolor{pink}{numeral system}, which is an organized way to represent any number. The most common numeral system is the \textcolor{pink}{Hindu–Arabic numeral system}, which allows for the representation of any number using a combination of ten fundamental numeric symbols, called \textcolor{pink}{digits}.
+As only a relatively small number of symbols can be memorized, basic numerals are commonly organized in a \textcolor{pink}{numeral system}, which is an organized way to represent any number. The most common numeral system is the \textcolor{pink}{Hindu-Arabic numeral system}, which allows for the representation of any number using a combination of ten fundamental numeric symbols, called \textcolor{pink}{digits}.
 
 \textcolor{pink}{Counting} is the process of determining the number of elements of a finite set of objects, i.e., determining the size of a set. \textcolor{pink}{Enumeration} refers to uniquely identifying the elements of a set by assigning a number to each element. 
 
@@ -694,7 +694,7 @@ bb %>% pull(VAL) %>% f_getMode()
 ### Percentiles {#percentiles-c03 .tabset .tabset-fade}
 
 ```{definition 'Percentile'}
-A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing ${n}$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 – p)% of the observations are greater than the $p^{th}$ percentile. 
+A \textcolor{pink}{percentile} provides information about how the data are spread over the interval from the smallest value to the largest value. For a data set containing ${n}$ observations, the $p^{th}$ percentile divides the data into two parts: approximately p% of the observations are less than the $p^{th}$ percentile, and approximately (100 - p)% of the observations are greater than the $p^{th}$ percentile. 
 ```
 
 - Refer equation \@ref(eq:percentiles)
@@ -1400,7 +1400,7 @@ knitr::include_graphics(paste0(.z$PX, "C03P01", "-BoxPlot", ".png"))
 ```{r 'C03-Trendline', include=FALSE}
 bb <- f_getRDS(xxCommercials) 
 
-# #Define the formula for Trendline calculation
+# #Formula for Trendline calculation
 k_gg_formula <- y ~ x
 #
 # #Scatterplot, Trendline Equation, R2, mean x & y

@@ -283,7 +283,7 @@ Task of developing a profile of 2500 managers. The characteristics to be identif
   - $P_{(51300 \leq \overline{x} \leq 52300)} = P_{(\overline{x} \leq 52300)} - P_{(\overline{x} \leq 51300)} = P_{(z \leq 0.68)} - P_{(z \leq -0.68)} = 0.7517 - 0.2483 = 0.5034$
     - A simple random sample of 30 EAI managers has a 0.5034 probability of providing a sample mean ${\overline{x}}$ that is within 500 dollars of the population mean. 
       - Thus, there is a $1 − 0.5034 = 0.4966$ probability that the difference between ${\overline{x}}$ and ${\mu}$ will be more than 500 dollars. 
-      - In other words, a simple random sample of 30 EAI managers has roughly a 50–50 chance of providing a sample mean within the allowable 500 dollars. Perhaps a larger sample size should be considered. 
+      - In other words, a simple random sample of 30 EAI managers has roughly a 50-50 chance of providing a sample mean within the allowable 500 dollars. Perhaps a larger sample size should be considered. 
       - Let us explore this possibility by considering the relationship between the sample size and the sampling distribution of ${\overline{x}}$.
 
 - Impact of $n = 100$ in place of $n =30$

@@ -223,7 +223,7 @@ Segment rules might look like arbitory however lots of thought goes into this. T
 segment_titles <- c("First Grade", "Loyal", "Likely to be Loyal", "New Ones", 
                     "Could be Promising", "Require Assistance", "Getting Less Frequent",
                     "Almost Out", "Can not Lose Them", "Do not Show Up at All") 
-# #Define Rules of Minimum and Maximum RFM for each group
+# #Rules of Minimum and Maximum RFM for each group
 r_low  <- c(4, 2, 3, 4, 3, 2, 2, 1, 1, 1)
 r_high <- c(5, 5, 5, 5, 4, 3, 3, 2, 1, 2)
 f_low  <- c(4, 3, 1, 1, 1, 2, 1, 2, 4, 1)

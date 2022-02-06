@@ -62,7 +62,7 @@ A \textcolor{pink}{normal distribution (${\mathcal{N}}_{({\mu}, \, {\sigma}^2)}$
 ```
 
 - The general form of its probability density function is given by equation \@ref(eq:distribution-normal)
-  - Normal distribution ${\mathcal{N}}_{({\mu}, \, {\sigma})}$ is also known as Gaussian or Gauss or Laplace–Gauss distribution
+  - Normal distribution ${\mathcal{N}}_{({\mu}, \, {\sigma})}$ is also known as Gaussian or Gauss or Laplace-Gauss distribution
   - It is symmetrical
   - The entire family of normal distributions is differentiated by two parameters: the mean ${\mu}$ and the standard deviation ${\sigma}$. They determine the location and shape of the normal distribution.
   - The highest point on the normal curve is at the mean, which is also the median and mode of the distribution. 
@@ -378,7 +378,7 @@ pnorm(q = 1.00)
 ```{r 'C06-getPgivenZ'}
 # #Find Commulative Probability P corresponding to the given 'z' value
 # #Area under the curve to the left of z-value = 1.00
-# #pnorm(q = 1.00) #default 'lower.tail = TRUE'
+# #pnorm(q = 1.00) #(Default) 'lower.tail = TRUE'
 z_ii <- 1.00 
 p_ii <- round(pnorm(q = z_ii, lower.tail = TRUE), 4)
 cat(paste0("P(z <= ", format(z_ii, nsmall = 3), ") = ", p_ii, "\n"))

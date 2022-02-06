@@ -9,14 +9,170 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
-- 
-  - "ForLater" - Everything
+- Larose Chapter 9 (339) : "Multiple Regression and Model Building" has been merged here. 
 
 
-## Summary
+```{definition 'Multiple-Regression'}
+\textcolor{pink}{Multiple regression} analysis is the study of how a dependent variable $y$ is related to two or more independent variables. Multiple Regression Model is ${y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon$
+```
 
-Multiple regression analysis enables us to understand how a dependent variable is related to two or more independent variables.
+```{definition 'Multiple-Regression-Equation'}
+The equation that describes how the mean or expected value of ${y}$, denoted $E(y)$, is related to ${x}$ is called the \textcolor{pink}{regression equation}. Multiple Regression Linear Equation is: $E(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p$. 
+```
 
+- Note: Regression Model ${y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon$ contains error term $\epsilon$, whereas the Regression Equation $E(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p$ does not have that.
+  - $E(y)$ represents the average of all possible values of y that might occur for the given values of $\{x_1, x_2, \ldots, x_p\}$.
+
+- Model parameters $\{\beta_0, \beta_1, \beta_2, \ldots, \beta_p\}$ are generally unknown and thus are estimated by sample statistics $\{b_0, b_1, b_2, \ldots, b_p\}$. 
+
+
+```{definition 'Estimated-Multiple-Regression-Equation'}
+\textcolor{pink}{Estimated Multiple Regression Equation} is given by $\hat{y} = b_0 + b_1 x_1 + b_2 x_2 + \cdots + b_p x_p$. Where $b_i$ represents an estimate of the change in y corresponding to a one-unit change in $x_i$ when all other independent variables are held constant. 
+```
+
+## SST, SSR, SSE and MST, MSR, MSE
+
+- Relationship between SST, SSR, SSE
+  - $\text{SST} = \text{SSR} + \text{SSE}$ 
+  - Total Sum of Squares $\text{SST} = \sum(y_i - \overline{y})^2$
+    - Degrees of Freedom = $(n - 1)$
+    - Mean Sum of Squares $\text{MST} = \frac{\text{SST}}{(n - 1)}$
+  - Sum of Squares due to Regression $\text{SSR} = \sum(\hat{y}_i - \overline{y})^2$
+    - Degrees of Freedom = $(p)$
+    - Mean square due to regression $\text{MSR} = \frac{\text{SSR}}{(p)}$
+  - Sum of Squares due to Error $\text{SSE} = \sum(y_i - \hat{y}_i)^2$
+    - Degrees of Freedom = $(n - p - 1)$
+    - Mean square due to error $\text{MSE} = \frac{\text{SSE}}{(n - p - 1)}$    
+  - Coefficient of Determination
+    - Simple $r^2 = \frac{\text{SSR}}{\text{SST}}$
+    - Multiple $R^2 = \frac{\text{SSR}}{\text{SST}}$
+    - In general, $R^2$ always increases as independent variables are added to the model.
+  - F-statistic
+    - $F = \frac{\text{MSR}}{\text{MSE}}$
+    - Note that for $r^2$ the denominator was Total i.e. SST whereas for F-statistic denominator is Error (MSE)
+    
+
+```{definition 'RSq-Adj'}
+If a variable is added to the model, $R^2$ becomes larger even if the variable added is not statistically significant. The \textcolor{pink}{adjusted multiple coefficient of determination $(R_a^2)$} compensates for the number of independent variables in the model. With 'n' denoting the number of observations and 'p' denoting the number of independent variables: $R_a^2 = 1 - (1 - R^2) \frac{n - 1}{n - p - 1}$
+```
+
+- Note: If the value of $R^2$ is small and the model contains a large number of independent variables, the adjusted coefficient of determination $(R_a^2)$ can take a negative value.
+
+## Model Assumptions
+
+```{r 'C15D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression-Assumption-Summary") #dddd
+```
+
+- All 4 assumptions of Simple Linear Regression are applicable on Multiple Linear Regression also. Only the number of independent variables and model would increase.
+
+## Testing for Significance
+
+- In multiple regression, the t-test and the F-test have different purposes. 
+  - The F test is used to determine whether a significant relationship exists between the dependent variable and the set of all the independent variables; we will refer to the F-test as the test for \textcolor{pink}{overall significance}. 
+    - F-Test Statistic $F = \frac{\text{MSR}}{\text{MSE}}$
+  - If the F test shows an overall significance, the t-test is used to determine whether each of the individual independent variables is significant. 
+    - A separate t-test is conducted for each of the independent variables in the model
+    - we refer to each of these t tests as a test for \textcolor{pink}{individual significance}.
+    - t-Test Statistic $t = \frac{b_i}{s_{b_i}}$
+
+```{definition 'H-MultipleRegression-F'}
+\textcolor{pink}{$\text{\{F-Test in Multiple Linear Regression\} } {H_0} : {\beta}_1 = {\beta}_2 = \cdots = {\beta}_p = 0 \iff {H_a}: \text{At least one parameter is not zero}$}
+```
+
+```{definition 'H-MultipleRegression-t'}
+\textcolor{pink}{$\text{\{t-Test in Multiple Linear Regression\} } {H_0} : {\beta}_i = 0 \iff {H_a}: {\beta}_i \neq 0$}
+```
+
+## Multicollinearity
+
+```{definition 'Multicollinearity-c15'}
+\textcolor{pink}{Multicollinearity} refers to the correlation among the independent variables.
+```
+
+- In t-tests for the significance of individual parameters, the difficulty caused by multicollinearity is that it is possible to conclude that none of the individual parameters are significantly different from zero when an F test on the overall multiple regression equation indicates a significant relationship.
+  - When the independent variables are highly correlated, it is not possible to determine the separate effect of any particular independent variable on the dependent variable.
+  - Multicollinearity is a potential problem if the absolute value of the sample correlation coefficient $r_{x_1, x_2}$ exceeds 0.7 for any two of the independent variables. 
+
+## Categorical Independent Variables {#reg-cat-c15}
+
+- Ex: Gender (Male, Female)
+  - We would need a \textcolor{pink}{dummy variable} or 'indicator variable' which will be {0 = Male, 1 = Female}
+  - Let ${x_1}$ denote a numerical variable and ${x_2}$ is the dummy variable which can take 2 values {M = 0, F = 1}.
+  - Multiple Regression equation would be: $E(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2$
+    - Expected Value of Y given M : $E(y | \text{M}) = \beta_0 + \beta_1 x_1$
+    - Expected Value of Y given F : $E(y | \text{F}) = \beta_0 + \beta_1 x_1 + \beta_2$
+  - In effect, the use of a dummy variable provides two estimated regression equations that can be used to predict Y, each corresponding to either level of ${x_2}$.
+    - These regression lines represent same slope but effectively different intercepts when Y is plotted against ${x_1}$ i.e. on each of the different graphs of Y vs. $x_p$ there will be two lines each corresponding to either level of ${x_2}$.
+    
+- Number of dummy variables
+  - Above example had only 2 levels so it was modelled with a single dummy variable with 2 levels of {0, 1}.
+  - A variable with 3 levels e.g. {low, medium, high} will NOT use a single dummy variable ~~with 3 levels of {0, 1, 2}~~.
+  - Rather, we would need 2 dummy variables each with 2 levels of {0, 1}.
+
+
+```{definition 'Dummy-Variables'}
+A categorical variable with $k$ levels must be modeled using $k − 1$ \textcolor{pink}{dummy variables} (or indicator variables). It can take only the values 0 and 1. e.g. A variable with 3 levels of {low, medium, high} would need 2 dummy variables $\{x_1, x_2\}$ each being either 0 or 1 only. i.e. low $\to \{x_1 = 1, x_2 = 0\}$, medium $\to \{x_1 = 0, x_2 = 1\}$, high $\to \{x_1 = 0, x_2 = 0\}$. Thus $x_1$ is 1 when low and 0 otherwise, $x_2$ is 1 when medium and 0 otherwise. High is represented as neither $x_1$ nor $x_2$ i.e. both are zero. Note that both cannot be 1. Only one of them can be TRUE at a time.
+```
+
+- The category that is not assigned an indicator variable is denoted the \textcolor{pink}{reference category} (or the Benchmark). In the example, "high" is the reference category.
+
+
+
+"ForLater" - Studentized Deleted Residuals and Outliers
+
+
+## Logistic Regression
+
+- Generally part of Classification
+- In many regression applications the dependent variable may only assume two discrete values. 
+  - For instance, a bank might want to develop an estimated regression equation for predicting whether a person will be approved for a credit card. 
+  - The dependent variable can be coded as y = 1 if the bank approves the request for a credit card and y = 0 if the bank rejects the request for a credit card. 
+  - Using logistic regression we can estimate the probability that the bank will approve the request for a credit card given a particular set of values for the chosen independent variables.
+
+- The odds in favor of an event occurring is defined as the probability the event will occur divided by the probability the event will not occur. In logistic regression the event of interest is always y = 1. 
+
+
+
+```{definition 'Odds-Ratio'}
+The \textcolor{pink}{odds ratio} measures the impact on the odds of a one-unit increase in only one of the independent variables. The odds ratio is the odds that y = 1 given that one of the independent variables has been increased by one unit $(\text{odds}_1)$ divided by the odds that y = 1 given no change in the values for the independent variables $(\text{odds}_0)$. i.e. $\text{Odds Ratio} = \frac{\text{odds}_1}{\text{odds}_0}$
+```
+
+
+"ForLater" - "logit"
+  
+## VIF
+
+- Suppose we did not check for the presence of correlation among our predictors and performed the regression anyway. 
+- Is there some way that the regression results can warn us of the presence of multicollinearity
+  - We may ask for the variance inflation factors (VIF) to be reported
+  - $R_i^2 = 0.80 \to \text{VIF} \geq 5$ to be an indicator of moderate multicollinearity
+  - $R_i^2 = 0.90 \to \text{VIF} \geq 10$ to be an indicator of severe multicollinearity
+  
+
+
+```{definition 'VIF'}
+The \textcolor{pink}{variance inflation factors (VIF)} is given by $\text{VIF}_i = \frac{1}{1 - R_i^2} \in [1, \infty]$. That is, the minimum value for VIF is 1, and is reached when $x_i$ is completely uncorrelated with the remaining predictors.
+```
+
+- Solutions for multicollinearity
+  - Eliminate one of the variable
+    - However, the variable might have some information relevant to the model
+  - User-defined Composite
+    - Scale both variable and take mean of the values. Use this as an independent variable instead of the correlated variables
+      - However if one of the variable is an excellent predictor of the dependent variable then averaging it with a weaker predictor is going to reduce the model performance.
+      - Even if we change the weights from average (50:50) to something else the problem would remain
+  - PCA
+    - Definitely Better    
+
+## Variable Selection Methods
+
+- These include - "ForLater"
+  - Forwards Selection
+  - Backward elimination
+  - Stepwise selection
+  - Best Subsets
+  
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

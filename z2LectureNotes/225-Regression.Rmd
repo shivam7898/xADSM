@@ -11,6 +11,14 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - "Supervised Learning Algorithm: Regression"
 
+## Packages
+
+```{r 'B25-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("fastDummies", dependencies = TRUE)
+  install.packages("carData", dependencies = TRUE)
+}
+```
 
 ## Linear Regression {.tabset .tabset-fade}
 
@@ -39,6 +47,7 @@ f_getDef("Simple-Linear-Regression")
   - Equation: ${y} = {\beta}_0 + {\beta}_1 {x}_1 + {\beta}_2 {x}_2 + \ldots + {\epsilon}$
 
 - \textcolor{pink}{lm()}
+  - Base R Function to run linear model or regression
   - Models for lm are specified symbolically. A typical model has the form \textcolor{pink}{response ~ terms} where \textcolor{pink}{response} is the (numeric) response vector and \textcolor{pink}{terms} is a series of terms which specifies a linear predictor for response. 
   - \textcolor{pink}{summary()}
     - The standard error is variability to expect in coefficient which captures sampling variability so the variation in intercept can be up 0 and variation in IncomeX will be 0 not more than that
@@ -190,19 +199,24 @@ f_getDef("Standard-Error-B1")
 ```
 
 - \textcolor{pink}{Question:} In case of multiple variables, do we need to do this for all variables
-  - No, we will not do it individually. We will do multi-regression. We will incorporate all the variables simultaneously.
+  - No, we will not do it individually. We will do multiple regression. We will incorporate all the variables simultaneously.
   - In multiple regression, we get $\{\beta_1, \beta_2, \beta_3, \ldots \}$ and each will have its own standard error i.e. $\{s_{b_1}, s_{b_2}, s_{b_3}, \ldots \}$.
   - If a variable is NOT signifact, it means that it is not contributing to the model in a meaningful manner.
 
 - F-Statistic:
-  - If we have a multi-regression model F-test checks Null Hypothesis that all $\beta_1 = \beta_2 =  \beta_3 = \ldots = 0$
-  - Alternative is "Atleast one of the $\beta$ is not zero"
-  - (Aside) For simple linear regression i.e. single X, single Y; the F-test and t-test provide same result. However, F-test is applied in multi-regression model
+  - For simple linear regression i.e. single X, single Y; the F-test and t-test provide same result. However, in multiple regression model F-test is used as the test for \textcolor{pink}{overall significance} and t-tests are used as tests for \textcolor{pink}{individual significance}.
 
-"ForLater" : Include Multi-regression Hypothesis 
+```{r 'B25D07', comment="", echo=FALSE, results='asis'}
+f_getDef("H-MultipleRegression-F")
+```
+
+```{r 'B25D08', comment="", echo=FALSE, results='asis'}
+f_getDef("H-MultipleRegression-t") 
+```
+
 
 - \textcolor{pink}{Question:} Which one should come first Joint Significance or Individual Significance
-  - In multi-regression analysis, the joint significance needs to be looked at first.
+  - In multiple regression analysis, the joint significance needs to be looked at first.
   - i.e. First the variables jointly able to predict the outcome variable then later on we can check contribution of individual variable
   - If the model is not good then there is no point in looking at individual variables
   - F should be greater than 0.05 for us to consider that model is valid.
@@ -250,24 +264,341 @@ f_getDef("Error-Term")
     - Individual performance gets reduced, however, the $r^2$ value might increase
     - Multicollinearity reduces the robustness of model
     - Individually the either variable can explain the dependent variable very well. However, due to multicollinearity, together they fail to perform at same level.
+    - Multicollinearity is not a problem between depdendent and independent variable. It is applicable only between independent variables.
   - Regression analysis require that the variables should be non-overlapping (high correlation should not be there)
 
+
 ```{r 'B25D06', comment="", echo=FALSE, results='asis'}
-f_getDef("Multicollinearity") #dddd
+f_getDef("Multicollinearity")
 ```
 
 - \textcolor{pink}{Question:} How do we deal with Multicollinearity and other such problems
   - First of all, you need to select those independent variables which are not correlated to each other
+
+- Multiple R (in Excel)
+  - Average correlation between all the variables (dependent and independent)
+
+
+```{r 'B25D09', comment="", echo=FALSE, results='asis'}
+f_getDef("RSq-Adj")
+```
+
+
+- Adjusted R square $R_a^2$
+  - If we want to compare different models (and specially those with different number of independent variables), we should use Adjusted $R_a^2$
+  
+## Application of Regression
+
+- Two Applications of Regression
+  - Estimation 
+  - Prediction
+    - Partition the Sample data randomly into Train and Test datasets in ratio of 80:20, 70:30 etc.
+    - Do not predict beyond the min(x) and max(x) range because no data is available outside these limits.
+    - Validation 
+      - Randomly Partition data | Build the Model on Train | Run it on Test | For Test we will have actual Y and predicted Y $(\hat{y})$ | Evaluate the difference between Actual and Predicted ${(y_i - \hat{y}_i)}$
+      - The error between Actual and Predicted is called \textcolor{pink}{loss function}.
+      - For all the models do this and compare them and select the one which have lowest loss function.
+
+
+- \textcolor{pink}{Question:} More number of observations in Train dataset would lead to better model
+  - Yes. That is why Train would have the major chunk. For small datasets it would be around 80%
+- \textcolor{pink}{Question:} What is the drawback if Train contains 80% for large datasets
+  - No issue.
+  - Partition should be done randomly, otherwise no limitation.
+
+
+## Bias-Variance Tradeoff
+
+- Refer [Bias-Variance Tradeoff](#bias-var-c37 "c37")
+
+
+```{r 'B25D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Bias-variance-Trade-off")
+```
+
+```{r 'B25D11', comment="", echo=FALSE, results='asis'}
+f_getDef("Overfitting")
+```
+
+## Categorical Independent Variables
+
+- Refer [Categorical Independent Variables](#reg-cat-c15 "c15")
+
+```{r 'B25D12', comment="", echo=FALSE, results='asis'}
+f_getDef("Dummy-Variables") #dddd
+```
+
+- When the independent variable is categorical e.g. Gender (M, F)
+  - Then "one unit change in X" is not applicable 
+  - It is more about "change in state of X" from one level to another.
+  - Convert Categorical Independent Variable into Dummy Variables.
+  - The category that is not assigned an indicator variable is denoted the \textcolor{pink}{reference category} (or the Benchmark). 
+    - If 'M' is assigned 0 then it will be the benchmark
+    - If 'F' is assigned 0 then it will be the benchmark
+    - Performance of all other levels of the variable is given as compared to the referenced level
+  - In the example above 'high' is the benchmark
+  - "dummy coding" leads to the creation of a table called \textcolor{pink}{contrast matrix}.
+
+- \textcolor{pink}{Question:} What if we have a dataset with both categorical and continuoud dependent varaibles
+  - Convert categorical to dummies, no need to do anything with continous variables
+
+## Example 
+
+```{conjecture 'lm-non-numeric-y'}
+\textcolor{brown}{Warning messages: In model.response(mf, "numeric") : using type = "numeric" with a factor response will be ignored. In Ops.factor(y, ...) : '-' not meaningful for factors}
+```
+
+- Running summary() on this Model will result in Error
+  - \textcolor{brown}{"Error in quantile.default(resid) : (unordered) factors are not allowed"} 
+  - \textcolor{brown}{"In addition: Warning message: In Ops.factor(r, 2) : '^' not meaningful for factors"}
+- Dependent Variable is Non-numeric. Found to be Factor in this case.
+- Y needs to be Numeric for Regression Analysis
+
+
+```{r 'B25-lmExample'}
+# #Create Data Set with Factor Column having the its First Level as the Reference for Later
+bb <- tibble(Performance = c(35, 36, 40, 45, 60, 66, 67, 78, 80, 87, 78, 89, 89, 90),
+             Class = factor(c(rep("A", 4), rep("B", 6), rep("C", 4)), levels = c("C", "B", "A")))
+#
+# #Create Dummies | Drop Original | Drop Reference Variable 
+dum_bb <- dummy_cols(bb, select_columns = "Class", 
+                     remove_selected_columns = TRUE, remove_first_dummy = TRUE)
+str(dum_bb)
+#
+mod_bb <- lm(Performance ~ ., data = bb)
+f_pNum(summary(mod_bb)$coefficients)
+#
+# #Anova Table 
+anova(mod_bb) %>% as_tibble(rownames = "Predictors")
+```
+
+
+## fastDummies
+
+- \textcolor{pink}{dummy_cols()}
+  - To generate dummy columns
+  
+```{r 'B25-Dummy'}
+set.seed(3) 
+bb <- tibble(Performance = sample(1:100, size = 20),
+             Grade = sample(LETTERS[1:3], size = 20, replace = TRUE))
+str(bb, vec.len = 10)
+#
+# #Convert character to dummy columns 
+if(FALSE) dum_bb <- dummy_cols(bb, select_columns = c("Grade"))
+# #To keep only (k-1) columns to avoid multicollinearity
+if(FALSE) dum_bb <- dummy_cols(bb, select_columns = c("Grade"),  
+                              remove_first_dummy = FALSE, remove_selected_columns = TRUE)
+if(TRUE) dum_bb <- dummy_cols(bb, select_columns = c("Grade"), 
+                              remove_most_frequent_dummy = TRUE, remove_selected_columns = TRUE)
+str(dum_bb, vec.len = 10)
+#
+# #Multiple Linear Regression with Categorical to Dummy Variables
+if(FALSE) mod_bb <- lm(formula = Performance ~ Grade_A + Grade_B, data = dum_bb)
+if(TRUE) mod_bb <- lm(formula = Performance ~ ., data = dum_bb)
+#
+# #Model
+mod_bb
+#
+# #Summarise the model
+if(TRUE) summary(mod_bb)
+#
+# #ANOVA Table
+if(TRUE) anova(mod_bb)
+```
+
+## Data: CarDekho {#set-cardekho-b25}
+
+\textcolor{pink}{Please import the "B25-CarDekho.csv".}
+
+```{r 'B25-CarDekho', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B25-CarDekho.csv"))
+xxB25CarDekho <- f_getObject("xxB25CarDekho", "B25-CarDekho.csv",
+                                "92770bca1b81e9339def909673097b97")
+```
+
+```{r 'B25-GetCarDekho', include=FALSE}
+xxB25CarDekho <- f_getRDS(xxB25CarDekho)
+```
+
+- About: [4340, 8]
+  - Source: https://www.kaggle.com/nehalbirla/vehicle-dataset-from-cardekho
+  - Objective: Build a Model to predict Selling Price
+  - From Year we need to calculate Age (At 2022 level). 
+    - Obviously the prices are not of 2022 but anyway we just need any year
+  - Convert all Character to Factors
+  - Create Dummies
+
+
+```{r 'B25-PrepCar'}
+aa <- xxB25CarDekho
+#str(aa)
+# #Split String by Space (29 Brands) | To Factor | Calculate Age | Drop |
+bb <- aa %>% 
+  separate(name, c("Brand", NA), sep = " ", remove = FALSE, extra = "drop") %>% 
+  mutate(across(where(is.character), factor)) %>% 
+  mutate(Age = 2022 - year) %>% 
+  select(-c(year, name, Brand))
+#summary(bb)
+```
+
+
+```{r 'B25-ModelCar'}
+# #Dummy
+str(bb)
+dum_bb <- dummy_cols(bb, select_columns = c("fuel", "seller_type", "transmission", "owner"), 
+                     remove_most_frequent_dummy = TRUE, remove_selected_columns = TRUE)
+names(dum_bb)
+#
+mod_bb <- lm(selling_price ~ ., data = bb)
+f_pNum(summary(mod_bb)$coefficients)
+#
+# #Anova Table 
+anova(mod_bb) %>% as_tibble(rownames = "Predictors")
+```
+
+## Data: Salaries {.tabset .tabset-fade}
+
+### Salaries {.unlisted .unnumbered}
+
+```{r 'B25-DataSalaries'}
+# #Load Data "Salaries". It is NOT included in "car". It is included in the "carData" Package
+if(FALSE) data(package = "car")$results[, "Item"]
+data("Salaries", package = "carData")
+str(Salaries)
+```
+
+### Categorical X with 2 levels {.unlisted .unnumbered}
+
+
+```{r 'B25-1X2l'}
+# #y = b0 + b1 * x : Y (Salaries), X (Sex) with 2 levels
+#
+# #In R "Factor" Notation (Default Alphabetical Ordering): Female = 1, Male = 2 
+levels(Salaries$sex)
+#
+# #To encode categorical variables, known as 'contrast coding systems'. 
+# #R can directly convert the Categorical Variable into dummy with Female = 0, Male = 1
+# #The default option in R is to use the first level of the factor as a reference 
+# #and interpret the remaining levels relative to this level.
+# #contrasts() lists the dummy variables that would be created for k levels i.e. k-1 dummy 
+contrasts(Salaries$sex)
+#
+# #Compute the model
+mod_sal_f <- lm(salary ~ sex, data = Salaries)
+f_pNum(summary(mod_sal_f)$coefficients)
+#
+# #Interpretation of Coefficients with 'Female' as the reference level i.e. 0 within the dummy 
+# # b0 : average salary among Female (Reference): (Intercept, Estimate) 101002
+# # b0 + b1 : average salary among Male : (101002) + (14088) = 115090
+# # b1 : average difference in salary of Male & Female (Reference): (sexMale, Estimate) 14088
+#
+# #The p-value is 0 (significant), suggesting that there is a statistical evidence 
+# #of a difference in average salary between the genders
+#
+# #We can change the Factor Levels and thus change the Reference Variable
+m_Salaries <- as_tibble(Salaries) %>% mutate(across(sex, factor, levels = c("Male", "Female")))
+levels(m_Salaries$sex)
+contrasts(m_Salaries$sex)
+#
+mod_sal_m <- lm(salary ~ sex, data = m_Salaries)
+f_pNum(summary(mod_sal_m)$coefficients)
+#
+# #Interpretation of Coefficients with 'Male' as the reference level i.e. 0 within the dummy 
+# # b0 : average salary among Male (Reference): (Intercept, Estimate) 115090
+# # b0 + b1 : average salary among Female : (115090) + (-14088) = 101002
+# # b1 : average difference in salary of Female & Male (Reference): (sexFemale, Estimate) -14088
+#
+# #The fact that the coefficient for sexFemale in the regression output is negative 
+# #indicates that being a Female is associated with decrease in salary (relative to Male).
+#
+# #The p-value is 0 (significant)
+```
+
+
+### Categorical X with 3 levels {.unlisted .unnumbered}
+
+```{r 'B25-1X3l'}
+# #y = b0 + b1 * x : Y (Salaries), X (Rank) with 3 levels
+#
+# #Change Factor Levels | Treating Professor as Reference Variable 
+# #Ordering is done in decreasing Rank but NOT as 'Ordered Factor' for now
+r_Salaries <- as_tibble(Salaries) %>% 
+  mutate(across(rank, factor, levels = c("Prof", "AssocProf", "AsstProf")))
+levels(r_Salaries$rank)
+#
+# #contrasts() lists the dummy variables that would be created for k levels i.e. k-1 dummy 
+# #Two dummies were created against the reference of "Prof"
+contrasts(r_Salaries$rank)
+#
+mod_sal_r <- lm(salary ~ rank, data = r_Salaries)
+f_pNum(summary(mod_sal_r)$coefficients)
+#
+# #Interpretation of Coefficients with 'Prof' as the reference level i.e. {0 0} within the dummies
+# # b0 : average salary among Prof (Reference): (Intercept) 126772
+# # b0 + b1 : average salary among AssocProf : (126772) + (-32895) 
+# # b0 + b2 : average salary among AsstProf  : (126772) + (-45996) 
+# # b1 : average difference in salary of AssocProf & Prof (Reference): (rankAssocProf) -32895
+# # b2 : average difference in salary of AsstProf & Prof (Reference): (rankAssocProf) -45996
+#
+# #The p-value is 0 (significant), suggesting that there is a statistical evidence 
+# #of a difference in average salary between the ranks
+
+# #The fact that the coefficient for rankAssocProf & rankAsstProf in the regression output are 
+# #negative indicates that lower ranks are associated with lower salary (relative to Prof).
+```
+
+### Complete Model {.unlisted .unnumbered}
+
+```{r 'B25-AllX'}
+# #y = b0 + b1 * x : Y (Salaries), X (Rank) with 3 levels
+#
+# #Change Factor Levels | Reference: Rank = Professor, Sex = Male, Discipline = A
+bb <- as_tibble(Salaries) %>% 
+  mutate(across(sex, factor, levels = c("Male", "Female"))) %>% 
+  mutate(across(rank, factor, levels = c("Prof", "AssocProf", "AsstProf")))
+#
+# #contrasts() lists the dummy variables that would be created for k levels i.e. k-1 dummy 
+contrasts(bb$rank)
+contrasts(bb$sex)
+contrasts(bb$discipline)
+#
+mod_bb <- lm(salary ~ ., data = bb)
+f_pNum(summary(mod_bb)$coefficients)
+#
+# #Anova Table of Base R
+anova(mod_bb) %>% as_tibble(rownames = "Predictors")
+#
+# #Anova Table of Car Package which automatically takes care of unbalanced designs
+Anova(mod_bb) %>% as_tibble(rownames = "Predictors")
+#
+# #Taking other variables into account, it can be seen that the categorical variable sex 
+# #is no longer significantly associated with the variation in salary between individuals. 
+# #Significant variables are rank and discipline.
+```
+
+### anova() vs. Anova() {.unlisted .unnumbered}
+
+```{r 'B25-ANOVA'}
+# #Anova Table of Base R (Type I : each variable is added in sequential order)
+anova(mod_bb) %>% as_tibble(rownames = "Predictors")
+#
+# #Anova Table of Car Package which automatically takes care of unbalanced designs (Type II)
+# #Type II tests each variable after all the others
+# #There is a Type III also. However, its usage is highly controversial 
+Anova(mod_bb, type = 2) %>% as_tibble(rownames = "Predictors")
+```
 
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B25-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, dum_bb, m_Salaries, mod_bb, mod_sal_f, mod_sal_m, mod_sal_r, 
+          r_Salaries, res_bb, Salaries, test_bb, xxB25CarDekho)
 ```
 
-```{r 'B25-Validation', include=TRUE, cache=FALSE}
+```{r 'B25-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

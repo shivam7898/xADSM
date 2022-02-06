@@ -900,6 +900,15 @@ format(jj, drop0trailing = TRUE, trim = TRUE, digits = 2) #Rounds 0.999 to 1
 formatC(ii, digits = 2)
 ```
 
+## Find Datasets {.tabset .tabset-fade}
+
+
+```{r 'B09-Datasets'}
+# #List All Datasets of a Loaded Package
+data(package = "ggplot2")$results[, "Item"]
+data(package = "nycflights13")$results[, "Item"]
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

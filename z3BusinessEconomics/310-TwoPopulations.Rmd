@@ -167,7 +167,7 @@ The null-hypothesis of this test is that the population is normally distributed.
 
 On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
 
-Shapiro–Wilk test is known not to work well in samples with many identical values. 
+Shapiro-Wilk test is known not to work well in samples with many identical values. 
 
 ```{conjecture 'shapiro-limit'}
 \textcolor{brown}{Error in shapiro.test(...) : sample size must be between 3 and 5000}
@@ -175,8 +175,8 @@ Shapiro–Wilk test is known not to work well in samples with many identical val
 
 - Ideally we should not test for normality of a sample with more than 5000 observations.
   - However, we can randomly select 5000 observations and test them by Shapiro.
-  - We can use Anderson–Darling test or Kolmogorov-Smirnov test (Nonparametric) (KS is weaker than AD)
-  - Anderson–Darling test is not quite as good as the Shapiro–Wilk test, but is better than other tests.
+  - We can use Anderson-Darling test or Kolmogorov-Smirnov test (Nonparametric) (KS is weaker than AD)
+  - Anderson-Darling test is not quite as good as the Shapiro-Wilk test, but is better than other tests.
 - [(SO) Normality Testing](https://stackoverflow.com/questions/7781798 "https://stackoverflow.com")
   - Normality Tests like Shapiro or Anderson Darling are NULL Hypothesis Tests \textcolor{pink}{against} the assumption of normality.
     - When the sample size is small, even big departures from normality are not detected
