@@ -10,7 +10,7 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
   pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "factoextra", "cluster")
   pkg <- c(pkg, "arules", "arulesViz", "ggrepel")
-  pkg <- c(pkg, "rfm", "carData") #Threw error on Feb-03. Keep it separate for now.
+  pkg <- c(pkg, "rfm", "carData", "Hmisc") #Threw error on Feb-03. Keep it separate for now.
   if(FALSE) {# #Test Case: Sometimes the loading is failing. However it is not reproducible currently.
     pkg <- c("conflicted", "ggplot2", "tibble", "tidyr", "readr", "dplyr", "kableExtra") #7
 	#lapply(pkg, FUN = library, character.only = TRUE, verbose = FALSE, logical.return = TRUE)
@@ -34,6 +34,8 @@ if (!("conflicted" %in% (.packages()))) {
   invisible(suppressMessages(conflict_prefer("month", "lubridate")))  
 # # dplyr::between | data.table::between
   invisible(suppressMessages(conflict_prefer("between", "dplyr")))  
+# # dplyr::summarize | Hmisc::summarize
+  invisible(suppressMessages(conflict_prefer("summarize", "dplyr")))  
 # #Cleanup
   rm(pkg)
 } else print("Packages not loaded again.")

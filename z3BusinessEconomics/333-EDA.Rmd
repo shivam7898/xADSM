@@ -14,7 +14,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Churn
 
-\textcolor{pink}{Please import the "B18-Churn.xlsx".}
+\textcolor{pink}{Please import the "B18-Churn.xlsx"}
 
 ```{r 'C33-ImportData', include=FALSE}
 xxB16Cars <- f_getRDS(xxB16Cars)
@@ -210,14 +210,14 @@ rm(C33)
 ```
 
 ```{r 'C33P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P01","-Churn-Bar-Intl", ".png")
+loc_png <- paste0(.z$PX, "C33P01", "-Churn-Bar-Intl", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P01, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P01","-Churn-Bar-Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P01", "-Churn-Bar-Intl", ".png"))
 ```
 
 ```{r 'C33-BarStackIplan', include=FALSE}
@@ -249,14 +249,14 @@ rm(C33)
 ```
 
 ```{r 'C33P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P02","-Churn-Stack-Intl", ".png")
+loc_png <- paste0(.z$PX, "C33P02", "-Churn-Stack-Intl", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P02, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P02","-Churn-Stack-Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P02", "-Churn-Stack-Intl", ".png"))
 ```
 
 
@@ -289,14 +289,14 @@ rm(C33)
 ```
 
 ```{r 'C33P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P03","-Churn-pStack-Intl", ".png")
+loc_png <- paste0(.z$PX, "C33P03", "-Churn-pStack-Intl", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P03, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P03","-Churn-pStack-Intl", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P03", "-Churn-pStack-Intl", ".png"))
 ```
 
 ##### Image {.unlisted .unnumbered}
@@ -449,14 +449,14 @@ rm(C33)
 ```
 
 ```{r 'C33P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P04","-Churn-MultiClusterBar", ".png")
+loc_png <- paste0(.z$PX, "C33P04", "-Churn-MultiClusterBar", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P04, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P04","-Churn-MultiClusterBar", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P04", "-Churn-MultiClusterBar", ".png"))
 ```
 
 
@@ -488,14 +488,14 @@ rm(C33)
 ```
 
 ```{r 'C33P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P05","-Churn-MultiClusterBarSingleFacet", ".png")
+loc_png <- paste0(.z$PX, "C33P05", "-Churn-MultiClusterBarSingleFacet", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P05, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P05","-Churn-MultiClusterBarSingleFacet", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P05", "-Churn-MultiClusterBarSingleFacet", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -534,14 +534,14 @@ rm(C33)
 ```
 
 ```{r 'C33P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png")
+loc_png <- paste0(.z$PX, "C33P06", "-Churn-pStack-Multi", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P06, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P06', echo=FALSE, fig.cap="(C33P06) Churn vs. International & Voice Mail Plans (Proportional Stack)"}
-knitr::include_graphics(paste0(.z$PX, "C33P06","-Churn-pStack-Multi", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P06", "-Churn-pStack-Multi", ".png"))
 ```
 
 
@@ -629,14 +629,14 @@ rm(C33)
 ```
 
 ```{r 'C33P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P08","-Churn-Hist-ServCall", ".png")
+loc_png <- paste0(.z$PX, "C33P08", "-Churn-Hist-ServCall", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P08, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P08","-Churn-Hist-ServCall", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P08", "-Churn-Hist-ServCall", ".png"))
 ```
 
 ```{r 'C33-HistServCallChurn', include=FALSE}
@@ -666,14 +666,14 @@ rm(C33)
 ```
 
 ```{r 'C33P09-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P09","-Churn-Hist-ServCall-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P09", "-Churn-Hist-ServCall-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P09, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P09","-Churn-Hist-ServCall-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P09", "-Churn-Hist-ServCall-Churn", ".png")) 
 ```
 
 
@@ -722,14 +722,14 @@ rm(C33)
 ```
 
 ```{r 'C33P10-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P10","-Churn-pHist-ServCall-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P10", "-Churn-pHist-ServCall-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P10, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P10","-Churn-pHist-ServCall-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P10", "-Churn-pHist-ServCall-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -775,14 +775,14 @@ rm(C33)
 ```
 
 ```{r 'C33P11-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P11","-Churn-pBar-ServCall-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P11", "-Churn-pBar-ServCall-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P11, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P11', echo=FALSE, fig.cap="(C33P11) Churn vs. Service Call Proportions (Bar)"}
-knitr::include_graphics(paste0(.z$PX, "C33P11","-Churn-pBar-ServCall-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P11", "-Churn-pBar-ServCall-Churn", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -828,14 +828,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P12-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P12","-Churn-Hist-DayMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P12", "-Churn-Hist-DayMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P12, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P12","-Churn-Hist-DayMins-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P12", "-Churn-Hist-DayMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistDayMinsChurn', include=FALSE, eval=FALSE}
@@ -854,14 +854,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P13-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P13","-Churn-pHist-DayMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P13", "-Churn-pHist-DayMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P13, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P13","-Churn-pHist-DayMins-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P13", "-Churn-pHist-DayMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="(C33P12 C33P13) Higher Day Minutes (>200) have higher Churn"}
@@ -934,14 +934,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P14-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P14","-Churn-Hist-EveMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P14", "-Churn-Hist-EveMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P14, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P14', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P14","-Churn-Hist-EveMins-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P14", "-Churn-Hist-EveMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistEveMinsChurn', include=FALSE, eval=FALSE}
@@ -960,14 +960,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P15-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P15","-Churn-pHist-EveMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P15", "-Churn-pHist-EveMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P15, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P15', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P15","-Churn-pHist-EveMins-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P15", "-Churn-pHist-EveMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(C33P14 C33P15) (Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
@@ -1004,14 +1004,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P16-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P16","-Churn-Hist-NightMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P16", "-Churn-Hist-NightMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P16, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P16', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P16","-Churn-Hist-NightMins-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P16", "-Churn-Hist-NightMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistNightMinsChurn', include=FALSE, eval=FALSE}
@@ -1030,14 +1030,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P17-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P17","-Churn-pHist-NightMins-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P17", "-Churn-pHist-NightMins-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P17, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P17', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P17","-Churn-pHist-NightMins-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P17", "-Churn-pHist-NightMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="(C33P16 C33P17) No obvious association between Churn and Night Minutes"}
@@ -1074,14 +1074,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P20-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P20","-Churn-Hist-Icalls-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P20", "-Churn-Hist-Icalls-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P20, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P20', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P20","-Churn-Hist-Icalls-Churn", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "C33P20", "-Churn-Hist-Icalls-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistIcallsChurn', include=FALSE, eval=FALSE}
@@ -1100,14 +1100,14 @@ lgd_hh  <- "Churn"
 ```
 
 ```{r 'C33P21-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P21","-Churn-pHist-Icalls-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P21", "-Churn-pHist-Icalls-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P21, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P21', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P21","-Churn-pHist-Icalls-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P21", "-Churn-pHist-Icalls-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -1194,7 +1194,7 @@ rm(C33)
 ```
 
 ```{r 'C33P18-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P18","-Churn-Hist-All-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P18", "-Churn-Hist-All-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P18, device = "png", dpi = 144, width = k_width, height = k_height) 
 }
@@ -1233,7 +1233,7 @@ rm(C33)
 ```
 
 ```{r 'C33P19-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P19","-Churn-pHist-All-Churn", ".png")
+loc_png <- paste0(.z$PX, "C33P19", "-Churn-pHist-All-Churn", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P19, device = "png", dpi = 144, width = k_width, height = k_height) 
 }
@@ -1242,11 +1242,11 @@ if(!file.exists(loc_png)) {
 #### Images {.unlisted .unnumbered}
 
 ```{r 'C33P18', echo=FALSE, out.width='100%', fig.cap="(C33P18) Histograms of All Predictors with Target (Count)"}
-knitr::include_graphics(paste0(.z$PX, "C33P18","-Churn-Hist-All-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P18", "-Churn-Hist-All-Churn", ".png"))
 ```
 
 ```{r 'C33P19', echo=FALSE, out.width='100%', fig.cap="(C33P19) Histograms of All Predictors with Target (Proportion)"}
-knitr::include_graphics(paste0(.z$PX, "C33P19","-Churn-pHist-All-Churn", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P19", "-Churn-pHist-All-Churn", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1294,14 +1294,14 @@ rm(C33)
 ```
 
 ```{r 'C33P22-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "C33P22","-Churn-Scatter-MinEveDay", ".png")
+loc_png <- paste0(.z$PX, "C33P22", "-Churn-Scatter-MinEveDay", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C33P22, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'C33P22', echo=FALSE, fig.cap="(C33P22) Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
-knitr::include_graphics(paste0(.z$PX, "C33P22","-Churn-Scatter-MinEveDay", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C33P22", "-Churn-Scatter-MinEveDay", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}

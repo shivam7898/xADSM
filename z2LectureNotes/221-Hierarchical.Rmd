@@ -70,7 +70,7 @@ knitr::include_graphics(paste0(.z$PX, "B21P01", "-Movie-Elbow-Sil", ".png"))
 
 ## Data Crime {#set-crime-b21}
 
-\textcolor{pink}{Please import the "B21-state-crime.csv".}
+\textcolor{pink}{Please import the "B21-state-crime.csv"}
 
 ```{r 'B21-Crime', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B21-state-crime.csv"))

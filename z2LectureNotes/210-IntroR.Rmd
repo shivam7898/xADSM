@@ -198,7 +198,7 @@ head(which(!complete.cases(bb)))
 sum(!complete.cases(bb))
 #
 # #How many rows have NA in specific Columns
-sum(!complete.cases(bb[, c(6, 9, 4)]))
+sum(!complete.cases(bb[ , c(6, 9, 4)]))
 ```
 
 

@@ -108,7 +108,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   
 ## Case: JAT {#jat-b15}
 
-\textcolor{pink}{Please import the Jayalaxmi data.}
+\textcolor{pink}{Please import the Jayalaxmi data}
 
 
 ```{r 'B15-Jnames', include=FALSE}
@@ -357,7 +357,7 @@ ii <- tibble(Dates = seq(min(bb$Dates), max(bb$Dates), by = "months"))
 diff_len <- nrow(ii) - nrow(bb)
 #
 if(!identical(diff_len, 0L)) {
-  cat(paste0("Number of missing months = ", diff_len,"\n"))
+  cat(paste0("Number of missing months = ", diff_len, "\n"))
   #
   # #Find Values that should be in Complete Sequence but are missing in the data
   as_date(setdiff(ii$Dates, bb$Dates))

@@ -7,15 +7,23 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-
 ## Overview
 
 - "Machine learning using linear regression"
-  - "ForLater"
 
-> At least one chunk is throwing an error, probably the vif(). But it needs to be checked.
+
+## Packages
+
+```{r 'B26-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("car", dependencies = TRUE)
+}
+```
+
 
 ## Data: Hospital
+
+\textcolor{pink}{Please import the "B26-Hospital.xlsx"}
 
 ```{r 'B26-namesXL', include=FALSE}
 # #Object Names for each sheet
@@ -34,20 +42,13 @@ xxB26Hospital <- f_getObject("xxB26Hospital", "B26-Hospital.xlsx", "176788c58511
 for(ii in seq_along(namesXL)){
   assign(namesXL[ii], xxB26Hospital[[ii + 1]])
 }
-#
-# #Modifications
-# #Rename Headers
-#names(xxJdiseases) <- c("Type", "Disease", "RH", "Temperature")
-# #Delete First Row
-#xxJdiseases <- xxJdiseases[-1, ]
-#
 # #Save Binary Files
 for(ii in seq_along(namesXL)){
   saveRDS(eval(parse(text = namesXL[ii])), paste0(.z$XL, namesXL[ii], ".rds"))
 }
 ```
 
-```{r 'B26-ImportData', include=FALSE}
+```{r 'B26-GetHospital', include=FALSE}
 for(ii in seq_along(namesXL)){
   assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
 }
@@ -58,11 +59,9 @@ for(ii in seq_along(namesXL)){
 str(lapply(namesXL, function(x) {dim(eval(parse(text = x)))}))
 ```
 
-```{r 'B26-List-A', ref.label=c('B26-namesXL', 'B26-List')}
-#
-```
-
 ## Data: KC House
+
+\textcolor{pink}{Please import the "B26-KC-House.csv"}
 
 ```{r 'B26-KC', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
@@ -76,152 +75,558 @@ xxB26KC <- f_getRDS(xxB26KC)
 bb <- aa <- xxB26KC
 ```
 
-## Data: Car Dekho
+## Data: CarDekho {#set-cardekho-b26 .tabset .tabset-fade}
 
-```{r 'B26-Car', include=FALSE, eval=FALSE}
-# #Path of Object, FileName and MD5Sum
-#tools::md5sum(paste0(.z$XL, "B26-CarDekho.csv"))
-xxB26CarDekho <- f_getObject("xxB26CarDekho", "B26-CarDekho.csv", "92770bca1b81e9339def909673097b97")
+\textcolor{pink}{Please import the "B26-CarDekho.csv"}
+
+```{r 'B26-CarDekho', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B26-CarDekho.csv"))
+xxB26CarDekho <- f_getObject("xxB26CarDekho", "B26-CarDekho.csv",
+                                "92770bca1b81e9339def909673097b97")
 ```
 
-```{r 'B26-getCar', include=FALSE}
-# #Load Data: Cars Dekho
+```{r 'B26-GetCarDekho', include=FALSE}
 xxB26CarDekho <- f_getRDS(xxB26CarDekho)
-bb <- aa <- xxB26CarDekho
 ```
 
-## Cars
+### EDA {.unlisted .unnumbered}
+
+- About: [4340, 8]
+  - Source: https://www.kaggle.com/nehalbirla/vehicle-dataset-from-cardekho
+  - Objective: Build a Model to predict Selling Price
+  - From Year we need to calculate Age (At 2022 level). 
+    - Obviously the prices are not of 2022 but anyway we just need any year
+  - Convert all Character to Factors
+  - Create Dummies
 
 
-```{r 'B26-Temp1', eval=FALSE}
-# #
-bb <- aa <- xxB26CarDekho
-str(bb)
+```{r 'B26-PrepCar'}
+aa <- xxB26CarDekho
+# #Split String | Rename | Filter | Factor | Age | Drop |
+# #To prevent long dummy names each variable name and its levels have been shorten
+# #Each Factor Level has been modified so that levels are in decreasing order of occurance
+# #i.e. Fuel Diesel has the most frequent and thus has been converted to Reference Dummy
+xsyw <- aa %>% 
+  separate(name, c("brand", NA), sep = " ", remove = FALSE, extra = "drop") %>% 
+  filter(fuel != "Electric") %>% 
+  #mutate(across(where(is.character), factor)) %>% 
+  mutate(across(fuel, factor, levels = c("Diesel", "Petrol", "CNG", "LPG"))) %>% 
+  mutate(across(transmission, factor, levels = c("Manual", "Automatic"), 
+                labels = c("Manual", "Auto"))) %>% 
+  mutate(across(owner, factor, 
+levels = c("First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"), 
+labels = c("I", "II", "III", "More", "Test"))) %>% 
+  mutate(across(seller_type, factor, levels = c("Individual", "Dealer", "Trustmark Dealer"), 
+                labels = c("Indiv", "Dealer", "mDealer"))) %>% 
+  rename(price = selling_price, km = km_driven, 
+         s = seller_type, o = owner, t = transmission, f = fuel) %>% 
+  mutate(age = 2022 - year) %>% 
+  select(-c(year, name, brand))
+# 
+xw <- xsyw %>% select(-price)
 ```
 
+## Model {.tabset .tabset-fade}
 
+- \textcolor{pink}{Question:} There are 29 Brands. Should we do the analysis separately for them e.g. When we are creating a Model for Price of 'Maruti', should we not remove 'BMW' 
+  - Yes, if we have a large set of data, it would be good to separate each car /brand /model
+- \textcolor{pink}{Question:} What is the Top Brand
+  - Maruti with 1280 out of 4340 cars
+- \textcolor{pink}{Question:} Can we drop "Petrol" in place of "CNG" i.e. converting it to reference
+  - Options available are for 'First' or 'Most Frequent'
+  - (Aside) We would need to convert to factor with 'Petrol' being the First Level then it can be treates as Reference.
 
-```{r 'B26-Temp2', eval=FALSE}
-# #To keep only the First Word of NAME Column. Warnings are Present
-bb %>% separate(name, c("Brand", NA), sep = " ",remove = FALSE) 
+```{r 'B26D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Overfitting")
 ```
 
+```{r 'B26D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Underfitting")
+```
 
+- \textcolor{pink}{Question:} "1" in the sample() syntax means 1 sample and if we want Two sets we would modify the \textcolor{pink}{sample(1:nrow(bb), size = 0.8 * nrow(bb))} to \textcolor{pink}{sample(2:nrow(bb), size = 0.8 * nrow(bb))}
+  - No
+  - (Aside) No 
+    - sample(1:10, size = 3) means pick 3 items out of the set of 10 items which are in [1, 10]
+    - sample(11:20, size = 3) means pick 3 items out of the set of 10 items which are in [11, 20]
+    - sample(2:10, size = 3) means pick 3 items out of the set of 9 items which are in [2, 10]
+    - We are using the selected indices to partition the data in two sets selected (i.e. Train) and not selected (i.e. Test)
+    - To create 3 or more sets Refer [Partition data in Train & Test](#train-test-c34 "c34")
+  - While the sample() can take a dataframe i.e. it would not throw error if size is less than number of columns, the outcome is not meaningful and would not match with the expectation.
+  - probability given to the sample() is not the partitionining range. It is the proabability of each index to be chosen.
 
-```{r 'B26-Temp7', eval=FALSE}
-# Select Relevant | Calculate Age
-ii <- bb %>% select(-1, 4:7) %>% mutate(Age = 2021 - year)
-#unique(ii$owner)
-#anyNA(ii)
+- Form of the Function
+  - $y \sim x :$ "linear regression model of y on x"
+    - Tilde "~" means regressed on i.e. Dependent (Y) ~ Independents (X)
+  - $y \sim x_1 + x_2 :$ "linear regression model of y on $\{x_1, x_2\}$"
+  - $y \sim . :$ "linear regression model of y on $\{x_1, x_2, \ldots, x_p\}$"
+    - Dot (.) means all variables in the dataset except the dependent variable
+
+- \textcolor{pink}{Question:} How to check count of values for each level i.e. each dummy variable
+  - (Aside) See Below
+- \textcolor{pink}{Question:} Is it better to take care of this type of problem in the original dataset
+  - Yes
+  - There is no point in building a model with 1 "Electric" Car.
+- \textcolor{pink}{Question:} Is it possible to generalise this process of checking the variable levels and if some have single occurance eliminate them
+  - We need to do it by ourselves on a case to case basis
+- \textcolor{pink}{Question:} If the single data point is highly relevant, then how can we ensure that it is in the training set and not in the test set
+  - Ex: if the dataset has gender and it is 100% populated by "Male", do we need to include that as variable
+    - No
+  - (Argument) But here we have at least 1 observation and not including that we will lead to the model failing while predicting "Electric"
+    - It needs to have some minimum number of observations for model to be based on that
+- \textcolor{pink}{Question:} What happens if we keep this observation
+  - Model may give us wrong fit
+  - We should not keep a predictor (dummy variable here) which actually have no relevancy to our model
+- \textcolor{pink}{Question:} What happens if we decide to create a train dataset where we include at least a minimum number of observations (e.g. 2) for each level i.e. for each dummy variable. Would the Model be considered biased in that case because we have not created the training set randomly
+  - Generally, that kind of splitting we will do when we are doing classification problem (Categorical Y)
+  - It is \textcolor{pink}{"Stratified Random Sampling"}. There we ensure that we have equal proportion of each group
+  - For Independent variable of categorical nature generally we do not do stratified sampling
+  - (Further) But can we do this stratified sampling here so that 'NA' does not come up in the model outcome because of few or none observations of a level 
+    - If you have a categorical predictor and majority of datapoints are highly unique (e.g. 99% "Male"), then it is better not to consider that as a predictor
+    - Infact it might look like 'Outlier'
+- \textcolor{pink}{Question:} Can we extrapolate this logic and say there are only 23 LPG so drop those also
+  - We should not drop this one because it has at least some observations
+- \textcolor{pink}{Question:} So is there a thumb rule of how many minimum observations should be present 
+  - Judgement i.e. Case by case basis
+  - We can look at the significance of the predictor and then we can decide
+    - \textcolor{pink}{"Stepwise Regression"} can remove those predictors which are insignificant
+- \textcolor{pink}{Question:} What happens if all the 23 observations of 'LPG' are grouped into one of the datasets i.e. either train or test because it is a random selection
+  - This is not the final model. There will be multiple iterations. Subsequently, it will be included if it is a good predictor or would be dropped if it is insignificant
+
+- Refer [Application of Regression](#app-reg-b25 "b25")
+  - Estimation (Descriptive)
+    - Which of these independent variables significantly affect the dependent variable
+    - e.g. Which of these factors are influencing the employee performance
+    - When we are doing estimation, data partition into train and test datasets is not required.
+  - Prediction
+    - Partition the Sample data randomly into Train and Test datasets in ratio of 80:20, 70:30 etc.
+
+- Refer [How to Disable Scientic Notation in R](#scipen-b09 "b09")
+
+### Build {.unlisted .unnumbered}
+
+```{r 'B26-ModelCar'}
+# #Removed Fuel "Electric"
+unique(xsyw$f)
+str(xsyw)
 #
-jj <- dummy_cols(ii, select_columns = c("seller_type", "fuel", "seller_type", "transmission", "owner"), remove_first_dummy = TRUE)
+# #Dummy | Drop First Level i.e. Reference | Drop Selected Columns i.e. Original |
+dum_xsyw <- xsyw %>% dummy_cols(.data = ., 
+                  select_columns = c("f", "s", "t", "o"), 
+                  remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+names(dum_xsyw)
 #
-## Calculate AGE
-
-```
-
-
-
-```{r 'B26-Temp3', eval=FALSE}
-## Step 1: Create the training and test data
-# Create Training and Test data
+# #Partition Data
 set.seed(3)
-train_row_ii <- sample(1:nrow(ii), 0.8*nrow(ii))  # row indices for training data: 80:20
-train_ii <- ii[train_row_ii, ]  # model training data
-test_ii  <- ii[-train_row_ii, ]   # test data
+#idx_xsyw <- sample(x = 1:nrow(dum_xsyw), size = 0.8 * nrow(dum_xsyw)) #Equivalent
+idx_xsyw <- sample.int(n = nrow(dum_xsyw), size = floor(0.8 * nrow(dum_xsyw)), replace = FALSE)
+train_xsyw <- dum_xsyw[idx_xsyw, ]
+test_xsyw  <- dum_xsyw[-idx_xsyw, ]
 #
-train_row_jj <- sample(1:nrow(jj), 0.8*nrow(jj))  # row indices for training data: 80:20
-train_jj <- jj[train_row_jj, ]  # model training data
-test_jj  <- jj[-train_row_jj, ]   # test data
+mod_xsyw <- lm(price ~ ., data = train_xsyw)
+if(TRUE) f_pNum(summary(mod_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+# #Anova Table 
+if(FALSE) anova(mod_xsyw) %>% as_tibble(rownames = "Predictors") %>% 
+  rename(pVal = "Pr(>F)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
 ```
 
-This is a validation process. Train to Train Mode. Test to check model validity. 
-If there is High Model Overfitting, then if I try another data, I will have discrepencies.
+### Top Brands {.unlisted .unnumbered}
 
-
-```{r 'B26-Temp4', eval=FALSE}
-##Step 2: Fit the model on training data and predict selling_price
-
-# Build the model on training data
-# #Exclude 4th Column because, actually 14th, only 1 observation in original dataset that went to test not to the training test
-
-which(names(train_jj) == "fuel_Electric")
-
-#model1_ii <- lm(selling_price ~ ., data = train_ii[,-4])  # build the model
-model1_jj <- lm(selling_price ~ ., data = train_jj[, -14])  # build the model
-#
-names(model1_jj)[which(!names(model1_jj) %in% c("residuals", "effects", "fitted.values", "qr", "model"))]
-# #
-#[1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr" #[8] "df.residual"   "contrasts"     "xlevels"       "call"          "terms"         "model"  
-#summary(model1_jj)
-summary(model1_jj)$coefficients
-#
-# #We lose the stars doing this and the function needs to show 0 for very low values
-f_pNum(summary(model1_jj)$coefficients)
-#
-#options(scipen=10)
-
-#format(model1_jj$coefficients, scientific = FALSE)
-#format(model1_jj$contrasts, scientific = FALSE)
+```{r 'B26-TopBrands'}
+# #What are the Top Brands (29 levels)
+aa %>% 
+  separate(name, c("brand", NA), sep = " ", remove = FALSE, extra = "drop") %>% 
+  count(brand) %>% arrange(desc(n))
 ```
 
-
-Can we tell the model that at least two of each dummy variables should be included in the training dataset
-would it be considered as Biased model
-- do it in Catgortical Y not in continuos Y
-- if x is gender and out of 1000 observations 999 are male can we do anything with gender. Data itself is telling that gender is male overall
-- look at the significance
-
-## Psych
+### Change Reference Level {.unlisted .unnumbered}
 
 
-```{r 'B26-Temp5', eval=FALSE}
-#model1_jj
-
-#library(car)
-# while making the model, please assure that there is no multicollinearity
-# it means the IVs are not correlated in a high fashion.
-#library (psych)
-
-pairs.panels(train_jj[,-1], cex = 4)
-
-vif(model1_jj)
-
-#vif(model1)# vif stands for varience inflation factor, it is a measure of multicollinearity:
-#if any variable carry vif greater than 5, which indicate that there is a multicollinearity issue
-
+```{r 'B26-ChangeRef'}
+# #To Make different level as the reference i.e. Petrol in place of CNG
+ii <- xsyw
+levels(ii$f) 
+jj <- ii %>% mutate(f = relevel(f, ref = "CNG"))
+levels(jj$f)
 ```
 
+### sample() {.unlisted .unnumbered}
 
-```{r 'B26-Temp6', eval=FALSE}
-# #this does not work because we have dummy variables
 
-#the linearly dependent variables
-ld.vars <- attributes(alias(model1_jj)$Complete)$dimnames[[1]]
+```{r 'B26-Sample'}
+set.seed(3)
+# #Create a chracter set of 10 items. 
+# #Initial 10 letters were not chosen to show difference between 
+# #indexing numbers /position and actual item values.
+ii <- letters[11:20]
+ii
+# #Note: length() is used on vectors & nrow() is used on dataframes
+# #Pick 3 letters out of these 10 items and indexing numbers can be within [1, 10]
+idx <- sample(1:length(ii), size = 3)
+ii[idx] #If ii is dataframe then a comma would be required i.e. ii[idx, ]
+#
+# #We can directly pick up 3 items if it is a Vector
+sample(ii, size = 3) #Not applicable for dataframes etc. and thus should be avoided.
+#
+# #Going back to using length() or nrow()
+#
+# #Pick 3 letters out of these 10 items and indexing numbers can be within [2, 10]
+# #i.e. First Index letter "k" can never be chosen
+idx <- sample(2:length(ii), size = 3)
+ii[idx]
+#
+# #Pick 3 letters out of these 10 items and indexing numbers can be within [6, 10]
+# #First 5 letters can never be chosen i.e. "k" "l" "m" "n" "o" excluded
+# #Further, Some remaining letters have different probabilities /weightage
+# #Note Sum of Probabilities need not to be 1 it can be less than that
+# #Length of Probability Vector needs to match the Range Length of Indexing i.e. 6-10 has 5 items
+idx <- sample(6:length(ii), size = 3, prob = c(0.2, 0.3, 0.1, 0.1, 0.1))
+ii[idx]
+#
+# #Note, using this we are always getting an index of items chosen thus resulting in a set of two
+# #To get 3 sets, the syntax is different and covered elesewhere.
+```
 
-#remove the linearly dependent variables variables
-formula.new <- as.formula(
-    paste(
-        paste(deparse(formula), collapse=""), 
-        paste(ld.vars, collapse="-"),
-        sep="-"
-    )
-)
+### Count of Each Level {.unlisted .unnumbered}
 
-#run model again
-fit.new <-lm(formula.new)
-vif(fit.new)
+```{r 'B26-FactorCount'}
+# #For any Given Column, What is the Count for each Level
+xw %>% count(f) %>% arrange(desc(n))
+#
+# #What is the Count for each Dummy Variable
+dum_xsyw %>% summarise(across(4:ncol(.), sum)) %>% pivot_longer(everything())
 ```
 
 
+## Explanation of Estimates
+
+- With Referenced Variabls and Keeping others constant
+- Significant and inversely affecting the Selling Price 
+  - km_driven 
+  - age 
+- Significant and positively affecting the Selling Price
+  - Diesel has higher selling price compared to CNG
+  - Other Fuels do not have significant impact (when CNG is the Reference)
+- \textcolor{pink}{Question:} Are the km_driven and age not correlated. Would these together not cause the multicollinearity issue
+  - We can check by 'cor()', however it is not very high
+
+## Correlation Plots {.tabset .tabset-fade}
+
+- (Aside) Scaling of Dummy Variables would not impact negatively to the analysis. However scaling is done to adjust for large variances. As all the dummy variables are {0, 1}, these have not been scaled.
+- (Aside) The referenced dummy variable is NOT included for example Diesel
+  - It would be highly correlated (inversely) to the 2nd-most frequent level (Petrol) because when it occurs the other one does not happen and when that happens 1st-one would not happen
+
+
+```{r 'B26-Scale'}
+# #Exclude Y | Scale Continuous NOT Dummies |
+zw <- dum_xsyw %>% select(-price) %>% 
+  mutate(across(c(km, age), ~ as.vector(scale(.))))
+# #Long
+#f_wl(zw)
+```
+
+### Images {.unlisted .unnumbered}
+
+```{r 'B26-CorGG-Set', include=FALSE}
+# #IN: zw
+cap_hh <- "B26P01"
+ttl_hh <- "CarDekho: GGplot: Corrplot of Dummies (Scaled)"
+sub_hh <- "showing only the correlation not significance"
+lgd_hh <- "Correlation"
+#
+# #Correlation Matrix pXp | Tibble pX(p+1) | Long | Unique Factor | Remove duplicates AB = BA |
+# #Factor with Unique is better to keep the sequence as occurred, default is alphabetical
+hh <- cor(zw) %>% 
+  as_tibble(rownames = "dummies") %>% 
+  pivot_longer(cols = -dummies) %>% 
+  mutate(across(where(is.character), factor, levels = unique(name))) %>% 
+  filter(!duplicated(paste0(pmax(as.character(dummies), as.character(name)), 
+                            pmin(as.character(dummies), as.character(name)))))
+```
+
+```{r 'B26-CorGG-plot', include=FALSE}
+# #IN: hh[dummies, names, value] (Correlation Tibble Long, Triangle with Diagonal) 
+B26 <- hh %>% { ggplot(., aes(x = dummies, y = name, fill = value)) + 
+    geom_tile(color = "white") + 
+    geom_text(aes(label = round(value, 2)), color = "black", size = 4) +
+    coord_fixed() +
+    scale_fill_distiller(palette = "BrBG", direction = 1, limits = c(-1, 1)) +
+    #scale_x_discrete(position = "top") +
+    scale_y_discrete(limits = rev) +
+    guides(fill = guide_colourbar(barwidth = 0.5, barheight = 15)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1),
+          axis.title = element_blank(), 
+          axis.line = element_blank(), 
+          axis.ticks = element_blank(),
+          panel.grid.major = element_blank(), 
+          panel.border = element_blank()) +
+	  labs(fill = lgd_hh, subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B26)
+rm(B26)
+```
+
+```{r 'B26P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B26P01", "-CarDekho-GGplot-Corrplot-z", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B26P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B26P01', echo=FALSE, fig.cap="(B26P01) CarDekho: GGplot: Corrplot of Dummies (Scaled)"}
+knitr::include_graphics(paste0(.z$PX, "B26P01", "-CarDekho-GGplot-Corrplot-z", ".png"))
+```
+
+
+```{r 'B26P02-Save', include=FALSE}
+if(FALSE){#Testing
+  ii_dum_xsyw <- xsyw %>% dummy_cols(.data = ., 
+                  select_columns = c("f", "s", "t", "o"), 
+                  remove_first_dummy = FALSE, remove_selected_columns = TRUE)
+  ii <- ii_dum_xsyw %>% select(-price) %>% 
+    mutate(across(c(km, age), ~ as.vector(scale(.))))
+  hh <- cor(ii)
+  corr_hh <- corrplot::cor.mtest(ii)
+}
+#
+hh <- cor(zw)
+corr_hh <- corrplot::cor.mtest(zw)
+#
+cap_hh <- "B26P02"
+ttl_hh <- "CarDekho: corrplot: Corrplot of Dummies (Scaled)"
+loc_png <- paste0(.z$PX, "B26P02", "-CarDekho-corrplot-Corrplot-z", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  corrplot::corrplot(hh, method = "circle", type = "lower", diag = FALSE, 
+                   cl.pos = 'n', tl.pos = 'ld', addCoef.col = "black", 
+                   p.mat = corr_hh$p, sig.level = 0.05, insig = 'blank', 
+        #order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3, rect.lwd = 3, 
+                   title = NULL #, col = RColorBrewer::brewer.pal(3, "BrBG")
+				   )
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B26 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B26)
+  rm(B26)
+}
+```
+
+```{r 'B26P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B26P02", "-CarDekho-corrplot-Corrplot-z", ".png"))
+```
+
+```{r 'B26P03-Save', include=FALSE}
+hh <- psych::corr.test(zw)
+#
+cap_hh <- "B26P03"
+ttl_hh <- "CarDekho: psych: Corrplot of Dummies (Scaled)"
+loc_png <- paste0(.z$PX, "B26P03", "-CarDekho-Psych-Corrplot-z", ".png")
+#
+#
+if(!file.exists(loc_png)|TRUE) {#xxxx
+  png(filename = loc_png) 
+  psych::corPlot(hh$r, pval = hh$p, upper = FALSE, diag = FALSE, show.legend = TRUE, 
+                 xlas = 2, cex = 0.6,
+                 #keep.par = FALSE, 
+    gr = colorRampPalette(RColorBrewer::brewer.pal(3, "BrBG")), main = ttl_hh)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B26 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B26)
+  rm(B26)
+}
+```
+
+```{r 'B26P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B26P03", "-CarDekho-Psych-Corrplot-z", ".png"))
+```
+
+
+```{r 'B26P0203', echo=FALSE, ref.label=c('B26P02', 'B26P03'), fig.cap="(B26P02 B26P03) CarDekho: corrplot vs. psych"}
+#
+```
+
+### Code GGplot {.unlisted .unnumbered}
+
+
+```{r 'B26-CorGG-Set-A', eval=FALSE, ref.label=c('B26-CorGG-Set', 'B26-CorGG-plot')}
+#
+```
+
+### Code Corrplot {.unlisted .unnumbered}
+
+
+```{r 'B26P02-Save-A', eval=FALSE, ref.label=c('B26P02-Save')}
+#
+```
+
+
+### Code psych {.unlisted .unnumbered}
+
+
+```{r 'B26P03-Save-A', eval=FALSE, ref.label=c('B26P03-Save')}
+#
+```
+
+### Why NOT SPLOM {.unlisted .unnumbered}
+
+- (Aside) 
+  - There are 2 Packages for SPLOM Plots Psych and GGally. 
+    - Examples of these plots can be found in other chapters. - "ForLater" Add Links
+  - The Problem with these plots is that screen space is limited and as soon as the number of variables go beyond 4, it becomes highly difficult to make sense of anything. 
+    - And it takes a long time to plot them.
+    - These plots will only be included if these make sense.
+  - There are different plots which would show only the correlation number and those are more efficient.
+
+## VIF
+
+```{r 'B26D03', comment="", echo=FALSE, results='asis'}
+f_getDef("VIF")
+```
+
+- If the multicollinearity is present then model performance decreases
+  - We can check correlation or VIF
+  - $R_i^2 = 0.80 \to \text{VIF} \geq 5$ to be an indicator of moderate multicollinearity
+  - $R_i^2 = 0.90 \to \text{VIF} \geq 10$ to be an indicator of severe multicollinearity
+  - (Not Shown Here) But if the model is created with reference level of 'CNG' in fuel, then Petrol and Diesel will show very high VIF and high correlation
+    - Because, when a Car runs on Petrol it does not run on Diesel and when it runs on Diesel it does not run on Petrol.
+    - Number of observations for both of these levels are similar
+    - Thus, it is better to convert the most frequent level (Diesel) as the reference level
+
+
+```{r 'B26-VIF'}
+# #vif() To check VIF of the Model. All values should be < 5 (desirable) or < 10 (recommended)
+vif(mod_xsyw)
+```
+
+## Stepwise Regression {.tabset .tabset-fade}
+
+```{r 'B26D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Stepwise-Regression") #dddd
+```
+
+- The stepwise procedure represents a modification of the forward selection procedure. 
+  - In Forward Selection, we start with no variables in model, add most highly correlated variable (correlated to Y), check for significance, keep doing this for other variables in decreasing order of  correltaion until the model remains significant.
+  - In Backward Elimination, we start with all the variables in the model, select the variable with smallest partial F-statistic, remove it if it is insignificant, keep doing this for other variables in the increasing order of partial F-statistic until these remain insignificant.
+
+- There are 3 dummy variables which have low p-value. 
+  - All were kept by "forward"
+  - Only 1 of them (o_More) was dropped by "backward"
+  - Only 1 of them (o_More) was dropped by "both"
+  - "ForLater" Theoretically it is understandable that some insignificant variables were kept because algorithm run differently than the simplistic p-value based approach. However, does it means that elimination or retaintion of variables should NOT be done based on p-value
+  - "ForLater" It has been observed that selection of reference level changes the model outcome, significance of dummy variables etc. Which Level should be chosen as Reference. Currently, I am going with the idea that most frequent level should be the reference.
+
+- \textcolor{pink}{Question:} What are 12 elements / 13 elements shown about these Models
+  - Elements are Attributes of the Model, not the number of variables in the model
+  - (Aside) Base Model has 12 attributes. Model returned by step() has 1 more attibute (anova)
+
+### Model Stepwise {.unlisted .unnumbered}
+
+```{r 'B26-Step'}
+# #step() can provide Stepwise Regression # "forward" "backward" "both"
+stp_xsyw <- step(mod_xsyw, direction = "backward", trace = 0)
+#stp_xsyw
+#summary(stp_xsyw)
+# #It adds another attribute (anova) to the model and thus shows 13 attributes
+names(stp_xsyw) #13
+#
+if(TRUE) f_pNum(summary(stp_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+# #anova table attribute for the iterations performed (not present in Base Model)
+stp_xsyw$anova
+```
+
+### Model Original {.unlisted .unnumbered}
+
+```{r 'B26-OriginalModel'}
+#mod_xsyw
+#summary(mod_xsyw)
+# #Base Model has 12 attributes
+names(mod_xsyw) #12
+#
+if(TRUE) f_pNum(summary(mod_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+```
+
+## Model Validation
+
+- For some data points, the error is Huge, otherwise the Models look OK.
+  - Later, we would compare RMSE of different algorithms to identify the best algorithm applicable to the secific dataset
+
+```{r 'B26-ModelValidation'}
+# #predict() on test dataset by Base Model and Stepwise corrected Model
+#pred_mod_xsyw <- predict(mod_xsyw, test_xsyw)
+res_mod_xsyw <- test_xsyw %>% mutate(CalY = predict(mod_xsyw, .), Y_Yc = price - CalY)
+res_stp_xsyw <- test_xsyw %>% mutate(CalY = predict(stp_xsyw, .), Y_Yc = price - CalY)
+#
+res_w <- tibble(Model = res_mod_xsyw$Y_Yc, Step = res_stp_xsyw$Y_Yc) 
+f_wl(res_w)
+#
+summary(res_w)
+#
+# #RMSE: Root Mean Squared Error for Both Models (Loss Function)
+res_w %>% summarise(across(everything(), ~ sqrt(mean((.)^2))))
+#
+# #MAE: Mean Absolute Error (MAE)
+res_w %>% summarise(across(everything(), ~ mean(abs(.))))
+```
+
+
+```{r 'B26-Box', include=FALSE}
+hh <- res_l
+#
+ttl_hh <- "CarDekho: BoxPlot of Results"
+cap_hh <- "B26P04"
+sub_hh <- NULL 
+lgd_hh  <- NULL
+```
+
+```{r 'B26-Box-Plot', include=FALSE}
+# #IN: hh(Keys, Values), 
+B26 <- hh %>% { ggplot(data = ., mapping = aes(x = Keys, y = Values, fill = Keys)) +
+    geom_boxplot(outlier.shape = NA) +
+    geom_point(position = position_jitterdodge(jitter.width = 0.2), 
+                   size = 0.5, alpha = 0.4, colour = "#21908CFF"
+               ) + 
+    k_gglayer_box +
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    #coord_flip() +
+    theme(legend.position = 'none') +
+    labs(x = NULL, y = NULL, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B26)
+rm(B26)
+```
+
+```{r 'B26P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B26P04", "-CarDekho-Results-BoxPlot", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B26P04, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B26P04', echo=FALSE, fig.cap="(B26P04) CarDekho: BoxPlot of Results"}
+knitr::include_graphics(paste0(.z$PX, "B26P04", "-CarDekho-Results-BoxPlot", ".png"))
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
-
 
 ```{r 'B26-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, ff, model1_jj, namesXL, test_ii, test_jj, train_ii, train_jj,
           train_row_ii, train_row_jj, xxB26CarDekho, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, 
-          xxflights)
+          xxflights, dum_xsyw, idx_bb, mod_bb, test_bb, train_bb, xxB25CarDekho, B26P01, B26P03, 
+          cap_hh, corr_hh, hh, idx, idx_xsyw, lgd_hh, loc_png, mod_xsyw, sub_hh, test_xsyw, 
+          train_xsyw, ttl_hh, xsyw, xw, zw, B26P04, res_l, res_mod_xsyw, res_stp_xsyw, res_w, 
+          stp_xsyw)
 ```
 
 ```{r 'B26-Validation', include=FALSE, cache=FALSE}

@@ -511,7 +511,7 @@ ii <- aa %>% bind_rows(aa %>% summarise(across(where(is.numeric), sum))) %>%
 	mutate(across(1, ~ replace(., . %in% NA, "Total"))) 
 #
 # #(Deprecated) Works but needs ALL Column Names individually
-jj <- aa %>% add_row(Judge_Verdict = "Total", Upheld = sum(.[, 2]), Reversed = sum(.[, 3]))
+jj <- aa %>% add_row(Judge_Verdict = "Total", Upheld = sum(.[ , 2]), Reversed = sum(.[ , 3]))
 kk <- aa %>% add_row(Judge_Verdict = "Total", Upheld = sum(.$Upheld), Reversed = sum(.$Reversed))
 #
 # #(Deprecated) Removed the Multiple call to sum(). However, it needs First Column Header Name

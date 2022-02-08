@@ -35,7 +35,7 @@ f_pKbl <- function(x, caption, headers = names(x), debug = FALSE, maxrows = 30L)
 }
 
 ## ---- A12B-pKblM ----
-f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001), dig = 1L, ...) {
+f_pKblM <- function(x, caption, isTri = TRUE, isDiag = FALSE, negPos = c(-0.0000001, 0.0000001), dig = 1L, ...) {
 # #Description: 
 # Prints Kable Matrix Standard Format: f_pKblM(hh, cap_hh)
 # Calls: f_pKbl()
@@ -50,7 +50,7 @@ f_pKblM <- function(x, caption, isTri = TRUE, negPos = c(-0.0000001, 0.0000001),
   stopifnot(identical(length(negPos), 2L))
 #
 # #outcome of upper.tri() is easily compared to as.table(). lower.tri() will need extra step
-  if(isTri) x[upper.tri(x, diag = TRUE)] <- NA
+  if(isTri) x[upper.tri(x, diag = !isDiag)] <- NA
 #
 # #Suppress Warnings because 1 column is completely NA on which mutate(across()) is applied
 # #Keeping the column is better to be seen as Matrix in this specific case of Correlation Matrix

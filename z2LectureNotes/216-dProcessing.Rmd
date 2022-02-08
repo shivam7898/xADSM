@@ -23,7 +23,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 ## Data {.tabset .tabset-fade}
 
-\textcolor{pink}{Please import the "B16-Cars2.csv".}
+\textcolor{pink}{Please import the "B16-Cars2.csv"}
 
 ```{r 'B16-Cars', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum
@@ -226,7 +226,7 @@ na_bb
 ```
 
 ```{r 'B16P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png")
+loc_png <- paste0(.z$PX, "B16P01", "-Cars-NA-Pattern", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png)
   md.pattern(bb, plot = TRUE, rotate.names = TRUE)
@@ -238,7 +238,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P01', echo=FALSE, fig.cap="(B16P01) Cars: Inserted Missing Value Pattern by md.pattern()"}
-knitr::include_graphics(paste0(.z$PX, "B16P01","-Cars-NA-Pattern", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P01", "-Cars-NA-Pattern", ".png"))
 ```
 
 ### Seed {#seed-b16}
@@ -292,7 +292,7 @@ bb$brand <- factor(bb$brand)
 
 # #mice() for imputation
 # #Including all relevant data i.e. skipping Serial Number only
-impute <- mice(bb[, 2:9], m = 2, seed = 3)
+impute <- mice(bb[ , 2:9], m = 2, seed = 3)
 #
 print(impute)
 #
@@ -317,17 +317,17 @@ tibble(mpg = set2_bb$mpg[2], brand = set2_bb$brand[3], cylinders = set2_bb$cylin
 
 ```{r 'B16-SeedMice'}
 set.seed(3)
-ii <- mice(bb[, 2:9], m = 3)
+ii <- mice(bb[ , 2:9], m = 3)
 set.seed(3)
-jj <- mice(bb[, 2:9], m = 3)
+jj <- mice(bb[ , 2:9], m = 3)
 #
 # #identical() is FALSE but all.equal() is TRUE
 identical(ii, jj)
 all.equal(ii, jj)
 #
 # #Similarly
-ii <- mice(bb[, 2:9], m = 3, seed = 3)
-jj <- mice(bb[, 2:9], m = 3, seed = 3)
+ii <- mice(bb[ , 2:9], m = 3, seed = 3)
+jj <- mice(bb[ , 2:9], m = 3, seed = 3)
 identical(ii, jj)
 all.equal(ii, jj)
 ```
@@ -362,7 +362,7 @@ ii <- aa
 ii$mpg[2] <- ii$brand[3] <- ii$cylinders[4] <- NA
 #
 tryCatch(expr = {
-  jj <- mice(ii[, 2:9], m = 1, seed = 3)
+  jj <- mice(ii[ , 2:9], m = 1, seed = 3)
   }, warning = function(w) {
 	print(paste0(w))
   })
@@ -418,14 +418,14 @@ rm(B16)
 ```
 
 ```{r 'B16P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P02","-Cars-Hist-Weight", ".png")
+loc_png <- paste0(.z$PX, "B16P02", "-Cars-Hist-Weight", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B16P02, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B16P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P02","-Cars-Hist-Weight", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P02", "-Cars-Hist-Weight", ".png"))
 ```
 
 ```{r 'B16-Density', include=FALSE}
@@ -491,14 +491,14 @@ rm(B16)
 ```
 
 ```{r 'B16P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P03","-Cars-Dens-Weight", ".png")
+loc_png <- paste0(.z$PX, "B16P03", "-Cars-Dens-Weight", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B16P03, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B16P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P03","-Cars-Dens-Weight", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P03", "-Cars-Dens-Weight", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -556,14 +556,14 @@ y_hh <- "MPG"
 ```
 
 ```{r 'B16P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P04","-Cars-Scatter-All", ".png")
+loc_png <- paste0(.z$PX, "B16P04", "-Cars-Scatter-All", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B16P04, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B16P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P04","-Cars-Scatter-All", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P04", "-Cars-Scatter-All", ".png"))
 ```
 
 ```{r 'B16-ScatterMod', include=FALSE}
@@ -580,14 +580,14 @@ y_hh <- "MPG"
 ```
 
 ```{r 'B16P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P05","-Cars-Scatter-Mod", ".png")
+loc_png <- paste0(.z$PX, "B16P05", "-Cars-Scatter-Mod", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B16P05, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B16P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P05","-Cars-Scatter-Mod", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B16P05", "-Cars-Scatter-Mod", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -684,7 +684,7 @@ rm(B16)
 ```
 
 ```{r 'B16P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B16P06","-Cars-BoxPlot", ".png")
+loc_png <- paste0(.z$PX, "B16P06", "-Cars-BoxPlot", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B16P06, device = "png", dpi = 144) 
 }
@@ -693,7 +693,7 @@ if(!file.exists(loc_png)) {
 #### Image {.unlisted .unnumbered}
 
 ```{r 'B16P06', echo=FALSE, fig.cap="(B16P06) Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
-knitr::include_graphics(paste0(.z$PX, "B16P06","-Cars-BoxPlot", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B16P06", "-Cars-BoxPlot", ".png")) #iiii
 ```
 
 #### boxplot() {.unlisted .unnumbered}
@@ -738,7 +738,7 @@ low_bb <- q_bb[1] - 1.5 * iqr_bb
 kept_bb <- bb[bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb, ]
 if(nrow(bb) == nrow(kept_bb)) {
   cat(paste0("No Point was removed because none was outside the range.\n"))
-  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))
+  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb), "\n"))
 ```
 
 #### Cylinder = 6 (1 Outlier) {.unlisted .unnumbered}
@@ -761,7 +761,7 @@ low_bb <- q_bb[1] - 1.5 * iqr_bb
 kept_bb <- bb[bb$weightlbs >= low_bb & bb$weightlbs <= upp_bb, ]
 if(nrow(bb) == nrow(kept_bb)) {
   cat(paste0("No Point was removed because none was outside the range.\n"))
-  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb),"\n"))
+  } else cat(paste0("Number of Points removed = ", nrow(bb) - nrow(kept_bb), "\n"))
 ```
 
 ### Z-score Standardisation {.unlisted .unnumbered}

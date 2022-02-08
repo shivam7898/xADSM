@@ -109,14 +109,14 @@ C34P01
 ```
 
 ```{r 'B30-Save', eval=FALSE, include=FALSE}
-loc_png <- paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png")
+loc_png <- paste0(.z$PX, "C34P01", "-Houses-Box-Z", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = C34P01, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B30P01', echo=FALSE, eval=FALSE, fig.cap="(B30P01) Houses: Boxplot (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "C34P01","-Houses-Box-Z", ".png"))
+knitr::include_graphics(paste0(.z$PX, "C34P01", "-Houses-Box-Z", ".png"))
 ```
 
 ## Outliers

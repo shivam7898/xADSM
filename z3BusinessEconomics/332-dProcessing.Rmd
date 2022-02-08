@@ -13,8 +13,8 @@ Refer [Lecture: Data Pre-Processing](#b16 "b16")
 Refer [Numerical Measures](#c03 "c03")
 
 
-\textcolor{pink}{Please import the "B18-Churn.xlsx".}
-\textcolor{pink}{Please import the "B16-Cars2.csv".}
+\textcolor{pink}{Please import the "B18-Churn.xlsx"}
+\textcolor{pink}{Please import the "B16-Cars2.csv"}
 
 - \textcolor{orange}{Caution:} The Cars2 dataset has 263 observations, whereas the Cars dataset has 261.
 

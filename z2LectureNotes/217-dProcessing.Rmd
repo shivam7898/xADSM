@@ -9,7 +9,7 @@ invisible(lapply(f_getPathR(A10getUtil), knitr::read_chunk))
 
 ## Data
 
-\textcolor{pink}{Please import the "B16-Cars2.csv".}
+\textcolor{pink}{Please import the "B16-Cars2.csv"}
 
 ```{r 'B17-ImportData', include=FALSE}
 xxB16Cars <- f_getRDS(xxB16Cars)
@@ -141,14 +141,14 @@ rm(B17)
 ```
 
 ```{r 'B17P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P01","-Cars-Hist-Weight-Scaled", ".png")
+loc_png <- paste0(.z$PX, "B17P01", "-Cars-Hist-Weight-Scaled", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B17P01, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B17P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B17P01","-Cars-Hist-Weight-Scaled", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P01", "-Cars-Hist-Weight-Scaled", ".png"))
 ```
 
 ```{r 'B17P0102', echo=FALSE, ref.label=c('B16P02', 'B17P01'), fig.cap="(B16P02 B17P01) Cars: Histogram of Weight (Original vs Scaled)"}
@@ -248,14 +248,14 @@ rm(B17)
 ```
 
 ```{r 'B17P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png")
+loc_png <- paste0(.z$PX, "B17P03", "-Cars-Weight-Transform", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B17P03, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B17P03', echo=FALSE, out.width='100%', fig.cap="(B17P03) Cars: Weight Transformed with Original & Scaled"}
-knitr::include_graphics(paste0(.z$PX, "B17P03","-Cars-Weight-Transform", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P03", "-Cars-Weight-Transform", ".png"))
 ```
 
 ### facet_wrap() {.unlisted .unnumbered}
@@ -339,14 +339,14 @@ rm(B17)
 ```
 
 ```{r 'B17P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P04","-Cars-Weight-QQ", ".png")
+loc_png <- paste0(.z$PX, "B17P04", "-Cars-Weight-QQ", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B17P04, device = "png", dpi = 144, width = k_width, height = k_height) 
 }
 ```
 
 ```{r 'B17P04', echo=FALSE, out.width='100%', fig.cap="(B17P04) Cars: QQ Plots of Transformed Weight"}
-knitr::include_graphics(paste0(.z$PX, "B17P04","-Cars-Weight-QQ", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B17P04", "-Cars-Weight-QQ", ".png"))
 ```
 
 ### Flipped Axis {.unlisted .unnumbered}
@@ -358,14 +358,14 @@ B17P05 <- B17P04 + coord_flip() + labs(caption = cap_hh, title = ttl_hh)
 ```
 
 ```{r 'B17P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B17P05","-Cars-Weight-QQ-Flip", ".png")
+loc_png <- paste0(.z$PX, "B17P05", "-Cars-Weight-QQ-Flip", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B17P05, device = "png", dpi = 144, width = k_width, height = k_height) 
 }
 ```
 
 ```{r 'B17P05', echo=FALSE, out.width='100%', fig.cap="(B17P05) Cars: QQ Plots of Transformed Weight"}
-knitr::include_graphics(paste0(.z$PX, "B17P05","-Cars-Weight-QQ-Flip", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "B17P05", "-Cars-Weight-QQ-Flip", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}

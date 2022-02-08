@@ -769,7 +769,7 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
   if(!file.exists(loc_png)) {
     png(filename = loc_png) 
     #dev.control('enable') 
-	pairs.panels(hh, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
+	  pairs.panels(hh, smooth = FALSE, jiggle = FALSE, rug = FALSE, ellipses = FALSE, 
                  cex.cor = 1, cex = 1, gap = 0, main = ttl_hh)
     #title(main = ttl_hh, line = 2, adj = 0)
     title(sub = cap_hh, line = 4, adj = 1)
@@ -824,9 +824,9 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 - Magritter Pipe is given by \textcolor{pink}{%>%}
 - There are other pipes and other packages also but this is general summary.
 
-## Printing Decimal Numbers in R {.tabset .tabset-fade}
+## Printing Decimal Numbers in R {#scipen-b09 .tabset .tabset-fade}
 
-- By default, R gives numbers in Scientic Notation. 
+- By default, R gives numbers in Scientic Notation. 'E'
   - Personally, it is irritating to read p-values, residuals etc. of model output and to convert them everywhere.
   - Defaults can be changed, so that Scientific Notation is disabled
   - Functions \textcolor{pink}{round()}, \textcolor{pink}{signif()} does not have 'E' option
@@ -905,8 +905,8 @@ formatC(ii, digits = 2)
 
 ```{r 'B09-Datasets'}
 # #List All Datasets of a Loaded Package
-data(package = "ggplot2")$results[, "Item"]
-data(package = "nycflights13")$results[, "Item"]
+data(package = "ggplot2")$results[ , "Item"]
+data(package = "nycflights13")$results[ , "Item"]
 ```
 
 

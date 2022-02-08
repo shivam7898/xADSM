@@ -221,7 +221,7 @@ f_getDef("Lift")
 
 ## Data Makeup {#set-makeup-b22 .tabset .tabset-fade}
 
-\textcolor{pink}{Please import the "B22-Makeup.csv".}
+\textcolor{pink}{Please import the "B22-Makeup.csv"}
 
 ```{r 'B22-Makeup', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B22-Makeup.csv"))

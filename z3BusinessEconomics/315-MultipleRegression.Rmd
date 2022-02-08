@@ -172,7 +172,44 @@ The \textcolor{pink}{variance inflation factors (VIF)} is given by $\text{VIF}_i
   - Backward elimination
   - Stepwise selection
   - Best Subsets
-  
+
+- The Forward Selection Procedure
+  - It starts with no variables in the model.
+  1. For the first variable to enter the model, select the predictor most highly correlated with the target $(x_1)$. 
+      - If the resulting model is not significant, then stop and report that no variables are important predictors
+  2. For each remaining variable, compute the sequential F-statistic for that variable, given the variables already in the model. 
+      - For example, in this first pass through the algorithm, these sequential F-statistics would be $\{F(x_2|x_1), F(x_3|x_1), F(x_4|x_1), \ldots \}$. 
+      - On the second pass through the algorithm, these might be $\{F(x_3|x_1, x_2), F(x_4|x_1, x_2), \ldots \}$. 
+      - Select the variable with the largest sequential F-statistic.
+  3. For the variable selected in step 2, test for the significance of the sequential F-statistic. 
+      - If the resulting model is not significant, then stop, and report the current model without adding the variable from step 2. 
+      - Otherwise, add the variable from step 2 into the model and return to step 2.
+
+- The Backward Elimination Procedure
+  - It starts with all the variables in the model.
+  1. Perform the regression on the full model; that is, using all available variables. 
+      - For example, perhaps the full model has four variables, $\{x_1, x_2, x_3, x_4 \}$.
+  2. For each variable in the current model, compute the partial F-statistic. 
+      - In the first pass through the algorithm, these would be $\{F(x_1|x_2, x_3, x_4), F(x_2|x_1, x_3, x_4), F(x_3|x_1, x_2, x_4), F(x_4|x_1, x_2, x_3)\}$. 
+      - Select the variable with the smallest partial F-statistic. Denote this value $F_{\text{min}}$. 
+  3. Test for the significance of $F_{\text{min}}$. 
+    - If $F_{\text{min}}$ is not significant, then remove the variable associated with $F_{\text{min}}$ from the model, and return to step 2. 
+    - If $F_{\text{min}}$ is significant, then stop the algorithm and report the current model. 
+    - If this is the first pass through the algorithm, then the current model is the full model. 
+    - If this is not the first pass, then the current model has been reduced by one or more variables from the full model.
+
+## Stepwise Regression
+
+```{definition 'Stepwise-Regression'}
+In \textcolor{pink}{stepwise regression}, the regression model begins with no predictors, then the most significant predictor is entered into the model, followed by the next most significant predictor. At each stage, each predictor is tested whether it is still significant. The procedure continues until all significant predictors have been entered into the model, and no further predictors have been dropped. The resulting model is usually a good regression model, although it is not guaranteed to be the global optimum.
+```
+
+- The stepwise procedure represents a modification of the forward selection procedure.
+  - A variable that has been entered into the model early in the forward selection process may turn out to be nonsignificant, once other variables have been entered into the model. 
+  - The stepwise procedure checks on this possibility, by performing at each step a partial F-test, using the partial sum of squares, for each variable currently in the model. 
+  - If there is a variable in the model that is no longer significant, then the variable with the smallest partial F-statistic is removed from the model.
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

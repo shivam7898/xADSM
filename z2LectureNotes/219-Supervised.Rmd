@@ -87,7 +87,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 ## Data RFM
 
-\textcolor{pink}{Please import the "B19-Transaction.csv".}
+\textcolor{pink}{Please import the "B19-Transaction.csv"}
 
 ```{r 'B19-Trasaction', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-Transaction.csv"))
@@ -291,7 +291,7 @@ if(FALSE) {
 
 ## RFM on Customer
 
-\textcolor{pink}{Please import the "B19-Customer.csv".}
+\textcolor{pink}{Please import the "B19-Customer.csv"}
 
 ```{r 'B19-Customer', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-Customer.csv"))
@@ -331,7 +331,7 @@ if(FALSE) write_csv(rfm_customer$rfm, file = loc_src)
 
 ## RFM OnlineRetail
 
-\textcolor{pink}{Please import the "B19-OnlineRetail.csv".}
+\textcolor{pink}{Please import the "B19-OnlineRetail.csv"}
 
 ```{r 'B19-Retail', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B19-OnlineRetail.csv"))

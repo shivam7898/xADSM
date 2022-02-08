@@ -11,7 +11,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ### Data {.unlisted .unnumbered}
 
-\textcolor{pink}{Please import the "B23-Champo.csv".}
+\textcolor{pink}{Please import the "B23-Champo.csv"}
 
 ```{r 'B23-ChampoList'}
 xxB23Champo <- c("xxB23Champo_2_Both", "xxB23Champo_3_Order", "xxB23Champo_4_Sample",
@@ -85,7 +85,7 @@ carpet attributes could be used for creating customer segments, which in turn co
 
 ### Data {.unlisted .unnumbered}
 
-\textcolor{pink}{Please import the "B23-FantasySports.csv".}
+\textcolor{pink}{Please import the "B23-FantasySports.csv"}
 
 ```{r 'B23-SportsList'}
 xxB23Sports <- c("xxB23Sports_Q3_2T_Paid", "xxB23Sports_Q3_2T_Free", "xxB23Sports_Q4_2T",
@@ -208,7 +208,7 @@ Few possible hypotheses are listed below:
 
 ## Data RFM {#set-rfm-b23}
 
-\textcolor{pink}{Please import the "B23-RFM.csv".}
+\textcolor{pink}{Please import the "B23-RFM.csv"}
 
 ```{r 'B23-RFM', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B23-RFM.csv"))
@@ -619,7 +619,7 @@ loc_png <- paste0(.z$PX, "B23P03", "-Champo-k3", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
   #dev.control('enable') 
-  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  plot(hh[ , 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
   title(sub = cap_hh, line = 4, adj = 1)
   B23 <- recordPlot()
   dev.off()
@@ -644,7 +644,7 @@ loc_png <- paste0(.z$PX, "B23P04", "-Champo-k6", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
   #dev.control('enable') 
-  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  plot(hh[ , 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
   title(sub = cap_hh, line = 4, adj = 1)
   B23 <- recordPlot()
   dev.off()

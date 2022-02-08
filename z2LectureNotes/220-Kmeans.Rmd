@@ -92,7 +92,7 @@ f_getDef("Euclidean-Distance")
 
 ## Data Movies {#set-movies-b20 .tabset .tabset-fade}
 
-\textcolor{pink}{Please import the "B20-movie.csv".}
+\textcolor{pink}{Please import the "B20-movie.csv"}
 
 ```{r 'B20-Movies', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B20-movie.csv"))
@@ -279,7 +279,7 @@ loc_png <- paste0(.z$PX, "B20P02", "-Movie-k3", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
   #dev.control('enable') 
-  plot(hh[, 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
+  plot(hh[ , 2:ncol(hh)], col = viridis(max(hh$Clusters))[hh$Clusters], main = ttl_hh)
   title(sub = cap_hh, line = 4, adj = 1)
   B20 <- recordPlot()
   dev.off()

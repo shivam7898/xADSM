@@ -219,14 +219,14 @@ rm(B24)
 ```
 
 ```{r 'B24P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")
+loc_png <- paste0(.z$PX, "B24P01", "-Makeup-SupConf", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P01, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P01', echo=FALSE, fig.cap="(B24P01) Makeup: Support and Confidence with Lift as Gradient"}
-knitr::include_graphics(paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P01", "-Makeup-SupConf", ".png")) 
 ```
 
 
@@ -238,7 +238,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P01","-Makeup-SupConf", ".png"))
 
 ## Data Basket {#set-basket-b24 .tabset .tabset-fade}
 
-\textcolor{pink}{Please import the "B24-Basket.csv".}
+\textcolor{pink}{Please import the "B24-Basket.csv"}
 
 ```{r 'B22-GetBasket', include=FALSE}
 xxB24Basket <- f_getRDS(xxB24Basket)
@@ -363,7 +363,7 @@ cap_hh <- paste0("(B24T02) ", "Basket: Not Useful (Count is 2 mostly)")
 
 ## Data Groceries {#set-groceries-b24 .tabset .tabset-fade}
 
-\textcolor{pink}{Please import the "B24-Basket.csv".}
+\textcolor{pink}{Please import the "B24-Basket.csv"}
 
 ```{r 'B22-GetGroceries', include=FALSE}
 xxB24Groceries <- f_getRDS(xxB24Groceries)
@@ -457,14 +457,14 @@ rm(B24)
 ```
 
 ```{r 'B24P03-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P03","-Groceries-SupConf", ".png")
+loc_png <- paste0(.z$PX, "B24P03", "-Groceries-SupConf", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P03, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P03', echo=FALSE, fig.cap="(B24P03) Groceries: Support vs. Confidence with Lift as Gradient and Two RHS"}
-knitr::include_graphics(paste0(.z$PX, "B24P03","-Groceries-SupConf", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P03", "-Groceries-SupConf", ".png")) 
 ```
 
 
@@ -581,14 +581,14 @@ rm(B24)
 ```
 
 ```{r 'B24P04-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P04","-Groceries-SuppConfLift", ".png")
+loc_png <- paste0(.z$PX, "B24P04", "-Groceries-SuppConfLift", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P04, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P04","-Groceries-SuppConfLift", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B24P04", "-Groceries-SuppConfLift", ".png"))
 ```
 
 ```{r 'B24-SuppLiftConf', include=FALSE}
@@ -604,14 +604,14 @@ rm(B24)
 ```
 
 ```{r 'B24P05-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png")
+loc_png <- paste0(.z$PX, "B24P05", "-Groceries-SuppLiftConf", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P05, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P05", "-Groceries-SuppLiftConf", ".png")) 
 ```
 
 
@@ -632,7 +632,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P05","-Groceries-SuppLiftConf", ".png"
 
 ### Two-key Plot {.tabset .tabset-fade}
 
-Here support and confidence are used for the x and y-axes and the color of the points is used to indicate "order," i.e., the number of items contained in the rule (Both LHS and RHS).
+Here support and confidence are used for the x and y-axes and the color of the points is used to indicate "order", i.e., the number of items contained in the rule (Both LHS and RHS).
 
 It would be better to plot this with all rules.
 
@@ -653,14 +653,14 @@ rm(B24)
 ```
 
 ```{r 'B24P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P06","-Groceries-Two-key", ".png")
+loc_png <- paste0(.z$PX, "B24P06", "-Groceries-Two-key", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P06, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P06', echo=FALSE, fig.cap="(B24P06) Groceries: Two-key Plot: Support and Confidence with Items"}
-knitr::include_graphics(paste0(.z$PX, "B24P06","-Groceries-Two-key", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P06", "-Groceries-Two-key", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -689,14 +689,14 @@ rm(B24)
 ```
 
 ```{r 'B24P07-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P07","-Groceries-Matrix", ".png")
+loc_png <- paste0(.z$PX, "B24P07", "-Groceries-Matrix", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P07, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P07', echo=FALSE, fig.cap="(B24P07) Groceries: Matrix"}
-knitr::include_graphics(paste0(.z$PX, "B24P07","-Groceries-Matrix", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P07", "-Groceries-Matrix", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -742,14 +742,14 @@ rm(B24)
 ```
 
 ```{r 'B24P08-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P08","-Groceries-GroupMat", ".png")
+loc_png <- paste0(.z$PX, "B24P08", "-Groceries-GroupMat", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P08, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P08","-Groceries-GroupMat", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P08", "-Groceries-GroupMat", ".png")) 
 ```
 
 ```{r 'B24-GroupMatrixK', include=FALSE}
@@ -764,14 +764,14 @@ rm(B24)
 ```
 
 ```{r 'B24P09-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P09","-Groceries-GroupMat-50k", ".png")
+loc_png <- paste0(.z$PX, "B24P09", "-Groceries-GroupMat-50k", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P09, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P09","-Groceries-GroupMat-50k", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P09", "-Groceries-GroupMat-50k", ".png")) 
 ```
 
 
@@ -814,21 +814,21 @@ rm(B24)
 ```
 
 ```{r 'B24P10-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B24P10","-Groceries-Graph", ".png")
+loc_png <- paste0(.z$PX, "B24P10", "-Groceries-Graph", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B24P10, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B24P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P10","-Groceries-Graph", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P10", "-Groceries-Graph", ".png")) 
 ```
 
 ```{r 'B24-GraphCircle', include=FALSE}
 hh <- t10rules #subrules #rules
 cap_hh <- "B24P11"
 ttl_hh <- "Groceries: Circle Graph of Top 10 Rules by Lift"
-loc_png <- paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png")
+loc_png <- paste0(.z$PX, "B24P11", "-Groceries-Graph-Circle", ".png")
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
@@ -845,7 +845,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P11", "-Groceries-Graph-Circle", ".png")) 
 ```
 
 
@@ -884,7 +884,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P11","-Groceries-Graph-Circle", ".png"
 hh <- t10rules #subrules #rules
 cap_hh <- "B24P12"
 ttl_hh <- "Groceries: Parallel Coordinates Plot"
-loc_png <- paste0(.z$PX, "B24P12","-Groceries-Paracoord", ".png")
+loc_png <- paste0(.z$PX, "B24P12", "-Groceries-Paracoord", ".png")
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
@@ -900,14 +900,14 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P12","-Groceries-Paracoord", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P12", "-Groceries-Paracoord", ".png")) 
 ```
 
 ```{r 'B24-ParaCoordReorder', include=FALSE}
 hh <- t10rules #subrules #rules
 cap_hh <- "B24P13"
 ttl_hh <- "Groceries: Parallel Coordinates Plot"
-loc_png <- paste0(.z$PX, "B24P13","-Groceries-Paracoord-Reorder", ".png")
+loc_png <- paste0(.z$PX, "B24P13", "-Groceries-Paracoord-Reorder", ".png")
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
@@ -923,7 +923,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P13","-Groceries-Paracoord-Reorder", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P13", "-Groceries-Paracoord-Reorder", ".png")) 
 ```
 
 ```{r 'B24P1213', echo=FALSE, ref.label=c('B24P12', 'B24P13'), fig.cap="(B24P12 B24P13) Groceries: Parallel Coordinates Plots (Default and Reordered)"}
@@ -961,7 +961,7 @@ inspect(hh)
 #
 cap_hh <- "B24P14"
 ttl_hh <- "Groceries: Double Decker Plot of Single Rule"
-loc_png <- paste0(.z$PX, "B24P14","-Groceries-Double-Decker", ".png")
+loc_png <- paste0(.z$PX, "B24P14", "-Groceries-Double-Decker", ".png")
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
@@ -978,7 +978,7 @@ if(!file.exists(loc_png)) {
 
 
 ```{r 'B24P14', echo=FALSE, fig.cap="(B24P14) Groceries: Double Decker Plot of Single Rule"}
-knitr::include_graphics(paste0(.z$PX, "B24P14","-Groceries-Double-Decker", ".png")) 
+knitr::include_graphics(paste0(.z$PX, "B24P14", "-Groceries-Double-Decker", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
