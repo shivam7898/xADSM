@@ -1,0 +1,473 @@
+# Linear Regression (B27, Jan-09) {#b27}
+
+```{r 'B27', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- "Machine learning using linear regression"
+  - Skipped "15:48-15:56" because interactive function 'file.choose()' or Import is difficult to show in Notebook.
+
+## Data: Hospital {.tabset .tabset-fade}
+
+\textcolor{pink}{Please import the "B27-Hospital.xlsx"}
+
+```{r 'B27-namesHospital', include=FALSE}
+# #Object Names for each sheet
+namesXL <- c("xxB27Hdesc", "xxB27Hraw", "xxB27Hmod")
+```
+
+```{r 'B27-getHospital', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "B27-Hospital.xlsx"))
+xxB27Hospital <- f_getObject("xxB27Hospital", "B27-Hospital.xlsx", "176788c58511ea4e98739a5314a55aab")
+```
+
+```{r 'B27-XLobjects', include=FALSE, eval=FALSE}
+# #Create Separate Tibbles for Each Sheet
+# #Separate Objects, excluding the First Sheet
+for(ii in seq_along(namesXL)){
+  assign(namesXL[ii], xxB27Hospital[[ii + 1]])
+}
+# #Save Binary Files
+for(ii in seq_along(namesXL)){
+  saveRDS(eval(parse(text = namesXL[ii])), paste0(.z$XL, namesXL[ii], ".rds"))
+}
+```
+
+```{r 'B27-GetHospital', include=FALSE}
+for(ii in seq_along(namesXL)){
+  assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
+}
+```
+
+```{r 'B27-List', include=FALSE, eval=FALSE}
+# #Dimensions of these datasets
+str(lapply(namesXL, function(x) {dim(eval(parse(text = x)))}))
+```
+
+### EDA {.unlisted .unnumbered}
+
+- About: [248, 24]
+  - Sanitise Column Names for ease of use
+  - NA in 7 columns 
+  - ~~If implant was not used then implant cost was changed from 0 to NA~~
+    - Regression really does not like NA.
+  - Dropped "State at the Time of Arrival" because only 1/248 has "Confused", all others are "Alert"
+  - Converted Low BP from Character to Numeric
+    - Low BP and High BP have 23 NA for same patients
+  - Converted Binary Variables to dummy variables i.e. iFemale, iMarried, iEmergency, iImplant
+  - History has Typo in case so convert all to lower, change labels and made "ht1" as reference because it is the most frequent
+    - NA in History were merged with already available "other" category
+
+
+```{r 'B27-PrepHospital'}
+# #Sanitise Headers
+aa <- xxB27Hraw %>% 
+  rename_with(make.names) %>% rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) 
+names(aa) <- c("ID", "Age", "iFemale", "iMarried", "Complaints", "Weight", "Height", "Pulse", 
+               "HighBP", "LowBP", "Respiratory", "History", "Hemoglobin", "Urea", "Creatinine", 
+               "Arrival", "State", "iEmergency", "TC", "Stay", "ICU", "Ward", "iImplant", "ImpCost")
+#
+# #Drop | To Numeric | Relocate | Flags | Lower Case | Replace NA | 
+# #Levels & Labels | Replace String | To Factor
+# #To Remove Multicollinearity: Dropped Arrival, Dropped iImplant, Drop Stay (~ ICU + Ward)
+# #Reverted ImpCost to original (0) for No implant 
+# #Changed NA of Complaints to 'other'
+# #Remove Rows containing NA in HighBP, LowBP, Hemoglobin, Urea, Creatinine
+#
+bb <- aa %>% 
+  select(-State) %>% 
+  mutate(across(LowBP, as.numeric)) %>% 
+  relocate(TC, .after = ID) %>% 
+  mutate(iFemale = ifelse(iFemale == "F", 1, 0)) %>% 
+  mutate(iMarried = ifelse(iMarried == "MARRIED", 1, 0)) %>% 
+  mutate(iEmergency = ifelse(iEmergency == "EMERGENCY", 1, 0)) %>% 
+  mutate(iImplant = ifelse(iImplant == "Y", 1, 0)) %>% 
+  mutate(across(Complaints, coalesce, "other")) %>% 
+  mutate(across(History, tolower)) %>% 
+  mutate(across(History, coalesce, "other")) %>% 
+  mutate(across(History, factor, 
+levels = c("hypertension1", "hypertension2", "hypertension3", "diabetes1", "diabetes2", "other"), 
+labels = c("ht1", "ht2", "ht3", "db1", "db2", "other"))) %>% 
+  mutate(Arrival = str_replace_all(Arrival, c(" " = "_"))) %>% 
+  mutate(Arrival = factor(Arrival, levels = c("WALKED_IN", "AMBULANCE", "TRANSFERRED"), 
+                          labels = c("Walked", "Ambulance", "Transferred"))) %>% 
+  mutate(Complaints = str_replace_all(Complaints, 
+                        c(" " = "_", "-" = "_", "__" = "_", "other_" = "o_"))) %>% 
+  mutate(across(Complaints, factor)) %>% 
+  mutate(across(Complaints, relevel, ref = "o_heart")) %>% 
+  #select(-c(Arrival, iImplant, Stay)) %>% 
+  drop_na(HighBP, LowBP, Hemoglobin, Urea, Creatinine)
+#
+xsyw <- bb
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B27-Temps', include=FALSE, eval=FALSE}
+# #Count NA 
+if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+#
+if(FALSE) bb %>% select(where(is.numeric)) %>% summary()
+if(FALSE) bb %>% select(isFemale) %>% slice(1:10)
+if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+if(FALSE) bb %>% count(Complaints)
+if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+if(FALSE) bb %>% select(isImplant, imp_c) %>% summary()
+if(FALSE) bb %>% select(iFemale, iMarried, iEmergency, iImplant) %>% 
+  pivot_longer(everything()) %>% 
+  count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) 
+```
+
+```{r 'B27-strH'}
+str(bb)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B27-summaryH'}
+summary(bb)
+```
+
+## Dummies {.tabset .tabset-fade}
+
+- Refer [Omitting the rows with missing data is not recommended](#immputation-b16 "b16")
+
+- Following is applicable to First Run of the Model which had Multicollinearity issues and thus was modified further.
+  - Note: The dummy object created here contains 40 columns. It is slightly different from what professor has created with 41 columns.
+  - I have skipped 'state on arrival' and kept 'ID' for now
+  - I have merged NA in 'history' column to 'other' category
+  - Further, the Reference Level is different in some dummy variables
+  - I have NOT removed rows containg NA. Those will be removed just before the Model building 
+    - Ideally these should be imputed but that is "ForLater"
+      - Medical information is difficult to impute
+    - Number of Rows with NA is higher (211) in my case because I have replaced 0 in 'Implant Cost' to NA
+  - If the original categorical column has 'NA' the dummy creation lead to extra 'NA' column. 
+    - The other columns would have {0, 1, NA} in this case. For now those NA are being set to 0 manually. Impact of keeping these NA as it is and handling it inside model would be observed "ForLater"
+
+### Create {.unlisted .unnumbered}
+
+```{r 'B27-Dummy'}
+# #Create Dummies | Replaced All NA in original data so no replacement in dummy columns |
+dum_xsyw <- dummy_cols(xsyw, remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B27-StrHd'}
+names(dum_xsyw)
+str(dum_xsyw)
+```
+
+### NA {.unlisted .unnumbered}
+
+```{r 'B27-NA'}
+sum(!complete.cases(dum_xsyw))
+colSums(is.na(dum_xsyw)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+```
+
+## Model {.tabset .tabset-fade}
+
+- First Run of Model with 40 variables
+  - Multicollinear
+
+```{conjecture 'vif-aliased'}
+\textcolor{brown}{Error in vif.default(...) : there are aliased coefficients in the model}
+```
+
+- There is Perfect Mullicollinearity issue in the Model Variables
+- To identify which variables are the culprits, run use \textcolor{pink}{alias()}
+  - It tells that 'Arrival_Ambulance' has perfect collinearity with 'iEmergency'
+    - ~~In this case we should drop the Arrival Variable completely~~
+    - It turns out that the NA were the main problem. Multicollinearity can be handled by step()
+  - Ultimately all NA were removed from Continuous Variables and NA in Complaints were converted to Other
+
+```{conjecture 'step-rows-changed'}
+\textcolor{brown}{Error in step(...) : number of rows in use has changed: remove missing values}
+```
+
+- If the original model was created with using 'na.action' of lm(), step() throws this error
+  - Remove all NA from original dataset
+
+### Model 4 {.unlisted .unnumbered}
+
+```{r 'B27-ModelH'}
+# #Partition Data
+set.seed(3)
+idx_xsyw <- sample.int(n = nrow(dum_xsyw), size = floor(0.8 * nrow(dum_xsyw)), replace = FALSE)
+#
+# #Drop the ID Column from Training
+train_xsyw <- dum_xsyw[idx_xsyw, ] %>% select(-ID) 
+test_xsyw  <- dum_xsyw[-idx_xsyw, ]
+#
+mod_xsyw <- lm(TC ~ ., data = train_xsyw)
+if(FALSE) f_pNum(summary(mod_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+stp_xsyw <- step(mod_xsyw, direction = "backward", trace = 0)
+if(TRUE) f_pNum(summary(stp_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+summary(stp_xsyw)$adj.r.squared
+names(stp_xsyw$coefficients)
+```
+
+### VIF {.unlisted .unnumbered}
+
+```{r 'B27-VifH'}
+ii <- vif(mod_xsyw) 
+ii[ii > 5]
+#
+ii <- vif(stp_xsyw) 
+ii[ii > 5]
+```
+
+### Multicollinear {.unlisted .unnumbered}
+
+```{r 'B27-Model2Coll', eval=FALSE}
+# #Had to Remove all NA from Original Dataset to handle the Error
+mm <- alias(mod_xsyw)$Complete
+mm[rowSums(mm^2) != 0, colSums(mm^2) != 0]
+#
+if(FALSE) xsyw %>% filter(History == "db1") %>% select(ID, History, Complaints, iEmergency)
+```
+
+## Model 5
+
+- To Explore: What happens if we remove the NA of "Complaints" Column (earlier those were converted to 'Other')
+  - Different Variables become significant 
+    - However, it might be due to change in Train Data because number of Rows has changed. The included and excluded rows have changed even if we are re-setting the seed immediately before the sampling.
+    - "ForLater" Take a dataset do the same exercise but filter on Train data (not the original dataset as done here). It would show whether the variables included remain same or not.
+
+- Comparison of Models
+  - ~~Model 2 (Excluding Arrival, iImplant, Stay) & (Complaints NA to Other)~~ 
+    - $R_a^2 = 0.873$
+    - No VIF > 5
+    - Variables: 10
+      - (Intercept), Pulse, Hemoglobin, Urea, Creatinine, ICU, Ward, ImpCost, Complaints_CAD_TVD, Complaints_o_general, History_db2
+      - Common: Pulse, ICU, Ward, ImpCost, Complaints_o_general, History_db2
+      - NOT in Model 3: Hemoglobin, Urea, Creatinine, Complaints_CAD_TVD
+  - ~~Model 3 (Excluding Arrival, iImplant, Stay) & (Excluding NA of Complaints)~~ 
+    - $R_a^2 = 0.863$
+    - No VIF > 5
+    - Variables: 9
+      - (Intercept), Age, Height, Pulse, ICU, Ward, ImpCost, Complaints_o_general, Complaints_PM_VSD, History_db2
+      - Common: Pulse, ICU, Ward, ImpCost, Complaints_o_general, History_db2
+      - NOT in Model 2: Age, Height, Complaints_PM_VSD
+  - Model 4 (Complaints NA to Other)
+    - $R_a^2 = 0.873$
+    - No VIF > 5
+    - Variables: 10 (Only Stay replaced Ward compared to Model 2)
+      - (Intercept), Pulse, Hemoglobin, Urea, Creatinine, Stay, ICU, ImpCost, Complaints_CAD_TVD, Complaints_o_general, History_db2
+      - Common: Pulse, ICU, Stay, ImpCost, Complaints_o_general, History_db2
+      - NOT in Model 5: Hemoglobin, Urea, Creatinine, Complaints_CAD_TVD
+  - Model 5 (Excluding NA of Complaints) 
+    - $R_a^2 = 0.861$
+    - No VIF > 5
+    - Variables: 8 (Stay replaced Ward, Tertology replaced VSD and Dropped Height compared to Model 3)
+      - (Intercept), Age, Stay, ICU, ImpCost, Complaints_o_general, Complaints_o_tertalogy, History_db2
+      - Common: Pulse, ICU, Stay, ImpCost, Complaints_o_general, History_db2
+      - NOT in Model 4: Age, Height, Complaints_o_tertalogy
+
+
+```{r 'B27-Model3'}
+# #Remove the Original NA (that were converted to other) in Complaints
+ii <- xsyw %>% filter(Complaints != "other") %>% mutate(across(Complaints, droplevels))
+dum_ii <- dummy_cols(ii, remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
+# #Partition Data
+set.seed(3)
+idx_ii <- sample.int(n = nrow(dum_ii), size = floor(0.8 * nrow(dum_ii)), replace = FALSE)
+#
+# #Drop the ID Column from Training
+train_ii <- dum_ii[idx_ii, ] %>% select(-ID) 
+test_ii  <- dum_ii[-idx_ii, ]
+#
+mod_ii <- lm(TC ~ ., data = train_ii)
+if(FALSE) f_pNum(summary(mod_ii)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+stp_ii <- step(mod_ii, direction = "backward", trace = 0)
+if(FALSE) f_pNum(summary(stp_ii)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+vif_ii <- vif(stp_ii)
+vif_ii[vif_ii > 5]
+#
+summary(stp_ii)$adj.r.squared
+names(stp_ii$coefficients)
+```
+
+
+## Normality 
+
+```{r 'B27D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Simple-Linear-Regression-Assumption-Summary") #dddd
+```
+
+- To check the normality assumtion of each $x_i$, we can look at the normality of error term $\epsilon$
+  - The $\epsilon$ will vary depending upon the $\beta_i$ and the $\beta_i$ vary depending upon the $x_i$
+  - So if $x_i$ follows an assumption, then $\epsilon$ should follow that assumption
+  - If we presume that $x_i$ is follow Normal Distribution then it implies that $\epsilon$ will also follow Normal Distribution i.e. $x_i \in \mathcal{N} : \epsilon \in \mathcal{N}$
+  - Explanation
+    - $\beta_i$ should explain maximum variability, so there is an association between $\beta_i$ and $\epsilon$. Change in $\beta_i$ would impact $\epsilon$.
+    - $\epsilon$ is the part unexplained by $x_i$. So, it gets affected by $x_i$
+  - If $\epsilon$ is not distributed normally then at least one of the $x_i$ is not distributed normally and we would need to take corrective action
+
+
+- \textcolor{pink}{Question:} What are the causes of non-normality in error term $\epsilon$
+  - One of the common cause is Outliers
+
+- \textcolor{pink}{Question:} "ForLater" This will tell us about only those $x_i$ which were included in the model. It would not comment on the variables that got dropped during the model or step model creation
+
+
+```{r 'B27-Normal'}
+# #Normality Test
+test_shapiro <- shapiro.test(mod_xsyw$residuals)
+test_shapiro
+#
+if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
+```
+
+## Semi-Log Transformation
+
+- To decrease the skewness, we need to transform Y.
+  - Semi-log Transformation: Take Log only on Y
+  - Log-log Transformation: If situation does not improve, we will take log of Y and all $x_i$
+
+- \textcolor{pink}{Question:} Can we do the Normalisation
+  - No, Scaling or Normalisation does not reduce the skewness.
+
+- \textcolor{pink}{Question:} "ForLater" During log-log how would we take log of dummy variables {0, 1}
+  - (Aside) Probably, we do not apply log on dummy variables. As we have seen earlier, their variance is already controlled.
+
+- Semi-log Transformation 
+  - Model still is NOT following Normality
+  - $R_a^2 = 0.828$
+    - VIF > 5 is for Two Variables: Age, iMarried (It can be ignored)
+    - Variables: 18 (8 more than original Model 4)
+
+- \textcolor{pink}{Question:} "ForLater" Now both iImplant and ImpCost are present in the Model without any problem. Even though iImplant = 0 (Flag) directly corresponds with ImpCost = 0 (Continuous). This might be the correct way to do regression after all!
+
+```{r 'B27-TransformSemi'}
+# #Run Log Transformed Y
+mod_xsyw_log <- lm(log(TC) ~ ., data = train_xsyw)
+stp_xsyw_log <- step(mod_xsyw_log, direction = "backward", trace = 0)
+if(FALSE) f_pNum(summary(stp_xsyw_log)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+vif_ii <- vif(stp_xsyw_log)
+vif_ii[vif_ii > 5]
+#
+summary(stp_xsyw_log)$adj.r.squared
+names(stp_xsyw_log$coefficients)
+#
+# #Normality
+test_shapiro <- shapiro.test(stp_xsyw_log$residuals)
+test_shapiro
+#
+if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
+```
+
+## Log-Log Transformation - Normal
+
+- \textcolor{pink}{Question:} Sometimes step() does not remove some variable which are not significant (as given by p-value)
+  - Presence of these variables help other variables in making significant contribution to the model
+
+- Log-log Transformation 
+  - \textcolor{pink}{Model is NORMAL.}
+    - Added +1 to 4 variables with 0 values to handle 'log(0) = -Inf' problem. Two of them anyway were dropped due to multicollinearity.
+  - $R_a^2 = 0.814$
+    - No VIF > 5
+    - Variables: 16 
+
+```{r 'B27-TransformLogLog'}
+# #Run Log Transformed Y and X
+train_log <- train_xsyw %>% 
+  mutate(across(c(Stay, ICU, Ward, ImpCost), ~ . + 1)) %>% 
+  mutate(across(c(TC, Age, Weight, Height, Pulse, HighBP, LowBP, Respiratory, Hemoglobin, Urea,
+                  Creatinine, Stay, ICU, Ward, ImpCost), log)) %>% 
+  select(-c(ImpCost, Stay))
+#
+mod_xsyw_lll <- lm(TC ~ ., data = train_log)
+stp_xsyw_lll <- step(mod_xsyw_lll, direction = "backward", trace = 0)
+if(FALSE) f_pNum(summary(stp_xsyw_lll)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+vif_ii <- vif(stp_xsyw_lll)
+vif_ii[vif_ii > 5]
+#
+summary(stp_xsyw_lll)$adj.r.squared
+names(stp_xsyw_lll$coefficients)
+#
+# #Normality
+test_shapiro <- shapiro.test(stp_xsyw_lll$residuals)
+test_shapiro
+#
+if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
+```
+
+
+## Predict
+
+- Subtract Y from 'exp(predicted)' to get the RMSE etc. in case of log transformed Y.
+
+```{r 'B27-Predict'}
+# #Apply Same Transformation on Test Data (except the Actual Y)
+test_log <- test_xsyw %>% 
+  mutate(across(c(Stay, ICU, Ward, ImpCost), ~ . + 1)) %>% 
+  mutate(across(c(#TC, 
+                  Age, Weight, Height, Pulse, HighBP, LowBP, Respiratory, Hemoglobin, Urea,
+                  Creatinine, Stay, ICU, Ward, ImpCost), log)) %>% 
+  select(-c(ImpCost, Stay))
+#
+res_lll <- test_log %>% 
+  mutate(CalYlog = predict(stp_xsyw_lll, .), Y_Yc = TC - exp(CalYlog))
+#
+summary(res_lll$Y_Yc)
+#
+# #RMSE: Root Mean Squared Error
+#res_w %>% summarise(across(everything(), ~ sqrt(mean((.)^2))))
+sqrt(mean((res_lll$Y_Yc)^2))
+
+#
+# #MAE: Mean Absolute Error (MAE)
+#res_w %>% summarise(across(everything(), ~ mean(abs(.))))
+mean(abs(res_lll$Y_Yc))
+```
+
+
+## Glance
+
+```{r 'B27-Glance'}
+lapply(list(stp_xsyw_lll, stp_xsyw_log, mod_xsyw, stp_ii), glance)
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B27-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, namesXL, dum_ii, dum_xsyw, idx_ii, idx_xsyw, mod_ii, 
+          mod_xsyw, mod_xsyw_lll, mod_xsyw_log, res_lll, stp_ii, stp_xsyw, stp_xsyw_lll, 
+          stp_xsyw_log, test_ii, test_log, test_shapiro, test_xsyw, train_ii, train_log, 
+          train_xsyw, vif_ii, xsyw, xxB27Hdesc, xxB27Hmod, xxB27Hraw)
+```
+
+```{r 'B27-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

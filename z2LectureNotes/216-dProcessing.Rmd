@@ -74,7 +74,7 @@ summary(xxB16Cars)
 - [Do not miss the missing values i.e. NA](#na-b10 "b10")
 - Relevant functions: \textcolor{pink}{`summary(), anyNA(), is.na(), na.omit(), complete.cases(), drop_na()`}
 
-## Imputation
+## Imputation {#immputation-b16}
 
 ```{definition 'Imputation'}
 \textcolor{pink}{Imputation} is the process of replacing missing data with substituted values. Imputation preserves all cases by replacing missing data with an estimated value based on other available information.

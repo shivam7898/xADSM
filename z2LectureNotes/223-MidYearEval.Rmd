@@ -310,7 +310,7 @@ if(FALSE) {
 
 ### NA {.unlisted .unnumbered}
 
-```{r 'B-'}
+```{r 'B23-NA'}
 colSums(is.na(aa)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
 ```
 

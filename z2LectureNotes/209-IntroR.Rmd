@@ -563,8 +563,8 @@ Object imported by \textcolor{pink}{read.csv()} i.e. 'mydata' is NOT same as the
 - Further, read_excel() has imported many columns as 'character' that should have been 'numeric' ex: dep_time
 - NOTE: To complete the set \textcolor{pink}{readr::read_csv()} is also covered here which reads CSV and generates a Tibble.
 
-All of these objects can be converted into any other form as needed i.e. dataframe to tibble or vice-versa.
 
+All of these objects can be converted into any other form as needed i.e. dataframe to tibble or vice-versa.
 
 ### Flights {.unnumbered}
 

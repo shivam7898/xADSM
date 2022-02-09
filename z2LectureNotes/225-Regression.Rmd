@@ -356,12 +356,16 @@ f_getDef("Dummy-Variables") #dddd
 ## Example 
 
 ```{conjecture 'lm-non-numeric-y'}
-\textcolor{brown}{Warning messages: In model.response(mf, "numeric") : using type = "numeric" with a factor response will be ignored. In Ops.factor(y, ...) : '-' not meaningful for factors}
+\textcolor{brown}{Warning messages: In model.response(mf, "numeric") : using type = "numeric" with a factor response will be ignored}
 ```
 
+- Additional Warnings
+  - \textcolor{brown}{"In Ops.factor(y, ...) : '-' not meaningful for factors"} 
 - Running summary() on this Model will result in Error
   - \textcolor{brown}{"Error in quantile.default(resid) : (unordered) factors are not allowed"} 
   - \textcolor{brown}{"In addition: Warning message: In Ops.factor(r, 2) : '^' not meaningful for factors"}
+- Running step() on this Model will resutl in Error
+  - \textcolor{brown}{"Error in step(...) : AIC is -infinity for this model, so 'step' cannot proceed"}
 - Dependent Variable is Non-numeric. Found to be Factor in this case.
 - Y needs to be Numeric for Regression Analysis
 
@@ -395,6 +399,9 @@ if(TRUE) anova(mod_bb) %>% as_tibble(rownames = "Predictors") %>%
 
 - \textcolor{pink}{dummy_cols()}
   - To generate dummy columns
+  - If NA are present, then by default, an NA dummy column is also created.
+    - \textcolor{orange}{Caution:} The other columns would have {0, 1, NA} in this case. For now those NA are being set to 0 manually. Impact of keeping these NA as it is and handling it inside model would be observed "ForLater"
+  
   
 ```{r 'B25-Dummy'}
 set.seed(3) 

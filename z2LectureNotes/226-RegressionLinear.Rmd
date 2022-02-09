@@ -20,45 +20,6 @@ if(FALSE){# #WARNING: Installation may take some time.
 }
 ```
 
-
-## Data: Hospital
-
-\textcolor{pink}{Please import the "B26-Hospital.xlsx"}
-
-```{r 'B26-namesXL', include=FALSE}
-# #Object Names for each sheet
-namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
-```
-
-```{r 'B26-getXL', include=FALSE, eval=FALSE}
-# #Path of Object, FileName and MD5Sum
-#tools::md5sum(paste0(.z$XL, "B26-Hospital.xlsx"))
-xxB26Hospital <- f_getObject("xxB26Hospital", "B26-Hospital.xlsx", "176788c58511ea4e98739a5314a55aab")
-```
-
-```{r 'B26-XLobjects', include=FALSE, eval=FALSE}
-# #Create Separate Tibbles for Each Sheet
-# #Separate Objects, excluding the First Sheet
-for(ii in seq_along(namesXL)){
-  assign(namesXL[ii], xxB26Hospital[[ii + 1]])
-}
-# #Save Binary Files
-for(ii in seq_along(namesXL)){
-  saveRDS(eval(parse(text = namesXL[ii])), paste0(.z$XL, namesXL[ii], ".rds"))
-}
-```
-
-```{r 'B26-GetHospital', include=FALSE}
-for(ii in seq_along(namesXL)){
-  assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
-}
-```
-
-```{r 'B26-List', include=FALSE}
-# #Dimensions of these datasets
-str(lapply(namesXL, function(x) {dim(eval(parse(text = x)))}))
-```
-
 ## Data: KC House
 
 \textcolor{pink}{Please import the "B26-KC-House.csv"}
