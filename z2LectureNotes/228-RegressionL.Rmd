@@ -49,7 +49,29 @@ f_getDef("Multicollinearity")
 f_getDef("Principle-of-Parsimony") #iiii
 ```
 
-## WIP
+- \textcolor{pink}{Question:} Bias can be mathematically represented by $R^2$. What represents the Variance
+  - RMSE represents the Variance
+  - "ForLater" $R^2$ is linked with RMSE also so how can it represent bias
+
+## Explanation of Bias-Variance Trade-off
+
+- \textcolor{pink}{Question:} What does $\beta = 0$ represents
+  - It will be a line parallel to x-axis. Its slope will be zero. 
+  - It means that Y does not depend on X. There is No correlation between Y and X.
+  - X can not explain the changes in Y. 
+  - Inclusion of this X in the model would lead to increase in complexity without any reduction in error
+    - i.e. Bias will increase but variance will not decrease
+    - i.e. It would cause overfitting
+
+
+```{r 'B28P02', echo=FALSE, ref.label=c('C14P01'), fig.cap="(C14P01) Linear Regression"}
+# #Ref another file chunk
+```
+
+## Penalising
+
+
+## x
 
 
 ```{r 'B28-1', include=FALSE, eval=FALSE}

@@ -53,6 +53,12 @@ The random variable, \textcolor{pink}{error term $({\epsilon})$}, accounts for t
 The equation that describes how the mean or expected value of ${y}$, denoted $E(y)$, is related to ${x}$ is called the \textcolor{pink}{regression equation}. Simple Linear Regression Equation is: $E(y) = {\beta}_0 + {\beta}_1 {x}$. The graph of the simple linear regression equation is a straight line; ${\beta}_0$ is the y-intercept of the regression line, ${\beta}_1$ is the slope.
 ```
 
+```{r 'C14P01', echo=FALSE, fig.cap="(C14P01) Linear Regression"}
+knitr::include_graphics(paste0(.z$PX, "C14P01", "-Linear-Regression", ".png")) #iiii
+```
+
+- [(External) Image Source](http://www.sthda.com/english/articles/40-regression-analysis/167-simple-linear-regression-in-r "http://www.sthda.com")
+
 ## Least Squares Method
 
 ```{definition 'Estimated-Regression-Equation'}
