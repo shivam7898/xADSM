@@ -1,0 +1,140 @@
+# Wieringen (E01) {#e01}
+
+```{r 'E01', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+> Ridge Regression by Wessel N. van Wieringen
+
+## Matrix Definitions
+
+```{definition 'Design-Matrix'}
+The data from an experiment, in which 'p' characteristics of 'n' samples are measured, is denoted by the the \textcolor{pink}{design matrix $\underset{n \times p}{\mathbf{X}}$}. 
+```
+
+
+```{definition 'Matrix-Rank'}
+The \textcolor{pink}{rank} (or the column rank) of a matrix is the dimension of space spanned by the column vectors. Hence, the rank of X is equal to the number of linearly independent columns: $\text{rank}(\underset{n \times p}{\mathbf{X}}) = p$
+```
+
+
+```{definition 'Singular-Matrix'}
+A square matrix that does not have an inverse is called \textcolor{pink}{Singular Matrix}. A matrix $\mathbf{A}$ is singular if and only if its determinant is zero i.e. $\text{det}(\mathbf{A}) = 0$. As $\text{det}(\mathbf{A})$ is equal to the product of the eigenvalues $\nu_j$ of $\mathbf{A}$, the matrix $\mathbf{A}$ is singular if one (or more) of the eigenvalues of A is zero. 
+```
+
+
+```{definition 'Orthogonal-Matrix'}
+An \textcolor{pink}{orthogonal matrix} $\mathbf{A}$, is a real square matrix with the property: $\{\mathbf{A}^T\mathbf{A} = \mathbf{A}\mathbf{A}^T = \mathbf{I} \}\to \mathbf{A}^T = \mathbf{A}^{-1}$
+```
+
+
+```{definition 'Identity-Matrix'}
+The \textcolor{pink}{identity matrix $\mathbf{I}$} is the square matrix with ones on the main diagonal and zeros elsewhere. 
+```
+
+
+```{definition 'Illconditioned-Matrix'}
+A matrix is \textcolor{pink}{illconditioned} if its condition number is high. The \textcolor{pink}{condition number} of a square positive definite matrix $\mathbf{A}$ is the ratio of its largest and smallest eigenvalue. If the smallest eigenvalue is zero, the conditional number is undefined and so is $\mathbf{A}^{-1}$
+```
+
+
+
+## Ridge Regression
+
+- Collinearity leads to uncertainty in the estimates. Regression analysis has difficulty to decide to which covariate the explained proportion of variation in the response should be attributed.
+
+
+```{definition 'Ridge-Estimator'}
+The \textcolor{pink}{ridge regression estimator} proposes to replace $\underset{p \times n}{\mathbf{X}^T}\underset{n \times p}{\mathbf{X}}$ by $\underset{p \times n}{\mathbf{X}^T}\underset{n \times p}{\mathbf{X}} + \lambda \underset{p \times p}{\mathbf{I}}$ with $\lambda \in (0,\infty)$. The estimator $\lambda$ is called \textcolor{pink}{penalty parameter}. 
+```
+
+- Each choice of $\lambda$ leads to a different ridge regression estimate.
+  - For any $\lambda > 0$, the 'ridge fit' $\hat{Y}(\lambda)$ is not orthogonal to the observation Y. 
+  - In other words, the 'ridge residuals' $Y - \hat{Y}(\lambda)$ are not orthogonal to the fit $\hat{Y}(\lambda)$. 
+  - Hence, the ad-hoc fix of the ridge regression estimator resolves the non-evaluation of the estimator in the face of super-collinearity but yields a 'ridge fit' that is not optimal in explaining the observation.
+
+
+- Principal component regression is a close relative to ridge regression that can also be applied in a high-dimensional context. Principal components regression explains the response not by the covariates themselves but by linear combinations of the covariates as defined by the principal components of $\mathbf{X}$.
+
+
+- All regression coefficients are shrunken towards zero as the penalty parameter increases. 
+  -  In particular, the larger $\lambda$, the larger the contribution of the penalty to the loss function, the stronger the tendency to shrink non-zero regression coefficients to zero (and decrease the contribution of the penalty to the loss function).
+- The variance of the ridge regression coefficient estimates decreases towards zero as the penalty parameter becomes large. 
+
+- For small $\lambda$, the variance of the ridge estimator dominates the MSE. 
+- For large $\lambda$, the variance vanishes and the bias dominates the MSE. 
+- For small enough values of $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
+  - As the MSE is the sum of these two, the MSE first decreases as $\lambda$ moves away from zero and then increases.
+  - In particular, $\lambda = 0$ corresponds to the ML regression estimator.
+  - More noisy data benefits the ridge regression estimator
+  - Ridge regression will perform better in the case where the regression parameter is not dominated by a few elements but rather all contribute comparably to the explanation of the variation in the response.
+
+- Overfitting
+  - Overfitting refers to the phenomenon of modelling the noise rather than the signal. 
+  - In case the true model is parsimonious (few covariates driving the response) and data on many covariates are available, it is likely that a linear combination of all covariates yields a higher likelihood than a combination of the few that are actually related to the response. 
+    - As only the few covariates related to the response contain the signal, the model involving all covariates then cannot but explain more than the signal alone: it also models the error. 
+    - Hence, it overfits the data. 
+  - In high-dimensional settings $(n \leq p)$ overfitting is a real threat. 
+    - The number of explanatory variables exceeds the number of observations. 
+    - It is thus possible to form a linear combination of the covariates that perfectly explains the response, including the noise. 
+  - Large estimates of regression coefficients are often an indication of overfitting. 
+    - Augmentation of the estimation procedure with a constraint on the regression coefficients is a simple remedy to large parameter estimates. 
+    - As a consequence it decreases the probability of overfitting.
+
+
+- Constraints
+  - Penalty parameter $\lambda$ should not be too close to zero to avoid illconditioned matrix
+  - Practically plot a conditional numbers for different $\lambda$ and then choose the optimum one.
+
+## k-fold Crossvalidation
+
+Cross-validation requires it (i.e. the penalty parameter) to yield a model with good prediction performance. Commonly, this performance is evaluated on novel data. Novel data need not be easy to come by and one has to make do with the data at hand. 
+
+The setting of 'original' and novel data is then mimicked by sample splitting: the data set is divided into two (groups of samples). One of these two data sets, called the training set, plays the role of 'original' data on which the model is built. 
+
+The second of these data sets, called the test set, plays the role of the 'novel' data and is used to evaluate the prediction performance (often operationalized as the loglikelihood or the prediction error) of the model built on the training data set. 
+
+This procedure (model building and prediction evaluation on training and test set, respectively) is done for a collection of possible penalty parameter choices. The penalty parameter that yields the model with the best prediction performance is to be preferred. 
+
+\textcolor{pink}{The thus obtained performance evaluation depends on the actual split of the data set.}
+
+To remove this dependence, the data set is split many times into a training and test set. Per split the model parameters are estimated for all choices of $\lambda$ using the training data and estimated parameters are evaluated on the corresponding test set. The penalty parameter, that on average over the test sets performs best (in some sense), is then selected.
+
+When the repetitive splitting of the data set is done randomly, samples may accidently end up in a fast majority of the splits in either training or test set. Such samples may have an unbalanced influence on either model building or prediction evaluation. 
+
+To avoid this \textcolor{pink}{k-fold cross-validation} structures the data splitting. 
+
+- The samples are divided into 'k' more or less equally sized exhaustive and mutually exclusive subsets. In turn (at each split) one of these subsets plays the role of the test set while the union of the remaining subsets constitutes the training set. 
+  - Such a splitting warrants a balanced representation of each sample in both training and test set over the splits. 
+
+- Not only the shape of the distribution, but also its moments are affected by the randomness of the penalty parameter. 
+
+- Should we standardize the covariates prior to ridge regression analysis
+  - The covariate with a larger variance yields the larger ridge regression estimator.
+  - Although, the answer is data and context dependent but in general the variables should be standardised
+
+- VIF
+  - The VIF measures the change in the variance of the estimate due to the collinearity. 
+  - The penalization does not remove collinearity but it reduces the effect of collinearity on the variance of the ridge estimator (as measured by the VIF). 
+  - Thus the VIF may guide the choice of the penalty parameter: choose $\lambda$ such that the variance of the estimator is increased at most by a user-specified factor.
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'E01-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'E01-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
