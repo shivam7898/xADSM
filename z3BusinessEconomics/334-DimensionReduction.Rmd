@@ -14,10 +14,16 @@ invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) #wwww
 
 ### Multicollinearity {.unlisted .unnumbered}
 
+```{r 'C34P09', echo=FALSE, fig.cap="(C34P09) Multicollinearity"}
+knitr::include_graphics(paste0(.z$PX, "C34P09", "-Multicollinearity", ".png")) #iiii
+```
+
+
 ```{definition 'Multicollinearity'}
 \textcolor{pink}{Multicollinearity} is a condition where some of the predictor variables are strongly correlated with each other. 
 ```
 
+- [(External) Image Source](https://datatab.net/tutorial/multicollinearity "https://datatab.net")
 - Problems: Multicollinearity
   - Multicollinearity leads to instability in the solution space, leading to possible incoherent results, such as in multiple regression, where a multicollinear set of predictors can result in a regression which is significant overall, even when none of the individual variables is significant. 
   - Even if such instability is avoided, inclusion of variables which are highly correlated tends to overemphasize a particular component of the model, as the component is essentially being double counted.

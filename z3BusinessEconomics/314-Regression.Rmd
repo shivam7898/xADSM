@@ -72,7 +72,7 @@ The \textcolor{pink}{least squares method} is a procedure for using sample data 
 ## Coefficient of Determination
 
 ```{definition 'Residuals'}
-The deviations of the y values about the estimated regression line are called \textcolor{pink}{residuals}. The $i^{\text{th}}$ residual represents the error in using (predicted) $\hat{y}_i$ to estimate (observed) $y_i$.
+The deviations of the y values about the estimated regression line are called \textcolor{pink}{residuals}. The $i^{\text{th}}$ residual represents the error in using (predicted) $\hat{y}_i$ to estimate (observed) $y_i$. i.e. $\text{Residual}_i =  y_i - \hat{y}_i$
 ```
 
 - For the $i^{\text{th}}$ observation, the difference between the observed value of the dependent variable, $y_i$, and the predicted value of the dependent variable, $\hat{y}_i$, is called the \textcolor{pink}{$i^{\text{th}}$ residual}. 

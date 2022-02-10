@@ -1,4 +1,4 @@
-# WIP (B28, Jan-16) {#b28}
+# Linear Regression (B28, Jan-16) {#b28}
 
 ```{r 'B28', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -11,24 +11,43 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Machine learning using linear regression"
+- Refer [Bias-Variance Trade-off](#bias-var-c37 "c37")
 
-```{r 'B28-namesXL', include=FALSE, eval=FALSE}
-# #Object Names for each sheet
-namesXL <- c("xxB26Hdesc", "xxB26Hraw", "xxB26Hmod")
+```{r 'B28D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Bias-Variance-Trade-off")
 ```
 
-```{r 'B28-ImportData', include=FALSE, eval=FALSE}
-for(ii in seq_along(namesXL)){
-  assign(namesXL[ii], readRDS(paste0(.z$XL, namesXL[ii], ".rds")))
-}
+```{r 'B28D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Coefficient-of-Determination") 
 ```
 
-```{r 'B28-getKC', include=FALSE, eval=FALSE}
-# #Load Data: KC House
-xxB26KC <- f_getRDS(xxB26KC)
-bb <- aa <- xxB26KC
+```{r 'B28D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Overfitting")
 ```
 
+```{r 'B28D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Underfitting")
+```
+
+```{r 'B28P01', echo=FALSE, ref.label=c('C37P01'), fig.cap="(C37P01) Bias-Variance Trade-off"}
+# #Ref another file chunk
+```
+
+```{r 'B28D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Residuals")
+```
+
+```{r 'B28D06', comment="", echo=FALSE, results='asis'}
+f_getDef("RSq-Adj")
+```
+
+```{r 'B28D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Multicollinearity")
+```
+
+```{r 'B28D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Principle-of-Parsimony") #iiii
+```
 
 ## WIP
 

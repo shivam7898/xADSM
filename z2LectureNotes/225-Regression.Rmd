@@ -318,17 +318,21 @@ f_getDef("RSq-Adj")
   - Partition should be done randomly, otherwise no limitation.
 
 
-## Bias-Variance Tradeoff
+## Bias-Variance Trade-off
 
-- Refer [Bias-Variance Tradeoff](#bias-var-c37 "c37")
+- Refer [Bias-Variance Trade-off](#bias-var-c37 "c37")
 
 
 ```{r 'B25D10', comment="", echo=FALSE, results='asis'}
-f_getDef("Bias-variance-Trade-off")
+f_getDef("Bias-Variance-Trade-off")
 ```
 
 ```{r 'B25D11', comment="", echo=FALSE, results='asis'}
 f_getDef("Overfitting")
+```
+
+```{r 'B25P03', echo=FALSE, ref.label=c('C37P01'), fig.cap="(C37P01) Bias-Variance Trade-off"}
+# #Ref another file chunk
 ```
 
 ## Categorical Independent Variables
