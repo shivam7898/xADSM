@@ -87,13 +87,17 @@ f_getDef("Principle-of-Parsimony")
   - Ridge Regression $(L_2) : \lambda_R \displaystyle \sum_{j=1}^{p} \beta_j^2$
   - Lasso Regression $(L_1) : \lambda_L \displaystyle \sum_{j=1}^{p} |\beta_j|$
     - LASSO i.e. Least Absolute Shrinkage and Selection Operator
-  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \alpha \beta_j^2 + \left ( 1 - \alpha \right ) |\beta_j| \right )$
+  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
     - $\alpha = 0 : \lambda_E \to \lambda_L$
     - $\alpha = 1 : \lambda_E \to \lambda_R$
-    - The elastic-net selects variables like the lasso, and shrinks together the coefficients of correlated predictors like ridge.
-- \textcolor{orange}{Caution:} Professor showed the equation with multipliers interchanged $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
-    - Overall exaplanation is not changed only the effect of ${\alpha}$ being 0 and 1 has been reversed
+    - The Elastic Net selects variables like the Lasso, and shrinks together the coefficients of correlated predictors like Ridge.
+    - "ForLater" Book shows the equation with multipliers interchanged 
+      - Overall exaplanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
+  - $\{\alpha, \lambda\}$ are sometimes called \textcolor{pink}{hyperparameters}
 
+- train() with method = "glmnet" is used for all 3
+  - Ridge $(\alpha = 0)$, Lasso $(\alpha = 1)$, Elastic Net $(\alpha \in \{0, 1\})$
+  
 ## Cross-validation
 
 ```{r 'B28D10', comment="", echo=FALSE, results='asis'}
@@ -251,6 +255,7 @@ names(stp_xsyw$coefficients)
   - Parameters for train()
 - \textcolor{pink}{train()}
   - For Cross-validation
+  - tuneGrid : To pass parameters (\textcolor{pink}{hyperparameters}) to the regression i.e. $\{\alpha, \lambda\}$
   - Note: Train Set was passed to it not the full set.
   - Output
     - Rsquared is the average $R^2$ across all models 
@@ -329,13 +334,14 @@ mod_cv$coefnames
 set.seed(3)
 custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 mod_ridge <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
-    tuneGrid = expand.grid(alpha = 0, lambda = seq(from = 0.1, to = 1, length.out = 10)))
+    tuneGrid = expand.grid(alpha = 0, 
+                           lambda = seq(from = 0.1, to = 1, length.out = 10)))
 #
-mod_ridge$results
+# #Sample Subset of Results
+mod_ridge$results %>% as_tibble() %>% slice_sample(n = 5)
 #
-mod_ridge
-#
-summary(mod_ridge)
+# #Best Tuned Model
+mod_ridge$results %>% as_tibble() %>% filter(lambda == mod_ridge$bestTune$lambda)
 ```
 
 ```{r 'B28-TrainModel-Plot', include=FALSE}
@@ -371,7 +377,7 @@ knitr::include_graphics(paste0(.z$PX, "B28P04", "-Boston-Ridge-Lambda", ".png"))
 hh <- mod_ridge$finalModel
 #
 cap_hh <- "B28P05"
-ttl_hh <- "Boston: Ridge Final Model"
+ttl_hh <- "Boston: Ridge Trace Plot of Final Model"
 loc_png <- paste0(.z$PX, "B28P05", "-Boston-Ridge-Model", ".png")
 #
 if(!file.exists(loc_png)) {
@@ -392,7 +398,7 @@ knitr::include_graphics(paste0(.z$PX, "B28P05", "-Boston-Ridge-Model", ".png"))
 ```
 
 
-```{r 'B28P0405', echo=FALSE, ref.label=c('B28P04', 'B28P05'), fig.cap="(B28P04 B28P05) Boston Housing Lambda and Model"}
+```{r 'B28P0405', echo=FALSE, ref.label=c('B28P04', 'B28P05'), fig.cap="(B28P04 B28P05) Boston Ridge Lambda and Trace Plot of Final Model"}
 # 
 ```
 
@@ -403,8 +409,7 @@ hh <- mod_ridge
 #plot(varImp(hh, scale = TRUE))
 #
 cap_hh <- "B28P06"
-ttl_hh <- "Boston: Variable Importance Plot"
-loc_png <- paste0(.z$PX, "B28P06", "-Boston-Vars", ".png")
+ttl_hh <- "Boston: Ridge Variable Importance Plot"
 #
 B28 <- hh %>% { ggplot(varImp(., scale = TRUE)) + 
 	  labs(caption = cap_hh, title = ttl_hh)
@@ -414,14 +419,14 @@ rm(B28)
 ```
 
 ```{r 'B28P06-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B28P06", "-Boston-Vars", ".png")
+loc_png <- paste0(.z$PX, "B28P06", "-Boston-Ridge-Vars", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B28P06, device = "png", dpi = 144) 
 }
 ```
 
-```{r 'B28P06', echo=FALSE, fig.cap="(B28P06) Boston: Variable Importance Plot"}
-knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Vars", ".png"))
+```{r 'B28P06', echo=FALSE, fig.cap="(B28P06) Boston: Ridge Variable Importance Plot"}
+knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Ridge-Vars", ".png"))
 ```
 
 
@@ -432,7 +437,7 @@ knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Vars", ".png"))
 #
 ```
 
-### Code Model {.unlisted .unnumbered}
+### Code Trace Plot {.unlisted .unnumbered}
 
 ```{r 'B28P05-Save-A', eval=FALSE, ref.label=c('B28P05-Save')}
 #

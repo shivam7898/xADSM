@@ -1359,7 +1359,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll, c32churn, xxB16Cars, xxB18Churn, brk_bb, hh, i
           zsyl, C34P02, mm, nn, oo, zsyw, c_xsyw, C34P03, C34P04, xl, xsyw, xw, zl, zw, c_zsyw, 
           labels_hh, C34P05, C34P06, pca_zw, y_hh, C34P07, C34P08, pca_eigen, com_ii, com_jj,
           eigen_pca, load_pca, psy_zw, rec_ii, rec_jj, sd_pca, swp_ii, swp_jj, vv, adl_fa, adl_xl,
-          adl_xsyw, adl_xw, adl_zl, adl_zsyw, adl_zw, bartsph, xxC34Adult)
+          adl_xsyw, adl_xw, adl_zl, adl_zsyw, adl_zw, bartsph, xxC34Adult, ii_num, jj_chr)
 ```
 
 ```{r 'C34-Validation', include=FALSE, cache=FALSE}

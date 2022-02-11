@@ -11,33 +11,37 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Ridge, Lasso and Elastic Net regressions"
-- Paused 58:00
 
-## Review
+
+## Review  {.tabset .tabset-fade}
 
 - Discussion continued from previous lecture from Ridge Regression onwards on the [Data: Boston Housing](#set-boston-b28 "b28")
 
-## Regularised Regression 
+### Regularised Regression {.unlisted .unnumbered}
 
 - 3 Approaches of Regularised Regression
   - Ridge Regression $(L_2) : \lambda_R \displaystyle \sum_{j=1}^{p} \beta_j^2$
   - Lasso Regression $(L_1) : \lambda_L \displaystyle \sum_{j=1}^{p} |\beta_j|$
     - LASSO i.e. Least Absolute Shrinkage and Selection Operator
-  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \alpha \beta_j^2 + \left ( 1 - \alpha \right ) |\beta_j| \right )$
+  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
     - $\alpha = 0 : \lambda_E \to \lambda_L$
     - $\alpha = 1 : \lambda_E \to \lambda_R$
-    - The elastic-net selects variables like the lasso, and shrinks together the coefficients of correlated predictors like ridge.
-  - \textcolor{orange}{Caution:} Professor explained with the equation having interchanged multipliers i.e. $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
-    - Overall exaplanation is not changed only the effect of ${\alpha}$ being 0 and 1 has been reversed
+    - The Elastic Net selects variables like the Lasso, and shrinks together the coefficients of correlated predictors like Ridge.
+    - "ForLater" Book shows the equation with multipliers interchanged 
+      - Overall exaplanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
+  - $\{\alpha, \lambda\}$ are sometimes called \textcolor{pink}{hyperparameters}
 
-## Previous Lecture Code
+- train() with method = "glmnet" is used for all 3
+  - Ridge $(\alpha = 0)$, Lasso $(\alpha = 1)$, Elastic Net $(\alpha \in \{0, 1\})$
+
+### Previous Lecture Code {.unlisted .unnumbered}
 
 ```{r 'B29-GetBoston', include=FALSE, ref.label=c('B28-Boston', 'B28-BostonPart', 'B28-BostonLm', 'B28-TrainControl', 'B28-Ridge')}
 #
 ```
 
 
-```{r 'B29-GetBostonKnit', eval=TRUE}
+```{r 'B29-GetBostonKnit', eval=FALSE}
 data("BostonHousing")
 xsyw <- bb <- aa <- as_tibble(BostonHousing)
 xw <- xsyw %>% select(-medv)
@@ -66,175 +70,400 @@ mod_cv <- train(medv ~ ., train_xsyw, method = "lm", trControl = custom)
 set.seed(3)
 custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 mod_ridge <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
-    tuneGrid = expand.grid(alpha = 0, lambda = seq(from = 0.1, to = 1, length.out = 10)))
+    tuneGrid = expand.grid(alpha = 0, 
+                           lambda = seq(from = 0.1, to = 1, length.out = 10)))
+```
+
+## Lasso Regression (L1)
+
+```{r 'B29-Lasso'}
+# #Lasso Regression i.e. alpha = 1, lambda = (0, Inf)
+set.seed(3)
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+mod_lasso <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
+    tuneGrid = expand.grid(alpha = 1, 
+                           lambda = seq(from = 0.001, to = 0.01, length.out = 10)))
+#
+# #Sample Subset of Results
+mod_lasso$results %>% as_tibble() %>% slice_sample(n = 5)
+#
+# #Best Tuned Model
+mod_lasso$results %>% as_tibble() %>% filter(lambda == mod_lasso$bestTune$lambda)
 ```
 
 
-## 28 WIP
+```{r 'B29-TrainLasso-Plot', include=FALSE}
+# #Plot Lambda
+hh <- mod_lasso
+#plot(hh)
+#
+cap_hh <- "B29P04"
+ttl_hh <- "Boston: Lasso Lambda vs RMSE"
+#
+B29 <- hh %>% { ggplot(., highlight = TRUE) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B29)
+rm(B29)
+```
 
-```{r 'B28-7', include=FALSE, eval=FALSE}
-#LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
-set.seed(1234)
+```{r 'B29P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B29P04", "-Boston-Lasso-Lambda", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B29P04, device = "png", dpi = 144) 
+}
+```
 
-lasso <- train (medv~., train, method = "glmnet",
-                tuneGrid = expand.grid(alpha = 1, lambda = seq(0.0001, 1, length = 5)), 
-                trControl = custom)
-#lasso
-#plot(lasso)
-#plot(varImp(lasso, scale = TRUE))
+```{r 'B29P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P04", "-Boston-Lasso-Lambda", ".png"))
+```
+
+```{r 'B29-VarImportance-Lasso', include=FALSE}
+# #Variable Importance Plot
+hh <- mod_lasso
+#plot(varImp(hh, scale = TRUE))
+#
+cap_hh <- "B29P05"
+ttl_hh <- "Boston: Lasso Variable Importance Plot"
+#
+B29 <- hh %>% { ggplot(varImp(., scale = TRUE)) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B29)
+rm(B29)
+```
+
+```{r 'B29P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B29P05", "-Boston-Lasso-Vars", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B29P05, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B29P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P05", "-Boston-Lasso-Vars", ".png"))
 ```
 
 
-```{r 'B28-8', include=FALSE, eval=FALSE}
-#ELASTIC NET REGRESSION
-set.seed (1234)
+```{r 'B29P03-Save', include=FALSE}
+# #Plot Coefficients
+hh <- mod_lasso$finalModel
+#
+cap_hh <- "B29P03"
+ttl_hh <- "Boston: Lasso Trace Plot of Final Model"
+loc_png <- paste0(.z$PX, "B29P03", "-Boston-Lasso-Model", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh, xvar = "lambda", label = TRUE, ylim = c(-5, 5))
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B29 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B29)
+  rm(B29)
+}
+```
 
-elastic <- train (medv~., train, method = "glmnet", 
-                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-                                         lambda = seq(0.0001, 1, length = 5)), trControl = custom)
-#plot(elastic)
-#elastic <- train (medv~., train, method = "glmnet", 
-#                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-#                                         lambda = seq(0.0001, 0.2, length = 5)),
-#                  trControl = custom)
+```{r 'B29P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P03", "-Boston-Lasso-Model", ".png"))
+```
 
-#elastic
-#varImp(elastic)
-#plot(varImp(elastic))
+## Elastic Net
+
+```{r 'B29-Elastic'}
+# #Elastic Net Regression i.e. alpha = [0, 1], lambda = (0, Inf)
+set.seed(3)
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+mod_enet <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
+    tuneGrid = expand.grid(alpha = seq(from = 0.001, to = 0.01, length.out = 10), 
+                           lambda = seq(from = 0.02, to = 0.2, length.out = 10)))
+#
+# #Sample Subset of Results
+mod_enet$results %>% as_tibble() %>% slice_sample(n = 5)
+#
+# #Best Tuned Model
+mod_enet$results %>% as_tibble() %>% 
+  filter(alpha == mod_enet$bestTune$alpha & lambda == mod_enet$bestTune$lambda)
 ```
 
 
-```{r 'B28-9', include=FALSE, eval=FALSE}
-## COMPARE THE MODEL
-modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
-compare <- resamples(modellist)
-#summary(compare)
+```{r 'B29-TrainEnet-Plot', include=FALSE}
+# #Plot Lambda
+hh <- mod_enet
+#plot(hh)
+#
+cap_hh <- "B29P06"
+ttl_hh <- "Boston: Elastic Net Lambda vs RMSE"
+#
+B29 <- hh %>% { ggplot(., highlight = TRUE) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B29)
+rm(B29)
+```
+
+```{r 'B29P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B29P06", "-Boston-Elastic-Lambda", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B29P06, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B29P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P06", "-Boston-Elastic-Lambda", ".png"))
+```
+
+```{r 'B29-VarImportance-Enet', include=FALSE}
+# #Variable Importance Plot
+hh <- mod_enet
+#plot(varImp(hh, scale = TRUE))
+#
+cap_hh <- "B29P07"
+ttl_hh <- "Boston: Elastic Net Importance Plot"
+#
+B29 <- hh %>% { ggplot(varImp(., scale = TRUE)) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B29)
+rm(B29)
+```
+
+```{r 'B29P07-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B29P07", "-Boston-Elastic-Vars", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B29P07, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B29P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P07", "-Boston-Elastic-Vars", ".png"))
 ```
 
 
-```{r 'B28-10', include=FALSE, eval=FALSE}
-## BEST MODEL
-ridge$bestTune
-lasso$bestTune
-elastic$bestTune
+```{r 'B29P08-Save', include=FALSE}
+# #Plot Coefficients
+hh <- mod_enet$finalModel
+#
+cap_hh <- "B29P08"
+ttl_hh <- "Boston: Elastic Net Trace Plot of Final Model"
+loc_png <- paste0(.z$PX, "B29P08", "-Boston-Elastic-Model", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh, xvar = "lambda", label = TRUE, ylim = c(-5, 5))
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B29 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B29)
+  rm(B29)
+}
+```
+
+```{r 'B29P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B29P08", "-Boston-Elastic-Model", ".png")) #iiii
 ```
 
 
-```{r 'B28-11', include=FALSE, eval=FALSE}
-## to examine the coefficients
-best <-elastic$finalModel
-coef(best, s = elastic$bestTune$lambda)
+## Variable Importance
+
+```{r 'B29P05-A', echo=FALSE, ref.label=c('B28P06', 'B29P05'), fig.cap="(B28P06, B29P05) Boston: Variable Importance Plot of Ridge vs Lasso"}
+#
 ```
 
 
-```{r 'B28-12', include=FALSE, eval=FALSE}
-#saveRDS(elastic, "finalmodel.rds")
-#final <-readRDS("finalmodel.rds")
-#print(final)
-final <- elastic
+- \textcolor{pink}{Question:} Now we have identified some variables as having low influence (importance) on model. Should we exclude these variables and run the algorithm again
+  - Yes
+- \textcolor{pink}{Question:} And if we remove the variables with low influence, would the collinearity be reduced
+  - If the collinearity is a severe issue, the penalty parameters would suppress that accordignly
+  - Ridge is generally treated as a model for shrinkage only
+  - Lasso is generally treated as a model for shrinkage and deletion (of low importance)
+    - So Lasso helps in feature selection
+
+- \textcolor{pink}{Question:} Did the Lasso helped us here in feature selection
+  - If we use Lasso for something then the variables with low importance would not influence the model
+  - "ForLater" (Aside) It does not look like that Lasso did any feature selection compared to Ridge
+
+- \textcolor{pink}{Question:} Does it mean that by using Lasso, we can remove the independent variables with low influence /importance and then rerun the analysis to create a model
+  - No, we do not need to rerun the analysis. We have the model which is not being affected by those variables. 
+
+- \textcolor{pink}{Question:} But, in Lasso, example variable 'b' does appear in the graph but it is not included in model
+  - Effectively it would not be considered by the Model 
+
+- \textcolor{pink}{Question:} If we do not remove the variables having low influence, then what is the use of identifying those variables
+  - In stepwise regression, the variables which do not have any influence on the Model are dropped.
+  - Similarly, in Lasso, effect of those variables would not be present when we apply this model for prediction.
+  
+- \textcolor{pink}{Question:} Can we do processing like run Lasso, findout that 'b' is not important, drop the 'b' from original dataset and then run either ridge or linear regression
+  - Yes
+
+- \textcolor{pink}{Question:} The dependent variable, medv i.e.	'median value of owner-occupied homes in USD 1000', has median value of 21.2. The model has RMSE of 4.7 which is 22% of the median value of the dependent variable. Is this model a good model
+  - We have applied Linear Regression, Ridge, Lasso, Elastic Net algorthms on the dataset. Later we will apply Decision Trees, Random forest etc. Then we will select one of the model.
+
+- \textcolor{pink}{Question:} Is there any benchmark for good model e.g. 90% Y explained etc.
+  - No, generally we compare across algorithms for a particular loss function
+  - Then we select the algorithm /model which provides the lowest loss function
+  
+
+## Coefficients
+
+```{r 'B29P03-A', echo=FALSE, ref.label=c('B28P05', 'B29P03'), fig.cap="(B28P05, B29P03) Boston: Trace Plot of Ridge vs Lasso"}
+#
 ```
 
 
-```{r 'B28-13', include=FALSE, eval=FALSE}
-##### PREDICTION
-P1<- predict(final, train)
-sqrt(mean((train$medv-P1)^2))
+- As the $\log(\lambda)$ increases, penalisation increases
+  - It shows the effect of penalisation on all variables
+    - Highly Negative: 5 (nox)
+    - Highly Positive: 6 (rm), 4 (chas)
 
 
-P2<- predict(final, test)
-sqrt(mean((test$medv-P2)^2))
+- \textcolor{pink}{Question:} In the image, 2nd x-axis at the Top shows consistent 13 across 
+  - There are 13 independent variables. In Ridge, none of the variables are eliminated. In Lasso, situation would be different
+  
+- \textcolor{pink}{Question:} "ForLater" These 3 are the variables which are at the top of the list of importance. What is the explanation 
 
-P2<- predict(linear, test)
-sqrt(mean((test$medv-P2)^2))
+  
+- \textcolor{pink}{Question:} "ForLater" If the plot shows $\log(\lambda)$ then why it is showing x-axis labels as 0-8 because professor supplied 5 values of lambda and all were less than 1. I supplied 10 values of lambda and all were less than 1. Log should be negative for all values less than 1.
+  - These might be having extrapolated $\log(\lambda)$
+ 
+
+```{r 'B29-CoefficientsCompare'}
+# #Coefficients
+# #Check whether the number of coefficients are same between the two models
+ii <- names(mod_cv$finalModel$coefficients)
+jj <- rownames(coef(mod_ridge$finalModel, s = mod_ridge$bestTune$lambda))
+stopifnot(identical(ii, jj))
+#
+# #Get Coefficients of CV lm model
+bb <- mod_cv
+ii <- bb$finalModel$coefficients
+#
+# #Get Coefficients of Best Ridge Model | Sparse Matrix | Matrix | Tibble
+bb <- mod_ridge
+jj <- coef(bb$finalModel, s = bb$bestTune$lambda) %>% 
+  as.matrix() %>% as_tibble(rownames = "DummyParVsRef") %>% rename(mod_ridge = s1)
+#
+# #Merge Named Vector into the Tibble by matching names to a column
+jj$mod_cv <- ii[jj$DummyParVsRef]
+#
+# #Get Coefficients of Best Lasso Model
+bb <- mod_lasso
+kk <- coef(bb$finalModel, s = bb$bestTune$lambda) %>% 
+  as.matrix() %>% as_tibble(rownames = "DummyParVsRef") %>% rename(mod_lasso = s1)
+ll <- full_join(jj, kk, by = "DummyParVsRef")
+#
+# #Get Coefficients of Best Elastic Net Model
+bb <- mod_enet
+mm <- coef(bb$finalModel, s = bb$bestTune$lambda) %>% 
+  as.matrix() %>% as_tibble(rownames = "DummyParVsRef") %>% rename(mod_enet = s1)
+nn <- full_join(ll, mm, by = "DummyParVsRef")
+#
+coef_mods <- nn
 ```
 
 
-## WIP
+## Comparison of Models
 
+### Coefficients
 
-
-```{r 'B29-7', include=FALSE, eval=FALSE}
-#LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
-set.seed(1234)
-
-lasso <- train (medv~., train, method = "glmnet",
-                tuneGrid = expand.grid(alpha = 1, lambda = seq(0.0001, 1, length = 5)), 
-                trControl = custom)
-#lasso
-#plot(lasso)
-#plot(varImp(lasso, scale = TRUE))
+```{r 'B29T01', echo=FALSE}
+# #Print Kable Table
+hh <- coef_mods %>% 
+  mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  mutate(across(where(is.numeric), format, digits = 3, drop0trailing = TRUE)) 
+#
+cap_hh <- paste0("(B29T01)", "Boston: Coefficients of CV, Ridge, Lasso, Elastic Net") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 ```
 
 
-```{r 'B29-8', include=FALSE, eval=FALSE}
-#ELASTIC NET REGRESSION
-set.seed (1234)
 
-elastic <- train (medv~., train, method = "glmnet", 
-                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-                                         lambda = seq(0.0001, 1, length = 5)), trControl = custom)
-#plot(elastic)
-#elastic <- train (medv~., train, method = "glmnet", 
-#                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-#                                         lambda = seq(0.0001, 0.2, length = 5)),
-#                  trControl = custom)
+### Results
 
-#elastic
-#varImp(elastic)
-#plot(varImp(elastic))
+```{r 'B29-ModelResults'}
+#mod_xsyw
+#stp_xsyw
+mod_cv$results
+#
+mod_ridge$results %>% as_tibble() %>% filter(lambda == mod_ridge$bestTune$lambda)
+#
+mod_lasso$results %>% as_tibble() %>% filter(lambda == mod_lasso$bestTune$lambda)
+#
+mod_enet$results %>% as_tibble() %>% 
+  filter(alpha == mod_enet$bestTune$alpha & lambda == mod_enet$bestTune$lambda)
+```
+
+### Resample
+
+```{r 'B29-Resample'}
+# #Resample the Models for Comparison
+mods <- list(mod_cv = mod_cv, mod_ridge = mod_ridge, mod_lasso = mod_lasso, mod_enet = mod_enet)
+#
+# #Resample all Models with common dataset (subset of original data)
+# #Number of Resamples = 50 i.e. 50 sets will be created with 'random sampling with replacement'
+res_mods <- resamples(mods)
+summary(res_mods)
+```
+
+### Tuning Parameters
+
+```{r 'B29-BestTune'}
+mod_cv$bestTune
+mod_ridge$bestTune
+mod_lasso$bestTune
+mod_enet$bestTune
+```
+
+### The Best
+
+```{r 'B26-BestModel'}
+# #Examine Coefficients
+coef(mod_enet$finalModel, s = mod_enet$bestTune$lambda)
 ```
 
 
-```{r 'B29-9', include=FALSE, eval=FALSE}
-## COMPARE THE MODEL
-modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
-compare <- resamples(modellist)
-#summary(compare)
+```{r 'B29P0608', echo=FALSE, ref.label=c('B29P06', 'B29P08'), fig.cap="(B29P06 B29P08) Boston Elastic Net Lambda and Trace Plot of Final Model"}
+#
 ```
 
+### Save Model
 
-```{r 'B29-10', include=FALSE, eval=FALSE}
-## BEST MODEL
-ridge$bestTune
-lasso$bestTune
-elastic$bestTune
+```{r 'B29-SaveModel'}
+# #Save Model as Rds File
+if(FALSE) saveRDS(mod_enet, "xxB29-mod-enet.rds")
+if(FALSE) mod_best <- readRDS("xxB29-mod-enet.rds")
 ```
 
+## Predict
 
-```{r 'B29-11', include=FALSE, eval=FALSE}
-## to examine the coefficients
-best <-elastic$finalModel
-coef(best, s = elastic$bestTune$lambda)
+```{r 'B29-Predict'}
+# #Apply Same Transformation on Test Data (except the Actual Y)
+#
+res_enet <- test_xsyw %>% 
+  mutate(CalY = predict(mod_enet, .), Y_Yc = medv - CalY)
+#
+summary(res_enet$Y_Yc)
+#
+# #RMSE: Root Mean Squared Error
+sqrt(mean((res_enet$Y_Yc)^2))
+#
+# #MAE: Mean Absolute Error (MAE)
+mean(abs(res_enet$Y_Yc))
 ```
-
-
-```{r 'B29-12', include=FALSE, eval=FALSE}
-#saveRDS(elastic, "finalmodel.rds")
-#final <-readRDS("finalmodel.rds")
-#print(final)
-final <- elastic
-```
-
-
-```{r 'B29-13', include=FALSE, eval=FALSE}
-##### PREDICTION
-P1<- predict(final, train)
-sqrt(mean((train$medv-P1)^2))
-
-
-P2<- predict(final, test)
-sqrt(mean((test$medv-P2)^2))
-
-P2<- predict(linear, test)
-sqrt(mean((test$medv-P2)^2))
-```
-
-
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B29-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, ff, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, namesXL)
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, B29P04, B29P05, B29P06, B29P07, BostonHousing, cap_hh, 
+          coef_mods, custom, dum_xsyw, hh, idx_xsyw, loc_png, mm, mod_cv, mod_enet, mod_lasso, 
+          mod_ridge, mod_xsyw, mods, nn, res_enet, res_mods, stp_xsyw, test_xsyw, train_xsyw, 
+          ttl_hh, xsyw, xw, zw)
 ```
 
 ```{r 'B29-Validation', include=FALSE, cache=FALSE}
