@@ -26,7 +26,7 @@ xw <- aa %>% mutate(across(everything(), factor, levels = c("No", "Yes")))
 ```
 
 ```{r 'B24-AddRed', include=FALSE, eval=FALSE}
-# #Tibble excluding Redundant Rules #IN: rules Out: hh, pruned_tbl #xxx2
+# #Tibble excluding Redundant Rules #IN: rules Out: hh, pruned_tbl 
 # #Rules | DataFrame | Tibble | Rename | TitleCase | Add Columns | Filter | Drop | SN | Relocate |
 pruned_tbl <- DATAFRAME(rules) %>% as_tibble() %>% 
   rename(LHS_Antecedent = LHS, RHS_Consequent = RHS) %>% 
@@ -116,7 +116,7 @@ f_getDef("A-Priori-Property") #dddd
 ### Yes LHS Only {.unlisted .unnumbered}
 
 ```{r 'B24-Rules-1', results='hide'}
-# #RHS: "Foundation=Yes" #xxx1
+# #RHS: "Foundation=Yes" 
 # #LHS: All Yes Only 
 rr_sup <- 0.1
 rr_conf <- 0.5
@@ -139,7 +139,7 @@ hh <- rules
 ```
 
 ```{r 'B24-SetpRules-1', include=FALSE}
-#hh <- hh #Printable Kable Table from Rules #xxx3
+#hh <- hh #Printable Kable Table from Rules 
 names_hh <- names(hh)
 cap_hh <- paste0("(B24T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf, 
                   " Excluding Redundant (Lift) & Sorted (Lift) gives Rules = ", nrow(hh))
@@ -156,7 +156,7 @@ cap_hh <- paste0("(B24T01) ", "Support = ", rr_sup, " & Confidence = ", rr_conf,
 ```
 
 ```{r 'B24-Prune'}
-# #Sort and Subset are available for Rules (Similar to above) #xxx4
+# #Sort and Subset are available for Rules (Similar to above)
 ii <- rules[!isRedLift]
 pruned <- sort(ii, by = "lift")
 inspect(pruned)
@@ -175,6 +175,8 @@ quality(pruned)
 - If the error occurs while using plot() or if the resultant png is blank, it might be a ggplot object rather than Base R. 
 - Try to use ggplot commands including ggsave() on it.
 - OR if it is actually a base R plot, add \textcolor{pink}{plot.new()} before calling plot()
+- OR it might be lattice plot object
+  - Check the class of the object, check its plotting method, check if the exported or internal plotting method has a ggplot equivalent
 
 ```{conjecture 'non-numeric-argument'}
 \textcolor{brown}{Error in plot(...) : non-numeric argument to binary operator}

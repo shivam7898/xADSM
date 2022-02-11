@@ -363,6 +363,7 @@ loc_png <- paste0(.z$PX, "B26P02", "-CarDekho-corrplot-Corrplot-z", ".png")
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
+  #dev.control('enable') 
   corrplot::corrplot(hh, method = "circle", type = "lower", diag = FALSE, 
                    cl.pos = 'n', tl.pos = 'ld', addCoef.col = "black", 
                    p.mat = corr_hh$p, sig.level = 0.05, insig = 'blank', 
@@ -390,8 +391,9 @@ ttl_hh <- "CarDekho: psych: Corrplot of Dummies (Scaled)"
 loc_png <- paste0(.z$PX, "B26P03", "-CarDekho-Psych-Corrplot-z", ".png")
 #
 #
-if(!file.exists(loc_png)|TRUE) {#xxxx
+if(!file.exists(loc_png)) {
   png(filename = loc_png) 
+  #dev.control('enable') 
   psych::corPlot(hh$r, pval = hh$p, upper = FALSE, diag = FALSE, show.legend = TRUE, 
                  xlas = 2, cex = 0.6,
                  #keep.par = FALSE, 

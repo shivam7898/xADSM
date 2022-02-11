@@ -1495,6 +1495,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png")
 # #IN: hh, cap_hh, ttl_hh, loc_png
 if(!file.exists(loc_png)) {
   png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
+  #dev.control('enable') 
   pairs.panels(hh[2:ncol(hh)], smooth = FALSE, jiggle = TRUE, rug = FALSE, ellipses = FALSE, 
                bg = rev(viridis(2))[hh$Target], pch = 21, lwd = 1, cex.cor = 1, cex = 1, 
                gap = 0, main = ttl_hh)
@@ -1803,6 +1804,7 @@ loc_png <- paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png")
 if(!file.exists(loc_png)) {
   # #Two Graphs Side by Side
   png(filename = loc_png, width = k_width, height = k_height, units = "in", res = 144) 
+  #dev.control('enable') 
   # #Correlation along with Clusters
   par(mfrow = c(1, 2))
   corrplot::corrplot(cor(hh[2:ncol(hh)]), method = "circle", type = "full", diag = FALSE, 

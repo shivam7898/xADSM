@@ -68,7 +68,7 @@ The \textcolor{pink}{ridge regression estimator} proposes to replace $\underset{
 
 - For small $\lambda$, the variance of the ridge estimator dominates the MSE. 
 - For large $\lambda$, the variance vanishes and the bias dominates the MSE. 
-- For small enough values of $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
+- For small enough values of $\lambda$, with increse in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
   - As the MSE is the sum of these two, the MSE first decreases as $\lambda$ moves away from zero and then increases.
   - In particular, $\lambda = 0$ corresponds to the ML regression estimator.
   - More noisy data benefits the ridge regression estimator
@@ -91,15 +91,11 @@ The \textcolor{pink}{ridge regression estimator} proposes to replace $\underset{
   - Penalty parameter $\lambda$ should not be too close to zero to avoid illconditioned matrix
   - Practically plot a conditional numbers for different $\lambda$ and then choose the optimum one.
 
-## k-fold Crossvalidation
+## Cross-validation
 
-Cross-validation requires it (i.e. the penalty parameter) to yield a model with good prediction performance. Commonly, this performance is evaluated on novel data. Novel data need not be easy to come by and one has to make do with the data at hand. 
-
-The setting of 'original' and novel data is then mimicked by sample splitting: the data set is divided into two (groups of samples). One of these two data sets, called the training set, plays the role of 'original' data on which the model is built. 
-
-The second of these data sets, called the test set, plays the role of the 'novel' data and is used to evaluate the prediction performance (often operationalized as the loglikelihood or the prediction error) of the model built on the training data set. 
-
-This procedure (model building and prediction evaluation on training and test set, respectively) is done for a collection of possible penalty parameter choices. The penalty parameter that yields the model with the best prediction performance is to be preferred. 
+- Two-fold cross-validation
+  - Model building and prediction evaluation on training and test set, respectively, is done for a collection of possible penalty parameter choices. 
+  - The penalty parameter that yields the model with the best prediction performance is to be preferred. 
 
 \textcolor{pink}{The thus obtained performance evaluation depends on the actual split of the data set.}
 
@@ -111,6 +107,7 @@ To avoid this \textcolor{pink}{k-fold cross-validation} structures the data spli
 
 - The samples are divided into 'k' more or less equally sized exhaustive and mutually exclusive subsets. In turn (at each split) one of these subsets plays the role of the test set while the union of the remaining subsets constitutes the training set. 
   - Such a splitting warrants a balanced representation of each sample in both training and test set over the splits. 
+  - \textcolor{pink}{Still the division into the k subsets involves a degree of randomness.}
 
 - Not only the shape of the distribution, but also its moments are affected by the randomness of the penalty parameter. 
 

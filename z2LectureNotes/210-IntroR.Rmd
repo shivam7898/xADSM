@@ -56,7 +56,7 @@ loc_png <- paste0(.z$PX, "B10P01", "-Flights-Scatter-Arr-Dep", ".png")
 if(!file.exists(loc_png)) {
 # #Save Base Plot without using ggsave()
 png(filename = loc_png)
-# #Flights: Arrival Time (Y) vs. Departure (X) Time (Arrival Time is linked to Departure Time)
+#dev.control('enable') 
 plot(mydata$dep_time, mydata$arr_time)
 title("Flights", line = 2, adj = 0)
 title(sub="B10P01", line=4, adj = 1)

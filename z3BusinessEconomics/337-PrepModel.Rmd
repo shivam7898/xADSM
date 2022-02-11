@@ -53,9 +53,10 @@ An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a res
 ## Cross-validation
 
 ```{definition 'Cross-Validation'}
-\textcolor{pink}{Cross-validation} is a technique for insuring that the results uncovered in an analysis are generalizable to an independent, unseen, data set. 
+\textcolor{pink}{Cross-validation} is a technique for ensuring that the results uncovered in an analysis are generalizable to an independent, unseen, data set. Generally it is done either with two-fold (1-model) or k-fold (k-models). 
 ```
 
+- Cross-validation requires the model to show good prediction performance on 'novel' data.
 - In data mining, the most common methods are \textcolor{pink}{twofold} cross-validation and \textcolor{pink}{k-fold} cross-validation. 
   - In twofold cross-validation, the data are partitioned, using random assignment, into a training data set and a test data set. The test data set should then have the target variable omitted. Thus, the only systematic difference between the \textcolor{pink}{training data set} and the \textcolor{pink}{test data set} is that the training data includes the target variable and the test data does not. 
   - A provisional data mining model is then constructed using the training samples provided in the training data set.
@@ -63,11 +64,13 @@ An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a res
   - Therefore, the next step is to examine how the provisional model performs on a test set of data. In the test set the provisional model performs classification according to the patterns and structures it learned from the training set. 
   - The efficacy of the classifications is then evaluated by comparing them against the true values of the target variable. 
   - The provisional model is then adjusted to minimize the error rate on the test set.
+
 - We must insure that the training and test data sets are independent, by \textcolor{pink}{validating the partition}. 
   - By performing graphical and statistical comparisons between the two sets. 
   - For example, we may find that, even though the assignment of records was made randomly, a significantly higher proportion of positive values of an important flag variable were assigned to the training set, compared to the test set. This would bias our results.
   - It is especially important that the characteristics of the target variable be as similar as possible between the training and test data sets. 
   - Hypothesis tests for validating the target variable, based on the type of target variable: t-test (for difference in means), z-test (for difference in proportions), test for homogeneity of proportions
+
 - Cross-validation guards against spurious results, as it is highly unlikely that the same random variation would be found to be significant in both the training set and the test set.
 - In k-fold cross validation, the original data is partitioned into k independent and similar subsets. 
   - The model is then built using the data from k−1 subsets, using the ${k}^{\text{th}}$ subset as the test set. 

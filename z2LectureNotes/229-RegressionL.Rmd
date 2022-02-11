@@ -1,0 +1,247 @@
+# Linear Regression (B29, Jan-23) {#b29}
+
+```{r 'B29', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+## Overview
+
+- "Ridge, Lasso and Elastic Net regressions"
+- Paused 58:00
+
+## Review
+
+- Discussion continued from previous lecture from Ridge Regression onwards on the [Data: Boston Housing](#set-boston-b28 "b28")
+
+## Regularised Regression 
+
+- 3 Approaches of Regularised Regression
+  - Ridge Regression $(L_2) : \lambda_R \displaystyle \sum_{j=1}^{p} \beta_j^2$
+  - Lasso Regression $(L_1) : \lambda_L \displaystyle \sum_{j=1}^{p} |\beta_j|$
+    - LASSO i.e. Least Absolute Shrinkage and Selection Operator
+  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \alpha \beta_j^2 + \left ( 1 - \alpha \right ) |\beta_j| \right )$
+    - $\alpha = 0 : \lambda_E \to \lambda_L$
+    - $\alpha = 1 : \lambda_E \to \lambda_R$
+    - The elastic-net selects variables like the lasso, and shrinks together the coefficients of correlated predictors like ridge.
+  - \textcolor{orange}{Caution:} Professor explained with the equation having interchanged multipliers i.e. $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
+    - Overall exaplanation is not changed only the effect of ${\alpha}$ being 0 and 1 has been reversed
+
+## Previous Lecture Code
+
+```{r 'B29-GetBoston', include=FALSE, ref.label=c('B28-Boston', 'B28-BostonPart', 'B28-BostonLm', 'B28-TrainControl', 'B28-Ridge')}
+#
+```
+
+
+```{r 'B29-GetBostonKnit', eval=TRUE}
+data("BostonHousing")
+xsyw <- bb <- aa <- as_tibble(BostonHousing)
+xw <- xsyw %>% select(-medv)
+zw <- xw %>% mutate(across(where(is.numeric), ~ as.vector(scale(.)))) %>% 
+  mutate(across(chas, strtoi))
+#
+# #Partition Data
+set.seed(3)
+dum_xsyw <- xsyw
+idx_xsyw <- sample.int(n = nrow(dum_xsyw), size = floor(0.8 * nrow(dum_xsyw)), replace = FALSE)
+train_xsyw <- dum_xsyw[idx_xsyw, ] 
+test_xsyw  <- dum_xsyw[-idx_xsyw, ]
+#
+# #Linear Regression without any Cross-validation
+mod_xsyw <- lm(medv ~ ., data = train_xsyw)
+stp_xsyw <- step(mod_xsyw, direction = "backward", trace = 0)
+#
+set.seed(3)
+# #trainControl() To Set Custom Control Parameters for k=10, iteration = 5
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#
+# #train() can do the crossvalidation
+mod_cv <- train(medv ~ ., train_xsyw, method = "lm", trControl = custom)
+#
+# #Ridge Regression i.e. alpha = 0, lambda = (0, Inf)
+set.seed(3)
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+mod_ridge <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
+    tuneGrid = expand.grid(alpha = 0, lambda = seq(from = 0.1, to = 1, length.out = 10)))
+```
+
+
+## 28 WIP
+
+```{r 'B28-7', include=FALSE, eval=FALSE}
+#LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
+set.seed(1234)
+
+lasso <- train (medv~., train, method = "glmnet",
+                tuneGrid = expand.grid(alpha = 1, lambda = seq(0.0001, 1, length = 5)), 
+                trControl = custom)
+#lasso
+#plot(lasso)
+#plot(varImp(lasso, scale = TRUE))
+```
+
+
+```{r 'B28-8', include=FALSE, eval=FALSE}
+#ELASTIC NET REGRESSION
+set.seed (1234)
+
+elastic <- train (medv~., train, method = "glmnet", 
+                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
+                                         lambda = seq(0.0001, 1, length = 5)), trControl = custom)
+#plot(elastic)
+#elastic <- train (medv~., train, method = "glmnet", 
+#                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
+#                                         lambda = seq(0.0001, 0.2, length = 5)),
+#                  trControl = custom)
+
+#elastic
+#varImp(elastic)
+#plot(varImp(elastic))
+```
+
+
+```{r 'B28-9', include=FALSE, eval=FALSE}
+## COMPARE THE MODEL
+modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
+compare <- resamples(modellist)
+#summary(compare)
+```
+
+
+```{r 'B28-10', include=FALSE, eval=FALSE}
+## BEST MODEL
+ridge$bestTune
+lasso$bestTune
+elastic$bestTune
+```
+
+
+```{r 'B28-11', include=FALSE, eval=FALSE}
+## to examine the coefficients
+best <-elastic$finalModel
+coef(best, s = elastic$bestTune$lambda)
+```
+
+
+```{r 'B28-12', include=FALSE, eval=FALSE}
+#saveRDS(elastic, "finalmodel.rds")
+#final <-readRDS("finalmodel.rds")
+#print(final)
+final <- elastic
+```
+
+
+```{r 'B28-13', include=FALSE, eval=FALSE}
+##### PREDICTION
+P1<- predict(final, train)
+sqrt(mean((train$medv-P1)^2))
+
+
+P2<- predict(final, test)
+sqrt(mean((test$medv-P2)^2))
+
+P2<- predict(linear, test)
+sqrt(mean((test$medv-P2)^2))
+```
+
+
+## WIP
+
+
+
+```{r 'B29-7', include=FALSE, eval=FALSE}
+#LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
+set.seed(1234)
+
+lasso <- train (medv~., train, method = "glmnet",
+                tuneGrid = expand.grid(alpha = 1, lambda = seq(0.0001, 1, length = 5)), 
+                trControl = custom)
+#lasso
+#plot(lasso)
+#plot(varImp(lasso, scale = TRUE))
+```
+
+
+```{r 'B29-8', include=FALSE, eval=FALSE}
+#ELASTIC NET REGRESSION
+set.seed (1234)
+
+elastic <- train (medv~., train, method = "glmnet", 
+                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
+                                         lambda = seq(0.0001, 1, length = 5)), trControl = custom)
+#plot(elastic)
+#elastic <- train (medv~., train, method = "glmnet", 
+#                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
+#                                         lambda = seq(0.0001, 0.2, length = 5)),
+#                  trControl = custom)
+
+#elastic
+#varImp(elastic)
+#plot(varImp(elastic))
+```
+
+
+```{r 'B29-9', include=FALSE, eval=FALSE}
+## COMPARE THE MODEL
+modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
+compare <- resamples(modellist)
+#summary(compare)
+```
+
+
+```{r 'B29-10', include=FALSE, eval=FALSE}
+## BEST MODEL
+ridge$bestTune
+lasso$bestTune
+elastic$bestTune
+```
+
+
+```{r 'B29-11', include=FALSE, eval=FALSE}
+## to examine the coefficients
+best <-elastic$finalModel
+coef(best, s = elastic$bestTune$lambda)
+```
+
+
+```{r 'B29-12', include=FALSE, eval=FALSE}
+#saveRDS(elastic, "finalmodel.rds")
+#final <-readRDS("finalmodel.rds")
+#print(final)
+final <- elastic
+```
+
+
+```{r 'B29-13', include=FALSE, eval=FALSE}
+##### PREDICTION
+P1<- predict(final, train)
+sqrt(mean((train$medv-P1)^2))
+
+
+P2<- predict(final, test)
+sqrt(mean((test$medv-P2)^2))
+
+P2<- predict(linear, test)
+sqrt(mean((test$medv-P2)^2))
+```
+
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B29-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, namesXL)
+```
+
+```{r 'B29-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

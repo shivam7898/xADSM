@@ -160,6 +160,12 @@ if(FALSE) {
   test_bb <- bb[-train_idx, ]
 }
 #
+if(FALSE) {# #This approach might work for 3 or more samples but not tested
+  train_idx <- sample(2, size = nrow(bb), replace = TRUE, p = c(0.8, 0.2))
+  train_bb <- bb[train_idx == 1, ]
+  test_bb  <- bb[train_idx == 2, ]
+}
+#
 # #For 3 or more splits
 #brk_bb = c(train = 0.8, test = 0.1, validate = 0.1)
 brk_bb = c(train = 0.9, test = 0.1)

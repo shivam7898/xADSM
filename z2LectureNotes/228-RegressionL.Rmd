@@ -7,10 +7,22 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-
 ## Overview
 
 - "Machine learning using linear regression"
+
+## Packages
+
+```{r 'B28-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("caret", dependencies = TRUE)
+  install.packages("glmnet", dependencies = TRUE)
+  install.packages("mlbench", dependencies = TRUE)
+}
+```
+
+## Review
+
 - Refer [Bias-Variance Trade-off](#bias-var-c37 "c37")
 
 ```{r 'B28D01', comment="", echo=FALSE, results='asis'}
@@ -46,7 +58,7 @@ f_getDef("Multicollinearity")
 ```
 
 ```{r 'B28D08', comment="", echo=FALSE, results='asis'}
-f_getDef("Principle-of-Parsimony") #iiii
+f_getDef("Principle-of-Parsimony") 
 ```
 
 - \textcolor{pink}{Question:} Bias can be mathematically represented by $R^2$. What represents the Variance
@@ -62,153 +74,387 @@ f_getDef("Principle-of-Parsimony") #iiii
   - Inclusion of this X in the model would lead to increase in complexity without any reduction in error
     - i.e. Bias will increase but variance will not decrease
     - i.e. It would cause overfitting
-
+- Higher the absolute slope of the line, stronger would be the effect of unit change in X on Y
+  - Positive or Negative would depend on the sign of the slope
 
 ```{r 'B28P02', echo=FALSE, ref.label=c('C14P01'), fig.cap="(C14P01) Linear Regression"}
 # #Ref another file chunk
 ```
 
-## Penalising
+## Regularised Regression
+
+- 3 Approaches of Regularised Regression
+  - Ridge Regression $(L_2) : \lambda_R \displaystyle \sum_{j=1}^{p} \beta_j^2$
+  - Lasso Regression $(L_1) : \lambda_L \displaystyle \sum_{j=1}^{p} |\beta_j|$
+    - LASSO i.e. Least Absolute Shrinkage and Selection Operator
+  - Elastic Net Regression $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \alpha \beta_j^2 + \left ( 1 - \alpha \right ) |\beta_j| \right )$
+    - $\alpha = 0 : \lambda_E \to \lambda_L$
+    - $\alpha = 1 : \lambda_E \to \lambda_R$
+    - The elastic-net selects variables like the lasso, and shrinks together the coefficients of correlated predictors like ridge.
+- \textcolor{orange}{Caution:} Professor showed the equation with multipliers interchanged $: \lambda_E \displaystyle \sum_{j=1}^{p} \left ( \left ( 1 - \alpha \right ) \beta_j^2 + \alpha |\beta_j| \right )$
+    - Overall exaplanation is not changed only the effect of ${\alpha}$ being 0 and 1 has been reversed
+
+## Cross-validation
+
+```{r 'B28D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Cross-Validation") #dddd
+```
+
+- \textcolor{pink}{Two-fold cross-validation}
+  - Randomly assign 9 observations (10% of total 90 observations) to Test and remaining to Train.
+  - Build the Model on Train, validate on Test
+  - \textcolor{pink}{The thus obtained performance evaluation depends on the actual split of the data set.}
+    - Use k-fold cross-validation
+
+- \textcolor{pink}{k-fold cross-validation} (Assume k = 10)
+  - Let us assume there are 90 observations
+  - We can create create k=10 sets each of 9 observations randomly assigned
+  - Thus, we can create 10 models where each set acts as 'test' one time and 9 times it is part of 'train' along with others
+    - Model 1: Test 1:9, Train 10:90
+    - Model 2: Test 10:18, Train {1:9, 19:90} 
+    - Model 10: Test 82:90, Train 1:81
+  - This ensures that each observation gets to be part of train & test in proportion same as other  variables.
+  - Then the best performing model gets selected.
+  - \textcolor{pink}{Still the division into the k subsets involves a degree of randomness.}
+    - Iterate by Repeated cross-validation
+
+- \textcolor{pink}{Repeated cross-validation} (Example)
+  - Do the random k-fold splits 5 times, thus we will have 50 models to choose from
+    - Iteration 1: Splits are sequential i.e. {{1:9}, {10:18}, ..., {81:90}}
+    - Iteration 2: Splits are along units i.e. {{1, 11, 21, ..., 81}, {2, 12, 22, ..., 82}, ..., {10, 20, 30, ..., 90}}
+    - So on
 
 
-## x
+## Ridge Regression (L2)
+
+```{r 'B28D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Ridge-Estimator")
+```
+
+- For small enough values of $\lambda$, with increse in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
+  - Each choice of $\lambda$ leads to a different ridge regression estimate.
+    - So, for each model we can get RMSE for many values of $\lambda$
 
 
-```{r 'B28-1', include=FALSE, eval=FALSE}
+- \textcolor{pink}{Parameter Tuning} is the process of finding the optimum $\lambda$.
+  - Let us assume we are doing k-fold cross-validation with k=10 on a datset of 90 observations
+  - We can get 10 Models where each set gets to be 'test' once i.e. $\{M_1, M_2, \ldots, M_k\}$
+  - For any given model $M_i$, we can also choose a range of $\lambda$
+    - ex: $\lambda \in \{0.1, 0.2, 0.3, 0.4, 0.5\}$
+    - So, we can get 5 Models for each Model i.e. $\{\{M_{11}, M_{12}, \ldots, M_{15}\}, \{M_{21}, M_{22}, \ldots, M_{25}\}, \cdots, \{M_{k1}, M_{k2}, \ldots, M_{k5}\}\}$
+  - Each Model can provide a RMSE value on its own Test Data.
+  - We can get average of RMSE associated with each $\lambda$ across all Models i.e. $\{M_{12}, M_{22}, \ldots, M_{k2}\}$
+  - Whichever value of $\lambda$ provide robust RMSE, we will assume to be the optimum $\lambda$
+
+- \textcolor{pink}{Question:} Penalisation is done on X only not the Y
+  - Yes
+  - $\epsilon = \sum {(Y_i - \hat{Y}_i)} + \lambda \sum \beta_i^2$
+
+- \textcolor{pink}{Question:} After doing the iteration, suppose if iteration 1 gives optimum $\lambda = 0.1$ and iteration 2 gives optimum $\lambda = 0.2$. Which one should we consider
+  - (Aside) If we have 10 models and 7 iterations then we have actually 70 models. All of them would be run with different (example 5) values of $\lambda$. Thus out of 5 sets of RMSE would be available each having 70 values. Average of each set of RMSE would be done and then optimum $\lambda$ would be chosen based on these 5 sets.
+
+## Data: BostonHousing {#set-boston-b28 .tabset .tabset-fade}
+
+### Load {.unlisted .unnumbered}
+
+```{r 'B28-Boston'}
 data("BostonHousing")
-bb <- BostonHousing
+xsyw <- bb <- aa <- as_tibble(BostonHousing)
+xw <- xsyw %>% select(-medv)
+zw <- xw %>% mutate(across(where(is.numeric), ~ as.vector(scale(.)))) %>% 
+  mutate(across(chas, strtoi))
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B28-BostonStr'}
+str(bb)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B28-BostonSummary'}
+summary(bb)
+```
+
+## Correlation
+
+```{r 'B28P03-Save', include=FALSE}
+# #IN: zw
+hh <- cor(zw)
+corr_hh <- corrplot::cor.mtest(zw)
+#
+cap_hh <- "B28P03"
+ttl_hh <- "Boston: Corrplot (Scaled)"
+loc_png <- paste0(.z$PX, "B28P03", "-Boston-Corrplot-z", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  corrplot::corrplot(hh, method = "circle", type = "lower", diag = FALSE, 
+                   cl.pos = 'n', tl.pos = 'ld', addCoef.col = "black", 
+                   p.mat = corr_hh$p, sig.level = 0.05, insig = 'blank', 
+        #order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3, rect.lwd = 3, 
+                   title = NULL #, col = RColorBrewer::brewer.pal(3, "BrBG")
+				   )
+  title(main = ttl_hh, line = 2, adj = 0.1)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B28 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B28)
+  rm(B28)
+}
+```
+
+```{r 'B28P03', echo=FALSE, fig.cap="(B28P03) Boston Housing Corrplot (Scaled)"}
+knitr::include_graphics(paste0(.z$PX, "B28P03", "-Boston-Corrplot-z", ".png"))
+```
+
+## Partition Data
+
+```{r 'B28-BostonPart'}
+# #Partition Data
+set.seed(3)
+dum_xsyw <- xsyw
+idx_xsyw <- sample.int(n = nrow(dum_xsyw), size = floor(0.8 * nrow(dum_xsyw)), replace = FALSE)
+train_xsyw <- dum_xsyw[idx_xsyw, ] 
+test_xsyw  <- dum_xsyw[-idx_xsyw, ]
+```
+
+## Model lm()
+
+- No Cross Validation
+
+```{r 'B28-BostonLm'}
+# #Linear Regression without any Cross-validation
+mod_xsyw <- lm(medv ~ ., data = train_xsyw)
+if(FALSE) f_pNum(summary(mod_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+stp_xsyw <- step(mod_xsyw, direction = "backward", trace = 0)
+if(TRUE) f_pNum(summary(stp_xsyw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+vif_xsyw <- vif(stp_xsyw)
+vif_xsyw[vif_xsyw > 5]
+#
+summary(stp_xsyw)$adj.r.squared
+names(stp_xsyw$coefficients)
+```
+
+## Repeated CV {.tabset .tabset-fade}
+
+- Repeated Cross-validation (CV)
+- \textcolor{pink}{trainControl()}
+  - Parameters for train()
+- \textcolor{pink}{train()}
+  - For Cross-validation
+  - Note: Train Set was passed to it not the full set.
+  - Output
+    - Rsquared is the average $R^2$ across all models 
+    - RsquaredSD is the standard deviation of$R^2$ across all models 
+
+- \textcolor{pink}{Question:} What is the $\lambda$ in linear regression
+  - $\lambda = 0$ in linear regression
+  
+### train() {.unlisted .unnumbered}
+
+```{r 'B28-TrainControl'}
+set.seed(3)
+# #trainControl() To Set Custom Control Parameters for k=10, iteration = 5
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+#
+# #train() can do the crossvalidation
+mod_cv <- train(medv ~ ., train_xsyw, method = "lm", trControl = custom)
+mod_cv$results
+#
+mod_cv
+#
+if(TRUE) f_pNum(summary(mod_cv)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+```
+
+### Details {.unlisted .unnumbered}
+
+```{r 'B28-trainNames'}
+names(mod_cv)
+# #
+mod_cv$method
+# #
+mod_cv$modelType
+# #
+mod_cv$results
+# #
+mod_cv$metric
+# #
+names(mod_cv$control)
+# #
+mod_cv$finalModel
+# #
+names(mod_cv$finalModel)
+# #
+str(mod_cv$resample)
+# #
+mod_cv$yLimits
+# #
+attributes(mod_cv$terms)$term.labels
+# #
+attributes(mod_cv$terms)$dataClasses
+# #
+attributes(mod_cv$terms)$variables
+# #
+mod_cv$coefnames
+```
+
+## Ridge Regression {.tabset .tabset-fade}
+
+- \textcolor{pink}{Question:} When RMSE values are similar across multiple $\lambda$, should we use this RMSE as the criteria to choose optimum $\lambda$
+  - Yes, we decided to run the algorithm with the given range of $\lambda$ values.
+
+```{conjecture 'invalid-graphics'}
+\textcolor{brown}{Error in value[[3L]](cond) : invalid graphics state}
+```
+
+- This is probably the RStudio error because of smaller than required plotting Area. 
+  - Increase the size
+  - OR export PNG etc.
+
+### Model & Lambda {.unlisted .unnumbered}
+
+```{r 'B28-Ridge'}
+# #Ridge Regression i.e. alpha = 0, lambda = (0, Inf)
+set.seed(3)
+custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+mod_ridge <- train(medv ~ ., train_xsyw, method = "glmnet", trControl = custom,
+    tuneGrid = expand.grid(alpha = 0, lambda = seq(from = 0.1, to = 1, length.out = 10)))
+#
+mod_ridge$results
+#
+mod_ridge
+#
+summary(mod_ridge)
+```
+
+```{r 'B28-TrainModel-Plot', include=FALSE}
+# #Plot Lambda
+hh <- mod_ridge
+#plot(hh)
+#
+cap_hh <- "B28P04"
+ttl_hh <- "Boston: Ridge Lambda vs RMSE"
+#
+B28 <- hh %>% { ggplot(., highlight = TRUE) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B28)
+rm(B28)
+```
+
+```{r 'B28P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B28P04", "-Boston-Ridge-Lambda", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B28P04, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B28P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B28P04", "-Boston-Ridge-Lambda", ".png"))
+```
+
+
+```{r 'B28P05-Save', include=FALSE}
+# #Plot Coefficients
+hh <- mod_ridge$finalModel
+#
+cap_hh <- "B28P05"
+ttl_hh <- "Boston: Ridge Final Model"
+loc_png <- paste0(.z$PX, "B28P05", "-Boston-Ridge-Model", ".png")
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  plot(hh, xvar = "lambda", label = TRUE, ylim = c(-5, 5))
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B28 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B28)
+  rm(B28)
+}
+```
+
+```{r 'B28P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B28P05", "-Boston-Ridge-Model", ".png"))
+```
+
+
+```{r 'B28P0405', echo=FALSE, ref.label=c('B28P04', 'B28P05'), fig.cap="(B28P04 B28P05) Boston Housing Lambda and Model"}
+# 
+```
+
+
+```{r 'B28-VarImportance-Plot', include=FALSE}
+# #Variable Importance Plot
+hh <- mod_ridge
+#plot(varImp(hh, scale = TRUE))
+#
+cap_hh <- "B28P06"
+ttl_hh <- "Boston: Variable Importance Plot"
+loc_png <- paste0(.z$PX, "B28P06", "-Boston-Vars", ".png")
+#
+B28 <- hh %>% { ggplot(varImp(., scale = TRUE)) + 
+	  labs(caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, B28)
+rm(B28)
+```
+
+```{r 'B28P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "B28P06", "-Boston-Vars", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = B28P06, device = "png", dpi = 144) 
+}
+```
+
+```{r 'B28P06', echo=FALSE, fig.cap="(B28P06) Boston: Variable Importance Plot"}
+knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Vars", ".png"))
+```
+
+
+### Code Lambda {.unlisted .unnumbered}
+
+
+```{r 'B28-TrainModel-Plot-A', eval=FALSE, ref.label=c('B28-TrainModel-Plot')}
 #
 ```
 
+### Code Model {.unlisted .unnumbered}
 
-```{r 'B28-2', include=FALSE, eval=FALSE}
-pairs.panels(bb[c(-4,-14)], cex = 2)
+```{r 'B28P05-Save-A', eval=FALSE, ref.label=c('B28P05-Save')}
+#
 ```
 
+### Code Variable Importance {.unlisted .unnumbered}
 
-```{r 'B28-3', include=FALSE, eval=FALSE}
-set.seed (1234)
-index <- sample(2, nrow(bb), replace = TRUE, prob = c(.70,.30))
-train <- bb[index ==1, ]
-test <- bb[index ==2, ]
+```{r 'B28-VarImportance-Plot-A', eval=FALSE, ref.label=c('B28-VarImportance-Plot')}
+#
 ```
 
+## To be continued ...
 
-```{r 'B28-4', include=FALSE, eval=FALSE}
-#custom control parameters
-
-custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
-```
-
-
-```{r 'B28-5', include=FALSE, eval=FALSE}
-# RUNNING A LINEAR REGRESSION MODEL
-set.seed (1234)
-linear <- train(medv~., train, method = "lm", trControl = custom)
-linear$results
-#linear
-#summary(linear)
-linear1 <- lm(medv~., data = train)# no cross validation 
-#summary(linear1)
-```
-
-
-```{r 'B28-6', include=FALSE, eval=FALSE}
-# RIDGE REGRESSION
-set.seed (1234)
-
-ridge <- train (medv~., train, method = "glmnet", 
-                tuneGrid = expand.grid(alpha = 0, lambda = seq(0.0001, 1, length = 5)), 
-                trControl = custom)
-#ridge
-#plot(ridge)
-#plot (ridge$finalModel, xvar = "lambda", label = TRUE)
-#plot(varImp(ridge, scale = TRUE))# draw variable importance plot
-```
-
-
-```{r 'B28-7', include=FALSE, eval=FALSE}
-#LASSO REGRESSION(LASSO" stands for Least Absolute Shrinkage and Selection Operator)
-set.seed(1234)
-
-lasso <- train (medv~., train, method = "glmnet",
-                tuneGrid = expand.grid(alpha = 1, lambda = seq(0.0001, 1, length = 5)), 
-                trControl = custom)
-#lasso
-#plot(lasso)
-#plot(varImp(lasso, scale = TRUE))
-```
-
-
-```{r 'B28-8', include=FALSE, eval=FALSE}
-#ELASTIC NET REGRESSION
-set.seed (1234)
-
-elastic <- train (medv~., train, method = "glmnet", 
-                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-                                         lambda = seq(0.0001, 1, length = 5)), trControl = custom)
-#plot(elastic)
-#elastic <- train (medv~., train, method = "glmnet", 
-#                  tuneGrid = expand.grid(alpha = seq(0,1, length = 10), 
-#                                         lambda = seq(0.0001, 0.2, length = 5)),
-#                  trControl = custom)
-
-#elastic
-#varImp(elastic)
-#plot(varImp(elastic))
-```
-
-
-```{r 'B28-9', include=FALSE, eval=FALSE}
-## COMPARE THE MODEL
-modellist <- list (linear = linear, lasso = lasso, ridge = ridge, elastic = elastic)
-compare <- resamples(modellist)
-#summary(compare)
-```
-
-
-```{r 'B28-10', include=FALSE, eval=FALSE}
-## BEST MODEL
-ridge$bestTune
-lasso$bestTune
-elastic$bestTune
-```
-
-
-```{r 'B28-11', include=FALSE, eval=FALSE}
-## to examine the coefficients
-best <-elastic$finalModel
-coef(best, s = elastic$bestTune$lambda)
-```
-
-
-```{r 'B28-12', include=FALSE, eval=FALSE}
-#saveRDS(elastic, "finalmodel.rds")
-#final <-readRDS("finalmodel.rds")
-#print(final)
-final <- elastic
-```
-
-
-```{r 'B28-13', include=FALSE, eval=FALSE}
-##### PREDICTION
-P1<- predict(final, train)
-sqrt(mean((train$medv-P1)^2))
-
-
-P2<- predict(final, test)
-sqrt(mean((test$medv-P2)^2))
-
-P2<- predict(linear, test)
-sqrt(mean((test$medv-P2)^2))
-```
-
+- Discussion continued in next lecture on Lasso and Elastic Net Regression
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B28-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, ff, xxB26Hdesc, xxB26Hmod, xxB26Hraw, xxB26KC, namesXL)
+f_rmExist(aa, bb, ii, jj, kk, ll, ff, B28P04, B28P06, BostonHousing, cap_hh, corr_hh, custom, 
+          dum_xsyw, hh, idx_xsyw, loc_png, mod_cv, mod_ridge, mod_xsyw, stp_xsyw, test_xsyw, 
+          train_xsyw, ttl_hh, vif_xsyw, xsyw, xw, zw)
 ```
 
 ```{r 'B28-Validation', include=FALSE, cache=FALSE}

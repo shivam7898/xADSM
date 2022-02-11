@@ -229,6 +229,7 @@ na_bb
 loc_png <- paste0(.z$PX, "B16P01", "-Cars-NA-Pattern", ".png")
 if(!file.exists(loc_png)) {
   png(filename = loc_png)
+  #dev.control('enable') 
   md.pattern(bb, plot = TRUE, rotate.names = TRUE)
   title("Cars: Inserted Missing Value Pattern by md.pattern()", line = 2, adj = 0)
   title(sub="B16P01", line=4, adj = 1)
