@@ -1036,7 +1036,7 @@ bb <- aa <- xxC34Adult <- f_getRDS(xxC34Adult)  #wwww
 
 ### Import {.unlisted .unnumbered}
 
-```{r 'C34-Adult', eval=FALSE, include=FALSE}
+```{r 'C34-Adult', include=FALSE, eval=FALSE}
 tbl <- read_csv(paste0(.z$XL, "C34-adult-train.csv"),
                 col_names = c("age", "workclass", "fnlwgt", "education", "education_num",
                               "marital_status", "occupation", "relationship", "race", "sex",

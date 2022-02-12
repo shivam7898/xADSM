@@ -645,7 +645,7 @@ rm(B12)
 
 #### Deprecated {.unlisted .unnumbered}
 
-```{r 'B12-ToGGpassOneVal', eval=FALSE, include=FALSE}
+```{r 'B12-ToGGpassOneVal', include=FALSE, eval=FALSE}
 # To Pass Average to the ggplot in Row 1 Column 2 
 dd <- data.frame(gg = xb100, xxstore = c(mu_mean_bb, rep(NA, length(xb100) -1)))
 # #Which can be later accessed 

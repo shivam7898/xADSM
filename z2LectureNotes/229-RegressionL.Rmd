@@ -13,7 +13,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Ridge, Lasso and Elastic Net regressions"
 
 
-## Review  {.tabset .tabset-fade}
+## Review {.tabset .tabset-fade}
 
 - Discussion continued from previous lecture from Ridge Regression onwards on the [Data: Boston Housing](#set-boston-b28 "b28")
 

@@ -144,7 +144,7 @@ Not all association rules are equally useful. Thus Lift can be used to quantify 
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'C53-Validation', include=TRUE, cache=FALSE}
+```{r 'C53-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

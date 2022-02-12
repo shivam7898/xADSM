@@ -376,7 +376,7 @@ ii <- bb %>%
 summary(ii)
 ```
 
-```{r 'B19-Segments-A', ref.label=c('B19-Segments'), include=TRUE}
+```{r 'B19-Segments-A', ref.label=c('B19-Segments')}
 #
 ```
 

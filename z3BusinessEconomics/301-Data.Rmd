@@ -567,7 +567,7 @@ C01P01 <- hh %>% { ggplot(data = ., aes(x = Year, y = Values, colour = Company, 
   }
 ```
 
-```{r 'C01P01-Save', echo=c(2,4), include=TRUE}
+```{r 'C01P01-Save', echo=c(2,4)}
 # #Save an Image
 loc_png <- paste0(.z$PX, "C01P01", "-Cars-TimeSeries", ".png")
 if(!file.exists(loc_png)) {
@@ -575,7 +575,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C01P01', echo=TRUE, fig.cap="(C01P01) Multiple Time Series Graph"}
+```{r 'C01P01', fig.cap="(C01P01) Multiple Time Series Graph"}
 # #Load an Image
 knitr::include_graphics(paste0(.z$PX, "C01P01", "-Cars-TimeSeries", ".png"))
 ```
@@ -647,7 +647,7 @@ f_rmExist(aa, bb, hh, ii, jj, kk, kk_bb, kk_hh, kk_ii, pareto_chr, C01P01, C01P0
           xxComputers, xxCordless, cap_hh, loc_png)
 ```
 
-```{r 'C01-Validation', include=TRUE, cache=FALSE}
+```{r 'C01-Validation', include=FALSE, cache=FALSE}
 # #Summarised Packages and Objects
 f_()
 #

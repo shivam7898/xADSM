@@ -747,7 +747,7 @@ if(!file.exists(loc_png)) {
 }
 ```
 
-```{r 'C02P05', echo=FALSE, fig.cap="(C02P05) geom_point(), geom_smooth(), & stat_poly_eq()", include=TRUE}
+```{r 'C02P05', echo=FALSE, fig.cap="(C02P05) geom_point(), geom_smooth(), & stat_poly_eq()"}
 knitr::include_graphics(paste0(.z$PX, "C02P05", "-ScatterPlot", ".png")) #iiii
 ```
 

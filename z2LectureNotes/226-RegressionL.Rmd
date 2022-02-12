@@ -20,22 +20,6 @@ if(FALSE){# #WARNING: Installation may take some time.
 }
 ```
 
-## Data: KC House
-
-\textcolor{pink}{Please import the "B26-KC-House.csv"}
-
-```{r 'B26-KC', include=FALSE, eval=FALSE}
-# #Path of Object, FileName and MD5Sum
-#tools::md5sum(paste0(.z$XL, "B26-KC-House.csv"))
-xxB26KC <- f_getObject("xxB26KC", "B26-KC-House.csv", "13e2be1e90780e7331b6a24ad950799d")
-```
-
-```{r 'B26-getKC', include=FALSE}
-# #Load Data: KC House
-xxB26KC <- f_getRDS(xxB26KC)
-bb <- aa <- xxB26KC
-```
-
 ## Data: CarDekho {#set-cardekho-b26 .tabset .tabset-fade}
 
 \textcolor{pink}{Please import the "B26-CarDekho.csv"}

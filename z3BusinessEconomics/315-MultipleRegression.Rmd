@@ -165,6 +165,10 @@ The \textcolor{pink}{variance inflation factors (VIF)} is given by $\text{VIF}_i
   - PCA
     - Definitely Better    
 
+- High VIF on Dummy Variables of Categorical Variable Levels
+  - We need to choose the most frequent level as the reference variable. If the reference variable has few observations, it would result in Very High VIF for more frequent levels.
+
+
 ## Variable Selection Methods
 
 - These include - "ForLater"
