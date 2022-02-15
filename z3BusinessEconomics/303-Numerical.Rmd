@@ -1338,7 +1338,7 @@ Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median
 
 ```{r 'C03-BoxPlot', include=FALSE}
 # #nycflights13::weather
-bb <- weather
+bb <- nycflights13::weather
 # #NA are present in the data
 summary(bb$temp)
 #

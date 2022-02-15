@@ -51,7 +51,7 @@ aa <- xxB26CarDekho
 # #To prevent long dummy names each variable name and its levels have been shorten
 # #Each Factor Level has been modified so that levels are in decreasing order of occurance
 # #i.e. Fuel Diesel has the most frequent and thus has been converted to Reference Dummy
-xsyw <- aa %>% 
+bb <- aa %>% 
   separate(name, c("brand", NA), sep = " ", remove = FALSE, extra = "drop") %>% 
   filter(fuel != "Electric") %>% 
   #mutate(across(where(is.character), factor)) %>% 
@@ -68,7 +68,14 @@ labels = c("I", "II", "III", "More", "Test"))) %>%
   mutate(age = 2022 - year) %>% 
   select(-c(year, name, brand))
 # 
+# #Older Pattern
+xsyw <- bb
 xw <- xsyw %>% select(-price)
+# #New Pattern
+xfw <- bb
+zfw <- xfw %>% mutate(across(where(is.numeric), ~ as.vector(scale(.)))) 
+xnw <- xfw %>% select(where(is.numeric))
+znw <- zfw %>% select(where(is.numeric))
 ```
 
 ## Model {.tabset .tabset-fade}

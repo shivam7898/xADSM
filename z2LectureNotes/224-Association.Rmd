@@ -13,7 +13,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [Import Data Makeup - B22](#set-makeup-b22 "b22")
 - Discussion on R Markdown / R Notebook from 16:45 - 17:20 has not been included.
 - "ForLater" Professor will cover "Attribution Model" later.
-- "ForLater" Book for Ridge, Lasso and Elastic Regression
+
 
 ```{r 'B24-GetMakeup', ref.label=c('B22-GetMakeup', 'B22-PrepMakeup')}
 # #xxB22Makeup, aa, bb, xw

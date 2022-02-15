@@ -9,8 +9,8 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "mice", "VIM", "qcc", "ggpmisc", "microbenchmark", "GGally", "corrplot")
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
   pkg <- c(pkg, "caret", "glmnet", "mlbench", "stringi", "factoextra", "cluster")
-  pkg <- c(pkg, "arules", "arulesViz", "ggrepel")
-  pkg <- c(pkg, "rfm", "carData", "Hmisc") #Threw error on Feb-03. Keep it separate for now.
+  pkg <- c(pkg, "arules", "arulesViz", "ggrepel", "rpart", "rpart.plot", "rattle", "janitor", "randomForest")
+  pkg <- c(pkg, "rfm", "carData", "Hmisc", "partykit", "treeheatr", "ggparty") 
   if(FALSE) {# #Test Case: Sometimes the loading is failing. However it is not reproducible currently.
     pkg <- c("conflicted", "ggplot2", "tibble", "tidyr", "readr", "dplyr", "kableExtra") #7
 	#lapply(pkg, FUN = library, character.only = TRUE, verbose = FALSE, logical.return = TRUE)
@@ -18,6 +18,7 @@ if (!("conflicted" %in% (.packages()))) {
 	FUN = library, character.only = TRUE, logical.return = TRUE, FUN.VALUE = logical(1))
   }
   lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
+  #lapply(pkg, FUN = function(x) {library(x, character.only = TRUE)})
 #
 # #Precedence
 # # dplyr::filter | stats::filter
@@ -36,6 +37,14 @@ if (!("conflicted" %in% (.packages()))) {
   invisible(suppressMessages(conflict_prefer("between", "dplyr")))  
 # # dplyr::summarize | Hmisc::summarize
   invisible(suppressMessages(conflict_prefer("summarize", "dplyr")))  
+# # ggplot2::margin | randomForest::margin
+  invisible(suppressMessages(conflict_prefer("margin", "ggplot2")))  
+# # rattle::importance | randomForest::importance
+  invisible(suppressMessages(conflict_prefer("importance", "rattle")))  
+# # stats::chisq.test | janitor::chisq.test
+  invisible(suppressMessages(conflict_prefer("chisq.test", "stats")))  
+  # # rattle::weather | nycflights13::weather
+  invisible(suppressMessages(conflict_prefer("weather", "rattle")))  
 # #Cleanup
   rm(pkg)
 } else print("Packages not loaded again.")

@@ -199,7 +199,7 @@ ii$order_date <- dmy(ii$order_date)
 #
 # #Equivalent
 jj <- bb %>% mutate(order_date = dmy(order_date))
-stopifnot(identical(ii, jj))
+stopifnot(identical(as_tibble(ii), jj))
 #
 str(jj)
 anyNA(jj)
