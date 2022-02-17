@@ -11,7 +11,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 - "Decision Tree Algorithm"
 
-## Data: KC House {#set-kc-b26 .tabset .tabset-fade}
+## Data: KC House {#set-kc-b30 .tabset .tabset-fade}
 
 \textcolor{pink}{Please import the "B30-KC-House.csv"}
 

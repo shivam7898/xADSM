@@ -50,7 +50,7 @@ In \textcolor{pink}{unsupervised methods}, no target variable is identified as s
 An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a research study taking place.
 ```
 
-## Cross-validation
+## Cross-validation {#cross-c37}
 
 ```{definition 'Cross-Validation'}
 \textcolor{pink}{Cross-validation} is a technique for ensuring that the results uncovered in an analysis are generalizable to an independent, unseen, data set. Generally it is done either with two-fold (1-model) or k-fold (k-models). 

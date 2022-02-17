@@ -17,9 +17,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 if(FALSE){# #WARNING: Installation may take some time.
   install.packages("rpart", dependencies = TRUE)
   install.packages("rpart.plot", dependencies = TRUE)
-  install.packages("rattle", dependencies = TRUE)
-  install.packages("janitor", dependencies = TRUE)
-  install.packages("randomForest", dependencies = TRUE)
   install.packages("partykit", dependencies = TRUE)
   install.packages("treeheatr", dependencies = TRUE)
 }
@@ -570,8 +567,8 @@ The difference in Gini impurity from the prior state to the next is called the \
 ## Pruning
 
 - If we allow to grow to any extent, it might result in overfitting and if we prune it too much, it might lead to underfitting
-- We can use complexity parameter $C_p$
-  - It decides the minimum information gain. Any branch having lower gain than that will be pruned or dropped.
+- We can use complexity parameter $C_p \in [0, 1]$ for pruning
+  - It decides the minimum information gain. Any branch having lower gain than that will be pruned
   - High value of $C_p$ will result in small tree
 
 ## Building a Regression Tree
@@ -633,6 +630,7 @@ str(train_xfw_ii)
 - \textcolor{pink}{rpart()}
   - For Regression Tree (Y Continuous), Method needs to be 'anova'
   - For Classification Tree (Y Categorical), Method needs to be 'class'
+  - If there is a problem in plotting then mention the cp parameter in rpart() with the earlier identified value
   
 - \textcolor{orange}{Caution:} Unlike Regression, for Tree Model: Convert Dummy Variables to Factor Variables of two levels "0", "1"
   - Otherwise these would be treated as numeric i.e. Petrol < 0.5 etc.

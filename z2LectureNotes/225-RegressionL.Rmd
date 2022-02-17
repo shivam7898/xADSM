@@ -353,6 +353,7 @@ f_getDef("Dummy-Variables") #dddd
     - Performance of all other levels of the variable is given as compared to the referenced level
   - In the example above 'high' is the benchmark
   - "dummy coding" leads to the creation of a table called \textcolor{pink}{contrast matrix}.
+  - "dummy coding" is also known as "one-hot encoding"
 
 - \textcolor{pink}{Question:} What if we have a dataset with both categorical and continuoud dependent varaibles
   - Convert categorical to dummies, no need to do anything with continous variables

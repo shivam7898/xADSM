@@ -98,12 +98,13 @@ f_getDef("Principle-of-Parsimony")
 - train() with method = "glmnet" is used for all 3
   - Ridge $(\alpha = 0)$, Lasso $(\alpha = 1)$, Elastic Net $(\alpha \in \{0, 1\})$
   
-## Cross-validation
+## Cross-validation {#cross-b28}
 
 ```{r 'B28D10', comment="", echo=FALSE, results='asis'}
 f_getDef("Cross-Validation") #dddd
 ```
 
+- Refer [Cross-validation C37](#cross-c37 "c37")
 - \textcolor{pink}{Two-fold cross-validation}
   - Randomly assign 9 observations (10% of total 90 observations) to Test and remaining to Train.
   - Build the Model on Train, validate on Test

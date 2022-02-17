@@ -1,0 +1,32 @@
+# WIP (B33) {#b33 .unlisted .unnumbered}
+
+```{r 'B33', include=FALSE, cache=FALSE, eval=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+<!-- 
+## Overview
+
+- Question 1: In regression, we needed to check for normality or multicollinearity (VIF). For the KC House data, it was not-normal so we had to do semi-log transformation and then log-log transformation. Does that not affect model performance in Decision Trees
+  - Probably outliers would have low cp value and would be dropped 
+  - But some outliers are actually important observations.
+  - If those have more than 3 z-value, model might drop them
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+-->
+
+```{r 'B33-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'B33-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

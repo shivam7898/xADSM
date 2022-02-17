@@ -31,7 +31,7 @@ bb <- xxflights
 ?mutate
 # #Help files on any Topic including functions from 'installed' but 'not loaded' Packages
 ?dplyr::mutate()
-# #Operators need Backticks i.e. ` . In keyboards it is located below 'Esc' Key
+# #Operators need Backticks i.e. ` . In keyboards it is located below 'Esc' Key i.e. Tilde "~" Key
 ?`:`
 # #To Get the list of All Options used by Base R (including user defined)
 ?options
