@@ -9,8 +9,9 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Overview
 
+
 ```{definition 'Clustering'}
-\textcolor{pink}{Clustering} refers to the grouping of records, observations, or cases into classes of similar objects. Clustering differs from classification in that there is no target variable for clustering.
+The goal of cluster analysis is to ascertain whether the observations fall into relatively distinct groups. \textcolor{pink}{Clustering} refers to the grouping of records, observations, or cases into classes of similar objects. Clustering differs from classification in that there is no target variable for clustering.
 ```
 
 ```{definition 'Cluster'}

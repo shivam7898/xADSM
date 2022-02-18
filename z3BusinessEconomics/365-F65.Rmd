@@ -1,0 +1,171 @@
+# Statistical Learning (F65) {#f65}
+> Definitions and Exercises are from the Book [@James]
+
+```{r 'F65', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+> "Introduction (364)" has the Basics only.
+
+## Packages
+
+```{r 'B32-Installations', eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("ISLR2", dependencies = TRUE)
+}
+```
+
+## Introduction
+
+```{definition 'Statistical-Learning'}
+\textcolor{pink}{Statistical learning} refers to a vast set of tools for understanding data. These tools can be classified as \textcolor{pink}{supervised} or \textcolor{pink}{unsupervised}. 
+```
+
+## Statistical Learning
+
+- $Y = f(X) + \epsilon$
+  - Where Y is the quantitative response of predictors $X = \{x_1, x_2, \ldots, x_p\}$. 
+  - 'f' is some fixed but unknown function of predictors. 'f' represents the systematic information that X provides about Y
+  - $\epsilon$ is a 'random error' term, which is independent of X and has mean zero. 
+
+- \textcolor{pink}{Prediction}: a set of inputs X are readily available, but the output Y cannot be easily obtained
+  - Prediction: $\hat{Y} = \hat{f}\!(X)$
+  - where $\hat{f}$ represents our estimate for 'f', and $\hat{Y}$ represents the resulting prediction for Y. 
+  - Here, typically, we are not concerned with the exact form of $\hat{f}$, provided that it yields accurate predictions for Y.
+  - The accuracy of $\hat{Y}$ as a prediction for Y depends on two quantities: reducible error and the irreducible error. 
+    - In general, $\hat{f}$ will not be a perfect estimate for 'f', and this inaccuracy will introduce some error. This is \textcolor{pink}{reducible error} because we can potentially improve the accuracy of $\hat{f}$ by using the most appropriate statistical learning technique to estimate 'f'. 
+    - However, our prediction would still have some error in it. This is because Y is also a function of $\epsilon$, which, by definition, cannot be predicted using X. 
+    - Therefore, variability associated with $\epsilon$ also affects the accuracy of our predictions. This is known as the \textcolor{pink}{irreducible error}, because no matter how well we estimate 'f', we cannot reduce the error introduced by $\epsilon$.
+  - Why is the irreducible error larger than zero
+    - The quantity $\epsilon$ may contain unmeasured variables or unmeasurable variation that are useful in predicting Y. Since we did not or can not measure them, 'f' cannot use them for its prediction. 
+
+- \textcolor{pink}{Inference}: We are often interested in understanding the association between Y and X. 
+  - In this situation we wish to estimate 'f', but our goal is not necessarily to make predictions for Y.
+  - Now $\hat{f}$ cannot be treated as a black box, because we need to know its exact form. 
+  - In this setting, one may be interested in answering the following questions:
+    - Which predictors are associated with the response
+    - What is the extent of the association (Weak, Strong etc.)
+    - What is the relationship between the response and each predictor (positive, negtive etc.)
+    - What is the type of relationship (linear, polynomial etc.)
+    
+- Our goal is to apply a statistical learning method to the training data in order to estimate the unknown function 'f'. 
+  - In other words, we want to find a function $\hat{f}$ such that $\hat{Y} \approx \hat{f}\!(X)$ for any observation (X, Y). 
+  - Broadly speaking, most statistical learning methods for this task can be characterized as either parametric or non-parametric.
+  
+- \textcolor{pink}{Parametric methods} involve a two-step model-based approach.
+  - First, we make an assumption about the functional form, or shape, of 'f'. 
+    - Ex: 'f' is linear in X: $\hat{f}\!(X) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p$
+      - Once we have assumed that 'f' is linear, the problem of estimating 'f' is greatly simplified.
+      - Instead of having to estimate an entirely arbitrary p-dimensional function f(X), one only needs to estimate the p + 1 coefficients $\{\beta_0, \beta_1, \beta_2, \ldots, \beta_p\}$.
+  - After a model has been selected, we need a procedure that uses the training data to fit or train the model. 
+    - Ex: In the case of the linear model, we need to estimate the parameters $\{\beta_0, \beta_1, \beta_2, \ldots, \beta_p\}$.
+    - The most common approach to fitting the model is referred to as (ordinary) least squares. However, there are many possible ways to fit the linear model. 
+  - This model-based approach is referred to as parametric; it reduces the problem of estimating 'f' down to one of estimating a set of parameters. Assuming a parametric form for 'f' simplifies the problem of estimating 'f' because it is generally much easier to estimate a set of parameters than it is to fit an entirely arbitrary function 'f'. 
+  - The potential \textcolor{pink}{disadvantage} of a parametric approach is that the model we choose will usually not match the true unknown form of 'f'. 
+    - To address this problem we can choose flexible models that can fit many different possible functional forms flexible for 'f'. But in general, fitting a more flexible model requires estimating a greater number of parameters. These more complex models can lead to 'overfitting'.
+
+
+- \textcolor{pink}{Non-parametric methods} do not make explicit assumptions about the functional form of 'f'. 
+  - Instead they seek an estimate of 'f' that gets as close to the data points as possible without being too rough or wiggly. 
+  - Such approaches can have a major advantage over parametric approaches: by avoiding the assumption of a particular functional form for f, they have the potential to accurately fit a wider range of possible shapes for 'f'. 
+  - Any parametric approach brings with it the possibility that the functional form used to estimate 'f' is very different from the true 'f', in which case the resulting model will not fit the data well. In contrast, non-parametric approaches completely avoid this danger, since essentially no assumption about the form of 'f' is made. 
+  - But non-parametric approaches do suffer from a major \textcolor{pink}{disadvantage}: since they do not reduce the problem of estimating 'f' to a small number of parameters, a very large number of observations (far more than is typically needed for a parametric approach) is required in order to obtain an accurate estimate for 'f'.
+  - Ex: \textcolor{pink}{spline}
+
+
+- why would we ever choose to use a more restrictive method instead of a very flexible approach
+  - Trade-Off Between Prediction Accuracy and Model Interpretability
+  - If we are mainly interested in inference, then restrictive models are much more interpretable. Ex: In linear model, it is easy to understand the relationship between Y and X.
+  - In contrast, very flexible approaches, (e.g. splines, boosting) can lead to such complicated estimates of 'f' that it is difficult to understand how any individual predictor is associated with the response.
+    - Note: We might obtain more accurate predictions using a less flexible method. This phenomenon, which may seem counterintuitive at first glance, has to do with the potential for overfitting in highly flexible methods.
+  - Examples:
+    - Least squares linear regression is relatively inflexible but is quite interpretable. 
+    - The lasso relies upon the linear model but uses an alternative fitting procedure for estimating the coefficients. It is more restrictive in estimating the coefficients, and sets a number of them to exactly zero. Hence in this sense the lasso is a less flexible approach than linear regression. It is also more interpretable than linear regression, because in the final model the response variable will only be related to a small subset of the predictors. 
+    - Generalized additive models (GAM) instead extend the linear model to allow for certain non-linear relationships. Consequently GAM are more flexible than linear regression. They are also somewhat less interpretable than linear regression, because the relationship between each predictor and the response is now modeled using a curve. 
+    - Finally, fully non-linear methods such as bagging, boosting, support vector machines, and neural networks (deep learning) are highly flexible approaches that are harder to interpret.
+  
+- Sometimes the question of whether an analysis should be considered supervised or unsupervised is less clear-cut. 
+  - Supervised vs. Unsupervised Learning
+  - For instance, suppose that we have a set of 'n' observations. For 'm' of the observations, where m < n, we have both predictor measurements and a response measurement. For the remaining (n − m) observations, we have predictor measurements but no response measurement. 
+  - Such a scenario can arise if the predictors can be measured relatively cheaply but the corresponding responses are much more expensive to collect. We refer to this setting as a \textcolor{pink}{semi-supervised learning} problem.
+
+- Why is it necessary to introduce so many different statistical learning approaches, rather than just a single best method
+  - No one method dominates all others over all possible data sets. 
+  - On a particular data set, one specific method may work best, but some other method may work better on a similar but different data set. 
+  
+- Regression Model Accuracy or Quality of Fit (MSE)
+  - we are interested in the accuracy of the predictions that we obtain when we apply our method to previously unseen test data.
+
+- \textcolor{pink}{Refer:} Figure 2.9 (page 31) For impact of degrees of freedom on MSE and the explanation (and extended to Figure 2.10, 2.11)
+
+
+- What do we mean by the variance and bias of a statistical learning method
+  - The Bias-Variance Trade-Off
+    - The expected test MSE, for a given value $x_0$, can always be decomposed into the sum of three fundamental quantities: the variance of $\hat{f}\!(x_0)$, the squared bias of $\hat{f}\!(x_0)$ and the variance of the error term $\epsilon$
+    - In order to minimize the expected test error, we need to select a statistical learning method that simultaneously achieves \textcolor{pink}{low variance and low bias}. 
+    - Note that variance is inherently a nonnegative quantity, and squared bias is also nonnegative.
+    - Hence, we see that the expected test MSE can never lie below Var$(\epsilon)$ i.e. the irreducible error
+  - \textcolor{pink}{Variance} refers to the amount by which $\hat{f}$ would change if we estimated it using a different training data set. Different training data sets will result in a different $\hat{f}$. But ideally the estimate for 'f' should not vary too much between training sets. In general, more flexible statistical methods have higher variance.
+  - On the other hand, \textcolor{pink}{bias} refers to the error that is introduced by approximating a complicated problem by a much simpler model. 
+    - For example, linear regression assumes that there is a linear relationship between Y and X. It is unlikely that any real-life problem truly has such a simple linear relationship, and so performing linear regression will undoubtedly result in some bias in the estimate of f. Generally, more flexible methods result in less bias.
+  - As a general rule, as we use more flexible methods, the variance will increase and the bias will decrease. 
+    - The relative rate of change of these two quantities determines whether the test MSE increases or decreases. 
+    - As we increase the flexibility of a class of methods, the bias tends to initially decrease faster than the variance increases. Consequently, the expected test MSE declines. 
+    - However, at some point increasing flexibility has little impact on the bias but starts to significantly increase the variance. When this happens the test MSE increases. 
+  - Good test set performance of a statistical learning method requires low variance as well as low squared bias. 
+    - This is referred to as a trade-off because it is easy to obtain a method with extremely low bias but high variance (for instance, by drawing a curve that passes through every single training observation) or a method with very low variance but high bias (by fitting a horizontal line to the data). 
+    - The challenge lies in finding a method for which both the variance and the squared bias are low.
+
+## Classification Models
+
+- Classification Model Accuracy (Error Rate)
+  - The most common approach for quantifying the accuracy of our estimate $\hat{f}$ is the training \textcolor{pink}{error rate}, the proportion of mistakes that are made if we apply our estimate $\hat{f}$ to the training observations.
+  - $\frac{1}{n}\displaystyle\sum_{i=1}^nI\!\left(y_i \neq \hat{y}_i \right)$
+  - Where $I\!\left(y_i \neq \hat{y}_i \right)$ is an \textcolor{pink}{indicator variable} that is 1 when actual and predicted are NOT equal and 0 if they are classified correctly.
+  
+- The Bayes Classifier
+  - The test error rate is minimized, on average, by a very simple classifier that assigns each observation to the most likely class, given its predictor values.
+    - In other words, we should simply assign a test observation with predictor vector $x_0$ to the class 'j' for which \textcolor{pink}{conditional probability} $\text{Pr}(Y = j \phantom{0} | \phantom{0} X = x_0)$ is Maximum
+    - It is the probability that 'Y = j' given the observed predictor is $x_0$
+    - The line with the probability 0.5 (for binary response variable) is called the \textcolor{pink}{Bayes decision boundary}.
+    - The Bayes classifier produces the lowest possible test error rate, called the \textcolor{pink}{Bayes error rate}. The Bayes error rate is analogous to the irreducible error.
+  - In theory we would always like to predict qualitative responses using the Bayes classifier. But for real data, we do not know the conditional distribution of Y given X, and so computing the Bayes classifier is impossible. Therefore, the Bayes classifier serves as an unattainable gold standard against which to compare other methods like KNN. 
+
+
+## K-Nearest Neighbors (KNN)
+
+- KNN
+  - (Like others) It approaches attempt to estimate the conditional distribution of Y given X, and then classify a given observation to the class with highest estimated probability. 
+  - Given a positive integer 'K' and a test observation $x_0$, the KNN classifier first identifies the 'K' points in the training data that are closest to $x_0$, represented by $\mathcal{N}_0$. It then estimates the conditional probability for class 'j' as the fraction of points in $\mathcal{N}_0$ whose response values equal j: $\text{Pr}(Y = j \phantom{0} | \phantom{0} X = x_0) = \frac{1}{K}\displaystyle\sum_{i \in \mathcal{N}_0}I\!(y_i = j)$
+  - Finally, KNN classifies the test observation $x_0$ to the class with the largest probability.
+
+- The choice of $K \in (1, \infty)$ has a drastic effect on the KNN classifier obtained. 
+  - When K = 1, the decision boundary is overly flexible and finds patterns in the data that do not correspond to the Bayes decision boundary. This corresponds to a classifier that has low bias but very high variance. (Overfitting)
+  - As K grows, the method becomes less flexible and produces a decision boundary that is close to linear. This corresponds to a low-variance but high-bias classifier. 
+  - With K = 1, the KNN training error rate might be 0, but the test error rate may be quite high. 
+  - In general, as we use more flexible classification methods, the training error rate will decline but the test error rate may not. 
+  - As $1/K \in (0, 1)$ increases, the method becomes more flexible. 
+    - As in the regression setting, the training error rate consistently declines as the flexibility increases. However, the test error exhibits a characteristic U-shape, declining at first before increasing again when the method becomes excessively flexible and overfits. 
+
+- \textcolor{pink}{Refer:} Figure 2.17 (page 42) For U-curve of KNN
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'F65-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'F65-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
