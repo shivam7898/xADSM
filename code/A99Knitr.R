@@ -15,9 +15,18 @@ if (!("k_start" %in% ls(envir = .GlobalEnv))) {
 						dev.args = list(png = list(type = "cairo")),
 						# This does not work. But is being kept for now. ggsave() works.
                         dpi = 300,
-                        opts.label='twofig',
+                        opts.label = 'twofig',
 						# Change Here & Rebuild to find Chunk with Warning (If include is TRUE)
-                        message = FALSE, warning = FALSE, error = FALSE,
+                        #message = FALSE, warning = FALSE, error = FALSE,
+						# #This would be helpful (probably) only during knit not during manual chunk execution
+						# #This turned out to be useful in the sense that some conflicted() errors 
+						# #That were causing R to get hanged without any indication
+						# #Those are now visible in R Console explicitly (NOT in Rmd Chunk Output)
+						# #But something is better than nothing
+						# #ERROR = FALSE in local chunk overrrides this setting and would cause the R to hang.
+						# #Restart R (F12 /^+F10) is useless in that case. Terminate R is useful, it works.
+	# #NOTE we can check the delayed errors with First Base Chunk itself. Just wait for messages. (Sometimes)
+						message = TRUE, warning = TRUE, error = TRUE,
                         progress = FALSE, verbose = FALSE
                         )			
 # #Store the RunTime of slow Chunks

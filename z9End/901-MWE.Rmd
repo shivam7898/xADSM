@@ -1,0 +1,97 @@
+# MWE (Z01) {#z01}
+
+```{r 'Z01', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Overview
+
+- Minimum Working Examples (MWE) for the most common /interesting /obscure 'how to do in R'.
+  - It does not cover any function extensively or their finer points, cautions etc.
+  - It assumes that reader knows R basics.
+
+- [How to Load Packages](#loadpkg-z01 "z01")
+- [How to Copy Clipboard as Tibble](#loaddata-z01 "z01")
+- [How to Generate correlated vectors of normal distribution](#cor-vec-z01 "z01")
+- [How to Count Unique Values in ALL Columns ](#n-uniq-z01  "z01")
+
+## Load Multiple Packages {#loadpkg-z01 .tabset .tabset-fade}
+
+### Packages {.unlisted .unnumbered}
+
+```{r 'Z01-LoadPackages', eval=FALSE}
+if(FALSE) {# #Load Packages that were already installed
+  # #Install Packages if: Error in library(...) : there is no package called '...'
+  # #WARNING: Installation may take some time.
+  #install.packages("dplyr", dependencies = TRUE)
+  library(dplyr)
+  library(readr)
+  library(tibble)
+}
+```
+
+### ALL {.unlisted .unnumbered}
+
+```{r 'Z01-LoadPackagesALL', eval=FALSE}
+if(FALSE) {# #Load Packages that were already installed
+  # #Install Packages if: Error in library(...) : there is no package called '...'
+  # #WARNING: Installation may take some time.
+  #install.packages("dplyr", dependencies = TRUE)
+  pkg <- c("dplyr", "readr", "tibble")
+  lapply(pkg, FUN = function(x) {suppressMessages(library(x, character.only = TRUE))})
+  rm(pkg)
+}
+```
+
+## Load Data {#loaddata-z01 .tabset .tabset-fade}
+
+### Clipboard {.unlisted .unnumbered}
+
+```{r 'Z01-LoadClipBoard', eval=FALSE}
+if(FALSE) {
+  library(readr)
+}
+# #Assuming that the Data has been copied to clipboard. Output is a Tibble.
+ii <- read_delim(clipboard())
+```
+
+
+## Generate Correlated Vectors {#cor-vec-z01 .tabset .tabset-fade}
+
+```{r 'Z01-CorrelatedVectors'}
+# #Set Seed
+set.seed(3)
+#
+# #Generate correlated vectors of normal distribution
+ii <- rnorm(n = 50, mean = 0, sd = 1)
+jj <- ii + rnorm(n = 50, mean = 1, sd = 0.1)
+#
+# #Check Correlation
+cor(ii, jj)
+```
+
+## Count Unique Values in ALL Columns {#n-uniq-z01 .tabset .tabset-fade}
+
+```{r 'Z01-CountUnique'}
+# #Count Unique Values in ALL Columns
+sapply(mtcars, function(x) length(unique(x)))
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'Z01-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'Z01-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

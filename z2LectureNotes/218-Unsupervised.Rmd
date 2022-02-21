@@ -247,7 +247,7 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
     facet_wrap(~Key, nrow = 3, scales = 'free') +
-    labs(x = "x", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
+    labs(x = "x", y = NULL, subtitle = NULL, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B18)
 rm(B18)
@@ -289,7 +289,7 @@ B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     #coord_flip() +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
-    labs(x = "x", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
+    labs(x = "x", y = NULL, subtitle = NULL, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B18)
 rm(B18)
@@ -700,7 +700,7 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values)) +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
     facet_wrap(~Key, nrow = 3, scales = 'free') +
-    labs(x = "z", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
+    labs(x = "z", y = NULL, subtitle = NULL, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B18)
 rm(B18)
@@ -733,7 +733,7 @@ B18 <- hh %>% { ggplot(., aes(sample = Values)) +
     #coord_flip() +
     theme(plot.title.position = "panel", 
           strip.text.x = element_text(size = 10, colour = "white")) +
-    labs(x = "z", y = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
+    labs(x = "z", y = NULL, subtitle = NULL, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B18)
 rm(B18)
@@ -823,7 +823,7 @@ B18 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Group)) +
           #legend.position = "bottom", 
           legend.box = "horizontal", 
           legend.direction = "horizontal") +
-    labs(x = "x", y = NULL, fill = NULL, caption = cap_hh, subtitle = NULL, title = ttl_hh)
+    labs(x = "x", y = NULL, fill = NULL, subtitle = NULL, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B18)
 rm(B18)

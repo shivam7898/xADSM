@@ -622,7 +622,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = '#FDE7
           #legend.position = c(0.5, -0.08), legend.direction = 'horizontal', 
           legend.position = 'none') +
     labs(x = x_hh, y = y_hh, #fill = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -659,7 +659,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -715,7 +715,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = custserv_calls, fill = Churn)
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -879,7 +879,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) +
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -899,7 +899,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Predictor, fill = Target)) +
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -1187,7 +1187,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) +
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh, 
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -1226,7 +1226,7 @@ C33 <- hh %>% { ggplot(data = ., mapping = aes(x = Values, fill = Target)) +
           axis.title.x = element_blank(), 
           legend.position = c(0.5, -0.07), legend.direction = 'horizontal') +
     labs(x = x_hh, y = y_hh, fill = lgd_hh, 
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -1287,7 +1287,7 @@ C33 <- hh %>% { ggplot(data = ., aes(x = eve_mins, y = day_mins)) +
     theme(panel.grid.minor = element_blank(),
           panel.border = element_blank()) +
     labs(x = x_hh, y = y_hh, colour = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -1341,7 +1341,7 @@ C33 <- hh %>% { ggplot(data = ., aes(x = day_mins, y = custserv_calls)) +
     theme(panel.grid.minor = element_blank(),
           panel.border = element_blank()) +
     labs(x = x_hh, y = y_hh, colour = lgd_hh,
-         caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, C33)
 rm(C33)
@@ -1430,7 +1430,7 @@ C33 <- hh %>% {
           columns = 2:ncol(.), 
           lower = list(continuous = f_gg_scatter),
           diag = list(continuous = f_gg_density)) +
-    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh) 
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh) 
 }
 assign(cap_hh, C33)
 rm(C33)

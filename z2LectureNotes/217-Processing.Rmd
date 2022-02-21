@@ -332,7 +332,7 @@ B17 <- hh %>% { ggplot(., aes(sample = Values)) +
     facet_wrap(~Key, scales = 'free') +
     scale_x_continuous(limits = c(-3, 3)) + 
     #coord_flip() +
-    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh)
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
 }
 assign(cap_hh, B17)
 rm(B17)

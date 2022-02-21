@@ -326,7 +326,7 @@ lgd_hh  <- NULL
 C34 <- hh %>% { 
   ggpairs(data = ., mapping = aes(alpha = I(0.1)), columnLabels = labels_hh,
           upper = list(continuous = wrap("cor", size = 5, alpha = 1))) +
-    labs(caption = cap_hh, subtitle = sub_hh, title = ttl_hh) 
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh) 
 }
 assign(cap_hh, C34)
 rm(C34)

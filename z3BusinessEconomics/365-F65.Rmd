@@ -12,9 +12,11 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 > "Introduction (364)" has the Basics only.
 
+\textcolor{pink}{This section assumes a basic understanding of statistical concepts and R. Focus is on implementation.}
+
 ## Packages
 
-```{r 'B32-Installations', eval=FALSE}
+```{r 'F65-Installations', eval=FALSE}
 if(FALSE){# #WARNING: Installation may take some time.
   install.packages("ISLR2", dependencies = TRUE)
 }

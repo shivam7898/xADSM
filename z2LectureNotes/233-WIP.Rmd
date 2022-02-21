@@ -7,16 +7,225 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-<!-- 
 ## Overview
 
-- Question 1: In regression, we needed to check for normality or multicollinearity (VIF). For the KC House data, it was not-normal so we had to do semi-log transformation and then log-log transformation. Does that not affect model performance in Decision Trees
-  - Probably outliers would have low cp value and would be dropped 
-  - But some outliers are actually important observations.
-  - If those have more than 3 z-value, model might drop them
+- \textcolor{pink}{Question:} In regression, we needed to check for normality or multicollinearity (VIF). For the KC House data, it was not-normal so we had to do semi-log transformation and then log-log transformation. Does that not affect model performance in Decision Trees
+  - Tree does not assume Normality so there is no requirement of transformation
+  - (Aside) 
+    - Interaction effect is already assumed in Trees
+    - Probably outliers would have low cp value and would be dropped 
+    - But some outliers are actually important observations.
+    - If those have more than 3 z-value, model might drop them
+- 
+
+## Apply Cross-Validation on CarDekho
+
+## Car Dekho - Data
+
+- [Import Data CarDekho - B26](#set-cardekho-b26 "b26")
+
+
+```{r 'B32-GetCarDekho', ref.label=c('B26-GetCarDekho', 'B26-PrepCar', 'B31-Dummies-Car'), eval=FALSE}
+# #xxB26CarDekho, aa, bb, xsyw, xw,xsw, zfw, xnw, znw, 
+# #train_xfw, test_xfw, train_xfw_ii, test_xfw_ii
+```
+
+```{r 'B32-GetCarDekhoKnit', include=FALSE, eval=FALSE}
+xxB26CarDekho <- f_getRDS(xxB26CarDekho)
+aa <- xxB26CarDekho
+bb <- aa %>% 
+  separate(name, c("brand", NA), sep = " ", remove = FALSE, extra = "drop") %>% 
+  filter(fuel != "Electric") %>% 
+  #mutate(across(where(is.character), factor)) %>% 
+  mutate(across(fuel, factor, levels = c("Diesel", "Petrol", "CNG", "LPG"))) %>% 
+  mutate(across(transmission, factor, levels = c("Manual", "Automatic"), 
+                labels = c("Manual", "Auto"))) %>% 
+  mutate(across(owner, factor, 
+levels = c("First Owner", "Second Owner", "Third Owner", "Fourth & Above Owner", "Test Drive Car"), 
+labels = c("I", "II", "III", "More", "Test"))) %>% 
+  mutate(across(seller_type, factor, levels = c("Individual", "Dealer", "Trustmark Dealer"), 
+                labels = c("Indiv", "Dealer", "mDealer"))) %>% 
+  rename(price = selling_price, km = km_driven, 
+         s = seller_type, o = owner, t = transmission, f = fuel) %>% 
+  mutate(age = 2022 - year) %>% 
+  select(-c(year, name, brand))
+# 
+xfw <- bb
+zfw <- xfw %>% mutate(across(where(is.numeric), ~ as.vector(scale(.)))) 
+xnw <- xfw %>% select(where(is.numeric))
+znw <- zfw %>% select(where(is.numeric))
+#
+# #Dummy | Drop First Level i.e. Reference | Drop Selected Columns i.e. Original |
+dum_xfw <- xfw %>% dummy_cols(.data = ., 
+                  select_columns = c("f", "s", "t", "o"), 
+                  remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+#
+# #Partition Data
+set.seed(3)
+idx_xfw <- sample.int(n = nrow(dum_xfw), size = floor(0.8 * nrow(dum_xfw)), replace = FALSE)
+train_xfw <- dum_xfw[idx_xfw, ]
+test_xfw  <- dum_xfw[-idx_xfw, ]
+#
+# #Decision Trees: Convert Dummy Variables to Factor Variables of two levels "0", "1"
+train_xfw_ii <- train_xfw %>% mutate(across(starts_with(c("s_", "f_", "t_", "o_")), factor))
+test_xfw_ii  <- test_xfw  %>% mutate(across(starts_with(c("s_", "f_", "t_", "o_")), factor))
+```
+
+## Setup Parallel
+
+- Allow Parallel
+
+```{r 'B32-ModelControl', eval=FALSE}
+cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParallel = TRUE)
+```
+
+
+```{r 'B32-CV-Car', eval=FALSE}
+# #train() tuneLength decides the granularity in the tuning parameter grid
+mod_cv <- suppressWarnings(train(price ~ ., data = train_xfw_ii, method = 'rpart', 
+                trControl = cv, tuneLength = 10))
+#mod_cv
+#
+# #Best Tuning Cp value
+#mod_cv$bestTune
+```
+
+
+```{r 'B33-CV-Car-BestCp', eval=FALSE}
+# #Best Tuning value of Cp = 0.008528435	
+mod_cv$bestTune
+```
+
+
+```{r 'B32-Predict-cv-Car', eval=FALSE}
+# #Model Validation
+# #Class of Both Models are different. rpart() require "vector" but "raw" is used with train()
+class(mod_tree)
+class(mod_cv)
+#
+#res_tree <- predict(mod_cv, test_xfw_ii, type  = "raw") 
+res_cv <- test_xfw_ii %>% 
+  mutate(CalY = predict(mod_cv, ., type = "raw"), Y_Yc = price - CalY, MAPE = Y_Yc / price)
+#
+ii <- res_cv
+summary(ii$Y_Yc)
+#
+# #RMSE: Root Mean Squared Error
+sqrt(mean((ii$Y_Yc)^2))
+#
+# #MAE: Mean Absolute Error (MAE)
+mean(abs(ii$Y_Yc))
+#
+# #MAPE: Mean Absolute Percentage Error
+mean(abs(ii$MAPE))
+#
+# #Accuracy 
+1 - mean(abs(ii$MAPE))
+```
+
+```{r 'B32-CP-Car', eval=FALSE}
+# #rpart() for Tree Model using Tuned cp obtained from Cross-validation
+# #Needed to plot this CV model 
+mod_tree_cp <- rpart(price ~ ., data = train_xfw_ii, method = 'anova', cp = 0.0085)
+#
+# #Very Long Output 
+#summary(mod_tree_cp)
+```
+
+## WIP
+
+## Plots
+
+```{r 'B33-PrintTree', include=TRUE, eval=FALSE}
+# #Printing Tree
+ii <- as.party(hh)
+length(ii)
+width(ii)
+depth(ii)
+ii
+```
+
+```{r 'B32-Tree-rpart', include=TRUE, eval=FALSE}
+# #IN: cap_hh, ttl_hh, loc_png, hh <- mod_tree
+#
+if(!file.exists(loc_png)|TRUE) {#xxxx
+  png(filename = loc_png) 
+  dev.control('enable') 
+  rpart.plot(hh, extra = 'auto')
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B31 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B31)
+  rm(B31)
+}
+eval(parse(text = cap_hh))
+```
+
+
+```{r 'B32-Tree-KC-Cp-Set', include=FALSE, eval=FALSE}
+# #3 models here
+#mod_tree, mod_tree_cp, mod_cv
+hh <- mod_tree_cp
+#
+cap_hh <- "B33P01"
+ttl_hh <- "Car: Cp"
+loc_png <- paste0(.z$PX, "B33P01", "-Car-cp", ".png")
+```
+
+```{r 'B32P03-Save', include=FALSE, ref.label=c('B32-Tree-rpart'), eval=FALSE}
+#
+```
+
+## Ensemble Methods
+
+- Collection of Models
+
+## Bagging
+
+## Random Forest
+
+```{r 'B32-Forest', eval=FALSE}
+# Random Forest is Horribly Slow. Keep it in separate chunk.
+# #ntrees = 100, sampsize = 1000, mtry = 4, nodesize = 10 : Var 61.17
+# #ntrees = 200, sampsize = 1000, mtry = 4, nodesize = 10 : Var 61.07
+# #ntrees = 100, sampsize = 1000, mtry = 8, nodesize = 10 : Var 62.33
+# #ntrees = 200, sampsize = 1000, mtry = 8, nodesize = 10 : Var 62.64
+# #ntrees = 500, sampsize = 1000, mtry = 8, nodesize = 10 : Var 62.3
+# #ntrees = 1000, sampsize = 1000, mtry = 8, nodesize = 10: Var 62.37
+# #ntrees = 500, sampsize = 1000, mtry = 10, nodesize = 10: Var 62.37
+# #ntrees = 500, sampsize = 1000, mtry = 10, nodesize = 5: 63.52
+# #ntrees = 500, sampsize = 1000, mtry = 10, nodesize = 3: 64.39
+# #ntrees = 500, sampsize = 1000, mtry = 10, nodesize = 2: 64.53
+# #ntrees = 500, sampsize = 2000, mtry = 10, nodesize = 2: 64.88
+# #ntrees = 500, sampsize = 3000, mtry = 10, nodesize = 2: 64.41
+mod_frst <- randomForest(price ~ ., data = train_xfw_ii, 
+                         ntrees = 500, sampsize = 3000, mtry = 10, nodesize = 2)
+```
+
+```{r 'B32-Print-Forest', eval=FALSE}
+print(mod_frst)
+```
+
+## Tune RF
+
+- step factor : how many features it should step through
+
+```{r 'B32-TuneModel', eval=FALSE}
+# 1: 4
+# 2: 4, 8, 13
+# 3: 2, 4, 12
+tuneRF(x = train_xfw_ii[, -1], y = train_xfw_ii$price, stepFactor = 10, plot = TRUE, trace = TRUE, 
+       ntreeTry = 10, improve = .05)
+```
+
+
+
+## x
+
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
--->
 
 ```{r 'B33-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll)
