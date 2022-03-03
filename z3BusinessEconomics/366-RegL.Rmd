@@ -1,0 +1,2028 @@
+# Linear Regression (F66) {#f66}
+
+```{r 'F66', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Data: Boston {#set-boston-f66 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Boston [506, 13]
+- \textcolor{orange}{Caution:} ISLR2::Boston has 13 columns whereas MASS::Boston has 14 columns with 1 extra column being named as 'black'. For now, ISLR2 is being used because the book is using that.
+
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F66-Data-Boston', include=TRUE, eval=FALSE}
+aa <- as_tibble(ISLR2::Boston)
+# #Relocate Y | 
+bb <- aa %>% relocate(lstat)
+zzF66Boston <- xfw <- bb
+```
+
+```{r 'F66-Save-Boston', include=FALSE, eval=FALSE}
+f_setRDS(zzF66Boston)
+```
+
+```{r 'F66-Get-Boston', include=FALSE}
+zzF66Boston <- xfw <- bb <- aa <- f_getRDS(zzF66Boston)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F66-Structure-Boston'}
+str(zzF66Boston)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Boston'}
+summary(zzF66Boston)
+```
+
+### ETC {.unlisted .unnumbered}
+
+```{r 'F66-ETC', include=TRUE, eval=FALSE}
+# #Count NA in Columns
+if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+# #Subset Rows
+if(FALSE) bb %>% select(1) %>% slice(1:10)
+# #Comma separated string having each item within quotes for easy pasting as character not objects
+if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
+if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+# #Filter
+if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+# #Count Yes/No or True/False in ALL such Columns
+if(FALSE) bb %>% select(iFemale, iMarried) %>% 
+  pivot_longer(everything()) %>% count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) 
+# #Count Unique of all Columns to decide which should be Factors
+if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
+# #Summary of Columns of a class: is.factor is.numeric is.character
+if(FALSE) bb %>% select(where(is.factor)) %>% summary()
+# #Names and Indices of Columns of class: is.factor is.numeric is.character
+if(FALSE) which(sapply(bb, is.factor))
+# #Levels of Factor Columns
+if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
+# #Frequency of Each level of Factor
+if(FALSE) bb %>% count(Own) %>% arrange(desc(n))
+# #Coding for Dummy Variables
+if(FALSE) contrasts(bb$Married) 
+```
+
+
+## Data: CarSeats {#set-carseats-f66 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Carseats [400, 11]
+  - 'Sales' is the Response Variable
+  - It has categorical variables also which should be converted to dummy
+    - [Dummies should be converted Explicitly](#exp-dummy-f66 "f66")
+  - Continuous Age and Education Levels
+    - [Variables like Age or Education Levels should be treated as Continuous](#age-con-f66 "f66")
+
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F66-Data-CarSeats', include=TRUE, eval=FALSE}
+aa <- as_tibble(ISLR2::Carseats)
+# #Dummy | Change Reference | Drop | 
+bb <- aa %>% 
+  mutate(iUrban = ifelse(Urban == "Yes", 1, 0)) %>% 
+  mutate(iUS = ifelse(US == "Yes", 1, 0)) %>% 
+  mutate(across(ShelveLoc, relevel, ref = "Medium")) %>% 
+  select(-c(Urban, US))
+zzF66CarSeats <- xfw <- bb
+```
+
+```{r 'F66-Save-CarSeats', include=FALSE, eval=FALSE}
+f_setRDS(zzF66CarSeats)
+```
+
+```{r 'F66-Get-CarSeats', include=FALSE}
+zzF66CarSeats <- xfw <- bb <- aa <- f_getRDS(zzF66CarSeats)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F66-Structure-CarSeats'}
+str(zzF66CarSeats)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F66-Summary-CarSeats'}
+summary(zzF66CarSeats)
+```
+
+
+## Data: Advertising {#set-ads-f66 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: [200, 4]
+  - Source: https://github.com/abjidge/The-Complete-Guide-to-Linear-Regression-Analysis-with-Business-Problem/blob/master/Advertising.csv
+    - \textcolor{orange}{Caution:} (Do not use the below link) 
+      - Different Values in Sales Column : ~~https://www.kaggle.com/ashydv/sales-prediction-simple-linear-regression/data~~
+  - 'Sales' is the Response Variable
+  - It has sales of product in 200 different markets, along with advertising budgets for the product in each of those markets for three different media: TV, radio, and newspaper.
+    - Advertising Budgets for each media is in 1000 dollars 
+    - Sales is the number of units of product sold (in thousands of units)
+
+
+### EDA {.unlisted .unnumbered}
+
+\textcolor{pink}{Please import the "F66-Advertising.csv"}
+
+```{r 'F66-Data-Ads-x', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum
+#tools::md5sum(paste0(.z$XL, "F66-Advertising.csv"))
+xxF66Ads <- f_getObject("xxF66Ads", "F66-Advertising.csv", "ee7780d02d13787d88792c4ab9a19622")
+```
+
+```{r 'F66-Get-Ads-x', include=FALSE, eval=FALSE}
+xxF66Ads <- f_getRDS(xxF66Ads)
+```
+
+```{r 'F66-Data-Ads', eval=FALSE}
+aa <- xxF66Ads
+# #Drop SN | Rename | Relocate Y | 
+bb <- aa %>% select(-1) %>% rename_with(tolower) %>% relocate(sales)
+zzF66Ads <- xfw <- bb
+```
+
+```{r 'F66-Save-Ads', include=FALSE, eval=FALSE}
+f_setRDS(zzF66Ads)
+```
+
+```{r 'F66-Get-Ads', include=FALSE}
+zzF66Ads <- xfw <- bb <- aa <- f_getRDS(zzF66Ads)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F66-Structure-Ads'}
+str(zzF66Ads)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Ads'}
+summary(zzF66Ads)
+```
+
+## Data: Credit {#set-credit-f66 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Credit [400, 11]
+  - 'Balance' is the Response Variable
+    - It is the average credit card debt for each individual
+  - It has categorical variables also which should be converted to dummy
+    - [Dummies should be converted Explicitly](#exp-dummy-f66 "f66")
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F66-Data-Credit', eval=FALSE}
+aa <- as_tibble(ISLR2::Credit)
+# #Using the default levels to Match with the Book analysis
+# #Relocate Y | 
+bb <- aa %>% 
+  #mutate(across(Region, relevel, ref = "South")) %>% 
+  #mutate(across(c(Own, Married), relevel, ref = "Yes")) %>% 
+  relocate(Balance)
+zzF66Credit <- bb
+```
+
+```{r 'F66-Save-Credit', include=FALSE, eval=FALSE}
+f_setRDS(zzF66Credit)
+```
+
+```{r 'F66-Get-Credit', include=FALSE}
+zzF66Credit <- xfw <- bb <- aa <- f_getRDS(zzF66Credit)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F66-Structure-Credit'}
+str(zzF66Credit)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Credit'}
+summary(zzF66Credit)
+```
+
+## Data: Auto {#set-auto-f66 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Auto [392, 9]
+
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F66-Data-Auto', eval=FALSE}
+zzF66Auto <- bb <- aa <- as_tibble(ISLR2::Auto)
+```
+
+```{r 'F66-Save-Auto', include=FALSE, eval=FALSE}
+f_setRDS(zzF66Auto)
+```
+
+```{r 'F66-Get-Auto', include=FALSE}
+zzF66Auto <- xfw <- bb <- aa <- f_getRDS(zzF66Auto)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F66-Structure-Auto'}
+str(zzF66Auto)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Auto'}
+summary(zzF66Auto)
+```
+
+
+
+## Explicit Dummy Conversion {#exp-dummy-f66}
+
+- [Dummies should be converted Explicitly](#exp-dummy-f66 "f66")
+  - By default, lm() can convert dummies but it is better to explictly handle those. - "ForLater"
+- Also, Keep the base dataset (i.e. with factors), not including the dummies
+  - The Name of the Reference Level is lost and cannot be recovered. If there are 3 regions, {East, West, South} and 'East' is being treated as the reference, the resulting dataset, with dummies, does not know whether the {0, ..., 0} reference level would be East or North.
+  - Implicit Dummy conversion retains the reference level because it keeps the variable as factor. However, implicit is not available for some models.
+
+
+## Continuous Age {#age-con-f66}
+
+- [Variables like Age or Education Levels should be treated as Continuous](#age-con-f66 "f66")
+  - Keeping them as Continuous is better (in general)
+  - Converting to Factor would result in loss of information about their relative location i.e. age 80 is near 70 compared to age 30 or education 20 is better than education 10
+  - Many techniques (like randomForest) become exponentially resource intensive as the number of variable increases and Age /Level type of variables would create lots of dummies if converted to categorical
+  - Marks given to Students (e.g. 44 or 63 out of 100, 3 or 4 out of 10) although look continuous but inherently these are categorical. However, almost always, they are assumed to be continous to calculate a Grade point averge (GPA) etc. 
+    - \textcolor{orange}{Caution:} According to Statistical theory this is wrong but it happens this way only.
+  - As the number of levels increases, we tend to assume that the variable is continuous. So, there is no set boundary when a variable is categorical or continous
+  - Treating them as continous, automatically handles the missing levels that are not in the data i.e. age (e.g. 40, 55 might be missing). Converting this to categorical would create another problem of how to treat those.
+    - Distance between 39 and 41 would change with the prsence or absence of an observation value of 40 if we treat it as categorical.
+
+
+## Ordered Factor {#lm-poly-f66}
+
+- [Ordered Factors in lm() will give polynomials](#lm-poly-f66 "f66")
+- \textcolor{orange}{Caution:} Incomplete. "ForLater"
+- Ordered Factors are converted into polynomial by defualt in R during regression whereas unordered factors are kept simple
+    - How to convert ordered factors into polynomials for usage
+    - Further, what would happen if in the 'Good < Better < Best' ordering, Better is the most frequent level. Currently, the basic rule is to convert most frequent level to the reference to minimise multicollinearity. How this would be handled is unknown for now.
+
+
+
+
+## Simple Linear Regression {#reg-f66}
+
+- Dataset Advertising - Goal 
+  - To develop an accurate model that can be used to predict sales on the basis of the three media budgets.
+
+- \textcolor{pink}{Question:} Refer [Answers](#ans-f66 "f66")
+
+1. Is there a relationship between advertising budget and sales
+2. How strong is the relationship between advertising budget and sales
+3. Which media are associated with sales
+4. How large is the association between each medium and sales
+5. How accurately can we predict future sales
+6. Is the relationship linear
+7. Is there synergy among the advertising media (interaction effect)
+
+
+```{definition 'Simple-Linear-Regression-F66'}
+\textcolor{pink}{Simple Linear Regression} is the approach for predicting a quantitative response (Y) on the basis of a single predictor variable (X). It assumes that there is approximately a linear relationship between X and Y: \textcolor{pink}{$Y \approx \beta_0 + \beta_1 X$}, where $\beta_0$ represent the intercept and $\beta_1$ represent the slope in the linear model. Together $\beta_0$ and $\beta_1$ are known as the model \textcolor{pink}{coefficients} or \textcolor{pink}{parameters}.
+```
+
+- Our goal is to obtain coefficient estimates $\hat{\beta}_0$ and $\hat{\beta}_1$ such that the linear model fits the available data well
+  - $y_i \approx \hat{\beta}_0 + \hat{\beta}_1 x_i \phantom{0} \forall \phantom{0} i \in \{1, 2, \ldots, n\}$
+  - In other words, we want to find an intercept $\hat{\beta}_0$ and a slope $\hat{\beta}_1$ such that the resulting line is as close as possible to the observed data points. 
+  - The most common approach, to measure closeness, involves minimizing the \textcolor{pink}{least squares criterion}.
+  - The least squares approach chooses $\hat{\beta}_0$ and $\hat{\beta}_1$ to minimize the RSS.
+
+
+```{definition 'Residuals-F66'}
+\textcolor{pink}{$i^{\text{th}}$ Residual $(e_i)$} is the difference between observed response $(y_i)$ and predicted response $(\hat{y}_i)$. i.e. $e_i = y_i - \hat{y}_i$
+```
+
+
+```{definition 'RSS'}
+\textcolor{pink}{Residual Sum of Squares} $\text{RSS} = \displaystyle\sum_{i=1}^n (y_i - \hat{y}_i)^2$
+```
+
+## Population Regression Line
+
+- Regression Model $Y = \beta_0 + \beta_1 X + \epsilon$ 
+  - $\beta_0$ represent the intercept i.e. the expected value of Y when X = 0
+  - $\beta_1$ represent the slope i.e. the average increase in Y associated with a one-unit increase in X
+  - $\epsilon$ is the error term. We typically assume that the error term is independent of X.
+  - The model given by this equation defines the \textcolor{pink}{population regression line}, is the best linear approximation to the true relationship between X and Y.
+  - The true relationship is generally not known for real data, but the least squares line can always be computed using the coefficient estimates. 
+  - In other words, in real applications, we have access to a set of observations from which we can compute the least squares line; however, the population regression line is unobserved.
+
+## Unbiased Estimator
+
+```{definition 'Unbiased-Estimator'}
+An \textcolor{pink}{unbiased estimator} does not systematically over-estimate or under-estimate the true parameter. 
+```
+
+
+- The sample mean $(\hat{\mu})$ and the population mean $({\mu})$ are different, but in general the sample mean will provide a good estimate of the population mean.
+- If we use the sample mean $\hat{\mu}$ to estimate ${\mu}$, this estimate is unbiased, in the sense that on average, we expect $\hat{\mu}$ to equal ${\mu}$. 
+  - It means that on the basis of one particular set of observations $\hat{\mu}$ might overestimate ${\mu}$, and on the basis of another set of observations, $\hat{\mu}$ might underestimate ${\mu}$. But if we could average a huge number of estimates of ${\mu}$ obtained from a huge number of sets of observations, then this average would exactly equal ${\mu}$. 
+
+## Assessing the Accuracy of the Coefficient Estimates
+
+- How accurate is the sample mean $(\hat{\mu})$ as an estimate of $({\mu})$ 
+  - Calculate Standard Error of $\hat{\mu}$ i.e. $\text{SE}(\hat{\mu})$
+  - $\text{Var}(\hat{\mu}) = \text{SE}(\hat{\mu})^2 = \frac{\sigma^2}{n}$
+  - Roughly, the standard error tells us the average amount that this estimate $\hat{\mu}$ differs from the actual value of ${\mu}$.
+  - It also tells us that as the 'n' becomes larger, the standard error of $\hat{\mu}$ decreases
+
+- Similarly standard errors for $\beta_0, \beta_1$ can be estimated
+  - $\text{SE}(\hat{\beta}_1)$ would be smaller when the $x_i$ are more spread out; intuitively we have more leverage to estimate a slope when this is the case. 
+  - We also see that $\text{SE}(\hat{\beta}_0)$ would be the same as $\text{SE}(\hat{\mu})$ if ${\overline{x}}$ were zero, in which case $\hat{\beta}_0$ would be equal to ${\overline{y}}$. 
+  - In general, $\sigma^2$ is not known, but can be estimated from the data. This estimate of $\sigma$ is known as the RSE. 
+    - Definition given below is applicable similarly to the estimation of model coeffcients. 
+
+
+```{definition 'RSE'}
+The \textcolor{pink}{residual standard error (RSE)} is an estimate of the standard deviation of $\epsilon$ or the estimate of $\sigma$. It is the average amount that the response will deviate from the true regression line. RSE represents the \textcolor{pink}{lack of fit} of the model. Lower RSE is desired. \textcolor{pink}{$\text{RSE} = \sqrt{\frac{\text{RSS}}{(n-2)}}$}
+```
+
+
+```{definition 'Confidence-Interval-F66'}
+A 95% \textcolor{pink}{confidence interval} is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameter. Standard errors can be used to compute confidence intervals. 
+```
+
+
+- Standard errors can also be used to perform hypothesis tests on the coefficients. 
+  - ${H_0} : \beta_1 = 0$ : There is no relationship between X and Y
+  - ${H_a} :\beta_1 \neq 0$ : There is some relationship between X and Y
+- To test the null hypothesis, we need to determine whether $\hat{\beta}_1$ (estimate) is sufficiently far from zero that we can be confident that $\beta_1$ (parameter) is non-zero. 
+  - How far is far enough, depends on the accuracy of $\hat{\beta}_1$ i.e. $\text{SE}(\hat{\beta}_1)$
+  - If $\text{SE}(\hat{\beta}_1)$ is small, then even relatively small values of $\hat{\beta}_1$ may provide strong evidence that $\beta_1 \neq 0$, and hence that there is a relationship between X and Y. 
+  - In contrast, if $\text{SE}(\hat{\beta}_1)$ is large, then $\hat{\beta}_1$ must be large in absolute value in order for us to reject the null hypothesis.
+
+- We compute a t-statistic as: $t = \frac{\hat{\beta}_1 - 0}{\text{SE}(\hat{\beta}_1)}$
+  - It measures the number of standard deviations that $\hat{\beta}_1$ is away from 0. 
+  - If there really is no relationship between X and Y, then we expect that it will have a t-distribution with \textcolor{pink}{(n − 2)} degrees of freedom. 
+  - The t-distribution has a bell shape and for values of 'n' greater than approximately 30 it is quite similar to the standard normal distribution. 
+  - Consequently, we can compute the probability of observing any number equal to |t| or larger in absolute value, assuming $\beta_1 = 0$. We call this probability the p-value. 
+
+- p-value
+  - A small p-value indicates that it is unlikely to observe such a substantial association between the predictor and the response due to chance, in the absence of any real association between the predictor and the response. 
+  - Hence, if we see a small p-value, then we can infer that there is an association between the predictor and the response. 
+  - We reject the null hypothesis —that is, we declare a relationship to exist between X and Y —if the p-value is small enough. 
+    - Typical p-value cutoffs for rejecting the null hypothesis are 5% or 1%. 
+    - When n = 30, these correspond to t-statistics of around 2 and 2.75, respectively.
+
+## lm() {.tabset .tabset-fade}
+
+- \textcolor{pink}{lm()} for Linear Regression
+  - \textcolor{pink}{stargazer()} for summary
+    - ~~summary() for coefficients~~
+  - \textcolor{pink}{confint()} for Confidence Interval
+  - \textcolor{pink}{predict()} for prediction i.e. $\hat{y}$ 
+    - It can provide confidence intervals and prediction intervals for given value
+
+- Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
+  - Least squares model for the regression of number of units sold on TV advertising budget for the Advertising data. 
+  - $\beta_0 = 7.03, \beta_1 = 0.0475$
+  - According to this approximation, an additional unit (1,000 dollars) spent on TV advertising is associated with selling approximately 0.0475 additional units of the product (in 1000 i.e. 47.5 units)
+  - Confidence Interval
+    - $\beta_0 \in [6.130, 7.935]$ : In the absence of any advertising, sales will, on average, fall somewhere between 6,130 and 7,935 units
+    - $\beta_1 \in [0.042, 0.053]$ : For each 1,000 dollar increase in television advertising, there will be an average increase in sales of between 42 and 53 units
+  - Hypothesis Test
+     - Coefficients for $\hat{\beta}_0$ and $\hat{\beta}_1$ are very large relative to their standard errors, so the t-statistics are also large; the probabilities of seeing such values if ${H_0}$ is true are virtually zero.
+    - Hence we can conclude that $\beta_0 \neq 0, \beta_1 \neq 0$
+      - $\beta_1 \neq 0$ allows us to conclude that there is a relationship between TV and sales. 
+       - $\beta_0 \neq 0$ allows us to conclude that in the absence of TV expenditure, sales are non-zero. 
+
+
+```{r 'F66-Regression-Ads-1'}
+# #Simple Linear Regression
+mod_ads_tv <- lm(sales ~ tv, data = zzF66Ads)
+mod_ads_rad <- lm(sales ~ radio, data = zzF66Ads)
+mod_ads_paper <- lm(sales ~ newspaper, data = zzF66Ads)
+```
+
+
+```{r 'F66-ConfidenceInterval-Ads-1'}
+# #confint() for Confidence Interval of the Estimated Coefficients
+round(confint(mod_ads_tv), 3)
+```
+
+
+```{r 'F66-Summary-Ads-1'}
+# #Coefficient Estimates, Standard Error, t-value, p-value and Significance
+if(TRUE) f_pNum(summary(mod_ads_tv)$coefficients, 3) %>% as_tibble(rownames = "Coefficients") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+```
+
+## Assessing the Accuracy of the Model {.tabset .tabset-fade}
+
+- Goal: To quantify the extent to which the model fits the data. 
+  - The quality of a linear regression fit is typically assessed using two related quantities: 
+    - the Residual Standard Error (RSE) 
+    - the $R^2$ statistic
+
+```{r 'F66D01', comment="", echo=FALSE, results='asis'}
+f_getDef("RSE") #dddd
+```
+
+
+```{definition 'Rsq'}
+The \textcolor{pink}{$R^2 \in [0, 1] $}, is the proportion of variance explained. It is independent of the scale of Y. \textcolor{pink}{$R^2 = 1 - \frac{\text{RSS}}{\text{TSS}}$}
+```
+
+
+```{definition 'TSS'}
+\textcolor{pink}{Total Sum of Squares} $\text{TSS} = \displaystyle\sum_{i=1}^n (y_i - {\overline{y}}_i)^2$
+```
+
+- $R^2$
+  - The RSE provides an absolute measure of 'lack of fit' of the model to the data. But since it is measured in the units of Y, it is not always clear what constitutes a good RSE. The $R^2$ statistic provides an alternative measure of fit.
+  - TSS measures the total variance in the response Y, and can be thought of as the amount of variability inherent in the response before the regression is performed. 
+  - In contrast, RSS measures the amount of variability that is left unexplained after performing the regression. 
+  - Hence, (TSS - RSS) measures the amount of variability in the response that is explained (or removed) by performing the regression, and $R^2$ measures the proportion of variability in Y that can be explained using X. 
+  - An $R^2$ statistic that is close to 1 indicates that a large proportion of the variability in the response is explained by the regression. 
+  - A $R^2$ value near 0 indicates that the regression does not explain much of the variability in the response; this might occur because the linear model is wrong, or the error variance ${\sigma}^2$ is high, or both.
+
+- Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
+  - RSE = 3.26 (1000 dollars)
+    - i.e. Actual sales in each market deviate from the true regression line by approximately 3,260 units, on average. 
+    - i.e. Even if the model were correct and the true values of the unknown coefficients $\beta_0$ and $\beta_1$ were known exactly, any prediction of sales on the basis of TV advertising would still be off by about 3,260 units on average. 
+  - Percentage Error
+    - Mean Y = 14.02 (1000 units)
+    - Percentage error = MSE / Mean Y $= 3258 / 14022 \approx 23\%$
+  - $R^2 = 0.61$
+    - i.e. Just under two-thirds of the variability in 'sales' is explained by a linear regression on 'TV'.
+
+
+### stargazer() {.unlisted .unnumbered}
+
+```{r 'F66-Print-Ads-1'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Advertising: Y ~ X (3 Models)"
+col_hh <- c("TV", "Radio", "Newspaper")
+#
+stargazer(mod_ads_tv, mod_ads_rad, mod_ads_paper, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+### Deprecated {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Ads-1-OLD'}
+# #RSE, R2, F-statistic, Percentage Error
+summary(mod_ads_tv)$sigma
+summary(mod_ads_tv)$r.squared
+summary(mod_ads_tv)$fstatistic
+#
+# #Percentage Error = RSE/Mean
+cat(paste0("Percentage Error (RSE / Mean Y) = ", 
+           round(100 * summary(mod_ads_tv)$sigma / mean(zzF66Ads$sales), 2), "%\n"))
+```
+
+
+
+## Multiple Linear Regression
+
+Instead of fitting a separate simple linear regression model for each predictor, a better approach is to extend the simple linear regression model so that it can directly accommodate multiple predictors. We can do this by giving each predictor a separate slope coefficient in a single model.
+
+- $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon$
+  - where $X_j$ represents the $j^{th}$ predictor and $\beta_j$ quantifies the association between that variable and the response. 
+  - We interpret $\beta_j$ as the average effect on Y of a one unit increase in $X_j$, \textcolor{pink}{holding all other predictors fixed}.
+
+
+- Dataset Advertising - Linear Regression of Y (Sales)
+  - For a given amount of TV and newspaper advertising, spending an additional 1,000 dollars on radio advertising is associated with approximately 188 units of additional sales. 
+  - Comparing these coefficient estimates, we notice that the multiple regression coefficient estimates for 'TV' and 'radio' are pretty similar to the simple linear regression coefficient estimates.
+    - TV: Simple (0.0475), Multiple (0.0458)
+    - Radio: Simple (0.2025), Multiple (0.1885)
+  - However, while the 'newspaper' regression coefficient estimate in Simple Linear Regression was significantly non-zero, the coefficient estimate for newspaper in the multiple regression model is close to zero, and the corresponding p-value is no longer significant. 
+    - Newspaper: Simple (0.0547 & significant), Multiple (-0.0010 & not significant)
+  - This illustrates that the simple and multiple regression coefficients can be quite different. 
+    - This difference stems from the fact that in the simple regression case, the slope term represents the average increase in product sales associated with a 1,000 dollars increase in newspaper advertising, \textcolor{pink}{ignoring other predictors} such as TV and radio. 
+    - By contrast, in the multiple regression setting, the coefficient for newspaper represents the average increase in product sales associated with increasing newspaper spending by 1,000 dollars while \textcolor{pink}{keeping other predictors fixed}.
+
+
+```{conjecture 'stargazer-nchar'}
+\textcolor{brown}{Error in if (nchar(text.matrix[r, c]) > max.length[real.c]) : missing value where TRUE/FALSE needed}
+```
+
+- stargazer() cannot handle underscore in Headers for Table Printing
+
+
+```{r 'F66-Regression-Ads-2'}
+# #Multiple Linear Regression 
+# #Use Dot (.) to indicate ALL (except Y)
+# #Use Plus (+) to add or Minus (-) to remove variable names
+mod_ads_tvrad <- lm(sales ~ tv + radio, data = zzF66Ads)
+mod_ads <- lm(sales ~ ., data = zzF66Ads)
+```
+
+
+```{r 'F66-Print-Ads-2'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Advertising"
+col_hh <- c("ALL", "TV.Radio", "TV", "Radio", "Newspaper")
+#
+stargazer(mod_ads, mod_ads_tvrad, mod_ads_tv, mod_ads_rad, mod_ads_paper, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+## Correlation {.tabset .tabset-fade}
+
+- Does it make sense for the multiple regression to suggest no relationship between 'sales' and 'newspaper' while the simple linear regression implies the opposite
+  - Yes, it does make sense. 
+  - The correlation matrix shows that the correlation between 'radio' and 'newspaper' is 0.35. 
+    - This indicates that markets with high newspaper advertising tend to also have high radio advertising. 
+  - Now suppose that the multiple regression is correct and newspaper advertising is not associated with sales, but radio advertising is associated with sales. 
+    - Then in markets where we spend more on radio our sales will tend to be higher, and as our correlation matrix shows, we also tend to spend more on newspaper advertising in those same markets.
+  - Hence, in a simple linear regression which only examines sales versus newspaper, we will observe that higher values of newspaper tend to be associated with higher values of sales, even though newspaper advertising is not directly associated with sales. 
+    - So newspaper advertising is a \textcolor{pink}{surrogate} for radio advertising; newspaper gets 'credit' for the association between radio on sales.
+
+
+### Image {.unlisted .unnumbered}
+
+```{r 'F66-ADS-Corr-Set', include=FALSE}
+# #Setup for Corrplot
+ii <- zzF66Ads 
+hh <- cor(ii)
+corr_hh <- cor.mtest(ii)
+# #p-value Higher than this is insignificant and should be skipped
+sig_corr_hh <- 0.05 
+#
+cap_hh <- "F66P08"
+ttl_hh <- "Advertisement: Corrplot"
+loc_png <- paste0(.z$PX, "F66P08", "-Ads-Corrplot", ".png")
+```
+
+```{r 'F66P08-Save', include=FALSE, ref.label=c('F66-Corrplot')}
+#
+```
+
+```{r 'F66P08', echo=FALSE, fig.cap="(F66P08) Advertisement: Corrplot"}
+knitr::include_graphics(paste0(.z$PX, "F66P08", "-Ads-Corrplot", ".png"))
+```
+
+### Code {.unlisted .unnumbered}
+
+```{r 'F66-ADS-Corr-Set-A', eval=FALSE, ref.label=c('F66-ADS-Corr-Set')}
+#
+```
+
+```{r 'F66-Corrplot', eval=FALSE}
+# #IN: hh, corr_hh, sig_corr_hh
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) 
+  #dev.control('enable') 
+  corrplot(hh, method = "circle", type = "lower", diag = FALSE, col = COL2('BrBG', 200),
+                   cl.pos = 'r', tl.pos = 'ld', addCoef.col = "black", tl.col = "black",
+                   p.mat = corr_hh$p, sig.level = sig_corr_hh, insig = 'blank', 
+        #order = "hclust", hclust.method = "ward.D", addrect = 2, rect.col = 3, rect.lwd = 3, 
+                   title = NULL #, col = RColorBrewer::brewer.pal(3, "BrBG")
+				   )
+  title(main = ttl_hh, line = 2, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  F66 <- recordPlot()
+  dev.off()
+  assign(cap_hh, F66)
+  rm(F66)
+  #eval(parse(text = cap_hh))
+}
+```
+
+
+## Questions to be answered by Regression
+
+### Is There a Relationship Between the Response and Predictors
+
+- F-statistic is used to perform following Hypothesis Test
+  - ${H_0} :$ All regression coefficients are zero.
+  - ${H_a} :$ At least one regression coefficient is non-zero.
+  - $F = \frac{(\text{TSS} - \text{RSS})/p}{\text{RSS} /(n - p - 1)}$
+  - When there is no relationship between the response and predictors, one would expect the F-statistic to take on a value close to 1.
+  - If ${H_a}$ is true then F-statistic would be greater than 1
+
+- How large does the F-statistic need to be before we can reject ${H_0}$ and conclude that there is a relationship
+  - It depends on the values of 'n' and 'p'. 
+  - When 'n' is large, an F-statistic that is just a little larger than 1 might still provide evidence against ${H_0}$. 
+  - In contrast, a larger F-statistic is needed to reject ${H_0}$ if 'n' is small. 
+
+- For each individual predictor a t-statistic and a p-value were reported. 
+  - These provide information about whether each individual predictor is related to the response, after adjusting for the other predictors. 
+  - It turns out that each of these is exactly equivalent to the F-test that omits that single variable from the model, leaving all the others in. 
+    - The square of each t-statistic is the corresponding F-statistic
+  - So it reports the partial effect of adding that variable to the model. 
+    - For instance these p-values indicate that TV and radio are related to sales, but that there is no evidence that newspaper is associated with sales, when TV and radio are held fixed.
+
+- Given these individual p-values for each variable, why do we need to look at the overall F-statistic
+  - ~~After all, it seems likely that if any one of the p-values for the individual variables is very small, then at least one of the predictors is related to the response.~~
+    - However, this logic is flawed, especially when the number of predictors 'p' is large.
+  - For instance, consider an example in which p = 100 and ${H_0} : \beta_1 = \beta_2 = \ldots = \beta_p = 0$ is true, so no variable is truly associated with the response. 
+    - In this situation, about 5 % of the p-values associated with each variable will be below 0.05 by chance. 
+    - In other words, we expect to see approximately five small p-values even in the absence of any true association between the predictors and the response. (Related to "Multiple Testing")
+    - In fact, it is likely that we will observe at least one p-value below 0.05 by chance! 
+    - Hence, if we use the individual t-statistics and associated p-values in order to decide whether or not there is any association between the variables and the response, there is a very high chance that we will incorrectly conclude that there is a relationship. 
+  - However, the F-statistic does not suffer from this problem because it adjusts for the number of predictors. 
+    - Hence, if ${H_0}$ is true, there is only a 5 % chance that the F-statistic will result in a pvalue below 0.05, regardless of the number of predictors or the number of observations.
+
+- \textcolor{orange}{Caution:} In high-dimensionality situation (p >> n), this approach of using an F-statistic to test for any association between the predictors and the response fails.
+
+### Deciding on Important Variables
+
+
+```{definition 'Variable-Selection'}
+The task of determining which predictors are associated with the response, in order to fit a single model involving only those predictors, is referred to as \textcolor{pink}{variable selection}.
+```
+
+
+- Various statistics can be used to judge the quality of a model. 
+  - Mallows cp
+  - Akaike information criterion (AIC)
+  - Bayesian information criterion (BIC)
+  - Adjusted $R_a^2$
+- Approaches
+    - Forward selection
+      - Forward selection might include variables early that later become redundant.
+    - Backward selection
+      - Backward selection cannot be used if p > n
+    - Mixed selection
+      - We continue to perform forward and backward steps until all variables in the model have a sufficiently low p-value, and all variables outside the model would have a large p-value if added to the model.
+
+
+### Model Fit
+
+```{r 'F66-Print-Ads-2-A', ref.label=c('F66-Print-Ads-2')}
+#
+```
+
+- Dataset Advertising - Linear Regression of Y (Sales)
+  - Model with All 3 variables: $R^2 = 0.89721$
+  - Model with 2 variables excluding newspaper: $R^2 = 0.89719$
+  - In other words, there is a small increase in $R^2$ if we include newspaper advertising in the model that already contains TV and radio advertising, even though we saw earlier that the p-value for newspaper advertising is not significant. 
+  - It turns out that $R^2$ will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. 
+    - This is due to the fact that adding another variable always results in a decrease in the residual sum of squares on the training data (though not necessarily the testing data). Thus, the $R^2$ statistic, which is also computed on the training data, must increase. The fact that adding newspaper advertising to the model containing only TV and radio advertising leads to just a tiny increase in $R^2$ provides additional evidence that newspaper can be dropped from the model. 
+    - Essentially, newspaper provides no real improvement in the model fit to the training samples, and its inclusion will likely lead to poor results on independent test samples due to overfitting.
+
+- We should look at \textcolor{pink}{Adjusted R Square $R_a^2$}
+  - Model with All 3 variables: $R_a^2 = 0.89564$
+  - Model with 2 variables excluding newspaper: $R_a^2 = 0.89615$
+  - Model with 2 variabls has higher (better) $R_a^2$ and thus should be used
+
+### Predictions
+
+- The inaccuracy in the coefficient estimates is related to the reducible error. We can compute a confidence interval in order to determine how close $\hat{Y}$ will be to $f(X)$.
+
+- Even if we knew $f(X)$ —that is, even if we knew the true values for coefficients— the response value cannot be predicted perfectly because of the random error $\epsilon$ in the model. 
+  - This is the irreducible error. 
+  - How much will Y vary from $\hat{Y}$
+  - We use prediction intervals to answer this question. 
+    - Prediction intervals are always wider than confidence intervals, because they incorporate both the error in the estimate for $f(X)$ (the reducible error) and the uncertainty as to how much an individual point will differ from the population regression plane (the irreducible error).
+
+
+- Dataset Advertising - Linear Regression of Y (Sales)
+  - We use a confidence interval to quantify the uncertainty surrounding confidence interval the average sales over a large number of cities. 
+    - Ex: Given that 100,000 dollars are spent on TV advertising and 20,000 dollars are spent on radio advertising in each city, the 95% confidence interval is [10985, 11528]. 
+    - We interpret this to mean that 95% of intervals of this form will contain the true value of $f(X)$.
+  - On the other hand, a prediction interval can be used to quantify the prediction interval uncertainty surrounding sales for a particular city. 
+    - Ex: Given that 100,000 dollars are spent on TV advertising and 20,000 dollars are spent on radio advertising in that city the 95% prediction interval is [7930, 14583]. 
+    - We interpret this to mean that 95% of intervals of this form will contain the true value of Y for this city. 
+  - Note that both intervals are centered at 11256, but that the prediction interval is substantially wider than the confidence interval, reflecting the increased uncertainty about sales for a given city in comparison to the average sales over many locations.
+
+
+```{r 'F66-Predict-Ads'}
+# #predict() for confidence intervals (95%)
+predict(mod_ads_tvrad, tibble(tv = c(100), radio = c(20)), interval = "confidence")
+#
+# #predict() for prediction intervals (95%)
+predict(mod_ads_tvrad, tibble(tv = c(100), radio = c(20)), interval = "prediction")
+```
+
+##  Qualitative Predictors
+
+- For a categorical variable with 'k' levels, we need to create $(k - 1)$ \textcolor{pink}{indicator or dummy variables}. Each of them would take on two possible numerical values (0, 1)
+  - Also known as 'one-hot encoding'
+  - We can assign (0, 1) to different levels i.e. reference will change, values will change, interpretation will change, but the conclusion would remain the same. 
+  - Further, we can even use (-1, 1)
+  - All of these approaches lead to equivalent model fits, but the coefficients are different and have different interpretations, and are designed to measure particular \textcolor{pink}{contrasts}.
+
+### Predictors with Only Two Levels
+
+- Dataset Credit - Linear Regression of Y (Balance) vs. Single Categorical X (Own)
+  - Reference: 0 (does not own house), 1 (owns the house)
+  - The average credit card debt for non-owners is estimated to be 509.80 dollars (Constant), whereas owners are estimated to carry 19.73 dollars in additional debt for a total of 529.53 dollars. 
+  - However, the p-value for the dummy variable is higher than 0.05. This indicates that there is no statistical evidence of a difference in average credit card balance based on house ownership. 
+  - Alternate Reference: 1 (does not own house), 0 (owns the house)
+    - The average credit card debt for owners is estimated to be 529.53 dollars (Constant), whereas non-owners are estimated to carry slightly lower debt of 19.73 dollars for a total of 509.80 dollars. 
+  - Alternate Reference: -1 (does not own house), 1 (owns the house)
+    - The average credit card debt for owners is estimated to be 519.67 dollars (Constant)
+    - Non-owners are estimated to carry slightly lower debt of (-1) * 9.87 dollars for a total of 509.80 dollars. 
+    - Owners are estimated to carry additional debt of (1) * 9.87 dollars for a total of 529.53 dollars.
+
+
+```{r 'F66-Regression-Credit-1'}
+# #Simple Linear Regression with Categorical X
+# #Dummy |
+zzF66Credit_dum <- dummy_cols(zzF66Credit, 
+                              remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+#
+# #Reference Own: No = 0, Yes = 1
+mod_credit_Own_Yes <- lm(Balance ~ Own_Yes, data = zzF66Credit_dum)
+#
+# #Change Reference Own: No = 1, Yes = 0
+ii <- zzF66Credit %>% 
+  mutate(across(c(Own), relevel, ref = "Yes")) %>% dummy_cols(., 
+                              remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+mod_credit_Own_No <- lm(Balance ~ Own_No, data = ii)
+#
+# #Change Reference Own: No = -1, Yes = 1
+jj <- ii %>% mutate(Own_NoYes = replace(Own_No, Own_No == 0, -1)) %>% select(-Own_No)
+mod_credit_Own_NoYes <- lm(Balance ~ Own_NoYes, data = jj)
+```
+
+
+```{r 'F66-Print-Credit-1'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Credit"
+col_hh <- c("Own.Yes", "Own.No", "Own.NoYes")
+#
+stargazer(mod_credit_Own_Yes, mod_credit_Own_No, mod_credit_Own_NoYes, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+### Qualitative Predictors with More than Two Levels
+
+- Dataset Credit - Linear Regression of Y (Balance) vs. Single Categorical X (Region)
+  - Reference: East
+  - \textcolor{orange}{Caution:} Book might have interchanged the Coefficients of Region_South and Region_West
+    - The estimated balance for the baseline, East, is 531 dollars. 
+    - It is estimated that those in the South will have 12 dollars less debt than those in the East
+    - Those in the West will have 18 dollars less debt than those in the East. 
+    - However, the p-values associated with the coefficient estimates for the two dummy variables are greater than 0.05, suggesting no statistical evidence of a real difference in average credit card balance between 'South and East' or between 'West and East'.
+  - Selection of baseline category is arbitrary (suggested most frequent, not applied here)
+    - Final predictions for each group will be same regardless of this choice
+    - However, p-values do depend on the choice of dummy variable coding. 
+    - Rather than rely on the individual coefficients, we can use an F-test.
+      - This does not depend on the coding. 
+      - This F-test has a p-value of 0.9575 (Bottom of Summary) i.e. higher than 0.05, indicating that we cannot reject the null hypothesis that there is no relationship between balance and region.
+
+
+```{r 'F66-Regression-Credit-2'}
+# #Simple Linear Regression with Categorical X (Region)
+mod_credit_rEast <- lm(Balance ~ Region_South + Region_West, data = zzF66Credit_dum)
+```
+
+
+```{r 'F66-Print-Credit-2'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Credit"
+col_hh <- c("Region")
+#
+# #Model p-value
+if(TRUE) round(glance(mod_credit_rEast)$p.value, 4)
+#
+stargazer(mod_credit_rEast, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+- Dataset CarSeats - Linear Regression of Y (Sales) vs. Categorical X (ShelveLoc)
+  - Reference: Medium
+  - Estimate for 'Bad' Shelves is Negative, indicating that the impact on Price due to Bad Shelving is negative compared to Medium
+  - Estimate for 'Good' Shelves is Positive, indicating that the impact on Price due to Good Shelving is positive compared to Medium
+
+
+```{r 'F66-Regression-Cars'}
+# #Linear Regression with Categorical X (ShelveLoc)
+# #Dummy |
+zzF66CarSeats_dum <- dummy_cols(zzF66CarSeats, 
+                              remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+mod_cars <- lm(Sales ~ ., data = zzF66CarSeats_dum)
+```
+
+
+```{r 'F66-Print-Cars'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: CarSeats"
+col_hh <- c("ShelveLoc")
+#
+stargazer(mod_cars, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+## Extensions of the Linear Model
+
+- The standard linear regression model makes several highly restrictive assumptions that are often violated in practice. 
+  - Assumptions: The relationship between the predictors and response are additive and linear. 
+  - The \textcolor{pink}{additivity assumption} means that the association between a predictor $X_j$ and the response Y does not depend on the values of the other predictors. 
+  - The \textcolor{pink}{linearity assumption} states that the change in the response Y associated with a one-unit change in $X_j$ is constant, regardless of the value of $X_j$. 
+
+### Removing the Additive Assumption
+
+```{definition 'Interaction-Effect'}
+An \textcolor{pink}{interaction effect (or synergy effect)} exists when the effect of an independent variable on a dependent variable changes, depending on the value(s) of one or more other independent variables. \textcolor{pink}{Interaction term} as product of the variables $(X_1 \times X_2)$ is introduced in the model to evaluate this effect.
+```
+
+- In our previous analysis of the Advertising data, we concluded that both TV and radio seem to be associated with sales. 
+  - The linear models that formed the basis for this conclusion assumed that the effect on sales of increasing one advertising medium is independent of the amount spent on the other media. 
+  - For example, the linear model states that the average increase in sales associated with a one-unit increase in TV is always $\beta_1$, regardless of the amount spent on radio. 
+  - However, this simple model may be incorrect. 
+    - Suppose that spending money on radio advertising actually increases the effectiveness of TV advertising, so that the slope term for TV should increase as radio increases. 
+    - In this situation, given a fixed budget of 100,000 dollars, spending half on radio and half on TV may increase sales more than allocating the entire amount to either TV or to radio. 
+    - In marketing, this is known as a \textcolor{pink}{synergy effect}, and in statistics it is referred to as an \textcolor{pink}{interaction effect}. 
+
+- According to the simple model, a one-unit increase in $X_1$ is associated with an average increase in Y of $\beta_1$ units. 
+  - The presence of $X_2$ does not alter this statement —that is, regardless of the value of $X_2$, a one unit increase in $X_1$ is associated with a $\beta_1$-unit increase in Y.
+  - One way of extending this model is to include a third predictor, called an \textcolor{pink}{interaction term}, which is constructed by computing the product of $X_1$ and $X_2$. 
+  
+
+```{definition 'Hierarchical-Principle'}
+The \textcolor{pink}{hierarchical principle} states that if we include an interaction in a model, we should also include the main effects, even if the p-values associated with their coefficients are not significant. 
+```
+
+- What if the interaction term has small p-value (significant) but the associated main effects do not
+  - Include them as stated by the 'Hierarchical Principle'
+  - If the interaction between $X_1$ and $X_2$ seems important, then we should include both $X_1$ and $X_2$ in the model even if their coefficient estimates have large p-values. 
+  - The rationale for this principle is that if $(X_1 \times X_2)$ is related to the response, then whether or not the coefficients of $X_1$ or $X_2$ are exactly zero is of little interest. 
+  - Also $(X_1 \times X_2)$ is typically correlated with $X_1$ and $X_2$, and so leaving them out tends to alter the meaning of the interaction.
+
+#### Interaction between Two Quantitative X
+
+- Dataset Advertising - Linear Regression of Y (Sales)
+  - Model with the interaction effect has better (higher) $R_a^2 = 0.9673$ (vs. 0.8962)
+    - i.e. (96.8 − 89.7)/(100 − 89.7) = 69% of the variability in sales that remains after fitting the additive model has been explained by the interaction term
+  - Model with the interaction effect has better (lower) RSE = 0.9435 (vs. 1.6814)
+  - Coefficients
+    - An increase in TV advertising of 1,000 dollars is associated with increased sales of $(\hat{\beta}_1 + \hat{\beta}_3 \times \text{Radio}) \times 1000 = 19 + 1.1 \times \text{Radio}$ units.
+    - An increase in Radio advertising of 1,000 dollars will be associated with an increase in sales of $(\hat{\beta}_2 + \hat{\beta}_3 \times \text{TV}) \times 1000 = 29 + 1.1 \times \text{TV}$ units.
+
+
+```{r 'F66-Regression-Ads-3'}
+# #Multiple Linear Regression 
+mod_ads_tvrad <- lm(sales ~ tv + radio, data = zzF66Ads)
+#
+# #Linear Regression with Interaction Term. 
+# #The Colon (:) indicates interaction between i.e. a:b implies 'a' multiplied by 'b'
+# #The Star (*) is shorthand to include both terms and their interaction 
+#mod_ads_intr <- lm(sales ~ tv + radio + tv:radio, data = zzF66Ads)
+mod_ads_intr <- lm(sales ~ tv*radio, data = zzF66Ads)
+```
+
+
+```{r 'F66-Print-Ads-3'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Advertising"
+col_hh <- c("TVxRadio", "TV.Radio", "ALL")
+#
+stargazer(mod_ads_intr, mod_ads_tvrad,
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+- ANOVA on Two Models
+  - The null hypothesis is that the two models fit the data equally well, whereas Alternative is that they are different
+  - p-value less than 0.05 confirms that null is rejected and the models are different
+
+
+```{r 'F66-ANOVA-Ads-3'}
+# #Comparison of Models by ANOVA 
+if(FALSE) Anova(mod_ads_intr, mod_ads_tvrad)
+if(TRUE) anova(mod_ads_intr, mod_ads_tvrad)
+```
+
+
+#### Interaction between Quantitative X and Qualitative X
+
+
+- Dataset Credit - Linear Regression of Y (Balance) vs. Continuous X and Categorical X
+  - For the Model without interaction
+    - For Non-Student: Balance = $\beta_1 \times$ Income + $\beta_0$
+    - For Student: Balance = $\beta_1 \times$ Income + $(\beta_0 + \beta_2)$
+    - Lines for students and non-students have different intercepts $(\beta_0 + \beta_2)$ vs $\beta_0$. 
+    - However both have same slope $\beta_1$
+    - The fact that the lines are parallel means that the average effect on balance of a one-unit increase in income does not depend on whether or not the individual is a student. This is a Limitation for the model.
+  - For the Model with interaction 
+    - For Non-Student (Same as Above): Balance = $\beta_1 \times$ Income + $\beta_0$
+    - For Student: Balance = $(\beta_1 + \beta_3) \times$ Income + $(\beta_0 + \beta_2)$
+    - (Same as Above) Lines for students and non-students have different intercepts $(\beta_0 + \beta_2)$ vs $\beta_0$. 
+    - Now, we have different slopes also. $\beta_1$ for non-students but $(\beta_1 + \beta_3)$ for students.
+      - This allows for the possibility that changes in income may affect the credit card balances of students and non-students differently.
+    - $\beta_3 = -1.99$
+      - i.e. slope for students is lower than the slope for non-students. 
+      - This suggests that increases in income are associated with smaller increases in credit card balance among students as compared to non-students.
+
+
+
+```{r 'F66-Regression-Credit-4'}
+# #Linear Regression with Continuous X and Categorical X
+mod_credit_x2 <- lm(Balance ~ Income + Student_Yes, data = zzF66Credit_dum)
+mod_credit_intr <- lm(Balance ~ Income * Student_Yes, data = zzF66Credit_dum)
+```
+
+
+```{r 'F66-Print-Credit-4'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Credit"
+col_hh <- c("No Interaction", "Interaction")
+#
+# #Model p-value
+if(FALSE) round(glance(mod)$p.value, 4)
+#
+stargazer(mod_credit_x2, mod_credit_intr, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+### Non-linear Relationships
+
+- The true relationship between the response and the predictors may be nonlinear. 
+  - \textcolor{pink}{Polynomial Regression} can accommodate non-linear relationships
+  - It is still a linear model! 
+    - It is simply a multiple linear regression model with $X_1$ and $X_2 = X_1^2$
+  
+
+- Dataset Auto - Polynomial Regression of Y (mpg) 
+  - The near-zero p-value associated with the quadratic term suggests that it leads to an improved model.
+  - The polynomial model has higher $R_a^2$ and lower RSE compared to the linear model
+  - Note that higher order polynomial does not result in any major gain in $R_a^2$ or reduction in RSE.
+  - Further, With 5th order, we might be experiencing 'overfitting'
+
+
+- \textcolor{pink}{I()}
+  - Within Formula Caret (^) symbol has special meaning. 
+  - To use any special symbol in a formula as their general usage, use \textcolor{pink}{I()}
+  - I() implies that the symbols within should be applied as regular
+- \textcolor{pink}{poly()}
+  - It is better to use \textcolor{pink}{poly()} for higher orders
+    - Although, we can use \textcolor{pink}{I(X^3)} for Cubic Fit
+  - By default, the poly() function orthogonalizes the predictors. 
+    - This means that the features output by this function are not simply a sequence of powers of the argument. 
+    - However, a linear model applied to the output of the poly() function will have the same fitted values as a linear model applied to the raw polynomials (although the coefficient estimates, standard errors, and p-values will differ). 
+    - raw = TRUE : To obtain the raw polynomials from the poly() function
+
+```{r 'F66-Regression-Auto-1'}
+# #Polynomial Regression with Non-linear predictors using I()
+mod_auto_x <- lm(mpg ~ horsepower, data = zzF66Auto)
+mod_auto_x2 <- lm(mpg ~ horsepower + I(horsepower^2), data = zzF66Auto)
+mod_auto_x5 <- lm(mpg ~ horsepower + I(horsepower^2) + I(horsepower^3) + I(horsepower^4) +
+                    I(horsepower^5), data = zzF66Auto)
+# #Polynomial Regression with Non-linear predictors using poly()
+mod_auto_poly <- lm(mpg ~ poly(horsepower, 5), data = zzF66Auto)
+mod_auto_raw <- lm(mpg ~ poly(horsepower, 5, raw = TRUE), data = zzF66Auto)
+```
+
+
+```{r 'F66-Print-Auto-1'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Polynomial Regression: Auto"
+col_hh <- c("Linear", "I2", "I5", "Raw", "Poly5")
+#
+# #Model p-value
+if(FALSE) round(glance(mod)$p.value, 4)
+#
+stargazer(mod_auto_x, mod_auto_x2, mod_auto_x5, mod_auto_raw, mod_auto_poly, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+## Potential Problems
+
+1. Non-linearity of the response-predictor relationships.
+2. Correlation of error terms.
+3. Non-constant variance of error terms.
+4. Outliers.
+5. High-leverage points.
+6. Collinearity.
+
+### Non-linearity of the Data
+
+- The linear regression model assumes that there is a straight-line relationship between the predictors and the response. 
+  - If the true relationship is far from linear, then virtually all of the conclusions that we draw from the fit are suspect. In addition, the prediction accuracy of the model can be significantly reduced. 
+  - \textcolor{pink}{Residual plots, $(y_i - \hat{y}_i)$ vs. $\hat{y}_i$}, are a useful graphical tool for identifying non-linearity.
+    - There should be no discernible pattern observed in the plot
+
+- Dataset Auto - Polynomial Regression of Y (mpg) 
+  - Quadratic Term improves the fit of the data.
+
+```{r 'F66-Auto-Results-1', include=FALSE}
+# #Augment the Tibble with Fitted and Residuals
+res_auto_x <- augment(mod_auto_x)
+res_auto_x2 <- augment(mod_auto_x2)
+```
+
+
+```{r 'F66-Auto-ResidFit-1-Set', include=FALSE}
+# #Setup for Residual vs. Fitted Plot of lm()
+hh <- res_auto_x
+#
+cap_hh <- "F66P09"
+ttl_hh <- "Auto: Y (mpg) vs. X (horsepower): Residuals vs. Fitted"
+sub_hh <- "Large residuals at edges, Small at Centre: Non-linearity!"
+```
+
+```{r 'F66-Auto-Residuals-1-Plot', include=FALSE, ref.label=c('F66-Plot-ResidFit')}
+#
+```
+
+```{r 'F66P09-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P09", "-Auto-ResidFit-1x", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P09, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "F66P09", "-Auto-ResidFit-1x", ".png"))
+```
+
+
+```{r 'F66-Auto-ResidFit-2-Set', include=FALSE}
+# #Setup for Residual vs. Fitted Plot of lm()
+hh <- res_auto_x2
+#
+cap_hh <- "F66P10"
+ttl_hh <- "Auto: Y (mpg) vs. Square (horsepower): Residuals vs. Fitted"
+sub_hh <- "No strong pattern is visible!"
+```
+
+```{r 'F66-Auto-Residuals-2-Plot', include=FALSE, ref.label=c('F66-Plot-ResidFit')}
+#
+```
+
+```{r 'F66P10-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P10", "-Auto-ResidFit-2x", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P10, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "F66P10", "-Auto-ResidFit-2x", ".png"))
+```
+
+
+```{r 'F66P0910', echo=FALSE, ref.label=c('F66P09', 'F66P10'), fig.cap="(F66P09, F66P10) Auto: Residuals vs. Fitted: Linear (Left) vs. Square (Right)"}
+#
+```
+
+### Correlation of Error Terms
+
+- An important assumption of the linear regression model is that the error terms are uncorrelated. 
+  - i.e. error of one observation $e_i$ provides no information about error of another observation $e_j$
+  - The standard errors are based on the assumption of uncorrelated error terms. 
+    - If in fact there is correlation among the error terms, then the estimated standard errors will tend to underestimate the true standard errors. As a result, confidence and prediction intervals will be narrower than they should be. 
+    - In addition, p-values associated with the model will be lower than they should be; this could cause us to erroneously conclude that a parameter is statistically significant. 
+    - In short, if the error terms are correlated, we may have an unwarranted sense of confidence in our model. 
+  - Such correlations frequently occur in the context of time series data, which consists of observations for which measurements are obtained at discrete points in time. In many cases, observations that are obtained at adjacent time points will have positively correlated errors.
+    - If we plot residuals vs. time, we might see \textcolor{pink}{tracking} in the plot i.e. adjacent residuals may have similar values.
+
+### Non-constant Variance of Error Terms
+
+
+```{definition 'Heteroscedasticity'}
+\textcolor{pink}{Heteroscedasticity} is the non-constant variances in the errors. It is a major concern because it invalidates several key assumptions. It can be identified by the presence of a funnel shape in the residual plot. A possible solution is the transformation of response Y.
+```
+
+
+- Another important assumption of the linear regression model is that the error terms have a constant variance, $\text{Var}(\epsilon_i) = {\sigma}^2$. 
+  - The standard errors, confidence intervals, and hypothesis tests associated with the linear model rely upon this assumption. 
+  - Unfortunately, it is often the case that the variances of the error terms are non-constant. 
+  - Transformation
+    - To transform the response Y using a concave function such as $\log{Y}$ or $\sqrt{Y}$. 
+      - Such a transformation results in a greater amount of shrinkage of the larger responses, leading to a reduction in heteroscedasticity. 
+  - Sometimes we have a good idea of the variance of each response. 
+    - For example, the $i^{th}$ response could be an average of $n_i$ raw observations. 
+    - If each of these raw observations is uncorrelated with variance ${\sigma}^2$, then their average has variance ${\sigma}_i^2 = \frac{{\sigma}^2}{n_i}$. 
+    - In this case a simple remedy is to fit our model by weighted least squares, with weights proportional to the inverse weighted least squares variances—i.e. $w_i = n_i$ in this case. 
+
+
+### Outliers
+
+- Residual Plots can be used to identify \textcolor{pink}{Outliers}. To address this problem, instead of plotting the residuals, we can plot the \textcolor{pink}{studentized residuals}, computed by dividing each residual $e_i$ by its estimated standard error. 
+  - Observations whose studentized residuals are greater than 3 in absolute value are possible outliers.
+
+### High Leverage Points
+
+- Generally, \textcolor{pink}{outliers} are observations for which the response $y_i$ is unusual given the predictor $x_i$. In contrast, observations with \textcolor{pink}{high leverage} have an unusual value for $x_i$.
+- A large value of \textcolor{pink}{leverage statistic ($h_i$)} indicates an observation with high leverage. 
+  - $h_i = \frac{1}{n} + \frac{(x_i - {\overline{x}})^2}{\sum_{j = 1}^n (x_j - {\overline{x}})^2}$
+  - i.e. $h_i$ increases with the distance of $x_i$ from ${\overline{x}}$.
+  - $h_i \in [\frac{1}{n}, 1]$ 
+  - Average $h_i = \frac{(p + 1)}{n}$
+  - So if a given observation has a leverage statistic that greatly exceeds (p+1)/n, then we may suspect that the corresponding point has high leverage.
+
+### Collinearity
+
+- \textcolor{pink}{Collinearity} refers to the situation in which two or more predictor variables collinearity are closely related to one another.
+  - "ForLater" If we add polynomial terms or interaction terms, would those not increase the multicollinearity
+  - The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response. 
+  - Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for $\hat{\beta}_j$ to grow. 
+    - The t-statistic for each predictor is calculated by dividing $\hat{\beta}_j$ by its standard error.     - Consequently, collinearity results in a decline in the t-statistic. 
+    - As a result, in the presence of collinearity, we may fail to reject ${H_0} : \beta_j = 0$. 
+    - This means that the power of the hypothesis test —the probability of correctly detecting a non-zero coefficient— is reduced by collinearity.
+  - A simple way to detect collinearity is to look at the correlation matrix of the predictors.
+
+
+```{definition 'Multicollinearity-F66'}
+\textcolor{pink}{Multicollinearity} is the situation when collinearity exists between three or more variables even if no pair of variables has a particularly high correlation. It is assessed by VIF.
+```
+
+
+```{definition 'VIF-F66'}
+The \textcolor{pink}{variance inflation factor (VIF)} is the ratio of the variance of $\hat{\beta}_j$ when fitting the full model divided by the variance of $\hat{\beta}_j$ if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. 
+```
+
+
+- Multicollinearity is difficult to detect by inspection of the correlation matrix.
+  - To assess multicollinearity, compute the variance inflation factor (VIF). 
+  - There are two solutions
+    - Either drop one of the multicollinear variable because the information it provides about the Respone is redundant in the presence of other variable
+    - Or combine collinear variables into a single predictor e.g. by taking average of their standardised versions.
+      - Standardisation is required so that unit of one variable does not overshadow the other
+
+
+- Dataset Credit - Linear Regression of Y (Balance) 
+  - Limit and Rating are collinear
+    - So, they tend to increase or decrease together. Thus, it can be difficult to determine how each one separately is associated with the response (Balance). 
+  - Model with Predictors having No collinearity e.g. Age & Limit
+    - Both Age and Limit are Significant 
+  - Model with Predictors which are collinear e.g. Rating & Limit
+    - The collinearity between 'limit' and 'rating' has caused the standard error for the limit coefficient estimate to increase by a factor of 12 (from 0.005 to 0.0638) and changed its status from significant to not significant based on p-value.
+    - In other words, the importance of the 'limit' variable has been masked due to the presence of collinearity. 
+
+
+```{r 'F66-Credit-Corr-Set', include=FALSE}
+# #Setup for Corrplot
+ii <- zzF66Credit %>% select(where(is.numeric))
+hh <- cor(ii)
+corr_hh <- cor.mtest(ii)
+# #p-value Higher than this is insignificant and should be skipped
+sig_corr_hh <- 0.05 
+#
+cap_hh <- "F66P11"
+ttl_hh <- "Credit: Corrplot"
+loc_png <- paste0(.z$PX, "F66P11", "-Credit-Corrplot", ".png")
+```
+
+```{r 'F66P11-Save', include=FALSE, ref.label=c('F66-Corrplot')}
+#
+```
+
+```{r 'F66P11', echo=FALSE, fig.cap="(F66P11) Credit: Corrplot"}
+knitr::include_graphics(paste0(.z$PX, "F66P11", "-Credit-Corrplot", ".png"))
+```
+
+
+```{r 'F66-Regression-Credit-5'}
+# #Linear Regression with Predictors without Collinearity
+mod_credit_nocol <- lm(Balance ~ Age + Limit, data = zzF66Credit)
+# #Linear Regression with Predictors having Collinearity
+mod_credit_col <- lm(Balance ~ Rating + Limit, data = zzF66Credit)
+# #All 3
+mod_credit_col3 <- lm(Balance ~ Age + Rating + Limit, data = zzF66Credit)
+```
+
+
+```{r 'F66-Print-Credit-5'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Credit: Collinearity"
+col_hh <- c("No.Coll", "Yes.Coll", "Three")
+#
+# #Model p-value
+if(FALSE) round(glance(mod)$p.value, 4)
+#
+stargazer(mod_credit_nocol, mod_credit_col, mod_credit_col3, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*s", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+```{r 'F66-VIF-Credit-5'}
+# #VIF
+vif(mod_credit_nocol)
+vif(mod_credit_col)
+#
+vif_ii <- vif(mod_credit_col3)
+vif_ii[vif_ii > 5]
+```
+
+
+## The Marketing Plan {#ans-f66}
+
+```{r 'F66-Print-Ads-4'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Advertising"
+col_hh <- c("TVxRadio", "TV.Radio", "ALL")
+#
+stargazer(mod_ads_intr, mod_ads_tvrad, mod_ads, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+```{r 'F66-ConfidenceInterval-Ads-4'}
+# #Confidence Interval of the Estimated Coefficients
+round(confint(mod_ads_intr), 3)
+round(confint(mod_ads), 3)
+# #VIF
+vif(mod_ads)
+```
+
+- Refer [The Original Questions](#reg-f66 "f66")
+  - Best Model : 
+    - Exclude Newspaper
+    - Include Interaction between TV and Radio
+
+
+1. Is there a relationship between advertising budget and sales
+    - This question can be answered by fitting a multiple regression model of sales onto TV, radio, and newspaper and testing the hypothesis \textcolor{pink}{${H_0} : \beta_\text{TV} = \beta_\text{Radio} = \beta_\text{Newspaper} = 0$}
+    - The F-statistic can be used to determine whether or not we should reject this null hypothesis. 
+    - In this case the p-value corresponding to the F-statistic is very low, indicating clear evidence of a relationship between advertising and sales.
+2. How strong is the relationship between advertising budget and sales
+    - $\text{RSE} = 0.9435$ estimates the standard deviation of the response from the population regression line. 
+      - Percentage Error $= \frac{\text{RSE}}{{\overline{y}}} = \frac{0.9435}{14.022} \approx 6.7\%$
+    - $(R_a^2 = 0.9673)$ statistic records the percentage of variability in the response that is explained by the predictors. The predictors explain almost 96% of the variance in sales.
+3. Which media are associated with sales
+    - To answer this question, we can examine the p-values associated with t-statistic of each predictor.
+    - The p-values for TV and radio are low, but the p-value for newspaper is not. This suggests that only TV and radio are related to sales. 
+4. How large is the association between each medium and sales
+    - The standard error of $\hat{\beta}_j$ can be used to construct confidence intervals for ${\beta}_j$. 
+    - 95% confidence intervals for the coefficients: 
+      - All Predictors Model: (0.043, 0.049) for TV, (0.172, 0.206) for radio, and (-0.013, 0.011) for Newspaper. 
+      - Best Model: (0.016, 0.022) for TV, (0.011, 0.046) for radio, and (0.001, 0.001) for interaction betwen TV and Radio. 
+    - The confidence intervals for TV and radio are narrow and far from zero, providing evidence that these media are related to sales. 
+    - But the interval for newspaper includes zero, indicating that the variable is not statistically significant given the values of TV and radio. 
+    - Collinearity can result in very wide standard errors. Collinearity might be the reason that the confidence interval associated with newspaper is so wide
+      - However, VIF scores are 1.005, 1.145, and 1.145 for TV, radio, and newspaper, suggesting no evidence of collinearity. 
+5. How accurately can we predict future sales
+    - Prediction Interval is used to predict an individual response 
+    - Confidence Interval is used to predict an average response
+    - Prediction intervals will always be wider than confidence intervals because they account for the uncertainty associated with $\epsilon$, the irreducible error.
+6. Is the relationship linear
+    - Residual Plot does not show any non-linearity
+7. Is there synergy among the advertising media (interaction effect)
+    - A small p-value associated with the interaction term indicates the presence of such relationships.
+    - Including an interaction term in the model has resulted in a substantial increase in $R_a^2$
+
+
+
+## Comparison of Linear Regression with K-Nearest Neighbors (KNN)
+
+- Linear regression is an example of a parametric approach because it assumes a linear functional form for f(X). Parametric methods have several advantages. They are often easy to fit, because one need estimate only a small number of coefficients. In the case of linear regression, the coefficients have simple interpretations, and tests of statistical significance can be easily performed. 
+
+- But parametric methods do have a disadvantage: by construction, they make strong assumptions about the form of f(X). If the specified functional form is far from the truth, and prediction accuracy is our goal, then the parametric method will perform poorly. 
+
+- In contrast, non-parametric methods do not explicitly assume a parametric form for f(X), and thereby provide an alternative and more flexible approach for performing regression. 
+  - The simplest and best-known non-parametric methods is \textcolor{pink}{K-nearest neighbors regression (KNN regression)}. 
+  - The KNN regression method is closely related to the KNN classifier. 
+  - Given a value for K and a prediction point $x_0$, KNN regression first identifies the K training observations that are closest to $x_0$, represented by $\mathcal{N}_0$. It then estimates f($x_0$) using the average of all the training responses in $\mathcal{N}_0$. 
+  - A small value for K provides the most flexible fit, which will have low bias but high variance. This variance is due to the fact that the prediction in a given region is entirely dependent on just one observation. 
+  - In contrast, larger values of K provide a smoother and less variable fit; the prediction in a region is an average of several points, and so changing one observation has a smaller effect. However, the smoothing may cause bias by masking some of the structure in f(X). 
+
+- Note: 
+  - The parametric approach (linear regression) will outperform the nonparametric approach (KNN regression) if the parametric form that has been selected is close to the true form of f (i.e. the actual relationship is linear).
+  - KNN performs better than linear regression for non-linear situations. 
+  - Thus, in a real life situation in which the true relationship is unknown, one might suspect that KNN should be favored over linear regression because it will at worst be slightly inferior to linear regression if the true relationship is linear, and may give substantially better results if the true relationship is non-linear. 
+    - But in reality, even when the true relationship is highly non-linear, KNN may still provide inferior results to linear regression. 
+    - It is because of the dimensionality problem
+
+- \textcolor{pink}{dimensionality problem}
+  - Read data has \textcolor{pink}{noise predictors} that are not associated with the response.
+  - The increase in dimension causes a small deterioration in the linear regression test set MSE, but it might cause a multi-fold increase in the MSE for KNN. 
+  - This decrease in performance as the dimension increases is a common problem for KNN, and results from the fact that in higher dimensions there is effectively a reduction in sample size. 
+  - If, there are 50 training observations in a data set; when p = 1, this provides enough information to accurately estimate f(X). However, spreading 50 observations over p = 20 dimensions results in a phenomenon in which a given observation has no nearby neighbors—this is the so-called \textcolor{pink}{curse of dimensionality}. 
+    - i.e. the K observations that are nearest to a given test observation $x_0$ may be very far away from $x_0$ in p-dimensional space when p is large, leading to a very poor prediction of f($x_0$) and hence a poor KNN fit. 
+    
+
+- \textcolor{pink}{Note}
+  - Parametric methods tend to outperform non-parametric approaches when there is a small number of observations per predictor.
+  - Further, even when the dimension is small, we might prefer linear regression to KNN from an interpretability standpoint. 
+
+## Hands on ...
+
+### Boston {.tabset .tabset-fade}
+
+- Dataset Boston - Linear Regression of Y (medv)
+
+
+```{r 'F66-Regression-Boston-1'}
+# #Linear Regression 
+mod_boston_lstat <- lm(medv ~ lstat, data = zzF66Boston)
+mod_boston <- lm(medv ~ ., data = zzF66Boston)
+```
+
+
+```{r 'F66-Print-Boston-1'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Boston"
+col_hh <- c("ALL")
+#
+stargazer(mod_boston, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+### Save Results
+
+- \textcolor{pink}{augment()}
+  - .cooksd, .fitted, .hat, .lower, .resid, .se.fit, .sigma, .std.resid, .upper 
+  
+```{r 'F66-Augment-Boston'}
+# #Augment the Tibble with Fitted and Residuals
+res_boston_lstat <- augment(mod_boston_lstat)
+res_boston <- augment(mod_boston)
+#
+mod <- mod_boston
+res <- augment(mod)
+#
+stopifnot(identical(res$.fitted, unname(predict(mod))))
+stopifnot(identical(round(res$.resid, 3), round(unname(residuals(mod)), 3)))
+stopifnot(identical(res$.std.resid, unname(rstandard(mod))))
+stopifnot(identical(res$.hat, unname(hatvalues(mod))))
+#
+# #rstudent(), not same as rstandard()
+# #studentized residuals = residual / estimated standard error
+mm <- rstudent(mod)
+```
+
+### Confidence Interval
+
+```{r 'F66-ConfidenceInterval-Boston-1'}
+mod <- mod_boston_lstat
+#
+# #Confidence Interval of the Estimated Coefficients
+confint(mod)
+#
+# #predict() for confidence intervals (95%)
+predict(mod, tibble(lstat = c(5, 10, 15)), interval = "confidence")
+#
+# #predict() for prediction intervals (95%)
+predict(mod, tibble(lstat = c(5, 10, 15)), interval = "prediction")
+```
+
+### Basic 4 Plots {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Plots-Base-Set', include=FALSE}
+# #Setup for Base 4 Plots of Model
+hh <- mod_boston_lstat
+#
+cap_hh <- "F66P01"
+ttl_hh <- "Boston: Simple Linear Regression of X (lstat) vs. Y (medv)"
+loc_png <- paste0(.z$PX, "F66P01", "-Boston-lm-1x-lstat", ".png")
+```
+
+```{r 'F66P01-Save', include=FALSE, ref.label=c('F66-Plot-Model')}
+#
+```
+
+```{r 'F66P01', echo=FALSE, fig.cap="(F66P01) Boston: Simple Linear Regression of X (lstat) vs. Y (medv)"}
+knitr::include_graphics(paste0(.z$PX, "F66P01", "-Boston-lm-1x-lstat", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Plots-Base-Set-A', eval=FALSE, ref.label=c('F66-Boston-Plots-Base-Set')}
+#
+```
+
+```{r 'F66-Plot-Model', eval=FALSE}
+# #IN: ttl_hh, cap_hh, hh <- mod_xfw
+#
+if(!file.exists(loc_png)) {
+  png(filename = loc_png) #, width = k_width, height = k_height, units = "in", res = 144
+  #dev.control('enable') 
+  par(mfrow = c(2, 2))
+  plot(hh)
+  title(main = ttl_hh, line = -2, adj = 0, outer = TRUE)
+  title(sub = cap_hh, line = 4, adj = 1)
+  F66 <- recordPlot()
+  dev.off()
+  assign(cap_hh, F66)
+  rm(F66)
+  #eval(parse(text = cap_hh))
+}
+```
+
+
+### Response vs X with Residuals {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Response-1-Set', include=FALSE}
+# #Setup for Response Plot with Residuals
+hh <- res_boston_lstat %>% select(Response = medv, X = lstat, .fitted, .resid)
+#
+cap_hh <- "F66P02"
+ttl_hh <- "Boston: Y (medv) vs. X (lstat) with Residuals"
+sub_hh <- "Large residuals at edges, Small at Centre: Non-linearity!"
+```
+
+```{r 'F66-Boston-Response-1-Plot', include=FALSE, ref.label=c('F66-Plot-Response-Single')}
+#
+```
+
+```{r 'F66P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P02", "-Boston-1x-YX", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P02, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P02', echo=FALSE, fig.cap="(F66P02) Boston: Y (medv) vs. X (lstat) with Residuals"}
+knitr::include_graphics(paste0(.z$PX, "F66P02", "-Boston-1x-YX", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Response-1-Set-A', eval=FALSE, ref.label=c('F66-Boston-Response-1-Set')}
+#
+```
+
+```{r 'F66-Plot-Response-Single', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (augmented)
+F66 <- hh %>% { ggplot(data = ., mapping = aes(x = X, y = Response)) +
+    geom_smooth(formula = 'y ~ x', method = "lm", se = FALSE, color = "#440154FF") +
+    geom_segment(aes(xend = X, yend = .fitted), alpha = 0.2) +
+    geom_point(aes(color = abs(.resid)), size = 1) + 
+    #geom_point(aes(y = .fitted), shape = 1, size = 1) + 
+    scale_colour_distiller(palette = "BrBG") + 
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    theme(panel.grid = element_blank()) +
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+### Multiple ScatterPlots with Residuals {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Response-Set', include=FALSE}
+# #Setup for Response Plot with Residuals
+hh <- res_boston %>% 
+  rename(Response = medv) %>% 
+  select(-c(chas, rad, zn, .hat, .sigma, .cooksd, .std.resid)) %>% 
+  pivot_longer(!c(Response, .fitted, .resid)) %>% 
+  mutate(across(name, factor, levels = unique(name)))
+#
+cap_hh <- "F66P03"
+ttl_hh <- "Boston: Response (medv) vs. X with Residuals"
+sub_hh <- "Except: chas, rad, zn"
+```
+
+```{r 'F66-Boston-Response-Plot', include=FALSE, ref.label=c('F66-Plot-Response')}
+#
+```
+
+```{r 'F66P03-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P03", "-Boston-YX", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P03, device = "png", dpi = 144, width = k_width, height = k_height) 
+}
+```
+
+```{r 'F66P03', echo=FALSE, out.width='100%', fig.cap="(F66P03) Boston: Response (medv) vs. X with Residuals"}
+knitr::include_graphics(paste0(.z$PX, "F66P03", "-Boston-YX", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Response-Set-A', eval=FALSE, ref.label=c('F66-Boston-Response-Set')}
+#
+```
+
+```{r 'F66-Plot-Response', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (long)
+F66 <- hh %>% { ggplot(data = ., mapping = aes(x = value, y = Response)) +
+    geom_smooth(formula = 'y ~ x', method = "lm", se = FALSE, color = "#440154FF") +
+    geom_segment(aes(xend = value, yend = .fitted), alpha = 0.2) +
+    geom_point(aes(color = abs(.resid)), size = 1) + 
+    #geom_point(aes(y = .fitted), shape = 1, size = 1) + 
+    facet_wrap(~ name, scales = "free_x") +
+    scale_colour_distiller(palette = "BrBG") + 
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    theme(panel.grid = element_blank()) +
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+### Residual vs. Fitted {.tabset .tabset-fade}
+
+```{conjecture 'broom-dataframe'}
+\textcolor{brown}{Error: `data_frame()` was deprecated in tibble 1.1.0. Please use `tibble()` instead.}
+```
+
+- \textcolor{orange}{Warning:} "Data frame tidiers are deprecated and will be removed in an upcoming release of broom."
+- The Error & Warning occur if model resul is passed to tidy() in place of actual model
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-ResidFit-Set', include=FALSE}
+# #Setup for Residual vs. Fitted Plot of lm()
+hh <- res_boston_lstat
+#
+cap_hh <- "F66P04"
+ttl_hh <- "Boston: Residuals vs. Fitted for 1x (lstat)"
+sub_hh <- NULL
+```
+
+```{r 'F66-Boston-ResidFit-Plot', include=FALSE, ref.label=c('F66-Plot-ResidFit')}
+#
+```
+
+```{r 'F66P04-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P04", "-Boston-1x-Resid-Fit", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P04, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P04', echo=FALSE, fig.cap="(F66P04) Boston: Residuals vs. Fitted for 1x (lstat)"}
+knitr::include_graphics(paste0(.z$PX, "F66P04", "-Boston-1x-Resid-Fit", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-ResidFit-Set-A', eval=FALSE, ref.label=c('F66-Boston-ResidFit-Set')}
+#
+```
+
+```{r 'F66-Plot-ResidFit', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (augmented)
+F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .fitted, y = .resid)) +
+    geom_smooth(formula = 'y ~ x', method = "loess", se = FALSE, color = "#440154FF") +
+    geom_point(aes(color = abs(.resid)), size = 1) + 
+    geom_hline(yintercept = 0, linetype = 2) +
+    scale_colour_distiller(palette = "BrBG") + 
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    theme(panel.grid = element_blank()) +
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+### Normal QQ {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-QQ-Set', include=FALSE}
+# #Setup for QQ Plot of Results by lm()
+hh <- res_boston_lstat
+#
+cap_hh <- "F66P05"
+ttl_hh <- "Boston: QQ Plot for Linear Regression"
+x_hh <- "Theoretical"
+y_hh <- "Sample"
+sub_hh <- NULL 
+```
+
+```{r 'F66-Boston-QQ-Plot', include=FALSE, ref.label=c('F66-Plot-QQ')}
+#
+```
+
+```{r 'F66P05-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P05", "-Boston-lm-QQ", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P05, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P05', echo=FALSE, fig.cap="(F66P05) Boston: QQ Plot for Linear Regression"}
+knitr::include_graphics(paste0(.z$PX, "F66P05", "-Boston-lm-QQ", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-QQ-Set-A', eval=FALSE, ref.label=c('F66-Boston-QQ-Set')}
+#
+```
+
+```{r 'F66-Plot-QQ', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (augmented) 
+F66 <- hh %>% { ggplot(data = ., mapping = aes(sample = .std.resid)) +
+    geom_qq(size = 1) + 
+    geom_qq_line(color = "#440154FF") + 
+    labs(x = x_hh, y = y_hh, subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+
+### Scale vs. Location {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-ScaleLoc-Set', include=FALSE}
+# #Setup for Scale vs. Location Plot of Results by lm()
+hh <- res_boston_lstat
+#
+cap_hh <- "F66P06"
+ttl_hh <- "Boston: lm() Scale vs. Location"
+sub_hh <- NULL 
+```
+
+```{r 'F66-Boston-ScaleLoc-Plot', include=FALSE, ref.label=c('F66-Plot-ScaleLoc')}
+#
+```
+
+```{r 'F66P06-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P06", "-Boston-lm-Scale-Loc", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P06, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P06', echo=FALSE, fig.cap="(F66P06) Boston: lm() Scale vs. Location"}
+knitr::include_graphics(paste0(.z$PX, "F66P06", "-Boston-lm-Scale-Loc", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-ScaleLoc-Set-A', eval=FALSE, ref.label=c('F66-Boston-ScaleLoc-Set')}
+#
+```
+
+```{r 'F66-Plot-ScaleLoc', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (augmented) 
+F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .fitted, y = sqrt(abs(.std.resid)))) +
+    geom_point(aes(color = .std.resid), size = 1) + 
+    geom_smooth(formula = 'y ~ x', method = "loess", se = FALSE, color = "#440154FF") +
+    scale_colour_distiller(palette = "BrBG") + 
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+
+### Residuals vs. Leverage {.tabset .tabset-fade}
+
+#### Plot {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Leverage-Set', include=FALSE}
+# #Setup for Residuals vs. Leverage Plot of Results by lm()
+hh <- res_boston_lstat
+#
+cap_hh <- "F66P07"
+ttl_hh <- "Boston: lm() Residuals vs. Leverage"
+sub_hh <- NULL
+```
+
+```{r 'F66-Boston-Leverage-Plot', include=FALSE, ref.label=c('F66-Plot-Leverage')}
+#
+```
+
+```{r 'F66P07-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F66P07", "-Boston-lm-Leverage", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F66P07, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F66P07', echo=FALSE, fig.cap="(F66P07) Boston: lm() Residuals vs. Leverage"}
+knitr::include_graphics(paste0(.z$PX, "F66P07", "-Boston-lm-Leverage", ".png"))
+```
+
+#### Code {.unlisted .unnumbered}
+
+```{r 'F66-Boston-Leverage-Set-A', eval=FALSE, ref.label=c('F66-Boston-Leverage-Set')}
+#
+```
+
+```{r 'F66-Plot-Leverage', eval=FALSE}
+# #IN: sub_hh, cap_hh, ttl_hh, hh (augmented) 
+F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .cooksd, y = .std.resid)) +
+    geom_point(size = 1) + 
+    geom_smooth(formula = 'y ~ x', method = "loess", se = FALSE, color = "#440154FF") +
+    geom_hline(yintercept = 0, linetype = 2) +
+    labs(subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F66)
+rm(F66)
+#eval(parse(text = cap_hh))
+```
+
+### Basic 4 Plots (GGPlot)
+
+```{r 'F66P0407', echo=FALSE, ref.label=c('F66P04', 'F66P05', 'F66P06', 'F66P07'), fig.cap="(F66P04, F66P05, F66P06, F66P07) Boston: Basic 4 Graphs by GGPlot"}
+#
+```
+
+
+## Model Summary {#lm-all-f66 .tabset .tabset-fade}
+
+- [What to do with lm() object!](#lm-all-f66 "f66")
+- Dataset Credit - Linear Regression of Y (Balance) 
+  
+
+- Comparison of Models with Explicit Dummies vs. Implicit Dummies
+  - \textcolor{pink}{Conclusion:} NO Difference. Keep using Explicit for now (Although, No additional benefit).
+  - Dataframe and Number of Columns are different because Explicit already has $(k - 1)$ columns.
+  - Class of these columns is different because Implicit shows these columns as Factors whereas Explicit has numeric dummies.
+  - names(mod) : Implicit has additional 'contrasts' which is NOT present in Explicit
+  - mod$xlevels : Applicable to Implicit. It includes Factor Variables and their Levels
+  - Variables : For Implicit the predictor X is the original variable with multiple levels whereas for Explicit the predictor X is numeric
+
+### Model {.unlisted .unnumbered}
+
+```{r 'F66-Regression-Credit-3'}
+# #Linear Regression with Continuos & Categorical X
+# #Dummy |
+zzF66Credit_dum <- dummy_cols(zzF66Credit, 
+                              remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+#
+# #Remove underscores to match with implicit dummies
+names(zzF66Credit_dum) <- sub("_", "", names(zzF66Credit_dum))
+#
+# #Explicit Dummies and Implicit Dummies
+mod_credit <- lm(Balance ~ ., data = zzF66Credit_dum)
+mod_credit_imp <- lm(Balance ~ ., data = zzF66Credit)
+```
+
+
+```{r 'F66-Print-Credit-3'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: Credit"
+#col_hh <- c("ALL")
+col_hh <- c("Explicit", "Implicit")
+#
+stargazer(mod_credit, mod_credit_imp,
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+### Summary Explicit {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Credit-Explicit'}
+# #The model itself, summary(), glance()
+mod <- mod_credit #mod_credit_imp #mod_credit
+```
+
+
+```{r 'F66-Summary-lm-Explicit', ref.label = c('F66-Summary-lm')}
+#
+```
+
+### Summary Implicit {.unlisted .unnumbered}
+
+```{r 'F66-Summary-Credit-Implicit'}
+# #The model itself, summary(), glance()
+mod <- mod_credit_imp #mod_credit_imp #mod_credit
+```
+
+
+```{r 'F66-Summary-lm-Implicit', ref.label = c('F66-Summary-lm')}
+#
+```
+
+### Summary Code {.unlisted .unnumbered}
+
+```{r 'F66-Summary-lm', eval=FALSE}
+# #The model itself, summary(), glance()
+#mod <- mod_credit_imp #mod_credit_imp #mod_credit
+#
+# #Available Objects of the List in Model object of class "lm" 
+names(mod)
+# # ? 
+str(mod$effects)
+#
+# #Rank of the Coefficient Matrix (including Intercept, excluding Y)
+mod$rank
+stopifnot(identical(mod$qr[["rank"]], mod$rank))
+#
+# #Predicted /Calculated Resonse Y i.e. hat{Y}
+str(mod$fitted.values)
+#
+# # ? 
+mod$assign
+#
+# #qr is a List of List: Available Objects of this List
+names(mod$qr)
+#
+# # ? 
+str(mod$qr[["qr"]], give.attr = FALSE)
+#
+# # ? 
+mod$qr[["qraux"]]
+#
+# # ? 
+mod$qr[["pivot"]]
+#
+# # ? 
+mod$qr[["tol"]]
+#
+# #Factor Variables and their Levels (if Implicit Conversion)
+mod$xlevels
+#
+# #'terms' is a List of List & is exactly same for Model & Summary: Available Objects of this List
+stopifnot(identical(mod$terms, summary(mod)$terms))
+names(attributes(mod$terms))
+#
+# #List of Variables: Y & X - To be checked if default lm for EAST
+attributes(mod$terms)$variables
+stopifnot(identical(attributes(mod$terms)$variables, attributes(mod$terms)$predvars))
+#
+# #Matrix of Coefficients (but obviously missing reference like Region = East)
+attributes(mod$terms)$factors %>% as_tibble(rownames = "Coefficients") 
+#
+# #Only Independent Variables X
+attributes(mod$terms)$term.labels
+# # ? 
+attributes(mod$terms)$order
+# # ? It is Always 1. Probably shows either the position of intercept or How Many Intercepts
+attributes(mod$terms)$intercept
+# # ? It is Always 1. Probably shows how many Repsonse Y are in the model
+attributes(mod$terms)$response
+#
+# #Class and Environment
+attributes(mod$terms)$class 
+attributes(mod$terms)$.Environment
+#
+# #Class of each variable (Y and X)
+attributes(mod$terms)$dataClasses
+#
+# #Original Dataset
+str(mod$model, give.attr = FALSE)
+#
+# #Available Objects of the List in Model object of class "summary.lm" 
+names(summary(mod))
+#
+# #Explanation moved to separate Tab
+if(FALSE) summary(mod)$cov.unscaled 
+#
+# #Model: 
+summary(mod)$call 
+stopifnot(identical(summary(mod)$call, mod$call))
+#
+# #Residuals of each observation (Length N)
+stopifnot(identical(summary(mod)$residuals, mod$residuals))
+str(summary(mod)$residuals)
+#
+# #Coefficient Estimates, Standard Error, t-value, p-value and Significance (< 0.05)
+if(FALSE) summary(mod)$coefficients
+stopifnot(identical(summary(mod)$coefficients[ ,"Estimate"], mod$coefficients))
+if(TRUE) f_pNum(summary(mod)$coefficients, 3) %>% as_tibble(rownames = "Coefficients") %>% 
+  rename(pVal = "Pr(>|t|)") %>% 
+  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+#
+# # ? It is FALSE for each variable X. 
+summary(mod)$aliased
+#
+# #Estimated standard error of the residuals OR Residual Standard Error (RSE)
+#glance(mod)$sigma 
+summary(mod)$sigma 
+#
+# #Degrees of Freedom: 3 Types: [1] ? [2] Residual degrees of freedom: (n-p-2) [3] ?
+summary(mod)$df
+stopifnot(all(identical(mod$df.residual, glance(mod)$df.residual), 
+              identical(mod$df.residual, summary(mod)$df[2])))
+#
+# #R squared statistic OR percent of variation explained OR coefficient of determination
+#glance(mod)$r.squared
+summary(mod)$r.squared
+#
+# #Adjusted R squared statistic
+#glance(mod)$adj.r.squared 
+summary(mod)$adj.r.squared
+#
+# #F-statistic value, numdf (Numerator DOF) and dendf (Denominator DOF)
+summary(mod)$fstatistic
+# #Test statistic for the Model e.g. F-statistic for lm()
+if(FALSE) summary(mod)$fstatistic[["value"]] #summary(mod)$fstatistic[1L]
+glance(mod)$statistic 
+#
+# #The degrees for freedom from the numerator of the overall F-statistic i.e. numdf
+if(FALSE) summary(mod)$fstatistic[["numdf"]] #summary(mod)$fstatistic[2L]
+glance(mod)$df 
+#
+# #NOTE: summary() contains p-value of the model i.e. of the F-statistic (Not of the Coefficients)
+# #However it is not available in any list object from summary().
+# #glance() provides the p-value corresponding to the test statistic e.g. F-statistic for lm()
+# #For simple regression with one predictor ... 
+# #the model p-value (of the F-statistic) and the p-value for the coefficient will be the same. 
+round(glance(mod)$p.value, 4)
+#
+# #Column Names of the Tibble:
+names(glance(mod)) 
+#
+# #Number of Observations N
+glance(mod)$nobs 
+#
+# #The log-likelihood of the model
+glance(mod)$logLik 
+#
+# #Akaike Information Criterion for the model
+glance(mod)$AIC 
+#
+# #Bayesian Information Criterion for the model
+glance(mod)$BIC 
+#
+# #Deviance of the model
+glance(mod)$deviance 
+```
+
+### Covariance {.unlisted .unnumbered}
+
+```{r 'F66-Covariance-Credit-3'}
+mod <- mod_credit
+# #Matrix of Covariance (Unscaled): 
+# #NOTE: "unscaled" means that it is not scaled by the estimated variance sigma^2
+# #IF X refers to the design-matrix:
+# #unscaled: solve(t(X) %*% X)
+# #scaled  : solve(t(X) %*% X) * sigma^2
+summary(mod)$cov.unscaled %>% as_tibble(rownames = "Coefficients") 
+#
+# #To get Scaled Variance 
+ii <- summary(mod)$cov.unscaled * summary(mod)$sigma^2 
+jj <- vcov(mod)
+stopifnot(identical(ii, jj))
+```
+
+### Investigate p-value {.unlisted .unnumbered}
+
+```{r 'F66-pval'}
+# #Why the p-value of summary() is not available as an object
+mod <- mod_credit_rEast
+#
+# #Get the class of the object 
+class(summary(mod))
+#
+# #Get the code for the print method and look for "p-value:"
+if(FALSE) stats:::print.summary.lm
+#
+# #Which shows the calculation 
+if(FALSE) format.pval(pf(x$fstatistic[1L], x$fstatistic[2L], x$fstatistic[3L], 
+               lower.tail = FALSE), digits = digits)
+#
+# #Thus, the p-value can be calculated as
+if(FALSE) pf(q = summary(mod)$fstatistic[["value"]], df1 = summary(mod)$fstatistic[["numdf"]], 
+             df2 = summary(mod)$fstatistic[["dendf"]], lower.tail = FALSE)
+if(TRUE) pf(q = summary(mod)$fstatistic[1L], df1 = summary(mod)$fstatistic[2L], 
+            df2 = summary(mod)$fstatistic[3L], lower.tail = FALSE)
+#
+# #Equivalent: glance()
+if(TRUE) round(glance(mod)$p.value, 4)
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'F66-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, col_hh, corr_hh, F66P02, F66P03, F66P04, F66P05, F66P06,
+          F66P07, F66P09, F66P10, hh, loc_png, mm, mod, mod_ads, mod_ads_intr, mod_ads_paper,
+          mod_ads_rad, mod_ads_tv, mod_ads_tvrad, mod_auto_poly, mod_auto_raw, mod_auto_x, 
+          mod_auto_x2, mod_auto_x5, mod_boston, mod_boston_lstat, mod_cars, mod_credit, 
+          mod_credit_col, mod_credit_col3, mod_credit_imp, mod_credit_intr, mod_credit_nocol,
+          mod_credit_Own_No, mod_credit_Own_NoYes, mod_credit_Own_Yes, mod_credit_rEast, 
+          mod_credit_x2, res, res_auto_x, res_auto_x2, res_boston, res_boston_lstat, sig_corr_hh, 
+          sub_hh, ttl_hh, vif_ii, x_hh, xfw, y_hh, zzF66Ads, zzF66Auto, zzF66Boston, 
+          zzF66CarSeats, zzF66CarSeats_dum, zzF66Credit, zzF66Credit_dum)
+```
+
+```{r 'F66-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

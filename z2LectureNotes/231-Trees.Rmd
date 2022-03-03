@@ -59,63 +59,72 @@ znw <- zfw %>% select(where(is.numeric))
 
 ## Definitions
 
-```{definition 'Decision-Tree'}
-A \textcolor{pink}{decision tree} is a flowchart-like structure in which each \textcolor{pink}{internal node} represents a 'test' on an attribute, each \textcolor{pink}{branch} represents the outcome of the test, and each \textcolor{pink}{leaf node} represents a class label (decision taken after computing all attributes). The paths from root to leaf represent \textcolor{pink}{classification rules}. 
+
+```{r 'B31D01', comment="", echo=FALSE, results='asis'}
+f_getDef("Decision-Tree-Methods")
 ```
 
 
-```{definition 'Tree-Node'}
-A \textcolor{pink}{node} is a structure which may contain a value or condition, or represent a separate data structure (which could be a tree of its own). 
+```{r 'B31D02', comment="", echo=FALSE, results='asis'}
+f_getDef("Decision-Tree")
 ```
 
 
-```{definition 'Tree-Node-Parent-Child'}
-A \textcolor{pink}{child node} is a node extending from another node. Each node in a tree has zero or more \textcolor{pink}{child nodes}, which are below it in the tree. A node that has a child node is called the \textcolor{pink}{parent node (superior)}. A node has at most one parent. Child nodes with the same parent are \textcolor{pink}{sibling nodes}. 
+```{r 'B31D03', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node")
 ```
 
 
-```{definition 'Tree-Node-Internal-Leaf'}
-An \textcolor{pink}{internal node} is any node of a tree that has child nodes. An \textcolor{pink}{external node (outer node, leaf node, terminal node)} is any node that does not have child nodes. 
+```{r 'B31D04', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Parent-Child")
 ```
 
 
-```{definition 'Tree-Node-Root'}
-The highest point on a tree structure is called a \textcolor{pink}{root node}, which does not have a parent node. 
+```{r 'B31D05', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Internal-Leaf")
 ```
 
 
-```{definition 'Tree-Node-Degree'}
-The \textcolor{pink}{degree} of a node is the number of children of the node. A leaf node has degree zero. The degree of a tree is the maximum degree of a node in the tree.
+```{r 'B31D06', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Root")
 ```
 
 
-```{definition 'Tree-Node-Depth'}
-The \textcolor{pink}{depth (or level)} of node A is the length of the path from A to the root node. The root node is said to have depth 0.
+```{r 'B31D07', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Degree")
 ```
 
 
-```{definition 'Tree-Node-Height'}
-The \textcolor{pink}{height} of node A is the length of the longest path through children to a leaf node. The height of the tree is equal to the height of the root node.
+```{r 'B31D08', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Depth")
 ```
 
 
-```{definition 'Tree-Breadth'}
-The number of leaves are given as the \textcolor{pink}{breadth} of the tree.
+```{r 'B31D09', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Node-Height")
 ```
 
 
-```{definition 'Decision-Trees-Summary'}
-The regions $\{R_1, R_2, R_3, \ldots \}$ are known as \textcolor{pink}{terminal nodes} or \textcolor{pink}{leaves of the tree}. \textcolor{pink}{Decision trees} are typically drawn upside down, in the sense that the leaves are at the bottom of the tree. The points along the tree where the predictor space is split are referred to as \textcolor{pink}{internal nodes}. The segments of the trees that connect the nodes are referred as \textcolor{pink}{branches}. Observations satisfying the condition at each \textcolor{pink}{junction} are assigned to the \textcolor{pink}{left branch}, and the others to the \textcolor{pink}{right branch}.
-```
-
-```{definition 'Splitting-Pruning'}
-\textcolor{pink}{Splitting} is a process of dividing a node into two or more sub-nodes. Remoal of sub-nodes of a decision node, is called \textcolor{pink}{Pruning}
+```{r 'B31D10', comment="", echo=FALSE, results='asis'}
+f_getDef("Tree-Breadth")
 ```
 
 
-```{definition 'Recursive-Partitioning'}
-\textcolor{pink}{Recursive partitioning} creates a decision tree that strives to correctly classify members of the population by splitting it into sub-populations based on several dichotomous independent variables. The process is termed recursive because each sub-population may in turn be split an indefinite number of times until the splitting process terminates after a particular stopping criterion is reached. It includes methods like \textcolor{pink}{C4.5, CART} etc. 
+```{r 'B31D11', comment="", echo=FALSE, results='asis'}
+f_getDef("Decision-Trees-Summary")
 ```
+
+
+```{r 'B31D12', comment="", echo=FALSE, results='asis'}
+f_getDef("Splitting-Pruning")
+```
+
+
+```{r 'B31D13', comment="", echo=FALSE, results='asis'}
+f_getDef("Recursive-Partitioning") #dddd
+```
+
+
 
 ## Decision Trees
 

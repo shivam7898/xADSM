@@ -25,13 +25,12 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 - [Import Data CarDekho - B26](#set-cardekho-b26 "b26")
 
-
 ```{r 'B32-GetCarDekho', ref.label=c('B26-GetCarDekho', 'B26-PrepCar', 'B31-Dummies-Car')}
 # #xxB26CarDekho, aa, bb, xsyw, xw,xsw, zfw, xnw, znw, 
 # #train_xfw, test_xfw, train_xfw_ii, test_xfw_ii
 ```
 
-```{r 'B32-GetCarDekhoKnit', include=FALSE, eval=TRUE}
+```{r 'B32-GetCarDekhoKnit', include=FALSE, eval=FALSE}
 xxB26CarDekho <- f_getRDS(xxB26CarDekho)
 aa <- xxB26CarDekho
 bb <- aa %>% 
@@ -115,6 +114,7 @@ str(bb)
 ## Model Parameters
 
 - \textcolor{pink}{modelLookup()}
+  - It provides information about the parameters avaialble for the given model and their applicability on Regression or Classification problem
 
 ```{r 'B32-Lookup-Model'}
 # #modelLookup() for information about models and packages that are accessible via train()
@@ -151,7 +151,7 @@ hh <- mod_tree
 - k-fold Cross-validation helps in utilising all the information available
   - Refer [Cross-validation B28](#cross-b28 "b28")
 
-```{r 'B31D01', comment="", echo=FALSE, results='asis'}
+```{r 'B32D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Cross-Validation") #dddd
 ```
 
@@ -208,7 +208,7 @@ mean(abs(ii$MAPE))
 
 ```{r 'B32-Rename'}
 # #Rename All Column Headers to proper names
-bb <- tibble("A_Underscore" = 1, "B.Dot" = 2, "C Space" = 3, "D-Dash" = 4, `E'apostrophe` = 5)
+bb <- tibble("A_Underscore" = 1, "B.Dot" = 2, "C Space" = 3, "D-Dash" = 4, `E'apostrophe` = 5) #'
 ii <- janitor::clean_names(bb)
 jj <- bb %>% dplyr::rename_with(make.names) %>% 
   rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) 

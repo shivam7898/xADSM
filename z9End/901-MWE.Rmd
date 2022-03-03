@@ -16,7 +16,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [How to Load Packages](#loadpkg-z01 "z01")
 - [How to Copy Clipboard as Tibble](#loaddata-z01 "z01")
 - [How to Generate correlated vectors of normal distribution](#cor-vec-z01 "z01")
-- [How to Count Unique Values in ALL Columns ](#n-uniq-z01  "z01")
+- [How to Count Unique Values in ALL Columns](#n-uniq-z01  "z01")
+- [How to Rename ALL Headers to Proper Names](#rename-z01  "z01")
 
 ## Load Multiple Packages {#loadpkg-z01 .tabset .tabset-fade}
 
@@ -58,7 +59,6 @@ if(FALSE) {
 ii <- read_delim(clipboard())
 ```
 
-
 ## Generate Correlated Vectors {#cor-vec-z01 .tabset .tabset-fade}
 
 ```{r 'Z01-CorrelatedVectors'}
@@ -79,6 +79,19 @@ cor(ii, jj)
 # #Count Unique Values in ALL Columns
 sapply(mtcars, function(x) length(unique(x)))
 ```
+
+## Rename ALL Headers to Proper Names {#rename-z01 .tabset .tabset-fade}
+
+```{r 'Z01-RenameHeaders'}
+if(FALSE) {
+  library(dplyr)
+}
+# #Rename to Proper Names | To Lower, Replace by Underscore | 
+aa <- tibble("A_Underscore" = 1, "B.Dot" = 2, "C Space" = 3, "D-Dash" = 4, `E'apostrophe` = 5) #'
+bb <- aa %>% rename_with(make.names) %>% 
+  rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) 
+```
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
