@@ -61,9 +61,9 @@ Interval Estimate of a Population Mean: ${\sigma}$ known is given by equation \@
   (\#eq:interval-with-sigma)
 \end{equation}
 
-where $(1 − \alpha)$ is the confidence coefficient and $z_{\alpha/2}$ is the z-value providing an area of $\alpha/2$ in the upper tail of the standard normal probability distribution.
+where $(1 - \alpha)$ is the confidence coefficient and $z_{\alpha/2}$ is the z-value providing an area of $\alpha/2$ in the upper tail of the standard normal probability distribution.
 
-For a 95% confidence interval, the confidence coefficient is $(1 − \alpha) = 0.95$ and thus, $\alpha = 0.05$. Using the standard normal probability table, an area of $\alpha/2 = 0.05/2 = 0.025$ in the upper tail provides $z_{.025} = 1.96$. 
+For a 95% confidence interval, the confidence coefficient is $(1 - \alpha) = 0.95$ and thus, $\alpha = 0.05$. Using the standard normal probability table, an area of $\alpha/2 = 0.05/2 = 0.025$ in the upper tail provides $z_{.025} = 1.96$. 
 
 ```{r 'C08-getZgivenAlpha'}
 # #Find z-value for confidence interval 95% i.e. (1-alpha) = 0.95 i.e. alpha = 0.05
@@ -74,7 +74,7 @@ z_ii <- round(qnorm(p = p_l_ii, lower.tail = TRUE), 4)
 cat(paste0("(Left) P(z) = ", format(p_l_ii, nsmall = 3), " (i.e. (Right) 1-P(z) = ", 
            format(p_r_ii, nsmall = 3), ") at z = ", z_ii, "\n"))
 #
-# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+# #Critical Value (z) for Common Significance level (alpha) or Confidence level (1-alpha)
 xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
 #
 # #Left Tail Test
@@ -110,7 +110,7 @@ Interval Estimate of a Population Mean: ${\sigma}$ Unknown is given by equation 
   (\#eq:interval-nsd)
 \end{equation}
 
-where ${s}$ is the sample standard deviation, $(1 − \alpha)$ is the confidence coefficient and $t_{\alpha/2}$ is the t-value providing an area of $\alpha/2$ in the upper tail of the t distribution with ${n-1}$ degrees of freedom.
+where ${s}$ is the sample standard deviation, $(1 - \alpha)$ is the confidence coefficient and $t_{\alpha/2}$ is the t-value providing an area of $\alpha/2$ in the upper tail of the t distribution with ${n-1}$ degrees of freedom.
 
 Refer equation \@ref(eq:sd), the expression for the sample standard deviation is 
 
@@ -126,12 +126,12 @@ Why $(n-1)$ are the degrees of freedom
 
 - Degrees of freedom refer to the number of independent pieces of information that go into the computation. i.e. $\{(x_{1}-\overline{x}), (x_{2}-\overline{x}), \ldots, (x_{n}-\overline{x})\}$
 - However, $\sum (x_{i}-\overline{x}) = 0$ for any data set. 
-- Thus, only $(n − 1)$ of the $(x_{i}-\overline{x})$ values are independent.
-  - if we know $(n − 1)$ of the values, the remaining value can be determined exactly by using the condition.
+- Thus, only $(n - 1)$ of the $(x_{i}-\overline{x})$ values are independent.
+  - if we know $(n - 1)$ of the values, the remaining value can be determined exactly by using the condition.
 
 \textcolor{pink}{Larger sample sizes are needed if the distribution of the population is highly skewed or includes outliers.}
 
-### Cal T  {#get-t-c08 .unlisted .unnumbered}
+### Get T  {#get-t-c08 .unlisted .unnumbered}
 
 ```{r 'C08-getT'}
 # #Like pnorm() is for P(z) and qnorm() is for z, pt() is for P(t) and qt() is for t.

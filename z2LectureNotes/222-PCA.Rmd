@@ -35,8 +35,8 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 ## Hierarchical 
 
-- Agglomerative Clustering is also known as 'Bottom-up' and Devisive Clustering is also known as 'Top-down'
-- Upto 16:18 Mathematical Formulation of Linkages which are NOT included here.
+- Agglomerative Clustering is also known as 'Bottom-up' and Divisive Clustering is also known as 'Top-down'
+- Up to 16:18 Mathematical Formulation of Linkages which are NOT included here.
 
 - \textcolor{pink}{Question:} Nothing much can be inferred from Cluster 2, even though it has high number of data points (136). Does it call for further split
   - In other words, though the Action & Comedy does not show strong preference and other are negative. Thus there is a high possibility that it is heterogeneous in nature. 
@@ -251,7 +251,7 @@ summary(xw)
 ## apriori()
 
 - \textcolor{pink}{arules::apriori()} :
-  - The default behavior is to mine rules with minimum support of 0.1, minimum confidence of 0.8, maximum of 10 items (maxlen), and a maximal time for subset checking of 5 seconds (maxtime).
+  - The default behaviour is to mine rules with minimum support of 0.1, minimum confidence of 0.8, maximum of 10 items (maxlen), and a maximal time for subset checking of 5 seconds (maxtime).
   - 'parameter' : These are Support and Confidence
     - help(`` `ASparameter-class` ``)
   - 'appearance' : These are Antecedents and Consequents
@@ -435,7 +435,7 @@ stopifnot(all(vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), l
 - 'Foundation' has maximum Yes. It is the highest frequency item in the purchase.
   - So taking it as Consequent, we want to look at what are its antecedents
 
-- \textcolor{pink}{Question:} Why have we reduced the support cutoff
+- \textcolor{pink}{Question:} Why have we reduced the support cut-off
   - If support is high then we will not get many rules because we have already restricted RHS to "Foundation" only
 - \textcolor{pink}{Question:} Why have we reduced maxlen to 3, Can we not keep the original higher value
   - We can do that. But rules with too many products are not going to help us much. 
@@ -459,11 +459,11 @@ stopifnot(all(vapply(list(jj, kk, ll, mm), FUN = function(x) identical(x, ii), l
     - Book $\text{Lift} = \frac{\text{Confidence}}{\text{Prior Proportion of Consequent}} = \frac{\text{Confidence}}{\text{RHS Support}} = \frac{0.727}{0.536} = 1.36$
     - Package $\text{Lift} = \frac{\text{Coverage}}{\text{Support}} = \frac{0.490}{0.356} = 1.37$
 
-- \textcolor{pink}{Question:} There are some Redundant rules. Infact out of total 16 Rules, except SN {2, 3, 4}, Rule 1 is basically duplicated with other items being "No".
+- \textcolor{pink}{Question:} There are some Redundant rules. In fact out of total 16 Rules, except SN {2, 3, 4}, Rule 1 is basically duplicated with other items being "No".
   - We need to purify the rules
   - "ForLater"
 - \textcolor{pink}{Question:} When restricting the "LHS" to Bag and Blush Yes only, their No rules are still present.
-  - Reduce the support and confidence cutoff and use default="none"
+  - Reduce the support and confidence cut-off and use default = "none"
 
 - A rule is \textcolor{pink}{redundant} if a more general rules with the same or a higher confidence exists. 
   - That is, a more specific rule is redundant if it is only equally or even less predictive than a more general rule. 
@@ -585,7 +585,8 @@ paste0(names(xw)[-11], "=", levels(xw[[11]])[2])
 ```{r 'B22-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, dist_hh, dist_zw, hclust_avg_zw, hclust_com_zw, 
           hclust_sng_zw, hh, k2_com_zw, k3_com_zw, k4_com_zw, kbltbl, loc_png, mm, names_hh, 
-          res_movies, rr_conf, rr_rhs, rr_sup, rules, ttl_hh, xw, xxB20Movies, xxB22Makeup, zw)
+          res_movies, rr_conf, rr_rhs, rr_sup, rules, ttl_hh, xw, xxB20Movies, xxB22Makeup, zw, 
+          B22P01, B22P02, B22P03, B22P04)
 ```
 
 ```{r 'B22-Validation', include=FALSE, cache=FALSE}

@@ -36,8 +36,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - Refer [Association Rules](#arules-b22 "b22")
 - Let $I$ represent set of items. 
 - Let $D$ be the set of transactions represented where each Transaction 'T' in D represents a set of items contained in I.
-- Suppose that we have a particular set of items A (e.g., potato and tomato), and another set of items B (e.g., onion). 
-- Then an \textcolor{pink}{association rule} takes the form if A, then B (i.e., $A \Rightarrow B$), where the \textcolor{pink}{antecedent A} and the \textcolor{pink}{consequent B} are proper subsets of I, and A and B are mutually exclusive. 
+- Suppose that we have a particular set of items A (e.g. potato and tomato), and another set of items B (e.g. onion). 
+- Then an \textcolor{pink}{association rule} takes the form if A, then B (i.e. $A \Rightarrow B$), where the \textcolor{pink}{antecedent A} and the \textcolor{pink}{consequent B} are proper subsets of I, and A and B are mutually exclusive. 
   - This definition would exclude, for example, trivial rules such as if potato and tomato, then potato.
 
 ```{definition 'Support'}
@@ -93,10 +93,10 @@ A \textcolor{pink}{frequent itemset} is an itemset that occurs at least a certai
     - The quick answer is that the default ranking mechanism is confidence.
   - (Aside), So maybe we can drop those rules which have lower confidence than the proportion in the dataset
   - We can provide a priori association rules using the \textcolor{pink}{confidence difference} as the evaluative measure.
-    - Here, rules are favored that provide the greatest increase in confidence from the prior to the posterior. 
+    - Here, rules are favoured that provide the greatest increase in confidence from the prior to the posterior. 
     - Ex: If 'Marital status= Divorced' then 'Sex=Female', Support 13.%, Confidence 60%
       - The data set contains 33.16% females, so an association rule that can identify females with 60% confidence is useful. 
-      - The confidence difference for this association rule is 0.60029−0.3316=0.26869 between the prior and posterior confidences.
+      - The confidence difference for this association rule is 0.60029 - 0.3316 = 0.26869 between the prior and posterior confidences.
   - Alternatively, analysts may prefer to use the \textcolor{pink}{confidence ratio} to evaluate potential rules
     - Confidence Ratio of above rule is 0.4476
 
@@ -118,8 +118,8 @@ Not all association rules are equally useful. Thus Lift can be used to quantify 
 
 - \textcolor{pink}{Question:} We know 50 beer out of 200 diaper. But we do not know how many beer overall out of total 1000. 
   - See the next example of diaper-makeup. Here we have separate proportions available. 40 makeup in 1000, 5 makeup in 200.
-  - The above diaper-beer woule be valid if the missing information is added in the form that 50 beer in 1000 and 50 beer in 200 diaper. In that case it is obvious that people who buy diapers are definitely 5 times as likely to buy beer.
-  - In fact we can say that people who are not buying diapers are 'somehow' not buying beer at all. ~~Extrapolate from Diapers to Babies and from Beer to Alchoholism and we can say with full judgemental eyes that "Babies are the cause of Alchocholism". Hence Proved!~~
+  - The above diaper-beer would be valid if the missing information is added in the form that 50 beer in 1000 and 50 beer in 200 diaper. In that case it is obvious that people who buy diapers are definitely 5 times as likely to buy beer.
+  - In fact we can say that people who are not buying diapers are 'somehow' not buying beer at all. ~~Extrapolate from Diapers to Babies and from Beer to Alcoholism and we can say with full judgemental eyes that "Babies are the cause of Alcoholism". Hence Proved!~~
 
 
 - Diaper-Makeup Situation:
@@ -136,7 +136,7 @@ Not all association rules are equally useful. Thus Lift can be used to quantify 
 - Association Rules are Supervised or Unsupervised
   - most data mining methods represent supervised learning
   - Association rule mining, however, can be applied in either a supervised or an unsupervised manner. 
-  - Analysis of purchase patterns would be unsupervised because we are interested in which items go together. However, analysis of voter profile can be supervised because voting preference, naturally, acts as a Target and fulfill the role of consequent not antecedent.
+  - Analysis of purchase patterns would be unsupervised because we are interested in which items go together. However, analysis of voter profile can be supervised because voting preference, naturally, acts as a Target and fulfil the role of consequent not antecedent.
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

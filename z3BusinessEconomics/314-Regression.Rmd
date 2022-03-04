@@ -54,7 +54,7 @@ The equation that describes how the mean or expected value of ${y}$, denoted $E(
 ```
 
 ```{r 'C14P01', echo=FALSE, fig.cap="(C14P01) Linear Regression"}
-knitr::include_graphics(paste0(.z$PX, "C14P01", "-Linear-Regression", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C14P01", "-Linear-Regression-zz", ".png")) #iiii
 ```
 
 - [(External) Image Source](http://www.sthda.com/english/articles/40-regression-analysis/167-simple-linear-regression-in-r "http://www.sthda.com")
@@ -121,7 +121,7 @@ f_getDef("Correlation-Coefficient")
 - If a regression analysis has already been performed and the coefficient of determination $r^2$ computed, the sample correlation coefficient $r_{xy} = (\text{sign of } b_1)\sqrt{r^2}$
 - In the case of a linear relationship between two variables, both the coefficient of determination $(r^2)$ and the sample correlation coefficient $(r_{xy})$ provide measures of the strength of the relationship. 
   - $(r^2) \in [0, 1]$ : The coefficient of determination provides a measure between zero and one
-  - $(r_{xy}) \in [-1, 1]$ : The sample correlation coefficient provides a measure between −1 and +1.
+  - $(r_{xy}) \in [-1, 1]$ : The sample correlation coefficient provides a measure between -1 and +1.
   - Although $r_{xy}$ is restricted to a linear relationship between two variables, $r^2$ can be used for nonlinear relationships and for relationships that have two or more independent variables. 
   - Thus, the coefficient of determination provides a wider range of applicability.
 
@@ -180,7 +180,7 @@ f_getDef("Residuals")
 ```
 
   - Thus, SSE, the sum of squared residuals, is a measure of the variability of the actual observations about the estimated regression line. 
-    - SSE has $(n − 2)$ degrees of freedom because two parameters (${\beta}_0$ and ${\beta}_1$) must be estimated to compute SSE. 
+    - SSE has $(n - 2)$ degrees of freedom because two parameters (${\beta}_0$ and ${\beta}_1$) must be estimated to compute SSE. 
 
 ```{definition 'MSE'}
 \textcolor{pink}{Mean-Squared error (MSE)} is an evaluating measure of accuracy of model estimation for a continuous target variable. It provides the estimate of ${\sigma}^2$. It is given by SSE divided by its degrees of freedom $(n - 2)$. i.e. $s^2 = \text{MSE} = \frac{\text{SSE}}{n - 2}$. Where 's' is the \textcolor{pink}{standard error of the estimate}. Lower MSE is preferred.
@@ -197,12 +197,12 @@ Standard deviation of $b_1$ is ${\sigma}_{b_1}$. Its estimate, estimated standar
 ```
 
 
-- The t test for a significant relationship is based on the fact that the test statistic $\frac{b_1 - \beta_1}{s_{b_1}}$ follows a t distribution with $(n − 2)$ degrees of freedom. If the null hypothesis is true, then $\beta_1 = 0$ and $t = \frac{b_1}{s_{b_1}}$
+- The t test for a significant relationship is based on the fact that the test statistic $\frac{b_1 - \beta_1}{s_{b_1}}$ follows a t distribution with $(n - 2)$ degrees of freedom. If the null hypothesis is true, then $\beta_1 = 0$ and $t = \frac{b_1}{s_{b_1}}$
   - If ${}^2\!P_{(t)} \leq {\alpha} \to {H_0}$ Rejected.
   - The form of a confidence interval for $\beta_1$ is as follows: $b_1 \pm t_{{\alpha}/2} s_{b_1}$
   - Large values of $s_{b_1}$ indicate that the estimate of the slope $b_1$ is unstable, while small values of $s_{b_1}$ indicate that the estimate of the slope $b_1$ is precise. 
 
-```{definition 'H-SimpleRegression'}
+```{definition 'H-Simple-Regression'}
 \textcolor{pink}{$\text{\{Test for Significance in Simple Linear Regression\} } {H_0} : {\beta}_1 = 0 \iff {H_a}: {\beta}_1 \neq 0$}
 ```
 
@@ -216,7 +216,7 @@ As shown earlier, MSE provides an estimate of ${\sigma}^2$. If the null hypothes
 The \textcolor{pink}{mean square due to regression (MSR)} provides the estimate of ${\sigma}^2$. It is given by SSR divided by its degrees of freedom. If the \textcolor{pink}{standard error of the estimate} is denoted by 's' then $s^2 = \text{MSR} = \frac{\text{SSR}}{\text{Regression degrees of freedom}} = \frac{\text{SSR}}{\text{Number of independent variables}}$
 ```
 
-- If the null hypothesis ${H_0} : {\beta}_1 = 0$ is true, MSR and MSE are two independent estimates of ${\sigma}^2$ and the sampling distribution of MSR/MSE follows an F distribution with numerator degrees of freedom equal to one and denominator degrees of freedom equal to $(n − 2)$. 
+- If the null hypothesis ${H_0} : {\beta}_1 = 0$ is true, MSR and MSE are two independent estimates of ${\sigma}^2$ and the sampling distribution of MSR/MSE follows an F distribution with numerator degrees of freedom equal to one and denominator degrees of freedom equal to $(n - 2)$. 
   - Therefore, when ${\beta}_1 = 0$, the value of MSR/MSE should be close to one. 
     - Both MSE and MSR provide unbiased estimates of ${\sigma}^2$
   - However, if the null hypothesis is false ${\beta}_1 \neq 0$, MSR will overestimate ${\sigma}^2$ and the value of MSR/MSE will be inflated; thus, large values of MSR/MSE lead to the rejection of ${H_0}$ and the conclusion that the relationship between x and y is statistically significant.
@@ -225,7 +225,7 @@ The \textcolor{pink}{mean square due to regression (MSR)} provides the estimate 
   - If $P_{(F)} \leq {\alpha} \to {H_0}$ Rejected.
 
 ```{r 'C14D05', comment="", echo=FALSE, results='asis'}
-f_getDef("H-SimpleRegression") 
+f_getDef("H-Simple-Regression") 
 ```
 
 ## Cautions About the Interpretation of Significance Tests
@@ -302,7 +302,7 @@ f_getDef("Outliers") #dddd
 - A high leverage point is an observation that is extreme in the predictor space.
   - For leverage only the x is considered not the y.
   - Example: we have Distance Travelled (y) vs. Time Taken (x) information of 10 people with max(x) is 9 hours. If another person travel 39 km in 16 hours, it automatically becomes a high leverage point solely based on 16 hours (x).
-    - If the point lies on the regression line i.e. its standardised residual is low then it is not an outlier. The decision for designating it as outlier conside the distance travelled (y) 
+    - If the point lies on the regression line i.e. its standardised residual is low then it is not an outlier. The decision for designating it as outlier also considers the distance travelled (y) 
 
 
 ```{definition 'Influential-Observations'}
@@ -315,7 +315,7 @@ f_getDef("Outliers") #dddd
   - It is possible for an observation to be not-quite flagged as an outlier, and not-quite flagged as a high leverage point, but still be influential through the combination of the two characteristics.
     - Influential observations that are caused by an interaction of large residuals and high leverage can be difficult to detect. One of the diagnostic procedure is called 'Cook D statistic'.
   - Example: Suppose another person travels 20 km in 5 hours when the mean(x) is 5 hours. i.e. it is situated exactly at the mean of independent variable
-    - Altohugh this would be an outlier because it has large standardised residual
+    - Although this would be an outlier because it has large standardised residual
     - It is not influential because it has very low leverage (placed at exactly the mean of x)
       - Its presence or absence are going to change parameters of regression equation only by a small value.
 
@@ -324,13 +324,13 @@ f_getDef("Outliers") #dddd
 \textcolor{pink}{Cook distance ($D_i$)} is the most common measure of the influence of an observation. It works by taking into account both the size of the residual and the amount of leverage for that observation. Generally an observation is influential is if $D_i > 1$
 ```
 
-- $D_i$ can be compared against the percentiles of the F-distribution with (m, n − m − 1) degrees of freedom. 
+- $D_i$ can be compared against the percentiles of the F-distribution with (m, n - m - 1) degrees of freedom. 
   - 'n' is the total number of observations
   - 'm' indicates the number of predictor variables
   - If the observed value lies within the first quartile of this distribution (lower than the $25^{\text{th}}$ percentile), then the observation has little influence on the regression; 
   - However, if $D_i$ is greater than the median of this distribution, then the observation is influential. 
   - The hiker in the earlier example (39 km in 16 hours), was that observation influential
-    - This observatio has high leverage however it is not an outlier because the observation lies near the regression line
+    - This observation has high leverage however it is not an outlier because the observation lies near the regression line
     - It has low $D_i$ and thus the observation is not influential
   - What if the hiker travelled 23 km in 10 hours
     - It lacks high leverage or high residual

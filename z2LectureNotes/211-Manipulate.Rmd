@@ -10,7 +10,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Understanding basic data manipulation using R"
-  - [Filter Rows](#rowfilter-b11 "b11")
+  - [Filter Rows](#row-filter-b11 "b11")
   
 - Links (Ref)
   - [Transform columns as Factors](#factors-b10 "b10")
@@ -38,7 +38,7 @@ bb <- xxflights
 ```
 
 
-## Logical Operators and Functions {#logicals-b11 .tabset .tabset-fade}
+## Logical Operators and Functions {#logical-b11 .tabset .tabset-fade}
 
 - "\textcolor{pink}{|}"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Or, binary, vectorized)
 - "\textcolor{pink}{||}"&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;(Or, binary, not vectorized)
@@ -120,9 +120,9 @@ tryCatch( FALSE && x, error = function(e) cat(paste0(e)))
 tryCatch( TRUE && x, error = function(e) cat(paste0(e)))
 ```
 
-### AnyAll {.unnumbered}
+### any() & all() {.unnumbered}
 
-```{r 'B11-AnyAll'}
+```{r 'B11-Any-All'}
 # #any()
 any(NA, TRUE)
 any(NA, FALSE)
@@ -138,7 +138,7 @@ all(NA, FALSE, na.rm = TRUE)
 all(character(0))
 ```
 
-## Relational Operators {#relationals-b11}
+## Relational Operators {#relational-b11}
 
 \textcolor{pink}{$>$} , \textcolor{pink}{$<$} , \textcolor{pink}{$==$} , \textcolor{pink}{$>=$} , \textcolor{pink}{$<=$} , \textcolor{pink}{$!=$} 
 
@@ -234,7 +234,7 @@ dim(bb_13 <- subset(bb, month == 1 | !(dep_delay >= 120) | carrier == "DL",
 ```
 
 
-### Filter Rows {#rowfilter-b11 .unnumbered}
+### Filter Rows {#row-filter-b11 .unnumbered}
 
 ```{r 'B11-SubsetRow'}
 # #Data: mtcars, 32x11, "mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb"
@@ -431,7 +431,7 @@ bb %>%
 - To minimise this type of Error, do not use the keywords which match with Base R Functions e.g. 'data' (Function in utils) or 'df' (function in stats)
 
 ```{conjecture 'Object-Not-Found-02'}
-\textcolor{brown}{Error: Problem with mutate() column ... column object 'arr\_delay' not found}
+\textcolor{brown}{Error: Problem with mutate() column ... column object ... not found}
 ```
 
 - Run 'str(MyObject)' to check if the column exists in the dataset 

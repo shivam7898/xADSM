@@ -131,7 +131,7 @@ summary(zzF66CarSeats)
       - Different Values in Sales Column : ~~https://www.kaggle.com/ashydv/sales-prediction-simple-linear-regression/data~~
   - 'Sales' is the Response Variable
   - It has sales of product in 200 different markets, along with advertising budgets for the product in each of those markets for three different media: TV, radio, and newspaper.
-    - Advertising Budgets for each media is in 1000 dollars 
+    - Advertising Budgets for each media is in USD 1000 
     - Sales is the number of units of product sold (in thousands of units)
 
 
@@ -257,7 +257,7 @@ summary(zzF66Auto)
 ## Explicit Dummy Conversion {#exp-dummy-f66}
 
 - [Dummies should be converted Explicitly](#exp-dummy-f66 "f66")
-  - By default, lm() can convert dummies but it is better to explictly handle those. - "ForLater"
+  - By default, lm() can convert dummies but it is better to explicitly handle those. - "ForLater"
 - Also, Keep the base dataset (i.e. with factors), not including the dummies
   - The Name of the Reference Level is lost and cannot be recovered. If there are 3 regions, {East, West, South} and 'East' is being treated as the reference, the resulting dataset, with dummies, does not know whether the {0, ..., 0} reference level would be East or North.
   - Implicit Dummy conversion retains the reference level because it keeps the variable as factor. However, implicit is not available for some models.
@@ -269,18 +269,18 @@ summary(zzF66Auto)
   - Keeping them as Continuous is better (in general)
   - Converting to Factor would result in loss of information about their relative location i.e. age 80 is near 70 compared to age 30 or education 20 is better than education 10
   - Many techniques (like randomForest) become exponentially resource intensive as the number of variable increases and Age /Level type of variables would create lots of dummies if converted to categorical
-  - Marks given to Students (e.g. 44 or 63 out of 100, 3 or 4 out of 10) although look continuous but inherently these are categorical. However, almost always, they are assumed to be continous to calculate a Grade point averge (GPA) etc. 
+  - Marks given to Students (e.g. 44 or 63 out of 100, 3 or 4 out of 10) although look continuous but inherently these are categorical. However, almost always, they are assumed to be continuous to calculate a Grade point average (GPA) etc. 
     - \textcolor{orange}{Caution:} According to Statistical theory this is wrong but it happens this way only.
-  - As the number of levels increases, we tend to assume that the variable is continuous. So, there is no set boundary when a variable is categorical or continous
-  - Treating them as continous, automatically handles the missing levels that are not in the data i.e. age (e.g. 40, 55 might be missing). Converting this to categorical would create another problem of how to treat those.
-    - Distance between 39 and 41 would change with the prsence or absence of an observation value of 40 if we treat it as categorical.
+  - As the number of levels increases, we tend to assume that the variable is continuous. So, there is no set boundary when a variable is categorical or continuous
+  - Treating them as continuous, automatically handles the missing levels that are not in the data i.e. age (e.g. 40, 55 might be missing). Converting this to categorical would create another problem of how to treat those.
+    - Distance between 39 and 41 would change with the presence or absence of an observation value of 40 if we treat it as categorical.
 
 
 ## Ordered Factor {#lm-poly-f66}
 
 - [Ordered Factors in lm() will give polynomials](#lm-poly-f66 "f66")
 - \textcolor{orange}{Caution:} Incomplete. "ForLater"
-- Ordered Factors are converted into polynomial by defualt in R during regression whereas unordered factors are kept simple
+- Ordered Factors are converted into polynomial by default in R during regression whereas unordered factors are kept simple
     - How to convert ordered factors into polynomials for usage
     - Further, what would happen if in the 'Good < Better < Best' ordering, Better is the most frequent level. Currently, the basic rule is to convert most frequent level to the reference to minimise multicollinearity. How this would be handled is unknown for now.
 
@@ -292,7 +292,7 @@ summary(zzF66Auto)
 - Dataset Advertising - Goal 
   - To develop an accurate model that can be used to predict sales on the basis of the three media budgets.
 
-- \textcolor{pink}{Question:} Refer [Answers](#ans-f66 "f66")
+- \textcolor{pink}{Question:} Refer [Answers](#marketing-f66 "f66")
 
 1. Is there a relationship between advertising budget and sales
 2. How strong is the relationship between advertising budget and sales
@@ -356,7 +356,7 @@ An \textcolor{pink}{unbiased estimator} does not systematically over-estimate or
   - $\text{SE}(\hat{\beta}_1)$ would be smaller when the $x_i$ are more spread out; intuitively we have more leverage to estimate a slope when this is the case. 
   - We also see that $\text{SE}(\hat{\beta}_0)$ would be the same as $\text{SE}(\hat{\mu})$ if ${\overline{x}}$ were zero, in which case $\hat{\beta}_0$ would be equal to ${\overline{y}}$. 
   - In general, $\sigma^2$ is not known, but can be estimated from the data. This estimate of $\sigma$ is known as the RSE. 
-    - Definition given below is applicable similarly to the estimation of model coeffcients. 
+    - Definition given below is applicable similarly to the estimation of model coefficients. 
 
 
 ```{definition 'RSE'}
@@ -379,7 +379,7 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
 
 - We compute a t-statistic as: $t = \frac{\hat{\beta}_1 - 0}{\text{SE}(\hat{\beta}_1)}$
   - It measures the number of standard deviations that $\hat{\beta}_1$ is away from 0. 
-  - If there really is no relationship between X and Y, then we expect that it will have a t-distribution with \textcolor{pink}{(n − 2)} degrees of freedom. 
+  - If there really is no relationship between X and Y, then we expect that it will have a t-distribution with \textcolor{pink}{(n - 2)} degrees of freedom. 
   - The t-distribution has a bell shape and for values of 'n' greater than approximately 30 it is quite similar to the standard normal distribution. 
   - Consequently, we can compute the probability of observing any number equal to |t| or larger in absolute value, assuming $\beta_1 = 0$. We call this probability the p-value. 
 
@@ -387,7 +387,7 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
   - A small p-value indicates that it is unlikely to observe such a substantial association between the predictor and the response due to chance, in the absence of any real association between the predictor and the response. 
   - Hence, if we see a small p-value, then we can infer that there is an association between the predictor and the response. 
   - We reject the null hypothesis —that is, we declare a relationship to exist between X and Y —if the p-value is small enough. 
-    - Typical p-value cutoffs for rejecting the null hypothesis are 5% or 1%. 
+    - Typical p-value cut-offs for rejecting the null hypothesis are 5% or 1%. 
     - When n = 30, these correspond to t-statistics of around 2 and 2.75, respectively.
 
 ## lm() {.tabset .tabset-fade}
@@ -402,10 +402,10 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
 - Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
   - Least squares model for the regression of number of units sold on TV advertising budget for the Advertising data. 
   - $\beta_0 = 7.03, \beta_1 = 0.0475$
-  - According to this approximation, an additional unit (1,000 dollars) spent on TV advertising is associated with selling approximately 0.0475 additional units of the product (in 1000 i.e. 47.5 units)
+  - According to this approximation, an additional unit (USD 1000) spent on TV advertising is associated with selling approximately 0.0475 additional units of the product (in 1000 i.e. 47.5 units)
   - Confidence Interval
     - $\beta_0 \in [6.130, 7.935]$ : In the absence of any advertising, sales will, on average, fall somewhere between 6,130 and 7,935 units
-    - $\beta_1 \in [0.042, 0.053]$ : For each 1,000 dollar increase in television advertising, there will be an average increase in sales of between 42 and 53 units
+    - $\beta_1 \in [0.042, 0.053]$ : For each USD 1000 increase in television advertising, there will be an average increase in sales of between 42 and 53 units
   - Hypothesis Test
      - Coefficients for $\hat{\beta}_0$ and $\hat{\beta}_1$ are very large relative to their standard errors, so the t-statistics are also large; the probabilities of seeing such values if ${H_0}$ is true are virtually zero.
     - Hence we can conclude that $\beta_0 \neq 0, \beta_1 \neq 0$
@@ -464,7 +464,7 @@ The \textcolor{pink}{$R^2 \in [0, 1] $}, is the proportion of variance explained
   - A $R^2$ value near 0 indicates that the regression does not explain much of the variability in the response; this might occur because the linear model is wrong, or the error variance ${\sigma}^2$ is high, or both.
 
 - Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
-  - RSE = 3.26 (1000 dollars)
+  - RSE = 3.26 (USD 1000)
     - i.e. Actual sales in each market deviate from the true regression line by approximately 3,260 units, on average. 
     - i.e. Even if the model were correct and the true values of the unknown coefficients $\beta_0$ and $\beta_1$ were known exactly, any prediction of sales on the basis of TV advertising would still be off by about 3,260 units on average. 
   - Percentage Error
@@ -511,15 +511,15 @@ Instead of fitting a separate simple linear regression model for each predictor,
 
 
 - Dataset Advertising - Linear Regression of Y (Sales)
-  - For a given amount of TV and newspaper advertising, spending an additional 1,000 dollars on radio advertising is associated with approximately 188 units of additional sales. 
+  - For a given amount of TV and newspaper advertising, spending an additional USD 1000 on radio advertising is associated with approximately 188 units of additional sales. 
   - Comparing these coefficient estimates, we notice that the multiple regression coefficient estimates for 'TV' and 'radio' are pretty similar to the simple linear regression coefficient estimates.
     - TV: Simple (0.0475), Multiple (0.0458)
     - Radio: Simple (0.2025), Multiple (0.1885)
   - However, while the 'newspaper' regression coefficient estimate in Simple Linear Regression was significantly non-zero, the coefficient estimate for newspaper in the multiple regression model is close to zero, and the corresponding p-value is no longer significant. 
     - Newspaper: Simple (0.0547 & significant), Multiple (-0.0010 & not significant)
   - This illustrates that the simple and multiple regression coefficients can be quite different. 
-    - This difference stems from the fact that in the simple regression case, the slope term represents the average increase in product sales associated with a 1,000 dollars increase in newspaper advertising, \textcolor{pink}{ignoring other predictors} such as TV and radio. 
-    - By contrast, in the multiple regression setting, the coefficient for newspaper represents the average increase in product sales associated with increasing newspaper spending by 1,000 dollars while \textcolor{pink}{keeping other predictors fixed}.
+    - This difference stems from the fact that in the simple regression case, the slope term represents the average increase in product sales associated with a USD 1000 increase in newspaper advertising, \textcolor{pink}{ignoring other predictors} such as TV and radio. 
+    - By contrast, in the multiple regression setting, the coefficient for newspaper represents the average increase in product sales associated with increasing newspaper spending by USD 1000 while \textcolor{pink}{keeping other predictors fixed}.
 
 
 ```{conjecture 'stargazer-nchar'}
@@ -645,7 +645,7 @@ if(!file.exists(loc_png)) {
     - In fact, it is likely that we will observe at least one p-value below 0.05 by chance! 
     - Hence, if we use the individual t-statistics and associated p-values in order to decide whether or not there is any association between the variables and the response, there is a very high chance that we will incorrectly conclude that there is a relationship. 
   - However, the F-statistic does not suffer from this problem because it adjusts for the number of predictors. 
-    - Hence, if ${H_0}$ is true, there is only a 5 % chance that the F-statistic will result in a pvalue below 0.05, regardless of the number of predictors or the number of observations.
+    - Hence, if ${H_0}$ is true, there is only a 5 % chance that the F-statistic will result in a p-value below 0.05, regardless of the number of predictors or the number of observations.
 
 - \textcolor{orange}{Caution:} In high-dimensionality situation (p >> n), this approach of using an F-statistic to test for any association between the predictors and the response fails.
 
@@ -688,7 +688,7 @@ The task of determining which predictors are associated with the response, in or
 - We should look at \textcolor{pink}{Adjusted R Square $R_a^2$}
   - Model with All 3 variables: $R_a^2 = 0.89564$
   - Model with 2 variables excluding newspaper: $R_a^2 = 0.89615$
-  - Model with 2 variabls has higher (better) $R_a^2$ and thus should be used
+  - Model with 2 variables has higher (better) $R_a^2$ and thus should be used
 
 ### Predictions
 
@@ -703,10 +703,10 @@ The task of determining which predictors are associated with the response, in or
 
 - Dataset Advertising - Linear Regression of Y (Sales)
   - We use a confidence interval to quantify the uncertainty surrounding confidence interval the average sales over a large number of cities. 
-    - Ex: Given that 100,000 dollars are spent on TV advertising and 20,000 dollars are spent on radio advertising in each city, the 95% confidence interval is [10985, 11528]. 
+    - Ex: Given that USD 100,000 are spent on TV advertising and USD 20,000 are spent on radio advertising in each city, the 95% confidence interval is [10985, 11528]. 
     - We interpret this to mean that 95% of intervals of this form will contain the true value of $f(X)$.
   - On the other hand, a prediction interval can be used to quantify the prediction interval uncertainty surrounding sales for a particular city. 
-    - Ex: Given that 100,000 dollars are spent on TV advertising and 20,000 dollars are spent on radio advertising in that city the 95% prediction interval is [7930, 14583]. 
+    - Ex: Given that USD 100,000 are spent on TV advertising and USD 20,000 are spent on radio advertising in that city the 95% prediction interval is [7930, 14583]. 
     - We interpret this to mean that 95% of intervals of this form will contain the true value of Y for this city. 
   - Note that both intervals are centered at 11256, but that the prediction interval is substantially wider than the confidence interval, reflecting the increased uncertainty about sales for a given city in comparison to the average sales over many locations.
 
@@ -731,14 +731,14 @@ predict(mod_ads_tvrad, tibble(tv = c(100), radio = c(20)), interval = "predictio
 
 - Dataset Credit - Linear Regression of Y (Balance) vs. Single Categorical X (Own)
   - Reference: 0 (does not own house), 1 (owns the house)
-  - The average credit card debt for non-owners is estimated to be 509.80 dollars (Constant), whereas owners are estimated to carry 19.73 dollars in additional debt for a total of 529.53 dollars. 
+  - The average credit card debt for non-owners is estimated to be USD 509.80 (Constant), whereas owners are estimated to carry USD 19.73 in additional debt for a total of USD 529.53. 
   - However, the p-value for the dummy variable is higher than 0.05. This indicates that there is no statistical evidence of a difference in average credit card balance based on house ownership. 
   - Alternate Reference: 1 (does not own house), 0 (owns the house)
-    - The average credit card debt for owners is estimated to be 529.53 dollars (Constant), whereas non-owners are estimated to carry slightly lower debt of 19.73 dollars for a total of 509.80 dollars. 
+    - The average credit card debt for owners is estimated to be USD 529.53 (Constant), whereas non-owners are estimated to carry slightly lower debt of USD 19.73 for a total of USD 509.80. 
   - Alternate Reference: -1 (does not own house), 1 (owns the house)
-    - The average credit card debt for owners is estimated to be 519.67 dollars (Constant)
-    - Non-owners are estimated to carry slightly lower debt of (-1) * 9.87 dollars for a total of 509.80 dollars. 
-    - Owners are estimated to carry additional debt of (1) * 9.87 dollars for a total of 529.53 dollars.
+    - The average credit card debt for owners is estimated to be USD 519.67 (Constant)
+    - Non-owners are estimated to carry slightly lower debt of USD (-1) * 9.87 for a total of USD 509.80. 
+    - Owners are estimated to carry additional debt of USD (1) * 9.87 for a total of USD 529.53.
 
 
 ```{r 'F66-Regression-Credit-1'}
@@ -778,9 +778,9 @@ stargazer(mod_credit_Own_Yes, mod_credit_Own_No, mod_credit_Own_NoYes,
 - Dataset Credit - Linear Regression of Y (Balance) vs. Single Categorical X (Region)
   - Reference: East
   - \textcolor{orange}{Caution:} Book might have interchanged the Coefficients of Region_South and Region_West
-    - The estimated balance for the baseline, East, is 531 dollars. 
-    - It is estimated that those in the South will have 12 dollars less debt than those in the East
-    - Those in the West will have 18 dollars less debt than those in the East. 
+    - The estimated balance for the baseline, East, is USD 531. 
+    - It is estimated that those in the South will have USD 12 less debt than those in the East
+    - Those in the West will have USD 18 less debt than those in the East. 
     - However, the p-values associated with the coefficient estimates for the two dummy variables are greater than 0.05, suggesting no statistical evidence of a real difference in average credit card balance between 'South and East' or between 'West and East'.
   - Selection of baseline category is arbitrary (suggested most frequent, not applied here)
     - Final predictions for each group will be same regardless of this choice
@@ -854,7 +854,7 @@ An \textcolor{pink}{interaction effect (or synergy effect)} exists when the effe
   - For example, the linear model states that the average increase in sales associated with a one-unit increase in TV is always $\beta_1$, regardless of the amount spent on radio. 
   - However, this simple model may be incorrect. 
     - Suppose that spending money on radio advertising actually increases the effectiveness of TV advertising, so that the slope term for TV should increase as radio increases. 
-    - In this situation, given a fixed budget of 100,000 dollars, spending half on radio and half on TV may increase sales more than allocating the entire amount to either TV or to radio. 
+    - In this situation, given a fixed budget of USD 100,000, spending half on radio and half on TV may increase sales more than allocating the entire amount to either TV or to radio. 
     - In marketing, this is known as a \textcolor{pink}{synergy effect}, and in statistics it is referred to as an \textcolor{pink}{interaction effect}. 
 
 - According to the simple model, a one-unit increase in $X_1$ is associated with an average increase in Y of $\beta_1$ units. 
@@ -876,11 +876,11 @@ The \textcolor{pink}{hierarchical principle} states that if we include an intera
 
 - Dataset Advertising - Linear Regression of Y (Sales)
   - Model with the interaction effect has better (higher) $R_a^2 = 0.9673$ (vs. 0.8962)
-    - i.e. (96.8 − 89.7)/(100 − 89.7) = 69% of the variability in sales that remains after fitting the additive model has been explained by the interaction term
+    - i.e. (96.8 - 89.7)/(100 - 89.7) = 69% of the variability in sales that remains after fitting the additive model has been explained by the interaction term
   - Model with the interaction effect has better (lower) RSE = 0.9435 (vs. 1.6814)
   - Coefficients
-    - An increase in TV advertising of 1,000 dollars is associated with increased sales of $(\hat{\beta}_1 + \hat{\beta}_3 \times \text{Radio}) \times 1000 = 19 + 1.1 \times \text{Radio}$ units.
-    - An increase in Radio advertising of 1,000 dollars will be associated with an increase in sales of $(\hat{\beta}_2 + \hat{\beta}_3 \times \text{TV}) \times 1000 = 29 + 1.1 \times \text{TV}$ units.
+    - An increase in TV advertising of USD 1000 is associated with increased sales of $(\hat{\beta}_1 + \hat{\beta}_3 \times \text{Radio}) \times 1000 = 19 + 1.1 \times \text{Radio}$ units.
+    - An increase in Radio advertising of USD 1000 will be associated with an increase in sales of $(\hat{\beta}_2 + \hat{\beta}_3 \times \text{TV}) \times 1000 = 29 + 1.1 \times \text{TV}$ units.
 
 
 ```{r 'F66-Regression-Ads-3'}
@@ -1043,7 +1043,7 @@ hh <- res_auto_x
 #
 cap_hh <- "F66P09"
 ttl_hh <- "Auto: Y (mpg) vs. X (horsepower): Residuals vs. Fitted"
-sub_hh <- "Large residuals at edges, Small at Centre: Non-linearity!"
+sub_hh <- "Large residuals at edges, Small at Center: Non-linearity!"
 ```
 
 ```{r 'F66-Auto-Residuals-1-Plot', include=FALSE, ref.label=c('F66-Plot-ResidFit')}
@@ -1162,7 +1162,7 @@ The \textcolor{pink}{variance inflation factor (VIF)} is the ratio of the varian
 - Multicollinearity is difficult to detect by inspection of the correlation matrix.
   - To assess multicollinearity, compute the variance inflation factor (VIF). 
   - There are two solutions
-    - Either drop one of the multicollinear variable because the information it provides about the Respone is redundant in the presence of other variable
+    - Either drop one of the multicollinear variable because the information it provides about the Response is redundant in the presence of other variable
     - Or combine collinear variables into a single predictor e.g. by taking average of their standardised versions.
       - Standardisation is required so that unit of one variable does not overshadow the other
 
@@ -1232,7 +1232,7 @@ vif_ii[vif_ii > 5]
 ```
 
 
-## The Marketing Plan {#ans-f66}
+## The Marketing Plan {#marketing-f66}
 
 ```{r 'F66-Print-Ads-4'}
 # #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
@@ -1273,7 +1273,7 @@ vif(mod_ads)
     - The standard error of $\hat{\beta}_j$ can be used to construct confidence intervals for ${\beta}_j$. 
     - 95% confidence intervals for the coefficients: 
       - All Predictors Model: (0.043, 0.049) for TV, (0.172, 0.206) for radio, and (-0.013, 0.011) for Newspaper. 
-      - Best Model: (0.016, 0.022) for TV, (0.011, 0.046) for radio, and (0.001, 0.001) for interaction betwen TV and Radio. 
+      - Best Model: (0.016, 0.022) for TV, (0.011, 0.046) for radio, and (0.001, 0.001) for interaction between TV and Radio. 
     - The confidence intervals for TV and radio are narrow and far from zero, providing evidence that these media are related to sales. 
     - But the interval for newspaper includes zero, indicating that the variable is not statistically significant given the values of TV and radio. 
     - Collinearity can result in very wide standard errors. Collinearity might be the reason that the confidence interval associated with newspaper is so wide
@@ -1306,7 +1306,7 @@ vif(mod_ads)
 - Note: 
   - The parametric approach (linear regression) will outperform the nonparametric approach (KNN regression) if the parametric form that has been selected is close to the true form of f (i.e. the actual relationship is linear).
   - KNN performs better than linear regression for non-linear situations. 
-  - Thus, in a real life situation in which the true relationship is unknown, one might suspect that KNN should be favored over linear regression because it will at worst be slightly inferior to linear regression if the true relationship is linear, and may give substantially better results if the true relationship is non-linear. 
+  - Thus, in a real life situation in which the true relationship is unknown, one might suspect that KNN should be favoured over linear regression because it will at worst be slightly inferior to linear regression if the true relationship is linear, and may give substantially better results if the true relationship is non-linear. 
     - But in reality, even when the true relationship is highly non-linear, KNN may still provide inferior results to linear regression. 
     - It is because of the dimensionality problem
 
@@ -1440,7 +1440,7 @@ hh <- res_boston_lstat %>% select(Response = medv, X = lstat, .fitted, .resid)
 #
 cap_hh <- "F66P02"
 ttl_hh <- "Boston: Y (medv) vs. X (lstat) with Residuals"
-sub_hh <- "Large residuals at edges, Small at Centre: Non-linearity!"
+sub_hh <- "Large residuals at edges, Small at Center: Non-linearity!"
 ```
 
 ```{r 'F66-Boston-Response-1-Plot', include=FALSE, ref.label=c('F66-Plot-Response-Single')}
@@ -1546,7 +1546,7 @@ rm(F66)
 ```
 
 - \textcolor{orange}{Warning:} "Data frame tidiers are deprecated and will be removed in an upcoming release of broom."
-- The Error & Warning occur if model resul is passed to tidy() in place of actual model
+- The Error & Warning occur if model result is passed to tidy() in place of actual model
 
 #### Plot {.unlisted .unnumbered}
 
@@ -1765,7 +1765,7 @@ rm(F66)
 ### Model {.unlisted .unnumbered}
 
 ```{r 'F66-Regression-Credit-3'}
-# #Linear Regression with Continuos & Categorical X
+# #Linear Regression with Continuous & Categorical X
 # #Dummy |
 zzF66Credit_dum <- dummy_cols(zzF66Credit, 
                               remove_first_dummy = TRUE, remove_selected_columns = TRUE)
@@ -2015,7 +2015,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, col_hh, corr_hh, F66P02, F66P03, F66P0
           mod_credit_Own_No, mod_credit_Own_NoYes, mod_credit_Own_Yes, mod_credit_rEast, 
           mod_credit_x2, res, res_auto_x, res_auto_x2, res_boston, res_boston_lstat, sig_corr_hh, 
           sub_hh, ttl_hh, vif_ii, x_hh, xfw, y_hh, zzF66Ads, zzF66Auto, zzF66Boston, 
-          zzF66CarSeats, zzF66CarSeats_dum, zzF66Credit, zzF66Credit_dum)
+          zzF66CarSeats, zzF66CarSeats_dum, zzF66Credit, zzF66Credit_dum, F66P01, F66P08, F66P11)
 ```
 
 ```{r 'F66-Validation', include=FALSE, cache=FALSE}

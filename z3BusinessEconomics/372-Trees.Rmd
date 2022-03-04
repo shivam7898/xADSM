@@ -65,7 +65,7 @@ The regions $\{R_1, R_2, R_3, \ldots \}$ are known as \textcolor{pink}{terminal 
 
 
 ```{definition 'Splitting-Pruning'}
-\textcolor{pink}{Splitting} is a process of dividing a node into two or more sub-nodes. Remoal of sub-nodes of a decision node, is called \textcolor{pink}{Pruning}
+\textcolor{pink}{Splitting} is a process of dividing a node into two or more sub-nodes. Removal of sub-nodes of a decision node, is called \textcolor{pink}{Pruning}
 ```
 
 

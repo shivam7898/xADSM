@@ -40,7 +40,7 @@ f_getDef("Supervised-Methods")
     - Total number of transactions in a given period
   - Monetary value - 
     - Total or Average Transaction value
-  - RFM Score is calculated and each parameter is assgined a weightage and based on that all the customers are classified
+  - RFM Score is calculated and each parameter is assigned a weightage and based on that all the customers are classified
     - R /F /M Score - Rank them and then score of [1, 5] is allocated
     - Then we can define rules like 
       - 125 Rules
@@ -63,10 +63,10 @@ f_getDef("Supervised-Methods")
   - This is percentile based segregation which is least affected by the outliers
 - \textcolor{pink}{Question:} Can we delete that outlier
   - No, we cannot
-  - If all customers are purchasing only upto 5000 and one customer is spending 10000, can we afford to overlook that customer
+  - If all customers are purchasing only up to 5000 and one customer is spending 10000, can we afford to overlook that customer
 - \textcolor{pink}{Question:} Does the score is affected by Business Context. i.e. a recency value of 100 might be outlier for one business but might not be for another
   - No, 
-  - Business context affects the weights assgined to them. However, that is part of later analysis.
+  - Business context affects the weights assigned to them. However, that is part of later analysis.
 - \textcolor{pink}{Question:} For Recency, will there be a maximum limit that we can consider
   - No
   - Most companies do this analysis every quarter and that can be used as a benchmark for next quarter
@@ -208,7 +208,7 @@ summary(jj)
 
 ## Develop Segments
 
-Segment rules might look like arbitory however lots of thought goes into this. This is a tedious task.
+Segment rules might look like arbitrary, however lots of thought goes into this. This is a tedious task.
 
 - \textcolor{pink}{Question:} What happens with overlap e.g. which label will be assigned to the customer with 444. 
   - In this dataset, there is no overlap
@@ -351,9 +351,9 @@ xxB19Retail <- f_getRDS(xxB19Retail)
      - (Aside) \textcolor{orange}{Caution:} While the lectures on Nov-14 and Nov-21 showed the dates to be converted by assuming that the data is in "dd-mm-yyyy" format. However, the data actually is "mm-dd-yyyy"
 
 - \textcolor{pink}{Question:} If we eliminate returns, should we not remove this related transaction also because we are keeping the data of that transaction as actual revenue
-  - We can keep it for the purpose of this analysis. Some 'unforseen circumstance' led to the return. However, the actual transaction did happen. The customer did buy the product.
+  - We can keep it for the purpose of this analysis. Some unforeseen circumstance led to the return. However, the actual transaction did happen. The customer did buy the product.
   - Further, currently we are interested in segregating the customers within different labels /types. We are not analysing the profit or growth, we are analysing customer purchase patterns in terms of RFM only.
-  - (Argument) But then we are considering his Monetary Contribution on the higher side. If he has done a single transaction of 1000 dollars but later returned the product, the customer actually did not contribute anything to the company. However we will give him a higher ranking compared to another customer who purchased an item of 500 dollars.
+  - (Argument) But then we are considering his Monetary Contribution on the higher side. If he has done a single transaction of USD 1000 but later returned the product, the customer actually did not contribute anything to the company. However we will give him a higher ranking compared to another customer who purchased an item of USD 500.
 
 ```{r 'B19-PrepRetail'}
 bb <- aa <- xxB19Retail

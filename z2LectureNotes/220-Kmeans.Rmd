@@ -39,7 +39,7 @@ f_getDef("Cluster")
   - No, knn is a classification technique and is supervised. k-means is clustering method and is unsupervised.
 
 - Clustering algorithms seek to construct clusters of records such that the between-cluster variation is large compared to the within-cluster variation.
-- The variables needs to be scaled before the eculidean distance can be calculated to identify clusters
+- The variables needs to be scaled before the Euclidean distance can be calculated to identify clusters
 - Outliers are also a problem. Normalisation does not help with outliers
 - The k-means algorithm can be applied only when the mean of cluster is defined.
   - Thus, the limitation is that we cannot apply k-means to categorical values
@@ -78,13 +78,13 @@ f_getDef("Euclidean-Distance")
 
 - What is the number which would be practically feasible and statistically feasible too
   - 'k' should be the 'best guess' on the number of clusters present in the given data.
-    - However, we may not have any idea about the possible number of clusters for high dimensional data and for data that is not scatterplotted 
+    - However, we may not have any idea about the possible number of clusters for high dimensional data and for data that is not analysed by scatterplot
     - There is NO principled way to know what the value of 'k' ought to be.
     - We may try with successive values of 'k' starting with 2.
   - Within Cluster Sum of Squares \textcolor{pink}{(WSQ)} represents within cluster variation i.e. inside cluster homogeneity.
     - we are expecting low value of WSQ (or MSE or SSE)
-  - Between Cluster Sum of Sqares \textcolor{pink}{(BSQ)} represents between cluster variation i.e. between cluster heterogeneity
-    - we are expection high value of BSQ (or MSB or SSB)
+  - Between Cluster Sum of Squares \textcolor{pink}{(BSQ)} represents between cluster variation i.e. between cluster heterogeneity
+    - we are expectation high value of BSQ (or MSB or SSB)
   - SSE vs. k- looks like Scree Plot and Elbow method can be used to identify the optimum number of k
 
 - The iterative process is stopped when two consecutive 'k' values produce more or less identical results in terms of cluster within and between variances
@@ -151,7 +151,7 @@ paste0("Between /Total = ",  round(100 * ii$betweenss / ii$totss, 2), "%")
 # #Members within Clusters
 ii$size
 #
-# #Matrix of cluster centres
+# #Matrix of cluster centers
 round(ii$centers, 3)
 #
 # #Cluster Membership of each point
@@ -168,7 +168,7 @@ res_movies <- cbind(xw,
 - Two Clusters: Cluster 2 (Size 218) and Cluster 1 (Size 73)
   - Cluster 2 gave Horror & Action movies above average ratings (Favourable)
   - Cluster 2 gave lower than average ratings for Romcom, Comedy, Fantasy (Unfavourable)
-  - Behavour of Cluster 1 is completely opposite to Cluster 2
+  - Behaviour of Cluster 1 is completely opposite to Cluster 2
   - However, we cannot make a conclusion here because Between / Total is 47%
     - i.e. Too much heterogeneity within Cluster 2
 - Three Clusters: of Sizes 72, 105, 114 with Between /Total = 62% (improved i.e. within reduced)

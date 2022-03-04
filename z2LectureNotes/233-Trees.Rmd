@@ -38,7 +38,7 @@ if(FALSE){# #WARNING: Installation may take some time.
   - (Aside)
     - Sequential (step by step, not in one step) : At each step, all variables are evaluated for split and the one with maximum reduction in Gini is selected as the best candidate
     - Recursive : At each subsequent step, again, all variables are evaluated for split and the one with maximum reduction in Gini is selected as the best candidate 
-  - (Clarification) If the split happened on variable 'Age', Is it ('Age') is avaiable for further splits in susequent steps 
+  - (Clarification) If the split happened on variable 'Age', Is it ('Age') is available for further splits in subsequent steps 
     - Yes (If the 'cp' criteria allows it)
   - (Clarification) Why the split is happening by 'Age' and not by 'Transmission'
     - On that step 'Age' provides maximum information gain (maximum reduction in Gini) so the split happens on this variable.
@@ -139,7 +139,7 @@ if(TRUE) depth(ii)
 if(TRUE) ii
 ```
 
-### CrossValidated {.unlisted .unnumbered}
+### Cross-validation {.unlisted .unnumbered}
 
 ```{r 'B33-PrintTree-CV'}
 # #Printing Tree
@@ -221,7 +221,7 @@ ii
 ```{r 'B33-Tree-rpart', include=TRUE, eval=FALSE}
 # #IN: cap_hh, ttl_hh, loc_png, hh <- mod_tree
 #
-if(!file.exists(loc_png)|TRUE) {#xxxx
+if(!file.exists(loc_png)) {
   png(filename = loc_png) 
   dev.control('enable') 
   rpart.plot(hh, extra = 'auto')

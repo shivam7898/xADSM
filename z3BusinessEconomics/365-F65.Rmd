@@ -52,7 +52,7 @@ if(FALSE){# #WARNING: Installation may take some time.
   - In this setting, one may be interested in answering the following questions:
     - Which predictors are associated with the response
     - What is the extent of the association (Weak, Strong etc.)
-    - What is the relationship between the response and each predictor (positive, negtive etc.)
+    - What is the relationship between the response and each predictor (positive, negative etc.)
     - What is the type of relationship (linear, polynomial etc.)
     
 - Our goal is to apply a statistical learning method to the training data in order to estimate the unknown function 'f'. 
@@ -93,7 +93,7 @@ if(FALSE){# #WARNING: Installation may take some time.
   
 - Sometimes the question of whether an analysis should be considered supervised or unsupervised is less clear-cut. 
   - Supervised vs. Unsupervised Learning
-  - For instance, suppose that we have a set of 'n' observations. For 'm' of the observations, where m < n, we have both predictor measurements and a response measurement. For the remaining (n − m) observations, we have predictor measurements but no response measurement. 
+  - For instance, suppose that we have a set of 'n' observations. For 'm' of the observations, where m < n, we have both predictor measurements and a response measurement. For the remaining (n - m) observations, we have predictor measurements but no response measurement. 
   - Such a scenario can arise if the predictors can be measured relatively cheaply but the corresponding responses are much more expensive to collect. We refer to this setting as a \textcolor{pink}{semi-supervised learning} problem.
 
 - Why is it necessary to introduce so many different statistical learning approaches, rather than just a single best method
@@ -127,7 +127,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 
 - Classification Model Accuracy (Error Rate)
   - The most common approach for quantifying the accuracy of our estimate $\hat{f}$ is the training \textcolor{pink}{error rate}, the proportion of mistakes that are made if we apply our estimate $\hat{f}$ to the training observations.
-  - $\frac{1}{n}\displaystyle\sum_{i=1}^nI\!\left(y_i \neq \hat{y}_i \right)$
+  - $\frac{1}{n}\displaystyle\sum_{i=1}^n I\!\left(y_i \neq \hat{y}_i \right)$
   - Where $I\!\left(y_i \neq \hat{y}_i \right)$ is an \textcolor{pink}{indicator variable} that is 1 when actual and predicted are NOT equal and 0 if they are classified correctly.
   
 - The Bayes Classifier

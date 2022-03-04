@@ -108,7 +108,7 @@ f_getDef("Hypothesis-2T-Two-Tail")
 
   - NO
   - ("ForLater") However, there exists a relationship between (I guess) alpha, beta and sample size n. (I could not find the link on later search.) 
-  - (Paraphrasing and only memory based so can be worng!) Basically, for a given analysis, if we want to keep both types of errors to a managable level, we can calculate minimum number of samples that would help us in determining the outcome at a certain minimum confidence level etc.
+  - (Paraphrasing and only memory based so can be wrong!) Basically, for a given analysis, if we want to keep both types of errors to a manageable level, we can calculate minimum number of samples that would help us in determining the outcome at a certain minimum confidence level etc.
 
 ## Point Estimation
 
@@ -124,7 +124,7 @@ f_getDef("Point-Estimator")
 f_getDef("Point-Estimate")
 ```
 
-Example: ${\overline{x}}$ is an estimator (of populataion parameter 'mean' ${\mu}$). Its estimate is 3 and this calculation process is an estimation.
+Example: ${\overline{x}}$ is an estimator (of population parameter 'mean' ${\mu}$). Its estimate is 3 and this calculation process is an estimation.
 
 ## Standard Deviation
 
@@ -333,7 +333,7 @@ knitr::include_graphics(paste0(.z$PX, "B12P02", "-Flights-Dens-Air", ".png"))
 
 ### NA {.unnumbered}
 
-```{r 'B12-FlightsRemoveNA'}
+```{r 'B12-Flights-Remove-NA'}
 # #Remove All NA
 aa <- na.omit(xxflights$air_time)
 attr(aa, "na.action") <- NULL
@@ -369,7 +369,7 @@ variance_bb <- var(bb)
 cat(sprintf('Variance (sigma)%s %s%s =', '\u00b2', '\u03c3', '\u00b2'), variance_bb, "\n")
 ```
 
-### Historgram {.unnumbered}
+### Histogram {.unnumbered}
 
 ```{r 'B12-Histogram', eval=FALSE}
 # #Histogram
@@ -883,10 +883,10 @@ f_getDef("Outliers")
 ```
 
 - \textcolor{pink}{Question:} If we include a datapoint which is 4 standard deviations away, would we be able to get the Normal Distribution
-  - Shape of the curve will be tilted, thus it will be difficult to keep the datapoint and satify the condition for normality
+  - Shape of the curve will be tilted, thus it will be difficult to keep the datapoint and satisfy the condition for normality
   - Generally, only ${{\mu} - 3{\sigma} \leq {x} \leq {\mu} + 3{\sigma}}$ values are kept and the remaining are treated as outliers
 - \textcolor{pink}{Question:} Is is a bad data if it is 4 standard deviations away
-  - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assuption, parametric methods cannot be applied to the dataset
+  - It means that if we keep the data point, there is a high possibility that we will violate the normality assumption. If we violate the assumption, parametric methods cannot be applied to the dataset
   - In general, convert to z-value, remove those which have z-value higher than +3 or lower than -3
 - \textcolor{pink}{Question:} But, how many removals are too many removals
   - There are techniques for this consideration, will be covered later. "ForLater"
@@ -936,7 +936,7 @@ f_getDef("Confidence-Coefficient")
 f_getDef("Power")
 ```
 
-There is always a tradeoff between Type-I and Type-II errors.
+There is always a trade-off between Type-I and Type-II errors.
 
 - Generally max 5% ${\alpha}$ and max 20% ${\beta}$ errors are recommended
 
@@ -975,7 +975,7 @@ f_getDef("Critical-Value")
 ```
 
 ```{r 'B12-GetZ'}
-# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+# #Critical Value (z) for Common Significance level (alpha) or Confidence level (1-alpha)
 xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
 #
 # #Left Tail Test
@@ -1042,7 +1042,7 @@ Steps for the critical value approach
 
 - Calculate $z$ for given $x$: $z = \frac{\overline{x} - \mu_0}{s}$
 - Using the z-table, find the z for given Level of significance ${\alpha} = 0.01$ 
-  - $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
+  - $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = -2.33$ 
   - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
 - Compare test statistic with z-value i.e. $(z)$ vs. $(z_{\alpha = 0.01})$
 
@@ -1055,11 +1055,11 @@ If the population standard error (SE) is known, apply z-test. If it is unknown, 
 
 - No, practically for sample size greater than 30, there is no difference
 
-It is assumed that $(\overline{x} - \mu)$ follows Normality. However the Standard Error (SE) does not follow normality, generally it follows chi-sq distribution. Thus, $(\overline{x} - \mu)/SE$ becomes 'Normal/ChiSq' and this ratio follows the t-distribution. Thus, the test we apply is called t-test.
+It is assumed that $(\overline{x} - \mu)$ follows Normality. However the Standard Error (SE) does not follow normality, generally it follows Chi-square distribution. Thus, $(\overline{x} - \mu)/SE$ becomes 'Normal/Chi-Sq' and this ratio follows the t-distribution. Thus, the test we apply is called t-test.
 
 ```{r 'B12-GetT'}
 # #For Degrees of Freedom = 10 (N=11)
-# #Critical Value (z) for Common Significance level Alpha (α) or Confidence level (1-α)
+# #Critical Value (z) for Common Significance level (alpha) or Confidence level (1-alpha)
 xxalpha <- c("10%" = 0.1, "5%" = 0.05, "5/2%" = 0.025, "1%" = 0.01, "1/2%" = 0.005)
 dof <- 10L
 #
@@ -1082,8 +1082,8 @@ Why $(n-1)$ are the degrees of freedom
 
 - Degrees of freedom refer to the number of independent pieces of information that go into the computation. i.e. $\{(x_{1}-\overline{x}), (x_{2}-\overline{x}), \ldots, (x_{n}-\overline{x})\}$
 - However, $\sum (x_{i}-\overline{x}) = 0$ for any data set. 
-- Thus, only $(n − 1)$ of the $(x_{i}-\overline{x})$ values are independent.
-  - if we know $(n − 1)$ of the values, the remaining value can be determined exactly by using the condition.
+- Thus, only $(n - 1)$ of the $(x_{i}-\overline{x})$ values are independent.
+  - if we know $(n - 1)$ of the values, the remaining value can be determined exactly by using the condition.
 
 \textcolor{pink}{Question:} Is there any minimum sample size we must consider before calculating degrees of freedom
 

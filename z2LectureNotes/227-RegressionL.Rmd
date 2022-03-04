@@ -137,14 +137,14 @@ summary(bb)
 
 ## Dummies {.tabset .tabset-fade}
 
-- Refer [Omitting the rows with missing data is not recommended](#immputation-b16 "b16")
+- Refer [Omitting the rows with missing data is not recommended](#imputation-b16 "b16")
 
 - Following is applicable to First Run of the Model which had Multicollinearity issues and thus was modified further.
   - Note: The dummy object created here contains 40 columns. It is slightly different from what professor has created with 41 columns.
   - I have skipped 'state on arrival' and kept 'ID' for now
   - I have merged NA in 'history' column to 'other' category
   - Further, the Reference Level is different in some dummy variables
-  - I have NOT removed rows containg NA. Those will be removed just before the Model building 
+  - I have NOT removed rows containing NA. Those will be removed just before the Model building 
     - Ideally these should be imputed but that is "ForLater"
       - Medical information is difficult to impute
     - Number of Rows with NA is higher (211) in my case because I have replaced 0 in 'Implant Cost' to NA
@@ -181,7 +181,7 @@ colSums(is.na(dum_xsyw)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
 \textcolor{brown}{Error in vif.default(...) : there are aliased coefficients in the model}
 ```
 
-- There is Perfect Mullicollinearity issue in the Model Variables
+- There is Perfect Multicollinearity issue in the Model Variables
 - To identify which variables are the culprits, run use \textcolor{pink}{alias()}
   - It tells that 'Arrival_Ambulance' has perfect collinearity with 'iEmergency'
     - ~~In this case we should drop the Arrival Variable completely~~
@@ -314,7 +314,7 @@ names(stp_ii$coefficients)
 f_getDef("Simple-Linear-Regression-Assumption-Summary") #dddd
 ```
 
-- To check the normality assumtion of each $x_i$, we can look at the normality of error term $\epsilon$
+- To check the normality assumption of each $x_i$, we can look at the normality of error term $\epsilon$
   - The $\epsilon$ will vary depending upon the $\beta_i$ and the $\beta_i$ vary depending upon the $x_i$
   - So if $x_i$ follows an assumption, then $\epsilon$ should follow that assumption
   - If we presume that $x_i$ is follow Normal Distribution then it implies that $\epsilon$ will also follow Normal Distribution i.e. $x_i \in \mathcal{N} : \epsilon \in \mathcal{N}$

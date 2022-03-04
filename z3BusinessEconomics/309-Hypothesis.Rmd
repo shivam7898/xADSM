@@ -64,8 +64,8 @@ In some situations it is easier to identify the alternative hypothesis first and
     - We consider the label correct provided the population mean filling weight for the bottles is \textcolor{pink}{at least} 67.6 fluid ounces. 
     - Without any reason to believe otherwise, we would give the manufacturer the benefit of the doubt and assume that the statement provided on the label is correct. 
     - $H_0 : \mu \geq 67.6 \iff H_a: \mu < 67.6$
-    - If the sample results lead to the conclusion to reject ${H_0}$, the inference that $H_a: \mu < 67.6$ is true can be made. With this statistical support, the agency is justified in concluding that the label is incorrect and underfilling of the bottles is occurring. Appropriate action to force the manufacturer to comply with labeling standards would be considered. 
-    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the labeling is correct cannot be rejected. With this conclusion, no action would be taken.
+    - If the sample results lead to the conclusion to reject ${H_0}$, the inference that $H_a: \mu < 67.6$ is true can be made. With this statistical support, the agency is justified in concluding that the label is incorrect and underfilling of the bottles is occurring. Appropriate action to force the manufacturer to comply with labelling standards would be considered. 
+    - However, if the sample results indicate ${H_0}$ cannot be rejected, the assumption that the labelling is correct cannot be rejected. With this conclusion, no action would be taken.
     - A product information is usually assumed to be true and stated as the null hypothesis. The conclusion that the information is incorrect can be made if the null hypothesis is rejected.
   - Same situation, from the point of view of the manufacturer
     - The company does not want to underfill the containers (legal requirement). However, the company does not want to overfill containers either because it would be an unnecessary cost. 
@@ -98,7 +98,7 @@ Refer [Equality in Hypothesis](#equality-b14 "b14")
 
 - The manager of an automobile dealership is considering a new bonus plan designed to increase sales volume. Currently, the mean sales volume is 14 automobiles per month. The manager wants to conduct a research study to see whether the new bonus plan increases sales volume. 
   - Solution: \textcolor{black}{$H_0 : \mu \leq 14 \iff H_a: \mu > 14$}
-- A director of manufacturing must convince management that a proposed manufacturing method reduces costs before the new method can be implemented. The current production method operates with a mean cost of 220 dollars per hour. 
+- A director of manufacturing must convince management that a proposed manufacturing method reduces costs before the new method can be implemented. The current production method operates with a mean cost of USD 220 per hour. 
   - Solution: \textcolor{black}{$H_0 : \mu \geq 220 \iff H_a: \mu < 220$}
 
 
@@ -269,7 +269,7 @@ Example: The label on a can of Hilltop Coffee states that the can contains 3 pou
   - Refer equation \@ref(eq:sigma-x-bar), standard error of ${\overline{x}}$ is ${\sigma}_{\overline{x}} = \frac{{\sigma}}{\sqrt{n}} = \frac{0.18}{\sqrt{36}} = 0.03$
   - Because the sampling distribution of ${\overline{x}}$ is normally distributed, $z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} = \frac{\overline{x} - 3}{0.03}$
   - Because the sampling distribution of x is normally distributed, the sampling distribution of ${z}$ is a standard normal distribution. 
-  - A value of $z = −1$ means that the value of ${\overline{x}}$ is one standard error below the hypothesized value of the mean. For a value of $z = −2$, it would be two standard errors below the mean, and so on. 
+  - A value of $z = -1$ means that the value of ${\overline{x}}$ is one standard error below the hypothesized value of the mean. For a value of $z = -2$, it would be two standard errors below the mean, and so on. 
   - We can use the standard normal probability table to find the lower tail probability ${P_{\left(z\right)}}$ corresponding to any ${z}$ value. Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
     - Ex: $P_{\left(z = -3\right)} = 0.0013$
     - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean ${\mu}_0 = 3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
@@ -310,7 +310,7 @@ For the Hilltop Coffee Example
   - Is $\overline{x} = 2.92$ small enough to cause us to reject ${H_0}$
 - Because this is a lower tail test, the p-value is the area under the standard normal curve for values of ${z}$ less than or equal to the value of the test statistic. 
   - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}} = \frac{2.92 - 3}{0.18/\sqrt{36}} = -2.67$
-  - Thus, the p-value is the probability that ${z}$ is less than or equal to −2.67 (the lower tail area corresponding to the value of the test statistic).
+  - Thus, the p-value is the probability that ${z}$ is less than or equal to -2.67 (the lower tail area corresponding to the value of the test statistic).
 - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
   - $P_{\left(\overline{x} = 2.92\right)} = P_{\left(z = -2.67\right)} = 0.0038$
   - This p-value does not provide much support for the null hypothesis, but is it small enough to cause us to reject ${H_0}$
@@ -348,11 +348,11 @@ Hilltop Coffee Example
 
 - The sampling distribution for the test statistic ${z}$ is a standard normal distribution. 
   - Therefore, the critical value is the value of the test statistic that corresponds to an area of $\alpha = 0.01$ in the lower tail of a standard normal distribution. 
-  - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = −2.33$ 
+  - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.01$ for $z_{\alpha = 0.01} = -2.33$ 
   - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
-  - Thus, if the sample results in a value of the test statistic that is less than or equal to −2.33, the corresponding p-value will be less than or equal to .01; in this case, we should reject the null hypothesis. 
+  - Thus, if the sample results in a value of the test statistic that is less than or equal to -2.33, the corresponding p-value will be less than or equal to .01; in this case, we should reject the null hypothesis. 
 - Compare test statistic with z-value
-  - Because $(z = -2.67) < (z_{\alpha = 0.01} = −2.33)$, we can reject ${H_0}$
+  - Because $(z = -2.67) < (z_{\alpha = 0.01} = -2.33)$, we can reject ${H_0}$
   - We can conclude that Hilltop is underfilling the cans.
 
 \textcolor{pink}{Rejection Rule: Reject ${H_0}$ if $z \leq z_{\alpha}$}
@@ -424,7 +424,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $({\mu}_0 = 295)$
   - Refer equation \@ref(eq:z-sd), $z = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}} = \frac{297.6 - 295}{12/\sqrt{50}} = 1.53$
   - Now to compute the p-value we must find the probability of obtaining a value for the test statistic at least as unlikely as $z = 1.53$. 
     - Clearly values of $z \geq 1.53$ are at least as unlikely. 
-    - But, because this is a two-tailed test, values of $z \leq −1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 
+    - But, because this is a two-tailed test, values of $z \leq -1.53$ are also at least as unlikely as the value of the test statistic provided by the sample. 
   - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06"), to get the p-value
     - $P_{\left(z\right)} = P_{\left(z \leq -1.53\right)} + P_{\left(z \geq 1.53\right)}$
     - $P_{\left(z\right)} = 2 \times P_{\left(z \geq 1.53\right)}$, Because the normal curve is symmetric
@@ -436,7 +436,7 @@ Ex: Golf Company, mean driving distance is 295 yards i.e. $({\mu}_0 = 295)$
   - The critical values for the test will occur in both the lower and upper tails of the standard normal distribution. 
   - With a level of significance of $\alpha = 0.05$, the area in each tail corresponding to the critical values is $\alpha/2 = 0.025$. 
   - Refer [Get P(z) by pnorm() or z by qnorm()](#get-pz-c06 "c06")
-    - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.025$ for $-z_{\alpha/2 = 0.025} = −1.96$ and $z_{\alpha/2 = 0.025} = 1.96$ 
+    - Using the standard normal probability table, we find that $P_{\left(z\right)} = 0.025$ for $-z_{\alpha/2 = 0.025} = -1.96$ and $z_{\alpha/2 = 0.025} = 1.96$ 
   - Compare test statistic with z-value
     - Because $(z = 1.53)$ is NOT greater than  $(z_{\alpha/2 = 0.025} = 1.96)$, we cannot reject ${H_0}$
 
@@ -513,7 +513,7 @@ Ex: Golf company
 ## Unknown SD  {#get-pt-c09}
 
 ```{definition '1s-unknown-sd'}
-If ${\sigma}$ is unknown, the sampling distribution of the test statistic follows the \textcolor{pink}{t distribution} with $(n − 1)$ degrees of freedom. Refer equation \@ref(eq:t-nsd) $\to t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}$
+If ${\sigma}$ is unknown, the sampling distribution of the test statistic follows the \textcolor{pink}{t distribution} with $(n - 1)$ degrees of freedom. Refer equation \@ref(eq:t-nsd) $\to t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}$
 ```
 
 \begin{equation}
@@ -603,7 +603,7 @@ The standard error of ${\overline{p}}$ is given in equation \@ref(eq:se-1s-p)
   (\#eq:se-1s-p)
 \end{equation}
 
-If $np \geq 5$ and $n(1 − p) \geq 5$, the sampling distribution of ${p}$ can be approximated by a normal distribution. Under these conditions, which usually apply in practice, the quantity ${z}$ as given in equation \@ref(eq:z-1s-p) has a standard normal probability distribution.
+If $np \geq 5$ and $n (1 - p) \geq 5$, the sampling distribution of ${p}$ can be approximated by a normal distribution. Under these conditions, which usually apply in practice, the quantity ${z}$ as given in equation \@ref(eq:z-1s-p) has a standard normal probability distribution.
 
 \textcolor{pink}{Test Statistic for Hypothesis Tests about a Population Proportion :}
 
@@ -642,7 +642,7 @@ When the true population mean ${\mu}$ is close to the null hypothesis value of $
 
 
 ```{definition 'Power'}
-The probability of correctly rejecting ${H_0}$ when it is false is called the \textcolor{pink}{power} of the test. For any particular value of ${\mu}$, the power is \textcolor{pink}{$1 − \beta$}.
+The probability of correctly rejecting ${H_0}$ when it is false is called the \textcolor{pink}{power} of the test. For any particular value of ${\mu}$, the power is \textcolor{pink}{$1 - \beta$}.
 ```
 
 

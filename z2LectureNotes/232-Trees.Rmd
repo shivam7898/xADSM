@@ -21,7 +21,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 }
 ```
 
-## Car Dekho - Data
+## CarDekho - Data
 
 - [Import Data CarDekho - B26](#set-cardekho-b26 "b26")
 
@@ -114,7 +114,7 @@ str(bb)
 ## Model Parameters
 
 - \textcolor{pink}{modelLookup()}
-  - It provides information about the parameters avaialble for the given model and their applicability on Regression or Classification problem
+  - It provides information about the parameters available for the given model and their applicability on Regression or Classification problem
 
 ```{r 'B32-Lookup-Model'}
 # #modelLookup() for information about models and packages that are accessible via train()
@@ -164,7 +164,7 @@ f_getDef("Cross-Validation") #dddd
   - The $C_p$ value having lowest average RMSE across all models would be the optimum one.
   - This process for identification of optimum $C_p$ is \textcolor{pink}{parameter tuning}
 
-- \textcolor{pink}{Question:} shoule we do this process only for identification of $C_p$
+- \textcolor{pink}{Question:} should we do this process only for identification of $C_p$
   - In general, Cross-validation provides better result
   - Some people prefer to split the dataset and then on the training set do the cross-validation
   - However, cross-validation on complete dataset can also be done 
@@ -227,12 +227,12 @@ cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParalle
 ```
 
 
-## Crossvalidation
+## Cross-validation
 
 - \textcolor{orange}{Warning:} 
   - "Warning in nominalTrainWorkflow : There were missing values in resampled performance measures."
   - If this is regression, the most likely case is that the tree did not find a good split and used the average of the outcome as the predictor. It is fine but you cannot calculate $R^2$ since the variance of the predictions is zero. 
-  - For now, assume that the warning is not importnat - "ForLater"
+  - For now, assume that the warning is not important - "ForLater"
 
 - Accuracy improved to 42.5% (from 35.9%) with cp = 0.008528435
 
@@ -303,7 +303,7 @@ if(!file.exists(loc_png)) {
 hh <- mod_tree_cp
 #
 cap_hh <- "B32P01"
-ttl_hh <- "CarDekho: Tree by Crossvalidation"
+ttl_hh <- "CarDekho: Tree by Cross-validation"
 loc_png <- paste0(.z$PX, "B32P01", "-Tree-cv", ".png")
 ```
 
@@ -527,7 +527,7 @@ mean(abs(ii$MAPE))
 1 - mean(abs(ii$MAPE))
 ```
 
-## Crossvalidation
+## Cross-validation
 
 - Accuracy is 63.4% (similar to original) with cp = 0.01105875	
 
@@ -591,7 +591,7 @@ hh <- mod_tree
 hh <- mod_tree_cp
 #
 cap_hh <- "B32P03"
-ttl_hh <- "KC: Tree by Crossvalidation"
+ttl_hh <- "KC: Tree by Cross-validation"
 loc_png <- paste0(.z$PX, "B32P03", "-KC-cv", ".png")
 ```
 
@@ -609,7 +609,7 @@ knitr::include_graphics(paste0(.z$PX, "B32P03", "-KC-cv", ".png"))
 
 ## Submission {.tabset .tabset-fade}
 
-- Complete Code for EDA, Dummies, Partition, Decision Tree, Crossvalidation & Validation on KC House Data
+- Complete Code for EDA, Dummies, Partition, Decision Tree, Cross-validation & Validation on KC House Data
 
 ### A {.unlisted .unnumbered}
 
@@ -712,10 +712,10 @@ if(FALSE) {# #Data: KC House: Decision Trees: 2022-Feb-13
   # #Accuracy 63.4%
   1 - mean(abs(ii$MAPE))
   #
-  # #Setup Parallel Crossvalidation
+  # #Setup Parallel Cross-validation
   cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParallel = TRUE)
   #
-  # #Decision Tree Model with Crossvalidation
+  # #Decision Tree Model with Cross-validation
   # #Ignore the Warning message: 
   # #In nominalTrainWorkflow ... : There were missing values in resampled performance measures.
   mod_cv <- suppressWarnings(train(price ~ ., data = train_xfw_ii, method = 'rpart', 
@@ -827,7 +827,7 @@ plot(mod_frst)
 ### Tuning
 
 - Parameter Tuning
-  - This is for identifying optimal paraemets (mtree, and mtry)
+  - This is for identifying optimal parameters (mtree, and mtry)
   - First specify the independent variables (x) and dependent variables (y)
   - stepFactor: each iteration 'mtry' is inflated or deflated with the mentioned factor
   - plot: we need a plot to identify mtry or not (whether to plot out of bag error as a function of mtry)
@@ -840,7 +840,7 @@ plot(mod_frst)
 \textcolor{brown}{Error in randomForest.default : length of response must be the same as predictors}
 ```
 
-- Y needs to be vector. A tibble subsetted normally returns a tibble (even for single column) (unlike dataframe)
+- Y needs to be vector. After subsetting, a tibble always returns a tibble (even for single column) whereas dataframe returns a vector (for a single column)
 
 ```{r 'B32-TuneModel', eval=FALSE}
 tuneRF(x = data_train_ii[, -1], y = data_train_ii$price, stepFactor = 2, plot = TRUE, 
@@ -906,7 +906,8 @@ varImpPlot(mod_frst, sort = TRUE, n.var = 20, main = 'Top 20 Variables')
 ```{r 'B32-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, cv, dum_xfw, hh, idx_xfw, idx_xsyw, loc_png, mod_cv, 
           mod_prune, mod_tree, mod_tree_cp, res_cv, res_prune, res_tree, test_xfw, test_xfw_ii, 
-          train_xfw, train_xfw_ii, ttl_hh, xfw, xnw, xxB26CarDekho, xxB30KC, zfw, znw)
+          train_xfw, train_xfw_ii, ttl_hh, xfw, xnw, xxB26CarDekho, xxB30KC, zfw, znw, B32P01, 
+          B32P02, B32P03, B32P04)
 ```
 
 ```{r 'B32-Validation', include=FALSE, cache=FALSE}

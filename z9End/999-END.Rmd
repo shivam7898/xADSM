@@ -1,6 +1,6 @@
 # END {#LAST .unnumbered}
 [Goto FIRST](#FIRST "Top of the Document")
-```{r '999-ShowRunTime', cache=FALSE, include=FALSE}
+```{r '999-Show-Run-Time', cache=FALSE, include=FALSE}
 f_()
 #
 difftime(Sys.time(), k_start)
@@ -10,7 +10,7 @@ if(!identical(0L, length(k_all_chunk_times_lt))) {
 }
 ```
 
-```{js '999-DetailsDisclosureElement', include=FALSE, eval=FALSE}
+```{js '999-Details-Disclosure-Element', include=FALSE, eval=FALSE}
 (function() {
 // JavaScript code to find output blocks, and wrap them into the <details> tags.
 // It needs 'collapse = FALSE'

@@ -15,7 +15,7 @@ invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) #wwww
 ### Multicollinearity {.unlisted .unnumbered}
 
 ```{r 'C34P09', echo=FALSE, fig.cap="(C34P09) Multicollinearity"}
-knitr::include_graphics(paste0(.z$PX, "C34P09", "-Multicollinearity", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C34P09", "-Multicollinearity-zz", ".png")) #iiii
 ```
 
 
@@ -55,7 +55,7 @@ knitr::include_graphics(paste0(.z$PX, "C34P09", "-Multicollinearity", ".png")) #
 ```
 
 - An overfitted model is a statistical model that contains more parameters than can be justified by the data.
-  - The essence of overfitting is to have unknowingly extracted some of the residual variation (i.e., the noise) as if that variation represented underlying model structure.
+  - The essence of overfitting is to have unknowingly extracted some of the residual variation (i.e. the noise) as if that variation represented underlying model structure.
   - over-fitting occurs when a model begins to "memorize" training data rather than "learning" to generalize from a trend.
 - Under-fitting would occur, for example, when fitting a linear model to non-linear data. Such a model will tend to have poor predictive performance.
 - Overfitting Example
@@ -104,10 +104,10 @@ Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let \textcolor
 ```
 
 ```{definition 'Eigenvector'}
-Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let ${\lambda}$ be an eigenvalue of $\mathbf{B}$. Then nonzero $m \times 1$ vector \textcolor{pink}{$\overrightarrow{e}$} is said to be an \textcolor{pink}{eigenvector of B}, if $\mathbf{B} \overrightarrow{e} = 𝜆\overrightarrow{e}$.
+Let \textcolor{pink}{$\mathbf{B}$} be an $m \times m$ matrix, and let ${\lambda}$ be an eigenvalue of $\mathbf{B}$. Then nonzero $m \times 1$ vector \textcolor{pink}{$\overrightarrow{e}$} is said to be an \textcolor{pink}{eigenvector of B}, if $\mathbf{B} \overrightarrow{e} = \lambda \overrightarrow{e}$.
 ```
 
-- The total variability in the standardized set of predictors equals the sum of the variances of the Z-vectors, which equals the sum of the variances of the components, which equals the sum of the eigenvalues, which equals the numer of predictors
+- The total variability in the standardized set of predictors equals the sum of the variances of the Z-vectors, which equals the sum of the variances of the components, which equals the sum of the eigenvalues, which equals the number of predictors
   - i.e. $\sum_{i=1}^m {\text{Var}({Y_i})} = \sum_{i=1}^m {\text{Var}({Z_i})} = \sum_{i=1}^m {\lambda_i} = m$
 - The partial correlation between a given component and a given predictor variable is a function of an eigenvector and an eigenvalue. Specifically, $\text{Corr}(Y_i, Z_j) = e_{ij}\sqrt{\lambda_i}$, where $\{ (\lambda_1, e_1), (\lambda_2, e_2), \ldots, (\lambda_m, e_m)\}$ are the eigenvalue-eigenvector pairs for the correlation matrix $\rho$, and we note that $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m$. In other words, the eigenvalues are ordered by size. (A partial correlation coefficient is a correlation coefficient that takes into account the effect of all the other variables.)
 - The proportion of the total variability in Z that is explained by the $i^{\text{th}}$ principal component is the ratio of the $i^{\text{th}}$ eigenvalue to the number of variables, that is, the ratio $\frac{\lambda_i}{m}$.
@@ -410,9 +410,9 @@ f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5))
 ### Matrices {.unlisted .unnumbered}
 
 - \textcolor{pink}{cor()} : Correlation Function produces a Matrix
-  - Matirces has HUGE number of problems but unfortunately some function output is in that form
+  - Matrices has HUGE number of problems but unfortunately some function output is in that form
   - names() does NOT work on Matrices but colnames() works, even though names() is superior to colnames() in all other aspects
-  - Symmatrical Matrix. Diagonal and one of the Triangles (Upper or Lower) are redundant
+  - Symmetrical Matrix. Diagonal and one of the Triangles (Upper or Lower) are redundant
   - Too many decimal printing
 
 ```{r 'C34-Matrices'}
@@ -487,7 +487,7 @@ ll %>% mutate(across(-ID, ~ ifelse(ID <= match(cur_column(), oo), NA, .x))) %>% 
 - Understanding the result
   - PCA was carried out on the eight predictors in the house data set.
   - PCA was carried out on the eight predictors in the house data set. The \textcolor{pink}{component matrix} is shown in Table \@ref(tab:C34T03). 
-  - Each of the columns in Table represents one of the compnonents $Y_i = e_i^T\mathbf{Z}$.
+  - Each of the columns in Table represents one of the components $Y_i = e_i^T\mathbf{Z}$.
   - The cell entries are called the \textcolor{pink}{component weights}, and represent the partial correlation between the variable and the component.
     - As the component weights are correlations, they range between one and negative one.
     - NOTE: Sign may differ from the Book. 
@@ -738,7 +738,7 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - Thus in example: 3 can be retained. PC4 has value around 0.8 so it may or may not be retained.
 
 - The Proportion of Variance Explained Criterion
-  - We can define how much of the total variability that we would like the principal components to account for and then selects them acccordingly
+  - We can define how much of the total variability that we would like the principal components to account for and then selects them accordingly
   - Thus in example: 3 can be retained. PC4 will be selected if more than 90% should be accounted
   
 - The Scree Plot Criterion
@@ -756,7 +756,7 @@ hh <- pca_zw$rotation[ , 1:4]
 hh[abs(hh) < 0.15] <- NA
 rownames(hh) <- names(c_zsyw)[-1]
 #
-cap_hh <- paste0("(C34T05) ", "Houses: PCA Eigenvectors upto PC4") 
+cap_hh <- paste0("(C34T05) ", "Houses: PCA Eigenvectors till PC4") 
 f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
 ```
 
@@ -832,7 +832,7 @@ knitr::include_graphics(paste0(.z$PX, "C34P08", "-House-SPLOM-PC4", ".png"))
   - Thus, this threshold value of $\pm 0.5$ requires that at least 25% of the variance of the variable be explained by a particular component.
 - Thus, the Table \@ref(tab:C34T03) is modified further as \@ref(tab:C34T06) 
   - NOTE: Sign differ from the Book but that is OK.
-  - NOTE: Valeus should be matching when eigenvectors are converted to loadings
+  - NOTE: Values should be matching when eigenvectors are converted to loadings
     - Note that the partition of the variables among the four components is \textcolor{pink}{mutually exclusive}, meaning that no variable is shared (after suppression) by any two components
     - and \textcolor{pink}{exhaustive}, meaning that all eight variables are contained in the four components.
 
@@ -843,7 +843,7 @@ hh <- load_pca[ , 1:4]
 hh[abs(hh) < 0.5] <- NA
 rownames(hh) <- names(c_zsyw)[-1]
 #
-cap_hh <- paste0("(C34T06) ", "Houses: PCA Loadings (not Eigenvectors) upto PC4") 
+cap_hh <- paste0("(C34T06) ", "Houses: PCA Loadings (not Eigenvectors) till PC4") 
 f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
 ```
 
@@ -856,7 +856,7 @@ f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, dig = 3, debug = FALSE)
 # #(Default) The Matrix is Filled Column by Column
 matrix(1:9, nrow = 3)
 #
-# #Change Behavour to fill the matrix by Row
+# #Change Behaviour to fill the matrix by Row
 matrix(1:9, nrow = 3, byrow = TRUE)
 ```
 
@@ -935,11 +935,11 @@ PCA does not extract all the variance from the variables, but only that proporti
 ```
 
 - The communalities represent the overall importance of each of the variables in the PCA as a whole.
-- Communalities that are very low for a particular variable should be an indication that the particular variable might not participate in the PCA solution (i.e., might not be a member of any of the principal components).
+- Communalities that are very low for a particular variable should be an indication that the particular variable might not participate in the PCA solution (i.e. might not be a member of any of the principal components).
 - Communalities less than 0.5 can be considered to be too low, as this would mean that the variable shares less than half of its variability in common with the other variables. 
   - Now, if we want to keep the variable housing median age as an active part of the analysis, then, extracting only three components would not be adequate, as housing median age shares only 35% of its variance with the other variables. To keep this variable in the analysis, we would need to extract the fourth component, which lifts the communality for housing median age over the 50% threshold. 
 - Minimum Communality Criterion
-  - Enough components should be extracted so that the communalities for each of these variables exceed a certain threshold (e.g., 50%)
+  - Enough components should be extracted so that the communalities for each of these variables exceed a certain threshold (e.g. 50%)
 
 ```{r 'C34T07', echo=FALSE}
 # #Print Kable Table
@@ -963,7 +963,7 @@ f_pKblM(x = hh, caption = cap_hh, negPos = c(-0.5, 0.5), isTri = FALSE, dig = 2,
 
 - Test Dataset
   - We can perform PCA on Test dataset also and that should provide us similar pattern of PC1 to PC4 in terms of eigenvectors and loadings (not exactly same but similar). This should be taken as the confirmation that PCA of Training Data can be applied on Test Data
-  - If the results differ too much then it should be taken as the indication of traning data being not a representation of test data. 
+  - If the results differ too much then it should be taken as the indication of training data being not a representation of test data. 
 
 ## Factor Analysis
 
@@ -992,7 +992,7 @@ Unfortunately, the factor solutions provided by factor analysis are invariant to
 ## UCI Data Repository
 
 - Repository of many standard datasets
-  - Archieved: https://archive.ics.uci.edu/ml/datasets.php
+  - Archived: https://archive.ics.uci.edu/ml/datasets.php
   - Beta: https://archive-beta.ics.uci.edu/ml/datasets
   - The data is generally in ".data" format which is a CSV File
   - Details are generally in ".names" format which is a Text File
@@ -1003,7 +1003,7 @@ Unfortunately, the factor solutions provided by factor analysis are invariant to
 
 - Source: https://archive-beta.ics.uci.edu/ml/datasets/adult
 - About: Train [32561, 15] & Test[16281, 15] = Total[48842, 15]
-  - The intended task is to find the set of demographic characteristics that can best predict whether or not the individual has an income of over 50000 dollars per year. 
+  - The intended task is to find the set of demographic characteristics that can best predict whether or not the individual has an income of over USD 50000 per year. 
 - Steps [(External) Luke Perich](https://rpubs.com/s3589539/503258 "https://rpubs.com")
   - Merged Train and Test for easy and simultaneous cleaning. Source Column attached for easy separation later.
   - 'fnlwgt' (stands for final weight) - Dropped
@@ -1020,7 +1020,7 @@ Unfortunately, the factor solutions provided by factor analysis are invariant to
     - 3 Hours are missing but that can happen 
     - cannot remove 99 hours because 98 hours and other nearby hours are also present in the data
   - 'capital_gain' & 'capital_loss' - Both removed
-    - After 41310 dollars, There is directly 99999 dollars which cannot be correct. It should be set to Median if it is kept
+    - After USD 41310, There is directly USD 99999 which cannot be correct. It should be set to Median if it is kept
     - 44807 observations have 0 capital gain
     - 46560 observations have 0 capital loss
   - 'workclass', 'occupation', 'native_country'
@@ -1127,7 +1127,7 @@ aa %>% rowwise() %>%
 which(vapply(aa, function(x) any(stri_detect(x, regex = "\\?", max_count = 1)), logical(1)))
 ```
 
-### Replace Mutiple Partial Matches {.unlisted .unnumbered}
+### Replace Multiple Partial Matches {.unlisted .unnumbered}
 
 ```{r 'C34-StrReplace', eval=FALSE}
 # #Search and Replace for Multiple Partial Matches 
@@ -1153,7 +1153,7 @@ aa %>% count(native_country) #%>% tail(10)
 
 Note that the correlations, although statistically significant in several cases, are overall much weaker than the correlations from the 'houses' data set. A weaker correlation structure should pose more of a challenge for the dimension-reduction method. 
 
-NOTE: While the Book created 'Net Captial', I have skipped that because Capital Gain and Capital Loss Columns have extremely high number of zeroes. Further, an ID column 'fnlwgt' was also dropped.
+NOTE: While the Book created 'Net Capital', I have skipped that because Capital Gain and Capital Loss Columns have extremely high number of zeroes. Further, an ID column 'fnlwgt' was also dropped.
 
 
 ```{r 'C34-PartAdult', include=FALSE}
@@ -1240,7 +1240,7 @@ if(bartsph$p.value < 0.05) {
 - \textcolor{pink}{fa()}
   - Trying with 'pa' as given in Book, even though 'pa' produces warnings whereas 'minres' does not
 - \textcolor{orange}{Warning:} The estimated weights for the factor scores are probably incorrect.  Try a different factor score estimation method.
-  - It is coming most probably because age and edu might be serially correlated i.e. 
+  - It is coming most probably because age and education might be serially correlated i.e. 
     - As the Age is increasing, education might also increasing with a lag. Age values might be shifted forward in time with Education values
 - \textcolor{orange}{Warning:} An ultra-Heywood case was detected.  Examine the results carefully
   - communality > 1
@@ -1256,7 +1256,7 @@ if(bartsph$p.value < 0.05) {
 - Add 'SMC = FALSE' in fa()
 
 - NOTE
-  - Cummulative Variance is only 48% i.e. less than half is explained by first two factors extracted.
+  - Cumulative Variance is only 48% i.e. less than half is explained by first two factors extracted.
     - In contrast, the Housing data had ~76% explained by first two factors because there the correlation was strong
   
 ### pa {.unlisted .unnumbered}

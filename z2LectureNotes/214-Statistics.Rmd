@@ -104,7 +104,7 @@ bb$SO <- factor(bb$SO)
 unique(bb$PDT)
 #
 # #Converting "character" to "Ordered factor"
-# #Note: If level order is not provided, by default, alphabatical ordering will be assigned.
+# #Note: If level order is not provided, by default, alphabetical ordering will be assigned.
 levels(factor(bb$PDT, ordered = TRUE))
 #
 # #Provide ordering of factor levels in Ascending Order.
@@ -139,14 +139,14 @@ str(bb)
 #### factor() {.unlisted .unnumbered}
 
 - \textcolor{pink}{factor()}
-  - If level order is not provided, by default, alphabatical ordering will be assigned.
+  - If level order is not provided, by default, alphabetical ordering will be assigned.
   - levels are the input, labels are the output in the factor() function. 
   - A factor has only a level attribute, which is set by the labels argument in the factor() function.
   - different levels are coded as ("E", "V", "F", "L")
-    - for which you want the levels to be labeled as c(1, 2, 3, 4).
+    - for which you want the levels to be labelled as c(1, 2, 3, 4).
     - The factor function will look for the values ("E", "V", "F", "L") convert them to numerical factor classes and add the label values to the 'level' attribute of the factor. 
     - This attribute is used to convert the internal numerical values to the correct labels. 
-    - Hoever, there is no 'label' attribute. 
+    - However, there is no 'label' attribute. 
 
 ### Conversion to Numeric 
 
@@ -163,7 +163,7 @@ bb <- bb %>% mutate(across(c(RS1, PP, JB), as.numeric))
 
 ### Q1
 
-Assume average sales of 8-million dollars and population standard deviation to be 2-million dollars. Check whether the average sales value in the population is at least 8 million dollars.
+Assume average sales of USD 8-million and population standard deviation to be USD 2-million. Check whether the average sales value in the population is at least USD 8-million.
 
 ```{r 'B14D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Hypothesis-1T-Upper-Tail")
@@ -294,7 +294,7 @@ ii <- bb %>% select(PDT, SO, SVM) %>%
 str(ii)
 #
 # #Proportion Table: margin gives the margin to split by i.e. 
-# #1 means rowwise sum, 2 means columnwise
+# #1 means row-wise sum, 2 means column-wise
 round(prop.table(table(ii$PDT, ii$SO), margin = 1), 3)
 round(prop.table(table(ii$PDT, ii$SO), margin = 2), 3)
 #
@@ -414,7 +414,7 @@ summary(jj_aov)
 
 Check whether the sales conversions are different for different geographical locations. 
 
-- Both (Location and Sales Conversions) are categorical variables, So ChiSq Test is required
+- Both (Location and Sales Conversions) are categorical variables, So Chi-square Test is required
 - $P_{\chi^2} < {\alpha} \to {H_0}$ is rejected i.e. proportions are different
   - It can be claimed that there is an association between these variables.
   - We can conclude that the sales conversions are different for different geographical locations
@@ -422,7 +422,7 @@ Check whether the sales conversions are different for different geographical loc
 
 
 - \textcolor{orange}{Warning:} 
-  - "Warning in chisq.test() Chi-squared approximation may be incorrect: 
+  - "Warning in chisq.test() Chi-squared approximation may be incorrect: "
   - Some of observed frequencies in the Table are too few e.g. Canada
 
 ```{r 'B14-Q7chisq'}
@@ -431,7 +431,7 @@ str(ii)
 #
 round(prop.table(table(ii$RG, ii$SO), margin = 1), 3)
 #
-# #Chi-Sq Test
+# #Chi-square Test
 tryCatch(chisq.test(table(ii$RG, ii$SO)), 
          warning = function(w) {
            print(paste0(w))
@@ -441,9 +441,9 @@ tryCatch(chisq.test(table(ii$RG, ii$SO)),
 
 ### Q8
 
-- Check whether the sales conversions depend on the sales value. Check this claim by making 3 groups of Sales Value: <6-million, [6-8], >8-million dollar 
+- Check whether the sales conversions depend on the sales value. Check this claim by making 3 groups of Sales Value: <6-million, [6-8], >8-million MSD 
 
-- Both are categorical variables, So ChiSq Test is required
+- Both are categorical variables, So Chi-square Test is required
 - $P_{\chi^2} > {\alpha} \to {H_0}$ cannot be rejected. 
   - It cannot be claimed that there is an association between these variables.
   - The sample results do not provide sufficient evidence to conclude that the sales conversions depend on the sales value. 
@@ -460,7 +460,7 @@ summary(ii)
 #
 table(ii$RSVM, ii$SO)
 #
-# #Chi-Sq Test
+# #Chi-square Test
 chisq.test(table(ii$RSVM, ii$SO))
 ```
 

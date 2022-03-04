@@ -14,7 +14,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ## Introduction
 
-Example: Chemitech: Comparision of theree methods of assembly A, B, C in terms of most assemblies per week
+Example: Chemitech: Comparison of three methods of assembly A, B, C in terms of most assemblies per week
 
 - In this experiment
   - assembly method is the \textcolor{pink}{independent variable or factor}. 
@@ -111,7 +111,7 @@ The variation within each of the samples also has an effect on the conclusion we
 
 Because each sample variance provides an estimate of ${\sigma}^2$ based only on the variation within each sample, the within-treatments estimate of ${\sigma}^2$ is not affected by whether the population means are equal. When the sample sizes are equal, the within-treatments estimate of ${\sigma}^2$ can be obtained by computing the average of the individual sample variances $\{27.5, 26.5, 31\}$. 
 
-For this exmple we obtain:
+For this example we obtain:
 
 $$\text{Within-treatments estimate of } {\sigma}^2 = \frac{27.5 + 26.5 + 31}{3} = 28.33$$
 Remember, that the between-treatments approach provides a good estimate of ${\sigma}^2$ only if the null hypothesis is true; if the null hypothesis is false, the between-treatments approach overestimates ${\sigma}^2$. The within-treatments approach provides a good estimate of ${\sigma}^2$ in either case. 
@@ -191,7 +191,7 @@ The between-treatments estimate of ${\sigma}^2$ is called the \textcolor{pink}{m
   (\#eq:mstr-anv)
 \end{equation}
 
-The numerator in equation \@ref(eq:mstr-anv) is called the \textcolor{pink}{sum of squares due to treatments} and is denoted \textcolor{pink}{$\text{SSTR}$}. The denominator, ${k − 1}$, represents the degrees of freedom associated with SSTR. Refer equation \@ref(eq:sstr-anv)
+The numerator in equation \@ref(eq:mstr-anv) is called the \textcolor{pink}{sum of squares due to treatments} and is denoted \textcolor{pink}{$\text{SSTR}$}. The denominator, ${k - 1}$, represents the degrees of freedom associated with SSTR. Refer equation \@ref(eq:sstr-anv)
 
 \begin{equation}
   \text{SSTR} = \sum_{j=1}^{k}{n}_j\left({\overline{x}}_j - {\bar{\bar{x}}} \right)^2

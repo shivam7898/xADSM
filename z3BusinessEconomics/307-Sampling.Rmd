@@ -49,7 +49,7 @@ The \textcolor{pink}{sampled population} is the population from which the sample
 
 
 ```{definition 'Target-Population'}
-The \textcolor{pink}{target population} is the population we want to make inferences about. Generally (adn preferably), it will be same as 'Sampled-Population', but it may differ also.
+The \textcolor{pink}{target population} is the population we want to make inferences about. Generally (preferably), it will be same as 'Sampled-Population', but it may differ also.
 ```
 
 
@@ -233,7 +233,7 @@ Non-mathematical view:
 - The SD does not change predictably as you acquire more data. 
   - The SD you compute from a sample is the best possible estimate of the SD of the overall population. 
   - As you collect more data, you will assess the SD of the population with more precision. But you cannot predict whether the SD from a larger sample will be bigger or smaller than the SD from a small sample. 
-  - Technically, variance does not change predictably. Above is a simplification. For details, see [Difference between SE and SD](https://stats.stackexchange.com/questions/32318 "https://stats.stackexchange.com/questions/32318")
+  - Technically, variance does not change predictably. Above is a simplification. For details, see [Difference between SE and SD](https://stats.stackexchange.com/questions/32318 "https://stats.stackexchange.com")
 
 ### Form {#clt-c07}
 
@@ -272,18 +272,18 @@ Task of developing a profile of 2500 managers. The characteristics to be identif
   - Then their expected value $E(\overline{x}) = \mu = 51800$
   - Standard Error $\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{4000}{\sqrt{30}} = 730.3$
 
-- Suppose the director believes the sample mean ${\overline{x}}$ will be an acceptable estimate of the population mean ${\mu}$ if the sample mean is within 500 dollars of the population mean. 
-  - However, it is not possible to guarantee that the sample mean will be within 500 dollars of the population
+- Suppose the director believes the sample mean ${\overline{x}}$ will be an acceptable estimate of the population mean ${\mu}$ if the sample mean is within USD 500 of the population mean. 
+  - However, it is not possible to guarantee that the sample mean will be within USD 500 of the population
   - We can reframe the request in probability terms i.e.
-    - What is the probability that the sample mean computed using a simple random sample of 30 EAI managers will be within 500 dollars of the population mean
+    - What is the probability that the sample mean computed using a simple random sample of 30 EAI managers will be within USD 500 of the population mean
     - i.e. Probability that $\overline{x} \in [51300, 52300]$
       - For $z = \frac{\overline{x} - \mu}{\sigma_{\overline{x}}}$
       - For $\overline{x} = 52300 \Rightarrow z = \frac{52300 - 51800}{730.30} = 0.68$
       - For $\overline{x} = 51300 \Rightarrow z = \frac{51300 - 51800}{730.30} = -0.68$
   - $P_{(51300 \leq \overline{x} \leq 52300)} = P_{(\overline{x} \leq 52300)} - P_{(\overline{x} \leq 51300)} = P_{(z \leq 0.68)} - P_{(z \leq -0.68)} = 0.7517 - 0.2483 = 0.5034$
-    - A simple random sample of 30 EAI managers has a 0.5034 probability of providing a sample mean ${\overline{x}}$ that is within 500 dollars of the population mean. 
-      - Thus, there is a $1 − 0.5034 = 0.4966$ probability that the difference between ${\overline{x}}$ and ${\mu}$ will be more than 500 dollars. 
-      - In other words, a simple random sample of 30 EAI managers has roughly a 50-50 chance of providing a sample mean within the allowable 500 dollars. Perhaps a larger sample size should be considered. 
+    - A simple random sample of 30 EAI managers has a 0.5034 probability of providing a sample mean ${\overline{x}}$ that is within USD 500 of the population mean. 
+      - Thus, there is a $1 - 0.5034 = 0.4966$ probability that the difference between ${\overline{x}}$ and ${\mu}$ will be more than USD 500. 
+      - In other words, a simple random sample of 30 EAI managers has roughly a 50-50 chance of providing a sample mean within the allowable USD 500. Perhaps a larger sample size should be considered. 
       - Let us explore this possibility by considering the relationship between the sample size and the sampling distribution of ${\overline{x}}$.
 
 - Impact of $n = 100$ in place of $n =30$
@@ -292,7 +292,7 @@ Task of developing a profile of 2500 managers. The characteristics to be identif
   - For $\overline{x} = 52300 \Rightarrow z = \frac{52300 - 51800}{400} = 1.25$
   - For $\overline{x} = 51300 \Rightarrow z = \frac{51300 - 51800}{400} = -1.25$
   - Thus $P_{(51300 \leq \overline{x} \leq 52300)} = P_{(\overline{x} \leq 52300)} - P_{(\overline{x} \leq 51300)} = P_{(z \leq 1.25)} - P_{(z \leq -1.25)} = 0.8944 - 0.1056 = 0.7888$
-  - Thus, by increasing the sample size from 30 to 100 EAI managers, we increase the probability of obtaining a sample mean within 500 dollars of the population mean from 0.5034 to 0.7888.
+  - Thus, by increasing the sample size from 30 to 100 EAI managers, we increase the probability of obtaining a sample mean within USD 500 of the population mean from 0.5034 to 0.7888.
 
 \textcolor{orange}{Caution:} Here, we took advantage of the fact that the population mean ${\mu}$ and the population standard deviation ${\sigma}$ were known. However, usually these values will be unknown. 
 

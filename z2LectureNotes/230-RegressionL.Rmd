@@ -75,7 +75,7 @@ xxB30KC <- f_getRDS(xxB30KC)
 
 - \textcolor{pink}{Question:} Property price are affected by location. Why are we removing lat/long
   - We are already including different types like waterfront etc.
-  - It would have been better if we have rural, urban, city centre, market type categories 
+  - It would have been better if we have rural, urban, city center, market type categories 
   - (Aside) We should identify clusters of zipcodes, some of them are clearly different from others
 
 - \textcolor{pink}{Question:} Based on description of sqft_living15, would this not cause Multicollinearity issue
@@ -204,7 +204,7 @@ levels(kk$beds)
   - Sometimes a variable might show a strong influence with the help of another independent variable
   
 - \textcolor{pink}{Question:} If the correlation between Bedrooms and Price is 0.3 and is significant, then 30% of price can be explained by bedrooms
- - When we are looking for corrleation between two variables, it does not consider presence or absence of other variables. However, regression consider that.
+ - When we are looking for correlation between two variables, it does not consider presence or absence of other variables. However, regression consider that.
   - Correlation tells us if the variables are related and what type of relationship that is. Correlation is only about the association. It does not talk about whether the X leads to or explains Y.
   - Correlation is bidirectional i.e. $Y \Leftrightarrow X$, whereas regression is unidirectional i.e. $Y \Leftarrow X$
  - (Aside) No, Bedroom does not explain 30% of price. Sum of all correlations to Y is not 100%.
@@ -358,31 +358,54 @@ train_xfw <- dum_xfw[idx_xsyw, ]
 test_xfw  <- dum_xfw[-idx_xsyw, ]
 ```
 
+```{r 'B30-Save-KC', include=FALSE, eval=FALSE}
+# #EDA | Dummy | Partition | 
+zzB30KC <- train_xfw
+f_setRDS(zzB30KC)
+```
+
+```{r 'B30-Get-KC', include=FALSE}
+zzB30KC <- f_getRDS(zzB30KC)
+```
+
+
 ## Model
 
 ```{r 'B30-Model-KC'}
 # #Linear Regression
-mod_xfw <- lm(price ~ ., data = train_xfw)
-if(FALSE) f_pNum(summary(mod_xfw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
-  rename(pVal = "Pr(>|t|)") %>% 
-  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
-#
-#names(mod_xfw$coefficients)
+mod_kc_all <- lm(price ~ ., data = zzB30KC)
 ```
 
 ## Stepwise Model
 
 - Stepwise Regression did not remove multicollinearity 
 
-```{r 'B30-StepModel-KC'}
+```{r 'B30-StepModel-KC', eval=FALSE}
 # #Stepwise Regression #"both", "backward", "forward"
-stp_xfw <- step(mod_xfw, direction = "backward", trace = 0)
-if(TRUE) f_pNum(summary(stp_xfw)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
-  rename(pVal = "Pr(>|t|)") %>% 
-  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+yyB30KC_back <- step(mod_kc_all, direction = "backward", trace = 0)
+yyB30KC_both <- step(mod_kc_all, direction = "both", trace = 0)
+```
+
+```{r 'B30-Save-KC-StepModel', include=FALSE, eval=FALSE}
+# #EDA | Dummy | Partition | 
+f_setRDS(yyB30KC_back)
+f_setRDS(yyB30KC_both)
+```
+
+```{r 'B30-Get-KC-StepModel'}
+yyB30KC_back <- f_getRDS(yyB30KC_back)
+yyB30KC_both <- f_getRDS(yyB30KC_both)
+```
+
+
+```{r 'B30-Print-KC-1'}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: KC"
+col_hh <- c("ALL", "StepBack", "StepBoth")
 #
-summary(stp_xfw)$adj.r.squared
-names(stp_xfw$coefficients)
+stargazer(mod_kc_all, yyB30KC_back, yyB30KC_both, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
 ```
 
 ## VIF
@@ -394,7 +417,11 @@ names(stp_xfw$coefficients)
 - Multicollinearity is an issue that needs to be handled 
 
 ```{r 'B30-VIF-KC'}
-ii <- vif(stp_xfw) 
+# #VIF
+ii <- vif(mod_kc_all) 
+ii[ii > 2]
+# #After step-wise regression, some (not all) multicollinear variables have been dropped
+ii <- vif(yyB30KC_both) 
 ii[ii > 2]
 ```
 
@@ -410,7 +437,7 @@ ii[ii > 2]
 ```{r 'B30-Normal-KC'}
 # #Normality Test
 set.seed(3)
-test_shapiro <- shapiro.test(sample(x = stp_xfw$residuals, size = 5000))
+test_shapiro <- shapiro.test(sample(x = mod_kc_all$residuals, size = 5000))
 test_shapiro
 #
 if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
@@ -418,23 +445,35 @@ if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n
 
 ## Semi Log
 
-```{r 'B30-SemiLog-KC'}
+```{r 'B30-SemiLog-KC', eval=FALSE}
 # #Run Log Transformed Y
-mod_xfw_log <- lm(log(price) ~ ., data = train_xfw)
-stp_xfw_log <- step(mod_xfw_log, direction = "backward", trace = 0)
-if(FALSE) f_pNum(summary(stp_xfw_log)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
-  rename(pVal = "Pr(>|t|)") %>% 
-  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
+yyB30KC_l <- lm(log(price) ~ ., data = zzB30KC)
+yyB30KC_l_both <- step(yyB30KC_l, direction = "both", trace = 0)
+```
+
+
+```{r 'B30-Save-KC-SemiLog', include=FALSE, eval=FALSE}
+f_setRDS(yyB30KC_l)
+f_setRDS(yyB30KC_l_both)
+```
+
+```{r 'B30-Get-KC-SemiLog'}
+yyB30KC_l <- f_getRDS(yyB30KC_l)
+yyB30KC_l_both <- f_getRDS(yyB30KC_l_both)
+```
+
+
+```{r 'B30-KC-SemiLog-Normal'}
+# #VIF
+ii <- vif(yyB30KC_l_both) 
+ii[ii > 2]
 #
-vif_ii <- vif(stp_xfw_log)
-vif_ii[vif_ii > 5]
-#
-summary(stp_xfw_log)$adj.r.squared
-names(stp_xfw_log$coefficients)
+summary(yyB30KC_l_both)$adj.r.squared
+#names(yyB30KC_l_both$coefficients)
 #
 # #Normality Test
 set.seed(3)
-test_shapiro <- shapiro.test(sample(x = stp_xfw_log$residuals, size = 5000))
+test_shapiro <- shapiro.test(sample(x = yyB30KC_l_both$residuals, size = 5000))
 test_shapiro
 #
 if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
@@ -442,38 +481,62 @@ if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n
 
 ## Log-Log
 
-```{r 'B30-LogLog-KC'}
-# #Run Log Transformed Y and X
-train_log <- train_xfw %>% 
+```{r 'B30-Transform-Log-KC'}
+# #Log Transform Y and X
+train_log <- zzB30KC %>% 
   mutate(across(c(age), ~ . + 2)) %>% 
   mutate(across(c(sqft_basement), ~ . + 1)) %>% 
   mutate(across(c(price, sqLot, sqAbove, sqft_basement, age), log)) 
+```
+
+```{r 'B30-KC-Log', eval=FALSE}
+# #Run Log Transformed Y and X
+yyB30KC_ll <- lm(price ~ ., data = train_log)
+yyB30KC_ll_both <- step(yyB30KC_ll, direction = "both", trace = 0)
+```
+
+```{r 'B30-Save-KC-Log', include=FALSE, eval=FALSE}
+f_setRDS(yyB30KC_ll)
+f_setRDS(yyB30KC_ll_both)
+```
+
+```{r 'B30-Get-KC-Log'}
+yyB30KC_ll <- f_getRDS(yyB30KC_ll)
+yyB30KC_ll_both <- f_getRDS(yyB30KC_ll_both)
+```
+
+```{r 'B30-KC-Log-Normal'}
+# #VIF
+ii <- vif(yyB30KC_ll_both) 
+ii[ii > 2]
 #
-mod_xfw_lll <- lm(price ~ ., data = train_log)
-stp_xfw_lll <- step(mod_xfw_lll, direction = "backward", trace = 0)
-if(FALSE) f_pNum(summary(stp_xfw_lll)$coefficients) %>% as_tibble(rownames = "DummyParVsRef") %>% 
-  rename(pVal = "Pr(>|t|)") %>% 
-  mutate(pVal = ifelse(pVal < 0.001, 0, pVal), isSig = ifelse(pVal < 0.05, TRUE, FALSE))
-#
-vif_ii <- vif(stp_xfw_lll)
-vif_ii[vif_ii > 5]
-#
-summary(stp_xfw_lll)$adj.r.squared
-names(stp_xfw_lll$coefficients)
+summary(yyB30KC_ll_both)$adj.r.squared
+#names(yyB30KC_ll_both$coefficients)
 #
 # #Normality Test
 set.seed(3)
-test_shapiro <- shapiro.test(sample(x = stp_xfw_lll$residuals, size = 5000))
+test_shapiro <- shapiro.test(sample(x = yyB30KC_ll_both$residuals, size = 5000))
 test_shapiro
 #
 if(test_shapiro$p.value > 0.05) cat("Normal. H0.\n") else cat("Not Normal. Ha.\n")
 ```
 
-## Glance
 
-```{r 'B30-Glance'}
-lapply(list(stp_xfw_lll, stp_xfw_log, stp_xfw, mod_xfw), glance)
+## Models
+
+```{r 'F66-Print-KC'}
+if(FALSE) lapply(list(mod_kc_all, yyB30KC_l, yyB30KC_l_both, yyB30KC_ll, yyB30KC_ll_both), glance)
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Linear Regression: KC"
+col_hh <- c("SemiLog", "Log")
+#
+# #Log Transformation did not result in successful conversion to normal Model
+# #RSE of Base Model should be compared with Log Transformed Model only after applying exponential 
+stargazer(yyB30KC_l_both, yyB30KC_ll_both, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
 ```
+
 
 ## Predict
 
@@ -486,25 +549,26 @@ test_log <- test_xfw %>%
   mutate(across(c(sqft_basement), ~ . + 1)) %>% 
   mutate(across(c(sqLot, sqAbove, sqft_basement, age), log)) 
 #
-res_lll <- test_log %>% 
-  mutate(CalYlog = predict(stp_xfw_lll, .), Y_Yc = price - exp(CalYlog), MAPE = Y_Yc / price)
+res_kc_ll <- test_log %>% 
+  mutate(CalYlog = predict(yyB30KC_ll_both, .), Y_Yc = price - exp(CalYlog), MAPE = Y_Yc / price)
 #
-summary(res_lll$Y_Yc)
+mod <- res_kc_ll
+summary(mod$Y_Yc)
 #
 # #RMSE: Root Mean Squared Error
 #res_w %>% summarise(across(everything(), ~ sqrt(mean((.)^2))))
-sqrt(mean((res_lll$Y_Yc)^2))
+sqrt(mean((mod$Y_Yc)^2))
 
 #
 # #MAE: Mean Absolute Error (MAE)
 #res_w %>% summarise(across(everything(), ~ mean(abs(.))))
-mean(abs(res_lll$Y_Yc))
+mean(abs(mod$Y_Yc))
 #
 # #MAPE: Mean Absolute Percentage Error
-mean(abs(res_lll$MAPE))
+mean(abs(mod$MAPE))
 #
 # #Accuracy 
-1 - mean(abs(res_lll$MAPE))
+1 - mean(abs(mod$MAPE))
 ```
 
 ## Ridge Regression
@@ -590,7 +654,8 @@ f_rmExist(aa, bb, ii, jj, kk, ll, B30P02, cap_hh, corr_hh, custom, dum_xfw, hh, 
           loc_png, mod_lasso, mod_ridge, mod_xfw, mod_xfw_lll, mod_xfw_log, res_lll, 
           res_lll_lasso, res_lll_ridge, sig_corr_hh, stp_xfw, stp_xfw_lll, stp_xfw_log, sub_hh, 
           test_log, test_shapiro, test_xfw, train_log, train_xfw, ttl_hh, vif_ii, xfw, xnw, 
-          xxB30KC, zfw, znl, znw)
+          xxB30KC, zfw, znl, znw, B30P01, col_hh, mod, mod_kc_all, res_kc_ll, yyB30KC_back, 
+          yyB30KC_both, yyB30KC_l, yyB30KC_l_both, yyB30KC_ll, yyB30KC_ll_both, zzB30KC)
 ```
 
 ```{r 'B30-Validation', include=FALSE, cache=FALSE}

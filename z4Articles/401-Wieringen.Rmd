@@ -38,8 +38,8 @@ The \textcolor{pink}{identity matrix $\mathbf{I}$} is the square matrix with one
 ```
 
 
-```{definition 'Illconditioned-Matrix'}
-A matrix is \textcolor{pink}{illconditioned} if its condition number is high. The \textcolor{pink}{condition number} of a square positive definite matrix $\mathbf{A}$ is the ratio of its largest and smallest eigenvalue. If the smallest eigenvalue is zero, the conditional number is undefined and so is $\mathbf{A}^{-1}$
+```{definition 'Ill-conditioned-Matrix'}
+A matrix is \textcolor{pink}{ill-conditioned} if its condition number is high. The \textcolor{pink}{condition number} of a square positive definite matrix $\mathbf{A}$ is the ratio of its largest and smallest eigenvalue. If the smallest eigenvalue is zero, the conditional number is undefined and so is $\mathbf{A}^{-1}$
 ```
 
 
@@ -68,14 +68,14 @@ The \textcolor{pink}{ridge regression estimator} proposes to replace $\underset{
 
 - For small $\lambda$, the variance of the ridge estimator dominates the MSE. 
 - For large $\lambda$, the variance vanishes and the bias dominates the MSE. 
-- For small enough values of $\lambda$, with increse in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
+- For small enough values of $\lambda$, with increase in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
   - As the MSE is the sum of these two, the MSE first decreases as $\lambda$ moves away from zero and then increases.
   - In particular, $\lambda = 0$ corresponds to the ML regression estimator.
   - More noisy data benefits the ridge regression estimator
   - Ridge regression will perform better in the case where the regression parameter is not dominated by a few elements but rather all contribute comparably to the explanation of the variation in the response.
 
 - Overfitting
-  - Overfitting refers to the phenomenon of modelling the noise rather than the signal. 
+  - Overfitting refers to the phenomenon of modeling the noise rather than the signal. 
   - In case the true model is parsimonious (few covariates driving the response) and data on many covariates are available, it is likely that a linear combination of all covariates yields a higher likelihood than a combination of the few that are actually related to the response. 
     - As only the few covariates related to the response contain the signal, the model involving all covariates then cannot but explain more than the signal alone: it also models the error. 
     - Hence, it overfits the data. 
@@ -88,7 +88,7 @@ The \textcolor{pink}{ridge regression estimator} proposes to replace $\underset{
 
 
 - Constraints
-  - Penalty parameter $\lambda$ should not be too close to zero to avoid illconditioned matrix
+  - Penalty parameter $\lambda$ should not be too close to zero to avoid ill-conditioned matrix
   - Practically plot a conditional numbers for different $\lambda$ and then choose the optimum one.
 
 ## Cross-validation

@@ -332,7 +332,7 @@ if(exists("XL", envir = .z)) {
 
 ## CSV Import /Export {.tabset .tabset-fade}
 
-\textcolor{pink}{write.csv()} and \textcolor{pink}{read.csv()} combination can be used to export data and import it back into R. But, it has some limitations - 
+\textcolor{pink}{write.csv()} and \textcolor{pink}{read.csv()} combination can be used to export data and import it back into R. But, it has some limitations :
 
 - Re-imported object "yy_data" will NOT match with the original object "xx_data" under default conditions
   1. write.csv(), by default, write row.names (or row numbers) in the first column. 
@@ -532,7 +532,7 @@ packageVersion("latex2exp")
 
 ### Rtools4 on Windows {.unnumbered}
 
-\textcolor{orange}{Caution:} It is NOT recommeded. However the instructions are available at [Rtools4](https://cran.r-project.org/bin/windows/Rtools/rtools40.html "https://cran.r-project.org")
+\textcolor{orange}{Caution:} It is NOT recommended. However the instructions are available at [Rtools4](https://cran.r-project.org/bin/windows/Rtools/rtools40.html "https://cran.r-project.org")
 
 ```{r 'B09-RTools', eval=FALSE}
 # #Only for the debugging purposes, install from GitHub.
@@ -547,7 +547,7 @@ if(FALSE) {# #WARNING: Installation may take some time.
 - Update Packages from RStudio in general
 - However there are Packages that come together with R. Those needs to be updated with each R update
   - Run R as an administrator.
-  - Packages | Updaate Packages
+  - Packages | Update Packages
     - If it asks for "Do you want to use Personal Directory" - Decline. It is another headache.
     - If Some Packages fail to update in Administrator Mode, Rerun the update one by one. It works.
 
@@ -826,7 +826,7 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 
 ## Printing Decimal Numbers in R {#scipen-b09 .tabset .tabset-fade}
 
-- By default, R gives numbers in Scientic Notation. 'E'
+- By default, R gives numbers in Scientific Notation. 'E'
   - Personally, it is irritating to read p-values, residuals etc. of model output and to convert them everywhere.
   - Defaults can be changed, so that Scientific Notation is disabled
   - Functions \textcolor{pink}{round()}, \textcolor{pink}{signif()} does not have 'E' option

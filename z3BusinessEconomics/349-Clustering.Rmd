@@ -22,11 +22,11 @@ A \textcolor{pink}{cluster} is a collection of records that are similar to one a
   - Clustering differs from classification in that there is no target variable for clustering. 
   - The clustering task does not try to classify, estimate, or predict the value of a target variable.
   - Instead, clustering algorithms seek to segment the entire data set into relatively homogeneous subgroups or clusters, where the similarity of the records within the cluster is maximized, and the similarity to records outside this cluster is minimized.
-    - Example: All zipcodes of a country can be described in terms of distinct lifestyle types (e.g. 66 types). One of them "Upper Crust" might be the wealthiest lifestyle of the country i.e. couples between ages of 45-64 without any dependents (children, parents) living at their home. This segment might be having median earnings of ~1-million dollars and might be possessing a postgraduate degree. No other lifestyle type would have a more opulent standard of living.
+    - Example: All zipcodes of a country can be described in terms of distinct lifestyle types (e.g. 66 types). One of them "Upper Crust" might be the wealthiest lifestyle of the country i.e. couples between ages of 45-64 without any dependents (children, parents) living at their home. This segment might be having median earnings of USD ~1-million and might be possessing a postgraduate degree. No other lifestyle type would have a more opulent standard of living.
     - Methods: Hierarchical and k-means clustering, Kohonen networks, BIRCH clustering
   - For optimal performance, clustering algorithms, just like algorithms for classification, require the data to be normalized so that no particular variable or subset of variables dominates the analysis.
   - Clustering algorithms seek to construct clusters of records such that the \textcolor{pink}{between-cluster} variation is large compared to the \textcolor{pink}{within-cluster} variation. 
-  - For continuous variables, we can use euclidean distance
+  - For continuous variables, we can use Euclidean distance
   - For categorical variables, we may again define the "different from" function for comparing the $i^{\text{th}}$ attribute values of a pair as 0 when $x_i = y_i$ and 1 otherwise.
 
 ```{definition 'Euclidean-Distance'}
@@ -40,7 +40,7 @@ In \textcolor{pink}{hierarchical clustering}, a treelike cluster structure (\tex
 ```
 
 ```{definition 'Agglomerative-Clustering'}
-\textcolor{pink}{Agglomerative clustering} methods initialize each observation to be a tiny cluster of its own. Then, in succeeding steps, the two closest clusters are aggregated into a new combined cluster. In this way, the number of clusters in the data set is reduced by one at each step. Eventually, all records are combined into a single huge cluster. mMost computer programs that apply hierarchical clustering use agglomerative methods.
+\textcolor{pink}{Agglomerative clustering} methods initialize each observation to be a tiny cluster of its own. Then, in succeeding steps, the two closest clusters are aggregated into a new combined cluster. In this way, the number of clusters in the data set is reduced by one at each step. Eventually, all records are combined into a single huge cluster. Most computer programs that apply hierarchical clustering use agglomerative methods.
 ```
 
 ```{definition 'Divisive-Clustering'}

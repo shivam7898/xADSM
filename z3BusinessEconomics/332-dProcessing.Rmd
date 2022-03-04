@@ -47,7 +47,7 @@ A \textcolor{pink}{flag variable} (or dummy variable, or indicator variable) is 
 
 - Ex: Region = North, East, South, West can be assigned numbers 1 to 4
   - It may result in algorithm treating them as continuous and /or ordered values
-- Generally, categorical varaiables should not be transformed into numerical, except when these are clearly ordered. 
+- Generally, categorical variables should not be transformed into numerical, except when these are clearly ordered. 
   - e.g. Survey Response is an ordered categorical variable and can be assigned values 1 to 5
 
 ## Binning Continuous to Categorical

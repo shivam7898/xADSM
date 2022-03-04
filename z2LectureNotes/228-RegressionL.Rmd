@@ -92,7 +92,7 @@ f_getDef("Principle-of-Parsimony")
     - $\alpha = 1 : \lambda_E \to \lambda_R$
     - The Elastic Net selects variables like the Lasso, and shrinks together the coefficients of correlated predictors like Ridge.
     - "ForLater" Book shows the equation with multipliers interchanged 
-      - Overall exaplanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
+      - Overall explanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
   - $\{\alpha, \lambda\}$ are sometimes called \textcolor{pink}{hyperparameters}
 
 - train() with method = "glmnet" is used for all 3
@@ -136,13 +136,13 @@ f_getDef("Cross-Validation") #dddd
 f_getDef("Ridge-Estimator")
 ```
 
-- For small enough values of $\lambda$, with increse in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
+- For small enough values of $\lambda$, with increase in $\lambda$, the decrease in variance of the ridge regression estimator exceeds the increase in its bias. 
   - Each choice of $\lambda$ leads to a different ridge regression estimate.
     - So, for each model we can get RMSE for many values of $\lambda$
 
 
 - \textcolor{pink}{Parameter Tuning} is the process of finding the optimum $\lambda$.
-  - Let us assume we are doing k-fold cross-validation with k=10 on a datset of 90 observations
+  - Let us assume we are doing k-fold cross-validation with k=10 on a dataset of 90 observations
   - We can get 10 Models where each set gets to be 'test' once i.e. $\{M_1, M_2, \ldots, M_k\}$
   - For any given model $M_i$, we can also choose a range of $\lambda$
     - ex: $\lambda \in \{0.1, 0.2, 0.3, 0.4, 0.5\}$
@@ -272,7 +272,7 @@ set.seed(3)
 # #trainControl() To Set Custom Control Parameters for k=10, iteration = 5
 custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 #
-# #train() can do the crossvalidation
+# #train() can do the cross-validation
 mod_cv <- train(medv ~ ., train_xsyw, method = "lm", trControl = custom)
 mod_cv$results
 #
@@ -460,7 +460,7 @@ knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Ridge-Vars", ".png"))
 ```{r 'B28-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, ff, B28P04, B28P06, BostonHousing, cap_hh, corr_hh, custom, 
           dum_xsyw, hh, idx_xsyw, loc_png, mod_cv, mod_ridge, mod_xsyw, stp_xsyw, test_xsyw, 
-          train_xsyw, ttl_hh, vif_xsyw, xsyw, xw, zw)
+          train_xsyw, ttl_hh, vif_xsyw, xsyw, xw, zw, B28P03, B28P05)
 ```
 
 ```{r 'B28-Validation', include=FALSE, cache=FALSE}

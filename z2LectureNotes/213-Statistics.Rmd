@@ -189,13 +189,13 @@ Paired samples t-tests typically consist of a sample of matched pairs of similar
 
 The matched sample design is generally preferred to the independent sample design because \textcolor{pink}{the matched-sample procedure often improves the precision of the estimate.}
 
-- \textcolor{pink}{Question:} How do you conclude that the training was effective. Or even that the training didnot make the situation worse somehow. Assume 25 people performed better and 25 people performed worse (somehow!)
+- \textcolor{pink}{Question:} How do you conclude that the training was effective. Or even that the training did not make the situation worse somehow. Assume 25 people performed better and 25 people performed worse (somehow!)
   - (Prof) In this situation we cannot claim that the training is effective.
     - We start with the null hypothesis that the two sample means are same (Two Tail Test). If we are able to reject this. Then we can perform Upper or Lower Tail Test and again try to find a significant result.
   - If we cannot reject the null hypothesis, then we conclude that "we cannot claim that the training is effective".
 
 
-- Example: If we want to comment on performance of new employees compared to ideal value of 95. Take a sample of 20 people and get their perfomance. 
+- Example: If we want to comment on performance of new employees compared to ideal value of 95. Take a sample of 20 people and get their performance. 
   - We would need to perform One Sample t-test
 - Example: If we want to comment on performance of Engineers and Non-engineers
   - Two Sample Independent t-test

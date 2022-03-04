@@ -107,9 +107,9 @@ data_4 <- data.frame(data_1, data_2)
 stopifnot(identical(data_3, data_4))
 ```
 
-### RowSplit {.unnumbered}
+### Row Split {.unnumbered}
 
-```{r 'B10-RowSplit'}
+```{r 'B10-Row-Split'}
 # #Row Split
 data_5 <- bb[1:300, ]
 data_6 <- bb[301:1000, ]
@@ -123,9 +123,9 @@ stopifnot(identical(data_5, head(bb, n_rows)))
 stopifnot(identical(data_6, tail(bb, (nrow(bb) - n_rows))))
 ```
 
-### RowMerge {.unnumbered}
+### Row Merge {.unnumbered}
 
-```{r 'B10-RowMerge'}
+```{r 'B10-Row-Merge'}
 # #Merge a Dataframe by rbind()
 data_7 <- rbind(data_5, data_6)
 stopifnot(identical(bb, data_7))
@@ -202,13 +202,13 @@ sum(!complete.cases(bb[ , c(6, 9, 4)]))
 ```
 
 
-### RemoveNA {.unnumbered}
+### Remove NA {.unnumbered}
 
-```{r 'B10-RemoveNA'}
+```{r 'B10-Remove-NA'}
 # #Remove all rows which have any NA 
 # #na.omit(), complete.cases(), tidyr::drop_na(), rowSums(is.na())
 bb_1 <- na.omit(bb)
-# #Print the Count of removed rows containg NA
+# #Print the Count of removed rows containing NA
 print(paste0("Note: ", length(attributes(bb_1)$na.action), " rows removed."))
 #
 # #Remove additional Attribute added by na.omit()
@@ -235,9 +235,9 @@ dim(bb[rowSums(is.na(bb)) <= 4L, ])
 ## Apply {#apply-b10}
 
 Sources:  [(SO) Grouping Functions and the Apply Family](https://stackoverflow.com/questions/3505701 "https://stackoverflow.com"), [(SO) Why is vapply safer than sapply](https://stackoverflow.com/questions/12339650 "https://stackoverflow.com"), [Hadley - Advanced R - Functionals](https://adv-r.hadley.nz/functionals.html "https://adv-r.hadley.nz/functionals.html"), 
-[This](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r "https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r"), 
-[This](https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71 "https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71"), 
-& [This](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family "https://www.datacamp.com/community/tutorials/r-tutorial-apply-family")
+[This](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r "https://www.r-bloggers.com"), 
+[This](https://towardsdatascience.com/dealing-with-apply-functions-in-r-ea99d3f49a71 "https://towardsdatascience.com"), 
+& [This](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family "https://www.datacamp.com")
 
 Apply Function in R are designed to avoid explicit use of loop constructs. 
 
@@ -437,7 +437,7 @@ vapply(bb, function(x) anyDuplicated(x) != 0L, logical(1))
 \textcolor{pink}{Factors} are the data objects which are used to categorize the data and store it as levels. 
 ```
 
-They can store both strings and integers. They are useful in the columns which have a limited number of unique values. Like "Male, Female" and "True, False" etc. They are useful in data analysis for statistical modelling.
+They can store both strings and integers. They are useful in the columns which have a limited number of unique values. Like "Male, Female" and "True, False" etc. They are useful in data analysis for statistical modeling.
 
 Factor is nothing but the numeric representation of the character vector.
 
@@ -453,8 +453,8 @@ Factor is nothing but the numeric representation of the character vector.
   - In R (unlike SPSS) there is NO difference between what is stored and what is displayed. As soon as the levels ("papaya", "banana") are given labels ("pink", "black"), there is NO way to get back the original levels.
   - (Aside) This misconception persists because generally we change between numerical to factor or binary character to factor. In these situations generally we know which level shows what and edit /sort them immediately.
 
-- \textcolor{orange}{Caution:} It is highly advised to use 'levels' when creating factors to keep a link on their ordering and not to be dependent upon their occurance in the vector.
-  - Further, this helps while relabeling them because the order is known.
+- \textcolor{orange}{Caution:} It is highly advised to use 'levels' when creating factors to keep a link on their ordering and not to be dependent upon their occurrence in the vector.
+  - Further, this helps while relabelling them because the order is known.
   - By using 'forcats' or 'car' packages (probably) it can be done for default situation. By sorting factor levels by their integer equivalent before assigning new labels to them. However, this is low priority for now.
     - [(SO) This](https://stackoverflow.com/questions/37715937 "https://stackoverflow.com")
     - [(SO) This](https://stackoverflow.com/questions/11810605 "https://stackoverflow.com")

@@ -74,7 +74,7 @@ summary(xxB16Cars)
 - [Do not miss the missing values i.e. NA](#na-b10 "b10")
 - Relevant functions: \textcolor{pink}{`summary(), anyNA(), is.na(), na.omit(), complete.cases(), drop_na()`}
 
-## Imputation {#immputation-b16}
+## Imputation {#imputation-b16}
 
 ```{definition 'Imputation'}
 \textcolor{pink}{Imputation} is the process of replacing missing data with substituted values. Imputation preserves all cases by replacing missing data with an estimated value based on other available information.
@@ -346,13 +346,13 @@ all.equal(ii, jj)
     - 'collinear': The column is duplicate of another column
     - 'pmm'      : "ForLater" Unknown for now
   - 'out' contains the names of the removed variables. 
-  - In general, strive for zero entries, in which case the loggedEvent component is equal to NULL.
+  - In general, strive for zero entries, in which case the 'loggedEvents' component is equal to NULL.
 - Guidance
   - Inspect all complete variables for forgotten missing data marks. Repair or remove these variables. Even one forgotten mark may ruin the imputation model. Remove outliers with improbable values.
   - Obtain insight into the strong and weak parts of the data by studying the influx-outflux pattern. Unless they are scientifically important, remove variables with low outflux, or with high fractions of missing data.
   - Perform a dry run with maxit=0 and inspect the logged events produced by mice(). Remove any constant and collinear variables before imputation.
   - Find out what will happen after the data have been imputed. Determine a set of variables that are important in subsequent analyses, and include these as predictors in all models. Transform variables to improve predictability and coherence in the complete-data model.
-  - Run quickpred(), and determine values of mincor and minpuc such that the average number of predictors is around 25.
+  - Run quickpred(), and determine values of 'mincor' and 'minpuc' such that the average number of predictors is around 25.
   - After imputation, determine whether the generated imputations are sensible by comparing them to the observed information, and to knowledge external to the data. Revise the model where needed.
   - Document your actions and decisions, and obtain feedback from the owner of the data.
 
@@ -656,11 +656,11 @@ rm(B16)
 ### BoxPlot {.tabset .tabset-fade}
 
 - Interquartile (IQR) based approach for identification of Outliers
-  - Refer [Precentiles](#percentiles-c03 "c03") for Percentil, Quartile and IQR
+  - Refer [Percentiles](#percentiles-c03 "c03") for Percentile, Quartile and IQR
   - IQR = Q3 - Q1
   - Any data point not in [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR] is an outlier
 - \textcolor{pink}{Question:} Why sometimes the y-axis shows range of ~500 and sometimes ~50
-  - If the 1 extreme outlier of mpg column is kept then the axis will show upto 500
+  - If the 1 extreme outlier of mpg column is kept then the axis will show up to 500
   - If the point is deleted from the data, then the axis values are in range of 50 
 
 ```{r 'B16-BoxPlot', include=FALSE}

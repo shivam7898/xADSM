@@ -82,7 +82,7 @@ The \textcolor{pink}{factorial} of a non-negative integer ${n}$, denoted by $n!$
 
 ## Assigning Probabilities {#assign-probability-c04}
 
-- Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuos Probability](#continuous-prob-be06 "be06"))
+- Basic Requirements (Similar to the [Discrete Probability](#discrete-prob-be05 "be05") & [Continuous Probability](#continuous-prob-be06 "be06"))
   1. The probability assigned to each experimental outcome must be between 0 and 1, inclusively. If we let ${E_i}$ denote the $i^{th}$ experimental outcome and $P(E_i)$ its probability, then \textcolor{pink}{$P(E_i) \in [0, 1]$}
   1. The sum of the probabilities for all the experimental outcomes must equal 1. Thus for ${k}$ experimental outcomes \textcolor{pink}{$\sum _{i=1}^k P(E_i) =1$}
 
@@ -127,9 +127,9 @@ drum of 35 red balls numbered 1 through 35. To win the Powerball jackpot, number
 - An experiment has four equally likely outcomes: E1, E2, E3, and E4
   - What is the probability that E2 occurs
     - Solution: \textcolor{black}{${1/4}$}
-  - What is the probability that any two of the outcomes occur (e.g., E1 or E3)
+  - What is the probability that any two of the outcomes occur (e.g. E1 or E3)
     - Solution: \textcolor{black}{$2/4 = 1/2$}  
-  - What is the probability that any three of the outcomes occur (e.g., E1 or E2 or E4)
+  - What is the probability that any three of the outcomes occur (e.g. E1 or E2 or E4)
     - Solution: \textcolor{black}{${3/4}$}  
 - Consider the experiment of selecting a playing card from a deck of 52 playing cards. Each card corresponds to a sample point with a 1/52 probability.
   - Probability of the event that an ace is selected
@@ -245,7 +245,7 @@ Two events A and B are independent if \textcolor{pink}{$P(A|B) = P(A) \quad \tex
 ```
 
 - Refer to the \textcolor{pink}{Multiplication Law} in the equation \@ref(eq:multiplication)
-  - Example: 84% of the households in a neighborhood subscribe to the daily edition of a newspaper; that is, $P(D) =0.84$. In addition, it is known that the probability that a household that already holds a daily subscription also subscribes to the Sunday edition is .75; that is, $P(S|D) =0.75$ 
+  - Example: 84% of the households in a neighbourhood subscribe to the daily edition of a newspaper; that is, $P(D) =0.84$. In addition, it is known that the probability that a household that already holds a daily subscription also subscribes to the Sunday edition is .75; that is, $P(S|D) =0.75$ 
     - What is the probability that a household subscribes to both the Sunday and daily editions of the 
 newspaper
       - $P(S \cap D) = P(D) \cdot P(S|D) = 0.84 \times 0.75 = 0.63$

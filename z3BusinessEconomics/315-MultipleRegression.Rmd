@@ -76,11 +76,11 @@ f_getDef("Simple-Linear-Regression-Assumption-Summary") #dddd
     - we refer to each of these t tests as a test for \textcolor{pink}{individual significance}.
     - t-Test Statistic $t = \frac{b_i}{s_{b_i}}$
 
-```{definition 'H-MultipleRegression-F'}
+```{definition 'H-Multiple-Regression-F'}
 \textcolor{pink}{$\text{\{F-Test in Multiple Linear Regression\} } {H_0} : {\beta}_1 = {\beta}_2 = \cdots = {\beta}_p = 0 \iff {H_a}: \text{At least one parameter is not zero}$}
 ```
 
-```{definition 'H-MultipleRegression-t'}
+```{definition 'H-Multiple-Regression-t'}
 \textcolor{pink}{$\text{\{t-Test in Multiple Linear Regression\} } {H_0} : {\beta}_i = 0 \iff {H_a}: {\beta}_i \neq 0$}
 ```
 
@@ -106,13 +106,13 @@ f_getDef("Simple-Linear-Regression-Assumption-Summary") #dddd
     - These regression lines represent same slope but effectively different intercepts when Y is plotted against ${x_1}$ i.e. on each of the different graphs of Y vs. $x_p$ there will be two lines each corresponding to either level of ${x_2}$.
     
 - Number of dummy variables
-  - Above example had only 2 levels so it was modelled with a single dummy variable with 2 levels of {0, 1}.
+  - Above example had only 2 levels so it was modeled with a single dummy variable with 2 levels of {0, 1}.
   - A variable with 3 levels e.g. {low, medium, high} will NOT use a single dummy variable ~~with 3 levels of {0, 1, 2}~~.
   - Rather, we would need 2 dummy variables each with 2 levels of {0, 1}.
 
 
 ```{definition 'Dummy-Variables'}
-A categorical variable with $k$ levels must be modeled using $k − 1$ \textcolor{pink}{dummy variables} (or indicator variables). It can take only the values 0 and 1. e.g. A variable with 3 levels of {low, medium, high} would need 2 dummy variables $\{x_1, x_2\}$ each being either 0 or 1 only. i.e. low $\to \{x_1 = 1, x_2 = 0\}$, medium $\to \{x_1 = 0, x_2 = 1\}$, high $\to \{x_1 = 0, x_2 = 0\}$. Thus $x_1$ is 1 when low and 0 otherwise, $x_2$ is 1 when medium and 0 otherwise. High is represented as neither $x_1$ nor $x_2$ i.e. both are zero. Note that both cannot be 1. Only one of them can be TRUE at a time.
+A categorical variable with $k$ levels must be modeled using $k - 1$ \textcolor{pink}{dummy variables} (or indicator variables). It can take only the values 0 and 1. e.g. A variable with 3 levels of {low, medium, high} would need 2 dummy variables $\{x_1, x_2\}$ each being either 0 or 1 only. i.e. low $\to \{x_1 = 1, x_2 = 0\}$, medium $\to \{x_1 = 0, x_2 = 1\}$, high $\to \{x_1 = 0, x_2 = 0\}$. Thus $x_1$ is 1 when low and 0 otherwise, $x_2$ is 1 when medium and 0 otherwise. High is represented as neither $x_1$ nor $x_2$ i.e. both are zero. Note that both cannot be 1. Only one of them can be TRUE at a time.
 ```
 
 - The category that is not assigned an indicator variable is denoted the \textcolor{pink}{reference category} (or the Benchmark). In the example, "high" is the reference category.
@@ -130,7 +130,7 @@ A categorical variable with $k$ levels must be modeled using $k − 1$ \textcolo
   - The dependent variable can be coded as y = 1 if the bank approves the request for a credit card and y = 0 if the bank rejects the request for a credit card. 
   - Using logistic regression we can estimate the probability that the bank will approve the request for a credit card given a particular set of values for the chosen independent variables.
 
-- The odds in favor of an event occurring is defined as the probability the event will occur divided by the probability the event will not occur. In logistic regression the event of interest is always y = 1. 
+- The odds in favour of an event occurring is defined as the probability the event will occur divided by the probability the event will not occur. In logistic regression the event of interest is always y = 1. 
 
 
 

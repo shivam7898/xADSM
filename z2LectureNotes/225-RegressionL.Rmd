@@ -1,4 +1,4 @@
-# Regresssion (B25, Dec-26) {#b25}
+# Regression (B25, Dec-26) {#b25}
 
 ```{r 'B25', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -27,9 +27,9 @@ f_getDef("Simple-Linear-Regression")
 ```
 
 - ${Y}$: Scalar response, Dependent variable, Outcome variable, Target, Predicted
-- ${X}$: Explanatory variables, Independent variables, Antecendent variables, Predictors
+- ${X}$: Explanatory variables, Independent variables, Antecedent variables, Predictors
 
-- It is applied when the objective is to predict the outcome variable based on the antecendent variables
+- It is applied when the objective is to predict the outcome variable based on the antecedent variables
 - Predicted (Y) should be continuous, but Predictors (X) can be either continuous or categorical 
   - Ex: Salary (Y) is a function of Age, Gender, Education, Years of Experience
   - Ex: Consumption (Y) is a function of Income (X)
@@ -153,7 +153,7 @@ f_pNum(suppressWarnings(summary(mod_bb))$sigma)
 
 ## Prediction
 
-- \textcolor{pink}{Question:} After generating the equation can we calculate what would be the Consuption if the Income is 600
+- \textcolor{pink}{Question:} After generating the equation can we calculate what would be the Consumption if the Income is 600
   - The model can be used to predict the dependent variable
   - (Aside) \textcolor{orange}{Caution:} Prediction beyond the values of min(x) and max(x) of original dataset is inference and it is discouraged. i.e. Y for X= 150 can be predicted but Y for X >500 should be avoided.
 
@@ -167,11 +167,11 @@ res_bb
 
 ## MS Excel: Regression Analysis
 
-- We need Data Analysis AddIn.
+- We need Data Analysis Add-in.
 - In Windows 10 & Microsoft Excel 2016 
   - Menu | File | Options | Add-ins | Manage = Excel Add-ins | Go | Add-ins Popup 
     - Tick the Analysis ToolPak | Go
-    - As shown by Professr, the Sequence might be Menu | File | More | Options | ...
+    - (Alternate Sequence) Menu | File | More | Options | ...
   - Confirmation
     - Menu | Data | 
       - Right Most section would have been added called "Analysis" and it will have one button "Data Analysis"
@@ -193,7 +193,7 @@ knitr::include_graphics(paste0(.z$PX, "B25P02-Excel-Regression-Result.jpg"))
 
 
 ```{r 'B25D02', comment="", echo=FALSE, results='asis'}
-f_getDef("H-SimpleRegression")
+f_getDef("H-Simple-Regression")
 ```
 
 - t-value:
@@ -209,17 +209,17 @@ f_getDef("Standard-Error-B1")
 - \textcolor{pink}{Question:} In case of multiple variables, do we need to do this for all variables
   - No, we will not do it individually. We will do multiple regression. We will incorporate all the variables simultaneously.
   - In multiple regression, we get $\{\beta_1, \beta_2, \beta_3, \ldots \}$ and each will have its own standard error i.e. $\{s_{b_1}, s_{b_2}, s_{b_3}, \ldots \}$.
-  - If a variable is NOT signifact, it means that it is not contributing to the model in a meaningful manner.
+  - If a variable is NOT significant, it means that it is not contributing to the model in a meaningful manner.
 
 - F-Statistic:
   - For simple linear regression i.e. single X, single Y; the F-test and t-test provide same result. However, in multiple regression model F-test is used as the test for \textcolor{pink}{overall significance} and t-tests are used as tests for \textcolor{pink}{individual significance}.
 
 ```{r 'B25D07', comment="", echo=FALSE, results='asis'}
-f_getDef("H-MultipleRegression-F")
+f_getDef("H-Multiple-Regression-F")
 ```
 
 ```{r 'B25D08', comment="", echo=FALSE, results='asis'}
-f_getDef("H-MultipleRegression-t") 
+f_getDef("H-Multiple-Regression-t") 
 ```
 
 
@@ -272,7 +272,7 @@ f_getDef("Error-Term")
     - Individual performance gets reduced, however, the $r^2$ value might increase
     - Multicollinearity reduces the robustness of model
     - Individually the either variable can explain the dependent variable very well. However, due to multicollinearity, together they fail to perform at same level.
-    - Multicollinearity is not a problem between depdendent and independent variable. It is applicable only between independent variables.
+    - Multicollinearity is not a problem between dependent and independent variable. It is applicable only between independent variables.
   - Regression analysis require that the variables should be non-overlapping (high correlation should not be there)
 
 
@@ -355,8 +355,8 @@ f_getDef("Dummy-Variables") #dddd
   - "dummy coding" leads to the creation of a table called \textcolor{pink}{contrast matrix}.
   - "dummy coding" is also known as "one-hot encoding"
 
-- \textcolor{pink}{Question:} What if we have a dataset with both categorical and continuoud dependent varaibles
-  - Convert categorical to dummies, no need to do anything with continous variables
+- \textcolor{pink}{Question:} What if we have a dataset with both categorical and continuous dependent variables
+  - Convert categorical to dummies, no need to do anything with continuous variables
 
 ## Example 
 
@@ -369,7 +369,7 @@ f_getDef("Dummy-Variables") #dddd
 - Running summary() on this Model will result in Error
   - \textcolor{brown}{"Error in quantile.default(resid) : (unordered) factors are not allowed"} 
   - \textcolor{brown}{"In addition: Warning message: In Ops.factor(r, 2) : '^' not meaningful for factors"}
-- Running step() on this Model will resutl in Error
+- Running step() on this Model will result in Error
   - \textcolor{brown}{"Error in step(...) : AIC is -infinity for this model, so 'step' cannot proceed"}
 - Dependent Variable is Non-numeric. Found to be Factor in this case.
 - Y needs to be Numeric for Regression Analysis

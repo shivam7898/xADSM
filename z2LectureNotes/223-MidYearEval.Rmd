@@ -65,7 +65,7 @@ for(ii in xxB23Champo){
 
 Process (3 weeks to 3 months) : Design $\Rightarrow$ CAD (Visual, Material) $\Rightarrow$ Procurement $\Rightarrow$ Warehousing $\Rightarrow$ Dying $\Rightarrow$ Storage of Dyed Yarn $\Rightarrow$ Preparation for Weaving or Hand-Tufting $\Rightarrow$ Wounding $\Rightarrow$ Finishing (edges etc.) $\Rightarrow$ inspection $\Rightarrow$ Dispatch.
 
-Product categories (4 major) - hand-tufted carpets (least effort, most popular), hand knotted carpets (skilled, most expensive), Kilims (woolen, expensive) and Durries (Indian variant)
+Product categories (4 major) - hand-tufted carpets (least effort, most popular), hand knotted carpets (skilled, most expensive), Kilims (woollen, expensive) and Durries (Indian variant)
 
 Company sent samples to the client as per ...
 
@@ -81,7 +81,7 @@ carpet attributes could be used for creating customer segments, which in turn co
 
 \textcolor{pink}{to identify the most important customers and the most important products and find a way to connect the two using suitable attributes from data and appropriate analytics models}
 
-## Data Fanatasy Sports {#set-fantasy-b23 .tabset .tabset-fade}
+## Data Fantasy Sports {#set-fantasy-b23 .tabset .tabset-fade}
 
 ### Data {.unlisted .unnumbered}
 
@@ -460,7 +460,7 @@ If fantasy-sports is a game of skill, then player performance has a major role i
   - Population Proportions are different.
   - The sample results provide sufficient evidence that 'selection of a plyer in the team' and 'user high scores' are dependent on each other.
   
-```{r 'B23-Q2P3-ChiSq'}
+```{r 'B23-Q2P3-Chi-Sq'}
 # #Select | Sum | Long | Separate String | Wide | Relocate | Column To RowNames |
 bb <- xxB23Sports_Q5_Chi_Player %>% 
   select(nTop_nSelect = 3, Top_nSelect = 4, nTop_Select = 5, Top_Select = 6) %>% 
@@ -507,7 +507,7 @@ anv_q2p4$coefficients
 
 Discuss clustering algorithms that can be used for segmenting customers of Champo Carpets. Apply both k-means and hierarchical clustering techniques and provide insights on the segments we can extract out these data.
 
-Note: Use Sheet "Data Order ONLY" of "B23-Champo.xlsx". It has 13,135 records. Use only the numerical variables (e.g., quantity required, total area, and amount) for performing cluster anlaysis.
+Note: Use Sheet "Data Order ONLY" of "B23-Champo.xlsx". It has 13,135 records. Use only the numerical variables (e.g. quantity required, total area, and amount) for performing cluster analysis.
 
 - k-means : 3 Clusters looks optimum or we should go with 6
   - Outliers are present and it looks like 6 is better number of clusters
@@ -539,15 +539,15 @@ B23P01 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "wss") +
   labs(caption = cap_hh, title = ttl_hh)
 ```
 
-```{r 'B23P01-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss", ".png")
+```{r 'B23P01-Save', include=FALSE, eval=FALSE}
+loc_png <- paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss-zz", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B23P01, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B23P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss-zz", ".png"))
 ```
 
 ```{r 'B23-ElbowSil', eval=FALSE}
@@ -560,15 +560,15 @@ B23P02 <- fviz_nbclust(hh, FUNcluster = kmeans, method = "silhouette") +
   labs(caption = cap_hh, title = ttl_hh)
 ```
 
-```{r 'B23P02-Save', include=FALSE}
-loc_png <- paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil", ".png")
+```{r 'B23P02-Save', include=FALSE, eval=FALSE}
+loc_png <- paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil-zz", ".png")
 if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B23P02, device = "png", dpi = 144) 
 }
 ```
 
 ```{r 'B23P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil", ".png"))
+knitr::include_graphics(paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil-zz", ".png"))
 ```
 
 ### WSS vs. Silhouette {.unlisted .unnumbered}
@@ -694,7 +694,10 @@ f_rmExist(aa, bb, ii, jj, kk, ll, xxB23Champo, xxB23Champo_2_Both, xxB23Champo_3
   xxB23Sports_Q6_2T_119_NotSelect, xxB23Sports_Q6_2T_119_Select, xxB23Sports_Q6_2T_6_NotSelect,
   xxB23Sports_Q6_2T_6_Select, xxB23Sports_Q7_Anova_Captain, xxB23Sports_Q7_Anova_NotSelect,
   xxB23Sports_Q7_Anova_VC, xxB23Sports_Q8_Regression, alpha, analysis_date, divisions, free, 
-  ha_bb, loc_src, m_high, m_low, paid, r_high, r_low, rfm_result, segment_titles, testT_bb, anv_q2p4, cap_hh, Captain, dist_zw, hclust_com_zw, hh, hrc_champo, k3_com_zw, k3_zw, k4_com_zw, k6_com_zw, k6_zw, loc_png, NoSelect, q2p4, res_champo, ttl_hh, ViceCap, xw, zw)
+  ha_bb, loc_src, m_high, m_low, paid, r_high, r_low, rfm_result, segment_titles, testT_bb, 
+  anv_q2p4, cap_hh, Captain, dist_zw, hclust_com_zw, hh, hrc_champo, k3_com_zw, k3_zw, k4_com_zw,
+  k6_com_zw, k6_zw, loc_png, NoSelect, q2p4, res_champo, ttl_hh, ViceCap, xw, zw, B23P01, B23P02, 
+  B23P03, B23P04)
 ```
 
 ```{r 'B23-Validation', include=FALSE, cache=FALSE}

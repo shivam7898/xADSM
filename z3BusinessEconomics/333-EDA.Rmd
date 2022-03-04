@@ -30,7 +30,7 @@ bb <- aa <- c33churn
 ```
 
 - Churn (attrition)
-  - It is a term used to indicate a customer leaving the service of one company in favor of another company. 
+  - It is a term used to indicate a customer leaving the service of one company in favour of another company. 
   - The data set contains 20 predictors worth of information about 3333 customers, along with the target variable, churn, an indication of whether that customer churned (left the company) or not.
 - Description [3333, 21]
   - State: Categorical, for the 50 states and the District of Columbia. 
@@ -160,7 +160,7 @@ cap_hh <- paste0("(C33T02) ", r_xyg, " vs. ", c_xyg)
     - The downside is that it becomes harder to compare the sizes of the individual categories. 
     - Stacking also indicates a part to whole relationship.
   - Stacked Percent
-    - The total quantity is hidden by using percentages, but it iss easier to see the relative difference between quantities in each group.
+    - The total quantity is hidden by using percentages, but it is easier to see the relative difference between quantities in each group.
   - Summary
     - If there is no part to whole relationship (maybe there is overlap in the categories), then grouped
     - If there is a part to whole relationship, then the next question to ask is what relationship is the most important to show. 
@@ -585,7 +585,7 @@ knitr::include_graphics(paste0(.z$PX, "C33P06", "-Churn-pStack-Multi", ".png"))
 
 - Overlay Histogram
   - To explore whether a predictor is useful for predicting the target variable
-  - Bars are colored according to the values of the target variable. 
+  - Bars are coloured according to the values of the target variable. 
   - Normalised Histogram
     - Proportions stretched out to enable better contrast
       - Normalized histograms are useful for teasing out the relationship between a numerical predictor and the target. However, data analysts should always provide the companion a non-normalized histogram along with the normalized histogram, because the normalized histogram does not provide any information on the frequency distribution of the variable.
@@ -1694,7 +1694,7 @@ cap_hh <- paste0("(C33T04) ", r_xyg, " vs. ", c_xyg)
   - Low (<= 160), Medium (160, 240), High (>240)
   - Recall that the baseline churn rate for all customers is 14.49%. The medium group comes in very close to this baseline rate, 14.1%. 
   - However, the High evening minutes group has nearly double the churn proportion (19.5%) compared to the low evening minutes group (10%). 
-  - The chi-square test is significant, meaning that these results are most likely real and not due to chance alone. "ForLater"
+  - The Chi-square test is significant, meaning that these results are most likely real and not due to chance alone. "ForLater"
 
 ```{r 'C33-BinnedEveMins', include=FALSE}
 # #xyw: x (Predictor), y (Target), c (column =y), r (row =x)
@@ -1741,17 +1741,17 @@ cap_hh <- paste0("(C33T05) ", r_xyg, " vs. ", c_xyg)
 
 ## Correlation  {.tabset .tabset-fade}
 
-- The threshold for significance of the correlation coefficient $r$ depends not only on the sample size but also on data mining, where there are a large number of records (over 1000), even small values of r, such as −0.1 ≤ r ≤ 0.1 may be statistically significant. 
+- The threshold for significance of the correlation coefficient $r$ depends not only on the sample size but also on data mining, where there are a large number of records (over 1000), even small values of r, such as $-0.1 \leq r \leq 0.1$ may be statistically significant. 
   - One should take care to avoid feeding correlated variables to data mining and statistical models. 
   - At best, using correlated variables will overemphasize one data component; at worst, using correlated variables will cause the model to become unstable and deliver unreliable results. 
   - However, just because two variables are correlated does not mean that we should omit one of them.
-    - Identify any variables that are perfectly correlated (i.e., r = 1.0 or r = −1.0). Do not retain both variables in the model, but rather omit one. 
+    - Identify any variables that are perfectly correlated (i.e. r = 1.0 or r = -1.0). Do not retain both variables in the model, but rather omit one. 
     - Identify groups of variables that are correlated with each other. Then, later, during the modeling phase, apply dimension-reduction methods, such as PCA, to these variables.
   - Example: Charge is perfectly correlated to Minutes (For each of Day, Eve, Night, International). Thus it can be eliminated. Thus number of predictors has been reduced from 20 to 16.
   - Correlation coefficient 0.038 between account length and day calls has a small p-value of 0.026, telling us that account length and day calls are positively correlated. We should note this, and prepare to apply the PCA during the modeling phase.
   - "ForLater" - Get Pearson Correlation Coefficient
 
-### ALL Continuos Variables {.unlisted .unnumbered}
+### ALL Continuous Variables {.unlisted .unnumbered}
 
 ```{r 'C33-AllVarNum'}
 # #All Continuous Predictors and Target (Categorical)

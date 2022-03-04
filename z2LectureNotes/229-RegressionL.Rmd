@@ -28,7 +28,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
     - $\alpha = 1 : \lambda_E \to \lambda_R$
     - The Elastic Net selects variables like the Lasso, and shrinks together the coefficients of correlated predictors like Ridge.
     - "ForLater" Book shows the equation with multipliers interchanged 
-      - Overall exaplanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
+      - Overall explanation would not change. Only the effect of ${\alpha}$ being 0 and 1 would be reversed.
   - $\{\alpha, \lambda\}$ are sometimes called \textcolor{pink}{hyperparameters}
 
 - train() with method = "glmnet" is used for all 3
@@ -63,7 +63,7 @@ set.seed(3)
 # #trainControl() To Set Custom Control Parameters for k=10, iteration = 5
 custom <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 #
-# #train() can do the crossvalidation
+# #train() can do the cross-validation
 mod_cv <- train(medv ~ ., train_xsyw, method = "lm", trControl = custom)
 #
 # #Ridge Regression i.e. alpha = 0, lambda = (0, Inf)
@@ -173,6 +173,9 @@ knitr::include_graphics(paste0(.z$PX, "B29P03", "-Boston-Lasso-Model", ".png"))
 
 ## Elastic Net
 
+- "ForLater"
+  - Warning messages: The shape palette can deal with a maximum of 6 discrete values because more than 6 becomes difficult to discriminate; you have 10. Consider specifying shapes manually if you must have them.   - Warning messages: Removed ... rows containing missing values (geom_point). 
+
 ```{r 'B29-Elastic'}
 # #Elastic Net Regression i.e. alpha = [0, 1], lambda = (0, Inf)
 set.seed(3)
@@ -209,7 +212,7 @@ rm(B29)
 ```{r 'B29P06-Save', include=FALSE}
 loc_png <- paste0(.z$PX, "B29P06", "-Boston-Elastic-Lambda", ".png")
 if(!file.exists(loc_png)) {
-  ggsave(loc_png, plot = B29P06, device = "png", dpi = 144) 
+  suppressWarnings(ggsave(loc_png, plot = B29P06, device = "png", dpi = 144))
 }
 ```
 
@@ -280,7 +283,7 @@ knitr::include_graphics(paste0(.z$PX, "B29P08", "-Boston-Elastic-Model", ".png")
 - \textcolor{pink}{Question:} Now we have identified some variables as having low influence (importance) on model. Should we exclude these variables and run the algorithm again
   - Yes
 - \textcolor{pink}{Question:} And if we remove the variables with low influence, would the collinearity be reduced
-  - If the collinearity is a severe issue, the penalty parameters would suppress that accordignly
+  - If the collinearity is a severe issue, the penalty parameters would suppress that accordingly
   - Ridge is generally treated as a model for shrinkage only
   - Lasso is generally treated as a model for shrinkage and deletion (of low importance)
     - So Lasso helps in feature selection
@@ -299,11 +302,11 @@ knitr::include_graphics(paste0(.z$PX, "B29P08", "-Boston-Elastic-Model", ".png")
   - In stepwise regression, the variables which do not have any influence on the Model are dropped.
   - Similarly, in Lasso, effect of those variables would not be present when we apply this model for prediction.
   
-- \textcolor{pink}{Question:} Can we do processing like run Lasso, findout that 'b' is not important, drop the 'b' from original dataset and then run either ridge or linear regression
+- \textcolor{pink}{Question:} Can we do processing like run Lasso, find out that 'b' is not important, drop the 'b' from original dataset and then run either ridge or linear regression
   - Yes
 
 - \textcolor{pink}{Question:} The dependent variable, medv i.e.	'median value of owner-occupied homes in USD 1000', has median value of 21.2. The model has RMSE of 4.7 which is 22% of the median value of the dependent variable. Is this model a good model
-  - We have applied Linear Regression, Ridge, Lasso, Elastic Net algorthms on the dataset. Later we will apply Decision Trees, Random forest etc. Then we will select one of the model.
+  - We have applied Linear Regression, Ridge, Lasso, Elastic Net algorithms on the dataset. Later we will apply Decision Trees, Random forest etc. Then we will select one of the model.
 
 - \textcolor{pink}{Question:} Is there any benchmark for good model e.g. 90% Y explained etc.
   - No, generally we compare across algorithms for a particular loss function
@@ -463,7 +466,7 @@ mean(abs(res_enet$Y_Yc))
 f_rmExist(aa, bb, ii, jj, kk, ll, ff, B29P04, B29P05, B29P06, B29P07, BostonHousing, cap_hh, 
           coef_mods, custom, dum_xsyw, hh, idx_xsyw, loc_png, mm, mod_cv, mod_enet, mod_lasso, 
           mod_ridge, mod_xsyw, mods, nn, res_enet, res_mods, stp_xsyw, test_xsyw, train_xsyw, 
-          ttl_hh, xsyw, xw, zw, vif_xsyw)
+          ttl_hh, xsyw, xw, zw, vif_xsyw, B29P03, B29P08)
 ```
 
 ```{r 'B29-Validation', include=FALSE, cache=FALSE}

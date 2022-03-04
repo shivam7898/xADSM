@@ -73,7 +73,7 @@ An \textcolor{pink}{a priori hypothesis} is one that is generated prior to a res
 
 - Cross-validation guards against spurious results, as it is highly unlikely that the same random variation would be found to be significant in both the training set and the test set.
 - In k-fold cross validation, the original data is partitioned into k independent and similar subsets. 
-  - The model is then built using the data from k−1 subsets, using the ${k}^{\text{th}}$ subset as the test set. 
+  - The model is then built using the data from k-1 subsets, using the ${k}^{\text{th}}$ subset as the test set. 
   - This is done iteratively until we have k different models. The results from the k models are then combined using averaging or voting. 
   - A popular choice for k is 10. 
   - A benefit of using k-fold cross-validation is that each record appears in the test set exactly once; a drawback is that the requisite validation task is made more difficult.
@@ -91,7 +91,7 @@ f_getDef("Overfitting")
 ## Bias-Variance Trade-off {#bias-var-c37}
 
 ```{r 'C37P01', echo=FALSE, fig.cap="(C37P01) Bias-Variance Trade-off"}
-knitr::include_graphics(paste0(.z$PX, "C37P01", "-Bias-Variance", ".png")) #iiii
+knitr::include_graphics(paste0(.z$PX, "C37P01", "-Bias-Variance-zz", ".png")) #iiii
 ```
 
 - [(External) Image Source](https://towardsdatascience.com/the-bias-variance-tradeoff-8818f41e39e9 "https://towardsdatascience.com")

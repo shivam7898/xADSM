@@ -165,7 +165,7 @@ The \textcolor{pink}{Shapiro-Wilk test} is a test of normality. It tests the nul
 
 The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data being tested is not distributed normally. 
 
-On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g., for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
+On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) cannot be rejected (e.g. for an alpha level of .05, a data set with a p value of less than .05 rejects the null hypothesis that the data are from a normally distributed population).
 
 Shapiro-Wilk test is known not to work well in samples with many identical values. 
 
@@ -475,7 +475,7 @@ bb %>% group_by(sets) %>% summarise(Count = n(), Mean = mean(values), SD = sd(va
 # #Assumption 1: Are the two samples independents
 # #YES
 #
-# #Assumtion 2: Are the data from each of the 2 groups follow a normal distribution
+# #Assumption 2: Are the data from each of the 2 groups follow a normal distribution
 # #Shapiro-Wilk normality test
 isNormal_A <- with(bb, shapiro.test(values[sets == "setA"]))
 isNormal_B <- with(bb, shapiro.test(values[sets == "setB"]))
@@ -634,7 +634,7 @@ Suppose employees at a manufacturing company can use two different methods to pe
 \textcolor{pink}{Matched sample design:} One simple random sample of workers is selected. Each worker first uses one method and then uses the other method. The order of the two methods is assigned randomly to the workers, with some workers performing method 1 first and others performing method 2 first. Each worker provides a pair of data values, one value for method 1 and another value for method 2.
 ```
 
-In the matched sample design the two production methods are tested under similar conditions (i.e., with the same workers); hence this design often leads to a smaller sampling error than the independent sample design. 
+In the matched sample design the two production methods are tested under similar conditions (i.e. with the same workers); hence this design often leads to a smaller sampling error than the independent sample design. 
 
 The primary reason is that in a matched sample design, variation between workers is eliminated because the same workers are used for both production methods.
 

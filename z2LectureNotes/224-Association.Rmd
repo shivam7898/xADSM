@@ -79,8 +79,8 @@ if(FALSE){# #WARNING: Installation may take some time.
 ## Redundant Rules {.tabset .tabset-fade}
 
 - \textcolor{pink}{Question:} What is the meaning of maxlen = 10. Will there be 10 Rules or 10 items
-  - Default is 10. We will look at upto combination of 10 items
-  - (Aside) The algorithm will search upto a set of maximum 10 unique items i.e. for maxlen = 2, Rules will be considered upto item pairs {AB, AC, BC} but for maxlen = 3, triplets will also be considered i.e. {ABC} & so on
+  - Default is 10. We will look at up to combination of 10 items
+  - (Aside) The algorithm will search up to a set of maximum 10 unique items i.e. for maxlen = 2, Rules will be considered up to item pairs {AB, AC, BC} but for maxlen = 3, triplets will also be considered i.e. {ABC} & so on
 - \textcolor{pink}{Question:} What is the meaning of minlen = 2
   - Number of items in the Basket
   - (Aside) If minlen is 2 then Antecedent of single item with Consequent of same item would also be considered a rule. i.e. People who bought Potato, also bought Potato. minlen = 2 ensures that at least two unique items would be present in the combination set of Antecedent and Consequent.
@@ -111,7 +111,7 @@ f_getDef("A-Priori-Property") #dddd
 - \textcolor{pink}{Question:} What is the meaning of Lift < 1
   - It means that Antecedent should not be linked with the Consequent. That rule should not be considered.
   - You can also locate the item based on your own margin and other considerations. 
-  - Seasonal data would be different. Storewise data would be different. 
+  - Seasonal data would be different. Store-wise data would be different. 
 
 ### Yes LHS Only {.unlisted .unnumbered}
 
@@ -193,7 +193,7 @@ hh <- pruned_tbl
 #
 ttl_hh <- "Makeup: Rules Excluding Redundant"
 cap_hh <- "B24P01"
-sub_hh <- "Note: To stretch the difference, X-axis is only upto 0.5 not 1"
+sub_hh <- "Note: To stretch the difference, X-axis is only up to 0.5 not 1"
 #
 if(FALSE) { #To Remove the lowest contrast white from the Palette. This Works.
   #Drop Lowest Two Colours in Palatte which has Max 9 Colours and get a continour function
@@ -246,7 +246,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P01", "-Makeup-SupConf", ".png"))
 xxB24Basket <- f_getRDS(xxB24Basket)
 ```
 
-- \textcolor{pink}{Question:} What about other type of data like Orderwise or Customerwise
+- \textcolor{pink}{Question:} What about other type of data like Order-wise or Customer-wise
   - We will look at that also.
 
 - \textcolor{pink}{arules::read.transactions()}
@@ -255,7 +255,7 @@ xxB24Basket <- f_getRDS(xxB24Basket)
   - "In asMethod(object) : removing duplicated items in transactions"
   - The problem is not with duplicated transactions (the same row appearing twice) but duplicated items (the same item appearing more than once in the same transaction)
   - Add `rm.duplicates = TRUE` to remove these objects
-  - \textcolor{pink}{Question:} What if you want to show that double the normal amount has been bought in a transaction by showing the items twice in the same tranaction
+  - \textcolor{pink}{Question:} What if you want to show that double the normal amount has been bought in a transaction by showing the items twice in the same transaction
     - Then it is not the kind of information that 'apriori' handles
     - Further, 'arules' require transactions without duplicated items
       - It stores 'sparse matrix' which can store exist/not-exist for each item and cannot store quantity
@@ -440,7 +440,7 @@ hh <- pruned_tbl
 #
 ttl_hh <- "Groceries: Rules Excluding Redundant"
 cap_hh <- "B24P03"
-sub_hh <- NULL #"Note: To stretch the difference, X-axis is only upto 0.5 not 1"
+sub_hh <- NULL #"Note: To stretch the difference, X-axis is only up to 0.5 not 1"
 #
 B24 <- hh %>% { 
   ggplot(., aes(x = Support, y = Confidence, colour = Lift, label = LHS_Antecedent)) +
@@ -506,8 +506,8 @@ f_getDef("Classification")
   - Example: Cross-validation (Train & Test)
 - \textcolor{pink}{Question:} AutoML functionality provided by various tools apply various algorithms on the dataset and suggest the best possible Algorithm. Are there any drawbacks or limitations of that
   - Mostly Proprietary, EDA and Pre-processing is difficult, limitations of what they allow
-  - R, Python : No restriction, Noone else has access to your data
-  - Longterm availability and applicability of past learnings based on your specific datasets
+  - R, Python : No restriction, No one else has access to your data
+  - Long term availability and applicability of past learnings based on your specific datasets
   - Automated R Package: rattle: Easy but many restrictions
   - Kaggle : Many competitions happen based on different algorithms
 
@@ -543,7 +543,7 @@ t10rules <- head(rules, n = 10, by = "lift")
   - \textcolor{pink}{pkg::name} returns the value of the exported variable 'name' in namespace 'pkg'
   - \textcolor{pink}{pkg:::name} returns the value of the internal variable 'name'. 
   - The package namespace will be loaded if it was not loaded before the call, but the package will not be attached to the search path. 
-  - i.e. \textcolor{pink}{arulesViz:::plot.rules()} - Note the intenal function name is NOT plot().
+  - i.e. \textcolor{pink}{arulesViz:::plot.rules()} - Note the internal function name is NOT plot().
 
 
 ### ScatterPlot {.tabset .tabset-fade}
@@ -634,7 +634,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P05", "-Groceries-SuppLiftConf", ".png
 
 ### Two-key Plot {.tabset .tabset-fade}
 
-Here support and confidence are used for the x and y-axes and the color of the points is used to indicate "order", i.e., the number of items contained in the rule (Both LHS and RHS).
+Here support and confidence are used for the x and y-axes and the color of the points is used to indicate "order", i.e. the number of items contained in the rule (Both LHS and RHS).
 
 It would be better to plot this with all rules.
 
@@ -718,7 +718,7 @@ Grouped rules are presented as an aggregate in the matrix and can be explored in
 - To group the column vectors fast and efficient into k groups we use k-means clustering. 
 - The default interest measure used is lift. 
 - The idea is that antecedents that are statistically dependent on the same consequents are similar and thus can be grouped together. 
-  - Compared to other clustering approaches for itemsets, this method enables us to even group antecedents containing substitutes (e.g., butter and margarine) which are rarely purchased together since they will have similar dependence to the same consequents.
+  - Compared to other clustering approaches for itemsets, this method enables us to even group antecedents containing substitutes (e.g. butter and margarine) which are rarely purchased together since they will have similar dependence to the same consequents.
 
 - To visualize the grouped matrix we use a balloon plot with antecedent groups as columns and consequents as rows.
   - The color of the balloons represent the aggregated interest measure in the group with a certain consequent and the size of the balloon shows the aggregated support. 
@@ -791,7 +791,7 @@ knitr::include_graphics(paste0(.z$PX, "B24P09", "-Groceries-GroupMat-50k", ".png
 
 ### Graph Based {.tabset .tabset-fade}
 
-- Graph-based techniques visualize association rules using vertices and edges where vertices annodated with item labels represent items, and itemsets or rules are reptesented as a second set of vertices. 
+- Graph-based techniques visualize association rules using vertices and edges where vertices annotated with item labels represent items, and itemsets or rules are represented as a second set of vertices. 
   - Items are connected with itemsets/rules using arrows. 
   - For rules arrows pointing from items to rule vertices indicate LHS items and an arrow from a rule to an item indicates the RHS. 
   - Interest measures are typically added to the plot by using color or size of the vertices representing the itemsets/rules. 
@@ -873,9 +873,9 @@ knitr::include_graphics(paste0(.z$PX, "B24P11", "-Groceries-Graph-Circle", ".png
 
 - Parallel coordinates plots are designed to visualize multidimensional data where each dimension is displayed separately on the x-axis and the y-axis is shared. 
   - Each data point is represented by a line connecting the values for each dimension. 
-  - Items are on the y-axis as nominal values and the x-axis represents the positions in a rule, i.e., first item, second item, etc. 
+  - Items are on the y-axis as nominal values and the x-axis represents the positions in a rule, i.e. first item, second item, etc. 
   - Instead of a simple line an arrow is used where the head points to the consequent item. 
-  - Arrows only span enough positions on the x-axis to represent all the items in the rule, i.e., rules with less items are shorter arrows.
+  - Arrows only span enough positions on the x-axis to represent all the items in the rule, i.e. rules with less items are shorter arrows.
   - The width of the arrows represents support and the intensity of the color represent confidence.
   - The number of crossovers can be significantly reduced by reordering the items on the y-axis.
   
@@ -1019,7 +1019,8 @@ if(FALSE) saveAsGraph(rules, "rules.graphml")
 f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, hh, isRedConf, isRedLift, kbltbl, names_hh, rr_conf, 
           rr_rhs, rr_sup, rules, rules_tbl, xw, xxB22Makeup, pruned, B24P01, loc_png, pruned_tbl, 
           sub_hh, ttl_hh, nn_hh, type_hh, x_hh, xxB24Basket, y_hh, B24P03, xxB24Groceries, B24P04,
-          B24P05, B24P06, B24P07, B24P08, B24P09, B24P10, Groceries, subrules, t10rules)
+          B24P05, B24P06, B24P07, B24P08, B24P09, B24P10, Groceries, subrules, t10rules, B24P02, 
+          B24P11, B24P12, B24P13, B24P14)
 ```
 
 ```{r 'B24-Validation', include=FALSE, cache=FALSE}

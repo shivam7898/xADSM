@@ -76,3 +76,7 @@ attach(.z)
 
 # #tidyverse lifecycle package, to convert deprecated warnings to errors
 options(lifecycle_verbosity = "error")
+
+# #Warning: To upgrade Warning to Error for easy identification of problem chunk
+# #Restore default: options(warn=0, error=NULL)
+if(FALSE) options(warn=2, error=recover)

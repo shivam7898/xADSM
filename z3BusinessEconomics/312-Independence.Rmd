@@ -16,7 +16,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 Hypothesis-testing procedures that expand our capacity for making statistical inferences about populations
 
-  - The test statistic used in conducting the hypothesis tests in this chapter is based on the chi-square ${\chi^2}$ distribution.
+  - The test statistic used in conducting the hypothesis tests in this chapter is based on the Chi-square  distribution ${\chi^2}$.
   - In all cases, the data are categorical. 
   - Applications
     - Testing the equality of population proportions for three or more populations 
@@ -41,7 +41,7 @@ Select a random sample from each of the populations and record the observed freq
 \end{equation}
 
 
-\textcolor{pink}{Chi-Square Test Statistic :} Refer equation \@ref(eq:chi-freq)
+\textcolor{pink}{Chi-square Test Statistic :} Refer equation \@ref(eq:chi-freq)
 
 
 \begin{equation}
@@ -58,13 +58,13 @@ Where:
   \end{align}
 \end{equation}
 
-Note: In a chi-square test involving the equality of ${k}$ population proportions, the above test statistic has a chi-square distribution with ${k - 1}$ degrees of freedom provided the expected frequency is 5 or more for each cell.
+Note: In a Chi-square test involving the equality of ${k}$ population proportions, the above test statistic has a Chi-square distribution with ${k - 1}$ degrees of freedom provided the expected frequency is 5 or more for each cell.
 
-A chi-square test for equal population proportions will always be an upper tail test with rejection of ${H_0}$ occurring when the test statistic is in the upper tail of the chi-squre distribution.
+A Chi-square test for equal population proportions will always be an upper tail test with rejection of ${H_0}$ occurring when the test statistic is in the upper tail of the Chi-square distribution.
  
-In studies such as these, we often use the same sample size for each population. We have chosen different sample sizes in this example to show that the chi-square test is not restricted to equal sample sizes for each of the k populations.
+In studies such as these, we often use the same sample size for each population. We have chosen different sample sizes in this example to show that the Chi-square test is not restricted to equal sample sizes for each of the k populations.
 
-"ForLater" - Creating the ChiSq Table
+"ForLater" - Creating the Chi-square Table
 
 Example: JD Power: Compare customer loyalty for three automobiles by using the proportion of owners likely to repurchase a particular automobile
 
@@ -80,7 +80,7 @@ Example: JD Power: Compare customer loyalty for three automobiles by using the p
 
 ## Test of Independence
 
-An important application of a chi-square test involves using sample data to test for the independence of two categorical variables. The null hypothesis for this test is that the two categorical variables are independent. Thus, the test is referred to as a test of independence. 
+An important application of a Chi-square test involves using sample data to test for the independence of two categorical variables. The null hypothesis for this test is that the two categorical variables are independent. Thus, the test is referred to as a test of independence. 
 
 Example: Beer: Preference vs. gender
 
@@ -97,7 +97,7 @@ Example: Beer: Preference vs. gender
 
 ## Summary
 
-All tests apply to categorical variables and all tests use a chi-square ${\chi^2}$ test statistic that is based on the differences between observed frequencies and expected frequencies. In each case, expected frequencies are computed under the assumption that the null hypothesis is true. These chi-square tests are upper tailed tests. Large differences between observed and expected frequencies provide a large value for the chi-square test statistic and indicate that the null hypothesis should be rejected. 
+All tests apply to categorical variables and all tests use a Chi-square test statistic ${\chi^2}$ that is based on the differences between observed frequencies and expected frequencies. In each case, expected frequencies are computed under the assumption that the null hypothesis is true. These Chi-square tests are upper tailed tests. Large differences between observed and expected frequencies provide a large value for the Chi-square test statistic and indicate that the null hypothesis should be rejected. 
 
 The test for the equality of population proportions for three or more populations is based on independent random samples selected from each of the populations. The sample data show the counts for each of two categorical responses for each population. The null hypothesis is that the population proportions are equal. Rejection of the null hypothesis supports the conclusion that the population proportions are not all equal. 
 

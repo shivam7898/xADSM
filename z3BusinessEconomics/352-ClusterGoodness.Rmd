@@ -37,7 +37,7 @@ $\text{Silhouette}_i = s_i = \frac{b_i - a_i}{\text{max}(b_i, a_i)} \to s_i \in 
 
 ## Silhouette on Iris Data
 
-"ForLater" - Nothing groundbreaking there for now.
+"ForLater" - Nothing interesting there for now.
 
 ## Pseudo F-Statistic {#f-stat-c49}
 

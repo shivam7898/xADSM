@@ -52,7 +52,7 @@ For a discrete random variable x, a \textcolor{pink}{probability function $f(x)$
   - We treat the data as if they were the population and use the relative frequency method to assign probabilities to the experimental outcomes.
   - The \textcolor{pink}{distribution} of data is how often each observation occurs, and can be described by its central tendency and variation around that central tendency.
 
-- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Continuos Probability](#continuous-prob-be06 "be06"))
+- Basic Requirements (Similar to the [Probability Basics](#assign-probability-be04 "be04") & [Continuous Probability](#continuous-prob-be06 "be06"))
   1. \textcolor{pink}{$f(x) \geq 0$}
   1. \textcolor{pink}{$\sum {f(x)} = 1$}
 - The simplest example of a discrete probability distribution given by a formula is the \textcolor{pink}{discrete uniform probability distribution}; $f(x) = 1/n$, where ${n}$ is the number of values the random variable may assume
@@ -407,13 +407,13 @@ bb %>% separate(col = Geneva_Saratoga, into = c("A", "B"), sep = 1)
     - 4 Assumptions must be TRUE
       1. The experiment consists of a sequence of ${n}$ identical trials.
       1. Two outcomes are possible on each trial, one called success and the other failure.
-      1. The probability of a success ${p}$ does not change from trial to trial. Consequently, the probability of failure, $1 − p$, does not change from trial to trial.
+      1. The probability of a success ${p}$ does not change from trial to trial. Consequently, the probability of failure, $1 - p$, does not change from trial to trial.
       1. The trials are independent.
   - \textcolor{pink}{Poisson Probability Distribution} - `dpois(), ppois(), qpois(), rpois()` 
     - To determine the probability of obtaining ${x}$ occurrences over an interval of time or space.
     - 2 Assumptions must be TRUE
       1. The probability of an occurrence of the event is the same for any two intervals of equal length.
-      1. The occurrence or nonoccurrence of the event in any interval is independent of the occurrence or nonoccurrence of the event in any other interval.
+      1. The occurrence or non-occurrence of the event in any interval is independent of the occurrence or non-occurrence of the event in any other interval.
   - \textcolor{pink}{Hypergeometric Probability Distribution} 
     - Like the binomial, it is used to compute the probability of ${x}$ successes in ${n}$ trials. 
     - But, in contrast to the binomial, the probability of success changes from trial to trial.

@@ -34,7 +34,7 @@ f_getDef("Silhouette")
   - A good solution has Silhouette value approaching 1
 
 - \textcolor{pink}{Question:} Does the value of 0.2 (positive but near zero) is a good value
-  - It is comparitive i.e. at what k you are getting max. silhouette value
+  - It is comparative i.e. at what k you are getting max. silhouette value
   - Further, it might be considered as an indication that the dataset might not be ready for clustering
   - (Aside) a value close to zero is considered a weak assignment
 - \textcolor{pink}{Question:} If the value is 0.2, can we claim that no clustering is required
@@ -185,8 +185,8 @@ f_getDef("Divisive-Clustering")
 
 - Ex: Flipkart
   - We would do Agglomerative Clustering i.e. start with 1000 customers and then get 10 clusters as final rather than starting with 1 cluster
-- \textcolor{pink}{Question:} Are not the B2C companies trying for hyper localised individual level targetting of customers
-  - No, they are creating higher number of groups based on wider characteristics. Noone is profiling a single customer rather the groups now are highly specific yet contain high number of customers.
+- \textcolor{pink}{Question:} Are not the B2C companies trying for hyper localised individual level targeting of customers
+  - No, they are creating higher number of groups based on wider characteristics. No one is profiling a single customer rather the groups now are highly specific yet contain high number of customers.
 
 - Hierarchical
   - Distance Matrix is used to decide which clusters to merge or split
@@ -195,7 +195,7 @@ f_getDef("Divisive-Clustering")
 
 - Notes on Divisive (Because Agglomerative will be in focus mainly)
   - Monothetic or Polythetic Methods
-  - intercluster distance can be measured
+  - inter-cluster distance can be measured
   - Computationally intensive
 
 ## Linkages
@@ -236,7 +236,7 @@ f_getDef("Average-Linkage")
   - Similar to average and centroid
   - Less susceptible to noise and outliers
   - Biased towards globular clusters
-  - Hierarchical analgoue of k-means i.e. can be used to initialise k-means
+  - Hierarchical analogue of k-means i.e. can be used to initialise k-means
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

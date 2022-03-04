@@ -30,7 +30,7 @@ This document is a collection of multiple lecture notes, books, and online mater
 \textcolor{pink}{Attribution:}  
 Proper reference to the original source may sometimes be lacking. This is regrettable and these references – if ever known to the author – will be included in later versions.
 
-<!-- Bx Load, Cx Assign, Dx Kable, Ix Jx Kx ... Datasets, xxxG image -->
+<!-- This is a comment. -->
 
 ```{r '000A', include=FALSE, cache=FALSE}
 # #Knitr Setup will be run only once while building a Book or a Chapter
@@ -86,7 +86,7 @@ I wanted to have a single document containing Notes, Codes, & Output for a quick
 
 All of us had to stumble through some of the most common problems individually and as we are approaching deeper topics, a more collaborative approach might be more beneficial.
 
-Further, the lectures are highly focused and thus I had to explore some sidetopics in more details to get the most benefit from them. I have included those topics and I am also interested in knowing about your experiences too.
+Further, the lectures are highly focused and I had to explore subtopics in more details to get the most benefit from them. I have included those topics and I am also interested in knowing about your experiences too.
 
 Towards that goal, I am sharing these notes and hoping that you would run the code in your own environment and would raise any queries, problems, or difference in outcomes. Any suggestion or criticism is welcome. I have tried to not produce any significant changes in your working environment. Please let me know if you observe otherwise. 
 

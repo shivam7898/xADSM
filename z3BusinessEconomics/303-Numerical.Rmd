@@ -35,7 +35,7 @@ Individual numbers can be represented by symbols, called \textcolor{pink}{numera
 
 As only a relatively small number of symbols can be memorized, basic numerals are commonly organized in a \textcolor{pink}{numeral system}, which is an organized way to represent any number. The most common numeral system is the \textcolor{pink}{Hindu-Arabic numeral system}, which allows for the representation of any number using a combination of ten fundamental numeric symbols, called \textcolor{pink}{digits}.
 
-\textcolor{pink}{Counting} is the process of determining the number of elements of a finite set of objects, i.e., determining the size of a set. \textcolor{pink}{Enumeration} refers to uniquely identifying the elements of a set by assigning a number to each element. 
+\textcolor{pink}{Counting} is the process of determining the number of elements of a finite set of objects, i.e. determining the size of a set. \textcolor{pink}{Enumeration} refers to uniquely identifying the elements of a set by assigning a number to each element. 
 
 \textcolor{pink}{Measurement} is the quantification of attributes of an object or event, which can be used to compare with other objects or events.
 
@@ -52,13 +52,13 @@ cat(paste0(" \u2115 (0, 1, 2, ...) \u2282 \u2124 (-1, 0, 1) \u2282 \u211a (-0.5,
 
 The \textcolor{pink}{natural numbers $\mathbb{N}$} are those numbers used for counting and ordering. ISO standard begin the natural numbers with 0, corresponding to the \textcolor{pink}{non-negative integers $\mathbb{N} = \{0, 1, 2, 3, \ldots \}$}, whereas others start with 1, corresponding to the \textcolor{pink}{positive integers $\mathbb{N^*} = \{1, 2, 3, \ldots \}$}
 
-The set of \textcolor{pink}{integers $\mathbb{Z}$} consists of zero (${0}$), the positive natural numbers $\{1, 2, 3, \ldots \}$ and their additive inverses (the negative integers). Thus i.e., \textcolor{pink}{$\mathbb{Z} = \{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}$}. An integer is colloquially defined as a number that can be written without a fractional component. 
+The set of \textcolor{pink}{integers $\mathbb{Z}$} consists of zero (${0}$), the positive natural numbers $\{1, 2, 3, \ldots \}$ and their additive inverses (the negative integers). Thus i.e. \textcolor{pink}{$\mathbb{Z} = \{\ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}$}. An integer is colloquially defined as a number that can be written without a fractional component. 
 
 \textcolor{pink}{Rational numbers $\mathbb{Q}$} are those which can be expressed as the quotient or fraction p/q of two integers, a numerator p and a non-zero denominator q. Thus, \textcolor{pink}{Rational Numbers $\mathbb{Q} = \{1, 2, 3, \ldots \}$}
 
 A \textcolor{pink}{real number} is a value of a continuous quantity that can represent a distance along a line. The real numbers include all the rational numbers $\mathbb{Q}$, and all the irrational numbers. Thus, \textcolor{pink}{Real Numbers $\mathbb{R} = \mathbb{Q} \cup \{\sqrt{2}, \sqrt{3}, \ldots\} \cup \{ \pi, e, \phi, \ldots \}$}
 
-The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are expressed in the form $a + ib$, where ${a}$ and ${b}$ are real numbers. These have two components the real numbers and a specific element denoted by ${i}$ (imaginary unit) which satisfies the equation \textcolor{pink}{$i^2 = −1$}.
+The \textcolor{pink}{complex numbers $\mathbb{C}$} contain numbers which are expressed in the form $a + ib$, where ${a}$ and ${b}$ are real numbers. These have two components the real numbers and a specific element denoted by ${i}$ (imaginary unit) which satisfies the equation \textcolor{pink}{$i^2 = -1$}.
 
 ### Pi {.unlisted .unnumbered}
 
@@ -133,7 +133,7 @@ Mersenne primes:
 - $\{3, 7, 31, 127, 8191, 131071, 524287, 2147483647, 2305843009213693951, \ldots \}$
 - $\{3 (2^{nd}), 7(4^{th}), 31(11^{th}), 127(31^{st}), 8191 (1028^{th}), 131071 (12,251^{th}), 524287 (43,390^{th}), \ldots \}$  
   - Mersenne primes with their position in List of Primes
-- \textcolor{pink}{$2147483647 = (2^{231} − 1)$}
+- \textcolor{pink}{$2147483647 = (2^{231} - 1)$}
   - It is 105,097,565$^{th}$ Prime, $8^{th}$ Mersenne prime and is one of only four known double Mersenne primes.
   - It represents the largest value that a signed 32-bit integer field can hold. 
 
@@ -461,7 +461,7 @@ getPrimeUpto_c <- function(x) {
 
 getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
   # #Using Recursion is NOT a good solution
-  # #Function to return N Primes upto 1000 Primes (7919) or Max Value reaching 10000.
+  # #Function to return N Primes up to 1000 Primes (7919) or Max Value reaching 10000.
   if(i > 10000){
     cat("Reached 10000 \n")
     return(primes)
@@ -478,7 +478,7 @@ getPrimeUpto_d <- function(n = 10L, i = 2L, primes = c(2L), bypass = TRUE){
       cat("Error! Positive Integer required. \n")
       stop()
     } else if(n > maxN) {
-      cat(paste0("Error! This will calculate only upto ", maxN, " prime Numebers. \n"))
+      cat(paste0("Error! This will calculate only up to ", maxN, " prime Numebers. \n"))
       stop()
     }
   }
@@ -840,7 +840,7 @@ Refer figure \@ref(fig:C03P060405)
 - Application:
   - Skewness indicates the direction and relative magnitude of deviation from the normal distribution.
   - It indicates the direction of outliers
-  - With pronounced skewness, standard statistical inference procedures such as a confidence interval for a mean will be not only incorrect, in the sense that the true coverage level will differ from the nominal (e.g., 95%) level, but they will also result in unequal error probabilities on each side. 
+  - With pronounced skewness, standard statistical inference procedures such as a confidence interval for a mean will be not only incorrect, in the sense that the true coverage level will differ from the nominal (e.g. 95%) level, but they will also result in unequal error probabilities on each side. 
 
 Skewness is given by the equation \@ref(eq:skewness), which is being shown here because it ~~looked cool~~ has deep meaning
 
@@ -982,7 +982,7 @@ nn <- 10000L
 xxNormal <- rnorm(n = nn, mean = 0, sd = 1)
 # #The exponential distribution is positive skew
 xxExp <- rexp(n = nn, rate = 1)
-# #The beta distribution with hyper-parameters α=5 and β=2 is negative skew
+# #The beta distribution with hyper-parameters alpha = 5 and beta = 2 is negative skew
 xxBeta <- rbeta(n = nn, shape1 = 5, shape2 = 2)
 #
 # #Save
@@ -1068,7 +1068,7 @@ Distributions with kurtosis less than 3 are said to be \textcolor{pink}{platykur
 
 Distributions with kurtosis greater than 3 are said to be \textcolor{pink}{leptokurtic}. An example of a leptokurtic distribution is the Laplace distribution, which has tails that asymptotically approach zero more slowly than a Gaussian, and therefore produces more outliers than the normal distribution. 
 
-Kurtosis is the average (or expected value) of the standardized data raised to the fourth power. Any standardized values that are less than 1 (i.e., data within one standard deviation of the mean, where the "peak" would be), contribute virtually nothing to kurtosis, since raising a number that is less than 1 to the fourth power makes it closer to zero. The only data values that contribute to kurtosis in any meaningful way are those outside the region of the peak; i.e., the outliers. Therefore, kurtosis measures outliers only; it measures nothing about the "peak". 
+Kurtosis is the average (or expected value) of the standardized data raised to the fourth power. Any standardized values that are less than 1 (i.e. data within one standard deviation of the mean, where the "peak" would be), contribute virtually nothing to kurtosis, since raising a number that is less than 1 to the fourth power makes it closer to zero. The only data values that contribute to kurtosis in any meaningful way are those outside the region of the peak; i.e. the outliers. Therefore, kurtosis measures outliers only; it measures nothing about the "peak". 
 
 The sample kurtosis is a useful measure of whether there is a problem with outliers in a data set. Larger kurtosis indicates a more serious outlier problem. 
 
@@ -1103,7 +1103,7 @@ cat(paste0("(Manual) Kurtosis of Normal: ", round(kurt_man, 4),
 
 Measures of relative location help us determine how far a particular value is from the mean. By using both the mean and standard deviation, we can determine the relative location of any observation. 
 
-```{definition 'TheSample'}
+```{definition 'The-Sample'}
 A sample of \textcolor{pink}{${n}$} observations given by ${X = \{{x}_1, {x}_2, \ldots, {x}_n\}}$ have a sample mean \textcolor{pink}{${\overline{x}}$} and the sample standard deviation, \textcolor{pink}{${s}$}.
 ```
 
@@ -1317,7 +1317,7 @@ if(FALSE) display.brewer.pal(3, "BrBG")
   - unusual data value that has been recorded correctly and belongs in the data set - should be kept
 - Standardized values (z-scores) can be used to identify outliers. 
   - [Empirical Rule](#empirical-c03 "c03") allows us to conclude that for normal distribution, almost all the data values will be within three standard deviations of the mean $(\overline{x} \pm 3s)$. 
-  - Hence, in using z-scores to identify outliers, we recommend treating any data value with a z-score less than −3 or greater than +3 as an outlier. 
+  - Hence, in using z-scores to identify outliers, we recommend treating any data value with a z-score less than -3 or greater than +3 as an outlier. 
   - Such data values can then be reviewed for accuracy and to determine whether they belong in the data set.
   - In the case of normally distributed data, the three sigma rule can be used to identify outliers. 
     - In a sample of 1000 observations, the presence of up to five observations deviating from the mean by more than three times the standard deviation is within the range of what can be expected. If the sample size is only 100, however, just three such outliers are already reason for concern. 
@@ -1330,7 +1330,7 @@ if(FALSE) display.brewer.pal(3, "BrBG")
 Five-Number Summary is used to quickly summarise a dataset. i.e. Min, Q1, Median, Q3, Max
 
 - A boxplot is a graphical display of data based on a five-number summary. 
-  - By using the interquartile range, IQR = Q3 − Q1, limits are located at 1.5(IQR) below Q1 and 1.5(IQR) above Q3
+  - By using the interquartile range, IQR = Q3 - Q1, limits are located at 1.5(IQR) below Q1 and 1.5(IQR) above Q3
   - The \textcolor{pink}{whiskers} are drawn from the ends of the box to the smallest and largest values inside the limits 
   - Boxplots can also be used to provide a graphical summary of two or more groups and facilitate visual comparisons among the groups. 
 
@@ -1469,26 +1469,26 @@ print(sxy)
 - [This](https://stats.stackexchange.com/questions/229667 "https://stats.stackexchange.com")
   - Unlike Pearson correlation, covariance itself is not a measure of the magnitude of linear relationship. It is a measure of co-variation (which could be just monotonic). This is because covariance depends not only on the strength of linear association but also on the magnitude of the variances. 
 - More details are in following links
-  -  [This](https://stats.stackexchange.com/questions/17537   "https://stats.stackexchange.com/questions/17537/understanding-variance-intuitively")
-  -  [This](https://stats.stackexchange.com/questions/26/what-is-a-standard-deviation   "https://stats.stackexchange.com/questions/26/what-is-a-standard-deviation")
-  -  [This](https://stats.stackexchange.com/questions/18058/how-would-you-explain-covariance-to-someone-who  -understands-only-the-mean "https://stats.stackexchange.com/questions/18058/how-would-you-explain-covaria  nce-to-someone-who-understands-only-the-mean")
-  -  [This](https://stats.stackexchange.com/questions/12842/covariance-and-independence   "https://stats.stackexchange.com/questions/12842/covariance-and-independence")
-  -  [This](https://stats.stackexchange.com/questions/18082/how-would-you-explain-the-difference-between-co  rrelation-and-covariance "https://stats.stackexchange.com/questions/18082/how-would-you-explain-the-diffe  rence-between-correlation-and-covariance")
-  -  [This](https://stats.stackexchange.com/questions/29713/what-is-covariance-in-plain-language   "https://stats.stackexchange.com/questions/29713/what-is-covariance-in-plain-language")
-  -  [This](https://stats.stackexchange.com/questions/53/pca-on-correlation-or-covariance   "https://stats.stackexchange.com/questions/53/pca-on-correlation-or-covariance")
-  -  [This](https://stats.stackexchange.com/questions/229667/difference-between-correlation-and-covariance-is-covariance-only-useful-if-the "https://stats.stackexchange.com/questions/229667/difference-between-correlation-and-covariance-is-covariance-only-useful-if-the")
-  -  [This](https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant "https://stats.stackexchange.com/questions/483964/how-come-covariance-can-pick-up-non-linear-relationships-but-correlation-cant")
-  -  [This](https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence "https://stats.stackexchange.com/questions/9415/measuring-non-linear-dependence")
+  -  [This](https://stats.stackexchange.com/questions/17537 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/26 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/18058 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/12842 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/18082 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/29713 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/53 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/229667 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/483964 "https://stats.stackexchange.com")
+  -  [This](https://stats.stackexchange.com/questions/9415 "https://stats.stackexchange.com")
 
 ### Correlation Coefficient {#correlation-c03 .tabset .tabset-fade}
 
 ```{definition 'Correlation-Coefficient'}
-\textcolor{pink}{Correlation coefficient} is a measure of linear association between two variables that takes on values between −1 and +1. Values near +1 indicate a strong positive linear relationship; values near −1 indicate a strong negative linear relationship; and values near zero indicate the lack of a linear relationship.
+\textcolor{pink}{Correlation coefficient} is a measure of linear association between two variables that takes on values between -1 and +1. Values near +1 indicate a strong positive linear relationship; values near -1 indicate a strong negative linear relationship; and values near zero indicate the lack of a linear relationship.
 ```
 
 - Refer equation \@ref(eq:correlation) & Table \@ref(tab:C03T01)
   - The 'Pearson Product Moment Correlation Coefficient' or \textcolor{pink}{sample correlation coefficient} is computed by dividing the sample covariance $s_{xy}$ by the product of the sample standard deviation of x ($s_{x}$) and the sample standard deviation of y ($s_{y}$).
-    - Values close to −1 (negative) or +1 (positive) indicate a strong linear relationship. The closer the correlation is to zero, the weaker the relationship.
+    - Values close to -1 (negative) or +1 (positive) indicate a strong linear relationship. The closer the correlation is to zero, the weaker the relationship.
   - In the example, $s_{xy} = 11$ (Equation \@ref(eq:covariance)) and $s_{x} = 1.49$, $s_{y} = 7.93$ (Equation \@ref(eq:sd))
   - Thus, $r_{xy} = 0.93$
   - \textcolor{orange}{Caution:} Correlation provides a measure of linear association and not necessarily causation. A high correlation between two variables does not mean that changes in one variable will cause changes in the other variable.

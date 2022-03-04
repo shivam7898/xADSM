@@ -14,7 +14,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - It assumes that reader knows R basics.
 
 - [How to Load Packages](#loadpkg-z01 "z01")
-- [How to Copy Clipboard as Tibble](#loaddata-z01 "z01")
+- [How to Copy Clipboard as Tibble](#load-data-z01 "z01")
 - [How to Generate correlated vectors of normal distribution](#cor-vec-z01 "z01")
 - [How to Count Unique Values in ALL Columns](#n-uniq-z01  "z01")
 - [How to Rename ALL Headers to Proper Names](#rename-z01  "z01")
@@ -47,7 +47,7 @@ if(FALSE) {# #Load Packages that were already installed
 }
 ```
 
-## Load Data {#loaddata-z01 .tabset .tabset-fade}
+## Load Data {#load-data-z01 .tabset .tabset-fade}
 
 ### Clipboard {.unlisted .unnumbered}
 
@@ -100,7 +100,7 @@ bb <- aa %>% rename_with(make.names) %>%
 f_rmExist(aa, bb, ii, jj, kk, ll)
 ```
 
-```{r 'Z01-Validation', include=TRUE, cache=FALSE}
+```{r 'Z01-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

@@ -36,7 +36,7 @@ Rather than showing the frequency of each class, the \textcolor{pink}{cumulative
 aa <- tibble(softdrink = c("Coca-Cola", "Diet Coke", "Dr. Pepper", "Pepsi", "Sprite"), 
              Frequency = c(19, 8, 5, 13, 5))
 #
-# #Sort, Cummulative Sum, Percentage, and Cummulative Percentage
+# #Sort, Cumulative Sum, Percentage, and Cumulative Percentage
 bb <- aa %>% 
   arrange(desc(Frequency)) %>% 
   mutate(cSUM = cumsum(Frequency)) %>%
@@ -596,12 +596,12 @@ bb <- bb %>%
 
 ```{r 'C02-L-PCT'}
 bb
-# #Rowwise Percentage in Separate New Columns
+# #Row-wise Percentage in Separate New Columns
 bb %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
   mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1), .names = "{.col}_Row" )) 
 #
-# #Rowwise Percentage in Same Columns
+# #Row-wise Percentage in Same Columns
 bb %>% 
   mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
   mutate(across(where(is.numeric), ~ round(. * 100 /SUM, 1))) 

@@ -13,7 +13,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - "ForLater" - Everything
   - [Parametric Methods](#parametric-c18 "c18"), [Nonparametric Methods](#non-parametric-c18 "c18")
 
-## Paramtetric Methods {#parametric-c18}
+## Parametric Methods {#parametric-c18}
 
 ```{definition 'Parametric-Methods'}
 \textcolor{pink}{Parametric methods} are the statistical methods that begin with an assumption about the probability distribution of the population which is often that the population has a normal distribution. A sampling distribution for the test statistic can then be derived and used to make an inference about one or more parameters of the population such as the population mean ${\mu}$ or the population standard deviation ${\sigma}$.
@@ -31,7 +31,7 @@ Parametric methods mostly require quantitative data. However these are ~~general
 - \textcolor{pink}{At large sample sizes, either of the parametric or the nonparametric tests work adequately.}
 
 
-## Nonparamtetric Methods {#non-parametric-c18}
+## Nonparametric Methods {#non-parametric-c18}
 
 ```{definition 'Distribution-free-Methods'}
 \textcolor{pink}{Distribution-free methods} are the Statistical methods that make no assumption about the probability distribution of the population.
