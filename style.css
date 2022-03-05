@@ -19,3 +19,9 @@ caption {
   font-weight: bold;
   font-size: 1.0em;
 }
+
+/* Stargazer, when printing only the Output, to match with 'zenburn' highlight */
+.models{
+  color: #80a080;
+  background-color: #303030;
+}
