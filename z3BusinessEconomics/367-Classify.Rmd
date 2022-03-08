@@ -1,0 +1,834 @@
+# Classification (F67) {#f67}
+
+```{r 'F67', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+## Data: Default {#set-default-f67 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Default [10000, 4]
+  - income_k : income has been divided by 1000 USD to match with the Book
+
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F67-Data-Default', include=TRUE, eval=FALSE}
+aa <- as_tibble(ISLR2::Default)
+# #Divide by 1000
+bb <- aa %>% mutate(income_k = income/1000) %>% select(-income)
+zzF67Default <- xfw <- bb
+```
+
+```{r 'F67-Save-Default', include=FALSE, eval=FALSE}
+f_setRDS(zzF67Default)
+```
+
+```{r 'F67-Get-Default', include=FALSE}
+zzF67Default <- xfw <- bb <- aa <- f_getRDS(zzF67Default)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F67-Structure-Default'}
+str(zzF67Default)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F67-Summary-Default'}
+summary(zzF67Default)
+```
+
+### ETC {.unlisted .unnumbered}
+
+```{r 'F67-ETC', include=TRUE, eval=FALSE}
+# #Count NA in Columns
+if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+# #Subset Rows
+if(FALSE) bb %>% select(1) %>% slice(1:10)
+# #Comma separated string having each item within quotes for easy pasting as character not objects
+if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
+if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+# #Filter
+if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+# #Count Yes/No or True/False in ALL such Columns
+if(FALSE) bb %>% select(iFemale, iMarried) %>% 
+  pivot_longer(everything()) %>% count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) 
+# #Count Unique of all Columns to decide which should be Factors
+if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
+# #Summary of Columns of a class: is.factor is.numeric is.character
+if(FALSE) bb %>% select(where(is.factor)) %>% summary()
+# #Names and Indices of Columns of class: is.factor is.numeric is.character
+if(FALSE) which(sapply(bb, is.factor))
+# #Levels of Factor Columns
+if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
+# #Frequency of Each level of Factor
+if(FALSE) bb %>% count(Own) %>% arrange(desc(n))
+# #Coding for Dummy Variables
+if(FALSE) contrasts(bb$Married) 
+```
+
+
+## Data: Smarket {#set-smarket-f67 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: ISLR2::Smarket [1250, 9]
+
+
+### EDA {.unlisted .unnumbered}
+
+```{r 'F67-Data-Smarket', include=TRUE, eval=FALSE}
+aa <- as_tibble(ISLR2::Smarket)
+# #Relocate Y | 
+bb <- aa %>% relocate(Direction)
+zzF67Smarket <- xfw <- bb
+```
+
+```{r 'F67-Save-Smarket', include=FALSE, eval=FALSE}
+f_setRDS(zzF67Smarket)
+```
+
+```{r 'F67-Get-Smarket', include=FALSE}
+zzF67Smarket <- xfw <- bb <- aa <- f_getRDS(zzF67Smarket)
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'F67-Structure-Smarket'}
+str(zzF67Smarket)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'F67-Summary-Smarket'}
+summary(zzF67Smarket)
+```
+
+
+## Overview
+
+```{definition 'Classification'}
+Predicting a qualitative response (i.e. categorical Y) for an observation can be referred to as classifying
+that observation, since it involves assigning the observation to a category,
+or class. This process is known as \textcolor{pink}{classification}. 
+```
+
+- Often, the methods used for classification first predict the probability that the observation belongs to each of the categories of a qualitative variable, as the basis for making the classification. In this sense they also behave like regression methods.
+
+- Some widely-used classifiers: 
+  - logistic regression, linear discriminant analysis, quadratic discriminant analysis, naive Bayes, and K-nearest neighbors, generalized additive models (GAM), decision trees, random forests, boosting and support vector machines (SVM).
+
+## Categorical Y {.tabset .tabset-fade}
+
+- Dataset Default - 
+  - It appears that individuals who defaulted tended to have higher credit card balances than those who did not.
+
+
+### Plot {.unlisted .unnumbered}
+
+```{r 'F67-Default-Scatter-1', include=FALSE}
+# #ScatterPlot
+hh <- zzF67Default 
+#
+cap_hh <- "F67P01"
+ttl_hh <- "Default: Income vs. Balance with Default"
+sub_hh <- NULL
+x_hh <- "Balance"
+y_hh <- "Income (x1000)"
+lgd_hh <- "Default"
+#
+F67 <- hh %>% { ggplot(data = ., mapping = aes(x = balance, y = income_k)) +
+    geom_point(aes(colour = default), size = 1, shape = 21) +
+    scale_colour_viridis_d(alpha = 0.9, direction = -1) +
+    scale_y_continuous(breaks = breaks_pretty()) + 
+    scale_x_continuous(breaks = breaks_pretty()) + 
+    theme(legend.spacing.y = unit(0, "mm"), 
+          legend.spacing.x = unit(0, "mm"), 
+          legend.key.height = unit(6, "mm"),
+          legend.position = c(.9, .9), 
+          legend.box.background = element_rect(colour = "black"), 
+          panel.grid = element_blank()) +
+    labs(x = x_hh, y = y_hh, colour = lgd_hh, 
+         subtitle = sub_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F67)
+rm(F67)
+if(FALSE) eval(parse(text = cap_hh))
+```
+
+```{r 'F67P01-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F67P01", "-Default-1x-YX", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F67P01, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F67P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "F67P01", "-Default-1x-YX", ".png"))
+```
+
+
+```{r 'F67-Default-BoxPlot-1', include=FALSE}
+# #BoxPlot
+hh <- zzF67Default %>% 
+  select(-student) %>% 
+  pivot_longer(!default)
+#
+ttl_hh <- "Default: BoxPlot: Balance & Income with Default"
+cap_hh <- "F67P02"
+lgd_hh <- "Default"
+x_hh <- "Default"
+labels_hh <- as_labeller(c(balance = "Balance", income_k = "Income (x1000)"))
+#
+F67 <- hh %>% { ggplot(data = ., mapping = aes(x = default, y = value, fill = default)) +
+    geom_boxplot(outlier.shape = 1) +
+    scale_fill_viridis_d(alpha = 0.9, direction = -1) +
+    facet_wrap(~name, scales = "free", labeller = labels_hh) +
+    theme(panel.background = element_blank()) +
+    labs(x = x_hh, fill = lgd_hh, caption = cap_hh, title = ttl_hh)
+}
+assign(cap_hh, F67)
+rm(F67)
+if(FALSE) eval(parse(text = cap_hh))
+```
+
+```{r 'F67P02-Save', include=FALSE}
+loc_png <- paste0(.z$PX, "F67P02", "-Default-1x-Box", ".png")
+if(!file.exists(loc_png)) {
+  ggsave(loc_png, plot = F67P02, device = "png", dpi = 144) 
+}
+```
+
+```{r 'F67P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "F67P02", "-Default-1x-Box", ".png"))
+```
+
+
+```{r 'F67P0102', echo=FALSE, ref.label=c('F67P01', 'F67P02'), fig.cap="(F67P01 F67P02) Default: Scatterplot and Boxplot"}
+#
+```
+
+
+### Code {.unlisted .unnumbered}
+
+```{r 'F67-Default-Scatter-1-A', eval=FALSE, ref.label=c('F67-Default-Scatter-1')}
+#
+```
+
+```{r 'F67-Default-BoxPlot-1-A', eval=FALSE, ref.label=c('F67-Default-BoxPlot-1')}
+#
+```
+
+## Why Not Linear Regression
+
+- Linear regression is not appropriate in the case of a qualitative response. Ex: 
+  - Suppose that we are trying to predict the medical condition of a patient in the emergency room on the basis of her symptoms. There are three possible diagnoses: stroke, overdose, and seizure. 
+  - We could consider encoding these values as a quantitative response variable, as {1, 2, 3}.
+    - However, this coding implies an ordering on the outcomes. It insists that the difference between stroke and overdose is the same as the difference between overdose and seizure.
+    - In practice there is no particular reason that this needs to be the case. 
+    - We can choose different encoding {2, 1, 3} and the relationship would change completely i.e. it would insist that stroke is between the overdose and seizure. It would ultimately lead to different sets of predictions on test observations.
+  - If the values of response variable did take on a natural ordering, such as mild, moderate, and severe, and we felt the gap between mild and moderate was similar to the gap between moderate and severe, then a {1, 2, 3} coding would be reasonable. 
+    - Unfortunately, in general there is no natural way to convert a qualitative response variable with more than two levels into a quantitative response that is ready for linear regression.
+  - For a binary (two level) qualitative response, the situation is better. 
+    - We can use the dummy variable approach for encoding the two possibilities as {0, 1} for stroke and  overdose.
+    - For a binary response with a 0/1 coding as above, regression by least squares is not completely unreasonable. 
+    - However, if we use linear regression, some of our estimates might be outside the [0, 1] interval, making them hard to interpret as probabilities! 
+    - Nevertheless, the predictions provide an ordering and can be interpreted as crude probability estimates. 
+    - Curiously, it turns out that the classifications that we get if we use linear regression to predict a binary response will be the same as for the linear discriminant analysis (LDA) procedure.
+
+## Logistic Regression
+
+
+```{definition 'Regression-Logistic'}
+Rather than modeling this response Y directly, \textcolor{pink}{logistic regression} models the probability that Y belongs to a particular category.
+```
+
+
+- Dataset Default - 
+  - Logistic regression models the probability of default. 
+  - For example, the probability of default given balance can be written as :
+    - \textcolor{pink}{Pr(default = Yes|balance) or p(balance) $\in [0, 1]$}
+    -  Then for any given value of balance, a prediction can be made for default.
+    
+- Problem with using a linear regression model to represent these probabilities: $p(X) = \beta_0 + \beta_1 X$ and then to predict 'default=Yes' using balance:
+  - For balances close to zero we predict a negative probability of default; if we were to predict for very large balances, we would get values bigger than 1. These predictions are not sensible, since of course the true probability of default, regardless of credit card balance, must fall between 0 and 1. 
+  - This problem is not unique to the credit default data. 
+  - Any time a straight line is fit to a binary response that is coded as 0 or 1, in principle we can always predict p(X) < 0 for some values of X and p(X) > 1 for others (unless the range of X is limited).
+  - To avoid this problem, we must model p(X) using a function that gives outputs between 0 and 1 for all values of X.
+
+- \textcolor{pink}{Logistic Function: $p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}} = \frac{\text{Odds}}{1 + \text{Odds}}$}
+  - To fit the model, we use a method called \textcolor{pink}{maximum likelihood}. 
+  - For low balances we would now predict the probability of default as close to, but never below, zero.
+  - Likewise, for high balances we would predict a default probability close to, but never above, one. 
+  - The logistic function will always produce an S-shaped curve, and so regardless of the value of X, we will obtain a sensible prediction. 
+  - Further, the logistic model is better able to capture the range of probabilities than is the linear regression model. 
+  - The average fitted probability in both cases is 0.0333 (averaged over the training data), which is the same as the overall proportion of defaulters in the data set.
+
+
+```{r 'F67-Default-Proportion'}
+# #Proportion of Default = Yes
+zzF67Default %>% count(default) %>% mutate(PROP = n/sum(n))
+```
+
+- \textcolor{pink}{$\text{Odds} = e^{\beta_0 + \beta_1 X} = \frac{p(X)}{1 - p(X)} \in [0, \infty]$}
+  - The odds are defined as the probability that the event will occur divided by the probability that the event will not occur. 
+    - If a race horse runs 100 races and wins 5 times and loses the other 95 times. $p(\text{win}) = 0.05 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.05}{1 - 0.05} = 0.0526$.
+  - If a race horse runs 100 races and wins 25 times and loses the other 75 times. $p(\text{win}) = 0.25 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.25}{1 - 0.25} = 0.333$, or 1 win to 3 loses.
+  - If a race horse runs 100 races and wins 50 times and loses the other 50 times. $p(\text{win}) = 0.50 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.50}{1 - 0.50} = 1$, or \textcolor{pink}{even odds}.
+  - If a race horse runs 100 races and wins 80 times and loses the other 20 times. $p(\text{win}) = 0.80 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.80}{1 - 0.80} = 4$, or 4 win to 1 loses.
+
+- \textcolor{pink}{Log odds or Logit: $\log\left( \frac{p(X)}{1 - p(X)} \right) = \beta_0 + \beta_1 X$}
+  - Recall that in a linear regression model, $\beta_1$ gives the average change in Y associated with a one-unit increase in X. 
+  - By contrast, in a logistic regression model, increasing X by one unit changes the log odds by $\beta_1$. Equivalently, it multiplies the odds by $e^{\beta_1}$. 
+  - However, in logistic regression, because the relationship between p(X) and X is not a straight line, $\beta_1$ does not correspond to the change in p(X) associated with a one-unit increase in X. 
+  - The amount that p(X) changes due to a one-unit change in X depends on the current value of X. But regardless of the value of X, if $\beta_1$ is positive then increasing X will be associated with increasing p(X), and if $\beta_1$ is negative then increasing X will be associated with decreasing p(X).
+
+## Estimating the Regression Coefficients
+
+- The coefficients $\beta_0$ and $\beta_1$ are unknown, and must be estimated. 
+  - Although we could use (non-linear) least squares to fit the model, the more general method of \textcolor{pink}{maximum likelihood} is preferred, since it has better statistical properties. 
+  - We seek estimates for $\beta_0$ and $\beta_1$ such that the predicted probability $\hat{p}(x_i)$ of default (response event = Yes) for each individual, corresponds as closely as possible to its observed default status. 
+  - In other words, we try to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such that plugging these estimates into the model for p(X), yields a number close to one for all individuals who defaulted, and a number close to zero for all individuals who did not. 
+  - This can be formalized using a mathematical equation called a \textcolor{pink}{likelihood function}.
+  - The estimates $\hat{\beta}_0$ and $\hat{\beta}_1$ are chosen to maximize this likelihood function.
+  - "ForLater" equation 4.5, page 135
+
+## glm() {.tabset .tabset-fade}
+
+- \textcolor{pink}{glm()} 
+  - family = binomial : For Logistic Regression
+  - We can measure the accuracy of the coefficient estimates by computing their standard errors. 
+  - The z-statistic, in logistic regression, plays the same role as the t-statistic in the linear  regression output.
+- Dataset Default - 
+  - Y ~ Balance
+    - $\hat{\beta}_1= 0.0055$ : this indicates that an increase in balance is associated with an increase in the probability of default. 
+    - To be precise, a one-unit increase in balance is associated with an increase in the log odds of default by 0.0055 units.
+    - Predict
+      - Probability for default for an individual with a balance of USD 1000 is 0.00576
+      - Probability for default for an individual with a balance of USD 2000 is 0.586 (much higher)
+  - Y ~ Student (Qualitative)
+    - The coefficient associated with the dummy variable is positive, and the associated p-value is statistically significant. 
+    - This indicates that students tend to have higher default probabilities than non-students
+- Dataset Default - Y ~ ALL
+  - \textcolor{orange}{Caution:} Book has used income in 1000 USD
+  - The p-values associated with balance and the dummy variable for student status are very small, indicating that each of these variables is associated with the probability of default. 
+  - However, the coefficient for the dummy variable is negative, indicating that students are less likely to default than non-students. (in contrast to earlier observed effect when it was single predictor)
+  - How is it possible for student status to be associated with an increase in probability of default when it was a single predictor but indicate a decrease in probability of default when it is used along with other predictors.
+    - The negative coefficient for student in the multiple logistic regression indicates that for a fixed value of balance and income, a student is less likely to default than a non-student. 
+    - However, the default rates for students and non-students averaged over all values of balance and income, suggest the opposite effect: the overall student default rate is higher than the non-student default rate. Consequently, there is a positive coefficient for student in the single variable logistic regression output.
+  - Explanation
+    - The variables student and balance are correlated. 
+    - Students tend to hold higher levels of debt, which is in turn associated with higher probability of default. In other words, students are more likely to have large credit card balances, which, as we know, tend to be associated with high default rates. 
+    - Thus, even though an individual student with a given credit card balance will tend to have a lower probability of default than a non-student with the same credit card balance, the fact that students on the whole tend to have higher credit card balances means that overall, students tend to default at a higher rate than non-students. 
+    - This is an important distinction for a credit card company that is trying to determine to whom they should offer credit. A student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the same credit card balance!
+  - Predict
+    - Probability for default for a student with a credit card balance of USD 1500 and an income of USD 40000 (i.e. 40 x 1000 USD) is 0.058
+    - Probability for default for a non-student with a credit card balance of USD 1500 and an income of USD 40000 (i.e. 40 x 1000 USD) is 0.105
+
+
+```{definition 'Confounding'}
+As in the linear regression setting, the results obtained using one predictor may be quite different from those obtained using multiple predictors, especially when there is correlation among the predictors. This is known as \textcolor{pink}{confounding}.
+```
+
+
+
+```{r 'F67-Logistic-Default-1'}
+# #Logistic Regression
+mod_def_balance <- glm(formula = default ~ balance, family = binomial, data = zzF67Default)
+mod_def_student <- glm(formula = default ~ student, family = binomial, data = zzF67Default)
+#
+mod_def_glm <- mod_def_imp <- glm(formula = default ~ ., family = binomial, data = zzF67Default)
+#
+zzF67Default_dum <- dummy_cols(.data = zzF67Default, 
+  select_columns = c("student"), remove_first_dummy = TRUE, remove_selected_columns = TRUE)
+#
+names(zzF67Default_dum)[4] <- c("studentYes")
+mod_def_exp <- mod_def_dum <- glm(formula = default ~ ., family = binomial, data = zzF67Default_dum)
+```
+
+```{r 'F66-Print-Default-1', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Default: Y ~ X"
+col_hh <- c("Balance", "Student", "Implicit", "Explicit")
+#
+stargazer(mod_def_balance, mod_def_student, mod_def_imp, mod_def_exp, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+## Predictions
+
+```{r 'F67-Predict-Default-1'}
+# #predict() type = "response" option tells R to output probabilities of the form P(Y = 1|X)
+# #...as opposed to other information such as the logit.
+predict(mod_def_balance, tibble(balance = c(1000, 2000)), type = "response")
+#
+# #Predicting with Implicit Categorical Predictors
+predict(mod_def_imp, tibble(student = factor(c("Yes", "No")), 
+                        balance = c(1500, 1500), income_k = c(40, 40)), type = "response")
+#
+# #Predicting with Explicit Categorical Predictors
+predict(mod_def_exp, tibble(studentYes = c(1, 0), 
+                        balance = c(1500, 1500), income_k = c(40, 40)), type = "response")
+```
+
+## Multinomial Logistic Regression
+
+- \textcolor{pink}{Multinomial logistic regression} extends the two-class logistic regression approach to the setting of K > 2 classes (response variable with more than two classes). 
+  - Clarification : 'class' means factor levels of Y
+  - Like dummy, we select a class to serve as baseline.
+  - Interpretation of the coefficients in a multinomial logistic regression model is tied to the choice of baseline. 
+  - For example, there are three possible diagnoses: stroke, overdose, and seizure (baseline):
+    - We can interpret $\beta_{\text{stroke}_0}$ as the log odds of stroke versus seizure, given that $x_1 = \ldots = x_p = 0$. 
+    - Furthermore, a one-unit increase in $X_j$ is associated with a $\beta_{\text{stroke}_j}$ increase in the log odds of stroke over seizure.
+
+
+- Alternative coding for multinomial logistic regression is known as the \textcolor{pink}{softmax coding}.
+  - In the softmax coding, rather than selecting a baseline class, we treat all K classes symmetrically.
+
+
+## Generative Models for Classification 
+
+- In the logistic regression, we model the conditional distribution of the response Y, given the predictor(s) X. i.e. it involves directly modeling Pr(Y = k|X = x) using the logistic function
+- An alternative and less direct approach to estimating these probabilities is presented here. 
+
+- In this new approach, we model the distribution of the predictors X separately in each of the response classes (i.e. for each value of Y). We then use \textcolor{pink}{Bayes theorem} to flip these around into estimates for Pr(Y = k|X = x). 
+- Why do we need another method, when we have logistic regression
+  - When there is substantial separation between the two classes, the parameter estimates for the logistic regression model are surprisingly unstable. The methods that we consider in this section do not suffer from this problem. 
+  - If the distribution of the predictors X is approximately normal in each of the classes and the sample size is small, then the approaches in this section may be more accurate than logistic regression. 
+  - The methods in this section can be naturally extended to the case of more than two response classes. 
+    
+- Suppose that we wish to classify an observation into one of K classes, where $K \geq 2$. 
+  - In other words, the qualitative response variable Y can take on K possible distinct and unordered values. 
+  - Let $\pi_k$ represent the overall or \textcolor{pink}{prior probability} that a randomly chosen observation comes from the $k^{\text{th}}$ class.
+  -  Let $f_k(x) \equiv \text{Pr}(X|Y = k)$ denote the density function of X
+  - "ForLater" Bayes Theorem page 142
+  - \textcolor{pink}{$p_k(x)$ = Pr(Y = k|X = x)}, is the \textcolor{pink}{posterior probability} that an observation X = x belongs to the $k^{\text{th}}$ class.
+  - Instead of directly computing the posterior probability $p_k(x)$, we can simply use estimates of $\pi_k$ and $f_k(x)$. 
+  - In general, estimating $\pi_k$ is easy if we have a random sample from the population: we simply compute the fraction of the training observations that belong to the $k^{\text{th}}$ class. 
+  - However, estimating the density function $f_k(x)$ is much more challenging. To estimate $f_k(x)$, we will typically have to make some simplifying assumptions. 
+  - The Bayes classifier, which classifies an observation x to the class for which $p_k(x)$ is largest, has the lowest possible error rate out of all classifiers. Therefore, if we can find a way to estimate $f_k(x)$, then we can use it in order to approximate the Bayes classifier. 
+  - There are three classifiers that use different estimates of $f_k(x)$ to approximate the Bayes classifier: linear discriminant analysis, quadratic discriminant analysis, and naive Bayes.
+
+## LDA for p = 1
+
+- Linear Discriminant Analysis (LDA) for p = 1
+  - \textcolor{orange}{Caution:} 'p' is being used to indicate probabilities but it also is the number of predictors. p = 1 means we have only one predictor.
+  
+- \textcolor{pink}{Goal:} We would like to obtain an estimate for $f_k(x)$ that we can use in order to estimate $p_k(x)$. We will then classify an observation to the class for which $p_k(x)$ is greatest.
+- To estimate $f_k(x)$, we will first make some assumptions about its form
+  - We assume that $f_k(x)$ is normal or Gaussian.
+  - We further assume that ${\sigma}_1^2 = \cdots = {\sigma}_K^2 = {\sigma}^2$, i.e., there is a shared variance term across all K classes
+  - The Bayes classifier, which classifies an observation x to the class for which $p_k(x)$ is largest. This is equivalent to assigning the observation to the class for which $\delta_k(x)$ is largest.
+  - In practice, even if we are quite certain of our assumption that X is drawn from a Gaussian distribution within each class, to apply the Bayes classifier we still have to estimate the parameters $\{{\mu}_1, \ldots, {\mu}_k\}, \{\pi_1, \ldots, \pi_k \}, {\sigma}^2$. 
+  - The \textcolor{pink}{linear discriminant analysis (LDA)} method approximates the Bayes classifier by plugging estimates for ${\mu}_k, \pi_k, {\sigma}^2$.
+  - The word \textcolor{pink}{linear} in the classifier name stems from the fact that the \textcolor{pink}{discriminant functions $\hat{\delta}_k(x)$} are linear functions of x (as discriminant function opposed to a more complex function of x.
+
+## LDA for p > 1
+
+- Linear Discriminant Analysis (LDA) for p > 1
+
+- We will assume that $X = \{X_1, X_2, \ldots, X_p\}$ is drawn from a multivariate Gaussian (or multivariate normal) distribution, with a class-specific multivariate mean vector and a common covariance matrix.
+  - The multivariate Gaussian distribution assumes that each individual predictor follows a one-dimensional normal distribution with some correlation between each pair of predictors. 
+
+## LDA on Default Dataset {.tabset .tabset-fade}
+
+- \textcolor{pink}{MASS::lda()}
+
+
+- Dataset Default - 
+  - Accuracy of 97.24% i.e. error rate of 2.76%
+
+- This looks like a low error rate, but two caveats must be noted:
+  - First of all, training error rates will usually be lower than test error rates, which are the real quantity of interest. The reason is that we specifically adjust the parameters of our model to do well on the training data. (Overfitting)
+  - Second, since only 3.33% of the individuals in the training sample defaulted, a simple but useless classifier that always predicts that an individual will not default, regardless of his or her credit card balance and student status, will result in an error rate of 3.33%. In other words, the trivial \textcolor{pink}{null classifier} will achieve an error rate that is only a bit higher than the LDA training set error rate.
+
+- It predicted Total 101 people would default, actually 79 defaulted and 22 did not. Hence only 22 out of 9667 of the individuals who did not default were incorrectly labeled.
+  - This looks like a pretty low error rate!
+- However, of the 333 individuals who defaulted, 254 (or 254/333 = 76.3%) were missed by LDA. 
+  - So while the overall error rate is low, the error rate among individuals who defaulted is very high.
+  - From the perspective of a credit card company that is trying to identify high-risk individuals, an error rate of 76.3% among individuals who default may well be unacceptable.
+
+- Class-specific performance
+  - Sensitivity is the percentage of true defaulters that are identified; (79/333 = 23.7%) 
+  - Specificity is the percentage of non-defaulters that are correctly identified; (1 − 22/9667 = 99.8%)
+
+
+- Why does LDA do such a poor job of classifying the customers who default
+  - In other words, why does it have such low sensitivity
+  - As we have seen, LDA is trying to approximate the Bayes classifier, which has the lowest total error rate out of all classifiers. That is, the Bayes classifier will yield the smallest possible total number of misclassified observations, regardless of the class from which the errors stem. Some misclassifications will result from incorrectly assigning a customer who does not default to the default class, and others will result from incorrectly assigning a customer who defaults to the non-default class. 
+  - In contrast, a credit card company might particularly wish to avoid incorrectly classifying an individual who will default, whereas incorrectly classifying an individual who will not default, though still to be avoided, is less problematic. 
+  - It is possible to modify LDA in order to develop a classifier that better meets the requirements of credit card company.
+
+### Model {.unlisted .unnumbered}
+
+```{r 'F67-LDA-Default-1'}
+# #LDA
+mod_def_lda <- lda(formula = default ~ ., data = zzF67Default)
+#
+mod_def_lda
+#
+# #Confusion Matrix
+cmat_def_lda <- confusionMatrix(predict(mod_def_lda, type = "class")$class, 
+                                reference = zzF67Default$default, positive = "Yes")
+cmat <- cmat_def_lda
+#
+# #Confusion Matrix
+if(TRUE) cmat$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# #Accuracy = 1 - Error Rate
+if(TRUE) cmat$overall[["Accuracy"]]
+#
+# #Sensitivity
+if(TRUE) cmat$byClass[["Sensitivity"]]
+#
+# #Specificity
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+### Print {.unlisted .unnumbered}
+
+```{r 'F67-LDA-Print-Default-1'}
+# #LDA
+mod <- mod_def_lda
+#
+# #Available Objects of the List in Model object of class "lda" 
+names(mod)
+#
+# #Prior Probabilities i.e. estimates of prior probabilities hat{Pi}
+mod$prior
+#
+# #Count of Observations for each Level
+mod$counts
+#
+# #Group Means estimates of mu_k i.e. average of each predictor within each class
+mod$means %>% as_tibble(rownames = "Levels_Y") 
+#
+# #Coefficient Estimates i.e. coefficients of linear discriminants
+mod$scaling %>% as_tibble(rownames = "Coefficients")
+#
+# #Levels of Y
+mod$lev
+#
+# # ?
+mod$svd
+#
+# #Observation Count
+mod$N
+#
+# #Model: 
+mod$call
+#
+# #Levels of Factor Predictors (if Implicit Conversion)
+mod$xlevels
+#
+# #'terms' is a List of List: Available Objects of this List
+names(attributes(mod$terms))
+#
+# #List of Variables: Y & X
+attributes(mod$terms)$variables
+stopifnot(identical(attributes(mod$terms)$variables, attributes(mod$terms)$predvars))
+#
+# #Matrix of Coefficients (but obviously missing reference levels if explicit)
+attributes(mod$terms)$factors %>% as_tibble(rownames = "Coefficients") 
+#
+# #Only Predictors X
+attributes(mod$terms)$term.labels
+#
+# # ?
+attributes(mod$terms)$order
+#
+# # ? It is Always 1. Probably shows either the position of intercept or How Many Intercepts
+attributes(mod$terms)$intercept
+#
+# # ? It is Always 1. Probably shows how many Response Y are in the model
+attributes(mod$terms)$response
+#
+# #Class and Environment
+attributes(mod$terms)$class
+attributes(mod$terms)$.Environment
+#
+# #Class of each variable (Y and X)
+attributes(mod$terms)$dataClasses
+```
+
+
+## Prediction {.tabset .tabset-fade}
+
+- NOTE: A (TP), B (FP), C (FN), D (TN) counts are different for LDA model and for GLM model
+
+### LDA vs. GLM {.unlisted .unnumbered}
+
+```{r 'F67-LDA-Predict-Default-1'}
+# #LDA & GLM (calculated earlier)
+res_def_lda <- predict(mod_def_lda, type = "response")
+#
+# #Confusion Matrix
+cmat_def_lda <- confusionMatrix(res_def_lda$class, 
+                                reference = zzF67Default$default, positive = "Yes")
+cmat <- cmat_def_lda
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+#
+# #For glm() predict() provides probabilities 
+prob_glm <- predict(mod_def_glm, type = "response")
+if(TRUE) str(prob_glm, give.attr = FALSE)
+#
+# #Use Contrast to define the criteria
+contrasts(zzF67Default$default)
+#
+# #Convert Probabilities into levels
+res_def_glm <- factor(ifelse(prob_glm >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+cmat_def_glm <- confusionMatrix(res_def_glm, 
+                                reference = zzF67Default$default, positive = "Yes")
+cmat <- cmat_def_glm
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+### response vs. class {.unlisted .unnumbered}
+
+```{r 'F67-Predict-Response-Class'}
+# #For "lda" response and class results are identical. Predicted values are in "$class" list object
+ii <- predict(mod_def_lda, type = "response")
+jj <- predict(mod_def_lda, type = "class")
+stopifnot(identical(ii, jj))
+str(ii)
+```
+
+
+## Confusion Matrix {.tabset .tabset-fade}
+
+
+- Confusion Matrix has Count of Observations
+  - Dataset: Default
+  - Reference ${y}$ as Columns 
+  - Prediction $\hat{y}$ as Rows 
+  - Diagonal has the observations which have been correctly predicted i.e. $y = \hat{y}$
+    - True Negative (TN) = D = 9645
+    - True Positive (TP) = A = 79
+  - Off-diagonal are the misclassifications
+    - False Negative (FN) = C = 254
+    - False Positive (FP) = B = 22
+- Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
+  - Depending upon the Factor level that "Event" corresponds to a "positive" result 
+    - Event: Default = "Yes"
+  - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
+    - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
+      - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
+      - Recall is defined as the ratio of the total number of correctly classified positive classes divide by the total number of positive classes. 
+      - i.e. Out of all the positive classes, how much we have predicted correctly. 
+  - \textcolor{pink}{Specificity} is the percentage of non-defaulters that are correctly identified
+    - $\text{Specificity} = \frac{\text{TN}}{\text{FP} + \text{TN}} = \frac{D}{B + D} = \frac{9645}{22 + 9645} = \frac{9645}{9667} = 1 - \frac{B}{B + D} = 1 - \frac{22}{9667} = 0.9977242$
+    - Specificity determines the proportion of actual negatives that are correctly identified.
+  - \textcolor{pink}{Prevalence} 
+    - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
+  - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
+    - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - Specificity) \times (1 - Prevalence))} = 0.782177$
+    - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
+    - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
+    - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
+    - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
+    - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
+  - \textcolor{pink}{Negative Predictive Value (NPV)} 
+    - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((Specificity) \times (1 - Prevalence))} = 0.9743408$    
+    - `{0.9977242 * (1 - 0.0333) / ((1 - 0.2372372) * 0.0333 + (0.9977242 * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
+    - $\text{NPV} = \frac{D}{C+D} = \frac{9645}{254 + 9645} = 0.9743408$
+  - \textcolor{pink}{Detection Rate} 
+    - $\text{Detection Rate} = \frac{\text{TP}}{Total} = \frac{A}{N} = \frac{79}{10000} = 0.0079$
+    - Out of total number of cases, how many cases in the target category predicted correctly (TP)
+  - \textcolor{pink}{Detection Prevalence} 
+    - $\text{Detection Prevalence} = \frac{\text{Event Predicted}}{\text{Total}} = \frac{A + B}{N} = \frac{101}{10000} = 0.0101$
+    - Out of total number of cases, how many cases predicted as target cases. 
+  - \textcolor{pink}{Balanced Accuracy} 
+    - $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{0.2372372 + 0.9977242}{2} = 0.6174807$
+  - \textcolor{pink}{F-score (F1)}, with $\beta = 1$
+    - $\text{F1} = \frac{(1 + \beta^2) \times \text{Precision} \times \text{Recall}}{((\beta^2 \times \text{Precision}) + \text{Recall})} = \frac{A}{A + B} = \frac{(1+1^2) \times 0.7821782 \times 0.2372372}{( 1^2 \times 0.7821782 + 0.2372372)} = 0.3640553$
+    - `{(1 + 1^2) * 0.7821782 * 0.2372372 / (1^2 * 0.7821782 + 0.2372372)}` \textcolor{pink}{$\#\mathcal{R}$}
+    - It is difficult to compare two models with different Precision and Recall. So to make them comparable, we use F-Score. 
+    - F-Score is the Harmonic Mean of Precision and Recall. As compared to Arithmetic Mean, Harmonic Mean punishes the extreme values more. F-score should be high.
+
+- Others
+  - \textcolor{pink}{False Positive Rate (FPV) or Type-I Error}
+    - $\text{FPV} = \frac{\text{FP}}{\text{No Event Reference}} = \frac{B}{B + D} = \frac{22}{9667} = 0.002275784 = 1 - \text{Specificity}$
+  
+  
+- Summary
+  - Precision is how certain you are of your true positives. Recall is how certain you are that you are not missing any positives.
+  - Choose Recall if the occurrence of false negatives is unaccepted /intolerable. For example, in the case of diabetes that you would rather have some extra false positives (false alarms) over saving some false negatives.
+  - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
+  - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
+
+
+    
+
+
+### Table {.unlisted .unnumbered}
+
+```{r 'F67T01', echo=FALSE}
+# #Print Kable Table
+hh <- tibble(Predicted_Reference = c("Event_nonNull_Pos", "noEvent_Null_Neg", "Total"),
+             Event_nonNull_Pos = c("TP= A= 79", "FN= C= 254", "A+C= 333"), 
+             noEvent_Null_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
+             Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
+#
+cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix from LDA") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+```
+
+
+### Table Mod {.unlisted .unnumbered}
+
+```{r 'F67T02'}
+# #Matrix | Tibble (Long) | Wide | Rename | Total Row | SUM Column | Arrange Row | Relocate |
+# #Event = "Yes"
+hh <- cmat_def_lda$table %>% as_tibble() %>% 
+  pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  arrange(Prediction_Reference != "Yes") %>% 
+  relocate(Yes, .after = 1) %>% 
+  mutate(Event = c("TP= A", "FN= C", "A+C"), 
+         No_Event = c("FP= B", "TN= D", "B+D"), 
+         xSUM = c("A+B", "C+D", "N= A+B+C+D")) %>% 
+  mutate(Event = paste0(Event, "= ", Yes), 
+         No_Event = paste0(No_Event, "= ", No), 
+         xSUM = paste0(xSUM, "= ", SUM))
+  #mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  #mutate(across(where(is.numeric), format, digits = 3, 
+                #nsmall = 0, replace.zero = TRUE, zero.print = "0", 
+                #drop0trailing = TRUE, scientific = FALSE)) 
+# #Manual 
+hh_tp_a <- cmat_def_lda$table["Yes", "Yes"] #79
+hh_tp_a
+hh_fp_b <- cmat_def_lda$table["Yes", "No"]  #22
+hh_fp_b
+hh_fn_c <- cmat_def_lda$table["No", "Yes"]  #254
+hh_fn_c
+hh_tn_d <- cmat_def_lda$table["No", "No"]   #9645
+hh_tn_d
+hh_n <- hh_tp_a + hh_fp_b + hh_fn_c + hh_tn_d #10000
+hh_n
+hh_sensitivity <- hh_tp_a / (hh_tp_a + hh_fn_c) #0.2372372
+hh_sensitivity
+hh_specificity <- hh_tn_d / (hh_fp_b + hh_tn_d) #0.9977242
+hh_specificity
+#
+cap_hh <- paste0("(F67T02)", " Default: Confusion Matrix from LDA (Arranged Row & Col)") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+```
+
+
+
+### confusionMatrix() {.unlisted .unnumbered}
+
+- \textcolor{pink}{confusionMatrix()}
+  - positive : To indicate which factor level corresponds to a "positive" result i.e. the Event. 
+
+```{r 'F67-LDA-ConfusionMat-Default-1'}
+# #Confusion Matrix
+res_def_lda <- predict(mod_def_lda, type = "response")
+res_def_lda <- predict(mod_def_lda, type = "class")
+
+cmat <- caret::confusionMatrix(data = predict(mod_def_lda, type = "class")$class, 
+                               reference = zzF67Default$default, positive = "Yes")
+#
+# #Available Objects of the List in Model object of class "confusionMatrix" 
+names(cmat)
+#
+# #Factor Level which corresponds to a "positive" result i.e. the Event.
+cmat$positive
+#
+# #Confusion Matrix
+if(FALSE) cmat$table
+if(TRUE) cmat$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# # ?
+names(cmat$overall)
+#
+cmat$overall[["Accuracy"]]
+cmat$overall[["Kappa"]]
+cmat$overall[["AccuracyLower"]]
+cmat$overall[["AccuracyUpper"]]
+cmat$overall[["AccuracyNull"]]
+cmat$overall[["AccuracyPValue"]]
+cmat$overall[["McnemarPValue"]]
+#
+# # ?
+names(cmat$byClass)
+cmat$byClass[["Sensitivity"]]
+cmat$byClass[["Specificity"]]
+cmat$byClass[["Pos Pred Value"]]
+cmat$byClass[["Neg Pred Value"]]
+cmat$byClass[["Precision"]]
+cmat$byClass[["Recall"]]
+cmat$byClass[["F1"]]
+cmat$byClass[["Prevalence"]]
+cmat$byClass[["Detection Rate"]]
+cmat$byClass[["Detection Prevalence"]]
+cmat$byClass[["Balanced Accuracy"]]
+#
+# # ?
+cmat$mode
+#
+# # ?
+cmat$dots
+```
+
+
+### Impact of Positive {.unlisted .unnumbered}
+
+
+```{r 'F67-ConfusionMat-Comparison'}
+ii <- predict(mod_def_lda, type = "response")
+#
+# #Confusion Matrix
+cmat_no <- confusionMatrix(res_def_lda$class, zzF67Default$default, positive = "No")
+cmat_yes <- confusionMatrix(res_def_lda$class, zzF67Default$default, positive = "Yes")
+#
+# #Table is NOT changed. It is in the sequence of Factor Levels
+stopifnot(identical(cmat_no$table, cmat_yes$table))
+cmat_yes$table
+#
+# #However, the Sensitivity, Specificity etc. change based on which level is 'Event'
+tibble(Names = names(cmat$byClass), Yes = cmat_yes$byClass, No = cmat_no$byClass,
+       Match = ifelse(round(abs(Yes - No), 5) < 0.0001, TRUE, ""))
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'F67-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, cmat, cmat_def_glm, cmat_def_lda, cmat_no, cmat_yes, 
+          col_hh, F67P01, F67P02, hh, hh_fn_c, hh_fp_b, hh_n, hh_sensitivity, hh_specificity, 
+          hh_tn_d, hh_tp_a, labels_hh, lgd_hh, loc_png, mod, mod_def_balance, mod_def_dum, 
+          mod_def_exp, mod_def_glm, mod_def_imp, mod_def_lda, mod_def_student, prob_glm, 
+          res_def_glm, res_def_lda, sub_hh, ttl_hh, x_hh, xfw, y_hh, zzF67Default, 
+          zzF67Default_dum, zzF67Smarket)
+```
+
+```{r 'F67-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

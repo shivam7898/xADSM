@@ -1,4 +1,4 @@
-# WIP (B34) {#b34 .unlisted .unnumbered}
+# WIP (B34, Feb-27) {#b34 .unlisted .unnumbered}
 
 ```{r 'B34', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
@@ -42,7 +42,8 @@ xxB34Bank <- f_getRDS(xxB34Bank)
 aa <- xxB34Bank
 #
 bb <- aa %>% 
-  mutate(across(where(is.character) & !c(y), factor)) %>% 
+  #mutate(across(where(is.character) & !c(y), factor)) %>% 
+  mutate(across(where(is.character), factor)) %>% 
   relocate(y) %>% 
   select(-c(job, month))
 #
@@ -58,6 +59,7 @@ set.seed(3)
 #  select_columns = c("marital", "education", "default", "housing", "loan", "contact", "poutcome"), 
 #                      remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
 dum_xfw <- dummy_cols(xfw, 
+  select_columns = c("marital", "education", "default", "housing", "loan", "contact", "poutcome"),
                       remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
 idx_xsyw <- sample.int(n = nrow(dum_xfw), size = floor(0.8 * nrow(dum_xfw)), replace = FALSE)
 train_xfw <- dum_xfw[idx_xsyw, ] 
@@ -83,11 +85,11 @@ if(FALSE) bb %>% select(iFemale, iMarried, iEmergency, iImplant) %>%
 # #Count Unique of all Columns to decide which should be Factors
 if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
 # #Summary of Columns of a class: is.factor is.numeric is.character
-if(TRUE) bb %>% select(!where(is.factor)) %>% summary()
+if(FALSE) bb %>% select(!where(is.factor)) %>% summary()
 # #Names and Indices of Columns of class: is.factor is.numeric is.character
 if(FALSE) which(sapply(bb, is.factor))
 # #Comma separated string having each item within quotes for easy pasting as character not objects
-if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
+if(TRUE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
 # #Levels of Factor Columns
 if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
 # #Frequency of Each level of Factor
@@ -109,8 +111,19 @@ summary(bb)
 
 
 ```{r 'B34-T3', eval=FALSE}
-mod_xfw_glm <- glm(y_yes ~ ., family = binomial, data = train_xfw)
+mod_xfw_glm <- glm(y ~ ., family = binomial, data = train_xfw)
 ```
+
+```{r 'B34-Print-Default-1', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Bank: Y ~ X"
+col_hh <- c("ALL")
+#
+stargazer(mod_xfw_glm, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
 
 
 ```{r 'B34-T4', eval=FALSE}

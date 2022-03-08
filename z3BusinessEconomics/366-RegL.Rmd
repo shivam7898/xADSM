@@ -398,6 +398,7 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
   - \textcolor{pink}{confint()} for Confidence Interval
   - \textcolor{pink}{predict()} for prediction i.e. $\hat{y}$ 
     - It can provide confidence intervals and prediction intervals for given value
+	- If no dataset is supplied, then the training data is used for model prediction
 
 - Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
   - Least squares model for the regression of number of units sold on TV advertising budget for the Advertising data. 
@@ -1829,7 +1830,7 @@ str(mod$effects)
 mod$rank
 stopifnot(identical(mod$qr[["rank"]], mod$rank))
 #
-# #Predicted /Calculated Resonse Y i.e. hat{Y}
+# #Predicted /Calculated Response Y i.e. hat{Y}
 str(mod$fitted.values)
 #
 # # ? 
@@ -1850,27 +1851,27 @@ mod$qr[["pivot"]]
 # # ? 
 mod$qr[["tol"]]
 #
-# #Factor Variables and their Levels (if Implicit Conversion)
+# #Levels of Factor Predictors (if Implicit Conversion)
 mod$xlevels
 #
 # #'terms' is a List of List & is exactly same for Model & Summary: Available Objects of this List
 stopifnot(identical(mod$terms, summary(mod)$terms))
 names(attributes(mod$terms))
 #
-# #List of Variables: Y & X - To be checked if default lm for EAST
+# #List of Variables: Y & X
 attributes(mod$terms)$variables
 stopifnot(identical(attributes(mod$terms)$variables, attributes(mod$terms)$predvars))
 #
-# #Matrix of Coefficients (but obviously missing reference like Region = East)
+# #Matrix of Coefficients (but obviously missing reference levels if explicit)
 attributes(mod$terms)$factors %>% as_tibble(rownames = "Coefficients") 
 #
-# #Only Independent Variables X
+# #Only Predictors X
 attributes(mod$terms)$term.labels
 # # ? 
 attributes(mod$terms)$order
 # # ? It is Always 1. Probably shows either the position of intercept or How Many Intercepts
 attributes(mod$terms)$intercept
-# # ? It is Always 1. Probably shows how many Repsonse Y are in the model
+# # ? It is Always 1. Probably shows how many Response Y are in the model
 attributes(mod$terms)$response
 #
 # #Class and Environment

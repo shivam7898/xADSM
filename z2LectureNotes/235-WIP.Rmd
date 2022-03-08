@@ -1,0 +1,82 @@
+# WIP (B35, Mar-06) {#b35 .unlisted .unnumbered}
+
+```{r 'B35', include=FALSE, cache=FALSE, eval=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Stratified
+
+
+```{r 'B35-T7', eval=FALSE}
+set.seed(3)
+#dum_xfw
+index <- createDataPartition(dum_xfw$y, p = .80, list = FALSE)
+train_strat <- dum_xfw[c(index), ]
+test_strat <- dum_xfw[-c(index), ]
+#
+# #stratified randoam sampling 
+dum_xfw %>% count(y) %>% mutate(PROP = n /sum(n))
+train_strat %>% count(y) %>% mutate(PROP = n /sum(n))
+```
+
+
+
+
+
+## PERFORM LOGISTIC REGRESSION on Stratified data
+
+
+```{r 'B35-T3', eval=FALSE}
+mod_xfw_strat <- glm(y ~ ., family = binomial, data = train_strat)
+```
+
+
+```{r 'B35-T4', eval=FALSE}
+# #Stepwise
+mod_xfw_strat_stp <- step(mod_xfw_strat, direction = "both", trace = 0)
+```
+
+```{r 'B35-Print-Default-1', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Bank: Y ~ X"
+col_hh <- c("ALL", "Stratified", "Strat.Step")
+#
+stargazer(mod_xfw_glm, mod_xfw_strat, mod_xfw_strat_stp, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+## Predict
+
+```{r 'B35-T5', eval=FALSE}
+res_xfw_strat_stp <- test_strat
+res_xfw_strat_stp$calY  <- predict(mod_xfw_strat_stp, test_strat, type  = "response")
+res_xfw_strat_stp <- res_xfw_strat_stp %>% mutate(groupY = ifelse(calY > 0.5, 1, 0)) %>% relocate(calY, groupY) 
+```
+
+
+```{r 'B35-T6', eval=FALSE}
+ii <- with(test_strat, ifelse(y == "yes", 1, 0))
+jj <- predict(mod_xfw_strat_stp, test_strat, type = "response")
+kk <- factor(ifelse(jj > 0.5, "yes", "no"))
+cmat <- caret::confusionMatrix(kk, test_strat$y)
+cmat
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B35-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'B35-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
