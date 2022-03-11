@@ -1,6 +1,6 @@
 Welcome! 
 
-These are the class notes about Statistics and R. 
+These are the reference notes about Data Analytics using Statistics and R. Goal is to build models based on statistical and machine learning methods. I have tried to keep complete code as a set of 'minimum working example', so that you can easily copy and modify it for your own datasets.
 
 Assumption: Working directory has sub-folders named "data", "images", "code", "docs".
 

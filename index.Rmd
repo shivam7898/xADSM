@@ -82,26 +82,19 @@ knitr::write_bib(c(
 
 ## Aside {.unlisted .unnumbered}
 
-I wanted to have a single document containing Notes, Codes, & Output for a quick reference for the lectures. Combination of multiple file formats (docx, csv, xlsx, R, png etc.) was not working out for me. So, I found the Bookdown package to generate this HTML file.
+Originally, I created this repository because I wanted to have a single reference containing notes, codes, models, & output for data analytics. Later it was converted into a learning and collaboration tool because some of the colleagues were facing similar set of problems and the scope of this document was expanded.
 
-All of us had to stumble through some of the most common problems individually and as we are approaching deeper topics, a more collaborative approach might be more beneficial.
-
-Further, the lectures are highly focused and I had to explore subtopics in more details to get the most benefit from them. I have included those topics and I am also interested in knowing about your experiences too.
-
-Towards that goal, I am sharing these notes and hoping that you would run the code in your own environment and would raise any queries, problems, or difference in outcomes. Any suggestion or criticism is welcome. I have tried to not produce any significant changes in your working environment. Please let me know if you observe otherwise. 
-
-Currently, my priority is to get in sync with the ongoing lectures. The time constraint has led to issues given below. These will be corrected as and when possible.
+The time constraint has led to issues given below. These will be corrected as and when possible.
 
 - Tone of the document may be a little abrupt, please overlook that
-- Source references are not added as much as I wanted to (from where I ~~copy/pasted~~ learned) and there is no easy solution for this.
-- I have NOT explained some of the functions before their usage (lapply(), identical() etc.) Hyperlinks for that will be added as and when those topics are covered
+- Source references are not added as much as I wanted to and there is no easy solution for this
+- I have NOT explained some of the functions before their usage e.g. lapply(), identical() etc. Links will be added as and when those topics are covered
 - Code has been checked only on Windows 10. For Mac or Linux, ~~if~~ when you find something that has different output or behaviour, please let me know
-- Although these notes are generated using R Markdown and Bookdown, I have not yet covered these. If you need any help in creating your own notes, please let me know. If I have the solution for your problem, I will share.
 
-Last, but not the least, I am also learning while creating this, so if you think I am wrong somewhere, please point it out. I am always open for suggestions.
+I am always open for suggestions. 
 
 Thank You all for the encouragement.
 
-Shivam
+Shivam Upadhyay
 
 ****
