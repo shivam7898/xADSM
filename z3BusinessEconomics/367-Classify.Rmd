@@ -328,7 +328,7 @@ zzF67Default %>% count(default) %>% mutate(PROP = n/sum(n))
     - The variables student and balance are correlated. 
     - Students tend to hold higher levels of debt, which is in turn associated with higher probability of default. In other words, students are more likely to have large credit card balances, which, as we know, tend to be associated with high default rates. 
     - Thus, even though an individual student with a given credit card balance will tend to have a lower probability of default than a non-student with the same credit card balance, the fact that students on the whole tend to have higher credit card balances means that overall, students tend to default at a higher rate than non-students. 
-    - This is an important distinction for a credit card company that is trying to determine to whom they should offer credit. A student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the same credit card balance!
+    - This is an important distinction for a credit card company that is trying to determine to whom they should offer credit. A student is riskier than a non-student if no information about the credit card balance of the student is available. However, that student is less risky than a non-student with the same credit card balance!
   - Predict
     - Probability for default for a student with a credit card balance of USD 1500 and an income of USD 40000 (i.e. 40 x 1000 USD) is 0.058
     - Probability for default for a non-student with a credit card balance of USD 1500 and an income of USD 40000 (i.e. 40 x 1000 USD) is 0.105
@@ -476,8 +476,11 @@ mod_def_lda <- lda(formula = default ~ ., data = zzF67Default)
 #
 mod_def_lda
 #
+# #Result
+res_def_lda <- predict(mod_def_lda, type = "class")
+#
 # #Confusion Matrix
-cmat_def_lda <- confusionMatrix(predict(mod_def_lda, type = "class")$class, 
+cmat_def_lda <- confusionMatrix(res_def_lda$class, 
                                 reference = zzF67Default$default, positive = "Yes")
 cmat <- cmat_def_lda
 #
@@ -513,15 +516,18 @@ mod$prior
 mod$counts
 #
 # #Group Means estimates of mu_k i.e. average of each predictor within each class
+# #class-specific means for each covariate
 mod$means %>% as_tibble(rownames = "Levels_Y") 
 #
-# #Coefficient Estimates i.e. coefficients of linear discriminants
+# #Coefficient Estimates i.e. coefficients of linear discriminant
+# #the linear combination coefficients for each linear discriminant (k-1)
 mod$scaling %>% as_tibble(rownames = "Coefficients")
 #
 # #Levels of Y
 mod$lev
 #
-# # ?
+# #singular value that gives the ratio of the between- and within- group standard deviations 
+# #...on the linear discriminant variables.
 mod$svd
 #
 # #Observation Count
@@ -566,7 +572,7 @@ attributes(mod$terms)$dataClasses
 
 ## Prediction {.tabset .tabset-fade}
 
-- NOTE: A (TP), B (FP), C (FN), D (TN) counts are different for LDA model and for GLM model
+- NOTE: Counts are different for LDA model and for GLM model in terms of A (TP), B (FP), C (FN), D (TN) 
 
 ### LDA vs. GLM {.unlisted .unnumbered}
 
@@ -612,6 +618,18 @@ str(ii)
 
 ## Confusion Matrix {.tabset .tabset-fade}
 
+```{r 'F67T01', echo=FALSE}
+# #Print Kable Table
+hh <- tibble(Predicted_Reference = c("Event_nonNull_Pos", "noEvent_Null_Neg", "Total"),
+             Event_nonNull_Pos = c("TP= A= 79", "FN= C= 254", "A+C= 333"), 
+             noEvent_Null_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
+             Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
+#
+cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix from LDA") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+```
+
+### Explanations {.unlisted .unnumbered}
 
 - Confusion Matrix has Count of Observations
   - Dataset: Default
@@ -623,6 +641,14 @@ str(ii)
   - Off-diagonal are the misclassifications
     - False Negative (FN) = C = 254
     - False Positive (FP) = B = 22
+  - From epidemiology: 
+    - Event: Positive (Pos) or "+" is the "disease" that we are trying to detect
+    - No Event: Negative (Neg) or "-" is the "non-disease" state
+  - From Hypothesis Testing:
+    - Event: Non-Null or Alternative Hypothesis or "+"
+    - No Event: Null Hypothesis or "-"
+  - Event: Default = "Yes"
+    -  In the context of the Default data, "+" indicates an individual who defaults, and "-" indicates one who does not.
 - Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
   - Depending upon the Factor level that "Event" corresponds to a "positive" result 
     - Event: Default = "Yes"
@@ -634,6 +660,8 @@ str(ii)
   - \textcolor{pink}{Specificity} is the percentage of non-defaulters that are correctly identified
     - $\text{Specificity} = \frac{\text{TN}}{\text{FP} + \text{TN}} = \frac{D}{B + D} = \frac{9645}{22 + 9645} = \frac{9645}{9667} = 1 - \frac{B}{B + D} = 1 - \frac{22}{9667} = 0.9977242$
     - Specificity determines the proportion of actual negatives that are correctly identified.
+    - \textcolor{pink}{False Positive Rate (FPV) or Type-I Error or (1 - Specificity)}
+      - $\text{FPV} = \frac{\text{FP}}{\text{No Event Reference}} = \frac{B}{B + D} = \frac{22}{9667} = 0.002275784 = 1 - \text{Specificity}$
   - \textcolor{pink}{Prevalence} 
     - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
   - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
@@ -661,33 +689,12 @@ str(ii)
     - It is difficult to compare two models with different Precision and Recall. So to make them comparable, we use F-Score. 
     - F-Score is the Harmonic Mean of Precision and Recall. As compared to Arithmetic Mean, Harmonic Mean punishes the extreme values more. F-score should be high.
 
-- Others
-  - \textcolor{pink}{False Positive Rate (FPV) or Type-I Error}
-    - $\text{FPV} = \frac{\text{FP}}{\text{No Event Reference}} = \frac{B}{B + D} = \frac{22}{9667} = 0.002275784 = 1 - \text{Specificity}$
-  
-  
+
 - Summary
   - Precision is how certain you are of your true positives. Recall is how certain you are that you are not missing any positives.
   - Choose Recall if the occurrence of false negatives is unaccepted /intolerable. For example, in the case of diabetes that you would rather have some extra false positives (false alarms) over saving some false negatives.
   - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
   - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
-
-
-    
-
-
-### Table {.unlisted .unnumbered}
-
-```{r 'F67T01', echo=FALSE}
-# #Print Kable Table
-hh <- tibble(Predicted_Reference = c("Event_nonNull_Pos", "noEvent_Null_Neg", "Total"),
-             Event_nonNull_Pos = c("TP= A= 79", "FN= C= 254", "A+C= 333"), 
-             noEvent_Null_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
-             Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
-#
-cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix from LDA") 
-f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
-```
 
 
 ### Table Mod {.unlisted .unnumbered}
@@ -741,10 +748,9 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 
 ```{r 'F67-LDA-ConfusionMat-Default-1'}
 # #Confusion Matrix
-res_def_lda <- predict(mod_def_lda, type = "response")
 res_def_lda <- predict(mod_def_lda, type = "class")
-
-cmat <- caret::confusionMatrix(data = predict(mod_def_lda, type = "class")$class, 
+#
+cmat <- caret::confusionMatrix(data = res_def_lda$class, 
                                reference = zzF67Default$default, positive = "Yes")
 #
 # #Available Objects of the List in Model object of class "confusionMatrix" 
@@ -797,20 +803,160 @@ cmat$dots
 
 
 ```{r 'F67-ConfusionMat-Comparison'}
-ii <- predict(mod_def_lda, type = "response")
-#
 # #Confusion Matrix
-cmat_no <- confusionMatrix(res_def_lda$class, zzF67Default$default, positive = "No")
-cmat_yes <- confusionMatrix(res_def_lda$class, zzF67Default$default, positive = "Yes")
+cmat_no <- confusionMatrix(res_def_lda$class, reference = zzF67Default$default, positive = "No")
+cmat_yes <- confusionMatrix(res_def_lda$class, reference = zzF67Default$default, positive = "Yes")
 #
 # #Table is NOT changed. It is in the sequence of Factor Levels
 stopifnot(identical(cmat_no$table, cmat_yes$table))
 cmat_yes$table
 #
 # #However, the Sensitivity, Specificity etc. change based on which level is 'Event'
-tibble(Names = names(cmat$byClass), Yes = cmat_yes$byClass, No = cmat_no$byClass,
-       Match = ifelse(round(abs(Yes - No), 5) < 0.0001, TRUE, ""))
+tibble(Names = names(cmat$byClass), 
+     Yes = round(cmat_yes$byClass, 4), No = round(cmat_no$byClass, 4),
+     Change = No - Yes)
 ```
+
+
+## Modify Classifier Threshold
+
+- The Bayes classifier works by assigning an observation to the class for which the posterior probability $p_k(X)$ is greatest. 
+  - In the two-class case, this amounts to assigning an observation to the default class if Pr(default = Yes|X = x) > 0.5. 
+  - Thus, the Bayes classifier, and by extension LDA, uses a threshold of 50% for the posterior probability of default in order to assign an observation to the default class. 
+  - However, if we are concerned about incorrectly predicting the default status for individuals who default, then we can consider lowering this threshold. 
+    - For instance, we might label any customer with a posterior probability of default above 20% to the default class. 
+    - i.e. We can assign an observation to the default class if Pr(default = Yes|X = x) > 0.2
+
+- Modified threshold value that predicts default for any individuals whose posterior default probability exceeds 20% i.e. (Yes till 80%)
+  - Now LDA predicts that 425 individuals will default. Of the 333 individuals who default, LDA correctly predicts all but 140 (140/333 = 42%). 
+  - This is a vast improvement over the error rate of 76.3% (254/333) that resulted from using the threshold of 50%. 
+  - However, this improvement comes at a cost: now 232 individuals who do not default are incorrectly classified.
+  - As a result, the overall error rate has increased slightly to 3.72% (1 - Accuracy = 1 - 0.9628). 
+  - But a credit card company may consider this slight increase in the total error rate to be a small price to pay for more accurate identification of individuals who do indeed default.
+
+
+```{r 'F67-LDA-Default-2'}
+# #Confusion Matrix with 50% probability (default)
+cmat_def_lda <- confusionMatrix(res_def_lda$class, 
+                                reference = zzF67Default$default, positive = "Yes")
+#
+# #Posterior Probability less than 0.5 is assigned to Yes 
+round(res_def_lda$posterior[170:175], 3)
+res_def_lda$class[170:175]
+#
+# #Confusion Matrix with 50% probability (manual assignment)
+res_def_lda_50 <- factor(ifelse(res_def_lda$posterior[ , 1] > 0.5, "No", "Yes"), 
+                         levels = c("No", "Yes"))
+cmat_def_lda_50 <- confusionMatrix(res_def_lda_50, 
+                                reference = zzF67Default$default, positive = "Yes")
+# #Verify
+stopifnot(identical(cmat_def_lda$byClass, cmat_def_lda_50$byClass))
+stopifnot(identical(cmat_def_lda$table, cmat_def_lda_50$table))
+#
+# #Confusion Matrix
+if(TRUE) cmat_def_lda_50$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+# #Confusion Matrix with increased zone for Yes (we are more interested in catching the defaults)
+# #i.e. posterior probability increased to 0.8 (Equivalent of Book 0.2)
+res_def_lda_80 <- factor(ifelse(res_def_lda$posterior[ , 1] > 0.8, "No", "Yes"), 
+                         levels = c("No", "Yes"))
+cmat_def_lda_80 <- confusionMatrix(res_def_lda_80, 
+                                reference = zzF67Default$default, positive = "Yes")
+#
+# #Confusion Matrix
+if(TRUE) cmat_def_lda_80$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# #Compare Accuracy: 0-0.5 vs. 0-0.8
+if(TRUE) cmat_def_lda_50$overall[["Accuracy"]]
+if(TRUE) cmat_def_lda_80$overall[["Accuracy"]]
+#
+# #Class Comparisons: 0-0.5 vs. 0-0.8
+tibble(Names = names(cmat_def_lda_50$byClass), 
+     P50 = round(cmat_def_lda_50$byClass, 4), P80 = round(cmat_def_lda_80$byClass, 4),
+     Change = P80 - P50)
+```
+
+## QDA {.tabset .tabset-fade}
+
+- Quadratic Discriminant Analysis (QDA)
+  - As we have discussed, LDA assumes that the observations within each class are drawn from a multivariate Gaussian distribution with a class specific mean vector and a covariance matrix that is common to all K classes. 
+  - QDA provides an alternative approach. 
+  - Like LDA, the QDA classifier results from assuming that the observations from each class are drawn from a Gaussian distribution, and plugging estimates for the parameters into Bayes theorem in order to perform prediction. 
+  - However, unlike LDA, QDA assumes that each class has its own covariance matrix. 
+
+- LDA vs. QDA: The bias-variance trade-off
+  - When there are p predictors, then estimating a covariance matrix requires estimating $p(p+1)/2$ parameters. 
+  - QDA estimates a separate covariance matrix for each class, for a total of $Kp(p+1)/2$ parameters. As the K increases, this number also becomes large. 
+  - By assuming that the K classes share a common covariance matrix, the LDA model becomes linear in x, which means there are $Kp$ linear coefficients to estimate. 
+  - Consequently, LDA is a much less flexible classifier than QDA, and so has substantially lower variance. This can potentially lead to improved prediction performance. 
+  - But there is a trade-off: if assumption of LDA that the K classes share a common covariance matrix is badly off, then LDA can suffer from high bias. 
+  - Roughly speaking, LDA tends to be a better bet than QDA if there are relatively few training observations and so reducing variance is crucial. In contrast, QDA is recommended if the training set is very large, so that the variance of the classifier is not a major concern, or if the assumption of a common covariance matrix for the K classes is clearly untenable.
+
+- Dataset Default - QDA vs. LDA
+  - Sensitivity improved, Specificity decreased slightly
+  - Accuracy improved slightly
+
+### Model {.unlisted .unnumbered}
+
+```{r 'F67-QDA-Default-1'}
+# #QDA
+mod_def_qda <- qda(formula = default ~ ., data = zzF67Default)
+#
+mod_def_qda
+#
+# #Result
+res_def_qda <- predict(mod_def_qda, type = "class")
+#
+# #Confusion Matrix
+cmat_def_qda <- confusionMatrix(res_def_qda$class, 
+                                reference = zzF67Default$default, positive = "Yes")
+cmat <- cmat_def_qda
+#
+# #Confusion Matrix
+if(TRUE) cmat$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# #Compare Accuracy: LDA vs. QDA
+if(TRUE) cmat_def_lda$overall[["Accuracy"]]
+if(TRUE) cmat_def_qda$overall[["Accuracy"]]
+#
+# #Class Comparisons: LDA vs. QDA
+tibble(Names = names(cmat_def_qda$byClass), 
+     LDA = round(cmat_def_lda$byClass, 4), QDA = round(cmat_def_qda$byClass, 4),
+     Change = QDA - LDA)
+```
+
+
+## Naive Bayes
+
+- In general, estimating a p-dimensional density function is challenging. 
+  - In LDA, we make a very strong assumption that greatly simplifies the task: we assume that $f_k$ is the density function for a multivariate normal random variable with class-specific mean ${\mu}_k$, and shared covariance matrix $\sum$. 
+  - By contrast, in QDA, we assume that $f_k$ is the density function for a multivariate normal random variable with class-specific mean ${\mu}_k$, and class-specific covariance matrix $\sum_k$. 
+  - By making these very strong assumptions, we are able to replace the very challenging problem of estimating K p-dimensional density functions with the much simpler problem of estimating K p-dimensional mean vectors and one (in the case of LDA) or K (in the case of QDA) $(p \times p)$-dimensional covariance matrices.
+
+- The naive Bayes classifier
+  - Instead of assuming that these functions belong to a particular family of distributions (e.g. multivariate normal), we instead make a single assumption: 
+  - \textcolor{pink}{Within the $k^{th}$ class, the p predictors are independent.}
+
+- Why is this assumption so powerful
+  - Essentially, estimating a p-dimensional density function is challenging because we must consider not only the \textcolor{pink}{marginal distribution} of each predictor — that is, the distribution of each predictor on its own — but also the \textcolor{pink}{joint distribution} of the predictors — that is, the association between the different predictors. 
+  - In the case of a multivariate normal distribution, the association between the different predictors is summarized by the off-diagonal elements of the covariance matrix. 
+  - However, in general, this association can be very hard to characterize, and exceedingly challenging to estimate. But by assuming that the p covariates are independent within each class, we completely eliminate the need to worry about the association between the p predictors, because we have simply assumed that there is no association between the predictors.
+
+- Do we really believe the naive Bayes assumption that the p covariates are independent within each class
+  - In most settings, we do not. 
+  - But even though this modeling assumption is made for convenience, it often leads to pretty decent results, especially in settings where n is not large enough relative to p for us to effectively estimate the joint distribution of the predictors within each class. 
+  - In fact, since estimating a joint distribution requires such a huge amount of data, naive Bayes is a good choice in a wide range of settings. 
+  - Essentially, the naive Bayes assumption introduces some bias, but reduces variance, leading to a classifier that works quite well in practice as a result of the bias-variance trade-off.
+  
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
