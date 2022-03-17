@@ -13,22 +13,37 @@ github-repo: "shivam7898/xADSM"
 subtitle: "ADSM: Statistics and R"
 ---
 
-# About {#FIRST .unnumbered .tabset .tabset-fade} 
+# About {#FIRST .unnumbered} 
 [Goto LAST](#LAST "End of the Document")
 
-~~"Copy/Paste is the mother of learning."~~  
-"Repetition! Repetition is the mother of learning."
+> Repetition! Repetition! is the mother of learning.^~~Copy / Paste is the mother of learning.~~^ 
 
 Sources: [GitHub](https://github.com/shivam7898/xADSM/tree/main/docs "https://github.com") | [Google Drive](https://drive.google.com/drive/folders/1KS69a-U_64OkVbIr9VKhxu97HBPzbVsz?usp=sharing "https://drive.google.com") | [OneDrive](https://1drv.ms/u/s!AjRu26ZthlQCitEmPzybZMV0tISo5w?e=JFE5ju "https://onedrive.live.com")
 
 \textcolor{pink}{Caution:}  
-The HTML File access internet to render LaTex Equations via MathJax. Thus, equations will NOT be rendered properly if the file is viewed offline. Otherwise, the file is a standalone document containing all the relevant images, tables and codes to generate them.
+The HTML File access MathJax via internet to render LaTex Equations. Thus, equations will NOT be rendered properly if the file is viewed offline. Otherwise, the file is a standalone document containing all the relevant images, tables and codes to generate them.
 
-\textcolor{pink}{Disclaimer:}  
+## Preface {.unnumbered}
+
+Originally, I created this repository to have a single reference containing notes, codes, models, and output for data analytics. Later it was converted into a learning tool for others and subsequently its scope was expanded. I have tried to keep complete code as a set of 'minimum working example', so that anyone can easily copy and modify it for their own datasets.
+
+Proper reference to the original source may sometimes be lacking. This is regrettable and these references will be included in later versions.
+
 This document is a collection of multiple lecture notes, books, and online material. The current status of the document is 'work-in-progress' as it is incomplete and it may contain inconsistencies and errors. 
 
-\textcolor{pink}{Attribution:}  
-Proper reference to the original source may sometimes be lacking. This is regrettable and these references – if ever known to the author – will be included in later versions.
+The code has been checked only on Windows 10. For Mac or Linux, ~~if~~ when you find something that has different output or behavior, please let me know.
+
+I am always open for suggestions. Thank You all for the encouragement.
+
+Shivam Upadhyay
+
+
+****
+
+
+## Environment {.unnumbered .tabset .tabset-fade}
+
+\textcolor{pink}{Assumption: Working directory has sub-folders named "data", "images", "code", "docs".}
 
 <!-- This is a comment. -->
 
@@ -40,10 +55,6 @@ sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 # #Source ALL Functions
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ```
-
-## Environment {.unnumbered .tabset .tabset-fade}
-
-\textcolor{pink}{Assumption: Working directory has sub-folders named "data", "images", "code", "docs".}
 
 ### R Version {.unlisted .unnumbered}
 
@@ -79,22 +90,5 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
-
-## Aside {.unlisted .unnumbered}
-
-Originally, I created this repository because I wanted to have a single reference containing notes, codes, models, & output for data analytics. Later it was converted into a learning and collaboration tool because some of the colleagues were facing similar set of problems and the scope of this document was expanded.
-
-The time constraint has led to issues given below. These will be corrected as and when possible.
-
-- Tone of the document may be a little abrupt, please overlook that
-- Source references are not added as much as I wanted to and there is no easy solution for this
-- I have NOT explained some of the functions before their usage e.g. lapply(), identical() etc. Links will be added as and when those topics are covered
-- Code has been checked only on Windows 10. For Mac or Linux, ~~if~~ when you find something that has different output or behaviour, please let me know
-
-I am always open for suggestions. 
-
-Thank You all for the encouragement.
-
-Shivam Upadhyay
 
 ****
