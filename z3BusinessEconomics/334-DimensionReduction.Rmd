@@ -1080,18 +1080,36 @@ xxC34Adult <- bb
 f_setRDS(xxC34Adult)
 ```
 
-### Merge Factor Levels {.unlisted .unnumbered}
+### Merge Factor Levels {#ref-merge-factor-c34 .unlisted .unnumbered}
 
-```{r 'C34-Merge', eval=FALSE}
-# #Levels of each Factor Variable
-#lapply(aa[ , sapply(aa, is.factor)], levels)
-#levels(aa$marital_status)
-summary(aa$marital_status)
-ii <- aa %>% select(marital_status) %>% 
-  mutate(marital_status = 
-    fct_collapse(marital_status, 
-      Married = c("Married-civ-spouse", "Married-spouse-absent", "Married-AF-spouse")))
-#summary(ii$marital_status)
+```{r 'C34-Merge-Factors', eval=FALSE}
+# #Alphabetical sorting by default i.e. No = 1, Yes = 2 but we want Yes = 1, No = 2
+# #"H" should be converted to NA
+bb <- tibble(x = factor(c("Y", "Yes", "Y", "N", "No", "H", NA)))
+bb$x
+#
+# #Alphabetical sorting by default, use fct_inorder() for 'in order of appearance' 
+ii <- bb %>% mutate(x = fct_collapse(fct_inorder(x), No = c("No", "N"), Yes = c("Yes", "Y"), NULL = c("H")))
+#
+# #Alphabetical sorting by default, use fct_inorder() for 'in order of appearance' 
+jj <- bb %>% mutate(x = fct_recode(fct_inorder(x), Yes = "Y", No = "N", NULL = "H"))
+#
+# #As provided in levels, Not Alphabetical #Current in use
+kk <- bb %>% mutate(across(x, factor, levels = c("Y", "Yes", "N", "No"), 
+                           labels = c("Yes", "Yes", "No", "No"))) 
+#
+# #As provided in List, Not Alphabetical
+ll <- bb
+levels(ll$x) <- list(Yes = c("Yes", "Y"), No = c("No", "N"))
+#
+# #Modify only the relevant levels. However, due to the use of indexing it might be error prone
+# #Levels are as given in original (alphabetical), would require another step to be identical
+mm <- bb
+levels(mm$x)[c(1, 2, 4)] <- c(NA, "No", "Yes")
+mm$x
+#
+stopifnot(all(identical(ii, jj), identical(ii, kk), identical(ii, ll)))
+ii$x 
 ```
 
 ### Check Numeric {.unlisted .unnumbered}

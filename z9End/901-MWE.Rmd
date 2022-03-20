@@ -16,8 +16,9 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [How to Load Packages](#loadpkg-z01 "z01")
 - [How to Copy Clipboard as Tibble](#load-data-z01 "z01")
 - [How to Generate correlated vectors of normal distribution](#cor-vec-z01 "z01")
-- [How to Count Unique Values in ALL Columns](#n-uniq-z01  "z01")
-- [How to Rename ALL Headers to Proper Names](#rename-z01  "z01")
+- [How to Count Unique Values in ALL Columns](#n-uniq-z01 "z01")
+- [How to Rename ALL Headers to Proper Names](#rename-z01 "z01")
+- [How to Merge Factor Levels](#merge-factor-level-z01 "z01")
 
 ## Load Multiple Packages {#loadpkg-z01 .tabset .tabset-fade}
 
@@ -92,6 +93,21 @@ bb <- aa %>% rename_with(make.names) %>%
   rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) 
 ```
 
+## Merge Factor Levels {#merge-factor-level-z01 .tabset .tabset-fade}
+
+- Refer [abc ](#ref-merge-factor-c34 "c34")
+
+
+```{r 'Z01-Merge-Factor-Levels'}
+# #Alphabetical sorting by default i.e. No = 1, Yes = 2 but we want Yes = 1, No = 2
+# #"H" should be converted to NA
+bb <- tibble(x = factor(c("Y", "Yes", "Y", "N", "No", "H", NA)))
+bb$x
+#
+ii <- bb %>% mutate(across(x, factor, levels = c("Y", "Yes", "N", "No"), 
+                           labels = c("Yes", "Yes", "No", "No"))) 
+ii$x
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

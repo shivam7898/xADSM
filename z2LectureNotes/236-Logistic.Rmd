@@ -1,4 +1,4 @@
-# WIP (B36, Mar-13) {#b36 .unlisted .unnumbered}
+# Logistic Regression (B36, Mar-13) {#b36 .unlisted .unnumbered}
 
 ```{r 'B36', include=FALSE, cache=FALSE, eval=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
