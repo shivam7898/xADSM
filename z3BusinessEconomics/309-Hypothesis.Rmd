@@ -275,9 +275,10 @@ Example: The label on a can of Hilltop Coffee states that the can contains 3 pou
     - As a result, the probability of obtaining a value of ${\overline{x}}$ that is 3 or more standard errors below the hypothesized population mean ${\mu}_0 = 3$ is also 0.0013. i.e. Such a result is unlikely if the null hypothesis is true. 
 
 
-```{definition '1s-known-sd'}
+```{definition 'H-1s-known-sd'}
 If ${\sigma}$ is known, the standard normal random variable \textcolor{pink}{${z}$ is used as test statistic} to determine whether ${\overline{x}}$ deviates from the hypothesized value of ${\mu}$ enough to justify rejecting the null hypothesis. Refer equation \@ref(eq:z-sd) $\to z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} =  \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}}$
 ```
+
 
 \begin{equation}
   z = \frac{\overline{x} - {\mu}_0}{{\sigma}_{\overline{x}}} = \frac{\overline{x} - {\mu}_0}{{\sigma}/\sqrt{n}}
@@ -510,11 +511,13 @@ Ex: Golf company
 "ForLater" - Exercises
 
 
-## Unknown SD  {#get-pt-c09}
+## Unknown SD {#get-pt-c09}
 
-```{definition '1s-unknown-sd'}
-If ${\sigma}$ is unknown, the sampling distribution of the test statistic follows the \textcolor{pink}{t distribution} with $(n - 1)$ degrees of freedom. Refer equation \@ref(eq:t-nsd) $\to t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}$
+
+```{definition 'H-1s-unknown-sd'}
+If ${\sigma}$ is unknown, the sampling distribution of the test statistic follows the \textcolor{pink}{t distribution} with $(n - 1)$ degrees of freedom. Refer equation \@ref(eq:t-nsd) $t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}$ 
 ```
+
 
 \begin{equation}
   t = \frac{{\overline{x}} - {\mu}_0}{{s}/\sqrt{n}}

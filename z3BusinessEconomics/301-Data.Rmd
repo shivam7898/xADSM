@@ -43,6 +43,7 @@ Hence, the total number of data items can be determined by multiplying the numbe
 ## Scales of Measurement {#scales-c01}
 
 Data collection requires one of the following scales of measurement: nominal, ordinal, interval, or ratio. 
+
 ```{definition 'Scale-of-Measurement'}
 The \textcolor{pink}{scale of measurement} determines the amount of information contained in the data and indicates the most appropriate data summarization and statistical analyses.  
 ```
