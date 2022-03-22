@@ -1,12 +1,19 @@
-# Logistic Regression (B34, Feb-27) {#b34 .unlisted .unnumbered}
+# Logistic Regression (B34, Feb-27) {#b34}
 
-```{r 'B34', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B34', include=FALSE, cache=FALSE}
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
+## Packages
+
+```{r 'B34-Installations', include=FALSE, eval=FALSE}
+if(FALSE){# #WARNING: Installation may take some time.
+  install.packages("ROSE", dependencies = TRUE)
+}
+```
 
 ## Data: Bank {#set-bank-b34 .tabset .tabset-fade}
 
@@ -24,6 +31,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - loan: has personal loan (categorical: "no", "yes")
   - related with the last contact of the current campaign:
     - day: It looks like the date of the month because [1, 31]
+    - month: corresponding month
     - duration: last contact duration, in seconds (numeric). 
       - \textcolor{orange}{Caution:} This attribute highly affects the output target (e.g., if duration=0 then y="no"). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for benchmark purposes and should be discarded if the intention is to have a realistic predictive model.
   - other attributes:
@@ -38,7 +46,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
       - The "other" should be merged with "unknown"
 
 
-```{r 'F67-Data-Bank', include=FALSE, eval=FALSE}
+```{r 'B34-Data-Bank', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B34-bank-full.csv"))
 #xxB34Bank <- f_getObject("xxB34Bank", "B34-bank-full.csv",
                                 #"e6b0ca77f3f200ec5428e04dd104da53")
@@ -50,7 +58,7 @@ attr(tbl, "problems") <- NULL
 saveRDS(tbl, loc_rds)
 ```
 
-```{r 'F67-Save-Bank', include=FALSE, eval=FALSE}
+```{r 'B34-Save-Bank', include=FALSE, eval=FALSE}
 f_setRDS(xxB34Bank)
 ```
 
@@ -62,9 +70,8 @@ f_setRDS(xxB34Bank)
 
 - Cannot subset a Tibble using Matrix. Convert to a vector.
 
-```{r 'F67-Get-Bank', include=FALSE}
+```{r 'B34-Get-Bank'}
 xxB34Bank <- f_getRDS(xxB34Bank)
-#""  "" ""
 # #Factor | Relocate Response | Drop
 xfw <- xxB34Bank %>% 
   #mutate(across(where(is.character) & !c(y), factor)) %>% 
@@ -81,6 +88,8 @@ xfw <- xxB34Bank %>%
                 levels = c("cellular", "telephone", "unknown"), 
                 labels = c("cell", "tele", "q"))) %>% 
   rename(call = contact) %>% 
+  mutate(across(poutcome, factor, levels = c("failure", "success", "other", "unknown"), 
+                           labels = c("fail", "pass", "q", "q"))) %>%  
   mutate(across(where(is.character), factor)) %>% 
   relocate(y) %>% 
   select(-c(job, month))
@@ -104,20 +113,20 @@ test_bank <- test_xfw
 
 ### Structure {.unlisted .unnumbered}
 
-```{r 'F67-Structure-Bank'}
+```{r 'B34-Structure-Bank'}
 str(xbank)
 ```
 
 ### Summary {.unlisted .unnumbered}
 
-```{r 'F67-Summary-Bank'}
+```{r 'B34-Summary-Bank'}
 summary(xbank)
 ```
 
 
 ### ETC {.unlisted .unnumbered}
 
-```{r 'F67-ETC', include=TRUE, eval=FALSE}
+```{r 'B34-ETC', include=TRUE, eval=FALSE}
 bb <- xfw
 # #Count NA in Columns
 if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
@@ -125,7 +134,7 @@ if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value >
 if(FALSE) bb %>% select(1) %>% slice(1:10)
 # #Comma separated string having each item within quotes for easy pasting as character not objects
 if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
-if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+if(FALSE) cat('"', paste0(levels(bb$poutcome), collapse = '", "'), '"\n', sep = '')
 # #Filter
 if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
 # #Count Yes/No or True/False in ALL such Columns
@@ -139,55 +148,214 @@ if(FALSE) bb %>% select(where(is.factor)) %>% summary()
 # #Names and Indices of Columns of class: is.factor is.numeric is.character
 if(FALSE) which(sapply(bb, is.factor))
 # #Levels of Factor Columns
-if(TRUE) lapply(bb["poutcome"], levels)
+if(FALSE) lapply(bb["poutcome"], levels)
 if(FALSE) lapply(bb[c(3)], levels)
 # #Frequency of Each level of Factor
-if(TRUE) bb %>% count(poutcome) %>% arrange(desc(n))
+if(FALSE) bb %>% count(poutcome) %>% arrange(desc(n))
 # #Coding for Dummy Variables
 if(FALSE) contrasts(bb$Married) 
 ```
 
 
-
-## Classification
+## Logistic Regression
 
 ```{r 'B34D01', comment="", echo=FALSE, results='asis'}
 f_getDef("Classification") #dddd
 ```
 
+- Logistic Curve between Response and Predictor is S-shaped curve (sigmoid)
+  - The most basic Logistic Function: $f(x) = \frac{1}{1+e^{-x}}$
+  - Unlike, linear regression where this curve is a straight line with range of $(-\infty, +\infty)$
+  - Because, the response calculated is a probability of belonging to a certain 'class', thus its range is (0, 1). 
+
+- \textcolor{pink}{Question:} Can we convert a response variable of Continuous nature to Categorical
+  - Yes, e.g. Sales, we can define a criteria of low, medium, high sales (Binning)
+  - However, Generally conversion from categorical to continuous is either not possible or not meaningful
+
+- \textcolor{pink}{Logistic Function: $p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}} = \frac{\text{Odds}}{1 + \text{Odds}} \in [0, 1]$}
+
+- \textcolor{pink}{$\text{Odds} = e^{\beta_0 + \beta_1 X} = \frac{p(X)}{1 - p(X)} \in [0, \infty]$}
+  - The odds are defined as the probability that the event will occur divided by the probability that the event will not occur. 
+    - If a race horse runs 100 races and wins 5 times and loses the other 95 times. $p(\text{win}) = 0.05 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.05}{1 - 0.05} = 0.0526$.
+  - If a race horse runs 100 races and wins 25 times and loses the other 75 times. $p(\text{win}) = 0.25 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.25}{1 - 0.25} = 0.333$, or 1 win to 3 loses.
+  - If a race horse runs 100 races and wins 50 times and loses the other 50 times. $p(\text{win}) = 0.50 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.50}{1 - 0.50} = 1$, or \textcolor{pink}{even odds}.
+  - If a race horse runs 100 races and wins 80 times and loses the other 20 times. $p(\text{win}) = 0.80 \leftrightarrow \text{odds}_{\text{win}} = \frac{0.80}{1 - 0.80} = 4$, or 4 win to 1 loses.
+
+- \textcolor{pink}{Log odds or Logit: $\log\left( \frac{p(X)}{1 - p(X)} \right) = \beta_0 + \beta_1 X$}
+  - Recall that in a linear regression model, $\beta_1$ gives the average change in Y associated with a one-unit increase in X. 
+  - By contrast, in a logistic regression model, increasing X by one unit changes the log odds by $\beta_1$. Equivalently, it multiplies the odds by $e^{\beta_1}$. 
+  - However, in logistic regression, because the relationship between p(X) and X is not a straight line, $\beta_1$ does not correspond to the change in p(X) associated with a one-unit increase in X. 
+  - The amount that p(X) changes due to a one-unit change in X depends on the current value of X. But regardless of the value of X, if $\beta_1$ is positive then increasing X will be associated with increasing p(X), and if $\beta_1$ is negative then increasing X will be associated with decreasing p(X).
+
+- \textcolor{pink}{Question:} What is the meaning of 0 logit or log odds (for a binary response)
+  - $\log(\text{Odds}) = 0 \leftrightarrow \text{Odds} = 1 \leftrightarrow p(X) = 0.5$
+  - It means equal odds for event or no-event. In other words, both outcome have equal probability.
 
 
-## PERFORM LOGISTIC REGRESSION
+- Binomial Logistic Regression has two classes or levels of Response variable.
+- \textcolor{pink}{Multinomial logistic regression} extends the two-class logistic regression approach to the setting of K > 2 classes (response variable with more than two classes). 
 
+- Like dummy, we select a class to serve as baseline.
+- \textcolor{orange}{Caution:} By default, R takes the First class level as the baseline.
 
-```{r 'B34-T3', eval=FALSE}
-mod_xfw_glm <- glm(y ~ ., family = binomial, data = train_xfw)
+- To evaluate a logistic regression model, we use \textcolor{pink}{mis-classification error} because RMSE is not applicable.
+
+## Confusion Matrix
+
+```{r 'B34T01', echo=FALSE}
+# #Print Kable Table: Refer F67T01
+hh <- tibble(Predicted_Reference = c("Event_nonNull_Case_Pos", "noEvent_Null_Control_Neg", "Total"),
+             Event_nonNull_Case_Pos = c("TP= A= 79", "FN= C= 254", "A+C= 333"), 
+             noEvent_Null_Control_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
+             Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
+#
+cap_hh <- paste0("(B34T01)", " Default: Confusion Matrix") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 ```
 
-```{r 'B34-Print-Default-1', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+- Refer [Confusion Matrix](#confusion-f67 "f67")
+- Confusion Matrix has Count of Observations
+  - Dataset: Default
+  - Reference ${y}$ as Columns 
+  - Prediction $\hat{y}$ as Rows 
+  - Diagonal has the observations which have been correctly predicted i.e. $y = \hat{y}$
+    - True Negative (TN) = D = 9645
+    - True Positive (TP) = A = 79
+  - Off-diagonal are the misclassifications
+    - False Negative (FN) = C = 254
+    - False Positive (FP) = B = 22
+  - From epidemiology: 
+    - Event: Positive (Pos) or "+" is the "disease" that we are trying to detect
+    - No Event: Negative (Neg) or "-" is the "non-disease" state
+  - From Hypothesis Testing:
+    - Event: Non-Null or Alternative Hypothesis or "+"
+    - No Event: Null Hypothesis or "-"
+  - Event: Default = "Yes"
+    -  In the context of the Default data, "+" indicates an individual who defaults, and "-" indicates one who does not.
+  - Case - Control 
+    - Event: Case or Hit is the group that we are trying to detect
+    - No Event: Control or Miss is the group which we do not want to detect
+
+
+- Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
+  - Depending upon the Factor level that "Event" corresponds to a "positive" result 
+    - Event: Default = "Yes"
+  - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
+    - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
+      - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
+      - Recall is defined as the ratio of the total number of correctly classified positive classes divide by the total number of positive classes. 
+      - i.e. Out of all the positive classes, how much we have predicted correctly. 
+  - \textcolor{pink}{Specificity} is the percentage of non-defaulters that are correctly identified
+    - $\text{Specificity} = \frac{\text{TN}}{\text{FP} + \text{TN}} = \frac{D}{B + D} = \frac{9645}{22 + 9645} = \frac{9645}{9667} = 1 - \frac{B}{B + D} = 1 - \frac{22}{9667} = 0.9977242$
+    - Specificity determines the proportion of actual negatives that are correctly identified.
+    - \textcolor{pink}{False Positive Rate (FPV) or Type-I Error or (1 - Specificity)}
+      - $\text{FPV} = \frac{\text{FP}}{\text{No Event Reference}} = \frac{B}{B + D} = \frac{22}{9667} = 0.002275784 = 1 - \text{Specificity}$
+  - \textcolor{pink}{Prevalence} 
+    - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
+  - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
+    - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - Specificity) \times (1 - Prevalence))} = 0.782177$
+    - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
+    - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
+    - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
+    - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
+    - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
+  - \textcolor{pink}{Negative Predictive Value (NPV)} 
+    - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((Specificity) \times (1 - Prevalence))} = 0.9743408$    
+    - `{0.9977242 * (1 - 0.0333) / ((1 - 0.2372372) * 0.0333 + (0.9977242 * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
+    - $\text{NPV} = \frac{D}{C+D} = \frac{9645}{254 + 9645} = 0.9743408$
+  - \textcolor{pink}{Detection Rate} 
+    - $\text{Detection Rate} = \frac{\text{TP}}{Total} = \frac{A}{N} = \frac{79}{10000} = 0.0079$
+    - Out of total number of cases, how many cases in the target category predicted correctly (TP)
+  - \textcolor{pink}{Detection Prevalence} 
+    - $\text{Detection Prevalence} = \frac{\text{Event Predicted}}{\text{Total}} = \frac{A + B}{N} = \frac{101}{10000} = 0.0101$
+    - Out of total number of cases, how many cases predicted as target cases. 
+  - \textcolor{pink}{Balanced Accuracy} 
+    - $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{0.2372372 + 0.9977242}{2} = 0.6174807$
+  - \textcolor{pink}{F-score (F1)}, with $\beta = 1$
+    - $\text{F1} = \frac{(1 + \beta^2) \times \text{Precision} \times \text{Recall}}{((\beta^2 \times \text{Precision}) + \text{Recall})} = \frac{A}{A + B} = \frac{(1+1^2) \times 0.7821782 \times 0.2372372}{( 1^2 \times 0.7821782 + 0.2372372)} = 0.3640553$
+    - `{(1 + 1^2) * 0.7821782 * 0.2372372 / (1^2 * 0.7821782 + 0.2372372)}` \textcolor{pink}{$\#\mathcal{R}$}
+    - It is difficult to compare two models with different Precision and Recall. So to make them comparable, we use F-Score. 
+    - F-Score is the Harmonic Mean of Precision and Recall. As compared to Arithmetic Mean, Harmonic Mean punishes the extreme values more. F-score should be high.
+
+
+- Summary
+  - Precision is how certain you are of your true positives. Recall is how certain you are that you are not missing any positives.
+  - Choose Recall if the occurrence of false negatives is unaccepted /intolerable. For example, in the case of diabetes that you would rather have some extra false positives (false alarms) over saving some false negatives.
+  - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
+  - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
+
+## Unbalanced Data
+
+- If the frequency of each class of response variable is not similar i.e. 333 defaulters and 9667 non-defaulters.
+  - Generally, in the case of logistic regression the data imbalance is present 
+  - Thus, the model is generally biased towards the most-frequent class
+
+- Data Balancing is done by package \textcolor{pink}{ROSE} in R
+  - Over sampling
+    - Bootstrapping with replacement on sparse class 
+    - e.g. 9667 non-defaulters and 9667 with bootstrapping defaulters (from 333)
+  - Under sampling
+    - Random selection of more frequent class to match number of observations in sparse class
+    - e.g. 333 defaulters and 333 non-defaulters (from 9667)
+  - Both
+    - Both of the balancing techniques are applied with the given probability
+    - e.g. if we request a dataset of 10,000 with probability of 0.5, then there will be approximately 5000 non-default observations selected randomly and approximately 5000 defaulters using bootstrapping
+
+- \textcolor{pink}{Question:} Are we not fabricating the data with 'over sampling'
+  - No, it is random selection
+  - SMOTE (synthetic bootstrapping) - It will fabricate the data. It is more powerful.
+  - "ForLater" More details required because in the earlier discussion, this question also was discussed
+  - Similarly, problem with under sampling was loss of available information.
+  - The solution suggested at the time was to achieve approximately 1:10 ratio between sparse and frequent classes.
+
+## Bank: Logistic Regression
+
+- Refer [How to Disable Scientific Notation in R](#scipen-b09 "b09")
+
+- Dataset Default - Logistic Regression
+  - Because the coefficient is positive, as the "Age" increases, the chances of subscribing the Bank Term Deposit also increases
+  - The marital status of Single or Divorced, both have positive coefficients. Thus, their chances of subscribing are higher compared to Married (control /reference)
+  - Credit status of people (default) was found to insignificant for predicting the term deposit subscription
+
+
+```{r 'B34-Logistic-Bank-1'}
+# #Logistic Regression
+mod_1_glm <- glm(formula = y ~ ., family = binomial, data = xbank)
+mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
+```
+
+```{r 'B34-Print-Bank-1', echo=FALSE, collapse=FALSE, class.output="models"}
 # #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
 ttl_hh <- "Logistic Regression: Bank: Y ~ X"
-col_hh <- c("ALL")
+col_hh <- c("GLM", "Stepwise")
 #
-stargazer(mod_xfw_glm, 
+stargazer(mod_1_glm, mod_2_step, 
     title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
     type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
 ```
 
 
-
-```{r 'B34-T4', eval=FALSE}
-#summary(mod_xfw_glm)
-stargazer(mod_xfw_glm, type = "text", single.row = TRUE, intercept.bottom = FALSE)
+```{r 'B34-VIF-Bank-1'}
+# #VIF
+vif(mod_1_glm) %>% `[`(. > 2)
+vif(mod_2_step) %>% `[`(. > 2)
 ```
+
+
+```{r 'B34-Contrasts-Bank-1'}
+# #contrasts() to identify the criteria: 0 (control, no event), 1 (case, event)
+contrasts(xbank$y)
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
-```{r 'B34-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+```{r 'B34-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, col_hh, dum_xfw, hh, idx_xsyw, mod_1_glm, mod_2_step, 
+          test_bank, test_xfw, train_xfw, ttl_hh, xbank, xfw, xxB34Bank)
 ```
 
-```{r 'B34-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+```{r 'B34-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

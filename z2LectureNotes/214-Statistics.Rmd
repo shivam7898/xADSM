@@ -21,11 +21,11 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 
 ```{r 'B14D02', comment="", echo=FALSE, results='asis'}
-f_getDef("1s-known-sd")
+f_getDef("H-1s-known-sd")
 ```
 
 ```{r 'B14D03', comment="", echo=FALSE, results='asis'}
-f_getDef("1s-unknown-sd")
+f_getDef("H-1s-unknown-sd")
 ```
 
 

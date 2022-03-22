@@ -1,0 +1,526 @@
+# Quiz (B37, Mar-20) {#b37 .unlisted .unnumbered}
+
+```{r 'B37', include=FALSE, cache=FALSE, eval=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+## WIP
+
+## Data: Insurance {#set-insurance-b37 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: Insurance [381109, 12]
+  - 'Response' is the Response Variable:
+      - Response - 1 :  Customer is interested, 0 : Customer is not interested
+  - id - Unique ID for the customer
+  - Gender - Gender of the customer
+  - Age	- Age of the customer
+  - Driving_License	0 : Customer does not have DL, 1 : Customer already has DL
+  - Region_Code	Unique code for the region of the customer
+  - Previously_Insured 1: Customer already has Vehicle Insurance, 0 : Customer does not have Vehicle Insurance
+  - Vehicle_Age	- Age of the Vehicle 
+  - Vehicle_Damage	1 : Customer got his/her vehicle damaged in the past. 0 : Customer did not get his/her vehicle damaged in the past.
+  - Annual_Premium	The amount customer needs to pay as premium in the year
+  - Policy_Sales_Channel	Anonymised Code for the channel of outreaching to the customer ie. Different Agents, Over Mail, Over Phone, In Person, etc.
+  - Vintage	- Number of Days, Customer has been associated with the company
+
+- Except id, Age, Vintage and Annual Premium, everything else is Categorical
+- No NA
+- Drop: 
+  - id
+  - Policy_Sales_Channel - 155 Categories
+  - Region_Code - 53 Categories
+- Driving_License: Renamed "DL" & Baseline "Yes" = 1 i.e. has DL
+  - only 812 people without DL
+- Previously_Insured: Renamed "Insured" & Baseline "Yes" = 1 i.e. has previous insurance
+- Vehicle_Damage : Renamed "Accident" & Baseline "Yes" = Yes i.e. has damaged in the past
+- Annual_Premium : Renamed "Premium"
+
+### EDA {.unlisted .unnumbered}
+
+\textcolor{pink}{Please import the "B37-Insurance.csv"}
+
+```{r 'B37-Data-Insurance', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B37-Insurance.csv"))
+xxB37Insurance <- f_getObject("xxB37Insurance", "B37-Insurance.csv",
+                                "99a56dc92985994287671651d8bf5a3e")
+```
+
+```{r 'B37-Save-Insurance', include=FALSE, eval=FALSE}
+f_setRDS(xxB37Insurance)
+```
+
+```{r 'B37-Get-Insurance', include=FALSE, eval=FALSE}
+xxB37Insurance <- xfw <- bb <- aa <- f_getRDS(xxB37Insurance)
+```
+
+```{r 'B37-Clean-Insurance', include=FALSE, eval=FALSE}
+ xfw <- bb <- xxB37Insurance %>%
+  mutate(across(c(Response, Gender), factor)) %>% 
+  rename(DL = Driving_License) %>% 
+  mutate(across(DL, factor, levels = c(1, 0), labels = c("Yes", "No"))) %>% 
+  rename(Insured = Previously_Insured) %>% 
+  mutate(across(Insured, factor, levels = c(1, 0), labels = c("Yes", "No"))) %>% 
+  rename(Damaged = Vehicle_Damage) %>% 
+  mutate(across(Damaged, factor, levels = c("Yes", "No"))) %>% 
+  rename(Vehicle = Vehicle_Age) %>% 
+  mutate(across(Vehicle, factor, levels = c("< 1 Year", "1-2 Year", "> 2 Years"), 
+                labels = c("New", "Mid", "Old"))) %>% 
+  rename(Premium = Annual_Premium) %>% 
+  mutate(across(Response, factor, levels = c(0, 1), labels = c("No", "Yes"))) %>% 
+  select(-c(id, Policy_Sales_Channel, Region_Code)) %>% 
+  relocate(Response)
+#
+# #Create Dummies | Replaced All NA in original data so no replacement in dummy columns |
+dum_xfw <- dummy_cols(xfw, 
+  select_columns = c("Gender", "DL", "Insured", "Vehicle", "Damaged"),
+                      remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
+#
+# #Partition Data
+set.seed(3)
+idx_xsyw <- createDataPartition(dum_xfw$Response, p = 0.8, list = FALSE)
+train_xfw <- dum_xfw[idx_xsyw[, 1], ] 
+test_xfw  <- dum_xfw[-idx_xsyw[, 1], ]
+#
+zInsurance <- train_xfw
+test_case <- test_xfw
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B37-Structure-Insurance', eval=FALSE}
+str(xfw)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B37-Summary-Insurance', eval=FALSE}
+summary(xfw)
+```
+
+### ETC {.unlisted .unnumbered}
+
+```{r 'B37-ETC', include=TRUE, eval=FALSE}
+# #Count NA in Columns
+if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+# #Subset Rows
+if(FALSE) bb %>% select(1) %>% slice(1:10)
+# #Comma separated string having each item within quotes for easy pasting as character not objects
+if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
+if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+# #Filter
+if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+# #Count Yes/No or True/False in ALL such Columns
+if(FALSE) bb %>% select(iFemale, iMarried) %>% 
+  pivot_longer(everything()) %>% count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) 
+# #Count Unique of all Columns to decide which should be Factors
+if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
+# #Summary of Columns of a class: is.factor is.numeric is.character
+if(FALSE) bb %>% select(where(is.factor)) %>% summary()
+# #Names and Indices of Columns of class: is.factor is.numeric is.character
+if(FALSE) which(sapply(bb, is.factor))
+# #Levels of Factor Columns
+if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
+# #Frequency of Each level of Factor
+if(FALSE) bb %>% count(Vehicle_Age) %>% arrange(desc(n))
+# #Coding for Dummy Variables
+if(FALSE) contrasts(bb$Married) 
+```
+
+## Logistic Regression with glm()
+
+- Only 'Vintage' is non-significant
+  - Stepwise drop this
+
+```{r 'B37-T01', eval=FALSE}
+# #Logistic Regression
+mod_1_glm <- glm(formula = Response ~ ., family = binomial, data = zInsurance)
+```
+
+
+```{r 'B37-T02', eval=FALSE}
+# #Stepwise Regression #"both", "backward", "forward"
+mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
+```
+
+
+```{r 'B37-Print-Default-1', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Insurance: Y ~ X"
+col_hh <- c("GLM", "Step")
+#
+stargazer(mod_1_glm, mod_2_step, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+## VIF
+
+
+```{r 'B37-T03', eval=FALSE}
+# #None is very high
+vif(mod_1_glm)
+vif(mod_2_step)
+```
+
+## Prediction on Train 
+
+```{r 'B37-T04', eval=FALSE}
+# #For glm() predict() provides probabilities 
+prob_1_glm <- predict(mod_1_glm, type = "response")
+if(TRUE) str(prob_1_glm, give.attr = FALSE)
+#
+# #Use Contrast to define the criteria
+if(FALSE) contrasts(zInsurance$Response)
+#
+# #Convert Probabilities into levels
+res_1_glm <- factor(ifelse(prob_1_glm >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+cmat_1_glm <- confusionMatrix(res_1_glm, 
+                                reference = zInsurance$Response, positive = "Yes")
+cmat <- cmat_1_glm
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B37-T05', eval=FALSE}
+# #For glm() predict() provides probabilities 
+prob_2_glm <- predict(mod_2_step, type = "response")
+if(TRUE) str(prob_2_glm, give.attr = FALSE)
+#
+# #Use Contrast to define the criteria
+if(FALSE) contrasts(zInsurance$Response)
+#
+# #Convert Probabilities into levels
+res_2_glm <- factor(ifelse(prob_2_glm >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+cmat_2_glm <- confusionMatrix(res_2_glm, 
+                                reference = zInsurance$Response, positive = "Yes")
+cmat <- cmat_2_glm
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+## Confusion Matrix
+
+
+```{r 'B37-T06', eval=FALSE}
+# #Confusion Matrix
+if(TRUE) cmat$table %>% as_tibble() %>% 
+  pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+```
+## LDA
+
+
+```{r 'B37-LDA-Default-2', eval=FALSE}
+# #LDA
+mod_3_lda <- lda(formula = Response ~ ., data = zInsurance)
+```
+
+
+```{r 'B37-T07', eval=FALSE}
+# #Result
+res_3_lda <- predict(mod_3_lda, type = "class")
+#
+# #Confusion Matrix
+cmat_3_lda <- confusionMatrix(res_3_lda$class, 
+                                reference = zInsurance$Response, positive = "Yes")
+cmat <- cmat_3_lda
+#
+# #Confusion Matrix
+if(TRUE) cmat$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# #Accuracy = 1 - Error Rate
+if(TRUE) cmat$overall[["Accuracy"]]
+#
+# #Sensitivity
+if(TRUE) cmat$byClass[["Sensitivity"]]
+#
+# #Specificity
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+## Comparison
+
+```{r 'B37-vs-LDA-QDA-Bayes-Default', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Class Comparisons: GLM vs. LDA
+cmat <- cmat_1_glm
+hh_names <- c("Accuracy", "N", "True Positive (TP_A)", "False Positive (FP_B)", 
+              "False Negative (FN_C)", "True Negative (TN_D) ", 
+              names(cmat$byClass))
+ii <- c(cmat$overall[["Accuracy"]], round(sum(cmat$table), 0), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_2_glm
+jj <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_3_lda
+kk <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+if(FALSE){
+cmat <- cmat_def_bay
+ll <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_def_bay_80
+mm <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_def_glm
+nn <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+}
+# #, Naive_Bayes = ll, Bayes_80 = mm, GLM = nn
+if(TRUE) tibble(Names = hh_names, 
+     GLM = ii, Step = jj, LDA = kk 
+     )
+```
+
+
+## Data Balancing
+
+We need to do balancing because the no information rate is approx 87% i.e. data is skewed
+
+
+```{r 'B37-T08', eval=FALSE}
+both_xfw <- ovun.sample(Response ~ ., data = xfw, method = "both", p = 0.50, seed = 3, N = 381000)$data
+```
+
+
+```{r 'B37-T09', eval=FALSE}
+xfw %>% count(Response) %>% mutate(PROP = n /sum(n))
+both_xfw %>% count(Response) %>% mutate(PROP = n /sum(n))
+```
+
+```{r 'B37-T10', eval=FALSE}
+xfw_balanced <- as_tibble(both_xfw) 
+#
+# #Create Dummies | Replaced All NA in original data so no replacement in dummy columns |
+dum_balanced <- dummy_cols(xfw_balanced, 
+  select_columns = c("Gender", "DL", "Insured", "Vehicle", "Damaged"),
+                      remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
+#
+# #Partition Data
+set.seed(3)
+idx_xsyw <- createDataPartition(dum_balanced$Response, p = 0.8, list = FALSE)
+train_xfw <- dum_balanced[idx_xsyw[, 1], ] 
+test_xfw  <- dum_balanced[-idx_xsyw[, 1], ]
+#
+balanced <- train_xfw
+test_balanced <- test_xfw
+```
+
+## GLM & LDA on Balanced Data
+
+```{r 'B37-T11', eval=FALSE}
+# #Logistic Regression
+mod_4_glm <- glm(formula = Response ~ ., family = binomial, data = balanced)
+```
+
+```{r 'B37-Print-Default-2', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Insurance: Y ~ X"
+col_hh <- c("GLM", "Step", "Balanced")
+#
+stargazer(mod_1_glm, mod_2_step, mod_4_glm, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+
+```{r 'B37-T12', eval=FALSE}
+# #None is very high
+vif(mod_4_glm)
+```
+
+```{r 'B37-T13', eval=FALSE}
+# #For glm() predict() provides probabilities 
+prob_4_glm <- predict(mod_4_glm, type = "response")
+if(TRUE) str(prob_4_glm, give.attr = FALSE)
+#
+# #Use Contrast to define the criteria
+if(FALSE) contrasts(balanced$Response)
+#
+# #Convert Probabilities into levels
+res_4_glm <- factor(ifelse(prob_4_glm >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+cmat_4_glm <- confusionMatrix(res_4_glm, 
+                                reference = balanced$Response, positive = "Yes")
+cmat <- cmat_4_glm
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+```{r 'B37-LDA-Default-1', eval=FALSE}
+# #LDA
+mod_5_lda <- lda(formula = Response ~ ., data = balanced)
+```
+
+
+```{r 'B37-T14', eval=FALSE}
+# #Result
+res_5_lda <- predict(mod_5_lda, type = "class")
+#
+# #Confusion Matrix
+cmat_5_lda <- confusionMatrix(res_5_lda$class, 
+                                reference = balanced$Response, positive = "Yes")
+cmat <- cmat_5_lda
+#
+# #Confusion Matrix
+if(TRUE) cmat$table %>% as_tibble() %>% pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+#
+# #Accuracy = 1 - Error Rate
+if(TRUE) cmat$overall[["Accuracy"]]
+#
+# #Sensitivity
+if(TRUE) cmat$byClass[["Sensitivity"]]
+#
+# #Specificity
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+## Comparison after Balancing
+
+```{r 'B37-vs-LDA-QDA-Bayes-Default-2', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
+# #Class Comparisons: GLM vs. LDA
+cmat <- cmat_1_glm
+hh_names <- c("Accuracy", "N", "True Positive (TP_A)", "False Positive (FP_B)", 
+              "False Negative (FN_C)", "True Negative (TN_D) ", 
+              names(cmat$byClass))
+ii <- c(cmat$overall[["Accuracy"]], round(sum(cmat$table), 0), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_2_glm
+jj <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_3_lda
+kk <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+#
+cmat <- cmat_4_glm
+ll <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_5_lda
+mm <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+if(FALSE){
+cmat <- cmat_def_glm
+nn <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+}
+# # GLM = nn
+if(TRUE) tibble(Names = hh_names, 
+     GLM = ii, Step = jj, LDA = kk, GLM.Balanced = ll, LDA.Balanced = mm
+     )
+```
+
+
+## Midway Conclusion
+
+This looks sort of OK. Needs to Run it on Test. Final Model is Model 4 by GLM
+
+## Using on TEST
+
+
+
+```{r 'B37-T15', eval=FALSE}
+# #For glm() predict() provides probabilities 
+prob_4_glm_test <- predict(mod_4_glm, newdata = test_balanced, type = "response")
+if(TRUE) str(prob_4_glm_test, give.attr = FALSE)
+#
+# #Use Contrast to define the criteria
+if(FALSE) contrasts(balanced$Response)
+#
+# #Convert Probabilities into levels
+res_4_glm_test <- factor(ifelse(prob_4_glm_test >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+cmat_4_glm_test <- confusionMatrix(res_4_glm_test, 
+                                reference = test_balanced$Response, positive = "Yes")
+cmat <- cmat_4_glm_test
+cmat$table
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+if(TRUE) cmat$overall[["Accuracy"]]
+```
+
+
+
+```{r 'B37T02', eval=FALSE}
+# #Matrix | Tibble (Long) | Wide | Rename | Total Row | SUM Column | Arrange Row | Relocate |
+# #Event = "Yes"
+cmat <- cmat_4_glm_test
+
+hh <- cmat$table %>% as_tibble() %>% 
+  pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric)))) %>% 
+  arrange(Prediction_Reference != "Yes") %>% 
+  relocate(Yes, .after = 1) %>% 
+  mutate(Event = c("TP= A", "FN= C", "A+C"), 
+         No_Event = c("FP= B", "TN= D", "B+D"), 
+         xSUM = c("A+B", "C+D", "N= A+B+C+D")) %>% 
+  mutate(Event = paste0(Event, "= ", Yes), 
+         No_Event = paste0(No_Event, "= ", No), 
+         xSUM = paste0(xSUM, "= ", SUM))
+  #mutate(across(where(is.numeric), round, digits = 4)) %>% 
+  #mutate(across(where(is.numeric), format, digits = 3, 
+                #nsmall = 0, replace.zero = TRUE, zero.print = "0", 
+                #drop0trailing = TRUE, scientific = FALSE)) 
+# #Manual 
+hh_tp_a <- cmat$table["Yes", "Yes"] #79
+hh_tp_a
+hh_fp_b <- cmat$table["Yes", "No"]  #22
+hh_fp_b
+hh_fn_c <- cmat$table["No", "Yes"]  #254
+hh_fn_c
+hh_tn_d <- cmat$table["No", "No"]   #9645
+hh_tn_d
+hh_n <- hh_tp_a + hh_fp_b + hh_fn_c + hh_tn_d #10000
+hh_n
+hh_sensitivity <- hh_tp_a / (hh_tp_a + hh_fn_c) #0.2372372
+hh_sensitivity
+hh_specificity <- hh_tn_d / (hh_fp_b + hh_tn_d) #0.9977242
+hh_specificity
+#
+cap_hh <- paste0("(B37T02)", " Default: Confusion Matrix") 
+f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
+```
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B37-Cleanup', include=FALSE, cache=FALSE, eval=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'B37-Validation', include=FALSE, cache=FALSE, eval=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

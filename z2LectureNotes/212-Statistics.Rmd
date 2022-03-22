@@ -202,7 +202,7 @@ f_getDef("Test-Statistic")
 ```
 
 ```{r 'B12D45', comment="", echo=FALSE, results='asis'}
-f_getDef("1s-known-sd") #dddd
+f_getDef("H-1s-known-sd") #dddd
 ```
 
 ## Calculate SD & SE {#stat-height-b12 .tabset .tabset-fade}

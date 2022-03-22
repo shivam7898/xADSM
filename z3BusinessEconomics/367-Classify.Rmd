@@ -309,7 +309,7 @@ Rather than modeling this response Y directly, \textcolor{pink}{logistic regress
   - Any time a straight line is fit to a binary response that is coded as 0 or 1, in principle we can always predict p(X) < 0 for some values of X and p(X) > 1 for others (unless the range of X is limited).
   - To avoid this problem, we must model p(X) using a function that gives outputs between 0 and 1 for all values of X.
 
-- \textcolor{pink}{Logistic Function: $p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}} = \frac{\text{Odds}}{1 + \text{Odds}}$}
+- \textcolor{pink}{Logistic Function: $p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}} = \frac{\text{Odds}}{1 + \text{Odds}} \in [0, 1]$}
   - To fit the model, we use a method called \textcolor{pink}{maximum likelihood}. 
   - For low balances we would now predict the probability of default as close to, but never below, zero.
   - Likewise, for high balances we would predict a default probability close to, but never above, one. 
@@ -639,7 +639,7 @@ if(TRUE) cmat$byClass[["Specificity"]]
 prob_def_glm <- predict(mod_def_glm, type = "response")
 if(TRUE) str(prob_def_glm, give.attr = FALSE)
 #
-# #Use Contrast to define the criteria
+# #contrasts() to identify the criteria: 0 (control, no event), 1 (case, event)
 contrasts(zzF67Default$default)
 #
 # #Convert Probabilities into levels
@@ -663,7 +663,7 @@ str(ii)
 ```
 
 
-## Confusion Matrix {.tabset .tabset-fade}
+## Confusion Matrix {#confusion-f67 .tabset .tabset-fade}
 
 ```{r 'F67T01', echo=FALSE}
 # #Print Kable Table
@@ -698,7 +698,9 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     -  In the context of the Default data, "+" indicates an individual who defaults, and "-" indicates one who does not.
   - Case - Control 
     - Event: Case or Hit is the group that we are trying to detect
-    - No Event: Control or Miss is the group which we do not want to detect
+    - No Event: Control or Miss is the group which we do not want to detect (or reference or base)
+    
+
 - Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
   - Depending upon the Factor level that "Event" corresponds to a "positive" result 
     - Event: Default = "Yes"
