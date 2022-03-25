@@ -70,10 +70,10 @@ f_setRDS(xxB34Bank)
 
 - Cannot subset a Tibble using Matrix. Convert to a vector.
 
-```{r 'B34-Get-Bank'}
+```{r 'B34-Modify-Bank', eval=FALSE}
 xxB34Bank <- f_getRDS(xxB34Bank)
 # #Factor | Relocate Response | Drop
-xfw <- xxB34Bank %>% 
+zzB34Bank <- xxB34Bank %>% 
   #mutate(across(where(is.character) & !c(y), factor)) %>% 
   mutate(across(education, factor, 
                 levels = c("primary", "secondary", "tertiary", "unknown"), 
@@ -94,22 +94,28 @@ xfw <- xxB34Bank %>%
   relocate(y) %>% 
   select(-c(job, month))
 #
+f_setRDS(zzB34Bank)
+```
+
+
+```{r 'B34-Get-Bank'}
+zzB34Bank <- f_getRDS(zzB34Bank)
+#
 # #Create Dummies | Replaced All NA in original data so no replacement in dummy columns |
-dum_xfw <- dummy_cols(xfw, 
+dum_xfw <- dummy_cols(zzB34Bank, 
   select_columns = c("wed", "edu", "default", "housing", "loan", "call", "poutcome"),
                       remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
 #
 # #Partition Data
 set.seed(3)
 #idx_xsyw <- sample.int(n = nrow(dum_xfw), size = floor(0.8 * nrow(dum_xfw)), replace = FALSE)
-idx_xsyw <- createDataPartition(xfw$y, p = 0.8, list = FALSE)
+idx_xsyw <- createDataPartition(dum_xfw$y, p = 0.8, list = FALSE)
 train_xfw <- dum_xfw[idx_xsyw[, 1], ] 
 test_xfw  <- dum_xfw[-idx_xsyw[, 1], ]
 #
 xbank <- train_xfw
 test_bank <- test_xfw
 ```
-
 
 ### Structure {.unlisted .unnumbered}
 
@@ -210,7 +216,7 @@ hh <- tibble(Predicted_Reference = c("Event_nonNull_Case_Pos", "noEvent_Null_Con
              Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
 #
 cap_hh <- paste0("(B34T01)", " Default: Confusion Matrix") 
-f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
 ```
 
 - Refer [Confusion Matrix](#confusion-f67 "f67")
@@ -240,6 +246,8 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 - Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
   - Depending upon the Factor level that "Event" corresponds to a "positive" result 
     - Event: Default = "Yes"
+  - \textcolor{pink}{no information rate (NIR)} is the largest class percentage in the data.
+    - i.e. proportion of majority class in the original dataset
   - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
     - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
       - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
@@ -254,8 +262,9 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
   - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
     - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - Specificity) \times (1 - Prevalence))} = 0.782177$
-    - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
-    - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
+    - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}`
+    - $\text{PPV} = 1 - \text{Sensitivity} = \frac{C}{A+C}$
+  - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
     - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
     - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
     - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
@@ -284,18 +293,24 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
   - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
 
-## Unbalanced Data
+## Imbalanced data: Impact on Model
 
-- If the frequency of each class of response variable is not similar i.e. 333 defaulters and 9667 non-defaulters.
+
+```{definition 'Imbalanced-Data'}
+\textcolor{pink}{Imbalanced Data} refers to those types of datasets where the target class has an uneven distribution of observations, i.e one class label has a very high number of observations and the other has a very low number of observations. e.g. 333 defaulters and 9667 non-defaulters
+```
+
+
+- Effect of Imbalanced Data on the Model
   - Generally, in the case of logistic regression the data imbalance is present 
-  - Thus, the model is generally biased towards the most-frequent class
+  - Thus, the model is generally biased towards the majority class
 
 - Data Balancing is done by package \textcolor{pink}{ROSE} in R
   - Over sampling
-    - Bootstrapping with replacement on sparse class 
+    - Bootstrapping with replacement on minority class 
     - e.g. 9667 non-defaulters and 9667 with bootstrapping defaulters (from 333)
   - Under sampling
-    - Random selection of more frequent class to match number of observations in sparse class
+    - Random selection of majority class to match number of observations in minority class
     - e.g. 333 defaulters and 333 non-defaulters (from 9667)
   - Both
     - Both of the balancing techniques are applied with the given probability
@@ -306,53 +321,18 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - SMOTE (synthetic bootstrapping) - It will fabricate the data. It is more powerful.
   - "ForLater" More details required because in the earlier discussion, this question also was discussed
   - Similarly, problem with under sampling was loss of available information.
-  - The solution suggested at the time was to achieve approximately 1:10 ratio between sparse and frequent classes.
+  - The solution suggested at the time was to achieve approximately 1:10 ratio between minority and majority classes.
 
-## Bank: Logistic Regression
+## To be continued ...
 
-- Refer [How to Disable Scientific Notation in R](#scipen-b09 "b09")
-
-- Dataset Default - Logistic Regression
-  - Because the coefficient is positive, as the "Age" increases, the chances of subscribing the Bank Term Deposit also increases
-  - The marital status of Single or Divorced, both have positive coefficients. Thus, their chances of subscribing are higher compared to Married (control /reference)
-  - Credit status of people (default) was found to insignificant for predicting the term deposit subscription
-
-
-```{r 'B34-Logistic-Bank-1'}
-# #Logistic Regression
-mod_1_glm <- glm(formula = y ~ ., family = binomial, data = xbank)
-mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
-```
-
-```{r 'B34-Print-Bank-1', echo=FALSE, collapse=FALSE, class.output="models"}
-# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
-ttl_hh <- "Logistic Regression: Bank: Y ~ X"
-col_hh <- c("GLM", "Stepwise")
-#
-stargazer(mod_1_glm, mod_2_step, 
-    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
-    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
-```
-
-
-```{r 'B34-VIF-Bank-1'}
-# #VIF
-vif(mod_1_glm) %>% `[`(. > 2)
-vif(mod_2_step) %>% `[`(. > 2)
-```
-
-
-```{r 'B34-Contrasts-Bank-1'}
-# #contrasts() to identify the criteria: 0 (control, no event), 1 (case, event)
-contrasts(xbank$y)
-```
+- Discussion moved to next lecture: Logistic Regression on the Bank dataset
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B34-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, col_hh, dum_xfw, hh, idx_xsyw, mod_1_glm, mod_2_step, 
-          test_bank, test_xfw, train_xfw, ttl_hh, xbank, xfw, xxB34Bank)
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, dum_xfw, hh, idx_xsyw, test_bank, test_xfw, train_xfw, 
+          xbank, zzB34Bank)
 ```
 
 ```{r 'B34-Validation', include=FALSE, cache=FALSE}
