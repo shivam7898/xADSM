@@ -399,6 +399,11 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
   - \textcolor{pink}{predict()} for prediction i.e. $\hat{y}$ 
     - It can provide confidence intervals and prediction intervals for given value
 	- If no dataset is supplied, then the training data is used for model prediction
+	- predict.rpart() : type = c("vector", "prob", "class", "matrix")
+	- predict.glm() : type = c("link", "response", "terms")
+	- predict.lm() : type = c("response", "terms")
+	- predict.randomForest() : type = c("response")
+	
 
 - Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)
   - Least squares model for the regression of number of units sold on TV advertising budget for the Advertising data. 
@@ -1416,7 +1421,7 @@ knitr::include_graphics(paste0(.z$PX, "F66P01", "-Boston-lm-1x-lstat", ".png"))
 # #IN: ttl_hh, cap_hh, hh <- mod_xfw
 #
 if(!file.exists(loc_png)) {
-  png(filename = loc_png) #, width = k_width, height = k_height, units = "in", res = 144
+  png(filename = loc_png)
   #dev.control('enable') 
   par(mfrow = c(2, 2))
   plot(hh)
@@ -1480,7 +1485,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(x = X, y = Response)) +
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 ### Multiple ScatterPlots with Residuals {.tabset .tabset-fade}
@@ -1537,7 +1542,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(x = value, y = Response)) +
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 ### Residual vs. Fitted {.tabset .tabset-fade}
@@ -1595,7 +1600,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .fitted, y = .resid)) +
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 ### Normal QQ {.tabset .tabset-fade}
@@ -1643,7 +1648,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(sample = .std.resid)) +
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 
@@ -1691,7 +1696,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .fitted, y = sqrt(abs(.std.re
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 
@@ -1739,7 +1744,7 @@ F66 <- hh %>% { ggplot(data = ., mapping = aes(x = .cooksd, y = .std.resid)) +
 }
 assign(cap_hh, F66)
 rm(F66)
-#eval(parse(text = cap_hh))
+if(FALSE) eval(parse(text = cap_hh))
 ```
 
 ### Basic 4 Plots (GGPlot)

@@ -208,90 +208,20 @@ f_getDef("Classification") #dddd
 
 ## Confusion Matrix
 
-```{r 'B34T01', echo=FALSE}
-# #Print Kable Table: Refer F67T01
-hh <- tibble(Predicted_Reference = c("Event_nonNull_Case_Pos", "noEvent_Null_Control_Neg", "Total"),
-             Event_nonNull_Case_Pos = c("TP= A= 79", "FN= C= 254", "A+C= 333"), 
-             noEvent_Null_Control_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
-             Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
+- Refer [Confusion Matrix](#confusion-f67 "f67")
+
+```{r 'B34T01', echo=FALSE, ref.label=c('F67T01')}
 #
-cap_hh <- paste0("(B34T01)", " Default: Confusion Matrix") 
-f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
 ```
 
-- Refer [Confusion Matrix](#confusion-f67 "f67")
-- Confusion Matrix has Count of Observations
-  - Dataset: Default
-  - Reference ${y}$ as Columns 
-  - Prediction $\hat{y}$ as Rows 
-  - Diagonal has the observations which have been correctly predicted i.e. $y = \hat{y}$
-    - True Negative (TN) = D = 9645
-    - True Positive (TP) = A = 79
-  - Off-diagonal are the misclassifications
-    - False Negative (FN) = C = 254
-    - False Positive (FP) = B = 22
-  - From epidemiology: 
-    - Event: Positive (Pos) or "+" is the "disease" that we are trying to detect
-    - No Event: Negative (Neg) or "-" is the "non-disease" state
-  - From Hypothesis Testing:
-    - Event: Non-Null or Alternative Hypothesis or "+"
-    - No Event: Null Hypothesis or "-"
-  - Event: Default = "Yes"
-    -  In the context of the Default data, "+" indicates an individual who defaults, and "-" indicates one who does not.
-  - Case - Control 
-    - Event: Case or Hit is the group that we are trying to detect
-    - No Event: Control or Miss is the group which we do not want to detect
+```{r 'B34E01', comment="", echo=FALSE, results='asis'}
+f_getExm("Confusion-Setup")
+```
 
+```{r 'B34E02', comment="", echo=FALSE, results='asis'}
+f_getExm("Confusion-Definitions")
+```
 
-- Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
-  - Depending upon the Factor level that "Event" corresponds to a "positive" result 
-    - Event: Default = "Yes"
-  - \textcolor{pink}{no information rate (NIR)} is the largest class percentage in the data.
-    - i.e. proportion of majority class in the original dataset
-  - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
-    - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
-      - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
-      - Recall is defined as the ratio of the total number of correctly classified positive classes divide by the total number of positive classes. 
-      - i.e. Out of all the positive classes, how much we have predicted correctly. 
-  - \textcolor{pink}{Specificity} is the percentage of non-defaulters that are correctly identified
-    - $\text{Specificity} = \frac{\text{TN}}{\text{FP} + \text{TN}} = \frac{D}{B + D} = \frac{9645}{22 + 9645} = \frac{9645}{9667} = 1 - \frac{B}{B + D} = 1 - \frac{22}{9667} = 0.9977242$
-    - Specificity determines the proportion of actual negatives that are correctly identified.
-    - \textcolor{pink}{False Positive Rate (FPV) or Type-I Error or (1 - Specificity)}
-      - $\text{FPV} = \frac{\text{FP}}{\text{No Event Reference}} = \frac{B}{B + D} = \frac{22}{9667} = 0.002275784 = 1 - \text{Specificity}$
-  - \textcolor{pink}{Prevalence} 
-    - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
-  - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
-    - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - Specificity) \times (1 - Prevalence))} = 0.782177$
-    - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}`
-    - $\text{PPV} = 1 - \text{Sensitivity} = \frac{C}{A+C}$
-  - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
-    - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
-    - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
-    - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
-  - \textcolor{pink}{Negative Predictive Value (NPV)} 
-    - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((Specificity) \times (1 - Prevalence))} = 0.9743408$    
-    - `{0.9977242 * (1 - 0.0333) / ((1 - 0.2372372) * 0.0333 + (0.9977242 * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
-    - $\text{NPV} = \frac{D}{C+D} = \frac{9645}{254 + 9645} = 0.9743408$
-  - \textcolor{pink}{Detection Rate} 
-    - $\text{Detection Rate} = \frac{\text{TP}}{Total} = \frac{A}{N} = \frac{79}{10000} = 0.0079$
-    - Out of total number of cases, how many cases in the target category predicted correctly (TP)
-  - \textcolor{pink}{Detection Prevalence} 
-    - $\text{Detection Prevalence} = \frac{\text{Event Predicted}}{\text{Total}} = \frac{A + B}{N} = \frac{101}{10000} = 0.0101$
-    - Out of total number of cases, how many cases predicted as target cases. 
-  - \textcolor{pink}{Balanced Accuracy} 
-    - $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{0.2372372 + 0.9977242}{2} = 0.6174807$
-  - \textcolor{pink}{F-score (F1)}, with $\beta = 1$
-    - $\text{F1} = \frac{(1 + \beta^2) \times \text{Precision} \times \text{Recall}}{((\beta^2 \times \text{Precision}) + \text{Recall})} = \frac{A}{A + B} = \frac{(1+1^2) \times 0.7821782 \times 0.2372372}{( 1^2 \times 0.7821782 + 0.2372372)} = 0.3640553$
-    - `{(1 + 1^2) * 0.7821782 * 0.2372372 / (1^2 * 0.7821782 + 0.2372372)}` \textcolor{pink}{$\#\mathcal{R}$}
-    - It is difficult to compare two models with different Precision and Recall. So to make them comparable, we use F-Score. 
-    - F-Score is the Harmonic Mean of Precision and Recall. As compared to Arithmetic Mean, Harmonic Mean punishes the extreme values more. F-score should be high.
-
-
-- Summary
-  - Precision is how certain you are of your true positives. Recall is how certain you are that you are not missing any positives.
-  - Choose Recall if the occurrence of false negatives is unaccepted /intolerable. For example, in the case of diabetes that you would rather have some extra false positives (false alarms) over saving some false negatives.
-  - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
-  - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
 
 ## Imbalanced data: Impact on Model
 
@@ -305,11 +235,11 @@ f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
   - Generally, in the case of logistic regression the data imbalance is present 
   - Thus, the model is generally biased towards the majority class
 
-- Data Balancing is done by package \textcolor{pink}{ROSE} in R
-  - Over sampling
+- Data Balancing is done by package ROSE
+  - Oversampling
     - Bootstrapping with replacement on minority class 
     - e.g. 9667 non-defaulters and 9667 with bootstrapping defaulters (from 333)
-  - Under sampling
+  - Under-sampling
     - Random selection of majority class to match number of observations in minority class
     - e.g. 333 defaulters and 333 non-defaulters (from 9667)
   - Both

@@ -19,6 +19,8 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [How to Count Unique Values in ALL Columns](#n-uniq-z01 "z01")
 - [How to Rename ALL Headers to Proper Names](#rename-z01 "z01")
 - [How to Merge Factor Levels](#merge-factor-level-z01 "z01")
+- [How to Create a Contingency Table](#table-z01 "z01")
+
 
 ## Load Multiple Packages {#loadpkg-z01 .tabset .tabset-fade}
 
@@ -107,6 +109,15 @@ bb$x
 ii <- bb %>% mutate(across(x, factor, levels = c("Y", "Yes", "N", "No"), 
                            labels = c("Yes", "Yes", "No", "No"))) 
 ii$x
+```
+
+## Create a Contingency Table {#table-z01 .tabset .tabset-fade}
+
+```{r 'Z01-Table'}
+# #Contingency Table
+bb <- c("TP_A" = 79, "FP_B" = 22, "TN_C" = 254, "TN_D" = 9645)
+as.table(matrix(bb, ncol = 2, byrow = TRUE, #c(79, 22, 254, 9645)
+                dimnames = list("Predicted" = c("Yes", "No"), "Actual" = c("Yes", "No"))))
 ```
 
 

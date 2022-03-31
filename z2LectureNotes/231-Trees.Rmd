@@ -31,7 +31,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 # #xxB26CarDekho, aa, bb, xsyw, xw,xsw, zfw, xnw, znw
 ```
 
-```{r 'B31-GetCarDekhoKnit', include=FALSE, eval=TRUE}
+```{r 'B31-GetCarDekhoKnit', include=FALSE, eval=FALSE}
 xxB26CarDekho <- f_getRDS(xxB26CarDekho)
 aa <- xxB26CarDekho
 bb <- aa %>% 

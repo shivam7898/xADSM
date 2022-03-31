@@ -672,12 +672,13 @@ hh <- tibble(Predicted_Reference = c("Event_nonNull_Case_Pos", "noEvent_Null_Con
              noEvent_Null_Control_Neg = c("FP= B= 22", "TN= D= 9645", "B+D= 9667"), 
              Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
 #
-cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix from LDA") 
-f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix") 
+f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
 ```
 
 ### Explanations {.unlisted .unnumbered}
 
+```{example 'Confusion-Setup'}
 - Confusion Matrix has Count of Observations
   - Dataset: Default
   - Reference ${y}$ as Columns 
@@ -699,11 +700,15 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - Case - Control 
     - Event: Case or Hit is the group that we are trying to detect
     - No Event: Control or Miss is the group which we do not want to detect (or reference or base)
-    
+```
+
+```{example 'Confusion-Definitions'}
 
 - Class-specific performance: The terms sensitivity and specificity characterize the performance of a classifier or screening test. 
   - Depending upon the Factor level that "Event" corresponds to a "positive" result 
     - Event: Default = "Yes"
+  - \textcolor{pink}{No Information Rate (NIR)} is the largest class percentage in the data.
+    - i.e. proportion of majority class in the original dataset
   - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
     - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
       - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
@@ -717,22 +722,25 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - \textcolor{pink}{Prevalence} 
     - $\text{Prevalence} = \frac{\text{Event Reference}}{\text{Total}} = \frac{A + C}{N} = \frac{333}{10000} = 0.0333$
   - \textcolor{pink}{Positive Predictive Value (PPV) or Precision} 
-    - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - Specificity) \times (1 - Prevalence))} = 0.782177$
+    - $\text{PPV} = \frac{\text{Sensitivity} \times \text{Prevalence}}{(\text{Sensitivity} \times \text{Prevalence}) + ((1 - \text{Specificity}) \times (1 - \text{Prevalence}))} = 0.782177$
     - `{0.2372372 * 0.0333 / (0.2372372 * 0.0333 + ((1 - 0.9977242) * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
+    - $\text{PPV} = 1 - \text{Sensitivity} = \frac{C}{A+C}$
     - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
     - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
     - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
     - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
   - \textcolor{pink}{Negative Predictive Value (NPV)} 
-    - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((Specificity) \times (1 - Prevalence))} = 0.9743408$    
+    - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((\text{Specificity}) \times (1 - \text{Prevalence}))} = 0.9743408$    
     - `{0.9977242 * (1 - 0.0333) / ((1 - 0.2372372) * 0.0333 + (0.9977242 * (1 - 0.0333)))}` \textcolor{pink}{$\#\mathcal{R}$}
     - $\text{NPV} = \frac{D}{C+D} = \frac{9645}{254 + 9645} = 0.9743408$
   - \textcolor{pink}{Detection Rate} 
-    - $\text{Detection Rate} = \frac{\text{TP}}{Total} = \frac{A}{N} = \frac{79}{10000} = 0.0079$
+    - $\text{Detection Rate} = \frac{\text{TP}}{\text{Total}} = \frac{A}{N} = \frac{79}{10000} = 0.0079$
     - Out of total number of cases, how many cases in the target category predicted correctly (TP)
   - \textcolor{pink}{Detection Prevalence} 
     - $\text{Detection Prevalence} = \frac{\text{Event Predicted}}{\text{Total}} = \frac{A + B}{N} = \frac{101}{10000} = 0.0101$
     - Out of total number of cases, how many cases predicted as target cases. 
+  - \textcolor{pink}{Accuracy or Overall Accuracy} 
+    - $\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{Total}} = \frac{A + D}{N} = \frac{79+9645}{10000} = 0.9724$
   - \textcolor{pink}{Balanced Accuracy} 
     - $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{0.2372372 + 0.9977242}{2} = 0.6174807$
   - \textcolor{pink}{F-score (F1)}, with $\beta = 1$
@@ -740,14 +748,16 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     - `{(1 + 1^2) * 0.7821782 * 0.2372372 / (1^2 * 0.7821782 + 0.2372372)}` \textcolor{pink}{$\#\mathcal{R}$}
     - It is difficult to compare two models with different Precision and Recall. So to make them comparable, we use F-Score. 
     - F-Score is the Harmonic Mean of Precision and Recall. As compared to Arithmetic Mean, Harmonic Mean punishes the extreme values more. F-score should be high.
+```
 
 
+```{example 'Confusion-Summary'}
 - Summary
   - Precision is how certain you are of your true positives. Recall is how certain you are that you are not missing any positives.
   - Choose Recall if the occurrence of false negatives is unaccepted /intolerable. For example, in the case of diabetes that you would rather have some extra false positives (false alarms) over saving some false negatives.
   - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
   - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
-
+```
 
 ### Table Mod {.unlisted .unnumbered}
 
@@ -937,14 +947,17 @@ if(TRUE) tibble(Names = names(cmat_def_lda_50$byClass),
 
 ## ROC Curve {.tabset .tabset-fade}
 
-- The \textcolor{pink}{ROC curve} or Receiver Operating Characteristics
-  - It is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. 
-  - It traces out two types of error as we vary the threshold value for the posterior probability of default. 
-  - Y: The true positive rate is the sensitivity: the fraction of defaulters that are correctly identified, using a given threshold value. 
-  - X: The false positive rate is 1-specificity: the fraction of non-defaulters that we classify incorrectly as defaulters, using that same threshold value. 
+
+```{definition 'ROC'}
+\textcolor{pink}{ROC curve}, or Receiver Operating Characteristics, simultaneously display the two types of errors (Sensitivity (TPR) vs. {1 - Specificity} (FPR)) for all possible threshold values for the posterior probability of the Event. The overall performance of a classifier, summarized over all possible thresholds, is given by the area under the (ROC) curve \textcolor{pink}{(AUC)}. An ideal ROC curve will hug the top left corner, so the larger area under the (ROC) curve the AUC the better the classifier. 
+```
+
+
+- The \textcolor{pink}{ROC curve}
+  - Y: The true positive rate (TPR) is the sensitivity: the fraction of defaulters that are correctly identified, using a given threshold value. 
+  - X: The alse positive rate (FPR) is 1-specificity: the fraction of non-defaulters that we classify incorrectly as defaulters, using that same threshold value. 
   - The ideal ROC curve hugs the top left corner, indicating a high true positive rate and a low false positive rate. The dotted line represents the "no information" classifier; this is what we would expect if student status and credit card balance are not associated with probability of default.
 
-- The overall performance of a classifier, summarized over all possible thresholds, is given by the area under the (ROC) curve \textcolor{pink}{(AUC)}. An ideal ROC curve will hug the top left corner, so the larger area under the (ROC) curve the AUC the better the classifier. 
 
 - \textcolor{pink}{roc()}
   - Explicitly provide levels in the sequence of (case, control)
@@ -961,32 +974,10 @@ if(TRUE) tibble(Names = names(cmat_def_lda_50$byClass),
 ```
 
 - \textcolor{orange}{Warning:} "Deprecated use a matrix as predictor. Unexpected results may be produced, please pass a numeric vector."
-- The Error & Warning occur if posterior probability matrix is passed. It needs to be subset for single vector
+- The Error & Warning occur if posterior probability matrix is passed. Its subset in the form of vector is required.
+- Also applicable for logistic regression using rpart
 
 ### Plot {.unlisted .unnumbered}
-
-```{r 'F67-LDA-ROC-Default', include=FALSE}
-# #ROC Plot
-hh <- roc(response = zzF67Default$default, predictor = res_def_lda$posterior[, 1], 
-    levels = c("Yes", "No"), direction = "<", plot = FALSE)
-#
-cap_hh <- "F67P03"
-ttl_hh <- "Default: ROC: LDA"
-loc_png <- paste0(.z$PX, "F67P03", "-Default-ROC-LDA", ".png")
-#
-if(!file.exists(loc_png)) {
-  png(filename = loc_png) #, width = k_width, height = k_height, units = "in", res = 144
-  #dev.control('enable') 
-  plot(hh)
-  title(main = ttl_hh, line = 3, adj = 0)
-  title(sub = cap_hh, line = 4, adj = 1)
-  F67 <- recordPlot()
-  dev.off()
-  assign(cap_hh, F67)
-  rm(F67)
-  #eval(parse(text = cap_hh))
-}
-```
 
 ```{r 'F67-ROC-Default-LDA-Set', include=FALSE}
 # #Setup for ROC Plot
@@ -1015,9 +1006,9 @@ knitr::include_graphics(paste0(.z$PX, "F67P03", "-Default-ROC-LDA", ".png"))
 ```{r 'F67-ROC', eval=FALSE}
 # #IN: cap_hh, ttl_hh, loc_png, hh (ROC Plot)
 if(!file.exists(loc_png)) {
-  png(filename = loc_png) #, width = k_width, height = k_height, units = "in", res = 144
+  png(filename = loc_png)
   #dev.control('enable') 
-  plot(hh)
+  plot(hh, legacy.axes = TRUE)
   title(main = ttl_hh, line = 3, adj = 0)
   title(sub = cap_hh, line = 4, adj = 1)
   F67 <- recordPlot()

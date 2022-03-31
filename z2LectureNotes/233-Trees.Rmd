@@ -223,16 +223,16 @@ ii
 #
 if(!file.exists(loc_png)) {
   png(filename = loc_png) 
-  dev.control('enable') 
+  #dev.control('enable') 
   rpart.plot(hh, extra = 'auto')
   title(main = ttl_hh, line = 2, adj = 0)
   title(sub = cap_hh, line = 4, adj = 1)
-  B31 <- recordPlot()
+  B33 <- recordPlot()
   dev.off()
-  assign(cap_hh, B31)
-  rm(B31)
+  assign(cap_hh, B33)
+  rm(B33)
+  #eval(parse(text = cap_hh))
 }
-eval(parse(text = cap_hh))
 ```
 
 
