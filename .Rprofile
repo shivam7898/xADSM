@@ -1,15 +1,16 @@
 # #(.Rprofile) [3/3] =============================================================================#
-# #This file is Not auto-executed. It is sourced by [2/3] & thus executes on Restart R
+# #This file is Not auto-executed. It is sourced by [2/3] & thus executes on Restart R i.e. "^+F10" "AHK F5"
 # [1] Location: Sys.getenv("HOME") -
 #	This is kept in USER HOME and changed only when USER is changed.
-#	This File is Auto-executed on Start-up & on RStudio Restart R
+#	This File is Auto-executed on Start-up & on RStudio Restart R i.e. "^+F10" "AHK F5"
 #	To change the working directory to "D:/Analytics/R"
 #	To execute the .Rprofile [2/3] (No Auto-execution)
 # [2] Location: "D:/Analytics/R"
-#	To point to the latest project as working directory
+#	To point to the latest Project as working directory
 #	To execute the .Rprofile [3/3] (No Auto-execution)
 # [3] Location: Working Directory
 # Advantage is that every project has its own .Rprofile, thus it can keep its own changes.
+# Specially, with GIT initialisation, it can be kept in sync with the project files.																					
 # This file is executed when RStudio opens a project or a file in the directory.
 
 # #Set a CRAN mirror. Change the Target URL to the one having 'https' to avoid warnings.

@@ -1,0 +1,677 @@
+# R Markdown (Z03) {#z03}
+
+```{r 'Z03', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## R Notebook
+
+**R Notebook** is a special case of **R Markdown** that acts in a particular way. These allow the integration of plain text, code, and output e.g, view your analysis code and output while keeping track of your thought process.
+
+Unlike other R Markdown documents, R Notebooks are interactive. This means you run code and add output interactively within the document as you work rather than writing the whole document and R code and then compiling the document with output as a final step. 
+
+## index.Rmd
+
+The \textcolor{pink}{index.Rmd} file is required, and is also the first book chapter. 
+
+- To Build the Book \textcolor{pink}{"Ctrl+ Shift+ B"} 
+- To Build a Chapter \textcolor{pink}{"Ctrl+ Shift+ K"} 
+  - \textcolor{orange}{Caution:} Referencing the chunks in other .Rmd files will not work.
+    - Can be done by re-sourcing and ref.label chunk option.
+
+## Previewing and Saving an R Notebook
+
+In R Notebooks, we \textcolor{pink}{"preview"} the document to create the output \textcolor{pink}{"HTML"} document. R Markdown documents must be \textcolor{pink}{"saved"} before you can view any output from them. 
+
+Both, R Notebook and R Markdown files are saved as '.Rmd' File. The file generated has '.nb.html' extension.
+
+- Code output appears only after running code
+  - In R Notebooks, you have to run the code chunk within the '.Rmd' document before it will be included in the output. 
+  - This interactivity is a big difference between Notebooks and other R Markdown documents. 
+  - Run the current chunk by KEY: \textcolor{pink}{"Ctrl+ Shift+ ENTER"}
+  - Run All chunks by KEY: \textcolor{pink}{"Ctrl+ ALT+ R"} 
+
+## TinyTex
+
+- [How to Install tinytex Pacakge to install TinyTeX Distribution of LaTeX](#tinytex-b35 "b35")
+
+## Headers
+
+Headers are indicated using the Pound /Hash sign, followed by Space i.e. "**# **" for First Level. Number of #, change level of Headers i.e. "**## **" is for Second Level and so on. 
+
+- In Bookdown
+  - All chapters start with a first-level heading followed by your chapter title. There should be only one first-level heading per .Rmd file.
+  - All chapter sections start with a second-level or higher heading followed by your section title.
+  - Chapters and sections are numbered by default. 
+
+## Parts
+
+You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file. 
+
+Add a numbered part: `# (PART) Act one {-}` (followed by `# A chapter`)
+
+Add an unnumbered part: `# (PART\*) Act one {-}` (followed by `# A chapter`)
+
+Add an appendix as a special kind of un-numbered part: `# (APPENDIX) Other stuff {-}` (followed by `# A chapter`). Chapters in an appendix are prepended with letters instead of numbers.
+
+## Paragraphs
+
+Two Trailing Spaces are needed for a paragraph change, as was done in this line.  
+Whereas, this line does not have, two trailing spaces.
+So, this line continues in same line after the full stop, even though this actually is 3rd line in the file.
+
+## Formatting 
+
+### Bold and Italics
+
+Surround the text by Asterisks (\*) without leading or trailing spaces for emphasis.
+
+- Single Asterisks like (\*x\*) provide *Italics*.
+- Double Asterisks like (\*\*x\*\*) provide **Bold**.
+- Triple Asterisks like (\*\*\*x\*\*\*) provide ***Italics and Bold***.
+
+### Strikethrough
+
+Surround the text by Double Tilde (\~) without leading or trailing spaces for Strikethrough like (\~\~x\~\~).
+
+- ~~This line has been crossed-out~~.
+
+
+### Subscripts and Superscripts
+
+Surround the text by Single Tilde "**~**" without leading or trailing spaces for Subscripts.
+
+- For H~2~O use "H\~2\~O"
+
+Surround the text by Caret "**^**" without leading or trailing spaces for Superscripts.
+
+- For y^2^ use "y\^2\^"
+
+### Block Quotes
+
+Indicate Block Quotes by Prompt /'Greater than' Sign, followed by a space i.e. "**\> **" and a blank line before it.
+
+> "Knowledge is power."
+
+### Line Breaks 
+
+Force new pages by putting three or more asterisks on a line i.e. "**\*\*\* **". This is visible as line in Bookdown HTML.
+
+***
+
+## Plain code blocks
+
+To include an example of syntax that we do not want evaluated, we can wrap it in triple backticks (as chunks) but without curly braces (unlike chunks) that indicate the language of the code. Following, will render as shown below it  
+
+` ``` `   
+Sphinx of black quartz, judge my vow. !1iIlL. 0123456789. 0oO.  
+` ``` `
+
+```
+Sphinx of black quartz, judge my vow. !1iIlL. 0123456789. 0oO.  
+```
+
+## Rendering Specials
+
+## Backslash
+
+> Backslash "\\" is reserved to escape the character that follows it.
+
+- Use double backslash (\\) to escape itself i.e. render backslash 
+- Note: R uses slash (/) for paths
+
+## Consecutive Spaces
+
+To render two consecutive spaces, use (Non-Breaking Space) i.e. "\textcolor{pink}{\&nbsp;}"
+
+- With increasing space width 
+  - For "&thinsp;&thinsp;" use "\&thinsp;\&thinsp;" 
+  - For "&nbsp;&nbsp;" use "\&nbsp;\&nbsp;" (Followed, matches with single space " ")
+  - For "&ensp;&ensp;" use "\&ensp;\&ensp;" 
+  - For "&emsp;&emsp;" use "\&emsp;\&emsp;" 
+  
+- Text Spacing can be preserved using HTML Tags "**\<pre\> \</pre\>**"
+
+<pre>
+This   :
+x      :
+& This : Align
+</pre>
+
+### Brackets
+
+- To render Brackets "**[]**" without using backslash (because that creates problem), use HTML entity numbers
+
+- To show "&#91;x&#93;" use "**\&#91;x\&#93;**"
+- It is not very readable, but can be used when showing Hyperlink example, as shown in this document.
+
+### Backticks
+
+- To show inline code with backticks i.e. "**`**", use double backticks i.e. `abc` &larr; `` `abc` `` &larr; ``` `` `abc` `` ```. 
+- Or any number of backticks can be used to render any other number (but not itself) 
+  - 3 quoting 1, 2 and 4: ``` 1: `  2: ``  4: ```` ```
+  - 2 quoting 1, 3 and 4: ``  1: `  3: ``` 4: ```` ``
+  - 1 quoting 2, 3 and 4: `   2: `` 3: ``` 4: ```` `
+
+### Arrows
+
+- To render Arrows, use HTML Symbols
+  - Up : "&uarr;" use "\&uarr;"
+  - Down : "&darr;" use "\&darr;"
+  - Left : "&larr;" use "\&larr;"
+  - Right : "&rarr;" use "\&rarr;"
+  - Double Headed : "&harr;" use \&harr;"
+  - Leftward Double Headed : "&#8606;" use " \&#8606;" 
+    - It is NOT exactly same as R double headed assignment (`<<-`), however, it is the closest match
+
+## Unordered Lists (Bulleted)
+
+Use Dash, followed by Space i.e. "**- **" for Bullets and a blank line before it.
+
+- If you do not have the space between the symbol and list item you would not get bullets. 
+- Indent with 2 or 4 Spaces to get nested bullets.
+  - This secondary bullet list has "&nbsp;&nbsp;**-**&nbsp;" 2 Spaces before the dash and 1 space before the list item starts
+
+
+## Orderd Lists (Numbered)
+Use Number, followed by Full stop /Period /Dot and Space i.e. "**1. **" and a blank line before it.
+
+3. Note: This list does not start from "1" because the Number used here is "3".
+3. Actual numbers do not matter, just that it is a number (Actual 3, Rendering 4).
+    p. Sub-list using letters, these require double tabs (unlike unordered lists)
+    p. Actual letters do not matter, just that it is a letter (Actual p, Rendering q).
+    p. Keeping same number /letter in these lines have the advantage that these can be resorted later without editing their numbering individually.
+
+Use Alphabets, followed by Dot and Double Space i.e. "**A.  **" and a blank line before it.
+
+C.  Alphabetical List needs two spaces.
+W.  Again, actual alphabet does not matter. (Actual W, Rendering D).
+    - To add a Sub-list like this in an ordered list (numbered or alphabetical)
+    - Indent of 4 spaces is needed (in place of usual 2 spaces)
+P.  So, that this line will continue in the series (Actual P, Rendering E)
+
+
+## Hyperlinks
+
+Use Brackets "**[]**" followed by Parentheses "**()**" with Quotes "**\"\"**" inside it for Title (On Hover).
+
+- "&#91;Text&#93;(URL&nbsp;\"Title\")"
+- [CRAN](https://cran.r-project.org/index.html "CRAN Homepage") by &#91;CRAN&#93;(https://cran.r-project.org/index.html "CRAN Homepage")
+
+
+### Internal link using Anchors
+
+Pandoc supports explicit and implicit section references for headers
+
+- Explicit i.e. custom name
+  - Put an "**Anchor**" next to a title: Surrounded by Braces and Starting with Hash "**{\#x}**"  
+  - Put a link toward this anchor by "&#91;x&#93;(#x&nbsp;\"x\")" to get [x](#x "x")
+  - Rules
+    - Anchor can not be started with a Number. 
+    - For HTML Tab Section Headers, Only the anchor to First Tab will work, not for the other tabs. 
+    - NOT Tested Yet, if the other tab is made "\textcolor{pink}{.active}", does this result in behavior change.
+    - For now, just Anchor to the higher level 
+  - Current: "all-lower-case-using-dash-with-trailing-chapter-number-like-z03"
+  
+- Implicit i.e. section headers
+  - Problem 
+    - These may not be unique and are being internally modified so may break suddenly
+  - Rules
+    - Only one # for anchor, even if you are using a header with multiple #. (Ex: ###header becomes #header when linking)
+    - No spaces between # and anchor text (Ex: #header, not # header)
+    - Multi-word anchors should be separated by dashes (Ex: #this is a header needs to become #this-is-a-header in the link)
+    - Anchor links need to be lowercase, even if the header you are linking to has capitalization (Ex: #Section becomes #section in the link)
+  - Pandoc Rules
+    - Remove all formatting, links, etc.
+    - Remove all footnotes.
+    - Remove all non-alphanumeric characters, except underscores, hyphens, and periods.
+    - Replace all spaces and newlines with hyphens.
+    - Convert all alphabetic characters to lowercase.
+    - Remove everything up to the first letter (identifiers may not begin with a number or punctuation mark).
+    - If nothing is left after this, use the identifier section.
+
+
+## Colored Text by LaTeX
+
+LaTeX can be used for simple coloring.
+
+- ~~Using 'color'~~  (Using 'textcolor' now)
+  - i.e. "\$\\color{teal}{\\rm Your~Text}\$"
+  - NOTE: Tilde is needed for Spaces inside these blocks. (Irritating)
+  - $\color{teal}{\rm This~text~is~Coloured. Spaces~here~are~shown~using~Tilde.}$
+  - "**\\rm **" turns on roman; affects uppercase and lowercase letters, and digits and uppercase Greek
+  - It can be clubbed with BOLD i.e. "\$\\color{teal}{\\rm \\textbf{Your Text}}\$"
+    - $\color{teal}{\textbf{This text is Coloured and BOLD. Here, spaces do not need tilde.}}$
+    - This has advantage of not needing tilde for spaces. 
+    - Further, this works without the need of "**\\rm **"
+    - However, boldface looked bloated, so it is not being used anymore
+- Using 'textcolor' -
+  - Using 'lua filter', preamble.tex is working (for color at least). So, we can use "xcolor" package
+  - USE: "\\textcolor{pink}{This text is Colored, has Spaces without Tilde and is NOT surrounded by DOLLARS.}" 
+  - FOR: "\textcolor{pink}{This text is Colored, has Spaces without Tilde and is NOT surrounded by DOLLARS.}"
+
+Colors -
+
+1. \textcolor{red}{This text is RED.}
+1. \textcolor{green}{This text is GREEN.}
+1. \textcolor{blue}{This text is BLUE.}
+1. \textcolor{cyan}{This text is CYAN.}
+1. \textcolor{magenta}{This text is MAGENTA.}
+1. \textcolor{yellow}{This text is YELLOW.}
+1. \textcolor{black}{This text is BLACK.} (Black Text)
+1. \textcolor{white}{This text is WHITE.} (WHITE Text)
+1. \textcolor{lightgray}{This text is LIGHTGRAY.}
+1. \textcolor{gray}{This text is GRAY.}
+1. \textcolor{darkgray}{This text is DARKGRAY.}
+1. \textcolor{brown}{This text is BROWN.}
+1. \textcolor{lime}{This text is LIME.}
+1. \textcolor{olive}{This text is OLIVE.}
+1. \textcolor{orange}{This text is ORANGE.}
+1. \textcolor{pink}{This text is PINK.}
+1. \textcolor{purple}{This text is PURPLE.}
+1. \textcolor{teal}{This text is TEAL.}
+1. \textcolor{violet}{This text is VIOLET.}
+
+
+## Equations
+
+Equations or Greek letters can be included within text using LaTeX equations wrapped in dollar signs "**$**" and preceding symbols with backslash "**\\**"
+
+- This Sigma sign **$\sigma$** was produced by using "\$\\sigma\$".
+
+
+### Display equation
+
+NOTE: While knitting a Single Document, Equations /LaTeX Symbols might not get displayed properly. Check by building Complete Book.
+
+- To display an equation on its own line, use double dollar signs "**\$\$**". 
+  - To show the code for the equation without evaluation by LaTeX, use inline code.
+    - Sum: "\textcolor{pink}{`\sum_{i=1}^n X_i`}" 
+    - Area of a Circle: "\textcolor{pink}{`A = \pi \times r^{2}`}" 
+    - Unable to show the command for the code. "ForLater"
+  - However, These equations are NOT auto numbered in Bookdown.
+  - So, Use LaTeX Formatting with "**eq:label**"
+  - These can later be referred by `\@ref(eq:label)` 
+    - See \@ref(eq:summation) by using \\\@ref(eq:summation)
+    - See \@ref(eq:Area-Circle) by using \\\@ref(eq:Area-Circle)
+    - NOTE that Label Name was used but equation number is displayed here.
+
+    
+```
+\begin{equation} 
+  \sum_{i=1}^n X_i
+  (\#eq:label)
+\end{equation} 
+```
+
+\begin{equation} 
+  \sum_{i=1}^n X_i
+  (\#eq:summation)
+\end{equation} 
+
+\begin{equation} 
+  A = \pi \times r^{2}
+  (\#eq:Area-Circle)
+\end{equation} 
+
+
+## LaTeX Symbols
+
+- Series
+  - **\${\\{x_1,x_2,\\ldots,x_n}\\}\$** ${\{x_1,x_2,\ldots,x_n}\}$ (Lower DOTS)
+  - **\${\\{x_1+x_2+\\cdots+x_n}\\}\$** ${\{x_1+x_2+\cdots+x_n}\}$ (Center DOTS)
+
+- Brackets and Fractions
+  - **\$\\left\\{\\frac{x}{y} \\right\\}\$** $\left\{\frac{x}{y} \right\}$
+  - NOTE: "**\\left**" and "**\\right**" are used for delimiters when they have to change the size dynamically depending on the content. There are more like \\bigl, \\bigr, \\Bigl, \\Bigr, \\biggl, \\biggr, \\Biggl, \\Biggr.
+
+- Summation
+  - **\$\\sum_{i=1}^n{x_i}\$** $\sum_{i=1}^n{x_i}$
+
+
+$$hat (\hat{a}),  check(\check{a}), tilde(\tilde{a}), acute(\acute{a}), grave(\grave{a}), dot(\dot{a}), ddot(\ddot{a}), \\ breve(\breve{a}), bar(\bar{a}), overline(\overline{a}), vec(\vec{a}), widehat(\widehat{a}), widetilde(\widetilde{a}), \\
+alpha (\alpha), beta (\beta), gamma (\Gamma, \gamma), delta (\Delta, \delta), epsilon (\epsilon, \varepsilon), zeta (\zeta), \\
+eta (\eta), theta (\Theta, \theta, \vartheta), iota (\iota), kappa (\kappa, \varkappa), lambda (\Lambda, \lambda), mu (\mu), \\ 
+nu (\nu),xi (\Xi, \xi), omicron (\omicron), pi (\Pi, \pi, \varpi), rho (\rho, \varrho), sigma (\Sigma, \sigma, \varsigma), \\ 
+tau (\tau), upsilon (\Upsilon, \upsilon), phi (\Phi, \phi, \varphi), chi (\chi), psi (\Psi, \psi), omega (\Omega, \omega)$$
+$$= , > , < , equiv (\equiv), approx (\approx), sim (\sim), propto (\propto), neq (\neq), geq (\geq), leq (\leq), \\
+parallel (\parallel), in (\in), perp (\perp), pm (\pm), times (\times), div (\div), ast (\ast), dagger (\dagger), ddagger (\ddagger), star (\star), \\
+Leftarrow (\Leftarrow), leftarrow (\leftarrow), Rightarrow (\Rightarrow), rightarrow (\rightarrow), uparrow (\uparrow), Uparrow (\Uparrow), downarrow (\downarrow), \\ Downarrow (\Downarrow), 
+Longleftarrow (\Longleftarrow), longleftarrow (\longleftarrow), Longrightarrow (\Longrightarrow), longrightarrow (\longrightarrow), \\ Updownarrow (\Updownarrow), updownarrow (\updownarrow), 
+Leftrightarrow (\Leftrightarrow), leftrightarrow (\leftrightarrow), iff (\iff), \\
+infty (\infty), partial (\partial), cdot (\cdot), cdots (\cdots), ldots (\ldots), dotsc (\dotsc), dotsb (\dotsb), dotsm (\dotsm), dotsi (\dotsi), dotso (\dotso)$$
+
+## Unicode
+
+- There are special characters here. 
+  - Mu - `r "\u03bc"` Greek letter using "\\u03bc" and not the  ~~"`r "\u00b5"`"~~ micro symbol using "\\u00b5"
+  - Sigma - `r "\u03c3"` using "\\u03c3"
+  - subscript & superscript (each number has its own Unicode) ...
+    - https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts
+    - cat(sprintf('Variance %s%s =', '\u03c3', '\u2082'), 10)
+    - "\\u00b2" for Square
+
+## Tables
+
+### Simple Table
+
+- There must be at least 3 dashes separating each header cell. 
+- The outer pipes (|) are optional
+- Vertical alignment of pipes is unimportant
+- Caption needs to be after one blank line and of the form "Table: (\\#tab:label) Caption"
+  - It can be referred by `\@ref(tab:label)` 
+  - Ex: \@ref(tab:abc)
+
+| X | Y | Z |
+|:---:|:---:|:---:|
+| 0 | 1 | 9 |
+| 00 | 11 | 99 |
+| 000 | 111 | 999 |
+| 0000 | 1111 | 9999 |
+
+Table: (\#tab:abc) FIRST TABLE
+
+
+### Table using kable and kableExtra
+
+- This Table can be referred similarly by `\@ref(tab:label)` where label is chunk name
+- Ex: \@ref(tab:Z03T01) by using "\\\@ref(tab:Z03T01)"
+
+```{r 'Z03T01'}
+# #Print Kable Table
+nn <- 6L
+hh <- tibble(ID = 1:nn, Double = seq(1, nn, 1), 
+             Character = head(letters, nn), Logical = (ID %% 2) == 0, 
+             Factor = factor(rep(c("odd", "even"), length.out = nn)), 
+             Factor_O = factor(rep(c("odd", "even"), length.out = nn), ordered = TRUE),
+             DATETIME = Sys.time() + 1:nn, DATE = Sys.Date() + 1:nn)
+#
+cap_hh <- paste0("(Z03T01)", " Basic Table") 
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
+```
+
+
+## Making LaTeX Work in HTML
+
+- _output.yml 
+  - Added "pandoc_args: ['--lua-filter=parse-latex.lua']"
+  - Modified "in_header: header.html"
+    - "in_header: [header.html, preamble.tex]" was bad because, the contents of preamble file show up at the top of page as text
+	- Probably, this is about HEADERS i.e. contents of header.html will show up as header in the final output.
+- Added LUA File "parse-latex.lua" with a processing function
+  - [(SO) This](https://stackoverflow.com/questions/57548218 "https://stackoverflow.com")
+  - Pandoc is the final step when converting from Markdown to any other format.
+	- Pandoc first parses the document into an internal, intermediate format. 
+	- Pandoc recognizes "\textcolor" as a raw LaTeX command embedded into Markdown. It does not try to parse the LaTeX any further, as it was told to read Markdown, not LaTeX. This raw LaTeX snippet will be included in the output when producing output of a format which supports inclusion of LaTeX. The snippet is left out by pandoc when generating HTML/EPUB, as including it would not have the intended effect.
+	- So Two Steps: we need to convince pandoc to continue parsing, tell pandoc how to translate \textcolor from LaTeX to HTML
+	- Pandoc has a feature called Lua filters which allow us to modify the internal document representation programmatically. 
+	- The Function in Lua file here is such a filter which will parse the raw LaTeX commands.
+	- Save this code to a file parse-latex.lua and make your document processing pipeline use this file.
+	- pandoc_args: ['--lua-filter=/path/to/your/parse-latex.lua']
+
+```{Z03-LuaFilter}
+function RawInline (el)
+  if el.format == 'tex' then
+    local blocks = pandoc.read(el.text, 'latex').blocks
+    return blocks[1] and blocks[1].content or el
+  end
+end
+```
+
+
+## Add a Glossary 
+
+- First Knitr Chunk is modified and at the end a chunk is used to show.
+- `name='Data'` would show immediately inside brackets just after definition i.e. "Definition 1.1 (Data)"
+- `term='Data'` does not show up i.e. "Definition 1.1"
+- Although, both can be ignored altogether, to prevent duplicate, Only Chunk Label (not name) is shown in Glossary.
+- Similar to Chunk Labels, Each Name of Definition etc. must be unique and can use dashes (NO Space or Underscore). Further, its first character cannot be a number.
+
+It can be referred as usual i.e. \@ref(def:Data-Z03) by using `\@ref(def:Data-Z03)`
+
+```{definition 'Data-Z03'}
+\textcolor{pink}{Data} are the facts and figures collected, analyzed, and summarized for presentation and interpretation.
+```
+
+
+These Names shown with the Text e.g. 'Definition', 'Conjecture' etc. can be modified in _bookdown.yml file i.e.  cnj: 'ERROR ' 
+
+These all can be accessed and tracked using knitr 
+
+```{r 'Z03-ListDefinitions', eval=FALSE}
+# #Save Definitions and Theorems for Glossary
+  k_def_list = list()
+  k_thm_list = list()
+  k_cnj_list = list()
+  k_exm_list = list()
+  knitr::knit_hooks$set(engine = function(before, options) {
+# #Set the hook once to handle All /both lists
+    if ( before ) {
+        if ( options$engine == "theorem" ) {
+            k_thm_list[[options$label]] <<- options$name
+        } else if ( options$engine == "definition" ) {
+            k_def_list[[options$label]] <<- options$name
+        } else if ( options$engine == "conjecture" ) {
+            k_cnj_list[[options$label]] <<- options$name
+        } else if ( options$engine == "example" ) {
+            k_exm_list[[options$label]] <<- options$name
+        }
+    }
+    NULL
+  }) 
+```
+
+And accessing the Definitions: 
+
+```{r 'Z03-Theorems', comment="", echo=TRUE, results='asis', cache=FALSE, eval=FALSE}
+# #New items will NOT be added immediately if cache=TRUE
+for(x in knitr::all_labels(engine == 'theorem')){
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
+   cat(paste0("\n\n", "\\@ref(thm:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+```{r 'Z03-Definitions', comment="", echo=TRUE, results='asis', cache=FALSE, eval=FALSE}
+# #New items will NOT be added immediately if cache=TRUE
+for(x in knitr::all_labels(engine == 'definition')){
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
+   cat(paste0("\n\n", "\\@ref(def:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+```{r 'Z03-Errors', comment="", echo=TRUE, results='asis', cache=FALSE, eval=FALSE}
+# #New items will NOT be added immediately if cache=TRUE
+for(x in knitr::all_labels(engine == 'conjecture')){
+# # Use (x, "\n\n>") in place of (x, "\n\n") to show definitions as Quotes
+   cat(paste0("\n\n", "\\@ref(cnj:", x, "): ", x, "\n\n", knitr:::knit_code$get(x), collapse = "\n\n"))
+} 
+```
+
+
+| Environment | Printed Name | Label Prefix |
+| :--- | :--- | :---  | 
+| theorem | Theorem | thm |
+| lemma | Lemma | lem |
+| corollary | Corollary | cor |
+| proposition | Proposition | prp |
+| conjecture | Conjecture | cnj |
+| definition | Definition | def |
+| example | Example | exm |
+| exercise | Exercise | exr |
+| hypothesis | Hypothesis | hyp |
+
+Table: (\#tab:Environments) Theorem environments in bookdown
+
+
+## YAML
+
+At the top, surrounded by sets of three dashes "**\-\-\-**", is the YAML header. The YAML header is used to define the structure of the document. 
+
+- Each option in the YAML header has a colon after it followed by a space.  
+- \textcolor{pink}{Indent} is important.
+- Comments are NOT allowed inside YAML Block
+
+### YAML Options
+
+- "title:"
+  - In PDF, to reduce the title margin modify the title itself
+    - "\\\\vspace{-1.5cm} Title"
+- "subtitle:" 
+  - "..."
+- "author:" 
+  - "..."
+  - More than one authors can be added by "First Author, Second Author"
+- date: 
+  - "`r Sys.Date()`" by removing `eval` from `{r Sys.Date(), eval = FALSE}`.
+- "output:"
+  - "html_notebook:"
+    - [HTML](https://bookdown.org/yihui/rmarkdown/html-document.html#appearance_and_style "Bookdown Link")
+    - (Auto Numbering Sections) "number_sections: TRUE"
+    - (Auto hide code) "code_folding: "hide" "
+    - (Show Table of Contents) "toc: TRUE"
+    - (Show TOC as Floating Left) "toc_float: TRUE"
+    - (TOC Levels) toc_depth: 3
+  - "pdf_document:"
+    - Typesetting Engine is probably **"pdflatex"** or maybe "latex". It is Neither "xelatex" nor "lualatex".
+    - "geometry:" 
+      - margin = 0.54cm
+    - "urlcolor: blue" for Hyperlink to outside the document.
+    - "linkcolor: red" for Hyperlink inside the document using Anchors.
+    - "fontsize:" 
+      - For PDF, it can take only 10pt, 11pt, 12pt due to LaTeX limitation.
+  - "header-includes:" (For PDF)
+    - To change font to 'Consolas' to show cross-out zero (0) in code.
+    - Use "header-includes:"
+      - "\\usepackage{listings}"
+      - "\\usepackage{inconsolata}"
+      - "\\lstset{ basicstyle=\ttfamily, breaklines=true}"
+
+## The setup chunk
+
+To set the same chunk option for every chunk in the document
+
+- Set overall options in the "**setup**" chunk using "**opts_chunk$set**" from "**knitr**".
+- The setup chunk goes at the top of a Rmd document, right under the YAML header. 
+- This code is generally not shown in the output document, so use `echo = FALSE` in its header.
+- Current :
+  - It is being sourced from "A99Knitr.R" File
+
+
+` ```{r 'setup', echo=FALSE, eval=FALSE} `
+```  
+knitr::opts_chunk$set()  
+```  
+` ``` `
+
+## Chunk Labels
+
+> Underscore "_" and Space " " are NOT allowed in Chunk Labels. Use Dash "-".
+
+## Chunk Options
+
+- chunk header
+  - `{r}` provide the code language as **`R`**
+  - `{r 'x'}` provide that the chunk name is "**x**"
+  - Each chunk must be unique and can use dashes (NO Space or Underscore)
+  - Rstudio does not identify `label` option, so use as shown and not as **~~`{r, label = 'x'}`~~**
+  
+- Code and Execution related
+  - (TRUE; logical or numeric) 
+  - The value of a chunk option can be an arbitrary R expression. 
+    - `echo = seq(1, len=6, by=2)` to decide which lines would be printed or skipped.
+    - `c(2,3)` to include only these or `c(-4)` to exclude only this
+  - `echo = FALSE` prevents code, but not the results from appearing in the finished file.
+    - This is a useful way to embed figures.
+  - `eval = TRUE` whether to evaluate the code chunk
+  - `include = TRUE`
+    - `include = FALSE` prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the results can be used by other chunks.
+  - `collapse = TRUE` allows output and code in same block to reduce the spread.
+  
+- message = FALSE, warning = FALSE, error = FALSE
+  - (TRUE; logical)
+  - whether to preserve messages /warning /error
+  - if FALSE, all messages /warning /error will be printed in the console instead of the output document
+  - `error = FALSE` also stops execution for error.
+  
+- Controlling figure size 
+  - fig.height = 10, fig.width = 5 (in inches)
+- `class.source` and `class.output` are applicable to `css` only
+
+- `cache = TRUE, autodep = TRUE, cache.comments = FALSE` 
+  - to keep the run code in cache. if there is problem just delete the cache_folder
+
+- NOTES:
+  - The Basic Chunk, in all Rmd Files, which sources the Packages file, can not be used without 'cache=FALSE', otherwise later chunks shows different output for `(.packages())` within a 'cache=FALSE' chunk and the one without i.e. 'cache=TRUE'
+    - The document can still be generated by catching the Error in tryCatch()
+    - Problem can still be sort out by loading missing packages in the relevant chunk, using the if() check
+    - But, better to avoid this jugglery and use 'cache=FALSE' at the TOP
+    - Further, 'cache=TRUE' can be used in Knitr Default Call (for overall document). 
+      - However, Xi Hui specifically advised against doing this. 
+      - Always Build Book without Cache. Otherwise not only we will lose links but also it will be slow
+  - In this Basic chunk, .R chunk is called within 'ref.label=c()' so that when an .Rmd file used multiple .R files, all of their top blocks can be initialized within single chunk.
+    - Not applicable anymore. Dependence on code outside the current .Rmd file has been reduced to enable chapter build up for quick previews and validation.
+
+## Default working directory for R Markdown
+
+The default working directory for R Notebooks and all other R Markdown documents is the directory where the Rmd file is stored. This allows us to write all directory paths relative to that directory. 
+
+- The Dot "**.**" indicates the directory path to the default directory.
+- The Double Dot "**..**" indicates the directory path to the parent directory
+- The `setwd()` function will not work in an R Markdown document. Use `root.dir` and `here::here()`.
+
+
+## R Bookdown 
+
+### Referencing a Code Chunk
+
+Only reference to same .Rmd file works. Chunks in other .Rmd files are not referenced.
+
+- Use `ref.label=c('label-within-single-quotes')`
+- OR Use `<<label-without-single-quotes>>` 
+
+NOTE: Both are run with updated information if `eval = TRUE` i.e. a modified objected would be printed with modifications even though the original chunk output is different.
+
+### Referencing an Image
+
+- See Figure "\\\@ref(fig:label-without-single-quotes-but-caption-needed-in-original)"
+  - Label & Caption, both are must for an image to be referred 
+  - Use Space i.e. '**&nbsp;**' as a Caption placeholder for blank caption, if needed.
+
+
+### Source Files
+
+- First Line should be a label which should contain all the objects, functions and packages loading conditions for later labels
+  - This would help if a label is being used in the same chapter, its pre-requisites can be loaded in the beginning of the chapter.
+  - Further, this will lead to all files being able to run as standalone when sourced.
+
+
+## Pending
+
+- Animation 
+- Vertical Scroll
+- Horizontal Width Wrap
+- Sub Captions for Side by Side Figures
+- preamble.tex NOT working for packages other than 'textcolor' and that too after applying lua-filter
+- How to differentiate between the code being sourced from console and the chunk being run from knitr, so that Z block can have a conditional non-execution. Current use of 'stopifnot()' still throws ERROR.
+
+## Insights
+
+- Folder '.Rproj.user' also needs to be cleaned if hanging /no display problem reappear along with '_book' & sub-folders in '_bookdown_files'
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'Z03-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, cap_hh, hh, nn)
+```
+
+```{r 'Z03-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

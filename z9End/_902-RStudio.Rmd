@@ -1,0 +1,42 @@
+# RStudio Underscore (Z02) {#z02}
+
+## The .Rprofile
+
+- To open Help in Browser and not in RStudio Help Tab
+  - `options(help_type = "html")` # open help in browser (using this)
+  - `options(help_type = "text")` # open help internally 
+
+## Modifications
+
+- To Stop R Studio from opening help topics in their Tab and breaking all alignment
+  - Open File as Administrator "C:\Program Files\RStudio\R\Options.R"
+  - Comment Out the code for 'custom browseURL implementation'
+
+```{r 'Z02-HelpTab', eval=FALSE}
+# #2022 To Open Help Files in browser instead of RStudio Tab
+# custom browseURL implementation.
+#.rs.setOption("browser", function(url)
+#{
+#   .Call("rs_browseURL", url, PACKAGE = "(embedding)")
+#})
+```
+
+## Plot Tab
+
+- To Stop RStudio from opening Plots in the small Tab 
+  - Open File as Administrator "C:\Program Files\RStudio\R\Tools.R"
+  - Modify the code as shown
+  
+```{r 'Z02-Plots', eval=FALSE}
+# #2022 To Open Plots in separate window instead of RStudio Tab
+# set our graphics device as the default and cause it to be created/set
+.rs.addFunction( "initGraphicsDevice", function()
+{
+   #options(device="RStudioGD")
+   #grDevices::deviceIsInteractive("RStudioGD")
+   grDevices::deviceIsInteractive()
+})
+```
+
+
+****

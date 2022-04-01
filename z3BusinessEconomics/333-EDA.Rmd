@@ -12,6 +12,10 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - "Exploratory Data Analysis"
   - Refer [L: Data Pre-Processing](#b16 "b16"), [L: Data Pre-Processing](#b17 "b17"), [L: Unsupervised Learning](#b18 "b18"), and [Numerical Measures](#c03 "c03")
 
+```{definition 'Data-Exploration'}
+\textcolor{pink}{Data exploration} is the art of looking at your data, rapidly generating hypotheses, quickly testing them, then repeating again and again. The goal of data exploration is to generate many promising leads that you can later explore in more depth.
+```
+
 ## Churn
 
 \textcolor{pink}{Please import the "B18-Churn.xlsx"}

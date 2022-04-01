@@ -466,7 +466,10 @@ In R Studio: Packages Tab | Install | Package Name = "psych" | Install
   - All Installed Packages are listed under Packages Tab
   - All Loaded Packages are listed under Packages Tab with a Tick Mark
   - Some packages are dependent on other packages and those are also installed when 'dependencies = TRUE'
-  - If a package is NOT installed properly, it will show error when loaded by \textcolor{pink}{library()}
+
+- Packages are loaded using \textcolor{pink}{library()}
+  - If a package is NOT installed properly, it will show error when loaded by the library() function
+
 
 ### Install Packages {.unnumbered}
 
@@ -498,7 +501,7 @@ invisible(lapply(pkg_chr, FUN = function(x) {
   suppressMessages(library(x, character.only = TRUE))}))
 ```
 
-### Detach Package {.unnumbered}
+### Search & Detach Package {.unnumbered}
 
 ```{r 'B09-Detach', eval=FALSE}
 # #Detach a package

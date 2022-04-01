@@ -1,0 +1,159 @@
+# R (Z04) {#z04}
+
+```{r 'Z04', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## library() vs. require() 
+
+- Packages are loaded using \textcolor{pink}{library()}
+  - Generally, `library("tm")` is preferable over `require("tm")`
+  - If a package is NOT installed properly
+    - It will show error when loaded by the library() function
+    - It will NOT show error when loaded by the require() function. It will silently fail. Thus, require() must be used along with if() to check for FALSE. 
+  - Do not use require() function, library() is better.
+
+## Search Installed Packages 
+
+```{r 'Z04-SearchInstalledPackages'}
+# #Check if following Packages are already installed
+pkg <- c("data.table", "ODBC", "abc", "xyz")
+#
+# #List those packages which are NOT installed
+miss_pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+#
+if(!identical(0L, length(miss_pkg))){
+  cat("Install Following Packages: ", paste0(miss_pkg, collapse=", "), "\n")
+}
+```
+
+## Remove Objects
+
+
+```{r 'Z04-RemoveObjects', eval=FALSE}
+if(FALSE){
+  # #Remove All Including Hidden
+  rm(list = ls(all.names=TRUE))
+  # #Remove All but NOT the Hidden
+  rm(list = ls())
+  # #Remove All Except those listed
+  rm(list = setdiff(ls(), c("a", "c")))
+  # #Removing Matching "gg01_" 
+  rm(list = ls(pattern = "gg\\d\\d_"))
+  # #Remove objects from another Environment
+  rm(ZZ, envir = .z)
+}
+```
+
+## ERROR
+
+### Generate {.unlisted .unnumbered}
+
+```{r 'Z04-Error-Generate'}
+# #try() creates Error Object which stores the 'error' as 'message'
+ii <- try("x" + "y", silent = TRUE)
+jj <- try(stopifnot(1 == 2), silent = TRUE)
+#
+# #Print ERROR as Message
+# #message=FALSE : Output in 'render' tab when knitting and below the chunk, not at the build END.
+# #message=TRUE  : Output in Chunk Result.
+message(ii)
+message(jj)
+```
+
+### tryCatch() {.unlisted .unnumbered}
+
+
+```{r 'Z04-TryCatchError', eval=FALSE}
+# #Error Handling using tryCatch()
+tryCatch(expr = {
+# #Error: A continuous variable can not be mapped to shape 
+# #print() is needed inside script for ERROR capturing
+    if(exists("rs_err")) print(rs_err) else print("GG Object Not Found")
+  }, warning = function(w) {#Handle Warning
+	print(paste0(w))
+  }, error = function(e) {#Handle ERROR
+# #without paste0(), print shows full Backtrace
+    print(paste0(e))
+  }, finally = {#Do this at the end before quitting the tryCatch structure
+  })
+# #Cleanup
+rm(rs_err)
+```
+
+
+
+## Warnings {.tabset .tabset-fade}
+
+
+```{r 'Z04-Generate-Warning', eval=FALSE}
+#jj <- try(as.numeric(c("5", "6", "seven")), silent = TRUE) #WARNING
+```
+
+
+### Generate {.unlisted .unnumbered}
+
+```{r 'RS02B-Warning', eval=FALSE}
+# #RS01RegEx
+```
+
+### Chunk Option {.unlisted .unnumbered}
+
+```{r 'RS02D-UsingChunkOption', warning=TRUE, fig.cap="Show Warning using Chunk Option", eval=FALSE}
+# #RS01RegEx
+```
+
+### suppressWarnings() {.unlisted .unnumbered}
+
+```{r 'RS02E-Suppress', fig.cap="suppressWarnings()", eval=FALSE}
+# #RS01RegEx
+```
+
+### tryCatch() {.unlisted .unnumbered}
+
+```{r 'RS02F-TryCatchWarning', fig.cap="Show Warnings using tryCatch()", eval=FALSE}
+# #RS01RegEx
+```
+
+### capture.output() {.unlisted .unnumbered}
+
+```{r 'RS02G-CaptureOutput', fig.cap="Show Warnings using capture.output()", eval=FALSE}
+# #RS01RegEx
+```
+
+### last.warning {.unlisted .unnumbered}
+
+```{r 'RS02H-LastWarning', fig.cap="Show Warnings using last.warning", eval=FALSE}
+# #RS01RegEx
+```
+### withCallingHandlers() {.unlisted .unnumbered}
+
+```{r 'RS02I-withCallingHandlers', warning=TRUE, fig.cap="Show Warnings using withCallingHandlers()", eval=FALSE}
+# #RS01RegEx
+```
+
+### options() {.unlisted .unnumbered}
+
+```{r 'RS02J-WarningOption', eval=FALSE}
+# #RS01RegEx
+```
+
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'Z04-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'Z04-Validation', include=FALSE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

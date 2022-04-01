@@ -53,17 +53,15 @@ xbank <- train_xfw
 test_bank <- test_xfw
 ```
 
-## Install TinyTex Package & Distribution
+## Install tinytex Pacakge to install TinyTeX Distribution of LaTeX {#tinytex-b35}
 
-- Skipped "23:00-55:00" on basics of R Markdown
-
-```{r 'B35-TinyTex', eval=FALSE}
+```{r 'B35-TinyTeX', eval=FALSE}
 if(FALSE){# #WARNING: Installation may take some time.
 # #Install Package 'tinytex' in R
   install.packages("tinytex", dependencies = TRUE)
 # #'latexpdf' might be required also
   if(FALSE) install.packages("latexpdf", dependencies = TRUE)
-# #Use the package to install the TinyTeX distribution
+# #Use the package to install the TinyTeX Distribution of LaTeX
   tinytex::install_tinytex()
 # #Verification: Success =TRUE
   tinytex:::is_tinytex()

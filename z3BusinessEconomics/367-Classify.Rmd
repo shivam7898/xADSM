@@ -673,7 +673,7 @@ hh <- tibble(Predicted_Reference = c("Event_nonNull_Case_Pos", "noEvent_Null_Con
              Total = c("A+B= 101", "C+D= 9899", "N= A+B+C+D= 10000"))
 #
 cap_hh <- paste0("(F67T01)", " Default: Confusion Matrix") 
-f_pKbl(x = hh, caption = cap_hh, debug = TRUE)
+f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
 ```
 
 ### Explanations {.unlisted .unnumbered}
