@@ -31,7 +31,7 @@ f_getObject <- function(x_name, x_source, x_md = "") {
       # #col_double(), col_character(), col_logical(), col_integer()
       # #DATETIME (EXCEL) "YYYY-MM-DD HH:MM:SS" imported as "UTC"
       tbl <- read_csv(loc_src, show_col_types = FALSE)
-	  # #Remove Unncessary Attributes
+	  # #Remove Unnecessary Attributes
       attr(tbl, "spec") <- NULL
       attr(tbl, "problems") <- NULL
       # #Write Object as RDS

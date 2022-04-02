@@ -7,6 +7,6 @@ language:
 #    cnj: 'Conjecture '
     cnj: 'ERROR '
 #book_filename: "S13.Rmd"
-rmd_subdir: ["z2LectureNotes", "z3BusinessEconomics", "z4Articles", "z9End"]
+rmd_subdir: ["z2LectureNotes", "z3BusinessEconomics", "z4Articles", "z5Python", "z9End"]
 #rmd_subdir: ["z2LectureNotes"]
 # This is a comment.

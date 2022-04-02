@@ -1,0 +1,744 @@
+# Python (P01) {#p01}
+
+```{r 'P01', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+## Tips for Python
+
+- From v3: Every command needs to use parentheses 
+- Indentations is important. Use 4 Spaces
+  - Additional advantage is Python and R Codes would look different
+- A backslash (\\) allows you to break up one long piece of code into several parts. 
+  - Any character after the backslash will cause an error. 
+  - This even means excess whitespaces will cause an error. 
+  - A more workable solution is to use parentheses (()) to enclose all of the code. Use of parentheses works like the backslash, but it allows for extra characters at the end
+
+- Most probably every chunk needs an empty blank line at the end to confirm (by indentation) that the block has been closed.
+  - That might be the reason for chunk getting hanged in first run of chunk but running well in second run
+
+## Python vs. R
+ 
+- R (TRUE, FALSE) vs. Python (True, False) 
+- R (Indexing start at 1) vs. Python (0)
+- Python Pandas cannot handle dot (.) in Column Name
+- Python Normal Assignment does linking, explicitly used copy to copy objects
+
+- Python
+  - `NaN` is a float value, so you cannot have explicit missing values in non-float columns. In R, NA can be of any type.
+  - `NaN` returns False when compared to anything, rather than `NaN`. In R, `NA` compared to anything is `NA`.
+  - You use different methods to check for `NaN` than you do to compare for `NaT`, whereas a missing value in R is `NA` regardless of type.
+  - Python sometimes just refuses to process `NaN` values, so you may have to fill them with a sentinel value and pray that it does not show up anywhere else in the column.
+  - scikit-learn canot handle missing values at all
+  - Python has two different functions to check for missing values. Numpy has `np.isnan`, which fails on strings, and Pandas has `pd.isnull`, which works on anything.
+  - An array in numpy and an array in pandas are two different things. You can go back and forth between them but you need to keep track of what is what.
+
+- [Problems with sklearn and pandas and Python](https://www.reddit.com/r/statistics/comments/8de54s "https://www.reddit.com")
+
+## Crashcourse on Bash
+
+- Assignment operator needs to have no space around it i.e. `a=10`
+- Each statement should end with semicolon, even within single `if command; then print; fi` block
+- With IF: Use Double Brackets [[ ]] & double equal to "==" for comparison
+
+
+
+## Load Packages 
+
+```{conjecture 'Python-Reticulate-Use-Python'}
+\textcolor{brown}{ERROR: The requested version of Python (...) cannot be used, as another version of Python (...) has already been initialized. Please restart the R session if you need to attach reticulate to a different version of Python.}
+```
+
+- \textcolor{brown}{Error in use_python(...) : failed to initialize requested version of Python}
+- Restart the Session.
+
+
+```{r 'P01-Load-Python'}
+# #package::reticulate handles Python
+library(reticulate)
+#
+# #Provide the path to the specific Python binary.
+use_python("C:\\Softwares\\Python\\Python310\\python.exe", required = TRUE)
+#
+# #PATH: C:\Softwares\Python\Python310\python.exe
+if(FALSE) Sys.which("python")
+```
+
+```{python 'P01-Import-Python'}
+import os
+import sys
+import platform
+import pip
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sklearn
+import random 
+import copy
+```
+
+```{r 'P01-Reticulate'}
+# #Configuration
+py_config()
+```
+
+## Python Version
+
+```{conjecture 'Python-EOF-IF'}
+\textcolor{brown}{SyntaxError: unexpected EOF while parsing (...)}
+```
+
+- If the block is not closed properly 
+  - i.e. there is NO executable code within IF block or inside a loop
+  - parentheses mismatch
+- use either \textcolor{pink}{`print("")`} or \textcolor{pink}{`pass`}
+
+```{conjecture 'Python-Python'}
+\textcolor{brown}{NameError: name 'python' is not defined}
+```
+
+- This command was probably intended to be run in a shell (terminal or console) and not within the python interpreter.
+- To run this command, execute it in bash /cmd /PowerShell
+- To get the output of this command within python, find its equivalent
+
+
+
+```{python 'P01-Python-Version-InPython'}
+#python --version #This cannot work inside the interpreter
+# #Use the package: sys 
+if(False):
+    print(sys.version)
+    # #3.10.4 (tags/v3.10.4:9d38120, Mar 23 2022, 23:13:41) [MSC v.1929 64 bit (AMD64)]
+
+# #Use the module: platform
+if(True):
+    print(platform.python_version())
+if(platform.python_version() == "3.10.4"):
+    #print("OK")
+    pass
+else:
+    #print("NOT OK")
+    sys.exit("Python Version is different from expected!")
+
+```
+
+## Install Python on Windows 10
+
+- Download and Install the Python at Specific Folder 
+  - "C:\\Softwares\\Python\\Python310"
+- Modify the Environment Variable PATH i.e. Windows | Start | Environment Variables | Path | 
+  - "C:\\Softwares\\Python\\Python310\\"
+  - "C:\\Softwares\\Python\\Python310\\Scripts\\"
+
+- \textcolor{pink}{bash} or \textcolor{pink}{cmd}
+
+```{bash 'P01-Python-Version-InBASH'}
+# #Check,in BASH, if the python has been installed 
+python --version #01
+
+# #Get the Location or Path of the installed exe
+where.exe python #02
+
+# #Get the pip Version: 22.0.4
+bool_as_str=true; #true false
+if [[ "$bool_as_str" == "true" ]]; then pip --version; fi #03
+
+# #Upgrade pip
+bool_as_str=false; #true false
+if [[ "$bool_as_str" == "true" ]]; then python -m pip install --upgrade pip; fi
+
+# #Results:
+```
+
+- \textcolor{pink}{PowerShell}
+  - If the cmd can locate python correctly but PowerShell cannot, then execute following  
+    - \$env:path="\$env:Path;C:\\Softwares\\Python\\Python310"
+  - If the python command leads to Microsoft Store
+    - Windows | Start | Manage app execution aliases | Disable two for 'python.exe' and 'python3.exe'
+    - Because it is before the actual exe PATH, thus it hides access to the actual exe.
+
+## OS Executable
+
+```{python 'P01-Executable'}
+# #The executable gives different path inside ...
+# #Local RMarkdown: #'C:\\Program Files\\RStudio\\bin'
+# #Knit: 'C:\\PROGRA~1\\R\\R-41~1.3\\bin\\x64'
+# #BASH: import os; import sys; os.path.dirname(sys.executable) #'C:\\Softwares\\Python\\Python310'
+if(True):
+    os.path.dirname(sys.executable)
+
+```
+
+## Install Packages
+
+```{bash 'P01-PIP-Install', eval=FALSE}
+# #Install Packages
+bool_as_str=false; #true false
+if [[ "$bool_as_str" == "true" ]]; 
+then 
+  pip install pandas; 
+  pip install matplotlib; 
+fi
+```
+
+```{bash 'P01-PIP-Install-Manual', eval=FALSE}
+# #Install Packages Manually
+bool_as_str=false; #true false
+if [[ "$bool_as_str" == "true" ]]; then pip install sklearn; fi
+```
+
+## Package Version
+
+```{python 'P01-Package-Version'}
+# #Python Version
+print(f"Python: {sys.version}")
+
+# #Packages
+print(f'NumPy: {np.__version__}')
+print(f'pandas: {pd.__version__}')
+```
+
+
+## Working Directory
+
+```{python 'P01-Working-Directory'}
+# #Get the current working directory
+ii = os.getcwd()
+
+# #Print the current working directory
+# #NOTE: If the chunk is directly executed (manually) then the directory would be file location...
+# #...However, while knitting, this should be resolved: "D:\Analytics\xADSM"
+print("Current working directory: {0}".format(ii))
+
+# #Print the type of the returned object
+print("os.getcwd() returns an object of type: {0}".format(type(ii)))
+```
+
+## Object Access between R and Python
+
+- All objects created within Python chunks are available to R using the \textcolor{pink}{'py'} object exported by the reticulate package. 
+- Access R objects within Python chunks via the \textcolor{pink}{'r'} object. 
+
+
+```{r 'P01-Get-Iris'}
+# #Prepare an R object for Python
+iris_rr_original <- iris
+```
+
+
+```{python 'P01-Import-R-2-Python-01'}
+# #Import R object into Python
+iris_from_r = r.iris_rr_original
+
+# #Get the type of the object i.e. class
+print(type(iris_from_r))
+
+# #Shape i.e. Dimensions
+# #shape will return a tuple (m, n), where m is the number of rows, and n is the number of columns.
+iris_from_r.shape
+
+# #Print Head
+iris_from_r.head()
+```
+
+```{r 'P01-Import-Python-2-R-01'}
+# #Import Python object into R
+iris_from_p <- py$iris_from_r
+#
+# #Get the type of the object i.e. class
+class(iris_from_p)
+#
+# #Shape i.e. Dimensions
+dim(iris_from_p)
+#
+# #Print Head
+head(iris_from_p)
+#
+# #Final Dataset object
+iris_rr_final <- iris_from_p
+#
+# #Compare objects before and after transformation
+#
+# #Attributes 
+names(attributes(iris_rr_final))
+#
+# #Additional Attributes
+attributes(iris_rr_final)$pandas.index
+#
+# #Remove Unnecessary Attributes 
+attr(iris_rr_final, "pandas.index") <- NULL
+#
+stopifnot(identical(iris_rr_original, iris_rr_final))
+```
+
+```{python 'P01-Get-Iris-02'}
+# #Prepare a Python object for R
+iris_pp_original = sns.load_dataset('iris')
+```
+
+
+```{r 'P01-Import-Python-2-R-02'}
+# #Import Python object into R
+iris_from_p <- py$iris_pp_original
+#
+# #Get the type of the object i.e. class
+class(iris_from_p)
+#
+# #Shape i.e. Dimensions
+dim(iris_from_p)
+#
+# #Print Head
+head(iris_from_p)
+#
+# #Attributes 
+names(attributes(iris_from_p))
+```
+
+
+```{python 'P01-Import-R-2-Python-02'}
+# #Import R object into Python
+iris_from_r = r.iris_from_p
+
+# #Get the type of the object i.e. class
+print(type(iris_from_r))
+
+# #Shape i.e. Dimensions
+# #shape will return a tuple (m, n), where m is the number of rows, and n is the number of columns.
+iris_from_r.shape
+
+# #Print Head
+iris_from_r.head()
+
+# #Final Dataset object
+iris_pp_final = iris_from_r.copy()
+#
+# #Compare objects before and after transformation
+if(not(iris_pp_final.equals(iris_pp_original))):
+    sys.exit("Pandas Dataframes are NOT equal!")
+
+```
+
+
+## R and Python : Basics 
+
+### Help
+
+```{r 'P01-RR-Help'}
+if(FALSE) ?base::length
+```
+
+```{python 'P01-PP-Help'}
+if(False):
+    #?len
+    pass
+
+```
+
+### Assignment Operator: "<-" vs. "="
+
+```{r 'P01-RR-Assignment'}
+# #Assignment in R
+rr <- iris
+```
+
+```{python 'P01-PP-Assignment'}
+# #Assignment in Python
+pp = sns.load_dataset('iris')
+```
+
+### class() vs. type()
+
+```{conjecture 'Python-missing-self'}
+\textcolor{brown}{Error in py_call_impl(...) : TypeError: DataFrame._repr_html_() missing 1 required positional argument: 'self'}
+```
+
+- Explicitly use print()
+- OR instantiate the class instance
+
+```{r 'P01-RR-class'}
+class(rr)
+```
+
+```{python 'P01-PP-type'}
+#type(pp) #ERROR
+print(type(pp))
+```
+
+### dim() vs. shape
+
+```{r 'P01-RR-dim'}
+dim(rr)
+```
+
+```{python 'P01-PP-shape'}
+pp.shape
+```
+
+### summary() vs. describe()
+
+```{r 'P01-RR-summary'}
+summary(rr)
+```
+
+```{python 'P01-PP-describe'}
+# #default only include numerical columns
+pp.describe(include = 'all')
+
+# #Prevent the collapse of middle columns into (...), if there are many columns
+if(False):
+    with pd.option_context('display.max_columns', 40):
+        print(pp.describe(include='all'))
+
+```
+
+### head() vs. head()
+
+```{r 'P01-RR-head'}
+head(rr)
+```
+
+```{python 'P01-PP-head'}
+pp.head()
+```
+
+### str() vs. info()
+
+```{r 'P01-RR-str'}
+str(rr)
+```
+
+```{python 'P01-PP-info'}
+pp.info(show_counts = True, verbose = True)
+
+if(False):
+    def rstr(aa): return aa.shape, aa.apply(lambda x: [x.unique()]) #Not Woring as expected
+    print(rstr(pp))
+
+```
+
+### Count Unique: unique(), distinct() vs. unique(), drop_duplicates()
+
+```{r 'P01-RR-unique'}
+unique(rr$Species)
+if(FALSE) {# #distinct and unique differ when group_by() is applied
+  #distinct(rr$Species) #ERROR
+  rr %>% select(Species) %>% distinct()
+}
+#
+# #Count
+length(unique(rr$Species))
+rr$Species |> unique() |> length()
+```
+
+```{python 'P01-PP-unique'}
+pp.species.unique()
+pp['species'].unique()
+#pp[['species']].drop_duplicates()
+
+# #Count
+pp.species.unique().shape
+```
+
+### Count Frequency: table() or count() vs. value_counts()
+
+```{r 'P01-RR-count'}
+if(FALSE) table(rr$Species)
+rr %>% count(Species)
+```
+
+```{python 'P01-PP-value-counts'}
+pp['species'].value_counts()
+```
+
+### filter() or [] vs. []
+
+```{r 'P01-RR-filter'}
+# #Note the comma 
+if(FALSE) rr[rr$Species == "virginica", ] |> head()
+rr %>% filter(Species == "virginica") %>% head()
+```
+
+```{python 'P01-PP-filter'}
+#pp.query("species == 'virginica'").head()
+pp[pp.species == 'virginica'].head()
+```
+
+### set.seed() vs. random.seed()
+
+```{r 'P01-RR-seed'}
+set.seed(3)
+# #Randomly select N observations: Multiple Execution does not change outcome because seed is reset
+sample_n(rr, 6)
+```
+
+```{python 'P01-PP-seed'}
+random.seed(3)
+# #Random Number Generation: Multiple Execution does not change outcome because seed is reset
+print(random.random())
+print(random.random())
+
+# #Randomly select N observations: Multiple Execution is changing the outcome (Not using the seed)
+pp.sample(6)
+```
+
+### slice() vs. iloc
+
+```{r 'P01-RR-slice'}
+# #R index starts from 1
+rr %>% slice(1:6)
+```
+
+```{python 'P01-PP-iloc'}
+# #Python index starts from 0
+pp.iloc[:6]
+```
+
+### Copy a DataFrame: Avoid Referenced Copy
+
+```{r 'P01-RR-Copy'}
+# #R : Modification of copy does not change the original
+rr_ii <- rr
+rr_ii[2, "Petal.Length"] <- 10 #R: [Row, Col] & index from 1
+#
+rr_ii$Petal.Length[2]
+rr$Petal.Length[2]
+```
+
+```{python 'P01-PP-Copy'}
+# #Python : By default binding happens and original also gets modified 
+# #Further there is a difference between copy() (i.e. shallow) and deepcopy() ...
+# #...but that is relevant only for compound objects (objects that contain other objects)
+pp = sns.load_dataset('iris')
+pp_ii = pp.copy()
+
+pp_ii_jj = pp_ii         #Linked by Reference
+pp_ii_kk = pp_ii.copy()  #Separate Copy: deep=True (default)
+
+pp_ii_jj.at[1, 'petal_length'] = 10  #Python: [Row, Col] & index from 0
+pp_ii_kk.at[1, 'petal_length'] = 100
+
+# #Modification of kk does not affect others. However, ii & jj are linked.
+print(pp_ii_kk.petal_length[1])
+print(pp_ii_jj.petal_length[1])
+print(pp_ii.petal_length[1])
+
+pp_ii.at[1, 'petal_length'] = 99
+
+print(pp_ii_jj.petal_length[1])
+print(pp_ii.petal_length[1])
+
+if(pp.petal_length[1] != 1.4):
+    sys.exit("Somehow, the original has been modified!")
+
+```
+
+```{python 'P01-PP-Copy-Shallow-Deep'}
+# #Assignment vs. copy() vs. deepcopy()
+# #Create list & list containing list
+aa = [1, 2, 3] 
+bb = [4, 5, 6]
+cc = [aa, bb]
+type(cc)
+
+# #Using normal assignment operation to copy:
+dd = cc
+
+print(id(cc) == id(dd))          # True - dd is the same object as cc
+print(id(cc[0]) == id(dd[0]))    # True - dd[0] is the same object as cc[0]
+
+# #Using a shallow copy:
+#dd = cc.copy()
+dd = copy.copy(cc)
+
+print(id(cc) == id(dd))          # False - dd is now a new object
+print(id(cc[0]) == id(dd[0]))    # True - dd[0] is the same object as cc[0]
+
+# #Using a deep copy:
+#dd = cc.deepcopy() #does not work. Needs: from copy import copy, deepcopy
+dd = copy.deepcopy(cc) #works in normal import i.e. import copy
+
+print(id(cc) == id(dd))          # False - dd is now a new object
+print(id(cc[0]) == id(dd[0]))    # False - dd[0] is now a new object
+```
+
+
+### Modify a Cell: [] vs. .at, .loc
+
+```{r 'P01-RR-Change'}
+rr_ii <- rr  #Copy before modification
+#
+# #R: [Row, Col] & index from 1
+rr_ii[2, 3] <- 10
+rr_ii[2, 3]
+#
+# #Using Names
+rr_ii[2, "Petal.Length"] <- 99
+rr_ii$Petal.Length[2]
+```
+
+```{python 'P01-PP-at'}
+pp_ii = pp.copy() #Copy before modification
+# #NOTE: Row indices can be duplicated in Python
+
+# #.at can only access a single value at a time. Fast.
+# #Further, it tries to maintain the datatype (fails sometimes)
+pp_ii.at[1, 'petal_length'] = 10
+print(pp_ii.petal_length[1])
+
+# #.loc can select multiple rows and/or columns. Slow.
+# #Further, it does not maintain the datatype and modifies the type silently
+pp_ii.loc[1, 'petal_length'] = 100
+print(pp_ii.petal_length[1])
+
+# #.iat and .iloc are indices variants of the above
+pp_ii.iat[1, 2] = 10
+print(pp_ii.petal_length[1])
+pp_ii.iloc[1, 2] = 100
+print(pp_ii.petal_length[1])
+
+if(pp.petal_length[1] != 1.4):
+    sys.exit("Somehow, the original has been modified!")
+
+```
+
+### Add a New Column: mutate() vs. [], assign()
+
+```{r 'P01-RR-mutate'}
+# #R index starts from 1
+if(FALSE) {
+  ii <- rr
+  ii$Sepal.Area <- ii$Sepal.Length * ii$Sepal.Width
+  head(ii)
+}
+rr %>% mutate(Sepal.Area = Sepal.Length * Sepal.Width) %>% head()
+```
+
+```{python 'P01-PP-assign'}
+pp_ii = pp.copy() #Copy before modification
+pp_jj = pp.copy() 
+pp_ii['sepal_area'] = pp_ii.sepal_length * pp_ii.sepal_width
+
+pp_kk = pp_jj.assign(sepal_area = pp['sepal_length'] * pp['sepal_width']).head().copy()
+if(not(pp_kk.equals(pp_ii.head()))):
+    sys.exit("Pandas Dataframes are NOT equal!")
+pp_ii.head()
+```
+
+
+### Subset i.e. Select Columns: select() vs. [[]], drop()
+
+```{r 'P01-RR-select'}
+if(FALSE) rr[1:6, c("Sepal.Length", "Sepal.Width")] #NOTE: Single Column Subset might return a Vector
+if(FALSE) with(rr, data.frame(Sepal.Length, Sepal.Width))[1:6, ]
+ii <- rr %>% select(Sepal.Length, Sepal.Width) %>% head()
+jj <- rr %>% select(-c(Petal.Length, Petal.Width, Species)) %>% head()
+stopifnot(identical(ii, jj))
+ii
+```
+
+```{python 'P01-PP-Subset'}
+if(False):
+    pp.drop(['petal_length', 'petal_width','species'], axis = 1).head() #Axis: 0 Rows, 1 Columns
+    pp.drop(columns = ['petal_length', 'petal_width','species']).head()
+pp[['sepal_length', 'sepal_width']].head()
+```
+
+### names() vs. columns
+
+```{r 'P01-RR-names'}
+names(rr)
+```
+
+```{python 'P01-PP-columns'}
+pp.columns
+```
+
+### Sorting: arrange() vs. sort_values()
+
+```{r 'P01-RR-arrange'}
+rr %>% arrange(desc(Sepal.Length)) %>% head()
+```
+
+```{python 'P01-PP-sort-values'}
+pp.sort_values('sepal_length', ascending = False).head()
+```
+
+### Compare Dataframes: identical() vs. equals()
+
+```{r 'P01-RR-identical'}
+ii <- rr
+identical(ii, rr)
+```
+
+```{python 'P01-PP-equals'}
+pp_ii = pp.copy() 
+if(not(pp_ii.equals(pp))):
+    sys.exit("Pandas Dataframes are NOT equal!")
+
+```
+
+### rename() vs. rename()
+
+```{r 'P01-RR-rename'}
+kk <- jj <- ii <- rr
+names(ii)[1] <- "NewName" #By Index
+names(ii)
+names(jj)[which(names(jj) == "Sepal.Length")] <- "NewName" #By Name
+names(jj)
+names(kk)[names(kk) == "Sepal.Length"] <- "NewName"
+names(kk)
+rr %>% rename(NewName = Sepal.Length) %>% names() #New = Old
+rr %>% rename(NewName = 1) %>% names()
+```
+
+```{python 'P01-PP-rename'}
+pp_ii = pp.copy() 
+pp_ii.rename(columns = {'sepal_length': 'NewName'}).head() #Old: New
+```
+
+### Average of Each Column by Group: across(), aggregate() vs. groupby()
+
+```{r 'P01-RR-across'}
+rr_ll <- as.data.table(rr)
+# #dplyr, Base R, data.table
+ii <- rr %>% group_by(Species) %>% summarise(across(where(is.numeric), mean))
+jj <- rr %>% group_by(Species) %>% summarise(across(everything(), mean))
+kk <- aggregate(. ~ Species, data = rr, FUN = mean)
+#
+rr_ll <- as.data.table(rr)
+ll <- as_tibble(rr_ll[ , lapply(.SD, mean) , by = c("Species")]) %>% 
+  mutate(across(where(is.numeric), round, 3))
+attr(ll, ".internal.selfref") <- NULL
+#ll <- as.data.frame(rr_ll[ , lapply(.SD, mean) , by = c("Species")])
+mm <- ii %>% mutate(across(where(is.numeric), round, 3))
+#mm <- as.data.frame(ii)
+#ll[ , -1] <- round(ll[ , -1], 3) #Exclude Column 1 and round to 3 digits
+#mm[ , -1] <- round(mm[ , -1], 3) #Exclude Column 1 and round to 3 digits
+stopifnot(all(identical(ii, jj), identical(ii, as_tibble(kk)), identical(mm, ll)))
+mm
+```
+
+```{python 'P01-PP-groupby'}
+pp.groupby('species').mean()
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'P01-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll, iris_from_p, iris_rr_final, iris_rr_original, mm, rr, rr_ii, 
+          rr_ll)
+```
+
+```{r 'P01-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****
