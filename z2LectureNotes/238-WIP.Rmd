@@ -1,0 +1,624 @@
+# WIP (B38, Apr-03) {#b38}
+
+```{r 'B38', include=FALSE, cache=FALSE}
+sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
+sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
+#invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
+```
+
+
+
+## Data: Churn {#set-churn-b38 .tabset .tabset-fade}
+
+### Glance {.unlisted .unnumbered}
+
+- About: Churn [3333, 22]
+  - This is similar dataset Churn in Lecture 18. However that had 21 columns, but this has 22 columns.
+
+
+### EDA {.unlisted .unnumbered}
+
+\textcolor{pink}{Please import the "B38-Customer-Churn.csv"}
+
+```{r 'B38-Data-Churn', include=FALSE, eval=FALSE}
+# #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B38-Customer-Churn.csv"))
+xxB38Churn <- f_getObject("xxB38Churn", "B38-Customer-Churn.csv",
+                                "b8747f2433f7ada18afec51f74b9a10c")
+```
+
+```{r 'B38-Get-Churn', include=FALSE}
+xxB38Churn <- f_getRDS(xxB38Churn)  #3333 x 22
+#xxB18Churn <- f_getRDS(xxB18Churn) #3333 x 21
+```
+
+```{r 'B38-Clean-Churn'}
+# #Modify
+xfw <- xxB38Churn %>% rename_with(make.names) %>% 
+  rename_with(~ tolower(gsub(".", "_", .x, fixed = TRUE))) %>% 
+  mutate(across(c(int_l_plan, vmail_plan), factor, 
+                levels = c("no", "yes"), labels = c("No", "Yes"))) %>% 
+  mutate(across(churn, factor, levels = c("FALSE", "TRUE"), labels = c("No", "Yes"))) %>% 
+  select(-c(sl_no_, state, area_code, phone))
+
+```
+
+### Structure {.unlisted .unnumbered}
+
+```{r 'B38-Structure-Insurance'}
+str(xfw)
+```
+
+### Summary {.unlisted .unnumbered}
+
+```{r 'B38-Summary-Insurance'}
+summary(xfw)
+```
+
+### ETC {.unlisted .unnumbered}
+
+```{r 'B38-ETC', include=TRUE, eval=FALSE}
+# #Count NA in Columns
+if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+# #Subset Rows
+if(FALSE) bb %>% select(1) %>% slice(1:10)
+# #Comma separated string having each item within quotes for easy pasting as character not objects
+if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
+if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
+# #Filter
+if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+# #Count Yes/No or True/False in ALL such Columns
+if(FALSE) bb %>% select(iFemale, iMarried) %>% 
+  pivot_longer(everything()) %>% count(name, value) %>% 
+  pivot_wider(names_from = value, values_from = n) 
+# #Count Unique of all Columns to decide which should be Factors
+if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
+# #Summary of Columns of a class: is.factor is.numeric is.character
+if(FALSE) bb %>% select(where(is.factor)) %>% summary()
+# #Names and Indices of Columns of class: is.factor is.numeric is.character
+if(FALSE) which(sapply(bb, is.factor))
+# #Levels of Factor Columns
+if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
+# #Frequency of Each level of Factor
+if(FALSE) bb %>% count(Vehicle_Age) %>% arrange(desc(n))
+# #Coding for Dummy Variables
+if(FALSE) contrasts(bb$Married) 
+```
+
+## Dummies
+
+```{r 'B38-Dummy-Churn'}
+# #Create Dummies 
+dum_xfw <- dummy_cols(xfw, 
+  select_columns = c("int_l_plan", "vmail_plan"),
+                      remove_first_dummy = TRUE, remove_selected_columns = TRUE) 
+```
+
+## Data Partition
+
+```{r 'B38-Partition-Churn'}
+# #Partition Data
+#set.seed(3)
+set.seed(1234)
+#idx_xsyw <- createDataPartition(dum_xfw$churn, p = 0.8, list = FALSE)
+idx_xsyw <- createDataPartition(dum_xfw$churn, p = 0.6, list = FALSE)
+zChurn <- dum_xfw[idx_xsyw[, 1], ] 
+zTest <- dum_xfw[-idx_xsyw[, 1], ]
+```
+
+## Data Balancing 
+
+```{conjecture 'ROSE-Too-Few'}
+\textcolor{brown}{Error in ... : Too few observations.}
+```
+
+- Check for NA in the dataset and Remove them.
+
+
+```{r 'B37-Balancing-Churn'}
+# #Data has imbalance
+zChurn %>% count(churn) %>% mutate(PROP = n /sum(n))
+#
+# #Data Balancing with 50% balance
+both_churn <- ovun.sample(churn ~ ., data = zChurn, method = "both", seed = 3)$data
+zBalanced <- as_tibble(both_churn) 
+#
+zBalanced %>% count(churn) %>% mutate(PROP = n /sum(n))
+```
+
+## Logistic Regression
+
+- Even though 'Vintage' is non-significant, step-wise does not drop this variable
+
+```{r 'B38-GLM-Churn-1'}
+# #Logistic Regression
+mod_1_glm <- glm(formula = churn ~ ., family = binomial, data = zChurn)
+# #Step-wise Regression
+mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
+```
+
+```{r 'B38-GLM-Churn-2'}
+# #Logistic Regression
+mod_3_glm <- glm(formula = churn ~ ., family = binomial, data = zBalanced)
+# #Step-wise Regression
+mod_4_step <- step(mod_3_glm, direction = "both", trace = 0)
+```
+
+```{r 'B38-Print-Churn-1', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
+ttl_hh <- "Logistic Regression: Churn: Y ~ X"
+col_hh <- c("Unbalanced", "U.Step", "Balanced", "B.Step")
+#
+stargazer(mod_1_glm, mod_2_step, mod_3_glm, mod_4_step, 
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+## VIF
+
+- "ForLater"
+
+```{r 'B37-VIF-Churn'}
+# #There are very high VIF value column with non-significant coefficient
+vif(mod_2_step) %>% `[`(. > 2)
+vif(mod_4_step) %>% `[`(. > 2)
+```
+
+
+## Prediction on Train 
+
+```{r 'B38-Predict-Churn-Train-2'}
+# #For glm() predict() provides probabilities 
+prob_2_step <- predict(mod_2_step, type = "response")
+#
+# #Convert Probabilities into levels
+res_2_step <- factor(ifelse(prob_2_step >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_2_step <- confusionMatrix(res_2_step, 
+                                reference = zChurn$churn, positive = "Yes")
+cmat <- cmat_2_step
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Predict-Churn-Train-4'}
+# #For glm() predict() provides probabilities 
+prob_4_step <- predict(mod_4_step, type = "response")
+#
+# #Convert Probabilities into levels
+res_4_step <- factor(ifelse(prob_4_step >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_4_step <- confusionMatrix(res_4_step, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_4_step
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+## Confusion Matrix
+
+```{r 'B37-Cmat-Churn-Train'}
+# #Confusion Matrix
+cmat <- cmat_2_step
+if(TRUE) cmat$table %>% as_tibble() %>% 
+  pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+```
+
+
+## Prediction on Test 
+
+```{r 'B38-Predict-Churn-Test-2'}
+# #For glm() predict() provides probabilities 
+prob_2_step_test <- predict(mod_2_step, newdata = zTest, type = "response")
+#
+# #Convert Probabilities into levels
+res_2_step_test <- factor(ifelse(prob_2_step_test >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_2_step_test <- confusionMatrix(res_2_step_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_2_step_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Predict-Churn-Test-4'}
+# #For glm() predict() provides probabilities 
+prob_4_step_test <- predict(mod_4_step, newdata = zTest, type = "response")
+#
+# #Convert Probabilities into levels
+res_4_step_test <- factor(ifelse(prob_4_step_test >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_4_step_test <- confusionMatrix(res_4_step_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_4_step_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+## Comparison
+
+```{r 'B38-vs-Cmat', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Class Comparisons: Unbalanced vs. Balanced
+cmat <- cmat_2_step
+hh_names <- c("Accuracy", "N", "True Positive (TP_A)", "False Positive (FP_B)", 
+              "False Negative (FN_C)", "True Negative (TN_D) ", 
+              names(cmat$byClass))
+iio <- c(cmat$overall[["Accuracy"]], round(sum(cmat$table), 0), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_2_step_test
+iin <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_4_step
+jjo <- c(cmat$overall[["Accuracy"]], round(sum(cmat$table), 0), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_4_step_test
+jjn <- c(cmat$overall[["Accuracy"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+#
+if(TRUE) tibble(Names = hh_names, U_Train = iio, U_Test = iin, B_Train = jjo, B_Test = jjn)
+```
+
+## Decision Trees: rpart
+
+```{r 'B38-rpart-Churn'}
+# #Logistic Regression : rpart
+mod_5_rpart <- rpart(formula = churn ~ ., data = zBalanced, method = 'class')
+```
+
+```{r 'B38-Predict-Churn-rpart-Train'}
+prob_5_rpart <- predict(mod_5_rpart, type = "prob")
+#
+# #Convert Probabilities into levels
+res_5_rpart <- factor(ifelse(prob_5_rpart[, 2] >= 0.5, "Yes", "No"), 
+                      levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_5_rpart <- confusionMatrix(res_5_rpart, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_5_rpart
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+#
+if(FALSE){#Same Result
+  res_50_rpart <- predict(mod_5_rpart, type = "class")
+#
+# #Confusion Matrix
+cmat_50_rpart <- confusionMatrix(res_50_rpart, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_50_rpart
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+}
+```
+
+```{r 'B38-Predict-Churn-rpart-Test'}
+prob_5_rpart_test <- predict(mod_5_rpart, newdata = zTest, type = "prob")
+#
+# #Convert Probabilities into levels
+res_5_rpart_test <- factor(ifelse(prob_5_rpart_test[, 2] >= 0.5, "Yes", "No"), 
+                           levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_5_rpart_test <- confusionMatrix(res_5_rpart_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_5_rpart_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+## Decision Trees: caret
+
+```{r 'B38-ModelControl'}
+cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParallel = TRUE)
+```
+
+```{r 'B38-CV-Churn'}
+# #train() tuneLength decides the granularity in the tuning parameter grid
+mod_6_cv <- suppressWarnings(train(churn ~ ., data = zBalanced, method = 'rpart', 
+                trControl = cv, tuneLength = 10))
+#
+# #Best Tuning Cp value: 0.00308404	
+mod_6_cv$bestTune
+```
+
+```{r 'B38-Predict-Churn-CV-Train'}
+res_6_cv <- predict(mod_6_cv, type = "raw")
+#
+# #Confusion Matrix
+cmat_6_cv <- confusionMatrix(res_6_cv, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_6_cv
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Predict-Churn-CV-Test'}
+res_6_cv_test <- predict(mod_6_cv, newdata = zTest, type = "raw")
+#
+# #Confusion Matrix
+cmat_6_cv_test <- confusionMatrix(res_6_cv_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_6_cv_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+## Random Forest
+
+```{r 'B38-Forest-Churn'}
+# #Logistic Regression : randomForest
+mod_7_forest <- randomForest(formula = churn ~ ., data = zBalanced)
+```
+
+```{r 'B38-Predict-Churn-Forest-Train'}
+# #The fraction can be taken as predicted probabilities for the classes. 
+#str(mod_7_forest$votes[40:50, ], vec.len = Inf)
+#str(mod_7_forest$votes[40:50, 2], vec.len = Inf)
+res_7_forest <- predict(mod_7_forest, type = "response")
+#
+# #Confusion Matrix
+cmat_7_forest <- confusionMatrix(res_7_forest, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_7_forest
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Predict-Churn-Forest-Test'}
+res_7_forest_test <- predict(mod_7_forest, newdata = zTest, type = "response")
+#
+# #Confusion Matrix
+cmat_7_forest_test <- confusionMatrix(res_7_forest_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_7_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+## Random Forest: Tuned
+
+- mtry = 8
+
+```{r 'B38-TuneModel', eval=FALSE}
+tuneRF(x = zBalanced[, -16], y = zBalanced$churn, stepFactor = 2, plot = TRUE, 
+       ntreeTry = 1000, improve = .05)
+```
+
+
+```{r 'B38-Forest-Churn'}
+# #Logistic Regression : randomForest
+mod_8_forest <- randomForest(formula = churn ~ ., data = zBalanced, mtry = 8)
+```
+
+```{r 'B38-Predict-Churn-Forest-Train'}
+# #The fraction can be taken as predicted probabilities for the classes. 
+#str(mod_7_forest$votes[40:50, ], vec.len = Inf)
+#str(mod_7_forest$votes[40:50, 2], vec.len = Inf)
+res_8_forest <- predict(mod_8_forest, type = "response")
+#
+# #Confusion Matrix
+cmat_8_forest <- confusionMatrix(res_8_forest, 
+                                reference = zBalanced$churn, positive = "Yes")
+cmat <- cmat_8_forest
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Predict-Churn-Forest-Test'}
+res_8_forest_test <- predict(mod_8_forest, newdata = zTest, type = "response")
+#
+# #Confusion Matrix
+cmat_8_forest_test <- confusionMatrix(res_8_forest_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_8_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+```{r 'B38-Forest-Churn'}
+# #Logistic Regression : randomForest
+mod_9_forest <- randomForest(formula = churn ~ ., data = zBalanced, mtry = 4)
+```
+
+```{r 'B38-Predict-Churn-Forest-Test'}
+res_9_forest_test <- predict(mod_9_forest, newdata = zTest, type = "response")
+#
+# #Confusion Matrix
+cmat_9_forest_test <- confusionMatrix(res_9_forest_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_9_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+```{r 'B38-Forest-Churn'}
+# #Logistic Regression : randomForest
+mod_10_forest <- randomForest(formula = churn ~ ., data = zBalanced, mtry = 2)
+```
+
+```{r 'B38-Predict-Churn-Forest-Test'}
+res_10_forest_test <- predict(mod_10_forest, newdata = zTest, type = "response")
+#
+# #Confusion Matrix
+cmat_10_forest_test <- confusionMatrix(res_10_forest_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_10_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+```{r 'B38-Forest-Churn'}
+# #Logistic Regression : randomForest
+mod_11_forest <- randomForest(formula = churn ~ ., data = zBalanced, mtry = 4, ntree = 1000)
+```
+
+```{r 'B38-Predict-Churn-Forest-Test'}
+res_11_forest_test <- predict(mod_11_forest, newdata = zTest, type = "response")
+#
+# #Confusion Matrix
+cmat_11_forest_test <- confusionMatrix(res_11_forest_test, 
+                                reference = zTest$churn, positive = "Yes")
+cmat <- cmat_11_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+## Comparison of Test: GLM (Step), Rpart, Caret, RandomForest
+
+```{r 'B38-vs-Cmat-Models', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Class Comparisons: GLM, Rpart, Caret, RandomForest
+cmat <- cmat_4_step_test
+hh_names <- c("Accuracy", "NIR", "N", "True Positive (TP_A)", "False Positive (FP_B)", 
+              "False Negative (FN_C)", "True Negative (TN_D) ", 
+              names(cmat$byClass))
+iiglm <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_5_rpart_test
+jjrpt <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_6_cv_test
+kkcvt <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_7_forest_test
+llfrm <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_8_forest_test
+mmfrm8 <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_9_forest_test
+nnfrm4 <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_10_forest_test
+oofrm2 <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_11_forest_test
+oofrm410 <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+#
+if(TRUE) tibble(Names = hh_names, GLM = iiglm, Rpart = jjrpt, Caret = kkcvt, Forest = llfrm, Forest8 = mmfrm8, Forest4 = nnfrm4, Forest2 = oofrm2, Forest410 = oofrm410)
+```
+
+
+### Plot {.unlisted .unnumbered}
+
+- "ForLater": Additional of caret and how to do it on Test 
+
+```{r 'B37-ROC-01-Set', include=FALSE}
+# #Setup for ROC Plot of 2: GLM, LDA
+hh <- roc(response = zBalanced$churn, predictor = prob_4_step, 
+    levels = c("No", "Yes"), direction = "<", plot = FALSE)
+rpart_hh <- roc(response = zBalanced$churn, predictor = prob_5_rpart[, 2], 
+    levels = c("No", "Yes"), direction = "<", plot = FALSE)
+forest_hh <- roc(response = zBalanced$churn, predictor = mod_7_forest$votes[, 2], 
+    levels = c("No", "Yes"), direction = "<", plot = FALSE)
+#
+cap_hh <- "B38P01"
+ttl_hh <- "Insurance: ROC: Train"
+loc_png <- paste0(.z$PX, "B38P01", "-Insurance-Train-ROC", ".png")
+auc_hh <- seq(from = 0.07, by = -0.04, length.out = 2)
+```
+
+```{r 'B37-ROC-01-Plot', include=FALSE, ref.label=c('B37-ROC-Two')}
+#
+```
+
+```{r 'B37P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
+knitr::include_graphics(paste0(.z$PX, "B37P01", "-Insurance-Train-ROC", ".png"))
+```
+
+
+```{r 'B36-ROC', eval=FALSE}
+# #IN: cap_hh, ttl_hh, loc_png, hh (ROC Plot)
+if(!file.exists(loc_png)) {
+  png(filename = loc_png)
+  #dev.control('enable') 
+  #plot(hh, legacy.axes = TRUE, print.auc = TRUE, print.auc.y = 0.60)
+  plot(hh, legacy.axes = TRUE, print.auc = TRUE, print.auc.y = 0.60, col = "#5DC863FF")
+  plot(forest_hh, print.auc = TRUE, print.auc.y = 0.50, col = "#3B528BFF", add = TRUE)
+  plot(rpart_hh, print.auc = TRUE, print.auc.y = 0.40, col = "#440154FF", add = TRUE)
+  legend("bottomright", bg ="transparent", 
+         legend=c("Logisitic Regression", "Random Forest", "Decision Trees"), 
+         col=c("#5DC863FF", "#3B528BFF","#440154FF"), lwd = 1)
+  title(main = ttl_hh, line = 3, adj = 0)
+  title(sub = cap_hh, line = 4, adj = 1)
+  B36 <- recordPlot()
+  dev.off()
+  assign(cap_hh, B36)
+  rm(B36)
+  #eval(parse(text = cap_hh))
+}
+```
+
+
+## Validation {.unlisted .unnumbered .tabset .tabset-fade}
+
+```{r 'B38-Cleanup', include=FALSE, cache=FALSE}
+f_rmExist(aa, bb, ii, jj, kk, ll)
+```
+
+```{r 'B38-Validation', include=TRUE, cache=FALSE}
+# #SUMMARISED Packages and Objects (BOOK CHECK)
+f_()
+#
+difftime(Sys.time(), k_start)
+```
+
+****

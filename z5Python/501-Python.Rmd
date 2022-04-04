@@ -7,11 +7,19 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
 ```
 
-## Tips for Python
+## Python Basics
+
+> Python is Case-sensitive like R.
+
+> Hash Sign "#" comments out anything after it, till the newline, like R.
+
+> Backslash "\\" is reserved to escape the character that follows it, like R.
+
+> Unlike R, indentation and white spaces are extremely significant in Python. Use 4 Spaces, Not Tab.
+
+
 
 - From v3: Every command needs to use parentheses 
-- Indentations is important. Use 4 Spaces
-  - Additional advantage is Python and R Codes would look different
 - A backslash (\\) allows you to break up one long piece of code into several parts. 
   - Any character after the backslash will cause an error. 
   - This even means excess whitespaces will cause an error. 
@@ -32,7 +40,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - `NaN` returns False when compared to anything, rather than `NaN`. In R, `NA` compared to anything is `NA`.
   - You use different methods to check for `NaN` than you do to compare for `NaT`, whereas a missing value in R is `NA` regardless of type.
   - Python sometimes just refuses to process `NaN` values, so you may have to fill them with a sentinel value and pray that it does not show up anywhere else in the column.
-  - scikit-learn canot handle missing values at all
+  - scikit-learn cannot handle missing values at all
   - Python has two different functions to check for missing values. Numpy has `np.isnan`, which fails on strings, and Pandas has `pd.isnull`, which works on anything.
   - An array in numpy and an array in pandas are two different things. You can go back and forth between them but you need to keep track of what is what.
 
@@ -79,6 +87,7 @@ import seaborn as sns
 import sklearn
 import random 
 import copy
+import gc
 ```
 
 ```{r 'P01-Reticulate'}
@@ -338,6 +347,47 @@ if(False):
 
 ```
 
+### print() vs. print()
+
+```{r 'P01-RR-print'}
+print("Both, Implicit or Explicit Printing are OK.")
+```
+
+```{python 'P01-PP-print'}
+print("Use Explicit Printing.")
+```
+
+### List Objects: ls() vs. dir()
+
+```{r 'P01-RR-ls', eval=FALSE}
+ls()
+```
+
+```{python 'P01-PP-dir'}
+# #All 3 of these work, but does not provide information like ls() of R.
+# #dictionary of local variables
+if(False): locals()
+
+# #dictionary of global variables
+if(False): globals()
+
+# #Extremely big list of objects. RStudio Hangs. Use with Caution.
+if(False): gc.get_objects()
+
+sorted(locals().keys())
+
+# #list of in scope variables
+dir()
+
+# #IPython Magic command: Currently NOT Working "ForLater"
+#%whos
+
+if(False): 
+    for name in vars().keys(): print(name)
+
+```
+
+
 ### Assignment Operator: "<-" vs. "="
 
 ```{r 'P01-RR-Assignment'}
@@ -349,6 +399,76 @@ rr <- iris
 # #Assignment in Python
 pp = sns.load_dataset('iris')
 ```
+
+### Remove: rm() vs. del()
+
+```{r 'P01-RR-rm'}
+bb <- 10
+bb
+rm(bb)
+tryCatch(print(bb), error = function(e) print(paste0(e)))
+```
+
+```{python 'P01-PP-del'}
+bb = 10
+print(bb)
+
+del(bb)
+
+try:
+    print(bb)
+except NameError:
+    print("Variable is not defined")
+except:
+    print("Something else went wrong")
+
+```
+
+### Basic DataTypes
+
+```{r 'P01-RR-DataTypes'}
+# #Integer: To declare as integer "L" (NOT "l") is needed
+ii_int <- c(1L, 2L, 3L, 4L, 5L)
+str(ii_int)
+#
+# #Double (& Default)
+dd_dbl <- c(1, 2, 3, 4, 5)
+str(dd_dbl)
+#
+# #Character
+cc_chr <- c('a', 'b', 'c', 'd', 'e')
+str(cc_chr)
+#
+# #Logical: TRUE, FALSE, NA (NOTE: NA is Logical in R)
+ll_lgl <- c(TRUE, FALSE, NA, TRUE, TRUE)
+str(ll_lgl)
+```
+
+```{python 'P01-PP-DataTypes'}
+# #Integer
+bb = 10
+type(bb)
+
+# #Float
+bb = 3.14
+type(bb)
+
+# #String
+bb = 'a'
+type(bb)
+
+# #Boolean: True False
+bb = True
+type(bb)
+
+# #Unlike R, None is different from Boolean
+bb = None
+type(bb)
+
+```
+
+
+
 
 ### class() vs. type()
 
@@ -415,7 +535,7 @@ str(rr)
 pp.info(show_counts = True, verbose = True)
 
 if(False):
-    def rstr(aa): return aa.shape, aa.apply(lambda x: [x.unique()]) #Not Woring as expected
+    def rstr(aa): return aa.shape, aa.apply(lambda x: [x.unique()]) #Not Working as expected
     print(rstr(pp))
 
 ```
@@ -723,8 +843,171 @@ mm
 ```
 
 ```{python 'P01-PP-groupby'}
+# #Apply Mean to each column
 pp.groupby('species').mean()
+
+# #Apply Mean, Min, Max on one column
+pp.groupby('species').agg({'sepal_length': ['mean', 'min', 'max']})
 ```
+
+
+## Q
+
+```{python 'P01-Import-Python', eval=FALSE}
+# #Import Pandas for questions 8 and 9
+import pandas as pd
+```
+
+### Q1: List to String
+
+
+```{python 'P01-Q1'}
+# Q1: Write a python function to convert list into string. (2 marks )
+# Create list
+aa = ['sun','mon','tue'] 
+
+# #Define Function
+def list_to_string(x):
+    # #Initialize
+    bb = " " 
+    # #Join
+    return(bb.join(x))
+
+# #Print
+print(list_to_string(aa)) 
+```
+
+### Q2: Check Dictionary Keys
+
+```{python 'P01-Q2'}
+# Q2: Write a python program to check whether the given key exists in dictionary or not. (2 marks)
+# Create dictionary
+aa = {1: 10, 2: 20}
+
+# #Define Function
+def is_key_in_dictionary(dd, key):
+    if key in dd.keys():
+        return(True)
+    else:
+        return(False)
+
+print(is_key_in_dictionary(aa, 1))     #True
+print(is_key_in_dictionary(aa, 2))     #True
+print(is_key_in_dictionary(aa, 4))     #False
+print(is_key_in_dictionary(aa, "abc")) #False
+```
+
+### Q3: Remove Duplicates
+
+```{python 'P01-Q3'}
+# Q3: Write a python function “remove duplicates” to remove duplicates from a list. (3 marks)
+# Create list
+aa = [1, 2, 2, 1, 3, 4] 
+
+# #Define Function
+def remove_duplicates(x):
+    # #Return Unordered List
+    return(list(set(x)))
+
+print(remove_duplicates(aa)) #[1, 2, 3, 4]
+```
+
+### Q4: List Comprehension
+
+```{python 'P01-Q4'}
+# Q4: Find all the numbers from list that have 6 in them using list comprehension. (3 marks)
+# Create list
+aa = [8, 16, 20, 30, 80, 60] 
+
+# #List Comprehension
+bb = [x for x in aa if "6" in str(x)]
+
+print(bb) #[16, 60]
+```
+
+### Q5: Sum Multiples of 3 or 5
+
+```{python 'P01-Q5'}
+# Q5: Write a Python program to compute the sum of all the multiples of 3 or 5 below 500. (4 marks) 
+# #Define Function
+def get_multiples_3_5_below(x):
+    bb = []
+    # #Numbers below the given limit
+    for x in range(1, x):
+        if(x % 3 == 0 or x % 5 == 0):
+            #print(x)
+            bb.append(x)
+    return(bb)
+
+# #Provide the Maximum Number
+aa = 500
+
+# #All the Numbers
+#print(get_multiples_3_5_below(aa))
+
+print("Below {N}, multiples of 3 or 5, Count is {l} and Sum is {s}".format(
+    N = aa, l = len(get_multiples_3_5_below(aa)), s = sum(get_multiples_3_5_below(aa))))
+
+```
+
+### Q6: Lambda Function Multiply
+
+```{python 'P01-Q6'}
+# Q6: Write a lambda function that multiplies argument x with argument y and print the result. 
+# #Define Lambda Function
+multiply = lambda x, y: x * y
+
+print(multiply(x = 15, y = 10)) #150
+```
+
+### Q7: Lambda Function Divisible
+
+```{python 'P01-Q7'}
+# Q7: Write a lambda function to check if number is divisible by another number with 0 remainder.
+# #Define Lambda Function
+divisible = lambda x, y: x % y == 0
+
+print(divisible(x = 5, y = 2)) #False
+print(divisible(x = 4, y = 2)) #True
+```
+
+
+### Q8: Inner Join DataFrames with different column names
+
+```{python 'P01-Q8'}
+# Q8: Write the syntax for inner merge of two DataFrame (df1, df2) when the common column is named as “worker” in df1 and “employee” in df2. (df1 is the left table and df2 is the right table) (4 Marks) 
+
+df1 = pd.DataFrame({
+    'age':[10, 20, 30, 40, 50],
+    'worker':['A', 'B', 'C', 'P', 'Q']
+})
+
+df2 = pd.DataFrame({
+    'salary':[100, 200, 300, 400, 500],
+    'employee':['A', 'B', 'C', 'X', 'Y']
+})
+
+# #Inner Join
+pd.merge(left = df1, right = df2, how = 'inner', left_on = 'worker', right_on = 'employee')
+```
+
+### Q9: Lambda Function Divisible
+
+```{python 'P01-Q9', eval=FALSE}
+# NOT Evaluating it, to prevent unnecessary network access, but working.
+# Q9: Run the following syntax to get the DataFrame: (4 Marks)
+# For each occupation, calculate the mean and max ages
+
+# #Download data from GitHub
+users = pd.read_table('https://raw.githubusercontent.com/justmarkham/DAT8/master/data/u.user', sep='|')
+
+# #View
+users.head()
+
+# #Mean & Max of Age, Grouped by Occupation
+users.groupby('occupation').agg({'age': ['mean', 'max']})
+```
+
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

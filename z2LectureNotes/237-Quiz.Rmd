@@ -290,6 +290,8 @@ if(TRUE) cmat$byClass[["Specificity"]]
 
 ## Comparison
 
+- "ForLater" - xxxx - Check the change here after correcting iin iio to jjn jjo
+
 ```{r 'B37-vs-Cmat', echo=FALSE, collapse=FALSE, class.output="models"}
 # #Class Comparisons: GLM vs. LDA
 cmat <- cmat_2_step
@@ -312,7 +314,7 @@ jjn <- c(cmat$overall[["Accuracy"]], sum(cmat$table),
         cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
         cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
 #
-if(TRUE) tibble(Names = hh_names, GLM_Train = iio, GLM_Test = iin, LDA_Train = iio, LDA_Test = iin)
+if(TRUE) tibble(Names = hh_names, GLM_Train = iio, GLM_Test = iin, LDA_Train = jjo, LDA_Test = jjn)
 ```
 
 ## Insurance: ROC {.tabset .tabset-fade}
