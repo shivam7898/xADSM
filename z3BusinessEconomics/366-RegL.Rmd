@@ -403,6 +403,8 @@ A 95% \textcolor{pink}{confidence interval} is defined as a range of values such
 	- predict.glm() : type = c("link", "response", "terms")
 	- predict.lm() : type = c("response", "terms")
 	- predict.randomForest() : type = c("response")
+	- predict.train() : type = c("raw", "prob")
+	
 	
 
 - Dataset Advertising - Linear Regression of Y (Sales) vs. Single X (TV)

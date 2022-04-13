@@ -81,3 +81,7 @@ options(lifecycle_verbosity = "error")
 # #Warning: To upgrade Warning to Error for easy identification of problem chunk
 # #Restore default: options(warn=0, error=NULL)
 if(FALSE) options(warn = 2, error = recover)
+#
+# #Warning on Parial Matching of Function Arguments: 
+# #Works but Package Functions needs to be updated first. Otherwise, those calls result in warnings
+#options(warnPartialMatchArgs = TRUE)

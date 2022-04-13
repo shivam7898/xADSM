@@ -24,7 +24,7 @@ if(FALSE){# #WARNING: Installation may take some time.
 }
 ```
 
-## Data: Churn
+## Data: Churn {#set-churn-b18 .tabset .tabset-fade}
 
 \textcolor{pink}{Please import the "B18-Churn.xlsx"}
 

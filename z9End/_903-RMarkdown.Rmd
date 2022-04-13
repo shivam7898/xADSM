@@ -548,6 +548,20 @@ At the top, surrounded by sets of three dashes "**\-\-\-**", is the YAML header.
       - "\\usepackage{listings}"
       - "\\usepackage{inconsolata}"
       - "\\lstset{ basicstyle=\ttfamily, breaklines=true}"
+  - pdf_document: 
+      - number_sections: true
+      - highlight: tango
+        - default and tango are same
+        - haddock is useless
+        - kate has bold functions
+        - monochrome underlines LHS
+        - pygments has red, green, blue. which looks ok. however similar to other light highlights, background colour remains white which is a problem. Code is difficult to separate out from the surrounding text
+        - Dark background - zeburn, breezedark, espresso
+        - Two more are there - rstudio and arrow (see package documentation: rmarkdown)
+        - Final is default
+        - zenburn without actual dark background (theme) looks bad
+        - for PDF, it does not look like that "theme" exists
+  - geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
 
 ## The setup chunk
 

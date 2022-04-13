@@ -12,7 +12,519 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   
 ## Names and values
 
+### Binding Basics
 
+- ~~"create an object named 'x', containing the values 11, 22, and 33"~~ is a simplification
+  - There are two steps
+    - It is creating an object, a vector of values, c(11, 22, 33).
+    - And it is binding that object to a name, x.
+  - In other words, the object, or value, does not have a name; it is actually the name that has a value.
+  - Assignment Operator "<-" creates a binding from the name on the left-hand side (x) to the object on the right-hand side (vector containing values).
+  - Thus, you can think of a name as a reference to a value. 
+
+```{r 'Z05-22-Binding'}
+# #x is the reference to the vector on the right side
+# #NOTE: We are giving the right side object (without its binding) a label or identifier: "0x74b"
+# #...It is analogous to its location in memory where the object is stored. But because ...
+# #...the actual memory address changes every time the code is run, we use these labels instead.
+x <- c(11, 22, 33)
+#
+# #We get another binding /reference to the same vector (not another object) when we do this:
+y <- x
+```
+
+
+```{r 'Z05-22-GetAddress'}
+# #Get Memory Address: Both x and y points to the same identifier
+obj_addr(x)
+obj_addr(y)
+```
+
+#### Syntactic Names
+
+> A syntactic name must consist of letters, digits, dot (.) and underscore "_" but cannot begin with _ or a digit. Further, reserved words are not allowed. These rules can be overriden by using backticks (``)
+
+```{r 'Z05-22-Reserved-Words'}
+# #List of Reserved Words
+if(FALSE) ?Reserved
+```
+
+#### Exercise
+
+- Explain the relationship between aa, bb, cc and dd in the following code:
+
+```{r 'Z05-22-Q1'}
+aa <- 1:10
+bb <- aa
+cc <- bb
+dd <- 1:10
+#
+# #a, b, c points to same object (same memory address). 
+# #d points to different object which incidentally has same values.
+stopifnot(all(identical(aa, bb), identical(aa, cc)))
+obj_addr(aa)
+obj_addr(dd)
+```
+
+- The following code accesses the 'mean' function in multiple ways. Do they all point to the same underlying function object
+  - mean and bass::mean are pointing to different memory address (if there are other packages present)
+  - they would point to same memory in a new R session
+
+```{r 'Z05-22-Q2'}
+# xxxx
+if(FALSE) stopifnot(all(identical(obj_addr(mean), obj_addr(get("mean"))), 
+              identical(obj_addr(mean), obj_addr(evalq(mean))),
+              identical(obj_addr(mean), obj_addr(match.fun("mean")))))
+#
+obj_addr(mean)
+obj_addr(get("mean"))
+obj_addr(evalq(mean))
+obj_addr(match.fun("mean"))
+if(FALSE){# #Output remains same (as Hadley intended), if there are fewer packages loaded.
+  library(lobstr)
+  mean
+#function (x, ...) 
+#UseMethod("mean")
+#<bytecode: 0x000002353cd4fe98>
+#<environment: namespace:base>
+  base::mean
+#function (x, ...) 
+#UseMethod("mean")
+#<bytecode: 0x000002353cd4fe98>
+#<environment: namespace:base>
+  stopifnot(identical(obj_addr(mean), obj_addr(base::mean)))
+  obj_addr(mean)
+}
+
+if(FALSE) {# #Output is different, if there are some more packages loaded.
+  mean
+#standardGeneric for "mean" defined from package "base"
+#function (x, ...) 
+#standardGeneric("mean")
+#<environment: 0x0000020bf0a3abe8>
+#Methods may be defined for arguments: x
+#Use  showMethods(mean)  for currently available ones.
+  base::mean
+#function (x, ...) 
+#UseMethod("mean")
+#<bytecode: 0x0000020bdbcf5508>
+#<environment: namespace:base>
+}
+```
+
+#### Aside: More details on Memory
+
+- [(SO) This](https://stackoverflow.com/questions/61080323 "https://stackoverflow.com")
+- Any R object is a C (pointer, \textcolor{pink}{SEXP}, to a) "multi-object" (struct). This includes information about the R object and, also, the actual data of the R object that we have access to. Information consists of data that R needs to operate, e.g. length, number of references, to know when to copy an object etc.
+- \textcolor{pink}{lobstr::obj_addr()}, presumably, returns the memory address that a SEXP points to. That part of the memory contains both the information about and the data of the R object. From within the R environment we cannot or do not access the (pointer to the) memory of the actual data in each R object.
+- The function `[ ]` copies the requested element of the data contained in the C object to a new C object and returns its SEXP pointer to R. Each time the function is called, a new C object is created and returned to R.
+- We cannot access the memory address of each element of the actual data of our object through R. However, we can trace the respective addresses using the C api.
+
+```{r 'Z05-MemoryAddress'}
+x <- c(11L, 22L, 33L)
+y <- x
+#
+stopifnot(identical(obj_addr(x), obj_addr(y))) #No issue till here
+obj_addr(y)
+#
+# #However, the address of elements look different 
+obj_addr(x[1])
+obj_addr(y[1])
+#
+# #A function to get the addresses:
+z05_addr <- inline::cfunction(sig = c(x = "integer"), body = '
+             Rprintf("SEXP @ %p\\n", x);
+
+             Rprintf("first element of SEXP actual data @ %p\\n", INTEGER(x));
+
+             for(int i = 0; i < LENGTH(x); i++) 
+                 Rprintf("<%d> @ %p\\n", INTEGER(x)[i], INTEGER(x) + i);
+
+             return(R_NilValue);
+     ')
+#
+# #Check Memory Addresses: Addresses of vector values referred by x and y are same
+if(FALSE){
+  z05_addr(x)
+  z05_addr(y) 
+}
+#
+# #The successive memory difference between data elements equals the size of int type:
+if(FALSE){# #Change here the new memory locations of x1, x2, x3
+  # #NOTE: I was unable to execute this code. - "ForLater"
+  diff(c(strtoi("0x00000257a7690360", 16L), 
+       strtoi("0x00000257a7690364", 16L), 
+       strtoi("0x00000257a7690368", 16L)))
+}
+#
+# #However, sub-setting i.e. using [] leads to ...
+# #We are running a function which returns a value. That value is an integer. 
+# #We are evaluating the function x[1] and then giving you the address of what that function return
+# #...not the address of the first element of the array x.
+# #Trying to access same item results in different address every time
+z05_addr(x[1])
+z05_addr(x[1])
+z05_addr(`[`(x, 1)) #]
+z05_addr(`[`(x, 1)) #]
+#
+rm(z05_addr)
+```
+
+### Copy-on-modify
+
+- When the value associated with y changes, the original object is not modified. 
+- Instead, R creates a new object, 0xcd2, a copy of 0x74b with the modification, then rebinds y to that object.
+- ~~R objects are unchangeable, or immutable.~~ There are some important exception.
+
+```{r 'Z05-23-Copy-on-modify'}
+# #x "0x74b" 
+x <- c(11, 22, 33)
+y <- x
+#
+obj_addr(x) #"0x74b"
+obj_addr(y) #"0x74b"
+#
+# #y "0xcd2" : New Object with one value changed and rebind y to it.
+y[[3]] <- 44
+#
+obj_addr(x) #"0x74b"
+obj_addr(y) #"0xcd2" - New
+#
+print(list(x = x, y = y))
+```
+
+#### tracemem()
+
+- \textcolor{pink}{tracemem()}
+  - We will get the current address of the object and from then onwards, whenever that object is copied, it will print a message with the information of which object was copied, its new address, and the sequence of calls that led to the copy.
+  - \textcolor{orange}{Caution:} Using tracemem in RStudio will result in additional copies because of the reference from the environment pane.
+
+```{r 'Z05-23-tracemem'}
+x <- c(11, 22, 33)
+z <- x #Before Starting Trace
+# #Start Memory Tracing
+tracemem(x)
+y <- x #After Starting Trace
+#
+
+# #Modify
+y[[3]] <- 44 #Trace shown 
+x[[3]] <- 55 #Trace shown 
+#
+##xxxx : check after knit if a -> b step is present or not
+z[[3]] <- 66 #No Trace shown in R or RStudio Console. However, additional copy step found in Chunk
+#
+# #Turn off the memory tracing
+untracemem(x); untracemem(y)
+#
+print(list(x = x, y = y, z = z))
+```
+
+#### Function Calls
+
+- Similarly
+  - While f() is running, the a inside the function points to the same value as the x does outside the function.
+  - the function f() has a formal argument, a, which becomes a binding in the execution environment when the function is run.
+  - Once f() completes, x and z will point to the same object. 0x74b never gets copied because it never gets modified. 
+  - If f() did modify x, R would create a new copy, and then z would bind that object.
+
+```{r 'Z05-23-tracemem-function'}
+x <- c(11, 22, 33)
+tracemem(x)
+#
+# #Function: f() 
+z05_f <- function(a) {
+  a
+}
+#
+# #No Copy
+z <- z05_f(x)
+#
+untracemem(x)
+#
+identical(obj_addr(x), obj_addr(z))
+obj_addr(x)
+print(list(x = x, z = z))
+rm(z05_f)
+```
+
+#### Lists
+
+- List is more complex because instead of storing the values itself, it stores references to them.
+- This is a \textcolor{pink}{shallow copy}: the list object and its bindings are copied, but the values pointed to by the bindings are not. 
+  - The opposite of a shallow copy is a \textcolor{pink}{deep copy} where the contents of every reference are copied. 
+  - Before version 3.1.0 R was always producing deep copies.
+  - This was the reason for original memory heavy performance of R during copy.
+
+- \textcolor{pink}{ref()}
+  - It prints the memory address of each object, along with a local ID so that you can easily cross-reference shared components.
+
+```{r 'Z05-23-Lists'}
+# #List l1 points to addresses pointing each to the values
+l1 <- list(11, 22, 33)
+l2 <- l1
+#
+# #Now, List l2 points to addresses pointing to first and second addresses (as original) 
+# #...but third is pointing to a different address pointing to the new value.
+l2[[3]] <- 44
+#
+# #ref() to compare addresses of addresses contained.
+ref(l1, l2)
+```
+
+#### Data frames
+
+- Data frames are lists of vectors
+  - If you modify a column, only that column needs to be modified; the others will still point to their original references.
+  - However, if you modify a row, every column is modified, which means every column must be copied.
+
+```{r 'Z05-23-DataFrame'}
+# #DataFrame
+d1 <- data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
+d3 <- d2 <- d1
+#
+# #Modify Column: Address of only modified column is changed.
+d2[ , 2] <- d2[ , 2] * 2
+ref(d1, d2)
+#
+# #Modify Row: All Column References modified
+d3[1, ] <- d3[1, ] * 3
+ref(d1, d3)
+```
+
+#### Character vectors
+
+- R uses a \textcolor{pink}{global string pool} where each element of a character vector is a pointer to a unique string in the pool
+
+```{r 'Z05-23-Character'}
+# #Note: both 1st and 2nd addresses are pointing to same value in the Global String Pool.
+x <- c("a", "a", "abc", "d")
+#
+ref(x, character = TRUE)
+```
+
+
+#### Exercise
+
+- Why is tracemem(1:10) not useful
+  - At runtime, an object with an address in memory is created, but it is not bound to a name. Therefore, the object cannot be called or manipulated from R. As no copies will be made, it is not useful to track the object for copying.
+
+```{r 'Z05-23-Q1'}
+tracemem(1:10)
+#
+tracemem(1:10)
+```
+
+```{r 'Z05-23-Q2'}
+# #Explain why tracemem() shows two copies when you run this code.
+y <- x <- c(11L, 22L, 33L)
+tracemem(x)
+#
+x[[3]] <- 44
+#
+# #The above has two steps: integer to double conversion and value modification
+# #The change below shows only 1 step: valye modification
+tracemem(y)
+#
+##xxxx : check after knit if a -> b step is present or not
+y[[3]] <- 44L #No Trace shown in R or RStudio Console. However, additional copy step found in Chunk
+#
+untracemem(x); untracemem(y)
+```
+
+
+```{r 'Z05-23-Q3'}
+x <- 1:10
+y <- list(x, x)
+z <- list(y, x, 1:10)
+#
+# #Relationship
+# # z : an address having list of 3 addresses:
+# #   First: an address having a list of 2 addresses: Both points to same address having values 1:10
+# #  Second: an address having values 1:10, can be copied, tracemem works
+# #   Third: an address having values 1:10, it cannot be copied, no tracemem
+ref(z, character = TRUE)
+z
+```
+
+```{r 'Z05-23-Q4'}
+# #What happens here:
+x <- list(1:10)
+tracemem(x)
+#
+# #The initial reference tree of x shows that the name x binds to a list object. 
+# #This object contains a reference to the integer vector 1:10.
+ref(x, character = TRUE)
+#
+x[[2]] <- x
+#
+# #When x is assigned to an element of itself the list is copied to a new address in memory.
+# #The list object previously bound to x is now referenced in the newly created list object. 
+# #It is no longer bound to a name. The integer vector is referenced twice.
+ref(x, character = TRUE)
+#
+x
+```
+
+### Object size
+
+- \textcolor{pink}{obj_size()}
+  - how much memory an object uses
+
+- Since the elements of lists are references to values, the size of a list is generally smaller than expected
+- Similarly, because R uses a global string pool, character vectors take up less memory than expected
+- Alternative Representation: 
+  - Instead of storing every number in sequence, R stores only first & last number.
+  - This means that every sequence, no matter how large, is the same size.
+
+```{r 'Z05-24-Size'}
+obj_size(letters)
+#
+x <- runif(1e2)
+obj_size(x)
+y <- list(x, x, x)
+obj_size(y)
+#
+# #Because y stores references, it is essentially additional size of list of 3 elements (80B)
+obj_size(y) - obj_size(x)
+obj_size(list(NULL, NULL, NULL))
+#
+# #Whereas this stores addresses of 3 elements (80B) and 3 objects each having same size of 848B
+obj_size(list(runif(1e2), runif(1e2), runif(1e2))) 
+2624L - 848L * 3 - 80L
+#
+# #ALTREP: All have same size
+obj_size(1:3)
+obj_size(1:1e6)
+obj_size(1:1e9)
+```
+
+### Modify-in-place
+
+- Modifying an R object usually creates a copy. There are two \textcolor{pink}{exceptions:}
+  - Objects with a single binding get a special performance optimization.
+    - When it comes to bindings, R can currently only count 0, 1, or many. That means that if an object has two bindings, and one goes away, the reference count does not go back to 1: one less than many is still many. In turn, this means that R will make copies when it sometimes does not need to.
+    - \textcolor{orange}{Caution:} Unable to replicate this. x without any copies is also showing different address after modification.
+    - Whenever you call the vast majority of functions, it makes a reference to the object. The only exception are specially written "primitive" C functions. These can only be written by R-core and occur mostly in the base package.
+  - Together, these two complications make it hard to predict whether or not a copy will occur. 
+  - Instead, it is better to determine it empirically with tracemem().
+  - Modifying a list uses internal C code, so the references are not incremented and only a single copy is made.
+  - Environments, a special type of object, are always modified in place.
+
+```{r 'Z05-25-Single-Binding'}
+x <- c(11, 22, 33) #0 Copies
+y <- c(11, 22, 33) #1 Copy
+yy <- y 
+z <- c(11, 22, 33) #2 Copies
+zz <- z
+zzz <- z
+#
+tracemem(x)
+tracemem(y)
+tracemem(z)
+#
+ref(x, y, z, character = TRUE)
+#
+x[[3]] <- 44 #This memory address modification is a problem!
+y[[3]] <- 44
+z[[3]] <- 44
+#
+# #x gets modified in place i.e. keeps its place in memory whereas y, z had to be copied first
+# #It was supposed to be done as described above but it is NOT working as expected. - "ForLater"
+ref(x, y, z, character = TRUE)
+#
+untracemem(x); untracemem(y); untracemem(z)
+```
+
+#### Environments
+
+- \textcolor{pink}{reference semantics} : Environments are always modified in place. 
+  - Environments are one of the R object types that are \textcolor{pink}{mutable}.
+  - When you modify an environment all existing bindings to that environment continue to have the same reference.
+  - One consequence of this is that environments can contain themselves
+
+
+```{r 'Z05-25-Environments'}
+# #Create Environments
+e1 <- rlang::env(x = 11, y = 22, z = 33)
+e2 <- e1
+#
+# #Modification of an object in e1 changes value in the object of e2 also
+e1$z <- 44
+e1$z
+e2$z
+#
+ref(e1$z, e2$z, character = TRUE)
+#
+# #Environment can contain itself
+e <- rlang::env()
+e$self <- e
+#
+ref(e, character = TRUE)
+```
+
+### Unbinding and the garbage collector
+
+- \textcolor{pink}{gc()}
+  - The garbage collector (GC) runs automatically whenever R needs more memory to create a new object.
+  - There is never any need to call gc() yourself. 
+  
+#### Aside: NA & NaN
+
+
+```{r 'Z05-NA-NaN'}
+# #NA: Not available i.e. Missing Value 
+NA | TRUE  #TRUE  #At least one TRUE is present
+NA | FALSE #NA    #Depending upon what the unknown is, the outcome will change
+NA & TRUE  #NA    #Depending upon what the unknown is, the outcome will change
+NA & FALSE #FALSE #At least one FALSE is present
+#
+# #NaN: Same as NA. Output is NA not NaN
+c(NaN | TRUE, NaN | FALSE, NaN & TRUE, NaN & FALSE)
+#
+# #Identity: Higher Precedence: y ^ 0 are 1: Anything raised to 0 is always 1 (even NaN)
+c(0^0, NA^0, NaN^0, Inf^0)
+#
+# #Identity: Higher Precedence: 1 ^ y are 1 : 1 to the power of anything is always 1 
+c(1^0, 1^NA, 1^NaN, 1^Inf)
+#
+# #Mathematical operation with NA is NA and NaN is NaN
+c(0^NA, NA^NA, NaN^NA, Inf^NA)     #NA
+c(0^NaN, NA^NaN, NaN^NaN, Inf^NaN) #NaN
+#
+# #This above described higher precedence does not exist for other operations
+NA * 0   #NA
+NaN * 0  #NaN
+#
+# #Other inconsistencies
+prod(NA, na.rm = TRUE)  #Instead of NA, surprisingly returns 1 
+#
+# #Special Mention: Non-commutative addition and multiplication with NA & NaN
+# #Thumb rule: Output is first or left item except in case of power where it is the base
+c("ApB" = NA + NaN, "BpA" = NaN + NA, "AmB" = NA * NaN, "BmA" = NaN * NA, 
+  "AdB" = NA / NaN, "BdA" = NaN / NA, "AcB" = NA^NaN, "BcA" = NaN^NA)
+#
+# #Missing values (NA) and NaN values are regarded as non-comparable even to themselves, ...
+# #...so comparisons involving them will always result in NA. 
+identical(NA, NA) #TRUE These are identical 
+NA == NA          #...but not comparable, use is.na()
+#
+identical(NaN, NaN) #TRUE These are identical 
+NaN == NaN          #...but not comparable, use is.nan()
+```
+
+#### Others
+
+- Note that as.vector() and is.vector() use different definitions of "vector!"
+
+
+```{r 'B-'}
+rm(x)
+x
+x <- 1
+x
+
+```
 
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

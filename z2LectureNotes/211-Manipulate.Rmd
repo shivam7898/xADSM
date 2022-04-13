@@ -75,14 +75,10 @@ Overview
 ### Operators {.unnumbered}
 
 ```{r 'B11-PairwiseSingle'}
-# #At lease one TRUE is present
-NA | TRUE
-# #Depending upon what the unknown is, the outcome will change
-NA | FALSE
-# #Depending upon what the unknown is, the outcome will change
-NA & TRUE
-# #At lease one FALSE is present
-NA & FALSE 
+NA | TRUE  #TRUE  #At least one TRUE is present
+NA | FALSE #NA    #Depending upon what the unknown is, the outcome will change
+NA & TRUE  #NA    #Depending upon what the unknown is, the outcome will change
+NA & FALSE #FALSE #At least one FALSE is present
 #
 # #For length 1 vectors, output of vectorised and non-vectorised forms is same
 stopifnot(all(identical(NA || TRUE, NA | TRUE), identical(NA || FALSE, NA | FALSE),

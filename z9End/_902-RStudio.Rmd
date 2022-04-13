@@ -38,5 +38,171 @@
 })
 ```
 
+## RStudio Tools | Global Options
+
+- R Markdown
+  - General | Basic
+    - R Version: Default
+    - Uncheck: 
+      - Restore most recently opened project at startup
+        - Enabling this leads to many packages in "loaded via a namespace (and not attached):"
+        - After disable: only 2 packages show up: compiler (same as R), tools (extra)
+        - Meaning of "loaded via a namespace (and not attached):"
+          - It means the package (In this case R) can access the package functions/objects, but the user can not without explicitly loading the tools package where as stats, graphics, etc. are loaded and ready to go for the user.
+      - Restore .RData into workspace at startup
+      - Automatically notify me of updates to RStudio
+      - Send automated crash reports to RStudio
+    - Check: 
+      - Restore previously open source documents at startup
+      - Always save history (even when not saving .RData)
+      - Remove duplicate entries in history
+      - Wrap around when navigating to previous/next tab
+    - Default working directory (when not in a project): ~
+    - Save workspace to .RData on exit: Never
+  - Code
+    - Editing
+      - Tab width: 1
+      - Uncheck: 
+        - Use native pipe operator, |> (requires R 4.1+)
+        - Soft-wrap R source files
+        - Continue comment when inserting new line
+        - Focus console after executing from source
+        - Enable code snippets
+      - Check: 
+        - Insert spaces for Tab
+        - Auto-detect code indentation
+        - Insert matching parenthesis /quotes
+        - Auto-indent code after paste
+        - Vertically align arguments in auto-indent
+        - Enable hyperlink highlighting in editor
+      - Surround selection on text insertion: Quotes & Brackets
+      - Keybindings: Default
+      - Ctrl+Enter executes: Multi-line R statement
+    - Display
+      - Check: 
+        - Highlight selected word
+        - Highlight selected line
+        - Show line numbers
+        - Show margin
+        - Show indent guides
+        - Blinking cursor
+        - Highlight R function calls
+        - Rainbow parentheses
+      - Uncheck: 
+        - Show whitespace characters
+        - Allow drag and drop of text
+        - Allow scroll past end of document
+      - Margin column: 100
+      - Fold Style: Start and End
+    - Saving
+      - Uncheck: 2
+        - Strip trailing horizontal whitespace when saving
+        - Automatically save when editor loses focus
+      - Idle period: 10000ms
+      - Default text encoding: Ask
+      - Line ending conversion: Platform Native
+    - Completion
+      - Show code completions: Automatically
+      - Show completions after characters entered: 1
+      - Show completions after keyboard idls (ms): 1000
+      - Uncheck: 3
+        - Show help tooltip after function completions 
+        - Show help tooltip on cursor idle
+        - Use tab for multiple auto completions
+    - Diagnostics
+      - Keyboard idle time: 2000 ms
+      - Uncheck: 3
+        - Check arguments to R function calls
+        - Warn if variable used has no definition in scope
+        - Provide R style diagnostics ...
+  - Console
+    - Check:
+      - Show syntax highlighting in console input
+      - Different color for error or message output ...
+      - Warn when automatic session suspension is paused
+        - Number of seconds to delay warning: 5
+    - Uncheck:
+      - Limit visible console output ...
+      - Automatically expand tracebacks in error inspector
+      - Double-click to select words
+    - Limit output line length to: 100
+    - ANSI Escape Codes: Show ANSI colors
+  - Appearance 
+    - RStudio theme: Modern
+    - Zoom: 90
+    - Editor Font: Consolas
+    - Editor font size: 10
+    - Editor theme: Tomorrow Night Bright
+  - Pane Layout
+    - Top Left: Source
+    - Bottom Left: Console
+    - Top Right: Environment, Build
+    - Bottom Right: Viewer, Presentation
+  - Packages | Management
+    - Primary CRAN repository: Global (CDN) - RStudio
+      - CRAN repositories modified outside package preferences
+    - Check: All 3 options
+  - Basic
+    - Check:
+      - Show document outline ...
+      - Soft-wrap R Markdown files
+      - Show output inline for all R Markdown documents
+      - Hide console automatically when executing notebook chunks
+        - no idea what this does
+    - Uncheck:
+      - Execute setup chunk automatically in notebooks
+        - Manually executing that because I was worried that it was slowing down the runtime of manual chunk execution. Although, No improvement observed with this change.
+    - Show 
+    - Show in document outline: Sections only
+      - Chunks are available in Bottom Bar and adding them here, the outline becomes huge and unmanageable
+    - Show output preview in: Window
+    - Show equation and image previews: inline
+    - Evaluate chunks in directory: Document
+  - Advanced
+    - Check:
+      - Enable chunk background highlight: Helps in separating chunks and normal text
+      - Show inline toolbar for R code chunks: 
+        - Keep it for those rare occurrences when output of many chunks needs to be kept
+    - Uncheck: Display render command in R Markdown tab
+      - This might be the one which stops automatic open of final document after generation
+  - Visual
+    - Check:
+      - Show document outline ...
+      - Show margin column indicator ...
+    - Editor content width (px): 700
+    - Default spacing between list items: spaced
+    - Automatic text wrapping (line breaks): none
+    - Write references at the end of current: block
+- Python
+  - Uncheck "Automatically activate project-local Python environments"
+    - Because, I am using external Python installation
+    - Enabling this leads to automatic attachment of internal Python module and that is old version. Further, to attach my external Python module, I have to restart R
+- Sweave
+  - Typeset LaTeX into PDF using: pdfLaTeX
+    - "ForLater" Unsure about changing it to XeLaTeX
+  - 2 Checks
+    - Clean auxiliary output after compile
+    - Always enable Rnw concordance ...
+- Spelling
+  - Main Dictionary Language: English (United States)
+  - Check all 3 options
+  - "ForLater" Unable to made custom dictionaries work, so using User Dictionary
+- Git /SVN
+  - Check "Enable version control interface for RStudio projects"
+  - Git Executable: C:\\Program Files\\Git\\bin\\git.exe
+  - SSH RSA Key: ...\\.ssh\\id_rsa
+- Terminal | General
+  - Initial Directory: Project Directory
+  - New terminals open with: Windows PowerShell
+  - Check
+    - Enable Python integration
+    - All Others
+  - Uncheck
+    - Clickable web links
+- Accessibility 
+  - Check
+    - Reduce user interface animations
+    - Always show focus outlines (requires restart)
+
 
 ****

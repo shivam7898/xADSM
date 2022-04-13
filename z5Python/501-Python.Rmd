@@ -146,7 +146,7 @@ else:
 - \textcolor{pink}{bash} or \textcolor{pink}{cmd}
 
 ```{bash 'P01-Python-Version-InBASH'}
-# #Check,in BASH, if the python has been installed 
+# #Check, in BASH, if the python has been installed 
 python --version #01
 
 # #Get the Location or Path of the installed exe
@@ -156,11 +156,14 @@ where.exe python #02
 bool_as_str=true; #true false
 if [[ "$bool_as_str" == "true" ]]; then pip --version; fi #03
 
+# #Results:
+```
+
+```{bash 'P01-Upgrade-Pip', eval=FALSE}
 # #Upgrade pip
 bool_as_str=false; #true false
 if [[ "$bool_as_str" == "true" ]]; then python -m pip install --upgrade pip; fi
 
-# #Results:
 ```
 
 - \textcolor{pink}{PowerShell}
@@ -853,7 +856,7 @@ pp.groupby('species').agg({'sepal_length': ['mean', 'min', 'max']})
 
 ## Q
 
-```{python 'P01-Import-Python', eval=FALSE}
+```{python 'P01-Import-Python-Basic', eval=FALSE}
 # #Import Pandas for questions 8 and 9
 import pandas as pd
 ```
