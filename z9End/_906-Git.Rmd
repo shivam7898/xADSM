@@ -30,8 +30,9 @@ if [[ "$bool_as_str" == "true" ]]; then git update-git-for-windows; fi
 
 ## Verify Git Initialisation
 
-```{bash 'Z06-Verify-Git'}
+```{bash 'Z06-Verify-Git', eval=FALSE}
 # Determine Git initialization by checking existence of .Git directory
+# PowerShell command not BASH
 Test-Path .Git
 ```
 
