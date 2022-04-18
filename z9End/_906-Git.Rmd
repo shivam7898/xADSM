@@ -122,7 +122,6 @@ echo docs/CaseStudies/ >> .gitignore
 ```
 
 ```{bash 'Z06-gitignore-2', eval=FALSE}
-# 
 # Data Files to be ignored
 bool_as_str=false; #true false
 # WRONG
@@ -145,6 +144,7 @@ echo data/xxB27H*.rds >> .gitignore
 echo data/xxB18Churn.rds >> .gitignore
 echo data/zzB34Bank.rds >> .gitignore
 echo data/xxB37Insurance.rds >> .gitignore
+echo data/zzB38Earnings.rds >> .gitignore
 ```
 
 ## Empty Commit
