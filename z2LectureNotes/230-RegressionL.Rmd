@@ -236,7 +236,7 @@ loc_png <- paste0(.z$PX, "B30P01", "-KC-Corrplot-z", ".png")
 ```
 
 ```{r 'B30P01', echo=FALSE, fig.cap="(B30P01) KC: Corrplot (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "B30P01", "-KC-Corrplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "B30P01", "-KC-Corrplot-z", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -293,7 +293,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B30P02', echo=FALSE, fig.cap="(B30P02) KC: Boxplot (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "B30P02", "-KC-Box-Z", ".png"))
+include_graphics(paste0(".", "/images/", "B30P02", "-KC-Box-Z", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}

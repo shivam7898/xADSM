@@ -221,7 +221,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B20P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B20P01", "-Movie-Elbow-Wss", ".png"))
+include_graphics(paste0(".", "/images/", "B20P01", "-Movie-Elbow-Wss", ".png"))
 ```
 
 ```{r 'B20-ElbowBase', include=FALSE}
@@ -260,7 +260,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B20P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B20P03", "-Movie-Elbow-WSS-Base", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B20P03", "-Movie-Elbow-WSS-Base", ".png")) #iiii
 ```
 
 ```{r 'B20P0103', echo=FALSE, ref.label=c('B20P01', 'B20P03'), fig.cap="(B20P01 B20P03) Movie: Elbow Curve (WSS) in FactoExtra and Base R"}
@@ -289,7 +289,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B20P02', echo=FALSE, fig.cap="(B20P02) Movie: Genres with k=3"}
-knitr::include_graphics(paste0(.z$PX, "B20P02", "-Movie-k3", ".png"))
+include_graphics(paste0(".", "/images/", "B20P02", "-Movie-k3", ".png"))
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

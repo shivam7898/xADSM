@@ -182,11 +182,11 @@ res_bb
     - Select Input Y Range | Select Input X Range | Tick Labels | OK 
 
 ```{r 'B25P01', echo=FALSE, out.width='100%', fig.cap="(B25P01) Regression in MS Excel"}
-knitr::include_graphics(paste0(.z$PX, "B25P01-Excel-Analysis.jpg"))
+include_graphics(paste0(".", "/images/", "B25P01-Excel-Analysis.jpg"))
 ```
 
 ```{r 'B25P02', echo=FALSE, out.width='100%', fig.cap="(B25P02) Regression Result in MS Excel"}
-knitr::include_graphics(paste0(.z$PX, "B25P02-Excel-Regression-Result.jpg"))
+include_graphics(paste0(".", "/images/", "B25P02-Excel-Regression-Result.jpg"))
 ```
 
 ## Explanation of Terms

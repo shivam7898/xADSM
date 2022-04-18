@@ -589,7 +589,7 @@ loc_png <- paste0(.z$PX, "B38P01", "-Churn-Train-ROC", ".png")
 ```
 
 ```{r 'B38P01', echo=FALSE, fig.cap="(B38P01) Churn: ROC: Train"}
-knitr::include_graphics(paste0(".", "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
 ```
 
 

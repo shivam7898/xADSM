@@ -309,7 +309,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P01", "-Flights-Hist-Air", ".png"))
+include_graphics(paste0(".", "/images/", "B12P01", "-Flights-Hist-Air", ".png"))
 ```
 
 ```{r 'B12-Density-Eval', echo=FALSE, ref.label=c('B12-Density')}
@@ -324,7 +324,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P02", "-Flights-Dens-Air", ".png"))
+include_graphics(paste0(".", "/images/", "B12P02", "-Flights-Dens-Air", ".png"))
 ```
 
 ```{r 'B12P0102', echo=FALSE, ref.label=c('B12P01', 'B12P02'), fig.cap="(B12P01 B12P02) Flights: Air Time (min) excluding NA (Histogram and Density)"}
@@ -509,7 +509,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P03", "-Flights-Hist-Air-100", ".png"))
+include_graphics(paste0(".", "/images/", "B12P03", "-Flights-Hist-Air-100", ".png"))
 ```
 
 ```{r 'B12-Sample1000', include=FALSE, eval=FALSE}
@@ -531,7 +531,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P04", "-Flights-Hist-Air-1000", ".png"))
+include_graphics(paste0(".", "/images/", "B12P04", "-Flights-Hist-Air-1000", ".png"))
 ```
 
 ```{r 'B12-Sample10000', include=FALSE, eval=FALSE}
@@ -553,7 +553,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P05", "-Flights-Hist-Air-10000", ".png"))
+include_graphics(paste0(".", "/images/", "B12P05", "-Flights-Hist-Air-10000", ".png"))
 ```
 
 #### GIF {.unnumbered}
@@ -597,7 +597,7 @@ gifski(png_files, gif_file = loc_gif, delay = 2)
 ```
 
 ```{r 'B12P030405G', echo=FALSE, fig.cap="(B12P03 B12P04 B12P05) Effect of Increasing Sample Size"}
-knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
+include_graphics(paste0(".", "/images/", "B12A", ".gif"))
 ```
 
 #### Images {.unnumbered}
@@ -693,7 +693,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P06", "-N10-Rep20", ".png"))
+include_graphics(paste0(".", "/images/", "B12P06", "-N10-Rep20", ".png"))
 ```
 
 ```{r 'B12-Sampling200', include=FALSE, eval=FALSE}
@@ -715,7 +715,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P07", "-N10-Rep200", ".png"))
+include_graphics(paste0(".", "/images/", "B12P07", "-N10-Rep200", ".png"))
 ```
 
 ```{r 'B12-Sampling2000', include=FALSE, eval=FALSE}
@@ -737,7 +737,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B12P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P08", "-N10-Rep2000", ".png"))
+include_graphics(paste0(".", "/images/", "B12P08", "-N10-Rep2000", ".png"))
 ```
 
 #### GIF {.unnumbered}
@@ -781,7 +781,7 @@ gifski(png_files, gif_file = loc_gif, delay = 2)
 ```
 
 ```{r 'B12P060708G', echo=FALSE, fig.cap="(B12P06 B12P07 B12P08) Effect of Increasing Sample Size"}
-knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
+include_graphics(paste0(".", "/images/", "B12B", ".gif"))
 ```
 
 #### Images {.unnumbered}
@@ -824,7 +824,7 @@ rm(B12)
 ## Normal Distribution {#normal-d-b12}
 
 ```{r 'B12P09', echo=FALSE, fig.cap="(B12P09) Normal Distribution"}
-knitr::include_graphics(paste0(.z$PX, "B12P09-Distribution-Normal.jpg"))
+include_graphics(paste0(".", "/images/", "B12P09-Distribution-Normal.jpg"))
 ```
 
 Refer [Normal Distribution](#normal-d-c06 "c06") and equation \@ref(eq:distribution-normal)
@@ -955,11 +955,11 @@ Although most applications of hypothesis testing control for the probability of 
 ## Critical Value
 
 ```{r 'B12P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P11-Tail-Left.jpg"))
+include_graphics(paste0(".", "/images/", "B12P11-Tail-Left.jpg"))
 ```
 
 ```{r 'B12P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B12P12-Tail-Right.jpg"))
+include_graphics(paste0(".", "/images/", "B12P12-Tail-Right.jpg"))
 ```
 
 ```{r 'B12P1112', echo=FALSE, ref.label=c('B12P11', 'B12P12'), fig.cap="(B12P11 B12P12) Left Tail vs. Right Tail"}
@@ -967,7 +967,7 @@ knitr::include_graphics(paste0(.z$PX, "B12P12-Tail-Right.jpg"))
 ```
 
 ```{r 'B12P13', echo=FALSE, fig.cap="(B12P13) Two Tail"}
-knitr::include_graphics(paste0(.z$PX, "B12P13-Tail-Two.jpg")) #iiii
+include_graphics(paste0(".", "/images/", "B12P13-Tail-Two.jpg")) #iiii
 ```
 
 ```{r 'B12D32', comment="", echo=FALSE, results='asis'}

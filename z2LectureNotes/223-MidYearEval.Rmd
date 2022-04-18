@@ -547,7 +547,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B23P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B23P01", "-Champo-Elbow-Wss-zz", ".png"))
+include_graphics(paste0(".", "/images/", "B23P01", "-Champo-Elbow-Wss-zz", ".png"))
 ```
 
 ```{r 'B23-ElbowSil', eval=FALSE}
@@ -568,7 +568,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B23P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B23P02", "-Champo-Elbow-Sil-zz", ".png"))
+include_graphics(paste0(".", "/images/", "B23P02", "-Champo-Elbow-Sil-zz", ".png"))
 ```
 
 ### WSS vs. Silhouette {.unlisted .unnumbered}
@@ -629,7 +629,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B23P03', echo=FALSE, fig.cap="(B23P03) Champo: k-means with k=3"}
-knitr::include_graphics(paste0(.z$PX, "B23P03", "-Champo-k3", ".png"))
+include_graphics(paste0(".", "/images/", "B23P03", "-Champo-k3", ".png"))
 ```
 
 ### Plot k=6 {.unlisted .unnumbered}
@@ -654,7 +654,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B23P04', echo=FALSE, fig.cap="(B23P04) Champo: k-means with k=6"}
-knitr::include_graphics(paste0(.z$PX, "B23P04", "-Champo-k6", ".png"))
+include_graphics(paste0(".", "/images/", "B23P04", "-Champo-k6", ".png"))
 ```
 
 ### Hierarchical {.unlisted .unnumbered}

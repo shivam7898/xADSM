@@ -91,7 +91,7 @@ f_getDef("Overfitting")
 ## Bias-Variance Trade-off {#bias-var-c37}
 
 ```{r 'C37P01', echo=FALSE, fig.cap="(C37P01) Bias-Variance Trade-off"}
-knitr::include_graphics(paste0(.z$PX, "C37P01", "-Bias-Variance-zz", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C37P01", "-Bias-Variance-zz", ".png")) #iiii
 ```
 
 - [(External) Image Source](https://towardsdatascience.com/the-bias-variance-tradeoff-8818f41e39e9 "https://towardsdatascience.com")

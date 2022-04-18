@@ -221,7 +221,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P01", "-Churn-Bar-Intl", ".png"))
+include_graphics(paste0(".", "/images/", "C33P01", "-Churn-Bar-Intl", ".png"))
 ```
 
 ```{r 'C33-BarStackIplan', include=FALSE}
@@ -260,7 +260,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P02", "-Churn-Stack-Intl", ".png"))
+include_graphics(paste0(".", "/images/", "C33P02", "-Churn-Stack-Intl", ".png"))
 ```
 
 
@@ -300,7 +300,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P03", "-Churn-pStack-Intl", ".png"))
+include_graphics(paste0(".", "/images/", "C33P03", "-Churn-pStack-Intl", ".png"))
 ```
 
 ##### Image {.unlisted .unnumbered}
@@ -460,7 +460,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P04", "-Churn-MultiClusterBar", ".png"))
+include_graphics(paste0(".", "/images/", "C33P04", "-Churn-MultiClusterBar", ".png"))
 ```
 
 
@@ -499,7 +499,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P05", "-Churn-MultiClusterBarSingleFacet", ".png"))
+include_graphics(paste0(".", "/images/", "C33P05", "-Churn-MultiClusterBarSingleFacet", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -545,7 +545,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P06', echo=FALSE, fig.cap="(C33P06) Churn vs. International & Voice Mail Plans (Proportional Stack)"}
-knitr::include_graphics(paste0(.z$PX, "C33P06", "-Churn-pStack-Multi", ".png"))
+include_graphics(paste0(".", "/images/", "C33P06", "-Churn-pStack-Multi", ".png"))
 ```
 
 
@@ -640,7 +640,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P08", "-Churn-Hist-ServCall", ".png"))
+include_graphics(paste0(".", "/images/", "C33P08", "-Churn-Hist-ServCall", ".png"))
 ```
 
 ```{r 'C33-HistServCallChurn', include=FALSE}
@@ -677,7 +677,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P09", "-Churn-Hist-ServCall-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P09", "-Churn-Hist-ServCall-Churn", ".png")) 
 ```
 
 
@@ -733,7 +733,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P10", "-Churn-pHist-ServCall-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P10", "-Churn-pHist-ServCall-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -786,7 +786,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P11', echo=FALSE, fig.cap="(C33P11) Churn vs. Service Call Proportions (Bar)"}
-knitr::include_graphics(paste0(.z$PX, "C33P11", "-Churn-pBar-ServCall-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P11", "-Churn-pBar-ServCall-Churn", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -839,7 +839,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P12", "-Churn-Hist-DayMins-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P12", "-Churn-Hist-DayMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistDayMinsChurn', include=FALSE, eval=FALSE}
@@ -865,7 +865,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P13", "-Churn-pHist-DayMins-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P13", "-Churn-pHist-DayMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1213', echo=FALSE, ref.label=c('C33P12', 'C33P13'), fig.cap="(C33P12 C33P13) Higher Day Minutes (>200) have higher Churn"}
@@ -945,7 +945,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P14', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P14", "-Churn-Hist-EveMins-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P14", "-Churn-Hist-EveMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistEveMinsChurn', include=FALSE, eval=FALSE}
@@ -971,7 +971,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P15', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P15", "-Churn-pHist-EveMins-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P15", "-Churn-pHist-EveMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1415', echo=FALSE, ref.label=c('C33P14', 'C33P15'), fig.cap="(C33P14 C33P15) (Inconclusive) Slight tendency to Churn with higher Evening Minutes"}
@@ -1015,7 +1015,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P16', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P16", "-Churn-Hist-NightMins-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P16", "-Churn-Hist-NightMins-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistNightMinsChurn', include=FALSE, eval=FALSE}
@@ -1041,7 +1041,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P17', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P17", "-Churn-pHist-NightMins-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P17", "-Churn-pHist-NightMins-Churn", ".png"))
 ```
 
 ```{r 'C33P1617', echo=FALSE, ref.label=c('C33P16', 'C33P17'), fig.cap="(C33P16 C33P17) No obvious association between Churn and Night Minutes"}
@@ -1085,7 +1085,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P20', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P20", "-Churn-Hist-Icalls-Churn", ".png")) 
+include_graphics(paste0(".", "/images/", "C33P20", "-Churn-Hist-Icalls-Churn", ".png")) 
 ```
 
 ```{r 'C33-pHistIcallsChurn', include=FALSE, eval=FALSE}
@@ -1111,7 +1111,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P21', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P21", "-Churn-pHist-Icalls-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P21", "-Churn-pHist-Icalls-Churn", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -1246,11 +1246,11 @@ if(!file.exists(loc_png)) {
 #### Images {.unlisted .unnumbered}
 
 ```{r 'C33P18', echo=FALSE, out.width='100%', fig.cap="(C33P18) Histograms of All Predictors with Target (Count)"}
-knitr::include_graphics(paste0(.z$PX, "C33P18", "-Churn-Hist-All-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P18", "-Churn-Hist-All-Churn", ".png"))
 ```
 
 ```{r 'C33P19', echo=FALSE, out.width='100%', fig.cap="(C33P19) Histograms of All Predictors with Target (Proportion)"}
-knitr::include_graphics(paste0(.z$PX, "C33P19", "-Churn-pHist-All-Churn", ".png"))
+include_graphics(paste0(".", "/images/", "C33P19", "-Churn-pHist-All-Churn", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1305,7 +1305,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P22', echo=FALSE, fig.cap="(C33P22) Scatterplot of Evening Minutes (X) and Day Minutes (Y) shows a clear separation for Churn at High X and High Y"}
-knitr::include_graphics(paste0(.z$PX, "C33P22", "-Churn-Scatter-MinEveDay", ".png"))
+include_graphics(paste0(".", "/images/", "C33P22", "-Churn-Scatter-MinEveDay", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1359,7 +1359,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P27', echo=FALSE, fig.cap="(C33P27) Scatterplot of Day Minutes (X) and Customer Service Calls (Y) shows an interaction effect for Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P27", "-Churn-Scatter-ServCallDayMins", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C33P27", "-Churn-Scatter-ServCallDayMins", ".png")) #iiii
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1396,7 +1396,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P23', echo=FALSE, out.width='100%', fig.cap="(C33P23) Bivariate Analysis of Calls showing Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P23", "-Churn-SPLOM-Calls-7", ".png"))
+include_graphics(paste0(".", "/images/", "C33P23", "-Churn-SPLOM-Calls-7", ".png"))
 ```
 
 
@@ -1422,7 +1422,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P24', echo=FALSE, out.width='100%', fig.cap="(C33P24) Bivariate Analysis of Minutes & Charges showing Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P24", "-Churn-SPLOM-MinsCharges-8", ".png"))
+include_graphics(paste0(".", "/images/", "C33P24", "-Churn-SPLOM-MinsCharges-8", ".png"))
 ```
 
 #### GGally Bivariate {.unlisted .unnumbered}
@@ -1475,7 +1475,7 @@ loc_png <- paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png")
 ```
 
 ```{r 'C33P25', echo=FALSE, out.width='100%', fig.cap="(C33P25) Bivariate Analysis of Calls showing Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P25", "-Churn-SPLOM-Psych-A7", ".png"))
+include_graphics(paste0(".", "/images/", "C33P25", "-Churn-SPLOM-Psych-A7", ".png"))
 ```
 
 ```{r 'C33-Psych-B8', include=FALSE}
@@ -1490,7 +1490,7 @@ loc_png <- paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png")
 ```
 
 ```{r 'C33P26', echo=FALSE, out.width='100%', fig.cap="(C33P26) Bivariate Analysis of Minutes & Charges showing Churn"}
-knitr::include_graphics(paste0(.z$PX, "C33P26", "-Churn-SPLOM-Psych-B8", ".png"))
+include_graphics(paste0(".", "/images/", "C33P26", "-Churn-SPLOM-Psych-B8", ".png"))
 ```
 
 #### pairs.panels() {.unlisted .unnumbered}
@@ -1595,7 +1595,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P28', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P28", "-Churn-Bar-ServiceCalls", ".png"))
+include_graphics(paste0(".", "/images/", "C33P28", "-Churn-Bar-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33-BarStackServCall', include=FALSE}
@@ -1632,7 +1632,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P29', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P29", "-Churn-Stack-ServiceCalls", ".png"))
+include_graphics(paste0(".", "/images/", "C33P29", "-Churn-Stack-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33-BarPStackServCall', include=FALSE}
@@ -1669,7 +1669,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P30', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C33P30", "-Churn-pStack-ServiceCalls", ".png"))
+include_graphics(paste0(".", "/images/", "C33P30", "-Churn-pStack-ServiceCalls", ".png"))
 ```
 
 ```{r 'C33P282930', echo=FALSE, out.width='33%', ref.label=c('C33P28', 'C33P29', 'C33P30'), fig.cap="(C33P28 C33P29 C33P30) High Customer Service Calls have major Churn"}
@@ -1831,7 +1831,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C33P31', echo=FALSE, out.width='100%', fig.cap="(C33P31) corrplot::corrplot vs. psych::corPlot()"}
-knitr::include_graphics(paste0(.z$PX, "C33P31", "-Churn-corrplot-corPlot", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C33P31", "-Churn-corrplot-corPlot", ".png")) #iiii
 ```
 
 ## Insights

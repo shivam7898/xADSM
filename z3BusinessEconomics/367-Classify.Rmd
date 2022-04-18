@@ -217,7 +217,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F67P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "F67P01", "-Default-1x-YX", ".png"))
+include_graphics(paste0(".", "/images/", "F67P01", "-Default-1x-YX", ".png"))
 ```
 
 
@@ -253,7 +253,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F67P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "F67P02", "-Default-1x-Box", ".png"))
+include_graphics(paste0(".", "/images/", "F67P02", "-Default-1x-Box", ".png"))
 ```
 
 
@@ -994,7 +994,7 @@ loc_png <- paste0(.z$PX, "F67P03", "-Default-ROC-LDA", ".png")
 ```
 
 ```{r 'F67P03', echo=FALSE, fig.cap="(F67P03) Default: ROC: LDA"}
-knitr::include_graphics(paste0(.z$PX, "F67P03", "-Default-ROC-LDA", ".png"))
+include_graphics(paste0(".", "/images/", "F67P03", "-Default-ROC-LDA", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}

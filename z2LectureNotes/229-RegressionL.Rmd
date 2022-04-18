@@ -116,7 +116,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P04", "-Boston-Lasso-Lambda", ".png"))
+include_graphics(paste0(".", "/images/", "B29P04", "-Boston-Lasso-Lambda", ".png"))
 ```
 
 ```{r 'B29-VarImportance-Lasso', include=FALSE}
@@ -142,7 +142,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P05", "-Boston-Lasso-Vars", ".png"))
+include_graphics(paste0(".", "/images/", "B29P05", "-Boston-Lasso-Vars", ".png"))
 ```
 
 
@@ -168,7 +168,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P03", "-Boston-Lasso-Model", ".png"))
+include_graphics(paste0(".", "/images/", "B29P03", "-Boston-Lasso-Model", ".png"))
 ```
 
 ## Elastic Net
@@ -217,7 +217,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P06", "-Boston-Elastic-Lambda", ".png"))
+include_graphics(paste0(".", "/images/", "B29P06", "-Boston-Elastic-Lambda", ".png"))
 ```
 
 ```{r 'B29-VarImportance-Enet', include=FALSE}
@@ -243,7 +243,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P07", "-Boston-Elastic-Vars", ".png"))
+include_graphics(paste0(".", "/images/", "B29P07", "-Boston-Elastic-Vars", ".png"))
 ```
 
 
@@ -269,7 +269,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B29P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B29P08", "-Boston-Elastic-Model", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B29P08", "-Boston-Elastic-Model", ".png")) #iiii
 ```
 
 

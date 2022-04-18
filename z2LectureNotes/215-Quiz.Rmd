@@ -203,7 +203,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B15P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P01", "-JAT-Usage", ".png"))
+include_graphics(paste0(".", "/images/", "B15P01", "-JAT-Usage", ".png"))
 ```
 
 ```{r 'B15-UserTrend', include=FALSE}
@@ -236,7 +236,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B15P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P02", "-JAT-Users", ".png"))
+include_graphics(paste0(".", "/images/", "B15P02", "-JAT-Users", ".png"))
 ```
 
 ```{r 'B15P0102', echo=FALSE, ref.label=c('B15P01', 'B15P02'), fig.cap="(B15P01 B15P02) JAT: Usage and Users over the TimePeriod"}
@@ -609,7 +609,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B15P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P04", "-JAT-QQ-Usage", ".png"))
+include_graphics(paste0(".", "/images/", "B15P04", "-JAT-QQ-Usage", ".png"))
 ```
 
 ```{r 'B15P05-Save', include=FALSE}
@@ -620,7 +620,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B15P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P05", "-JAT-QQ-Usage-Sqrt", ".png"))  #iiii
+include_graphics(paste0(".", "/images/", "B15P05", "-JAT-QQ-Usage-Sqrt", ".png"))  #iiii
 ```
 
 ```{r 'B15P04P05', echo=FALSE, ref.label=c('B15P04', 'B15P05'), fig.cap="(B15P04 B15P05) JAT: QQ Plot of Usage and Sqrt(Usage)"}
@@ -936,7 +936,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B15P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B15P03", "-JAT-Diseases", ".png"))
+include_graphics(paste0(".", "/images/", "B15P03", "-JAT-Diseases", ".png"))
 ```
 
 ```{r 'B15P03-A', echo=FALSE, ref.label=c('B15P03'), fig.cap="(B15P03) JAT: Disease Searches grouped with Faourable and unfavourable Condisions (T and RH)"}

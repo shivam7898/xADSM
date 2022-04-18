@@ -247,7 +247,7 @@ loc_png <- paste0(.z$PX, "B31P01", "-Tree-Basic", ".png")
 ```
 
 ```{r 'B31P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P01", "-Tree-Basic", ".png"))
+include_graphics(paste0(".", "/images/", "B31P01", "-Tree-Basic", ".png"))
 ```
 
 ```{r 'B31-Tree-rpart-Set', include=FALSE}
@@ -263,7 +263,7 @@ loc_png <- paste0(.z$PX, "B31P02", "-Tree-rpart", ".png")
 ```
 
 ```{r 'B31P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P02", "-Tree-rpart", ".png"))
+include_graphics(paste0(".", "/images/", "B31P02", "-Tree-rpart", ".png"))
 ```
 
 ```{r 'B31-Tree-fancy-Set', include=FALSE}
@@ -279,7 +279,7 @@ loc_png <- paste0(.z$PX, "B31P03", "-Tree-fancy", ".png")
 ```
 
 ```{r 'B31P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P03", "-Tree-fancy", ".png"))
+include_graphics(paste0(".", "/images/", "B31P03", "-Tree-fancy", ".png"))
 ```
 
 ```{r 'B31-Tree-prp-Set', include=FALSE}
@@ -295,7 +295,7 @@ loc_png <- paste0(.z$PX, "B31P04", "-Tree-prp", ".png")
 ```
 
 ```{r 'B31P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P04", "-Tree-prp", ".png"))
+include_graphics(paste0(".", "/images/", "B31P04", "-Tree-prp", ".png"))
 ```
 
 ```{r 'B31-Tree-heat-Set', include=FALSE}
@@ -317,7 +317,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B31P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P05", "-Tree-treeheatr", ".png"))
+include_graphics(paste0(".", "/images/", "B31P05", "-Tree-treeheatr", ".png"))
 ```
 
 ```{r 'B31-Tree-ggparty-Set', include=FALSE}
@@ -340,7 +340,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B31P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P06", "-Tree-ctree-ggparty", ".png"))
+include_graphics(paste0(".", "/images/", "B31P06", "-Tree-ctree-ggparty", ".png"))
 ```
 
 ```{r 'B31P0106', echo=FALSE, ref.label=c('B31P01', 'B31P02', 'B31P03', 'B31P04', 'B31P05', 'B31P06'), fig.cap="(B31P01 B31P02 B31P03 B31P04 B31P05 B31P06) Example Tree: Basic, rpart, fancyRpartPlot, prp, treeheatr and ctree & ggparty"}
@@ -673,7 +673,7 @@ loc_png <- paste0(.z$PX, "B31P07", "-Car-Basic", ".png")
 ```
 
 ```{r 'B31P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P07", "-Car-Basic", ".png"))
+include_graphics(paste0(".", "/images/", "B31P07", "-Car-Basic", ".png"))
 ```
 
 ```{r 'B31-Tree-rpart-Set-Car', include=FALSE}
@@ -689,7 +689,7 @@ loc_png <- paste0(.z$PX, "B31P08", "-Car-rpart", ".png")
 ```
 
 ```{r 'B31P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P08", "-Car-rpart", ".png"))
+include_graphics(paste0(".", "/images/", "B31P08", "-Car-rpart", ".png"))
 ```
 
 ```{r 'B31-Tree-fancy-Set-Car', include=FALSE}
@@ -705,7 +705,7 @@ loc_png <- paste0(.z$PX, "B31P09", "-Car-fancy", ".png")
 ```
 
 ```{r 'B31P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P09", "-Car-fancy", ".png"))
+include_graphics(paste0(".", "/images/", "B31P09", "-Car-fancy", ".png"))
 ```
 
 ```{r 'B31-Tree-prp-Set-Car', include=FALSE}
@@ -721,7 +721,7 @@ loc_png <- paste0(.z$PX, "B31P10", "-Car-prp", ".png")
 ```
 
 ```{r 'B31P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P10", "-Car-prp", ".png"))
+include_graphics(paste0(".", "/images/", "B31P10", "-Car-prp", ".png"))
 ```
 
 ```{r 'B31-Tree-heat-Set-Car', include=FALSE, eval=FALSE}
@@ -744,7 +744,7 @@ if(!file.exists(loc_png)) {
   ggsave(loc_png, plot = B31P11, device = "png", dpi = 144) 
 }
 # 'B31P11'
-knitr::include_graphics(paste0(.z$PX, "B31P11", "-Car-treeheatr", ".png"))
+include_graphics(paste0(".", "/images/", "B31P11", "-Car-treeheatr", ".png"))
 ```
 
 ```{r 'B31-Tree-ggparty-Set-Car', include=FALSE}
@@ -787,7 +787,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B31P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B31P12", "-Car-ctree-ggparty", ".png"))
+include_graphics(paste0(".", "/images/", "B31P12", "-Car-ctree-ggparty", ".png"))
 ```
 
 ```{r 'B31P0708', echo=FALSE, ref.label=c('B31P07', 'B31P08'), fig.cap="(B31P07 B31P08) CarDekho: Tree: Basic and rpart"}

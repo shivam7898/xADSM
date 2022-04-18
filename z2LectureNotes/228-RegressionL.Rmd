@@ -212,7 +212,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B28P03', echo=FALSE, fig.cap="(B28P03) Boston Housing Corrplot (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "B28P03", "-Boston-Corrplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "B28P03", "-Boston-Corrplot-z", ".png"))
 ```
 
 ## Partition Data
@@ -369,7 +369,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B28P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B28P04", "-Boston-Ridge-Lambda", ".png"))
+include_graphics(paste0(".", "/images/", "B28P04", "-Boston-Ridge-Lambda", ".png"))
 ```
 
 
@@ -395,7 +395,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B28P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B28P05", "-Boston-Ridge-Model", ".png"))
+include_graphics(paste0(".", "/images/", "B28P05", "-Boston-Ridge-Model", ".png"))
 ```
 
 
@@ -427,7 +427,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B28P06', echo=FALSE, fig.cap="(B28P06) Boston: Ridge Variable Importance Plot"}
-knitr::include_graphics(paste0(.z$PX, "B28P06", "-Boston-Ridge-Vars", ".png"))
+include_graphics(paste0(".", "/images/", "B28P06", "-Boston-Ridge-Vars", ".png"))
 ```
 
 

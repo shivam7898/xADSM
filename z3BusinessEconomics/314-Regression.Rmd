@@ -54,7 +54,7 @@ The equation that describes how the mean or expected value of ${y}$, denoted $E(
 ```
 
 ```{r 'C14P01', echo=FALSE, fig.cap="(C14P01) Linear Regression"}
-knitr::include_graphics(paste0(.z$PX, "C14P01", "-Linear-Regression-zz", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C14P01", "-Linear-Regression-zz", ".png")) #iiii
 ```
 
 - [(External) Image Source](http://www.sthda.com/english/articles/40-regression-analysis/167-simple-linear-regression-in-r "http://www.sthda.com")

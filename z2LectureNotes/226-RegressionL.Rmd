@@ -330,7 +330,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B26P01', echo=FALSE, fig.cap="(B26P01) CarDekho: GGplot: Corrplot of Dummies (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "B26P01", "-CarDekho-GGplot-Corrplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "B26P01", "-CarDekho-GGplot-Corrplot-z", ".png"))
 ```
 
 
@@ -371,7 +371,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B26P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B26P02", "-CarDekho-corrplot-Corrplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "B26P02", "-CarDekho-corrplot-Corrplot-z", ".png"))
 ```
 
 ```{r 'B26P03-Save', include=FALSE}
@@ -398,7 +398,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B26P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B26P03", "-CarDekho-Psych-Corrplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "B26P03", "-CarDekho-Psych-Corrplot-z", ".png"))
 ```
 
 
@@ -569,7 +569,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B26P04', echo=FALSE, fig.cap="(B26P04) CarDekho: BoxPlot of Results"}
-knitr::include_graphics(paste0(.z$PX, "B26P04", "-CarDekho-Results-BoxPlot", ".png"))
+include_graphics(paste0(".", "/images/", "B26P04", "-CarDekho-Results-BoxPlot", ".png"))
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

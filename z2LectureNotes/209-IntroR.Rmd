@@ -787,7 +787,7 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 ```
 
 ```{r 'B09P01', echo=FALSE, fig.cap="(B09P01) Correlation using psych::pairs.panels()"}
-knitr::include_graphics(paste0(.z$PX, "B09P01", "-Psych", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B09P01", "-Psych", ".png")) #iiii
 ```
 
 ### Code {.unlisted .unnumbered}

@@ -71,7 +71,6 @@ obj_addr(dd)
   - they would point to same memory in a new R session
 
 ```{r 'Z05-22-Q2'}
-# xxxx
 if(FALSE) stopifnot(all(identical(obj_addr(mean), obj_addr(get("mean"))), 
               identical(obj_addr(mean), obj_addr(evalq(mean))),
               identical(obj_addr(mean), obj_addr(match.fun("mean")))))
@@ -206,13 +205,13 @@ z <- x #Before Starting Trace
 tracemem(x)
 y <- x #After Starting Trace
 #
-
 # #Modify
-y[[3]] <- 44 #Trace shown 
-x[[3]] <- 55 #Trace shown 
+if(FALSE) y[[3]] <- 44 #Trace shown 
+if(FALSE) x[[3]] <- 55 #Trace shown 
 #
-##xxxx : check after knit if a -> b step is present or not
-z[[3]] <- 66 #No Trace shown in R or RStudio Console. However, additional copy step found in Chunk
+# #No Trace shown in R or RStudio Console. 
+# #However, additional copy step (a -> b) was found in Chunk (manual or Knit)
+if(FALSE) z[[3]] <- 66
 #
 # #Turn off the memory tracing
 untracemem(x); untracemem(y)
@@ -320,14 +319,15 @@ tracemem(1:10)
 y <- x <- c(11L, 22L, 33L)
 tracemem(x)
 #
-x[[3]] <- 44
+if(FALSE) x[[3]] <- 44
 #
 # #The above has two steps: integer to double conversion and value modification
 # #The change below shows only 1 step: valye modification
 tracemem(y)
 #
-##xxxx : check after knit if a -> b step is present or not
-y[[3]] <- 44L #No Trace shown in R or RStudio Console. However, additional copy step found in Chunk
+# #No Trace shown in R or RStudio Console. 
+# #However, additional copy step (a -> b) was found in Chunk (manual or Knit)
+if(FALSE) y[[3]] <- 44L
 #
 untracemem(x); untracemem(y)
 ```
@@ -350,18 +350,18 @@ z
 ```{r 'Z05-23-Q4'}
 # #What happens here:
 x <- list(1:10)
-tracemem(x)
+if(FALSE) tracemem(x)
 #
 # #The initial reference tree of x shows that the name x binds to a list object. 
 # #This object contains a reference to the integer vector 1:10.
-ref(x, character = TRUE)
+if(FALSE) ref(x, character = TRUE)
 #
 x[[2]] <- x
 #
 # #When x is assigned to an element of itself the list is copied to a new address in memory.
 # #The list object previously bound to x is now referenced in the newly created list object. 
 # #It is no longer bound to a name. The integer vector is referenced twice.
-ref(x, character = TRUE)
+if(FALSE) ref(x, character = TRUE)
 #
 x
 ```
@@ -425,9 +425,9 @@ tracemem(z)
 #
 ref(x, y, z, character = TRUE)
 #
-x[[3]] <- 44 #This memory address modification is a problem!
-y[[3]] <- 44
-z[[3]] <- 44
+if(FALSE) x[[3]] <- 44 #This memory address modification is a problem!
+if(FALSE) y[[3]] <- 44
+if(FALSE) z[[3]] <- 44
 #
 # #x gets modified in place i.e. keeps its place in memory whereas y, z had to be copied first
 # #It was supposed to be done as described above but it is NOT working as expected. - "ForLater"
@@ -518,19 +518,10 @@ NaN == NaN          #...but not comparable, use is.nan()
 - Note that as.vector() and is.vector() use different definitions of "vector!"
 
 
-```{r 'B-'}
-rm(x)
-x
-x <- 1
-x
-
-```
-
-
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'Z05-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, cc, d1, d2, d3, dd, e, e1, e2, l1, l2, x, y, yy, z, zz, zzz)
 ```
 
 ```{r 'Z05-Validation', include=FALSE, cache=FALSE}

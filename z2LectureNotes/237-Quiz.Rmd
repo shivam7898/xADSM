@@ -290,8 +290,6 @@ if(TRUE) cmat$byClass[["Specificity"]]
 
 ## Comparison
 
-- "ForLater" - xxxx - Check the change here after correcting iin iio to jjn jjo
-
 ```{r 'B37-vs-Cmat', echo=FALSE, collapse=FALSE, class.output="models"}
 # #Class Comparisons: GLM vs. LDA
 cmat <- cmat_2_step
@@ -345,7 +343,7 @@ auc_hh <- seq(from = 0.07, by = -0.04, length.out = 2)
 ```
 
 ```{r 'B37P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B37P01", "-Insurance-Train-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B37P01", "-Insurance-Train-ROC", ".png"))
 ```
 
 
@@ -367,7 +365,7 @@ auc_hh <- seq(from = 0.07, by = -0.04, length.out = 2)
 ```
 
 ```{r 'B37P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B37P02", "-Insurance-Test-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B37P02", "-Insurance-Test-ROC", ".png"))
 ```
 
 

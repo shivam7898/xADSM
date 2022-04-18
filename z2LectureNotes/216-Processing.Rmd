@@ -239,7 +239,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P01', echo=FALSE, fig.cap="(B16P01) Cars: Inserted Missing Value Pattern by md.pattern()"}
-knitr::include_graphics(paste0(.z$PX, "B16P01", "-Cars-NA-Pattern", ".png"))
+include_graphics(paste0(".", "/images/", "B16P01", "-Cars-NA-Pattern", ".png"))
 ```
 
 ### Seed {#seed-b16}
@@ -426,7 +426,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P02", "-Cars-Hist-Weight", ".png"))
+include_graphics(paste0(".", "/images/", "B16P02", "-Cars-Hist-Weight", ".png"))
 ```
 
 ```{r 'B16-Density', include=FALSE}
@@ -499,7 +499,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P03", "-Cars-Dens-Weight", ".png"))
+include_graphics(paste0(".", "/images/", "B16P03", "-Cars-Dens-Weight", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -564,7 +564,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P04", "-Cars-Scatter-All", ".png"))
+include_graphics(paste0(".", "/images/", "B16P04", "-Cars-Scatter-All", ".png"))
 ```
 
 ```{r 'B16-ScatterMod', include=FALSE}
@@ -588,7 +588,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B16P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B16P05", "-Cars-Scatter-Mod", ".png"))
+include_graphics(paste0(".", "/images/", "B16P05", "-Cars-Scatter-Mod", ".png"))
 ```
 
 #### Image {.unlisted .unnumbered}
@@ -694,7 +694,7 @@ if(!file.exists(loc_png)) {
 #### Image {.unlisted .unnumbered}
 
 ```{r 'B16P06', echo=FALSE, fig.cap="(B16P06) Cars: BoxPlot of MPG (excluding 1 point) vs. Cylinders (4, 6, 8)"}
-knitr::include_graphics(paste0(.z$PX, "B16P06", "-Cars-BoxPlot", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B16P06", "-Cars-BoxPlot", ".png")) #iiii
 ```
 
 #### boxplot() {.unlisted .unnumbered}

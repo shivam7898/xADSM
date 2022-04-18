@@ -228,7 +228,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P01', echo=FALSE, fig.cap="(B24P01) Makeup: Support and Confidence with Lift as Gradient"}
-knitr::include_graphics(paste0(.z$PX, "B24P01", "-Makeup-SupConf", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P01", "-Makeup-SupConf", ".png")) 
 ```
 
 
@@ -319,7 +319,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P02', echo=FALSE, fig.cap="(B24P02) Basket: Absolute Item Frequency Plot of Items"}
-knitr::include_graphics(paste0(.z$PX, "B24P02", "-Basket-Freq-Abs", ".png"))
+include_graphics(paste0(".", "/images/", "B24P02", "-Basket-Freq-Abs", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -466,7 +466,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P03', echo=FALSE, fig.cap="(B24P03) Groceries: Support vs. Confidence with Lift as Gradient and Two RHS"}
-knitr::include_graphics(paste0(.z$PX, "B24P03", "-Groceries-SupConf", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P03", "-Groceries-SupConf", ".png")) 
 ```
 
 
@@ -590,7 +590,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P04', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P04", "-Groceries-SuppConfLift", ".png"))
+include_graphics(paste0(".", "/images/", "B24P04", "-Groceries-SuppConfLift", ".png"))
 ```
 
 ```{r 'B24-SuppLiftConf', include=FALSE}
@@ -613,7 +613,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P05", "-Groceries-SuppLiftConf", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P05", "-Groceries-SuppLiftConf", ".png")) 
 ```
 
 
@@ -662,7 +662,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P06', echo=FALSE, fig.cap="(B24P06) Groceries: Two-key Plot: Support and Confidence with Items"}
-knitr::include_graphics(paste0(.z$PX, "B24P06", "-Groceries-Two-key", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P06", "-Groceries-Two-key", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -698,7 +698,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P07', echo=FALSE, fig.cap="(B24P07) Groceries: Matrix"}
-knitr::include_graphics(paste0(.z$PX, "B24P07", "-Groceries-Matrix", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P07", "-Groceries-Matrix", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -751,7 +751,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P08", "-Groceries-GroupMat", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P08", "-Groceries-GroupMat", ".png")) 
 ```
 
 ```{r 'B24-GroupMatrixK', include=FALSE}
@@ -773,7 +773,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P09", "-Groceries-GroupMat-50k", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P09", "-Groceries-GroupMat-50k", ".png")) 
 ```
 
 
@@ -823,7 +823,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P10", "-Groceries-Graph", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P10", "-Groceries-Graph", ".png")) 
 ```
 
 ```{r 'B24-GraphCircle', include=FALSE}
@@ -847,7 +847,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P11', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P11", "-Groceries-Graph-Circle", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P11", "-Groceries-Graph-Circle", ".png")) 
 ```
 
 
@@ -902,7 +902,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P12', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P12", "-Groceries-Paracoord", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P12", "-Groceries-Paracoord", ".png")) 
 ```
 
 ```{r 'B24-ParaCoordReorder', include=FALSE}
@@ -925,7 +925,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B24P13', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B24P13", "-Groceries-Paracoord-Reorder", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P13", "-Groceries-Paracoord-Reorder", ".png")) 
 ```
 
 ```{r 'B24P1213', echo=FALSE, ref.label=c('B24P12', 'B24P13'), fig.cap="(B24P12 B24P13) Groceries: Parallel Coordinates Plots (Default and Reordered)"}
@@ -980,7 +980,7 @@ if(!file.exists(loc_png)) {
 
 
 ```{r 'B24P14', echo=FALSE, fig.cap="(B24P14) Groceries: Double Decker Plot of Single Rule"}
-knitr::include_graphics(paste0(.z$PX, "B24P14", "-Groceries-Double-Decker", ".png")) 
+include_graphics(paste0(".", "/images/", "B24P14", "-Groceries-Double-Decker", ".png")) 
 ```
 
 #### Code {.unlisted .unnumbered}

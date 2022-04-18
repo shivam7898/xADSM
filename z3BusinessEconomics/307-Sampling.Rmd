@@ -174,8 +174,8 @@ Refer [Effect of Sample Size and Repeat Sampling](#sample-sampling-b12 "b12")
 
 ```{r 'C07P01-A', echo=FALSE, fig.cap="(B12A B12B) Effect of Sample Size vs Repeat Sampling"}
 # #Reading image of another file #iiii
-knitr::include_graphics(paste0(.z$PX, "B12A", ".gif"))
-knitr::include_graphics(paste0(.z$PX, "B12B", ".gif"))
+include_graphics(paste0(".", "/images/", "B12A", ".gif"))
+include_graphics(paste0(".", "/images/", "B12B", ".gif"))
 ```
 
 ## Synopsis 

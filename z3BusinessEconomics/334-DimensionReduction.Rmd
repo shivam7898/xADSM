@@ -15,7 +15,7 @@ invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) #wwww
 ### Multicollinearity {.unlisted .unnumbered}
 
 ```{r 'C34P09', echo=FALSE, fig.cap="(C34P09) Multicollinearity"}
-knitr::include_graphics(paste0(.z$PX, "C34P09", "-Multicollinearity-zz", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C34P09", "-Multicollinearity-zz", ".png")) #iiii
 ```
 
 
@@ -296,7 +296,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P01', echo=FALSE, fig.cap="(C34P01) Houses: Boxplot (Scaled)"}
-knitr::include_graphics(paste0(.z$PX, "C34P01", "-Houses-Box-Z", ".png"))
+include_graphics(paste0(".", "/images/", "C34P01", "-Houses-Box-Z", ".png"))
 ```
 
 ## Normality
@@ -344,7 +344,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P02', echo=FALSE, out.width='100%', fig.cap="(C34P02) Houses: SPLOM (8)"}
-knitr::include_graphics(paste0(.z$PX, "C34P02", "-House-SPLOM-z", ".png"))
+include_graphics(paste0(".", "/images/", "C34P02", "-House-SPLOM-z", ".png"))
 ```
 
 ## Predictors Corplot
@@ -392,7 +392,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P03', echo=FALSE, fig.cap="(C34P03) Houses: Corrplot (8)"}
-knitr::include_graphics(paste0(.z$PX, "C34P03", "-House-Corplot-z", ".png"))
+include_graphics(paste0(".", "/images/", "C34P03", "-House-Corplot-z", ".png"))
 ```
 
 ## Correlation {.tabset .tabset-fade}
@@ -602,7 +602,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P04', echo=FALSE, fig.cap="(C34P04) Houses: PCA Corrplot - ALL are ZERO"}
-knitr::include_graphics(paste0(.z$PX, "C34P04", "-House-Corplot-PCA", ".png"))
+include_graphics(paste0(".", "/images/", "C34P04", "-House-Corplot-PCA", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -655,7 +655,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P05', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C34P05", "-House-PCA-Scree", ".png"))
+include_graphics(paste0(".", "/images/", "C34P05", "-House-PCA-Scree", ".png"))
 ```
 
 ```{r 'C34-CumVar', include=FALSE}
@@ -692,7 +692,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P06', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C34P06", "-House-PCA-Var", ".png"))
+include_graphics(paste0(".", "/images/", "C34P06", "-House-PCA-Var", ".png"))
 ```
 
 ```{r 'C34P0506', echo=FALSE, ref.label=c('C34P05', 'C34P06'), fig.cap="(C34P05 C34P06) House: PCA Screeplot with Variance"}
@@ -784,7 +784,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P07', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C34P07", "-House-SPLOM-PC3", ".png"))
+include_graphics(paste0(".", "/images/", "C34P07", "-House-SPLOM-PC3", ".png"))
 ```
 
 ```{r 'C34-PC4', include=FALSE}
@@ -811,7 +811,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C34P08', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "C34P08", "-House-SPLOM-PC4", ".png"))
+include_graphics(paste0(".", "/images/", "C34P08", "-House-SPLOM-PC4", ".png"))
 ```
 
 

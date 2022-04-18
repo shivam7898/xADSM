@@ -589,7 +589,7 @@ loc_png <- paste0(.z$PX, "F66P08", "-Ads-Corrplot", ".png")
 ```
 
 ```{r 'F66P08', echo=FALSE, fig.cap="(F66P08) Advertisement: Corrplot"}
-knitr::include_graphics(paste0(.z$PX, "F66P08", "-Ads-Corrplot", ".png"))
+include_graphics(paste0(".", "/images/", "F66P08", "-Ads-Corrplot", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -1066,7 +1066,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P09', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "F66P09", "-Auto-ResidFit-1x", ".png"))
+include_graphics(paste0(".", "/images/", "F66P09", "-Auto-ResidFit-1x", ".png"))
 ```
 
 
@@ -1091,7 +1091,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P10', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "F66P10", "-Auto-ResidFit-2x", ".png"))
+include_graphics(paste0(".", "/images/", "F66P10", "-Auto-ResidFit-2x", ".png"))
 ```
 
 
@@ -1203,7 +1203,7 @@ loc_png <- paste0(.z$PX, "F66P11", "-Credit-Corrplot", ".png")
 ```
 
 ```{r 'F66P11', echo=FALSE, fig.cap="(F66P11) Credit: Corrplot"}
-knitr::include_graphics(paste0(.z$PX, "F66P11", "-Credit-Corrplot", ".png"))
+include_graphics(paste0(".", "/images/", "F66P11", "-Credit-Corrplot", ".png"))
 ```
 
 
@@ -1410,7 +1410,7 @@ loc_png <- paste0(.z$PX, "F66P01", "-Boston-lm-1x-lstat", ".png")
 ```
 
 ```{r 'F66P01', echo=FALSE, fig.cap="(F66P01) Boston: Simple Linear Regression of X (lstat) vs. Y (medv)"}
-knitr::include_graphics(paste0(.z$PX, "F66P01", "-Boston-lm-1x-lstat", ".png"))
+include_graphics(paste0(".", "/images/", "F66P01", "-Boston-lm-1x-lstat", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1463,7 +1463,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P02', echo=FALSE, fig.cap="(F66P02) Boston: Y (medv) vs. X (lstat) with Residuals"}
-knitr::include_graphics(paste0(.z$PX, "F66P02", "-Boston-1x-YX", ".png"))
+include_graphics(paste0(".", "/images/", "F66P02", "-Boston-1x-YX", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1519,7 +1519,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P03', echo=FALSE, out.width='100%', fig.cap="(F66P03) Boston: Response (medv) vs. X with Residuals"}
-knitr::include_graphics(paste0(.z$PX, "F66P03", "-Boston-YX", ".png"))
+include_graphics(paste0(".", "/images/", "F66P03", "-Boston-YX", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1579,7 +1579,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P04', echo=FALSE, fig.cap="(F66P04) Boston: Residuals vs. Fitted for 1x (lstat)"}
-knitr::include_graphics(paste0(.z$PX, "F66P04", "-Boston-1x-Resid-Fit", ".png"))
+include_graphics(paste0(".", "/images/", "F66P04", "-Boston-1x-Resid-Fit", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1632,7 +1632,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P05', echo=FALSE, fig.cap="(F66P05) Boston: QQ Plot for Linear Regression"}
-knitr::include_graphics(paste0(.z$PX, "F66P05", "-Boston-lm-QQ", ".png"))
+include_graphics(paste0(".", "/images/", "F66P05", "-Boston-lm-QQ", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1679,7 +1679,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P06', echo=FALSE, fig.cap="(F66P06) Boston: lm() Scale vs. Location"}
-knitr::include_graphics(paste0(.z$PX, "F66P06", "-Boston-lm-Scale-Loc", ".png"))
+include_graphics(paste0(".", "/images/", "F66P06", "-Boston-lm-Scale-Loc", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}
@@ -1727,7 +1727,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'F66P07', echo=FALSE, fig.cap="(F66P07) Boston: lm() Residuals vs. Leverage"}
-knitr::include_graphics(paste0(.z$PX, "F66P07", "-Boston-lm-Leverage", ".png"))
+include_graphics(paste0(".", "/images/", "F66P07", "-Boston-lm-Leverage", ".png"))
 ```
 
 #### Code {.unlisted .unnumbered}

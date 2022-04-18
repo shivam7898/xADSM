@@ -312,7 +312,7 @@ loc_png <- paste0(.z$PX, "B32P01", "-Tree-cv", ".png")
 ```
 
 ```{r 'B32P01', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B32P01", "-Tree-cv", ".png"))
+include_graphics(paste0(".", "/images/", "B32P01", "-Tree-cv", ".png"))
 ```
 
 
@@ -418,7 +418,7 @@ loc_png <- paste0(.z$PX, "B32P02", "-Tree-KC-Rpart", ".png")
 ```
 
 ```{r 'B32P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B32P02", "-Tree-KC-Rpart", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B32P02", "-Tree-KC-Rpart", ".png")) #iiii
 ```
 
 ```{r 'B32-Predict-KC'}
@@ -482,7 +482,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'B32P04', echo=FALSE, fig.cap="(B32P04) KC: Plot Cp"}
-knitr::include_graphics(paste0(.z$PX, "B32P04", "-KC-CP", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B32P04", "-KC-CP", ".png")) #iiii
 ```
 
 ## Pruning by Cp
@@ -600,7 +600,7 @@ loc_png <- paste0(.z$PX, "B32P03", "-KC-cv", ".png")
 ```
 
 ```{r 'B32P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B32P03", "-KC-cv", ".png"))
+include_graphics(paste0(".", "/images/", "B32P03", "-KC-cv", ".png"))
 ```
 
 ```{r 'B32P0203', echo=FALSE, ref.label=c('B32P02', 'B32P03'), fig.cap="(B32P02, B32P03) KC: Two-part vs 10-part CV Tree"}

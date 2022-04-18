@@ -182,7 +182,7 @@ loc_png <- paste0(.z$PX, "B36P01", "-Example-ROC", ".png")
 ```
 
 ```{r 'B36P01', echo=FALSE, fig.cap="(B36P01) Example: ROC"}
-knitr::include_graphics(paste0(.z$PX, "B36P01", "-Example-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B36P01", "-Example-ROC", ".png"))
 ```
 
 ### Code {.unlisted .unnumbered}
@@ -450,7 +450,7 @@ auc_hh <- seq(from = 0.15, by = -0.04, length.out = 4)
 ```
 
 ```{r 'B36P02', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B36P02", "-Bank-Train-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B36P02", "-Bank-Train-ROC", ".png"))
 ```
 
 ```{r 'B36-ROC-03-Set', include=FALSE}
@@ -475,7 +475,7 @@ auc_hh <- seq(from = 0.15, by = -0.04, length.out = 4)
 ```
 
 ```{r 'B36P03', include=FALSE, fig.cap="This-Caption-NOT-Shown"}
-knitr::include_graphics(paste0(.z$PX, "B36P03", "-Bank-Test-ROC", ".png"))
+include_graphics(paste0(".", "/images/", "B36P03", "-Bank-Test-ROC", ".png"))
 ```
 
 ```{r 'B36P0203', echo=FALSE, ref.label=c('B36P02', 'B36P03'), fig.cap="(B36P02 B36P03) Bank: Train & Test"}

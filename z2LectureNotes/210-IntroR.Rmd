@@ -66,7 +66,7 @@ dev.off()
 ```
 
 ```{r 'B10P01', echo=FALSE, fig.cap="(B10P01) Flights: Arrival Time (Y) vs. Departure (X) Time"}
-knitr::include_graphics(paste0(.z$PX, "B10P01", "-Flights-Scatter-Arr-Dep", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "B10P01", "-Flights-Scatter-Arr-Dep", ".png")) #iiii
 ```
 
 

@@ -151,7 +151,7 @@ if(!file.exists(loc_png)) {
 ```
 
 ```{r 'C06P01', echo=FALSE, fig.cap="(C06P01) Normal Distribution"}
-knitr::include_graphics(paste0(.z$PX, "C06P01", "-Distribution-Normal", ".png")) #iiii
+include_graphics(paste0(".", "/images/", "C06P01", "-Distribution-Normal", ".png")) #iiii
 ```
 
 ### Histogram  {#histogram-c06 .unlisted .unnumbered}
