@@ -20,8 +20,15 @@ caption {
   font-size: 1.0em;
 }
 
+/*NOTE: For all css modifications applicable to class.output, use all small case like "models"*/
 /* Stargazer, when printing only the Output, to match with 'zenburn' highlight */
-.models{
-  color: #80a080;
+.models {
+  color: #80A080;
   background-color: #303030;
 }
+
+/* Red background for chunks with Warnings */
+.redwarn {
+  background-color: #CF6679FF;
+}
+
