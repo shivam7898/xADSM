@@ -28,6 +28,132 @@ bool_as_str=false; #true false
 if [[ "$bool_as_str" == "true" ]]; then git update-git-for-windows; fi
 ```
 
+## Verify Git Initialisation
+
+```{bash 'Z06-Verify-Git'}
+# Determine Git initialization by checking existence of .Git directory
+Test-Path .Git
+```
+
+## Status Log
+
+```{bash 'Z06-Status', eval=FALSE}
+# #STATUS (AHK) "Alt+ 1"
+clx; git status; git log --oneline --decorate --graph -n 5
+```
+
+## Initialise Git
+
+```{bash 'Z06-Initialise', eval=FALSE}
+# Initialize Git 
+git init
+New-Item -Path . -Name ".gitignore" -ItemType "File"
+echo .Rhistory >> .gitignore
+git add .gitignore
+git add .Rprofile
+git commit -m "+.Rprofile .gitignore -.Rhistory"
+```
+
+```{bash 'Z06-BasicFiles', eval=FALSE}
+# Add Basic Files to Staging Area
+# Do not use *.Rmd because that searches in all sub-folders and add those too
+git add index.Rmd
+git add style.css
+git add preamble.tex
+git add book.js
+git add _bookdown.yml
+git add _output.yml
+git add parse-latex.lua
+git add book.bib
+git add README.md
+git add header.html
+git add *.Rproj
+git add .gitignore
+git add packages.bib
+git commit -m  "+Basic Files"
+```
+
+```{bash 'Z06-FolderTree', eval=FALSE}
+# Add Folders, when these contain some files 
+git add code/ 
+git add data/
+git add images/
+git add docs/
+git commit -m "+ code/ data/ images/ "
+```
+
+## Create .gitignore
+
+```{bash 'Z06-gitignore', eval=FALSE}
+# Create .gitignore File
+New-Item -Path . -Name ".gitignore" -ItemType "File"
+
+# For Git to ignore some files, Add their Names in .gitignore with or without ".\"
+echo .Rhistory >> .\.gitignore
+
+# Add Untracked File to Staging Area
+git add .gitignore
+git add .Rprofile
+
+# Commit the Staged Files with a comment using "-m"
+git commit -m "+.Rprofile .gitignore -.Rhistory"
+
+# Before committing the .gitignore file, Verify in NPP that File Encoding is "UTF-8-BOM" 
+# If the encoding is not correct then delete the .gitignore, and recreate it by:
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+
+# Add Tracked & Modified File to Staging Area 
+git add .\.gitignore
+git commit -m "+.gitignore UTF-8-BOM after echo file >> .gitignore"
+```
+
+## Modify .gitignore
+
+```{bash 'Z06-gitignore-1', eval=FALSE}
+# Add Ignored Files and Folders
+echo _bookdown_files/ >> .gitignore
+echo _book/ >> .gitignore
+echo .Rproj.user/ >> .gitignore
+echo _main.html >> .gitignore
+echo _main.md >> .gitignore
+echo _main.Rmd >> .gitignore
+echo images/Big_Images/ >> .gitignore
+echo docs/CaseStudies/ >> .gitignore
+```
+
+```{bash 'Z06-gitignore-2', eval=FALSE}
+# 
+# Data Files to be ignored
+bool_as_str=false; #true false
+# WRONG
+if [[ "$bool_as_str" == "true" ]]; then echo .\data\x.rds >> .gitignore; fi
+# OK
+if [[ "$bool_as_str" == "true" ]]; then echo data/x.rds >> .gitignore; fi
+#
+echo data/xxWSES.rds >> .gitignore
+echo data/xyWSES.rds >> .gitignore
+echo data/xxJaya.rds >> .gitignore
+echo data/xxJdata.rds >> .gitignore
+echo data/xxJbela.rds >> .gitignore
+echo data/xxJdhar.rds >> .gitignore
+echo data/xxJdiseases.rds >> .gitignore
+echo data/xxB19Retail.rds >> .gitignore
+echo data/xxB23*.rds >> .gitignore
+echo data/xxB26KC.rds >> .gitignore
+echo data/xxB26H*.rds >> .gitignore
+echo data/xxB27H*.rds >> .gitignore
+echo data/xxB18Churn.rds >> .gitignore
+echo data/zzB34Bank.rds >> .gitignore
+echo data/xxB37Insurance.rds >> .gitignore
+```
+
+## Empty Commit
+
+```{bash 'Z06-commit-empty', eval=FALSE}
+# Empty Commit
+git commit --allow-empty -m "+Revert 310 NULL Corruption"
+```
+
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

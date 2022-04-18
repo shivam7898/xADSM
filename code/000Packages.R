@@ -3,8 +3,8 @@
 if (!("conflicted" %in% (.packages()))) {
   pkg <- character(0)
   pkg <- c(pkg, "conflicted")
-  pkg <- c(pkg, "ggplot2", "tibble", "tidyr", "readr", "purrr", "dplyr", "stringr", "forcats")
-  pkg <- c(pkg, "kableExtra", "readxl", "latex2exp", "e1071", "lubridate", "car", "zoo")
+  pkg <- c(pkg, "knitr", "ggplot2", "tibble", "tidyr", "readr", "purrr", "dplyr", "stringr")
+  pkg <- c(pkg, "kableExtra", "readxl", "latex2exp", "e1071", "lubridate", "car", "zoo", "forcats")
   pkg <- c(pkg, "data.table", "gifski", "nycflights13", "gapminder", "Lahman", "nortest")
   pkg <- c(pkg, "mice", "VIM", "qcc", "ggpmisc", "microbenchmark", "GGally", "corrplot")
   pkg <- c(pkg, "compiler", "viridisLite", "scales", "psych", "fastDummies", "RColorBrewer")
@@ -12,7 +12,7 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "arules", "arulesViz", "ggrepel", "rpart", "rpart.plot", "rattle", "janitor", "randomForest")
   pkg <- c(pkg, "rfm", "carData", "Hmisc", "partykit", "treeheatr", "ggparty") 
   pkg <- c(pkg, "ISLR2", "MASS", "broom", "sandwich", "stargazer", "ROSE", "pROC", "ROCR") 
-  pkg <- c(pkg, "lobstr")  #, "here"
+  pkg <- c(pkg, "lobstr", "here")  #, "here"
   if(FALSE) {# #Test Case: Sometimes the loading is failing. However it is not reproducible currently.
     pkg <- c("conflicted", "ggplot2", "tibble", "tidyr", "readr", "dplyr", "kableExtra") #7
 	#lapply(pkg, FUN = library, character.only = TRUE, verbose = FALSE, logical.return = TRUE)

@@ -563,6 +563,17 @@ At the top, surrounded by sets of three dashes "**\-\-\-**", is the YAML header.
         - for PDF, it does not look like that "theme" exists
   - geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
 
+#### PDF
+
+- To insert a Page Break: '\\newpage'
+
+output:
+  pdf_document: 
+    number_sections: true
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1.5cm"
+links-as-notes: true
+
+
 ## The setup chunk
 
 To set the same chunk option for every chunk in the document

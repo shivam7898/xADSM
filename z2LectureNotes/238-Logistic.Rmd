@@ -5,7 +5,6 @@ sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 #invisible(lapply(f_getPathR(A09isPrime), knitr::read_chunk))
-#knitr::knit_exit()
 ```
 
 ## Data: Churn {#set-churn-b38 .tabset .tabset-fade}
@@ -590,14 +589,6 @@ loc_png <- paste0(.z$PX, "B38P01", "-Churn-Train-ROC", ".png")
 ```
 
 ```{r 'B38P01', echo=FALSE, fig.cap="(B38P01) Churn: ROC: Train"}
-if(FALSE){# #Absolute Paths
-  knitr::include_graphics(paste0(.z$PX, "B38P01", "-Churn-Train-ROC", ".png"))
-  knitr::include_graphics(paste0(here::here(), "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
-  knitr::include_graphics(here::here("images", "B38P01-Churn-Train-ROC.png"))  
-}
-# #~ == User Documents
-# #. == Project Root Path (Use with Slash "/" )
-if(FALSE) knitr::include_graphics("./images/B38P01-Churn-Train-ROC.png") #Works
 knitr::include_graphics(paste0(".", "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
 ```
 
@@ -635,6 +626,450 @@ if(!file.exists(loc_png)) {
 ```
 
 
+## Data: Earnings
+
+### Import
+
+- \textcolor{pink}{Earnings Prediction} [1239, 11]
+  - \textcolor{pink}{Please import the "B38-Predicting-Earnings.xlsx"}
+  - 'Manipulater' is the Response Variable
+    - Converted from character to factor and relocated to the start
+  - Dropped 1 variable: C-MANIPULATOR
+  - 'Company ID' has been kept because it helps in identifying unique or duplicated observations after data balancing
+  - All predictors are numeric so no need to create dummy variables
+  - However, data balancing is required
+
+
+```{r 'B38-Load-Data-Earnings', include=FALSE, eval=FALSE}
+# #Path to the Excel File #read_delim(clipboard())
+loc_src <- here("data", "B38-Predicting-Earnings.xlsx")
+if(FALSE) excel_sheets(loc_src)
+# #Read Sheets
+#zdata <- read_excel(path = loc_src, sheet = 4, range = "A1:K1240")
+xxB38Earnings <- read_excel(path = loc_src, sheet = 4) #Works in Console. Not in Chunk. Works in Knit.
+```
+
+```{r 'B38-Cleanup-Earnings', eval=FALSE}
+#Logical to Factor Y | Rename | Coerce to int | Drop | Relocate Y |
+xfw <- xxB38Earnings |> 
+  mutate(across(Manipulater, factor, levels = c("No", "Yes"))) |> 
+  rename(ID = "Company ID") |> 
+  mutate(across(ID, as.integer)) |> 
+  select(-c("C-MANIPULATOR")) |> 
+  relocate(Manipulater)
+```
+
+```{r 'B38-Save-RDS-Earnings', include=FALSE, eval=FALSE}
+loc_rds <- here("data", "zzB38Earnings.rds")
+# #Write Object as RDS
+saveRDS(xfw, loc_rds)
+```
+
+```{r 'B38-Get-RDS-Earnings', include=FALSE}
+loc_rds <- here("data", "zzB38Earnings.rds")
+# #Read Object
+zzB38Earnings <- xfw <- readRDS(loc_rds)
+```
+
+```{r 'B38-Structure-Earnings'}
+str(xfw)
+```
+
+```{r 'B38-Summary-Earnings'}
+summary(xfw)
+```
+
+### Data Partition
+
+```{r 'B38-Partition-Earnings'}
+# #Partition Data
+set.seed(3)
+idx_xfw <- createDataPartition(xfw$Manipulater, p = 0.8, list = FALSE)
+zTrn <- xfw[ idx_xfw[, 1], ] 
+zTst <- xfw[-idx_xfw[, 1], ]
+```
+
+### Data Balancing 
+
+```{r 'B38-Balancing-Earnings'}
+# #Data Balancing with 50% balance
+both_train <- ovun.sample(Manipulater ~ ., data = zTrn, method = "both", seed = 3)$data
+zBalanced <- as_tibble(both_train) 
+#
+zBalanced |> count(Manipulater) |> mutate(PROP = n /sum(n))
+```
+
+
+### Logistic Regression
+
+```{r 'B38-GLM-Earnings-1', collapse=FALSE, class.output="redwarn"}
+# #Logistic Regression: Balanced data
+tryCatch(mod_1_glm <- glm(formula = Manipulater ~ . -ID, family = binomial, data = zBalanced), 
+        warning = function(w) {
+          print(paste0(w))
+          suppressWarnings(#Double Arrow Assignment
+            mod_1_glm <<- glm(formula = Manipulater ~ . -ID, family = binomial, data = zBalanced))
+          }
+        )
+```
+
+
+- \textcolor{orange}{Warning:} glm.fit: fitted probabilities numerically 0 or 1 occurred
+  - The warning will arise whenever a predicted probability is effectively indistinguishable from 1.
+  - No clear separation was apparent between Yes, No for Grouped Min & Max values
+  - 3 observations are causing the issue (ID = 2, 22, 26). They all have extreme values of one or more covariates. 
+    - ID 26: Max GMI 46.5, Min LEVI 0
+    - ID 2, 22: Max SGI 13.1
+    - These 3 observations were moved to Test from Train
+  - However, there are lots of other observations that are similarly close to 1. There are some observations with high leverage, but none of those are problematic.
+  - Excluding these 3 observations and re-calculating the model coefficients
+    - None of the coefficients changed by more than 10^-6! So essentially unchanged results. 
+    - Probably, this warning is a "false positive", nothing to worry about. 
+    - This warning arises with complete separation, but in that case we would expect to see the coefficient for one or more covariates get very large, with a standard error that is even larger. 
+    - That is not occurring here, and we have seen that the Yes and No occur across overlapping ranges of all covariates. 
+    - So the warning occurs because a few observations have very extreme values of the covariates. That could be a problem if those observations were also highly influential. But they are not.
+
+
+```{r 'B38-Separation-Earnings'}
+# #Check if there is any clear separation between Yes, No for Grouped Min & Max values
+zBalanced |> 
+  group_by(Manipulater) |> 
+  summarise(across(everything(), list(MIN = min, MAX = max), .names = "{.fn}_{.col}")) |> 
+  mutate(across(where(is.numeric), round, 3)) |> 
+  t()
+#
+# #Source Code of glm.fit() provide the reason for the warning.
+eps <- 10 * .Machine$double.eps
+res_1_glm <- augment(mod_1_glm) |> 
+  mutate(p = 1 / (1 + exp(-.fitted)),
+         warning = p > 1-eps) |> 
+  select(-c(".resid", ".std.resid", ".sigma", ".cooksd")) |> 
+  rename(Y = 1) 
+
+# #Problem is with following 3 unique observations
+res_1_glm |> arrange(desc(.fitted)) |> filter(warning == "TRUE") |> distinct()
+
+zRemoved <- zBalanced |> filter( GMI > 46 | SGI > 13 |LEVI <= 0) |> distinct()
+
+# #Observations with high leverage are not a problem
+res_1_glm |> arrange(desc(.hat)) |> distinct()
+```
+
+```{r 'GLM-Filtered'}
+# #Exclude Observations from Train
+zFiltered <- zBalanced |> filter(!(GMI > 46 | SGI > 13 |LEVI <= 0))
+#
+# #Add the excluded rows from Train back into the Test
+zAppended <- bind_rows(zRemoved, zTst)
+```
+
+```{r 'B38-GLM-Earnings-2'}
+# #Logistic Regression: Filtered data
+mod_2_glm <- glm(formula = Manipulater ~ . -ID, family = binomial, data = zFiltered)
+
+# #Comparison of Coefficients: Max. Difference is lower than 10^-6
+stopifnot(10^-6 > max(tidy(mod_2_glm)$estimate - tidy(mod_1_glm)$estimate))
+```
+
+
+```{r 'B38-Step-Earnings-2', warning=TRUE}
+# #Step-wise Regression: It also triggers same warning and there is no benefit
+mod_3_step <- step(mod_2_glm, direction = "both", trace = 0)
+```
+
+```{r 'B38-Separation-Earnings-2'}
+# #Source Code of glm.fit() provide the reason for the warning.
+eps <- 10 * .Machine$double.eps
+res_3_step <- augment(mod_3_step) |> 
+  mutate(p = 1 / (1 + exp(-.fitted)),
+         warning = p > 1-eps) |> 
+  select(-c(".resid", ".std.resid", ".sigma", ".cooksd")) |> 
+  rename(Y = 1) 
+
+# #Although there are warnings in the code, actually no warning is found
+res_3_step |> arrange(desc(.fitted)) |> filter(warning == "TRUE") |> distinct()
+```
+
+
+```{r 'B38-Print-Earnings', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Coefficient Estimates, Significance, DF
+ttl_hh <- "Logistic Regression: Earning: Y ~ X"
+col_hh <- c("Balanced", "Filtered", "F.Stepwise")
+#
+stargazer(mod_1_glm, mod_2_glm, mod_3_step,
+    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+    type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
+```
+
+### VIF
+
+```{r 'B38-VIF-Earnings'}
+# #Some predictors have small multicollinearity
+vif(mod_2_glm) |> {\(x) x[x > 2]}()
+```
+
+
+### Prediction on Train 
+
+```{r 'B38-Pred-Trn-GLM-Earn'}
+# #For glm() predict() provides probabilities 
+prob_2_glm <- predict(mod_2_glm, type = "response")
+
+# #Convert Probabilities into levels
+res_2_glm <- factor(ifelse(prob_2_glm >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+
+# #Confusion Matrix
+cmat_2_glm <- confusionMatrix(res_2_glm, 
+                                reference = zFiltered$Manipulater, positive = "Yes")
+cmat <- cmat_2_glm
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+### Confusion Matrix
+
+```{r 'B38-Cmat-Trn-GLM-Earn'}
+# #Confusion Matrix
+cmat <- cmat_2_glm
+if(TRUE) cmat$table %>% as_tibble() %>% 
+  pivot_wider(names_from = Reference, values_from = n) %>% 
+  rename(Prediction_Reference = 1) %>% 
+  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+  mutate(SUM = rowSums(across(where(is.numeric))))
+```
+
+
+### Prediction on Test 
+
+```{r 'B38-Pred-Tst-GLM-Earn'}
+# #For glm() predict() provides probabilities 
+prob_2_glm_test <- predict(mod_2_glm, newdata = zAppended, type = "response")
+
+# #Convert Probabilities into levels
+res_2_glm_test <- factor(ifelse(prob_2_glm_test >= 0.5, "Yes", "No"), levels = c("No", "Yes"))
+
+# #Confusion Matrix
+cmat_2_glm_test <- confusionMatrix(res_2_glm_test, 
+                                reference = zAppended$Manipulater, positive = "Yes")
+cmat <- cmat_2_glm_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+### Decision Trees: rpart
+
+```{r 'B38-Rpart-Earn'}
+# #Logistic Regression : rpart
+mod_7_rpart <- rpart(formula = Manipulater ~ . -ID, data = zFiltered, method = 'class')
+```
+
+```{r 'B38-Pred-Trn-Rpart-Earn'}
+prob_7_rpart <- predict(mod_7_rpart, type = "prob")
+#
+# #Convert Probabilities into levels
+res_7_rpart <- factor(ifelse(prob_7_rpart[, 2] >= 0.5, "Yes", "No"), 
+                      levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_7_rpart <- confusionMatrix(res_7_rpart, 
+                                reference = zFiltered$Manipulater, positive = "Yes")
+cmat <- cmat_7_rpart
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Pred-Tst-Rpart-Earn'}
+prob_7_rpart_test <- predict(mod_7_rpart, newdata = zAppended, type = "prob")
+#
+# #Convert Probabilities into levels
+res_7_rpart_test <- factor(ifelse(prob_7_rpart_test[, 2] >= 0.5, "Yes", "No"), 
+                           levels = c("No", "Yes"))
+#
+# #Confusion Matrix
+cmat_7_rpart_test <- confusionMatrix(res_7_rpart_test, 
+                                reference = zAppended$Manipulater, positive = "Yes")
+cmat <- cmat_7_rpart_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+### Decision Trees: caret
+
+```{r 'B38-ModelControl-2'}
+cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParallel = TRUE)
+```
+
+```{r 'B38-CV-Earn'}
+# #train() tuneLength decides the granularity in the tuning parameter grid
+mod_8_cv <- train(Manipulater ~ . -ID, data = zFiltered, method = 'rpart', 
+                trControl = cv, tuneLength = 10)
+#
+# #Best Tuning Cp value: 0 (i.e. do not prune the Tree)
+mod_8_cv$bestTune
+```
+
+```{r 'B38-Pred-Trn-CV-Earn'}
+prob_8_cv <- predict(mod_8_cv, type = "prob")
+res_8_cv <- predict(mod_8_cv, type = "raw")
+#
+# #Confusion Matrix
+cmat_8_cv <- confusionMatrix(res_8_cv, 
+                                reference = zFiltered$Manipulater, positive = "Yes")
+cmat <- cmat_8_cv
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Pred-Tst-CV-Earn'}
+prob_8_cv_test <- predict(mod_8_cv, newdata = zAppended, type = "prob")
+res_8_cv_test <- predict(mod_8_cv, newdata = zAppended, type = "raw")
+#
+# #Confusion Matrix
+cmat_8_cv_test <- confusionMatrix(res_8_cv_test, 
+                                reference = zAppended$Manipulater, positive = "Yes")
+cmat <- cmat_8_cv_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+### Random Forest
+
+```{r 'B38-Forest-Earn'}
+# #Logistic Regression : randomForest
+mod_9_forest <- randomForest(formula = Manipulater ~ . -ID, data = zFiltered)
+```
+
+```{r 'B38-Pred-Trn-Forest-Earn'}
+# #The fraction can be taken as predicted probabilities for the classes. 
+#str(mod_9_forest$votes[40:50, ], vec.len = Inf)
+#str(mod_9_forest$votes[40:50, 2], vec.len = Inf)
+res_9_forest <- predict(mod_9_forest, type = "response")
+#
+# #Confusion Matrix
+cmat_9_forest <- confusionMatrix(res_9_forest, 
+                                reference = zFiltered$Manipulater, positive = "Yes")
+cmat <- cmat_9_forest
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Pred-Tst-Forest-Earn'}
+res_9_forest_test <- predict(mod_9_forest, newdata = zAppended, type = "response")
+#
+# #Confusion Matrix
+cmat_9_forest_test <- confusionMatrix(res_9_forest_test, 
+                                reference = zAppended$Manipulater, positive = "Yes")
+cmat <- cmat_9_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+### Random Forest: Tuned
+
+- mtry = 1 has the lowest OOB
+  - Its value 1 suggests that most of the predictors are inherently correlated /interconnected
+- ntree is not changing anything much so have used 500
+- stepFactor should not be less than 1
+- lower improve is better
+
+```{r 'B38-TuneModel-2', eval=FALSE}
+# #Not Plotted
+tuneRF(x = zFiltered[, -c(1:2)], y = zFiltered$Manipulater, stepFactor = 2, plot = TRUE, 
+       ntreeTry = 500, improve = 0.00001, trace = FALSE)
+```
+
+
+```{r 'B38-TForest-Earn'}
+# #Logistic Regression : randomForest
+mod_10_forest <- randomForest(formula = Manipulater ~ . -ID, data = zFiltered, mtry = 1)
+```
+
+```{r 'B38-Pred-Trn-TForest-Earn'}
+# #The fraction can be taken as predicted probabilities for the classes. 
+#str(mod_10_forest$votes[40:50, ], vec.len = Inf)
+#str(mod_10_forest$votes[40:50, 2], vec.len = Inf)
+res_10_forest <- predict(mod_10_forest, type = "response")
+#
+# #Confusion Matrix
+cmat_10_forest <- confusionMatrix(res_10_forest, 
+                                reference = zFiltered$Manipulater, positive = "Yes")
+cmat <- cmat_10_forest
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+```{r 'B38-Pred-Tst-TForest-Earn'}
+res_10_forest_test <- predict(mod_10_forest, newdata = zAppended, type = "response")
+#
+# #Confusion Matrix
+cmat_10_forest_test <- confusionMatrix(res_10_forest_test, 
+                                reference = zAppended$Manipulater, positive = "Yes")
+cmat <- cmat_10_forest_test
+cmat$table
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$byClass[["Sensitivity"]]
+if(TRUE) cmat$byClass[["Specificity"]]
+```
+
+
+### Comparison of Test: GLM, Rpart, Caret, Random Forest 
+
+- Model Performance is lower than NIR. GLM performs better than others
+- Random Forest has good performance in identifying companies with "No". We are interested in "Yes" where it fails.
+
+```{r 'B38-vs-Cmat-Earn', echo=FALSE, collapse=FALSE, class.output="models"}
+# #Class Comparisons: GLM, Rpart, Caret, RandomForest
+cmat <- cmat_2_glm_test
+hh_names <- c("Accuracy", "NIR", "N", "True Positive (TP_A)", "False Positive (FP_B)", 
+              "False Negative (FN_C)", "True Negative (TN_D) ", 
+              names(cmat$byClass))
+iiglm <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_7_rpart_test
+jjrpt <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_8_cv_test
+kkcvt <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_9_forest_test
+llfrm <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+cmat <- cmat_10_forest_test
+mmfrm1 <- c(cmat$overall[["Accuracy"]], cmat$overall[["AccuracyNull"]], sum(cmat$table), 
+        cmat$table["Yes", "Yes"], cmat$table["Yes", "No"], 
+        cmat$table["No", "Yes"], cmat$table["No", "No"], round(cmat$byClass, 4))
+#
+if(TRUE) tibble(Names = hh_names, 
+            GLM = iiglm, Rpart = jjrpt, Caret = kkcvt, Forest = llfrm, Forest1 = mmfrm1)
+```
+
+
+
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B38-Cleanup', include=FALSE, cache=FALSE}
@@ -650,10 +1085,12 @@ f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, both_churn, cap_hh, cmat, cmat_10_fore
           res_10_forest_test, res_2_step, res_2_step_test, res_4_step, res_4_step_test, 
           res_6_step, res_6_step_test, res_7_rpart, res_7_rpart_test, res_8_cv, res_8_cv_test,
           res_9_forest, res_9_forest_test, ttl_hh, xfw, xxB18Churn, xxB38Churn, zBalanced, zChurn, 
-          zTest)
+          zTest, both_train, cmat_2_glm, cmat_2_glm_test, eps, idx_xfw, loc_rds, mmfrm1, 
+          mod_2_glm, mod_3_step, prob_2_glm, prob_2_glm_test, res_1_glm, res_2_glm, 
+          res_2_glm_test, res_3_step, zAppended, zFiltered, zRemoved, zTrn, zTst, zzB38Earnings)
 ```
 
-```{r 'B38-Validation', include=TRUE, cache=FALSE}
+```{r 'B38-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

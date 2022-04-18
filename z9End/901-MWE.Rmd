@@ -13,27 +13,54 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
   - It does not cover any function extensively or their finer points, cautions etc.
   - It assumes that reader knows R basics.
 
+- [How to Limit the Knit or Build](#limit-knit-z01 "z01")
 - [How to Load Packages](#loadpkg-z01 "z01")
 - [How to Copy Clipboard as Tibble](#load-data-z01 "z01")
+- [How to provide Absolute Path or Relative Path](#load-data-z01 "z01")
 - [How to Generate correlated vectors of normal distribution](#cor-vec-z01 "z01")
 - [How to Count Unique Values in ALL Columns](#n-uniq-z01 "z01")
 - [How to Rename ALL Headers to Proper Names](#rename-z01 "z01")
 - [How to Merge Factor Levels](#merge-factor-level-z01 "z01")
 - [How to Create a Contingency Table](#table-z01 "z01")
+- [How to Check R Version](#version-z01 "z01")
+- [How to Pipe the Subset](#pipe-sub-z01 "z01")
+- [How to Test Background Colours](#bg-color-z01 "z01")
 
+
+## Limit the Knit or Build {#limit-knit-z01 .tabset .tabset-fade}
+
+```{r 'Z01-Limit-Knit-Build', eval=FALSE}
+# #To only evaluate up to this chunk and complete the knit process.
+knit_exit()
+```
 
 ## Load Multiple Packages {#loadpkg-z01 .tabset .tabset-fade}
 
 ### Packages {.unlisted .unnumbered}
 
 ```{r 'Z01-LoadPackages', eval=FALSE}
+if(FALSE) {# Install Missing Packages: Error in library(...) : there is no package called '...'
+ install.packages("conflicted", dependencies = TRUE)
+}
+
 if(FALSE) {# #Load Packages that were already installed
-  # #Install Packages if: Error in library(...) : there is no package called '...'
-  # #WARNING: Installation may take some time.
-  #install.packages("dplyr", dependencies = TRUE)
-  library(dplyr)
-  library(readr)
-  library(tibble)
+  library("conflicted")
+  #library("readr") #read_csv
+  library("readxl") #read_excel
+  library("dplyr")  #select
+  library("tibble") #tibble
+  library("tidyr")  #pivot_longer
+  library("caret")  #createDataPartition
+  library("ROSE")   #ovun.sample
+  library("broom")  #augment
+  library("stargazer")     #stargazer
+  library("car")    #vif
+  library("rpart")  #rpart
+  library("randomForest")  #randomForest
+  
+  # Precedence
+  # dplyr::filter | stats::filter
+  conflict_prefer("filter", "dplyr")
 }
 ```
 
@@ -50,7 +77,7 @@ if(FALSE) {# #Load Packages that were already installed
 }
 ```
 
-## Load Data {#load-data-z01 .tabset .tabset-fade}
+## Load Data {#load-data-z01}
 
 ### Clipboard {.unlisted .unnumbered}
 
@@ -60,6 +87,22 @@ if(FALSE) {
 }
 # #Assuming that the Data has been copied to clipboard. Output is a Tibble.
 ii <- read_delim(clipboard())
+```
+
+### PATH {.unlisted .unnumbered}
+
+```{r 'Z01-PATH'}
+# #[3] Conditions: A:Console, B: Manual R Markdown Chunk, C: Knit
+loc_src <- "B09_xx_data.rds"
+#
+if(file.exists(paste0("./data/", loc_src))){
+  # #Does not give Warning. However, it does not work during Manual Chunk evaluation i.e. AC not B
+  file.exists(paste0("./data/", loc_src))
+} else { #Works i.e. ABC but Warning with knitr::include_graphics()
+  # #...It is highly recommended to use relative paths for images. You had absolute paths:
+  file.exists(here("data", loc_src))
+  file.exists(paste0(.z$XL, loc_src))
+}
 ```
 
 ## Generate Correlated Vectors {#cor-vec-z01 .tabset .tabset-fade}
@@ -118,6 +161,44 @@ ii$x
 bb <- c("TP_A" = 79, "FP_B" = 22, "TN_C" = 254, "TN_D" = 9645)
 as.table(matrix(bb, ncol = 2, byrow = TRUE, #c(79, 22, 254, 9645)
                 dimnames = list("Predicted" = c("Yes", "No"), "Actual" = c("Yes", "No"))))
+```
+
+
+## Check R Version {#version-z01 .tabset .tabset-fade}
+
+```{r 'Z01-R-Version'}
+# #Version 4 has introduced Pipe "|>" in R.
+R.version.string
+
+if(TRUE) stopifnot(4L <= as.integer(R.version$major))
+```
+
+## Pipe the Subset {#pipe-sub-z01 .tabset .tabset-fade}
+
+```{r 'Z01-Pipe-Subset'}
+set.seed(3)
+ii <- setNames(sample.int(n = 100, size = 10), nm = letters[1:10])
+ii
+# #Subset Numbers greater than 50
+jj <- ii %>% `[`(. > 50)
+kk <- ii |> {\(x) x[x > 50]}()
+stopifnot(identical(jj, kk))
+kk
+```
+
+## Test Background Colours {#bg-color-z01 .tabset .tabset-fade}
+
+```{r 'Z01-BG-Colour-Models', collapse=FALSE, class.output="models"}
+print("Models: Color= #80A080, background-color: #303030")
+```
+
+```{r 'Z01-BG-Warn-Red', collapse=FALSE, class.output="redwarn"}
+tryCatch(warning("WARNING: background-color: #CF6679FF (Red)"), 
+         warning = function(w) {
+           print(trimws(gsub("[^:]*:(.*)", "\\1", paste0(w))))
+           #suppressWarnings() #Double Arrow Assignment
+           }
+         )
 ```
 
 
