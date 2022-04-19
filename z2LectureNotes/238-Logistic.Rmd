@@ -22,7 +22,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 
 ```{r 'B38-Data-Churn', include=FALSE, eval=FALSE}
 # #Path of Object, FileName and MD5Sum tools::md5sum(paste0(.z$XL, "B38-Customer-Churn.csv"))
-xxB38Churn <- f_getObject("xxB38Churn", "B38-Customer-Churn.csv",
+if(FALSE) xxB38Churn <- f_getObject("xxB38Churn", "B38-Customer-Churn.csv",
                                 "b8747f2433f7ada18afec51f74b9a10c")
 ```
 
@@ -68,28 +68,28 @@ summary(xfw)
 
 ```{r 'B38-ETC', include=TRUE, eval=FALSE}
 # #Count NA in Columns
-if(FALSE) colSums(is.na(bb)) %>% as_tibble(rownames = "Cols") %>% filter(value > 0)
+if(FALSE) colSums(is.na(bb)) |> as_tibble(rownames = "Cols") |> filter(value > 0)
 # #Subset Rows
-if(FALSE) bb %>% select(1) %>% slice(1:10)
+if(FALSE) bb |> select(1) |> slice(1:10)
 # #Comma separated string having each item within quotes for easy pasting as character not objects
 if(FALSE) cat('"', paste0(names(which(sapply(bb, is.factor))), collapse = '", "'), '"\n', sep = '')
 if(FALSE) cat('"', paste0(levels(bb$Arrival), collapse = '", "'), '"\n', sep = '')
 # #Filter
-if(FALSE) bb %>% filter(is.na(bpl)) %>% select(id, bph, bpl)
+if(FALSE) bb |> filter(is.na(account_length)) |> select(churn, account_length, vmail_plan)
 # #Count Yes/No or True/False in ALL such Columns
-if(FALSE) bb %>% select(iFemale, iMarried) %>% 
-  pivot_longer(everything()) %>% count(name, value) %>% 
-  pivot_wider(names_from = value, values_from = n) 
+if(FALSE) bb |> select(churn) |> 
+  pivot_longer(everything()) |> count(name, value) |> 
+  pivot_wider(names_from = value, values_from = n)
 # #Count Unique of all Columns to decide which should be Factors
-if(FALSE) bb %>% summarise(across(everything(), ~ length(unique(.)))) %>% pivot_longer(everything())
+if(FALSE) bb |> summarise(across(everything(), ~ length(unique(.)))) |> pivot_longer(everything())
 # #Summary of Columns of a class: is.factor is.numeric is.character
-if(FALSE) bb %>% select(where(is.factor)) %>% summary()
+if(FALSE) bb |> select(where(is.factor)) |> summary()
 # #Names and Indices of Columns of class: is.factor is.numeric is.character
 if(FALSE) which(sapply(bb, is.factor))
 # #Levels of Factor Columns
 if(FALSE) lapply(bb[c(3, 6:9, 15)], levels)
 # #Frequency of Each level of Factor
-if(FALSE) bb %>% count(Vehicle_Age) %>% arrange(desc(n))
+if(FALSE) bb |> count(churn) |> arrange(desc(n))
 # #Coding for Dummy Variables
 if(FALSE) contrasts(bb$Married) 
 # #Vector of all column classes
@@ -175,9 +175,9 @@ stargazer(mod_1_glm, mod_2_step, mod_3_glm, mod_4_step, mod_5_glm, mod_6_step,
 
 ```{r 'B38-VIF-Churn'}
 # #There are very high VIF value column with non-significant coefficient
-vif(mod_2_step) %>% `[`(. > 2)
-vif(mod_4_step) %>% `[`(. > 2)
-vif(mod_6_step) %>% `[`(. > 2)
+vif(mod_2_step) |> {\(x) x[x > 2]}()
+vif(mod_4_step) |> {\(x) x[x > 2]}()
+vif(mod_6_step) |> {\(x) x[x > 2]}()
 ```
 
 
@@ -236,16 +236,31 @@ if(TRUE) cmat$byClass[["Specificity"]]
 
 ## Confusion Matrix
 
+- \textcolor{pink}{Question:} What does the p-value i.e. P-Value [Acc > NIR] indicate
+  - (Aside) we want to know if the accuracy being higher than NIR is significant. It is a simple one-tailed binomial test. The p-value from which is what the \textcolor{pink}{P-Value [Acc > NIR]} displays. 
+  - Ideally, Accuracy (0.862) should be higher than NIR (0.855) and the result should be significant.
+  - However, in this case, the result is not-significant (p-value = 0.168)
+
+- \textcolor{pink}{Question:} The thumb rule is high sensitivity means that the model is good
+  - Yes but only in this context. In other cases, either sensitivity or specificity or both needs to be considered.
+
+
 ```{r 'B38-Cmat-Churn-Train'}
 # #Confusion Matrix
 cmat <- cmat_2_step
-if(TRUE) cmat$table %>% as_tibble() %>% 
-  pivot_wider(names_from = Reference, values_from = n) %>% 
-  rename(Prediction_Reference = 1) %>% 
-  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+#
+# #Ideally, Accuracy should be higher than NIR and the result should be significant.
+if(TRUE) cmat$overall[["Accuracy"]]
+if(TRUE) cmat$overall[["AccuracyNull"]]
+if(TRUE) cmat$overall[["AccuracyPValue"]]
+#
+if(TRUE) cmat$table |> as_tibble() |> 
+  pivot_wider(names_from = Reference, values_from = n) |> 
+  rename(Prediction_Reference = 1) |> 
+  {\(x) add_row(x, summarise(x, across(1, ~"Total")), 
+                summarise(x, across(where(is.numeric), sum)))}() |> 
   mutate(SUM = rowSums(across(where(is.numeric))))
 ```
-
 
 ## Prediction on Test 
 
@@ -404,7 +419,7 @@ cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParalle
 mod_8_cv <- suppressWarnings(train(churn ~ ., data = zBalanced, method = 'rpart', 
                 trControl = cv, tuneLength = 10))
 #
-# #Best Tuning Cp value: 0.00308404	
+# #Best Tuning Cp value (Linear: RMSE, Logistic: Accuracy): 0.00308404	
 mod_8_cv$bestTune
 ```
 
@@ -479,7 +494,7 @@ if(TRUE) cmat$byClass[["Specificity"]]
 
 ```{r 'B38-TuneModel', eval=FALSE}
 # #Not Plotted
-tuneRF(x = zBalanced[, -1], y = zBalanced$churn, stepFactor = 2, plot = TRUE, 
+if(FALSE) tuneRF(x = zBalanced[, -1], y = zBalanced$churn, stepFactor = 2, plot = TRUE, 
        ntreeTry = 600, improve = .05)
 ```
 
@@ -581,7 +596,7 @@ auc_hh <- setNames(seq(from = 0.20, by = -0.045, length.out = length(lgd_hh)),
 #
 cap_hh <- "B38P01"
 ttl_hh <- "Churn: ROC: Train"
-loc_png <- paste0(.z$PX, "B38P01", "-Churn-Train-ROC", ".png")
+loc_png <- paste0("./images/", "B38P01", "-Churn-Train-ROC", ".png")
 ```
 
 ```{r 'B38-ROC-01-Plot', include=FALSE, ref.label=c('B38-ROC-Multi')}
@@ -589,7 +604,8 @@ loc_png <- paste0(.z$PX, "B38P01", "-Churn-Train-ROC", ".png")
 ```
 
 ```{r 'B38P01', echo=FALSE, fig.cap="(B38P01) Churn: ROC: Train"}
-include_graphics(paste0(".", "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
+loc_png <- paste0("./images/", "B38P01", "-Churn-Train-ROC", ".png")
+if(file.exists(loc_png)) include_graphics(loc_png) else include_graphics(here(loc_png))
 ```
 
 
@@ -601,8 +617,8 @@ include_graphics(paste0(".", "/images/", "B38P01", "-Churn-Train-ROC", ".png"))
 
 ```{r 'B38-ROC-Multi', eval=FALSE}
 # #IN: cap_hh, ttl_hh, loc_png, hh (ROC Plot)
-if(!file.exists(loc_png)) {
-  png(filename = loc_png)
+if(!file.exists(here(loc_png))) {
+  png(filename = here(loc_png))
   #dev.control('enable') 
   plot(hh, print.auc.y = auc_hh[["GLM"]], col = col_hh[["GLM"]], legacy.axes = TRUE, 
        print.auc.x = 0.70, print.auc = TRUE)
@@ -651,7 +667,7 @@ xxB38Earnings <- read_excel(path = loc_src, sheet = 4) #Works in Console. Not in
 
 ```{r 'B38-Cleanup-Earnings', eval=FALSE}
 #Logical to Factor Y | Rename | Coerce to int | Drop | Relocate Y |
-xfw <- xxB38Earnings |> 
+if(FALSE) xfw <- xxB38Earnings |> 
   mutate(across(Manipulater, factor, levels = c("No", "Yes"))) |> 
   rename(ID = "Company ID") |> 
   mutate(across(ID, as.integer)) |> 
@@ -660,9 +676,11 @@ xfw <- xxB38Earnings |>
 ```
 
 ```{r 'B38-Save-RDS-Earnings', include=FALSE, eval=FALSE}
-loc_rds <- here("data", "zzB38Earnings.rds")
-# #Write Object as RDS
-saveRDS(xfw, loc_rds)
+if(FALSE) {
+  loc_rds <- here("data", "zzB38Earnings.rds")
+  # #Write Object as RDS
+  saveRDS(xfw, loc_rds)  
+}
 ```
 
 ```{r 'B38-Get-RDS-Earnings', include=FALSE}
@@ -833,13 +851,13 @@ if(TRUE) cmat$byClass[["Specificity"]]
 ```{r 'B38-Cmat-Trn-GLM-Earn'}
 # #Confusion Matrix
 cmat <- cmat_2_glm
-if(TRUE) cmat$table %>% as_tibble() %>% 
-  pivot_wider(names_from = Reference, values_from = n) %>% 
-  rename(Prediction_Reference = 1) %>% 
-  add_row(summarise(., across(1, ~"Total")), summarise(., across(where(is.numeric), sum))) %>% 
+if(TRUE) cmat$table |> as_tibble() |> 
+  pivot_wider(names_from = Reference, values_from = n) |> 
+  rename(Prediction_Reference = 1) |> 
+  {\(x) add_row(x, summarise(x, across(1, ~"Total")), 
+                summarise(x, across(where(is.numeric), sum)))}() |> 
   mutate(SUM = rowSums(across(where(is.numeric))))
 ```
-
 
 ### Prediction on Test 
 
@@ -914,7 +932,7 @@ cv <- trainControl(method = "repeatedcv", number = 10, repeats = 5, allowParalle
 mod_8_cv <- train(Manipulater ~ . -ID, data = zFiltered, method = 'rpart', 
                 trControl = cv, tuneLength = 10)
 #
-# #Best Tuning Cp value: 0 (i.e. do not prune the Tree)
+# #Best Tuning Cp value (Linear: RMSE, Logistic: Accuracy): 0 (i.e. do not prune the Tree)
 mod_8_cv$bestTune
 ```
 
@@ -993,7 +1011,7 @@ if(TRUE) cmat$byClass[["Specificity"]]
 
 ```{r 'B38-TuneModel-2', eval=FALSE}
 # #Not Plotted
-tuneRF(x = zFiltered[, -c(1:2)], y = zFiltered$Manipulater, stepFactor = 2, plot = TRUE, 
+if(FALSE) tuneRF(x = zFiltered[, -c(1:2)], y = zFiltered$Manipulater, stepFactor = 2, plot = TRUE, 
        ntreeTry = 500, improve = 0.00001, trace = FALSE)
 ```
 
@@ -1073,7 +1091,7 @@ if(TRUE) tibble(Names = hh_names,
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'B38-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, both_churn, cap_hh, cmat, cmat_10_forest, 
+if(TRUE) f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, both_churn, cap_hh, cmat, cmat_10_forest, 
           cmat_10_forest_test, cmat_2_step, cmat_2_step_test, cmat_4_step, cmat_4_step_test, 
           cmat_6_step, cmat_6_step_test, cmat_7_rpart, cmat_7_rpart_test, cmat_8_cv, 
           cmat_8_cv_test, cmat_9_forest, cmat_9_forest_test, col_hh, cv, dum_xfw, hh, hh_names, 

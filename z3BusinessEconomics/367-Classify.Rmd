@@ -709,11 +709,15 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     - Event: Default = "Yes"
   - \textcolor{pink}{No Information Rate (NIR)} is the largest class percentage in the data.
     - i.e. proportion of majority class in the original dataset
+    - We want Accuracy to be greater than NIR
+    - Further, we want to know if the accuracy being higher than NIR is significant. A test of whether an observed proportion is greater than some specified value is a simple one-tailed binomial test. The p-value from which is what the \textcolor{pink}{P-Value [Acc > NIR]} displays. 
+    - However, the p-value only tells that the accuracy is better, we may also want to know if our model is biased i.e., does our classifier tend to say a class more often than is really the case.
   - \textcolor{pink}{Sensitivity or Recall or Power or True Positive Rate}, is the percentage of true defaulters that are identified
     - $\text{Sensitivity} = \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{A}{A + C} = \frac{79}{79 + 254} = \frac{79}{333} = 0.2372372 = 1 - \text{Type-II Error}$
       - \textcolor{pink}{Recall} is same as Sensitivity. Recall should be High.
       - Recall is defined as the ratio of the total number of correctly classified positive classes divide by the total number of positive classes. 
       - i.e. Out of all the positive classes, how much we have predicted correctly. 
+      - Recall is useful to make judgements about the model and we want to see how much the model is able to recall correctly
   - \textcolor{pink}{Specificity} is the percentage of non-defaulters that are correctly identified
     - $\text{Specificity} = \frac{\text{TN}}{\text{FP} + \text{TN}} = \frac{D}{B + D} = \frac{9645}{22 + 9645} = \frac{9645}{9667} = 1 - \frac{B}{B + D} = 1 - \frac{22}{9667} = 0.9977242$
     - Specificity determines the proportion of actual negatives that are correctly identified.
@@ -728,6 +732,7 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     - $\text{Precision} = \frac{\text{FP}}{\text{Event Predicted}} = \frac{A}{A + B} = \frac{79}{101} = 0.7821782$
     - Precision is defined as the ratio of the total number of correctly classified positive classes divided by the total number of predicted positive classes.
     - i.e. Out of all the predictive positive classes, how much we predicted correctly. Precision should be high.
+    - Precision is useful in actual targeting plan; we can only act on predicted and so this is useful
     - It is also same as \textcolor{pink}{(1 - False Discovery Proportion)}
   - \textcolor{pink}{Negative Predictive Value (NPV)} 
     - $\text{NPV} = \frac{\text{Specificity} \times (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \times \text{Prevalence}) + ((\text{Specificity}) \times (1 - \text{Prevalence}))} = 0.9743408$    
@@ -741,6 +746,7 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
     - Out of total number of cases, how many cases predicted as target cases. 
   - \textcolor{pink}{Accuracy or Overall Accuracy} 
     - $\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{Total}} = \frac{A + D}{N} = \frac{79+9645}{10000} = 0.9724$
+    - The Accuracy is the proportion of the cases that were classified correctly.
   - \textcolor{pink}{Balanced Accuracy} 
     - $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{0.2372372 + 0.9977242}{2} = 0.6174807$
   - \textcolor{pink}{F-score (F1)}, with $\beta = 1$
@@ -758,6 +764,25 @@ f_pKbl(x = hh, caption = cap_hh, debug = FALSE)
   - Choose Precision if you want to be more confident of your true positives. For example, in case of spam emails, you would rather have some spam emails in your inbox rather than some regular emails in your spam box. You would like to be extra sure that email X is spam before we put it in the spam box.
   - Choose Specificity if you want to cover all true negatives, i.e. meaning we do not want any false alarms or false positives. For example, in case of a drug test in which all people who test positive will immediately go to jail, you would not want anyone drug-free going to jail.
 ```
+
+
+- \textcolor{pink}{McNemar test}
+  - The p-value only tells that the accuracy is better, we may also want to know if our model is biased i.e., does our classifier tend to say a class more often than is really the case.
+  - We can test the proportion the model says B against the observed proportion B, but that would not really take the structure of the confusion matrix into account. It would not recognize that the underlying data are non-independent, and therefore does not deal with the non-independence appropriately.     - The test that does recognize these things is McNemar test. 
+  - McNemar Test captures the errors made by both models. Specifically, the No/Yes and Yes/No cells in the confusion matrix. The test checks if there is a significant difference between the counts in these two cells. 
+    - If these cells have counts that are similar, it shows us that both models make errors in much the same proportion, just on different instances of the test set. In this case, the result of the test would not be significant and the null hypothesis would not be rejected.
+    - Fail to Reject Null Hypothesis: Classifiers have a similar proportion of errors on the test set.
+    - Reject Null Hypothesis: Classifiers have a different proportion of errors on the test set.
+  - The null hypothesis is more or less that the proportions of one variable are equal across both values of the other variable. 
+      - A significant test result means that you have rejected this null hypothesis, and decided that your two variables are associated (i.e. that knowing something about one, gives you information about the other), and therefore that the proportion of one variable changes depending on the values of the other variable.
+  - It is important to know that there are two different scenarios in the context of machine learning.
+    - The first one is that you are evaluating the quality of your model vs. the reference data (test data or possibly training data). 
+    - The second scenario is when you are comparing two classification models (algorithms).
+  - In the first scenario you would normally look for the p-value of the test to be greater than 0.05.
+    - i.e., do not reject the null hypothesis that assumes homogeneity of the proportion of misclassified cases for the two class labels. A significant value here would indicate that your algorithm misclassifies one label more than another.
+  - In the second scenario you would probably look for the opposite. i.e., that the p-value of the test is less than 0.05. 
+    - This would indicate that the classifiers have different error rates. This is evidence that you can use in conjunction with other indicators such as individual model accuracy to conclude that one is better than another.
+
 
 ### Table Mod {.unlisted .unnumbered}
 
