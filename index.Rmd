@@ -16,12 +16,12 @@ subtitle: "ADSM: Statistics and R"
 # About {#FIRST .unnumbered} 
 [Goto LAST](#LAST "End of the Document")
 
-> Repetition! Repetition! is the mother of learning.^~~Copy / Paste is the mother of learning.~~^ 
+> \textcolor{pink}{Repetition! Repetition! is the mother of learning.}^~~Copy / Paste is the mother of learning.~~^ 
 
 Sources: [GitHub](https://github.com/shivam7898/xADSM/tree/main/docs "https://github.com") | [Google Drive](https://drive.google.com/drive/folders/1KS69a-U_64OkVbIr9VKhxu97HBPzbVsz?usp=sharing "https://drive.google.com") | [OneDrive](https://1drv.ms/u/s!AjRu26ZthlQCitEmPzybZMV0tISo5w?e=JFE5ju "https://onedrive.live.com")
 
 \textcolor{pink}{Caution:}  
-The HTML File access MathJax via internet to render LaTex Equations. Thus, equations will NOT be rendered properly if the file is viewed offline. Otherwise, the file is a standalone document containing all the relevant images, tables and codes to generate them.
+The HTML File access MathJax via internet to render LaTeX Equations. Thus, equations will NOT be rendered properly if the file is viewed offline. Otherwise, the file is a standalone document containing all the relevant images, tables and codes to generate them.
 
 ## Preface {.unnumbered}
 
@@ -61,7 +61,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ```{r '000B-RVersion'}
 # #R Version
 R.version.string
-```  
+```
 
 ### Working Directory {.unlisted .unnumbered}
 
@@ -75,14 +75,14 @@ getwd()
 ```{r '000D-Session'}
 # #Version information about R, the OS and attached or loaded packages
 sessionInfo()
-``` 
+```
  
 ### Pandoc {.unlisted .unnumbered}
 
 ```{r '000E-Pandoc'}
 # #Pandoc Version being used by RStudio
 rmarkdown::pandoc_version()
-```  
+```
 
 ```{r '000F-Bib', include=FALSE}
 # automatically create a bib database for R packages

@@ -27,8 +27,12 @@ caption {
   background-color: #303030;
 }
 
-/* Red background for chunks with Warnings */
+/* Red background for chunk output with Warnings */
 .redwarn {
   background-color: #CF6679FF;
 }
 
+/* Red background for chunk source with Warnings needs !important */
+.redwarnimp {
+  background-color: #CF6679FF !important;
+}

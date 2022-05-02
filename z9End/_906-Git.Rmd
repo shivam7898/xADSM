@@ -155,6 +155,72 @@ echo data/zzB38Earnings.rds >> .gitignore
 git commit --allow-empty -m "+Revert 310 NULL Corruption"
 ```
 
+## New Project
+
+- [How to link the Project with GitHub](https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/adding-locally-hosted-code-to-github "https://docs.github.com")
+
+```{bash 'Z06-NewProject', eval=FALSE}
+# Initialize Git
+git init -b main
+
+# #First Commit
+New-Item -Path . -Name ".gitignore" -ItemType "File"
+echo .Rhistory >> .gitignore
+git add .gitignore
+git add .Rprofile
+git commit -m "+.Rprofile .gitignore -.Rhistory"
+
+# Add to GitHub by copying URL from GitHub Page of repository of same name
+git remote add origin https://github.com/shivam7898/NLP.git
+
+# Verify: Set the new remote
+git remote -v
+
+# Push the changes
+git push origin main
+```
+
+
+```{bash 'Z06-AddFiles', eval=FALSE}
+# Add Ignored Files and Folders
+echo _bookdown_files/ >> .gitignore
+echo _book/ >> .gitignore
+echo .Rproj.user/ >> .gitignore
+echo _main.html >> .gitignore
+echo _main.md >> .gitignore
+echo _main.Rmd >> .gitignore
+echo images/bigImages/ >> .gitignore
+echo docs/bigDocs/ >> .gitignore
+
+
+git add index.Rmd
+git add style.css
+git add preamble.tex
+git add book.js
+git add _bookdown.yml
+git add _output.yml
+git add parse-latex.lua
+git add book.bib
+git add README.md
+git add header.html
+git add packages.bib
+git add *.Rproj
+git add .gitignore
+
+# Folders without files cannot be added so .keep has been added
+git add code/ 
+git add data/
+git add images/
+git add docs/
+git add pBasics/
+git add zEnd/
+
+git commit -m "+Basics"
+# Modify index.Rmd
+#git commit -m "+First Book Build"
+# Modify index.Rmd, 999-END.Rmd, & P01
+#git commit -m "+WIP P01"
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 

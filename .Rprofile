@@ -1,17 +1,8 @@
-# #(.Rprofile) [3/3] =============================================================================#
-# #This file is Not auto-executed. It is sourced by [2/3] & thus executes on Restart R i.e. "^+F10" "AHK F5"
-# [1] Location: Sys.getenv("HOME") -
-#	This is kept in USER HOME and changed only when USER is changed.
-#	This File is Auto-executed on Start-up & on RStudio Restart R i.e. "^+F10" "AHK F5"
-#	To change the working directory to "D:/Analytics/R"
-#	To execute the .Rprofile [2/3] (No Auto-execution)
-# [2] Location: "D:/Analytics/R"
-#	To point to the latest Project as working directory
-#	To execute the .Rprofile [3/3] (No Auto-execution)
-# [3] Location: Working Directory
-# Advantage is that every project has its own .Rprofile, thus it can keep its own changes.
-# Specially, with GIT initialisation, it can be kept in sync with the project files.																					
-# This file is executed when RStudio opens a project or a file in the directory.
+# #[2] Dot "./.Rprofile" #NO Auto-Execution, sourced and run by [1] on Restart by "^+F10" "AHK F5"#
+
+# [1] Tilde: Sys.getenv("HOME")
+# [2] Dot  : Working Directory - Project specific .Rprofile under GIT management
+# This file is copied by SetRProject.ps1 from D:\Analytics\PowerShell\RFiles
 
 # #Set a CRAN mirror. Change the Target URL to the one having 'https' to avoid warnings.
 local({r <- getOption("repos")
@@ -20,6 +11,8 @@ local({r <- getOption("repos")
 
 # #Modify Library Path
 # #Note that only directories that exist at the time will be included.
+# #It needs modified libPaths for accessing ALL Packages during New Startup. However...
+# #Any change in libPaths at [1] earlier gets overwritten here [2]
 if (!identical(.libPaths()[1], "C:/Softwares/R/LibFiles")) {
   .libPaths( c( "C:/Softwares/R/LibFiles", .libPaths()) )
 }
@@ -62,6 +55,13 @@ library("utils")
   }
 }
 
+# #tidyverse lifecycle package, to convert deprecated warnings to errors
+options(lifecycle_verbosity = "error")
+
+# #Warning: To upgrade Warning to Error for easy identification of problem chunk
+# #Restore default: options(warn=0, error=NULL)
+if(FALSE) options(warn = 2, error = recover)
+
 #Hidden namespace to save objects & functions from "rm(list=ls())"
 .z <- new.env()
 attach(.z)
@@ -75,13 +75,3 @@ attach(.z)
 # #Object containing PATH to Images
 .z$PX <- paste0(getwd(), "/images/")
 
-# #tidyverse lifecycle package, to convert deprecated warnings to errors
-options(lifecycle_verbosity = "error")
-
-# #Warning: To upgrade Warning to Error for easy identification of problem chunk
-# #Restore default: options(warn=0, error=NULL)
-if(FALSE) options(warn = 2, error = recover)
-#
-# #Warning on Parial Matching of Function Arguments: 
-# #Works but Package Functions needs to be updated first. Otherwise, those calls result in warnings
-#options(warnPartialMatchArgs = TRUE)

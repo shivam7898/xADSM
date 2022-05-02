@@ -1,4 +1,4 @@
-# RStudio Underscore (Z02) {#z02}
+# RStudio (Z02) {#z02}
 
 ## The .Rprofile
 
@@ -155,7 +155,8 @@
     - Show 
     - Show in document outline: Sections only
       - Chunks are available in Bottom Bar and adding them here, the outline becomes huge and unmanageable
-    - Show output preview in: Window
+    - Show output preview in: None
+      - This stops output of knitting or building the book from immediately being shown in RStudio
     - Show equation and image previews: inline
     - Evaluate chunks in directory: Document
   - Advanced

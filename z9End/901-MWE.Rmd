@@ -118,6 +118,100 @@ if(FALSE){#Generate images
 }
 ```
 
+### R Basic PATHS {.unlisted .unnumbered}
+
+- Use \textcolor{pink}{normalizePath()} to convert to proper path from DOS type
+- Use \textcolor{pink}{R.home()} to get the Base PATH
+
+```{r 'Z01-R-Path'}
+normalizePath(R.home(component = "home"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "bin"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "library"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "doc"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "etc"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "include"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "modules"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "share"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "src"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "Tcl"), winslash = "/", mustWork = TRUE)
+normalizePath(R.home(component = "tests"), winslash = "/", mustWork = TRUE)
+```
+
+### Startup {.unlisted .unnumbered}
+
+- There are two sorts of files used in startup: 
+  - \textcolor{pink}{Environment files:} contain lists of environment variables to be set
+  - \textcolor{pink}{Profile files:} contain R code
+- \textcolor{pink}{file.path()} is faster than using \textcolor{pink}{paste0()} for PATHS
+  - AND it automatically handles the platform dependent separator
+
+```{r 'Z01-Get-Env'}
+# # R Startup Steps are given in the 'Initialization at Start of an R Session'
+if(FALSE) help(startup)
+
+# #A Named Vector of ALL Environment Variables
+if(FALSE) Sys.getenv()
+
+# #[1] Environment Variables: Given in ALL_CAPS
+# #The name of the site file is the one pointed to by: R_ENVIRON
+Sys.getenv("R_ENVIRON")
+
+# #if R_ENVIRON is unset (as shown):
+# #Then 'R_HOME/etc/Renviron.site' is used. However this file does not exist by default.
+if(identical(Sys.getenv("R_ENVIRON"), "")){
+  loc <- file.path(Sys.getenv("R_HOME"), "etc", "Renviron.site") 
+  if(FALSE) normalizePath(loc, winslash = "/", mustWork = TRUE)
+  file.exists(loc) #FILE DOES NOT EXIST
+}
+
+# #The name of the user file can be specified by: R_ENVIRON_USER
+Sys.getenv("R_ENVIRON_USER")
+
+# #if R_ENVIRON_USER is unset (as shown):
+# #Then, the files searched for are '.Renviron' in the current and then in the user home directory
+if(identical(Sys.getenv("R_ENVIRON_USER"), "")){
+  loc <- file.path(Sys.getenv("R_USER"), ".Renviron")
+  if(FALSE) normalizePath(loc, winslash = "/", mustWork = TRUE)
+  file.exists(loc)  #FILE DOES NOT EXIST
+}
+
+# #[2] Then R searches for the site-wide startup profile file
+# #The path of this file is taken from: R_ENVIRON
+Sys.getenv("R_PROFILE")
+
+# #if R_PROFILE is unset (as shown):
+# #Then 'R_HOME/etc/Rprofile.site' is used. However this file does not exist by default.
+if(identical(Sys.getenv("R_PROFILE"), "")){
+  loc <- file.path(Sys.getenv("R_HOME"), "etc", "Rprofile.site")
+  if(FALSE) normalizePath(loc, winslash = "/", mustWork = TRUE)
+  file.exists(loc) #FILE EXISTS
+}
+
+# #Then R searches for a user profile
+# #The path of this file is taken from: R_PROFILE_USER 
+Sys.getenv("R_PROFILE_USER")
+
+# #if R_PROFILE_USER is unset (as shown):
+# #Then, the files searched for are '.Rprofile' in the current and then in the user home directory
+if(identical(Sys.getenv("R_PROFILE_USER"), "")){
+  loc <- file.path(Sys.getenv("R_USER"), ".Rprofile")
+  if(FALSE) normalizePath(loc, winslash = "/", mustWork = TRUE)
+  file.exists(loc)  #FILE EXISTS (MODIFIED)
+}
+
+# #EnvVar 
+if(FALSE) ?HOME
+
+# #Specific Environment Variable
+Sys.getenv("R_HOME") #The top-level directory of the R installation
+Sys.getenv("HOME")   #User HOME directory
+Sys.getenv("R_USER") #User HOME directory. Set by R.
+
+# Tilde "~" is USER HOME, Dot "." is Current Working Directory
+read.delim(file.path("~", ".Rprofile"), nrows = 1, header = FALSE)
+read.delim(file.path(".", ".Rprofile"), nrows = 1, header = FALSE)
+```
+
 
 ## Generate Correlated Vectors {#cor-vec-z01 .tabset .tabset-fade}
 
@@ -229,7 +323,7 @@ kk
 print("Models: Color= #80A080, background-color: #303030")
 ```
 
-```{r 'Z01-BG-Warn-Red', collapse=FALSE, class.output="redwarn"}
+```{r 'Z01-BG-Warn-Red', collapse=FALSE, class.source='redwarnimp', class.output="redwarn"}
 tryCatch(warning("WARNING: background-color: #CF6679FF (Red)"), 
          warning = function(w) {
            print(trimws(gsub("[^:]*:(.*)", "\\1", paste0(w))))
@@ -238,11 +332,34 @@ tryCatch(warning("WARNING: background-color: #CF6679FF (Red)"),
          )
 ```
 
+```{r 'Z01-BG-Primary', collapse=FALSE, class.output='bg-primary'}
+# class.source works if '!important' override is given in the css
+# Source Chunk generally have highlights so change in its color should be avoided
+# Output chunk have a single coloured text, so its background can be modified safely
+# class.output can be {'bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger'}
+head(letters) #Primary
+```
+
+```{r 'Z01-BG-Success', echo=FALSE, collapse=FALSE, class.output='bg-success'}
+head(letters) #Success
+```
+
+```{r 'Z01-BG-Info', echo=FALSE, collapse=FALSE, class.output='bg-info'}
+head(letters) #Info
+```
+
+```{r 'Z01-BG-Warning', echo=FALSE, collapse=FALSE, class.output='bg-warning'}
+head(letters) #Warning
+```
+
+```{r 'Z01-BG-Danger', echo=FALSE, collapse=FALSE, class.output='bg-danger'}
+head(letters) #Danger
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
 ```{r 'Z01-Cleanup', include=FALSE, cache=FALSE}
-f_rmExist(aa, bb, ii, jj, kk, ll)
+f_rmExist(aa, bb, ii, jj, kk, ll, loc_src, loc)
 ```
 
 ```{r 'Z01-Validation', include=FALSE, cache=FALSE}

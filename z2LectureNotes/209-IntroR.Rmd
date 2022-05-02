@@ -520,7 +520,7 @@ if (pkg_chr %in% .packages()) {
 ```{r 'B09-OlderVersion', eval=FALSE}
 # #When Update of a Package breaks your code and you want to postpone that debugging
 # #Get the URL of older version of the Package from CRAN
-packageurl <- "https://cran.r-project.org/src/contrib/Archive/latex2exp/latex2exp_0.5.0.tar.gz"
+packageurl <- "https://cran.r-project.org/src/contrib/Archive/bookdown/bookdown_0.25.tar.gz"
 #
 if(FALSE) {# #WARNING: Installation may take some time.
   install.packages(packageurl, repos = NULL, type = "source")  
@@ -530,8 +530,7 @@ if(FALSE) {# #WARNING: Installation may take some time.
 ### Package Version {.unnumbered}
 
 ```{r 'B09-PackageVersion'}
-packageVersion("dplyr")
-packageVersion("latex2exp")
+packageVersion("dplyr") #latex2exp bookdown rmarkdown
 ```
 
 ### Rtools4 on Windows {.unnumbered}
@@ -543,6 +542,7 @@ packageVersion("latex2exp")
 if(FALSE) {# #WARNING: Installation may take some time.
   Sys.which("make") #"D:\\Installations\\rtools40\\usr\\bin\\make.exe"
   devtools::install_github("stefano-meschiari/latex2exp", ref = "0.9.3") 
+  remotes::install_github('rstudio/bookdown', upgrade = TRUE)
 }
 ```
 

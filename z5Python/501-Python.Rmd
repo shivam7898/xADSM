@@ -1017,10 +1017,10 @@ users.groupby('occupation').agg({'age': ['mean', 'max']})
 
 ```{r 'P01-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, iris_from_p, iris_rr_final, iris_rr_original, mm, rr, rr_ii, 
-          rr_ll)
+          rr_ll, cc_chr, dd_dbl, ii_int, ll_lgl)
 ```
 
-```{r 'P01-Validation', include=TRUE, cache=FALSE}
+```{r 'P01-Validation', include=FALSE, cache=FALSE}
 # #SUMMARISED Packages and Objects (BOOK CHECK)
 f_()
 #

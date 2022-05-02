@@ -96,6 +96,11 @@ Indicate Block Quotes by Prompt /'Greater than' Sign, followed by a space i.e. "
 
 > "Knowledge is power."
 
+NOTE: Quotes with superscripts needs another formatting option like italics or strikethrough also.
+
+> \textcolor{pink}{An excellet quote.}^*and its superscript in italics.*^
+
+
 ### Line Breaks 
 
 Force new pages by putting three or more asterisks on a line i.e. "**\*\*\* **". This is visible as line in Bookdown HTML.
@@ -574,6 +579,15 @@ geometry: "left=1cm,right=1cm,top=1cm,bottom=1.5cm"
 links-as-notes: true
 
 
+## preamble.tex
+
+- Working
+  - \\usepackage{booktabs}
+  - \\usepackage{xcolor}
+- Not working: Could not print degree symbol
+  - \\usepackage{textcomp}
+  - \\usepackage{gensymb}
+
 ## The setup chunk
 
 To set the same chunk option for every chunk in the document
@@ -586,9 +600,9 @@ To set the same chunk option for every chunk in the document
 
 
 ` ```{r 'setup', echo=FALSE, eval=FALSE} `
-```  
+```
 knitr::opts_chunk$set()  
-```  
+```
 ` ``` `
 
 ## Chunk Labels
