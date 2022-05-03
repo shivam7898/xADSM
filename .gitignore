@@ -23,3 +23,10 @@ _main.Rmd
 data/xxB37Insurance.rds
 data/zzB34Bank.rds
 data/zzB38Earnings.rds
+data/zzB35-mod_1_glm_bank.rds
+data/zzB35-mod_2_step_bank.rds
+data/zzB36-mod_3_step_over.rds
+data/zzB36-mod_4_step_under.rds
+data/zzB36-mod_5_step_both.rds
+data/zzB37-mod_1_glm.rds
+data/zzB37-mod_2_step.rds

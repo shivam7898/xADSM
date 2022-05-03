@@ -27,6 +27,7 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [How to Pipe the Subset](#pipe-sub-z01 "z01")
 - [How to Test Background Colours](#bg-color-z01 "z01")
 
+
 ## Limit the Knit or Build {#limit-knit-z01 .tabset .tabset-fade}
 
 ```{r 'Z01-Limit-Knit-Build', eval=FALSE}
@@ -117,6 +118,20 @@ if(FALSE){#Generate images
     }
 }
 ```
+
+```{r 'Z01-Data, eval=FALSE'}
+# #[3] Conditions: A:Console, B: Manual R Markdown Chunk, C: Knit
+bb <- NA
+loc_src <- here("data", "B09_xx_data.rds")  #ABC, No Warning after Knitr 1.39
+if(FALSE){#AC, ERROR B
+  loc_src <- paste0("./data/", "B09_xx_data.rds") 
+  loc_src <- file.path(".", "data", "B09_xx_data.rds") #AC, ERROR B
+}
+file.exists(loc_src)
+bb <- readRDS(loc_src)
+bb
+```
+
 
 ### R Basic PATHS {.unlisted .unnumbered}
 

@@ -152,12 +152,29 @@ zBalanced %>% count(Response) %>% mutate(PROP = n /sum(n))
 
 - Even though 'Vintage' is non-significant, step-wise does not drop this variable
 
-```{r 'B37-GLM'}
+```{r 'B37-GLM-Show', eval=FALSE}
 # #Logistic Regression
 mod_1_glm <- glm(formula = Response ~ ., family = binomial, data = zBalanced)
 # #Step-wise Regression
 mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
 ```
+
+
+```{r 'B37-GLM', include=FALSE}
+# #Logistic Regression #Reduce the Build Time
+loc_rds1 <- here("data", "zzB37-mod_1_glm.rds")
+loc_rds2 <- here("data", "zzB37-mod_2_step.rds")
+if(q_fastbuild && file.exists(loc_rds1) && file.exists(loc_rds2)){
+  mod_1_glm <- readRDS(loc_rds1)
+  mod_2_step <- readRDS(loc_rds2)
+} else {
+  mod_1_glm <- glm(formula = Response ~ ., family = binomial, data = zBalanced)
+  mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
+  saveRDS(mod_1_glm, loc_rds1)
+  saveRDS(mod_2_step, loc_rds2)
+}
+```
+
 
 ```{r 'B37-Print-Data-1', echo=FALSE, collapse=FALSE, class.output="models"}
 # #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
@@ -407,7 +424,8 @@ f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, B37P01, B37P02, both_insurance, cap_hh
           cmat_2_step, cmat_2_step_test, cmat_3_lda, cmat_3_lda_test, col_hh, dum_xfw, hh, 
           hh_names, idx_xsyw, iin, iio, jjn, jjo, lda_hh, loc_png, mod_1_glm, mod_2_step, 
           mod_3_lda, prob_2_step, prob_2_step_test, res_2_step, res_2_step_test, res_3_lda,
-          res_3_lda_test, ttl_hh, xfw, xxB37Insurance, zBalanced, zInsurance, zTest)
+          res_3_lda_test, ttl_hh, xfw, xxB37Insurance, zBalanced, zInsurance, zTest, loc_rds1, 
+          loc_rds2)
 ```
 
 ```{r 'B37-Validation', include=FALSE, cache=FALSE}

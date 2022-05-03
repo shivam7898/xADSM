@@ -53,6 +53,9 @@ if(FALSE){
 # #Remove some objects which starts from "k_" i.e. for knitr, not to be shown
   x_knit_lg <- grepl("^k_", x_cr)
   x_cr <- x_cr[!x_knit_lg]
+# #Match object names starting with "q_" and drop them from the vector
+  x_knit_lg <- grepl("^q_", x_cr)
+  x_cr <- x_cr[!x_knit_lg]
 # #Count Functions
 #  cat("Functions (", length(x_cr[x_fun_lg]), ") & Objects (", length(x_no_fun),") : \n")
 # #Objects

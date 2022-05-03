@@ -146,6 +146,13 @@ echo data/xxB18Churn.rds >> .gitignore
 echo data/zzB34Bank.rds >> .gitignore
 echo data/xxB37Insurance.rds >> .gitignore
 echo data/zzB38Earnings.rds >> .gitignore
+echo data/zzB35-mod_1_glm_bank.rds >> .gitignore
+echo data/zzB35-mod_2_step_bank.rds >> .gitignore
+echo data/zzB36-mod_3_step_over.rds >> .gitignore
+echo data/zzB36-mod_4_step_under.rds >> .gitignore
+echo data/zzB36-mod_5_step_both.rds >> .gitignore
+echo data/zzB37-mod_1_glm.rds >> .gitignore
+echo data/zzB37-mod_2_step.rds >> .gitignore
 ```
 
 ## Empty Commit

@@ -224,11 +224,26 @@ if(!file.exists(loc_png)) {
 xbank %>% count(y) %>% mutate(PROP = n /sum(n))
 ```
 
-```{r 'B36-Logistic-Bank-1'}
+```{r 'B36-Logistic-Bank-1-Show', eval=FALSE}
 # #Logistic Regression 
 mod_1_glm_bank <- glm(formula = y ~ ., family = binomial, data = xbank)
 # #Step-wise Regression
 mod_2_step_bank <- step(mod_1_glm_bank, direction = "both", trace = 0)
+```
+
+```{r 'B36-Logistic-Bank-1', include=FALSE}
+# #Logistic Regression #Reduce the Build Time #Copied Data & Model from B35
+loc_rds1 <- here("data", "zzB35-mod_1_glm_bank.rds")
+loc_rds2 <- here("data", "zzB35-mod_2_step_bank.rds")
+if(q_fastbuild && file.exists(loc_rds1) && file.exists(loc_rds2)){
+  mod_1_glm_bank <- readRDS(loc_rds1)
+  mod_2_step_bank <- readRDS(loc_rds2)
+} else {
+  mod_1_glm_bank <- glm(formula = y ~ ., family = binomial, data = xbank)
+  mod_2_step_bank <- step(mod_1_glm_bank, direction = "both", trace = 0)
+  saveRDS(mod_1_glm_bank, loc_rds1)
+  saveRDS(mod_2_step_bank, loc_rds2)
+}
 ```
 
 ```{r 'B36-Print-Bank-1', echo=FALSE, collapse=FALSE, class.output="models", eval=FALSE}
@@ -246,12 +261,16 @@ prob_2_step_bank_train <- predict(mod_2_step_bank, type = "response")
 prob_2_step_bank_test <- predict(mod_2_step_bank, newdata = test_bank, type = "response")
 #
 # #Convert Probabilities into levels
-res_2_step_bank_train <- factor(ifelse(prob_2_step_bank_train >= 0.5, "yes", "no"), levels = c("no", "yes"))
-res_2_step_bank_test <- factor(ifelse(prob_2_step_bank_test >= 0.5, "yes", "no"), levels = c("no", "yes"))
+res_2_step_bank_train <- factor(ifelse(prob_2_step_bank_train >= 0.5, "yes", "no"), 
+                                levels = c("no", "yes"))
+res_2_step_bank_test <- factor(ifelse(prob_2_step_bank_test >= 0.5, "yes", "no"), 
+                               levels = c("no", "yes"))
 #
 # #Confusion Matrix 
-cmat_2_step_bank_train <- confusionMatrix(res_2_step_bank_train, reference = xbank$y, positive = "yes")
-cmat_2_step_bank_test <- confusionMatrix(res_2_step_bank_test, reference = test_bank$y, positive = "yes")
+cmat_2_step_bank_train <- confusionMatrix(res_2_step_bank_train, 
+                                          reference = xbank$y, positive = "yes")
+cmat_2_step_bank_test <- confusionMatrix(res_2_step_bank_test, 
+                                         reference = test_bank$y, positive = "yes")
 ```
 
 
@@ -309,14 +328,46 @@ both_xbank <- ovun.sample(formula = y ~ ., data = xbank, method = "both", seed =
 both_xbank %>% count(y) %>% mutate(PROP = n /sum(n))
 ```
 
-```{r 'B36-Logistic-Bank-2'}
+```{r 'B36-Logistic-Bank-2-Show', eval=FALSE}
 # #Logistic Regression 
-mod_3_glm_over <- glm(formula = y ~ ., family = binomial, data = over_xbank)
+mod_3_glm_over  <- glm(formula = y ~ ., family = binomial, data = over_xbank)
 mod_3_step_over <- step(mod_3_glm_over, direction = "both", trace = 0)
 mod_4_glm_under <- glm(formula = y ~ ., family = binomial, data = under_xbank)
 mod_4_step_under <- step(mod_4_glm_under, direction = "both", trace = 0)
-mod_5_glm_both <- glm(formula = y ~ ., family = binomial, data = both_xbank)
+mod_5_glm_both  <- glm(formula = y ~ ., family = binomial, data = both_xbank)
 mod_5_step_both <- step(mod_5_glm_both, direction = "both", trace = 0)
+rm(mod_3_glm_over, mod_4_glm_under, mod_5_glm_both)
+```
+
+```{r 'B36-Logistic-Bank-2', include=FALSE}
+# #Logistic Regression #Reduce the Build Time
+loc_rds <- here("data", "zzB36-mod_3_step_over.rds")
+if(q_fastbuild && file.exists(loc_rds)){
+  mod_3_step_over <- readRDS(loc_rds)
+} else {
+  mod_3_glm_over <- glm(formula = y ~ ., family = binomial, data = over_xbank)
+  mod_3_step_over <- step(mod_3_glm_over, direction = "both", trace = 0)
+  saveRDS(mod_3_step_over, loc_rds)
+  rm(mod_3_glm_over)
+}
+loc_rds <- here("data", "zzB36-mod_4_step_under.rds")
+if(q_fastbuild && file.exists(loc_rds)){
+  mod_4_step_under <- readRDS(loc_rds)
+} else {
+  mod_4_glm_under <- glm(formula = y ~ ., family = binomial, data = under_xbank)
+  mod_4_step_under <- step(mod_4_glm_under, direction = "both", trace = 0)
+  saveRDS(mod_4_step_under, loc_rds)
+  rm(mod_4_glm_under)
+}
+loc_rds <- here("data", "zzB36-mod_5_step_both.rds")
+if(q_fastbuild && file.exists(loc_rds)){
+  mod_5_step_both <- readRDS(loc_rds)
+} else {
+  mod_5_glm_both <- glm(formula = y ~ ., family = binomial, data = both_xbank)
+  mod_5_step_both <- step(mod_5_glm_both, direction = "both", trace = 0)
+  saveRDS(mod_5_step_both, loc_rds)
+  rm(mod_5_glm_both)
+}
 ```
 
 ```{r 'B36-Print-Bank-2', echo=FALSE, collapse=FALSE, class.output="models"}
@@ -349,12 +400,16 @@ prob_4_under_train <- predict(mod_4_step_under, type = "response")
 prob_4_under_test <- predict(mod_4_step_under, newdata = test_bank, type = "response")
 #
 # #Convert Probabilities into levels
-res_4_under_train <- factor(ifelse(prob_4_under_train >= 0.5, "yes", "no"), levels = c("no", "yes"))
-res_4_under_test <- factor(ifelse(prob_4_under_test >= 0.5, "yes", "no"), levels = c("no", "yes"))
+res_4_under_train <- factor(ifelse(prob_4_under_train >= 0.5, "yes", "no"), 
+                            levels = c("no", "yes"))
+res_4_under_test <- factor(ifelse(prob_4_under_test >= 0.5, "yes", "no"), 
+                           levels = c("no", "yes"))
 #
 # #Confusion Matrix 
-cmat_4_under_train <- confusionMatrix(res_4_under_train, reference = under_xbank$y, positive = "yes")
-cmat_4_under_test <- confusionMatrix(res_4_under_test, reference = test_bank$y, positive = "yes")
+cmat_4_under_train <- confusionMatrix(res_4_under_train, 
+                                      reference = under_xbank$y, positive = "yes")
+cmat_4_under_test <- confusionMatrix(res_4_under_test, 
+                                     reference = test_bank$y, positive = "yes")
 ```
 
 ```{r 'B36-Cmat-Bank-Both', include=FALSE}
@@ -363,12 +418,16 @@ prob_5_both_train <- predict(mod_5_step_both, type = "response")
 prob_5_both_test <- predict(mod_5_step_both, newdata = test_bank, type = "response")
 #
 # #Convert Probabilities into levels
-res_5_both_train <- factor(ifelse(prob_5_both_train >= 0.5, "yes", "no"), levels = c("no", "yes"))
-res_5_both_test <- factor(ifelse(prob_5_both_test >= 0.5, "yes", "no"), levels = c("no", "yes"))
+res_5_both_train <- factor(ifelse(prob_5_both_train >= 0.5, "yes", "no"), 
+                           levels = c("no", "yes"))
+res_5_both_test <- factor(ifelse(prob_5_both_test >= 0.5, "yes", "no"), 
+                          levels = c("no", "yes"))
 #
 # #Confusion Matrix 
-cmat_5_both_train <- confusionMatrix(res_5_both_train, reference = both_xbank$y, positive = "yes")
-cmat_5_both_test <- confusionMatrix(res_5_both_test, reference = test_bank$y, positive = "yes")
+cmat_5_both_train <- confusionMatrix(res_5_both_train, 
+                                     reference = both_xbank$y, positive = "yes")
+cmat_5_both_test <- confusionMatrix(res_5_both_test, 
+                                    reference = test_bank$y, positive = "yes")
 ```
 
 
@@ -527,7 +586,7 @@ f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, both_hh, both_xbank, cap_hh, cmat, cma
           prob_5_both_train, res_1_glm, res_2_step_bank_test, res_2_step_bank_train, 
           res_3_over_test, res_3_over_train, res_4_under_test, res_4_under_train, res_5_both_test,
           res_5_both_train, rpart_hh, test_bank, test_xfw, train_xfw, ttl_hh, under_hh, 
-          under_xbank, xbank, zzB34Bank)
+          under_xbank, xbank, zzB34Bank, loc_rds1, loc_rds2)
 ```
 
 ```{r 'B36-Validation', include=FALSE, cache=FALSE}

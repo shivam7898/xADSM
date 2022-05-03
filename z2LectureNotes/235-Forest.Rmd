@@ -84,11 +84,26 @@ if(FALSE){# #WARNING: Installation may take some time.
     - However, the magnitude needs to be calculated by taking exponential of model coefficients (unlike linear regression)
 
 
-```{r 'B35-Logistic-Bank-1'}
+```{r 'B35-Logistic-Bank-1-Show', eval=FALSE}
 # #Logistic Regression 
 mod_1_glm <- glm(formula = y ~ ., family = binomial, data = xbank)
 # #Step-wise Regression
 mod_2_step <- step(mod_1_glm, direction = "both", trace = 0)
+```
+
+```{r 'B35-Logistic-Bank-1', include=FALSE}
+# #Logistic Regression #Reduce the Build Time
+loc_rds1 <- here("data", "zzB35-mod_1_glm_bank.rds")
+loc_rds2 <- here("data", "zzB35-mod_2_step_bank.rds")
+if(q_fastbuild && file.exists(loc_rds1) && file.exists(loc_rds2)){
+  mod_1_glm <- readRDS(loc_rds1)
+  mod_2_step <- readRDS(loc_rds2)
+} else {
+  mod_1_glm <- glm(formula = y ~ ., family = binomial, data = xbank)
+  mod_2_step <- step(mod_1_glm_bank, direction = "both", trace = 0)
+  saveRDS(mod_1_glm, loc_rds1)
+  saveRDS(mod_2_step, loc_rds2)
+}
 ```
 
 ```{r 'B35-Print-Bank-1', echo=FALSE, collapse=FALSE, class.output="models"}
@@ -244,7 +259,8 @@ if(TRUE) tibble(Names = hh_names,
 ```{r 'B35-Cleanup', include=FALSE, cache=FALSE}
 f_rmExist(aa, bb, ii, jj, kk, ll, cmat, cmat_2_test, cmat_2_train, col_hh, dum_xfw, hh_names, 
           idx_xsyw, mod_1_glm, mod_2_step, prob_2_step_test, prob_2_step_train, res_2_step_test,
-          res_2_step_train, test_bank, test_xfw, train_xfw, ttl_hh, xbank, zzB34Bank)
+          res_2_step_train, test_bank, test_xfw, train_xfw, ttl_hh, xbank, zzB34Bank, loc_rds1, 
+          loc_rds2)
 ```
 
 ```{r 'B35-Validation', include=FALSE, cache=FALSE}
