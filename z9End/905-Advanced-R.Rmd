@@ -119,7 +119,8 @@ if(FALSE) {# #Output is different, if there are some more packages loaded.
 - The function `[ ]` copies the requested element of the data contained in the C object to a new C object and returns its SEXP pointer to R. Each time the function is called, a new C object is created and returned to R.
 - We cannot access the memory address of each element of the actual data of our object through R. However, we can trace the respective addresses using the C api.
 
-```{r 'Z05-MemoryAddress'}
+```{r 'Z05-MemoryAddress', eval=FALSE}
+# This has stopped working after R Update and other package modifications #ForLater
 x <- c(11L, 22L, 33L)
 y <- x
 #
