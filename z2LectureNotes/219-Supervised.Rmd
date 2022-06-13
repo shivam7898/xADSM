@@ -96,7 +96,7 @@ xxB19Transaction <- f_getObject("xxB19Transaction", "B19-Transaction.csv",
 ```
 
 ```{r 'B19-GetTransaction', include=FALSE}
-# #This is same dataset as rfm_data_orders #wwww
+# #This is same dataset as rfm_data_orders
 xxB19Transaction <- f_getRDS(xxB19Transaction)
 bb <- aa <- xxB19Transaction
 ```
@@ -117,7 +117,7 @@ bb <- aa <- xxB19Transaction
 ### Run RFM {.unlisted .unnumbered}
 
 ```{r 'B19-RFM-Transaction'}
-# #character to date using dmy() #wwww
+# #character to date using dmy()
 bb <- aa
 str(bb)
 bb$order_date <- dmy(bb$order_date)
@@ -300,7 +300,7 @@ xxB19Customer <- f_getObject("xxB19Customer", "B19-Customer.csv",
 ```
 
 ```{r 'B19-GetCustomer', include=FALSE}
-# #This is same dataset as rfm_data_orders #wwww
+# #This is same dataset as rfm_data_orders
 xxB19Customer <- f_getRDS(xxB19Customer)
 ```
 
@@ -312,7 +312,7 @@ xxB19Customer <- f_getRDS(xxB19Customer)
   - (Aside) I am unclear about the answer to this question given at "2021-11-14 18:08" "ForLater"
 
 ```{r 'B19-RFM-Customer'}
-# #character to date using dmy() #wwww
+# #character to date using dmy()
 bb <- aa <- xxB19Customer
 str(bb)
 bb$most_recent_visit <- dmy(bb$most_recent_visit)
@@ -340,7 +340,7 @@ xxB19Retail <- f_getObject("xxB19Retail", "B19-OnlineRetail.csv",
 ```
 
 ```{r 'B19-GetRetail', include=FALSE}
-# #This is same dataset as rfm_data_orders #wwww
+# #This is same dataset as rfm_data_orders
 xxB19Retail <- f_getRDS(xxB19Retail)
 ```
 

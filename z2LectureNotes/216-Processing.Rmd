@@ -232,7 +232,7 @@ if(!file.exists(loc_png)) {
   #dev.control('enable') 
   md.pattern(bb, plot = TRUE, rotate.names = TRUE)
   title("Cars: Inserted Missing Value Pattern by md.pattern()", line = 2, adj = 0)
-  title(sub="B16P01", line=4, adj = 1)
+  title(sub = "B16P01", line = 4, adj = 1)
   B16P01 <- recordPlot()
   dev.off()
 }
@@ -345,6 +345,8 @@ all.equal(ii, jj)
       - This also comes up if the column is "character" and not converted into "factor"
     - 'collinear': The column is duplicate of another column
     - 'pmm'      : "ForLater" Unknown for now
+      - Imputation by predictive mean matching
+    - 'polr'     : Imputation of ordered data by polytomous regression
   - 'out' contains the names of the removed variables. 
   - In general, strive for zero entries, in which case the 'loggedEvents' component is equal to NULL.
 - Guidance

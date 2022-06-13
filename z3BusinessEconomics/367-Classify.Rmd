@@ -352,6 +352,7 @@ zzF67Default %>% count(default) %>% mutate(PROP = n/sum(n))
   - family = binomial : For Logistic Regression
   - We can measure the accuracy of the coefficient estimates by computing their standard errors. 
   - The z-statistic, in logistic regression, plays the same role as the t-statistic in the linear  regression output.
+  - A 'date' is a numeric variable and thus is treated as a numerical in logit model. It needs to be converted to Factor, Year, Month, Day, Week Number, Weekday etc. for usage.
 - Dataset Default - 
   - Y ~ Balance
     - $\hat{\beta}_1= 0.0055$ : this indicates that an increase in balance is associated with an increase in the probability of default. 

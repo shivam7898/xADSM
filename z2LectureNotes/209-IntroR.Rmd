@@ -821,12 +821,12 @@ if( nrow(data_pairs) * ncol(data_pairs) > 1000000 ) {
 ## Operators in R
 
 - There are multiple \textcolor{pink}{infix binary operators}
-- \textcolor{pink}{a %in% b} : returns a logical vector indicating if there is a match or not for its left operand
-- \textcolor{pink}{%/%} and \textcolor{pink}{%%} perform integer division and modular division respectively
-- \textcolor{pink}{%o%} gives the outer product of arrays.
-- \textcolor{pink}{%*%} performs matrix multiplication.
-- \textcolor{pink}{%x%} performs the Kronecker product of arrays.
-- Magritter Pipe is given by \textcolor{pink}{%>%}
+- \textcolor{pink}{a \%in\% b} : returns a logical vector indicating if there is a match or not for its left operand
+- \textcolor{pink}{/} and \textcolor{pink}{\%} perform integer division and modular division respectively
+- \textcolor{pink}{\%o\%} gives the outer product of arrays.
+- \textcolor{pink}{\%*\%} performs matrix multiplication.
+- \textcolor{pink}{\%x\%} performs the Kronecker product of arrays.
+- Magritter Pipe is \textcolor{pink}{\%>\%} and Base R Pipe is \textcolor{pink}{|>}
 - There are other pipes and other packages also but this is general summary.
 
 ## Printing Decimal Numbers in R {#scipen-b09 .tabset .tabset-fade}

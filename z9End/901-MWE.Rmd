@@ -26,6 +26,10 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 - [How to Check R Version](#version-z01 "z01")
 - [How to Pipe the Subset](#pipe-sub-z01 "z01")
 - [How to Test Background Colours](#bg-color-z01 "z01")
+- [How to Modify Tibble Options](#mod-tbl-z01 "z01")
+- [How to Change Colour Opacity](#col-alpha-z01 "z01")
+- [How to Check if a Package is in the Installed Packages](#find-intall-package-z01 "z01")
+- [DataFrame and Matrix Coercion](#df-mat-z01 "z01")
 
 
 ## Limit the Knit or Build {#limit-knit-z01 .tabset .tabset-fade}
@@ -369,6 +373,76 @@ head(letters) #Warning
 
 ```{r 'Z01-BG-Danger', echo=FALSE, collapse=FALSE, class.output='bg-danger'}
 head(letters) #Danger
+```
+
+
+## Modify Tibble Options {#mod-tbl-z01 .tabset .tabset-fade}
+
+### Rows {.unlisted .unnumbered}
+
+```{r 'Z01-TibbleOptions'}
+# #Change Number of Rows Printed
+aa <- as_tibble(mtcars)
+```
+
+### Rows 20 {.unlisted .unnumbered}
+
+```{r 'Z01-TibbleOptions'}
+# #Get Options: Default i.e. NULL means 20 Rows are Printed for a Tibble
+getOption("pillar.print_max")
+getOption("pillar.print_min")
+#
+head(aa, 20) #Prints 20 Rows - OK
+head(aa, 21) #Prints 10 Rows - Surprise
+print(aa, n = 21) #Prints 21 Rows - OK
+```
+
+### Rows 25 {.unlisted .unnumbered}
+
+```{r 'Z01-TibbleOptions'}
+# #Modify Options
+options(pillar.print_max = 25, pillar.print_min = 25)
+head(aa, 25) #Prints 25 Rows - OK
+# #Reset Options
+options(pillar.print_max = NULL, pillar.print_min = NULL)
+```
+
+## Change Colour Opacity {#col-alpha-z01 .tabset .tabset-fade}
+
+```{r 'Z01-R-Version'}
+# #Vector of Color Hex with 100% (Last two characters are FF)
+ii <- viridis_pal()(3)
+ii
+# #Split String and Modify and Paste (50% i.e. 7F)
+jj <- paste0(substr(ii, 1, 7), "7", substr(ii, 9, 9))
+jj
+if(FALSE) {
+  show_col(ii)
+  show_col(jj)
+}
+```
+
+## Check if a Package is in the Installed Packages {#find-intall-package-z01}
+
+```{r 'Z01-Find-Installed-Pakage'}
+# #Matrix of Installed Packages | Vector | To Lower for easy matching | Find Element |
+installed.packages() |> rownames() |> tolower() |> is.element(el = "igraph")
+```
+
+## DataFrame and Matrix Coercion {#df-mat-z01}
+
+```{r 'Z01-DF-Mat'}
+aa_df <- data.frame(x = 1:4, y = 5:8, z = 9:12)
+bb_mat <- matrix(1:12, ncol = 3, dimnames = list(NULL, c("x", "y", "z")))
+# #Coercion
+aa_mat_r <- as.matrix(aa_df)
+bb_df_r <- as.data.frame(bb_mat, row.names = FALSE)
+# #Verify
+stopifnot(all(identical(aa_df, bb_df_r), identical(bb_mat, aa_mat_r)))
+# #Matrix
+aa_mat_r
+# #DataFrame
+bb_df_r
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

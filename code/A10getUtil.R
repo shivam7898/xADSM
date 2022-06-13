@@ -24,7 +24,7 @@ f_pNum <- function(x, digits = 2L) {
   if(FALSE){#Test Case: Why this function is needed
      round(0.001, 2) #0
     f_pNum(0.001, 2) #0.001
-	# #Problem is signif converts to SCientific and no way to disable it
+	# #Problem is signif converts to Scientific and no way to disable it
 	signif(0.000000198, 2) #2e-07
 	# #Same problem with round
 	round(0.000000198, 7) #2e-07

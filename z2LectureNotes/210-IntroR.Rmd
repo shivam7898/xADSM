@@ -10,8 +10,6 @@ sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
 ## Overview
 
 - "Introduction to R"
-  - 
-
 - Links (Ref)
   - [Install or Load Multiple Packages](#packages-b09 "b09")  
   - [Load Flights Dataset](#flights-b09 "b09")  
@@ -59,7 +57,7 @@ png(filename = loc_png)
 #dev.control('enable') 
 plot(mydata$dep_time, mydata$arr_time)
 title("Flights", line = 2, adj = 0)
-title(sub="B10P01", line=4, adj = 1)
+title(sub = "B10P01", line = 4, adj = 1)
 B10P01 <- recordPlot()
 dev.off()
 }

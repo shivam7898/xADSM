@@ -100,6 +100,7 @@ git add .Rprofile
 git commit -m "+.Rprofile .gitignore -.Rhistory"
 
 # Before committing the .gitignore file, Verify in NPP that File Encoding is "UTF-8-BOM" 
+# Correction: The file encoding should be 'utf8' NOT 'utf8-bom'
 # If the encoding is not correct then delete the .gitignore, and recreate it by:
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
@@ -196,6 +197,7 @@ echo .Rproj.user/ >> .gitignore
 echo _main.html >> .gitignore
 echo _main.md >> .gitignore
 echo _main.Rmd >> .gitignore
+echo my.patch >> .gitignore
 echo images/bigImages/ >> .gitignore
 echo docs/bigDocs/ >> .gitignore
 
@@ -227,6 +229,13 @@ git commit -m "+Basics"
 #git commit -m "+First Book Build"
 # Modify index.Rmd, 999-END.Rmd, & P01
 #git commit -m "+WIP P01"
+```
+
+## Compare Files
+
+```{bash 'Z06-CompareFile', eval=FALSE}
+# Compare a File with its index to check for changes (before commit or even staged) 
+git diff --unified=0 .\zEnd\999-END.Rmd > my.patch
 ```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}

@@ -4,7 +4,7 @@
 sys.source(paste0(.z$RX, "A99Knitr", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "000Packages", ".R"), envir = knitr::knit_global())
 sys.source(paste0(.z$RX, "A00AllUDF", ".R"), envir = knitr::knit_global())
-invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk)) #wwww
+invisible(lapply(f_getPathR(A12pKbl), knitr::read_chunk))
 ```
 
 ## Dimensions {.tabset .tabset-fade}
@@ -139,7 +139,7 @@ f_setRDS(xxC34Housing)
 ```
 
 ```{r 'C34-GetHousing', include=FALSE}
-bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)  #wwww
+bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)
 ```
 
 ## Partition Data {#train-test-c34 .tabset .tabset-fade}
@@ -147,7 +147,7 @@ bb <- aa <- xxC34Housing <- f_getRDS(xxC34Housing)  #wwww
 ### Train & Test {.unlisted .unnumbered}
 
 ```{r 'C34-Partition'}
-set.seed(3)  #wwww
+set.seed(3)
 # #sample() and its variants can be used for Partitioning of Dataset
 if(FALSE) {
   # #This approach is difficult to extend for 3 or more splits
@@ -212,7 +212,7 @@ sample(2:length(jj_chr), 0.6 * length(jj_chr))
 ## Basics
 
 ```{r 'C34-Basic', include=FALSE}
-xsyw <- part_l$train  #wwww
+xsyw <- part_l$train
 # #Separate Working Names and Display Names
 if(FALSE) paste0(names(xsyw), collapse = ", ")
 c_xsyw <- c("h_value", "income", "h_age", "rooms", "bedrooms", 
@@ -505,7 +505,7 @@ Two vectors are \textcolor{pink}{orthogonal} if they are mathematically independ
 ### Component Matrix {.unlisted .unnumbered}
 
 ```{r 'C34-PCA'}
-# #Perform PCA by prcomp() #wwww
+# #Perform PCA by prcomp()
 #ii <- princomp(zw)
 pca_zw <- prcomp(zw)
 #
@@ -550,7 +550,6 @@ f_pKblM(x = hh, caption = cap_hh, isTri = FALSE, debug = TRUE)
 ### Loadings and Eigenvectors {.unlisted .unnumbered}
 
 ```{r 'C34-Loadings'}
-#wwww
 # #Component Matrix of prcomp() does not match with either BOOK or psych::principal()
 # #prcomp() rotation contains eigenvectors not loadings. 
 # #Loadings = Eigenvectors * sqrt(Eigenvalues) = Eigenvectors * sdev
@@ -1031,7 +1030,7 @@ Unfortunately, the factor solutions provided by factor analysis are invariant to
 
 
 ```{r 'C34-GetAdult', include=FALSE}
-bb <- aa <- xxC34Adult <- f_getRDS(xxC34Adult)  #wwww
+bb <- aa <- xxC34Adult <- f_getRDS(xxC34Adult)
 ```
 
 ### Import {.unlisted .unnumbered}
@@ -1175,7 +1174,6 @@ NOTE: While the Book created 'Net Capital', I have skipped that because Capital 
 
 
 ```{r 'C34-PartAdult', include=FALSE}
-#wwww
 # #Select Numeric Variables and Break the Original Training Dataset into further Train & Test 
 bb <- xxC34Adult %>% filter(source == "Train") %>% 
   select(age, edu = education_num, hours = hours_per_week, Income) 

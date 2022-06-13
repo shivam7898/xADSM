@@ -342,7 +342,7 @@ xnw %>% select(Y = price) %>%
 # #NOT DONE: But To Show How to Remove anythind beyond 2 SD of Price
 if(FALSE) ii <- xnw %>% filter(!(abs(price - median(price)) > 2 * sd(price)))
 #
-# #NOT DONE: But To Show How to Remove anythind beyond 2.5 Scaled of Price
+# #NOT DONE: But To Show How to Remove anything beyond 2.5 Scaled of Price
 if(FALSE) ii <- znw %>% filter(between(price, -2.5, +2.5))
 ```
 

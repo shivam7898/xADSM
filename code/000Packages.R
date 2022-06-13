@@ -12,7 +12,7 @@ if (!("conflicted" %in% (.packages()))) {
   pkg <- c(pkg, "arules", "arulesViz", "ggrepel", "rpart", "rpart.plot", "rattle", "janitor", "randomForest")
   pkg <- c(pkg, "rfm", "carData", "Hmisc", "partykit", "treeheatr", "ggparty") 
   pkg <- c(pkg, "ISLR2", "MASS", "broom", "sandwich", "stargazer", "ROSE", "pROC", "ROCR") 
-  pkg <- c(pkg, "lobstr", "here")  #, "here"
+  pkg <- c(pkg, "lobstr", "here", "sloop")  #, "here"
   if(FALSE) {# #Test Case: Sometimes the loading is failing. However it is not reproducible currently.
     pkg <- c("conflicted", "ggplot2", "tibble", "tidyr", "readr", "dplyr", "kableExtra") #7
 	#lapply(pkg, FUN = library, character.only = TRUE, verbose = FALSE, logical.return = TRUE)

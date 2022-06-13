@@ -517,6 +517,67 @@ NaN == NaN          #...but not comparable, use is.nan()
 
 - Note that as.vector() and is.vector() use different definitions of "vector!"
 
+## Functional Programming
+
+
+## Object-oriented Programming
+
+- \textcolor{pink}{Polymorphism} means that a developer can consider a function interface separately from its implementation, making it possible to use the same function form for different types of input. 
+- \textcolor{pink}{Encapsulation} means that the user does not need to worry about details of an object because they are encapsulated behind a standard interface.
+
+- Ex: summary()
+  - We can imagine summary() containing a series of if-else statements, but that would mean only the original author could add new implementations. 
+  - An OOP system makes it possible for any developer to extend the interface with implementations for new types of input.
+
+- OO systems call the type of an object its \textcolor{pink}{class}, and an implementation for a specific class is called a \textcolor{pink}{method}. 
+  - A class defines what an object is and methods describe what that object can do. 
+  - The class defines the \textcolor{pink}{fields}, the data possessed by every instance of that class. 
+  - Classes are organised in a hierarchy so that if a method does not exist for one class, method of its parent is used, and the child is said to inherit behavior. 
+    - For example, in R, an ordered factor inherits from a regular factor, and a generalized linear model inherits from a linear model. 
+    - The process of finding the correct method given a class is called \textcolor{pink}{method dispatch}.
+    
+- In \textcolor{pink}{encapsulated} OOP, methods belong to objects or classes, and method calls typically look like object.method(arg1, arg2). This is called encapsulated because the object encapsulates both data (with fields) and behavior (with methods), and is the paradigm found in most popular languages.
+- In \textcolor{pink}{functional} OOP, methods belong to generic functions, and method calls look like ordinary function calls: generic(object, arg2, arg3). This is called functional because from the outside it looks like a regular function call, and internally the components are also functions.
+
+
+- Base R provides 3 OOP systems: S3, S4, and reference classes (RC):
+  - \textcolor{pink}{S3} is an informal implementation of functional OOP and relies on common conventions rather than ironclad guarantees. This makes it easy to get started with.
+  - \textcolor{pink}{S4} is a formal and rigorous rewrite of S3. It requires more upfront work than S3, but in return provides more guarantees and greater encapsulation. S4 is implemented in the base methods package, which is always installed with R.
+  - \textcolor{pink}{RC} implements encapsulated OO. 
+    - RC objects are a special type of S4 objects that are also mutable, i.e., instead of using usual copy-on-modify semantics, they can be modified in place. 
+    - This makes them harder to reason about, but allows them to solve problems that are difficult to solve in the functional OOP style of S3 and S4.
+    - \textcolor{pink}{R6} implements encapsulated OOP like RC, but resolves some important issues.
+
+- The \textcolor{pink}{sloop} package provides helpers to explore this. 
+
+### Base Types
+
+- While everything is an object, not everything is object-oriented.
+  - Base Object
+  - OO Object - These have a 'class' attribute
+  - Thus, \textcolor{pink}{class()} returns misleading results for Base, whereas \textcolor{pink}{s3_class()} returns consistent results
+  - While only OO objects have a class attribute, every object has a base type given by \textcolor{pink}{typeof()}
+
+```{r 'Z05-ObjectType'}
+aa <- 1:10 
+bb <- mtcars
+#
+# Base Object - No class attribute
+is.object(aa)
+otype(aa)
+attr(aa, "class")
+class(aa)       #Misleading results on Base Objects
+s3_class(aa)
+typeof(aa)
+
+# OO Object
+is.object(bb)
+otype(bb)
+attr(bb, "class")
+class(bb)
+s3_class(bb)
+typeof(bb)
+```
 
 ## Validation {.unlisted .unnumbered .tabset .tabset-fade}
 
