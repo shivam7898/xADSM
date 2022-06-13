@@ -88,13 +88,27 @@ stopifnot(all(identical(NA || TRUE, NA | TRUE), identical(NA || FALSE, NA | FALS
 x <- 1:5
 y <- 5:1
 (x > 2) & (y < 3)
-(x > 2) && (y < 3)
+tryCatch( (x > 2) && (y < 3), 
+          warning = function(w) {
+            suppressWarnings(print((x > 2) && (y < 3)))
+            cat(paste0(w))
+          })
 #
 # # '&&' evaluates only the first element of Vector, thus caution is advised
 TRUE & c(TRUE, FALSE)
 TRUE & c(FALSE, FALSE)
-TRUE && c(TRUE, FALSE)
-TRUE && c(FALSE, FALSE)
+
+tryCatch( TRUE && c(TRUE, FALSE), 
+          warning = function(w) {
+            suppressWarnings(print(TRUE && c(TRUE, FALSE)))
+            cat(paste0(w))
+          })
+tryCatch( TRUE && c(FALSE, FALSE), 
+          warning = function(w) {
+            suppressWarnings(print(TRUE && c(FALSE, FALSE)))
+            cat(paste0(w))
+          })
+
 TRUE && all(c(TRUE, FALSE))
 TRUE && any(c(TRUE, FALSE))
 ```
