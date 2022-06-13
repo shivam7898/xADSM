@@ -380,14 +380,14 @@ head(letters) #Danger
 
 ### Rows {.unlisted .unnumbered}
 
-```{r 'Z01-TibbleOptions'}
+```{r 'Z01-TibbleOptions-Rows'}
 # #Change Number of Rows Printed
 aa <- as_tibble(mtcars)
 ```
 
 ### Rows 20 {.unlisted .unnumbered}
 
-```{r 'Z01-TibbleOptions'}
+```{r 'Z01-TibbleOptions-Rows20'}
 # #Get Options: Default i.e. NULL means 20 Rows are Printed for a Tibble
 getOption("pillar.print_max")
 getOption("pillar.print_min")
@@ -399,7 +399,7 @@ print(aa, n = 21) #Prints 21 Rows - OK
 
 ### Rows 25 {.unlisted .unnumbered}
 
-```{r 'Z01-TibbleOptions'}
+```{r 'Z01-TibbleOptions-Rows25'}
 # #Modify Options
 options(pillar.print_max = 25, pillar.print_min = 25)
 head(aa, 25) #Prints 25 Rows - OK
@@ -409,7 +409,7 @@ options(pillar.print_max = NULL, pillar.print_min = NULL)
 
 ## Change Colour Opacity {#col-alpha-z01 .tabset .tabset-fade}
 
-```{r 'Z01-R-Version'}
+```{r 'Z01-R-Colour-Opacity'}
 # #Vector of Color Hex with 100% (Last two characters are FF)
 ii <- viridis_pal()(3)
 ii
