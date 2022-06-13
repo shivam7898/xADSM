@@ -165,9 +165,11 @@ mod_6_step <- step(mod_5_glm, direction = "both", trace = 0)
 # #Coefficient Estimates, RSE, R2, F-statistic, Significance, DF
 ttl_hh <- "Logistic Regression: Churn: Y ~ X"
 col_hh <- c("Unbalanced", "U.Step", "Balanced", "B.Step", "LowVIF", "L.Step")
-#
-stargazer(mod_1_glm, mod_2_step, mod_3_glm, mod_4_step, mod_5_glm, mod_6_step, 
-    title = ttl_hh, column.labels = col_hh, model.numbers = FALSE, df = FALSE, report = "vc*", 
+mod_list <- list(mod_1_glm, mod_2_step, mod_3_glm, mod_4_step, mod_5_glm, mod_6_step)
+
+stargazer(mod_list,
+    title = ttl_hh, column.labels = col_hh, 
+    model.numbers = FALSE, df = FALSE, report = "vc*", 
     type = "text", single.row = TRUE, intercept.bottom = FALSE, dep.var.caption = "", digits = 4)
 ```
 
@@ -1105,7 +1107,8 @@ if(TRUE) f_rmExist(aa, bb, ii, jj, kk, ll, auc_hh, both_churn, cap_hh, cmat, cma
           res_9_forest, res_9_forest_test, ttl_hh, xfw, xxB18Churn, xxB38Churn, zBalanced, zChurn, 
           zTest, both_train, cmat_2_glm, cmat_2_glm_test, eps, idx_xfw, loc_rds, mmfrm1, 
           mod_2_glm, mod_3_step, prob_2_glm, prob_2_glm_test, res_1_glm, res_2_glm, 
-          res_2_glm_test, res_3_step, zAppended, zFiltered, zRemoved, zTrn, zTst, zzB38Earnings)
+          res_2_glm_test, res_3_step, zAppended, zFiltered, zRemoved, zTrn, zTst, zzB38Earnings,
+          mod_list)
 ```
 
 ```{r 'B38-Validation', include=FALSE, cache=FALSE}
